@@ -5,7 +5,23 @@ import path from 'node:path';
 
 export default defineConfig({
   plugins: [react()],
+  base: './',
   publicDir: 'public',
+  build: {
+    chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) return 'vendor';
+          if (id.includes('cbetaAuthRecords')) return 'data-cbeta';
+          if (id.includes('gretilAuthRecords')) return 'data-gretil';
+          if (id.includes('taishoMikkyoIndex')) return 'data-taisho';
+          if (id.includes('tier1Databases')) return 'data-tier1';
+          if (id.includes('tier23Databases')) return 'data-tier23';
+        },
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 5173,
