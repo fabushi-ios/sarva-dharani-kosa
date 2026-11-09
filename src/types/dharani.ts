@@ -1,6 +1,6 @@
 /**
  * Domain Schema & Authoritative Provenance Types for 梵音宝典 · Sarva-Dhāraṇī-Kośa
- * Covers 10-layer synchronized interlinear display, Plan 1 & Plan 3 48kHz neural audio,
+ * Covers 10-layer synchronized interlinear display, Plan 1 48kHz neural VITS audio,
  * CBETA #SD-* Siddhaṃ / <cb:tt> Tang phonetic notes, GRETIL Sanskrit manuscripts,
  * and Taishō (T18–T21) Esoteric Canon metadata.
  */
@@ -23,7 +23,6 @@ export type ActiveAppView =
 export type AudioEngineMode =
   | 'neural-auto'
   | 'neural-tts'
-  | 'neural-sprite'
   | 'legacy-tts';
 
 export type NeuralVoice = 'male' | 'female' | 'mobile';
@@ -198,39 +197,9 @@ export interface SyllableTimingItem {
   durationMs: number;
 }
 
-export interface SpriteSliceMeta {
-  slp1: string;
-  iast: string;
-  deva: string;
-  offset: number;
-  duration: number;
-  meter: ChandasMeter;
-  rms: number;
-  peak: number;
-}
-
-export interface SiddhamSpriteManifest {
-  version: string;
-  sampleRate: number;
-  model: string;
-  audioUrlOgg: string;
-  audioUrlWav: string;
-  totalCount: number;
-  categories: {
-    vowels: string[];
-    consonants: string[];
-    matrixVowels: string[];
-    overrides: string[];
-  };
-  sprites: Record<string, SpriteSliceMeta>;
-}
-
 export interface AudioHealthStatus {
   backendOnline: boolean;
   engine: string;
   sampleRate: number;
   modelsLoaded: string[];
-  spriteCount: number;
-  spriteReady: boolean;
-  spriteBufferDecoded: boolean;
 }

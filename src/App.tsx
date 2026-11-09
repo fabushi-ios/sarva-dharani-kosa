@@ -189,7 +189,7 @@ export const App: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-700/40 bg-stone-900/90 p-4">
               <div>
                 <h2 className="font-serif-cn text-lg font-bold text-amber-200">
-                  ⚡ 梵音 100% 全覆盖音译与发声引擎 v3.0 (Sanskrit Phonetic Engine v3.0 Neural + 48kHz 34×14 Sprite)
+                  ⚡ 梵音 100% 全覆盖音译与发声引擎 v3.0 (Sanskrit Phonetic Engine v3.0 · 方案 1 48kHz Neural VITS)
                 </h2>
                 <p className="text-xs text-stone-400">
                   内嵌完整单文件版 `sanskrit_phonetic_engine.html` v3.0，支持四行对照谱导出、34×14 全矩阵弹窗及 48kHz 神经语音合成。

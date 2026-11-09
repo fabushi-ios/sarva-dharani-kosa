@@ -170,11 +170,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         )}
       </div>
 
-      {/* Interactive 0-Latency 48kHz Syllable Breakdown Cards */}
+      {/* Interactive 48kHz Neural VITS Syllable Breakdown Cards */}
       <div className="mt-4">
         <div className="mb-2 flex items-center justify-between text-xs text-stone-400">
           <span>
-            👇 点击任意音节卡片即刻触发 <strong className="text-emerald-300">方案 3 (48kHz 悉昙神经采样库)</strong> 0延迟真人级发音：
+            👇 点击任意音节卡片即刻触发 <strong className="text-emerald-300">方案 1 (IIT Madras 48kHz 梵文神经网络引擎)</strong> 真人级发音：
           </span>
           {selectedSyllable && (
             <span className="text-amber-300">

@@ -60,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Plan 1 & Plan 3 Live Neural Status & Quick Selectors */}
+        {/* Plan 1 Live Neural Status & Quick Selectors */}
         <div className="flex flex-wrap items-center gap-2.5">
           <div
             id="kosaAudioStatusBadge"
@@ -68,15 +68,13 @@ export const Header: React.FC<HeaderProps> = ({
           >
             <span
               className={`h-2.5 w-2.5 rounded-full ${
-                healthStatus.backendOnline || healthStatus.spriteReady
+                healthStatus.backendOnline
                   ? 'bg-emerald-400 shadow-[0_0_8px_#34d399]'
                   : 'bg-amber-400'
               }`}
             />
             <span className="text-stone-300">
-              方案1 <strong className="text-amber-300">Ninada VITS 48kHz</strong>
-              {' + '}
-              方案3 <strong className="text-emerald-300">{healthStatus.spriteCount} 音节采样库</strong>
+              方案 1 <strong className="text-amber-300">Ninada VITS 48kHz 梵文神经引擎</strong>
             </span>
           </div>
 
@@ -86,9 +84,7 @@ export const Header: React.FC<HeaderProps> = ({
             onChange={(e) => onChangeAudioMode(e.target.value as AudioEngineMode)}
             className="rounded-lg border border-stone-700 bg-stone-900 px-2.5 py-1.5 text-xs text-amber-200 focus:border-amber-500 focus:outline-none"
           >
-            <option value="neural-auto">智能双擎 (方案1 整句神经 + 方案3 0延迟点读)</option>
             <option value="neural-tts">方案 1：IIT Madras 原生梵文神经网络 (48kHz VITS)</option>
-            <option value="neural-sprite">方案 3：48kHz 悉昙 34×14 预生成神经采样库 (离线0延迟)</option>
             <option value="legacy-tts">系统浏览器语音兜底 (Legacy Web Speech)</option>
           </select>
 

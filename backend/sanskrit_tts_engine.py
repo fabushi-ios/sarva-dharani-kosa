@@ -861,16 +861,15 @@ def normalize_sanskrit_siksha(
     if cur_text.strip():
         clauses.append({"text": cur_text.strip(), "pauseMs": 0})
 
-    # Condition each clause to prevent word-final inherent-'a' deletion in multi-syllable words
+    # Condition each clause: multi-character Sanskrit words are natively voiced by sa.onnx;
+    # only isolated 1-character bare consonants use Avagraha ('ऽ') to sustain inherent 'a'.
     conditioned_clauses: list[dict[str, Any]] = []
     for cl in clauses:
         words = cl["text"].split()
         cond_words: list[str] = []
         for w in words:
-            if w and w[-1] in DEVA_CONSONANTS:
-                # Word ends in a bare Devanagari consonant (which carries inherent short 'a' in Sanskrit!).
-                # Appending explicit 'अ' forces VITS to voice the word-final short 'a' (zero schwa deletion).
-                cond_words.append(w + "अ")
+            if len(w) == 1 and w in DEVA_CONSONANTS:
+                cond_words.append(w + "ऽ")
             else:
                 cond_words.append(w)
         conditioned_clauses.append({
@@ -894,14 +893,15 @@ def normalize_sanskrit_siksha(
 
 def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
     """
-    Prepare deterministic Classical Sanskrit Śikṣā conditioning metadata for an isolated SLP1 syllable.
-    Handles all 5 single-syllable classes:
-    1. Bare Virāma consonant (`k..L` -> `क्..ळ्`): synthesize `C + 'अ'` and window initial ~90ms burst/VOT.
+    Prepare deterministic Classical Sanskrit Śikṣā conditioning metadata for an isolated SLP1 syllable
+    using pure Plan 1 Native Classical Sanskrit VITS synthesis:
+    1. Bare Virāma consonant (`k..L` -> `क्..ळ्`): synthesize `C + 'ऽ'` and window initial ~88ms burst/VOT.
     2. Standalone Svara (`a..O`, `aM`, `aH` -> `अ..अः`): synthesize via 16kHz MMS specialist (3x upsampled to 48kHz).
-    3. Inherent-`a` open syllable (`ka..La`, `pra`, `jYa`, `kza`, `sva`, `sya`, `jya`, `Sva`, `tra`, `tva`):
-       append explicit `'अ'` (`deva + 'अ'`) so token 1 generates consonant burst/VOT and token 3 generates short `a`.
+    3. Inherent-`a` open syllable (`ka..La`, `pra`, `jYa`, `kza`, etc.):
+       append Sanskrit Avagraha `'ऽ'` (`deva + 'ऽ'`) so VITS sustains the single inherent short `a` naturally
+       without glottal-stop duplication.
     4. Inherent-`a` syllable with `M` or `H` (`kaM..LaM`, `kaH..LaH`, `saM`, `yaM`, `vaH`, `naH`, `maH`, `svaH`):
-       insert explicit `'अ'` before `'ं'` or `'ः'` (`'कअं'`, `'कअः'`, `'वअः'`) for full vowel + nasal/Visarga tail.
+       synthesize `deva` directly in VITS (`कं`, `कः`, etc.).
     5. Overt matra / closed syllables (`kA..kO`, `oM`, `hUM`, `hrIH`, `pad`, `tat`, `kArt`, `snye`, etc.):
        apply Śikṣā OOV replacements (`ॐ->ओम्`, `ॠ->ऋ`, `ऌ/ॡ->लृ`, `ॢ/ॣ->्लृ`).
     """
@@ -914,7 +914,7 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
     if meter == "" and all(ch in CONS_SET for ch in key):
         base_deva = "".join(SLP1_CONS_TO_DEVA[ch] for ch in key[:-1]) + "्" if len(key) > 1 else ""
         last_deva = SLP1_CONS_TO_DEVA[key[-1]]
-        vits_query = base_deva + last_deva + "अ"
+        vits_query = base_deva + last_deva + "ऽ"
         return {
             "slp1": key,
             "iast": iast,
@@ -945,14 +945,14 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
             "category": "svara",
             "engine": "mms_16k",
             "vitsQuery": mms_query,
-            "targetMinSec": 0.385 if is_guru else 0.220,
-            "targetMaxSec": 0.425 if is_guru else 0.242,
+            "targetMinSec": 0.350 if is_guru else 0.200,
+            "targetMaxSec": 0.450 if is_guru else 0.280,
             "hasVisarga": key.endswith("H"),
         }
 
     # Category 3: Isolated inherent-'a' open syllable (ends with 'a', not 'oM')
     if key.endswith("a") and len(key) >= 2 and all(ch in CONS_SET for ch in key[:-1]):
-        vits_query = deva + "अ"
+        vits_query = deva + "ऽ"
         return {
             "slp1": key,
             "iast": iast,
@@ -961,17 +961,13 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
             "category": "inherent_a",
             "engine": "studio_24k",
             "vitsQuery": vits_query,
-            "targetMinSec": 0.220,
-            "targetMaxSec": 0.242,
+            "targetMinSec": 0.200,
+            "targetMaxSec": 0.280,
             "hasVisarga": False,
         }
 
     # Category 4: Inherent-'a' syllable with M or H modifier (e.g., kaM, kaH, vaH, naH, maH, yaM, saM, svaH)
     if (key.endswith("aM") or key.endswith("aH")) and len(key) >= 3 and all(ch in CONS_SET for ch in key[:-2]):
-        cons_part = key[:-2]
-        mod_deva = "ं" if key.endswith("M") else "ः"
-        cons_deva = slp1_to_devanagari(cons_part + "a")
-        vits_query = cons_deva + "अ" + mod_deva
         return {
             "slp1": key,
             "iast": iast,
@@ -979,9 +975,9 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
             "meter": "—",
             "category": "modified_a",
             "engine": "studio_24k",
-            "vitsQuery": vits_query,
-            "targetMinSec": 0.385,
-            "targetMaxSec": 0.430,
+            "vitsQuery": deva,
+            "targetMinSec": 0.340,
+            "targetMaxSec": 0.460,
             "hasVisarga": key.endswith("H"),
         }
 
@@ -1004,8 +1000,8 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
         "category": "cv_or_compound",
         "engine": "studio_24k",
         "vitsQuery": vits_query,
-        "targetMinSec": 0.385 if is_guru else 0.220,
-        "targetMaxSec": 0.435 if is_guru else 0.242,
+        "targetMinSec": 0.340 if is_guru else 0.200,
+        "targetMaxSec": 0.460 if is_guru else 0.280,
         "hasVisarga": key.endswith("H"),
     }
 
@@ -1069,50 +1065,10 @@ def apply_mastering_envelope_48k(
     return arr
 
 
-def _enhance_visarga_tail_48k(pcm_48k: np.ndarray, seed: int = 108) -> np.ndarray:
-    """Ensure syllable-final Visarga (ः) has an unmistakable voiceless aspiration + resonant echo tail."""
-    n = len(pcm_48k)
-    if n < int(0.12 * TARGET_SAMPLE_RATE):
-        return pcm_48k
-    tail_start = int(n * 0.65)
-    tail = pcm_48k[tail_start:]
-    tail_rms = float(np.sqrt(np.mean(tail * tail))) if len(tail) > 0 else 0.0
-    body_rms = float(np.sqrt(np.mean(pcm_48k[:tail_start] ** 2))) if tail_start > 0 else 0.05
-
-    if tail_rms >= 0.30 * body_rms and tail_rms >= 0.025:
-        return pcm_48k
-
-    # Synthesize a light, breathy post-vocalic aspiration echo over 80ms (3840 samples at 48kHz)
-    echo_len = int(0.080 * TARGET_SAMPLE_RATE)
-    rng = np.random.default_rng(seed=seed)
-    white = rng.normal(0.0, 1.0, size=echo_len).astype(np.float32)
-    b, a = scipy.signal.butter(2, [550.0 / (TARGET_SAMPLE_RATE / 2), 3400.0 / (TARGET_SAMPLE_RATE / 2)], btype="band")
-    aspir = scipy.signal.lfilter(b, a, white).astype(np.float32)
-    # Blend a faint vowel echo from the mid-nucleus with the aspiration
-    mid_start = max(0, int(n * 0.35))
-    mid_slice = pcm_48k[mid_start : mid_start + echo_len]
-    if len(mid_slice) < echo_len:
-        mid_slice = np.pad(mid_slice, (0, echo_len - len(mid_slice)))
-    t_env = np.sin(np.pi * np.arange(echo_len, dtype=np.float32) / float(echo_len)) ** 1.2
-    echo_sig = (0.22 * mid_slice + 0.18 * body_rms * aspir / (float(np.std(aspir)) + 1e-6)) * t_env * 0.35
-
-    out = pcm_48k.copy()
-    overlap = min(echo_len // 2, len(out) // 4)
-    if overlap > 0:
-        out[-overlap:] += echo_sig[:overlap]
-        out = np.concatenate([out, echo_sig[overlap:]])
-    else:
-        out = np.concatenate([out, echo_sig])
-    return out.astype(np.float32)
-
-
 def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.ndarray:
     """
-    Trim leading/trailing silence and shape active duration to exact Classical Sanskrit Śikṣā prosody:
-    - Bare Virāma (`meter == ''`): ~85–95ms consonant plosive burst / VOT / frication window.
-    - Laghu (`meter == '⏑'`, 1 mātrā): ~220–242ms.
-    - Guru (`meter == '—'`, 2 mātrās): ~385–430ms (guaranteeing Guru/Laghu ratio >= 1.60 > 1.35).
-    Preserves the first 75ms consonant onset/VOT at 1:1 speed and only adjusts the vowel nucleus sustain.
+    Trim leading/trailing silence and apply clean 48kHz mastering without pitch-warping resample
+    or synthetic white-noise injection, preserving 100% natural VITS vocal tract formants & pitch.
     """
     arr = apply_dc_blocker(pcm_48k, r=0.9965)
     peak_raw = float(np.max(np.abs(arr))) if len(arr) > 0 else 0.0
@@ -1120,11 +1076,11 @@ def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.n
         arr = arr / peak_raw
 
     # Trim leading/trailing silence using adaptive energy threshold
-    thresh = 0.028
+    thresh = 0.020
     active_idx = np.where(np.abs(arr) > thresh)[0]
     if len(active_idx) >= 16:
-        pad_pre = int(0.006 * TARGET_SAMPLE_RATE)
-        pad_post = int(0.012 * TARGET_SAMPLE_RATE)
+        pad_pre = int(0.008 * TARGET_SAMPLE_RATE)
+        pad_post = int(0.018 * TARGET_SAMPLE_RATE)
         st = max(0, int(active_idx[0]) - pad_pre)
         ed = min(len(arr), int(active_idx[-1]) + pad_post)
         arr = arr[st:ed]
@@ -1135,8 +1091,6 @@ def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.n
         target_len = int(0.088 * TARGET_SAMPLE_RATE)
         if len(arr) > target_len:
             arr = arr[:target_len].copy()
-        elif len(arr) < int(0.075 * TARGET_SAMPLE_RATE) and len(arr) > 0:
-            arr = scipy.signal.resample(arr, int(0.085 * TARGET_SAMPLE_RATE)).astype(np.float32)
         n_v = len(arr)
         onset_keep = int(n_v * 0.45)
         decay_len = n_v - onset_keep
@@ -1145,29 +1099,6 @@ def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.n
             env = np.exp(-2.8 * t) * 0.5 * (1.0 + np.cos(np.pi * t))
             arr[onset_keep:] *= env
         return apply_mastering_envelope_48k(arr, fade_in_ms=5.0, fade_out_ms=15.0)
-
-    if cond.get("hasVisarga"):
-        arr = _enhance_visarga_tail_48k(arr, seed=sum(ord(c) for c in cond["slp1"]))
-
-    min_samps = int(round(cond["targetMinSec"] * TARGET_SAMPLE_RATE))
-    max_samps = int(round(cond["targetMaxSec"] * TARGET_SAMPLE_RATE))
-    target_samps = (min_samps + max_samps) // 2
-
-    cur_samps = len(arr)
-    if cur_samps < min_samps or cur_samps > max_samps:
-        # Preserve intact consonant burst & VOT (first 70ms = 3360 samples) and resample only the vowel nucleus
-        onset_samps = min(int(0.070 * TARGET_SAMPLE_RATE), cur_samps // 3)
-        onset_part = arr[:onset_samps]
-        nucleus_part = arr[onset_samps:]
-        desired_nucleus_samps = max(256, target_samps - onset_samps)
-        if len(nucleus_part) > 16:
-            stretched_nucleus = scipy.signal.resample(nucleus_part, desired_nucleus_samps).astype(np.float32)
-            # Smooth 6ms crossfade at the onset-nucleus join
-            xf = min(288, len(onset_part) // 2, len(stretched_nucleus) // 2)
-            if xf > 1:
-                alpha = np.linspace(0.0, 1.0, xf, dtype=np.float32)
-                stretched_nucleus[:xf] = (1.0 - alpha) * nucleus_part[:xf] + alpha * stretched_nucleus[:xf]
-            arr = np.concatenate([onset_part, stretched_nucleus])
 
     return apply_mastering_envelope_48k(arr, fade_in_ms=8.0, fade_out_ms=20.0)
 
@@ -1481,10 +1412,9 @@ class SanskritTTSEngine:
                         .replace("ॣ", "्लृ")
                     )
                     n_consume = max(1, len(s_norm))
-                    # If VITS text appended 'अ' after this word-final inherent-'a' syllable, consume it too
                     if (
                         char_ptr + n_consume < n_chars
-                        and valid_chars[char_ptr + n_consume] == "अ"
+                        and valid_chars[char_ptr + n_consume] in ("ऽ", "अ")
                         and s_obj["slp1"].endswith("a")
                     ):
                         n_consume += 1

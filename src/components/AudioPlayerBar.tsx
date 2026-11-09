@@ -88,7 +88,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                 </span>
               ) : (
                 <span>
-                  采样率: {healthStatus.sampleRate} Hz · 预载音节切片: {healthStatus.spriteCount} 个
+                  采样率: {healthStatus.sampleRate} Hz · 引擎: {healthStatus.engine} (方案 1 原生梵文 VITS)
                 </span>
               )}
             </div>
@@ -127,9 +127,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             onChange={(e) => onChangeAudioMode(e.target.value as AudioEngineMode)}
             className="rounded-lg border border-stone-700 bg-stone-900 px-2.5 py-1.5 text-xs text-amber-200"
           >
-            <option value="neural-auto">智能双擎 (Plan 1 + Plan 3)</option>
-            <option value="neural-tts">方案 1：48kHz 神经模型 (/api/tts)</option>
-            <option value="neural-sprite">方案 3：48kHz 悉昙采样库 (Sprite)</option>
+            <option value="neural-tts">方案 1：48kHz 梵文神经模型 (/api/tts)</option>
             <option value="legacy-tts">系统语音兜底 (Legacy)</option>
           </select>
 

@@ -43,11 +43,11 @@
             梵文 100% 全覆盖音译与发声引擎
           </h1>
           <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-            v3.0 方案1+3 原生梵音神经双擎版 (48kHz)
+            v3.0 方案 1 · IIT Madras 原生古典梵文神经网络版 (48kHz VITS)
           </span>
         </div>
         <p class="text-xs md:text-sm text-[var(--muted-foreground)]">
-          支持天城文 (Devanagari)、标准 IAST 转写、粗略英文拼写容错 · 内置 IIT Madras 原生古典梵文 VITS 神经网络 (方案1) 与 48kHz 悉昙 34×14 零延迟真人级神经采样库 (方案3)
+          支持天城文 (Devanagari)、标准 IAST 转写、粗略英文拼写容错 · 统一采用 IIT Madras 原生古典梵文 VITS 神经网络 (方案 1 · 48kHz)
         </p>
       </div>
 
@@ -129,9 +129,7 @@
           <label class="flex items-center gap-1.5 text-xs text-[var(--muted-foreground)] bg-[var(--secondary)] px-2.5 py-1.5 rounded-xl border border-[var(--border)]">
             <span>音源</span>
             <select id="audioModeSelect" class="bg-transparent text-[var(--foreground)] font-semibold outline-none cursor-pointer">
-              <option value="neural-auto" selected>⚡ 方案1+3 智能双擎 (48kHz 神经采样点读 + 原生梵文VITS整句)</option>
-              <option value="neural-tts">🧠 方案1：原生古典梵文神经网络 (IIT Madras Rasa VITS 48kHz)</option>
-              <option value="neural-sprite">🎵 方案3：48kHz 悉昙34×14 & 陀罗尼神经采样库 (0延迟离线)</option>
+              <option value="neural-tts" selected>🧠 方案 1：原生古典梵文神经网络 (IIT Madras Rasa VITS 48kHz)</option>
               <option value="legacy-tts">🌐 浏览器系统语音 (Web Speech API 对比兜底)</option>
             </select>
           </label>
@@ -215,7 +213,7 @@
           </label>
         </div>
         <div id="audioStatusBadge" class="text-xs text-[var(--muted-foreground)] flex items-center gap-1.5">
-          <span>🟢 正在初始化方案1 (Ninada VITS 48kHz) 与方案3 (48kHz 悉昙神经采样库)...</span>
+          <span>🟢 方案 1 (Ninada VITS 48kHz 原生梵文神经网络) 就绪</span>
         </div>
       </div>
     </section>
@@ -1031,9 +1029,9 @@ function parseAndTransliterateWord(slpWord, options = {}) {
 
 /**
  * ============================================================================
- * 模块四：v3.0 方案1+3 原生古典梵文神经网络 TTS & 48kHz 悉昙神经采样双擎发声系统
- * - 方案 1：IIT Madras 古典梵文 VITS 神经网络整句与动态单音节推理 (/api/tts, /api/syllable)
- * - 方案 3：预生成 48,000 Hz 悉昙 34×14 & 陀罗尼高频音节神经采样库 (AudioBufferSourceNode 0ms 点读)
+ * 模块四：v3.0 方案 1 · IIT Madras 原生古典梵文神经网络 TTS 发声系统 (48,000 Hz)
+ * - 统一使用方案 1：IIT Madras 古典梵文 VITS 神经网络整句与单音节推理 (/api/tts, /api/syllable)
+ * - 内存 AudioBuffer 缓存 (dynamicSyllableBufferCache)：点读过的音节 0ms 瞬时复用
  * ============================================================================
  */
 let audioCtx = null;
@@ -1041,11 +1039,7 @@ let isSpeaking = false;
 let currentStopTimer = null;
 let activeAudioNodes = [];
 let activeHighlightTimers = [];
-let spriteLoadPromise = null;
 const dynamicSyllableBufferCache = new Map();
-
-window.SPRITE_MANIFEST = null;
-window.spriteAudioBuffer = null;
 
 function getAudioContext() {
   if (!audioCtx) {
@@ -1114,73 +1108,13 @@ function updateAudioStatusBadge(text) {
   }
 }
 
-async function ensureSpriteLoaded() {
-  if (window.SPRITE_MANIFEST && window.spriteAudioBuffer) {
-    return { manifest: window.SPRITE_MANIFEST, buffer: window.spriteAudioBuffer };
-  }
-  if (spriteLoadPromise) {
-    return await spriteLoadPromise;
-  }
-
-  spriteLoadPromise = (async () => {
-    try {
-      const manResp = await fetchWithFallback('/audio/siddham_sprite_manifest.json');
-      const manifest = await manResp.json();
-      window.SPRITE_MANIFEST = manifest;
-
-      const ctx = getAudioContext();
-      const oggUrl = (manifest && manifest.audioUrlOgg) ? manifest.audioUrlOgg : '/audio/siddham_sprite_48k.ogg';
-      const wavUrl = (manifest && manifest.audioUrlWav) ? manifest.audioUrlWav : '/audio/siddham_sprite_48k.wav';
-
-      let decodedBuffer = null;
-      for (const audioUrl of [oggUrl, wavUrl]) {
-        try {
-          const audioResp = await fetchWithFallback(audioUrl);
-          const ab = await audioResp.arrayBuffer();
-          if (ctx && ab && ab.byteLength > 0) {
-            decodedBuffer = await ctx.decodeAudioData(ab);
-            if (decodedBuffer) break;
-          }
-        } catch (e) {}
-      }
-
-      if (!decodedBuffer && ctx) {
-        decodedBuffer = ctx.createBuffer(1, 48000 * 120, 48000);
-      }
-      window.spriteAudioBuffer = decodedBuffer;
-
-      const count = manifest && manifest.sprites ? Object.keys(manifest.sprites).length : (manifest?.totalCount || 650);
-      updateAudioStatusBadge(
-        `🟢 方案1 (Ninada VITS 48kHz) 就绪 · 方案3 (${count} 项 48kHz 悉昙神经采样) 已预载`
-      );
-      return { manifest: window.SPRITE_MANIFEST, buffer: window.spriteAudioBuffer };
-    } catch (err) {
-      const ctx = getAudioContext();
-      if (!window.spriteAudioBuffer && ctx) {
-        window.spriteAudioBuffer = ctx.createBuffer(1, 48000 * 10, 48000);
-      }
-      return { manifest: window.SPRITE_MANIFEST, buffer: window.spriteAudioBuffer };
-    } finally {
-      spriteLoadPromise = null;
-    }
-  })();
-
-  return await spriteLoadPromise;
-}
-
-window.initNeuralAudioSprite = ensureSpriteLoaded;
-window.ensureSpriteLoaded = ensureSpriteLoaded;
-
 async function checkBackendHealth() {
   try {
     const resp = await fetchWithFallback('/api/health');
     const health = await resp.json();
     if (health && health.status === 'ok') {
-      const count = window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites
-        ? Object.keys(window.SPRITE_MANIFEST.sprites).length
-        : (health.spriteCount || 650);
       updateAudioStatusBadge(
-        `🟢 方案1 (Ninada VITS ${health.sampleRate || 48000}Hz) 就绪 · 方案3 (${count} 项 48kHz 悉昙神经采样) 已预载`
+        `🟢 方案 1 (Ninada VITS ${health.sampleRate || 48000}Hz 原生梵文神经网络) 就绪`
       );
     }
   } catch (e) {}
@@ -1208,8 +1142,8 @@ function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, 
   }
 
   const gainNode = ctx.createGain();
-  const fadeIn = Math.min(0.012, effectiveDur * 0.2);
-  const fadeOut = Math.min(0.018, effectiveDur * 0.25);
+  const fadeIn = Math.min(0.008, effectiveDur * 0.15);
+  const fadeOut = Math.min(0.015, effectiveDur * 0.22);
   if (gainNode.gain && typeof gainNode.gain.setValueAtTime === 'function') {
     gainNode.gain.setValueAtTime(0.0001, startTime);
     if (typeof gainNode.gain.linearRampToValueAtTime === 'function') {
@@ -1227,83 +1161,7 @@ function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, 
 }
 
 /**
- * 将未知复合音节拆解为 48kHz 神经采样库中的子音素切片序列 (Onset + CV + Coda)
- */
-function decomposeToSpriteSubSlices(slpSyl) {
-  const sprites = (window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites) || {};
-  if (sprites[slpSyl]) return [sprites[slpSyl]];
-
-  const subEntries = [];
-  const tokens = syllabifySlp1Word(slpSyl);
-  for (const tk of tokens) {
-    if (tk.symbol) continue;
-    const whole = tk.onset + tk.vowel + tk.mod + tk.coda;
-    if (sprites[whole]) {
-      subEntries.push(sprites[whole]);
-      continue;
-    }
-    const baseCvMod = tk.onset + tk.vowel + tk.mod;
-    if (sprites[baseCvMod]) {
-      subEntries.push(sprites[baseCvMod]);
-    } else if (tk.onset && tk.vowel) {
-      const prefix = tk.onset.slice(0, -1);
-      const mainC = tk.onset.slice(-1);
-      for (const c of prefix) {
-        if (sprites[c]) subEntries.push(sprites[c]);
-      }
-      const cvMod = mainC + tk.vowel + tk.mod;
-      const cv = mainC + tk.vowel;
-      if (sprites[cvMod]) subEntries.push(sprites[cvMod]);
-      else if (sprites[cv]) subEntries.push(sprites[cv]);
-    } else if (!tk.onset && tk.vowel) {
-      const vKey = tk.vowel + tk.mod;
-      if (sprites[vKey]) subEntries.push(sprites[vKey]);
-      else if (sprites[tk.vowel]) subEntries.push(sprites[tk.vowel]);
-    } else if (tk.onset && !tk.vowel) {
-      for (const c of tk.onset) {
-        if (sprites[c]) subEntries.push(sprites[c]);
-      }
-    }
-    if (tk.coda && !sprites[whole]) {
-      for (const c of tk.coda) {
-        if (sprites[c]) subEntries.push(sprites[c]);
-      }
-    }
-  }
-  return subEntries;
-}
-
-/**
- * 使用 48,000 Hz 悉昙神经采样库合成/拼接单音节发声（彻底移除旧版锯齿波振荡器）
- */
-function synthesizeSyllableAudio(slpSyl, startTimeOffset = 0, rate = 1.0) {
-  const cleanSlp = String(slpSyl || '').replace(/[\s|।॥'.,;!?-]+/g, '').trim();
-  if (!cleanSlp || !window.SPRITE_MANIFEST || !window.spriteAudioBuffer) {
-    return 0.22 / Math.max(0.4, Number(rate) || 1.0);
-  }
-  const sprites = window.SPRITE_MANIFEST.sprites || {};
-  if (sprites[cleanSlp]) {
-    const entry = sprites[cleanSlp];
-    return playBufferSlice(window.spriteAudioBuffer, Number(entry.offset), Number(entry.duration), rate, startTimeOffset);
-  }
-  const subSlices = decomposeToSpriteSubSlices(cleanSlp);
-  if (subSlices.length > 0) {
-    let curOffset = Number(startTimeOffset) || 0;
-    let totalDur = 0;
-    for (let i = 0; i < subSlices.length; i++) {
-      const ent = subSlices[i];
-      const d = playBufferSlice(window.spriteAudioBuffer, Number(ent.offset), Number(ent.duration), rate, curOffset);
-      const overlap = (i < subSlices.length - 1) ? Math.min(0.012, d * 0.2) : 0;
-      curOffset += Math.max(0.02, d - overlap);
-      totalDur += Math.max(0.02, d - overlap);
-    }
-    return totalDur;
-  }
-  return 0.22 / Math.max(0.4, Number(rate) || 1.0);
-}
-
-/**
- * 零延迟播放单个梵文音节（优先使用方案 3 的 48kHz 神经采样库，未命中或特殊声线自动回退方案 1 /api/syllable）
+ * 统一使用方案 1 (/api/syllable/{slp1}) 播放单个梵文音节 (48kHz VITS + 内存缓存)
  */
 async function playSingleSyllable(rawSlp, cardIndex = -1) {
   const cleanSlp = String(rawSlp || '').replace(/[\s|।॥'.,;!?-]+/g, '').trim() || String(rawSlp || '').trim();
@@ -1311,51 +1169,25 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
     highlightSyllableCard(cardIndex, true);
   }
 
-  const modeEl = document.getElementById('audioModeSelect');
   const voiceEl = document.getElementById('voiceSelect');
   const rateEl = document.getElementById('speechRate');
 
-  const rawMode = modeEl ? modeEl.value : 'neural-auto';
-  const mode = rawMode === 'auto' ? 'neural-auto' : (rawMode === 'synth' ? 'neural-sprite' : rawMode);
   const voice = (voiceEl && voiceEl.value) ? voiceEl.value : 'male';
   const rate = parseFloat(rateEl ? rateEl.value : '1.0') || 1.0;
 
-  await ensureSpriteLoaded();
-
-  const sprites = (window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites) || {};
-  const canUseStaticSprite = (
-    voice === 'male' &&
-    (mode === 'neural-auto' || mode === 'neural-sprite') &&
-    Boolean(sprites[cleanSlp]) &&
-    Boolean(window.spriteAudioBuffer)
-  );
-
-  if (canUseStaticSprite) {
-    const entry = sprites[cleanSlp];
-    const durSec = playBufferSlice(window.spriteAudioBuffer, Number(entry.offset), Number(entry.duration), rate, 0);
-    if (cardIndex >= 0) {
-      setTimeout(() => {
-        const card = document.getElementById(`syl-card-${cardIndex}`);
-        if (card && !isSpeaking) card.classList.remove('speaking-active');
-      }, Math.round(durSec * 1000) + 40);
-    }
-    return {
-      source: 'neural-sprite',
-      sampleRate: 48000,
-      durationSec: Number(durSec.toFixed(4)),
-      slp1: cleanSlp,
-      offset: Number(entry.offset)
-    };
-  }
-
-  // 动态调用方案 1 后端 /api/syllable/{slp1} (48kHz)
   const cacheKey = `${cleanSlp}|${voice}|${rate.toFixed(2)}`;
   try {
     if (dynamicSyllableBufferCache.has(cacheKey)) {
       const cached = dynamicSyllableBufferCache.get(cacheKey);
       const durSec = playBufferSlice(cached.buffer, 0, cached.buffer.duration, 1.0, 0);
+      if (cardIndex >= 0) {
+        setTimeout(() => {
+          const card = document.getElementById(`syl-card-${cardIndex}`);
+          if (card && !isSpeaking) card.classList.remove('speaking-active');
+        }, Math.round(durSec * 1000) + 40);
+      }
       return {
-        source: cached.source || 'neural-tts',
+        source: 'neural-tts',
         sampleRate: 48000,
         durationSec: Number((durSec || cached.durationSec || 0.25).toFixed(4)),
         slp1: cleanSlp
@@ -1371,23 +1203,27 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
       dynamicSyllableBufferCache.set(cacheKey, {
         buffer: decodedBuf,
         durationSec: durFromApi,
-        source: data.source || 'neural-tts'
+        source: 'neural-tts'
       });
       playBufferSlice(decodedBuf, 0, durFromApi, 1.0, 0);
     }
+    if (cardIndex >= 0) {
+      setTimeout(() => {
+        const card = document.getElementById(`syl-card-${cardIndex}`);
+        if (card && !isSpeaking) card.classList.remove('speaking-active');
+      }, Math.round(durFromApi * 1000) + 40);
+    }
     return {
-      source: data.source || 'neural-tts',
+      source: 'neural-tts',
       sampleRate: 48000,
       durationSec: Number(durFromApi.toFixed(4)),
       slp1: cleanSlp
     };
   } catch (err) {
-    // 离线组合拼接兜底 (Onset + CV + Coda 48kHz 神经切片)
-    const stitchedDur = synthesizeSyllableAudio(cleanSlp, 0, rate);
     return {
-      source: 'neural-sprite',
-      sampleRate: 48000,
-      durationSec: Number(Math.max(0.08, stitchedDur).toFixed(4)),
+      source: 'legacy-tts',
+      sampleRate: 24000,
+      durationSec: 0.25,
       slp1: cleanSlp
     };
   }
@@ -1396,8 +1232,7 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
 /**
  * 朗读整段梵文，并按帧级时间戳同步高亮音节卡片
  * 支持：
- * - neural-auto / neural-tts：调用方案 1 `POST /api/tts` 获取 48kHz VITS 音频流与 `syllableTimings`
- * - neural-sprite：调用方案 3 48kHz 悉昙采样库进行诗律级无缝拼接 (Laghu/Guru 节奏)
+ * - neural-tts：调用方案 1 `POST /api/tts` 获取 48kHz VITS 音频流与 `syllableTimings`
  * - legacy-tts：系统 Web Speech API 对比兜底
  */
 async function speakSanskrit(fromButton = false) {
@@ -1421,13 +1256,13 @@ async function speakSanskrit(fromButton = false) {
 
   const rate = parseFloat(document.getElementById('speechRate')?.value || '1.0') || 1.0;
   const voice = document.getElementById('voiceSelect')?.value || 'male';
-  const rawMode = document.getElementById('audioModeSelect')?.value || 'neural-auto';
-  const mode = rawMode === 'auto' ? 'neural-auto' : (rawMode === 'synth' ? 'neural-sprite' : (rawMode === 'tts' ? 'legacy-tts' : rawMode));
+  const rawMode = document.getElementById('audioModeSelect')?.value || 'neural-tts';
+  const mode = rawMode === 'tts' ? 'legacy-tts' : (rawMode === 'legacy-tts' ? 'legacy-tts' : 'neural-tts');
 
   setSpeakingUI(true);
 
-  // 方案 1：原生古典梵文神经网络整句合成 (neural-auto / neural-tts)
-  if (mode === 'neural-auto' || mode === 'neural-tts') {
+  // 方案 1：原生古典梵文神经网络整句合成 (neural-tts)
+  if (mode === 'neural-tts') {
     try {
       const resp = await fetchWithFallback('/api/tts', {
         method: 'POST',
@@ -1462,7 +1297,7 @@ async function speakSanskrit(fromButton = false) {
       }, Math.round(totalDurSec * 1000) + 100);
 
       updateAudioStatusBadge(
-        `🔊 正在播放方案1 原生梵文神经网络 (${data.sampleRate || 48000}Hz · ${voice} · ${totalDurSec.toFixed(2)}s)`
+        `🔊 正在播放方案 1 原生梵文神经网络 (${data.sampleRate || 48000}Hz · ${voice} · ${totalDurSec.toFixed(2)}s)`
       );
 
       return {
@@ -1472,87 +1307,9 @@ async function speakSanskrit(fromButton = false) {
         syllableTimings: timings
       };
     } catch (err) {
-      if (mode === 'neural-tts') {
-        stopSpeaking();
-        throw err;
-      }
-      // neural-auto 在后端不可达时自动无缝回退到方案 3 (neural-sprite)
-    }
-  }
-
-  // 方案 3：48kHz 悉昙神经采样库整句诗律拼接模式 (neural-sprite)
-  if (mode === 'neural-sprite' || mode === 'neural-auto') {
-    await ensureSpriteLoaded();
-    let sylItems = lastSyllableList.slice();
-    if (sylItems.length === 0) {
-      const domCards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
-      sylItems = domCards.map((c, idx) => {
-        const raw = c.getAttribute('data-raw') || '';
-        return {
-          raw,
-          devaSyl: slp1ToDevanagari(raw),
-          iastSyl: slp1ToIast(raw),
-          meter: LONG_VOWELS.has(raw.slice(-1)) || /[MH~]$/.test(raw) ? '—' : '⏑',
-          idx
-        };
-      });
-    }
-
-    const sprites = (window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites) || {};
-    const syllableTimings = [];
-    let offsetSec = 0;
-
-    for (let idx = 0; idx < sylItems.length; idx++) {
-      const item = sylItems[idx];
-      const raw = item.raw;
-      let playDur = 0;
-
-      if (sprites[raw] && window.spriteAudioBuffer) {
-        const ent = sprites[raw];
-        playDur = playBufferSlice(window.spriteAudioBuffer, Number(ent.offset), Number(ent.duration), rate, offsetSec);
-      } else {
-        playDur = synthesizeSyllableAudio(raw, offsetSec, rate);
-      }
-
-      const startMs = Math.round(offsetSec * 1000);
-      const durMs = Math.round(playDur * 1000);
-      const endMs = startMs + durMs;
-
-      syllableTimings.push({
-        index: idx,
-        slp1: raw,
-        deva: item.devaSyl || slp1ToDevanagari(raw),
-        iast: item.iastSyl || slp1ToIast(raw),
-        meter: item.meter || '⏑',
-        startMs,
-        endMs,
-        durationMs: durMs
-      });
-
-      const tid = setTimeout(() => {
-        if (!isSpeaking) return;
-        highlightSyllableCard(idx, false);
-      }, startMs);
-      activeHighlightTimers.push(tid);
-
-      const gapSec = (item.meter === '—' ? 0.025 : 0.015) / Math.max(0.5, rate);
-      offsetSec += playDur + gapSec;
-    }
-
-    currentStopTimer = setTimeout(() => {
       stopSpeaking();
-    }, Math.round(offsetSec * 1000) + 100);
-
-    updateAudioStatusBadge(
-      `🎵 正在播放方案3 48kHz 悉昙神经采样拼接 (${syllableTimings.length} 音节 · ${offsetSec.toFixed(2)}s)`
-    );
-
-    return {
-      mode: 'neural-sprite',
-      sampleRate: 48000,
-      durationSec: Number(offsetSec.toFixed(4)),
-      syllableTimings
-    };
+      throw err;
+    }
   }
 
   // 对比兜底：浏览器原生 Web Speech API (legacy-tts)
@@ -2065,7 +1822,6 @@ window.slp1ToDevanagari = slp1ToDevanagari;
 window.syllabifySlp1Word = syllabifySlp1Word;
 window.resolveModifiers = resolveModifiers;
 window.parseAndTransliterateWord = parseAndTransliterateWord;
-window.synthesizeSyllableAudio = synthesizeSyllableAudio;
 window.playSingleSyllable = playSingleSyllable;
 window.speakSanskrit = speakSanskrit;
 window.stopSpeaking = stopSpeaking;
@@ -2084,7 +1840,6 @@ async function initEngineOnReady() {
   }
   initQuickCharBar();
   loadSample(0);
-  await ensureSpriteLoaded();
   await checkBackendHealth();
 }
 

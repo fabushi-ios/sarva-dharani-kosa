@@ -1,21 +1,17 @@
 /**
- * Plan 1 & Plan 3 Unified 48,000 Hz Classical Sanskrit Neural Audio Engine
+ * Plan 1 Unified 48,000 Hz Classical Sanskrit Neural Audio Engine
  * (`src/services/audio/sanskritAudioEngine.ts`)
  *
  * - Plan 1: Native Classical Sanskrit Neural VITS TTS (`POST /api/tts` & `GET /api/syllable/{slp1}`)
- *   powered by IIT Madras Rasa (`gnumanth/ninada`) at 48,000 Hz with frame-exact `syllableTimings`.
- * - Plan 3: Pre-generated 48,000 Hz Siddhaṃ 34×14 Phonetic Matrix & High-Frequency Dhāraṇī Syllable
- *   Neural Audio Sprite (`/audio/siddham_sprite_manifest.json` + `/audio/siddham_sprite_48k.ogg` / `.wav`)
- *   decoded into a Web Audio `AudioBuffer` for 0-latency single-syllable click & offline concatenation.
+ *   powered by IIT Madras Rasa (`gnumanth/ninada`) at 48,000 Hz with frame-exact `syllableTimings`
+ *   and in-memory `AudioBuffer` caching for instant 0ms replay on repeated syllable clicks.
  */
 
-import { analyzeSanskritText } from '../../core/prosody';
 import { slp1ToDevanagari } from '../../core/transliterator';
 import {
   AudioEngineMode,
   AudioHealthStatus,
   NeuralVoice,
-  SiddhamSpriteManifest,
   SyllableTimingItem,
 } from '../../types/dharani';
 
@@ -42,7 +38,7 @@ export interface SpeakTextResult {
 }
 
 export interface PlaySyllableResult {
-  source: 'neural-sprite' | 'neural-tts' | 'legacy-tts';
+  source: 'neural-tts' | 'legacy-tts';
   sampleRate: number;
   durationSec: number;
   slp1: string;
@@ -52,14 +48,13 @@ type EngineStateListener = () => void;
 
 class SanskritAudioEngine {
   private audioCtx: AudioContext | null = null;
-  private manifest: SiddhamSpriteManifest | null = null;
-  private spriteBuffer: AudioBuffer | null = null;
   private loadingPromise: Promise<void> | null = null;
+  private syllableBufferCache: Map<string, AudioBuffer> = new Map();
 
   private activeSources: Set<AudioBufferSourceNode> = new Set();
   private highlightTimers: number[] = [];
   private isPlayingState = false;
-  private currentMode: AudioEngineMode = 'neural-auto';
+  private currentMode: AudioEngineMode = 'neural-tts';
   private currentVoice: NeuralVoice = 'male';
   private currentRate = 1.0;
   private lastDownloadWavUrl: string | null = null;
@@ -72,9 +67,6 @@ class SanskritAudioEngine {
     engine: 'ninada-vits-sanskrit-48khz',
     sampleRate: 48000,
     modelsLoaded: ['sa_studio_male', 'sa_studio_female', 'sa_mobile_male', 'sa_mms_16k'],
-    spriteCount: 650,
-    spriteReady: false,
-    spriteBufferDecoded: false,
   };
 
   private listeners: Set<EngineStateListener> = new Set();
@@ -104,7 +96,9 @@ class SanskritAudioEngine {
 
   private getAudioContext(): AudioContext {
     if (!this.audioCtx) {
-      const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const Ctx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       this.audioCtx = new Ctx({ sampleRate: 48000 });
     }
     if (this.audioCtx.state === 'suspended') {
@@ -120,7 +114,7 @@ class SanskritAudioEngine {
   }
 
   private async performInit(): Promise<void> {
-    // 1. Check Plan 1 FastAPI Backend Health (/api/health)
+    // Check Plan 1 FastAPI Backend Health (/api/health)
     try {
       const healthRes = await fetch('/api/health');
       if (healthRes.ok) {
@@ -130,78 +124,20 @@ class SanskritAudioEngine {
           backendOnline: data.status === 'ok',
           engine: data.engine || 'ninada-vits-sanskrit-48khz',
           sampleRate: 48000,
-          modelsLoaded: Array.isArray(data.modelsLoaded) ? data.modelsLoaded : this.healthStatus.modelsLoaded,
-          spriteCount: Number(data.spriteCount) || this.healthStatus.spriteCount,
-          spriteReady: Boolean(data.spriteReady),
+          modelsLoaded: Array.isArray(data.modelsLoaded)
+            ? data.modelsLoaded
+            : this.healthStatus.modelsLoaded,
         };
       }
     } catch {
       this.healthStatus.backendOnline = false;
     }
 
-    // 2. Load Plan 3 48kHz Sprite Manifest (/audio/siddham_sprite_manifest.json)
-    try {
-      const manifestRes = await fetch('/audio/siddham_sprite_manifest.json');
-      if (manifestRes.ok) {
-        const manifestData = (await manifestRes.json()) as SiddhamSpriteManifest;
-        this.manifest = manifestData;
-        this.healthStatus.spriteCount = Object.keys(manifestData.sprites || {}).length;
-        this.healthStatus.spriteReady = true;
-      }
-    } catch {
-      // Manifest will be retried on demand
-    }
-
     this.notify();
-
-    // 3. Pre-decode 48kHz Audio Sprite (/audio/siddham_sprite_48k.ogg with fallback to /audio/siddham_sprite_48k.wav)
-    await this.ensureSpriteBufferDecoded();
-  }
-
-  public async ensureSpriteBufferDecoded(): Promise<AudioBuffer | null> {
-    if (this.spriteBuffer) return this.spriteBuffer;
-    if (!this.manifest) {
-      try {
-        const manifestRes = await fetch('/audio/siddham_sprite_manifest.json');
-        if (manifestRes.ok) {
-          this.manifest = (await manifestRes.json()) as SiddhamSpriteManifest;
-          this.healthStatus.spriteCount = Object.keys(this.manifest.sprites || {}).length;
-          this.healthStatus.spriteReady = true;
-        }
-      } catch {
-        // ignore
-      }
-    }
-
-    const urlsToTry = [
-      this.manifest?.audioUrlOgg || '/audio/siddham_sprite_48k.ogg',
-      this.manifest?.audioUrlWav || '/audio/siddham_sprite_48k.wav',
-    ];
-
-    for (const url of urlsToTry) {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) continue;
-        const arrayBuf = await res.arrayBuffer();
-        const ctx = this.getAudioContext();
-        const decoded = await ctx.decodeAudioData(arrayBuf.slice(0));
-        this.spriteBuffer = decoded;
-        this.healthStatus.spriteBufferDecoded = true;
-        this.notify();
-        return decoded;
-      } catch {
-        // try next URL
-      }
-    }
-    return null;
   }
 
   public getHealthStatus(): AudioHealthStatus {
     return { ...this.healthStatus };
-  }
-
-  public getManifest(): SiddhamSpriteManifest | null {
-    return this.manifest;
   }
 
   public getMode(): AudioEngineMode {
@@ -281,9 +217,8 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Plays a single Sanskrit syllable (Akṣara) at 48,000 Hz:
-   * - Primarily slices the preloaded Plan 3 48kHz neural `AudioBuffer` with 0ms latency.
-   * - Falls back to `GET /api/syllable/{slp1Key}` when using `female`/`mobile` voices or unseen clusters.
+   * Plays a single Sanskrit syllable (Akṣara) at 48,000 Hz using Plan 1 (`GET /api/syllable/{slp1Key}`)
+   * with in-memory `AudioBuffer` caching.
    */
   public async playSyllable(
     slp1Key: string,
@@ -302,57 +237,26 @@ class SanskritAudioEngine {
       return { source: 'legacy-tts', sampleRate: 48000, durationSec: 0.25, slp1: cleanKey };
     }
 
-    await this.ensureSpriteBufferDecoded();
+    const cacheKey = `${cleanKey}:${voice}:${rate.toFixed(2)}`;
+    const ctx = this.getAudioContext();
 
-    // Check if present in Plan 3 48kHz Sprite Manifest
-    const spriteEntry = this.manifest?.sprites?.[cleanKey];
-    if (
-      spriteEntry &&
-      this.spriteBuffer &&
-      (mode === 'neural-sprite' || (mode === 'neural-auto' && voice === 'male'))
-    ) {
-      const ctx = this.getAudioContext();
-      const source = ctx.createBufferSource();
-      source.buffer = this.spriteBuffer;
-      source.playbackRate.value = rate;
-
-      const gain = ctx.createGain();
-      const now = ctx.currentTime;
-      const playDur = spriteEntry.duration / rate;
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(1.0, now + Math.min(0.008, playDur * 0.15));
-      gain.gain.setValueAtTime(1.0, now + Math.max(0.01, playDur - 0.018));
-      gain.gain.linearRampToValueAtTime(0.0001, now + playDur);
-
-      source.connect(gain);
-      gain.connect(ctx.destination);
-
-      this.activeSources.add(source);
-      source.onended = () => {
-        this.activeSources.delete(source);
-      };
-
-      source.start(now, spriteEntry.offset, spriteEntry.duration);
-      return {
-        source: 'neural-sprite',
-        sampleRate: 48000,
-        durationSec: playDur,
-        slp1: cleanKey,
-      };
-    }
-
-    // Fallback to Plan 1 GET /api/syllable/{slp1Key}
     try {
-      const q = new URLSearchParams({
-        voice,
-        rate: String(rate),
-        format: 'wav',
-      });
-      const res = await fetch(`/api/syllable/${encodeURIComponent(cleanKey)}?${q.toString()}`);
-      if (res.ok) {
-        const wavBuf = await res.arrayBuffer();
-        const ctx = this.getAudioContext();
-        const decoded = await ctx.decodeAudioData(wavBuf.slice(0));
+      let decoded = this.syllableBufferCache.get(cacheKey);
+      if (!decoded) {
+        const q = new URLSearchParams({
+          voice,
+          rate: String(rate),
+          format: 'wav',
+        });
+        const res = await fetch(`/api/syllable/${encodeURIComponent(cleanKey)}?${q.toString()}`);
+        if (res.ok) {
+          const wavBuf = await res.arrayBuffer();
+          decoded = await ctx.decodeAudioData(wavBuf.slice(0));
+          this.syllableBufferCache.set(cacheKey, decoded);
+        }
+      }
+
+      if (decoded) {
         const source = ctx.createBufferSource();
         source.buffer = decoded;
         source.connect(ctx.destination);
@@ -369,34 +273,25 @@ class SanskritAudioEngine {
         };
       }
     } catch {
-      // Fallback to composite onset+vowel slice if backend unreachable
+      // Fallback to Web Speech API only if backend is unreachable
     }
 
-    // Offline composite fallback from sprite if available
-    if (this.spriteBuffer && this.manifest) {
-      const baseFallback = this.manifest.sprites[cleanKey.slice(0, 2)] || this.manifest.sprites.ka;
-      if (baseFallback) {
-        const ctx = this.getAudioContext();
-        const source = ctx.createBufferSource();
-        source.buffer = this.spriteBuffer;
-        source.playbackRate.value = rate;
-        source.connect(ctx.destination);
-        source.start(0, baseFallback.offset, baseFallback.duration);
-        return {
-          source: 'neural-sprite',
-          sampleRate: 48000,
-          durationSec: baseFallback.duration / rate,
-          slp1: cleanKey,
-        };
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        const utter = new SpeechSynthesisUtterance(slp1ToDevanagari(cleanKey));
+        utter.lang = 'sa-IN';
+        utter.rate = rate;
+        window.speechSynthesis.speak(utter);
+      } catch {
+        // ignore
       }
     }
-
-    return { source: 'neural-sprite', sampleRate: 48000, durationSec: 0.22, slp1: cleanKey };
+    return { source: 'legacy-tts', sampleRate: 48000, durationSec: 0.25, slp1: cleanKey };
   }
 
   /**
    * Synthesizes and plays a full verse, mantra, or Dhāraṇī at 48,000 Hz with
-   * frame-accurate syllable highlighting.
+   * frame-accurate syllable highlighting via Plan 1 (`POST /api/tts`).
    */
   public async speakText(
     text: string,
@@ -416,7 +311,7 @@ class SanskritAudioEngine {
     this.notify();
 
     // Plan 1: Native Classical Sanskrit Neural VITS TTS (/api/tts)
-    if (mode === 'neural-auto' || mode === 'neural-tts') {
+    if (mode !== 'legacy-tts') {
       try {
         const response = await fetch('/api/tts', {
           method: 'POST',
@@ -488,94 +383,35 @@ class SanskritAudioEngine {
           };
         }
       } catch {
-        // Fall through to Plan 3 48kHz neural sprite concatenation
+        // Fallback to Web Speech API only if backend is unreachable
       }
     }
 
-    // Plan 3: Offline 48kHz Neural Sprite Prosodic Concatenation
-    await this.ensureSpriteBufferDecoded();
-    const analyzed = analyzeSanskritText(cleanText);
-    const phoneticSyllables = analyzed.syllables.filter((s) => !s.isSymbol && s.slp1);
-    const timings: SyllableTimingItem[] = [];
-
-    const ctx = this.getAudioContext();
-    const baseStartTime = ctx.currentTime + 0.02;
-    let cursorSec = 0;
-
-    for (let idx = 0; idx < phoneticSyllables.length; idx++) {
-      const syl = phoneticSyllables[idx];
-      const spriteEntry =
-        this.manifest?.sprites?.[syl.slp1] ||
-        this.manifest?.sprites?.[`${syl.onset}${syl.vowel}`] ||
-        this.manifest?.sprites?.a;
-
-      const rawDur = spriteEntry ? spriteEntry.duration : syl.meter === '—' ? 0.36 : 0.22;
-      const playDur = rawDur / rate;
-      const startMs = Math.round(cursorSec * 1000);
-      const endMs = Math.round((cursorSec + playDur) * 1000);
-
-      const timingItem: SyllableTimingItem = {
-        index: idx,
-        slp1: syl.slp1,
-        deva: syl.deva,
-        iast: syl.iast,
-        meter: syl.meter,
-        startMs,
-        endMs,
-        durationMs: endMs - startMs,
-      };
-      timings.push(timingItem);
-
-      if (this.spriteBuffer && spriteEntry) {
-        const src = ctx.createBufferSource();
-        src.buffer = this.spriteBuffer;
-        src.playbackRate.value = rate;
-
-        const gain = ctx.createGain();
-        const t0 = baseStartTime + cursorSec;
-        gain.gain.setValueAtTime(0.001, t0);
-        gain.gain.linearRampToValueAtTime(1.0, t0 + 0.008);
-        gain.gain.setValueAtTime(1.0, t0 + Math.max(0.01, playDur - 0.015));
-        gain.gain.linearRampToValueAtTime(0.0001, t0 + playDur);
-
-        src.connect(gain);
-        gain.connect(ctx.destination);
-
-        this.activeSources.add(src);
-        src.onended = () => {
-          this.activeSources.delete(src);
+    // Legacy Web Speech API fallback
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        const utter = new SpeechSynthesisUtterance(cleanText);
+        utter.lang = 'sa-IN';
+        utter.rate = rate;
+        utter.onend = () => {
+          this.isPlayingState = false;
+          this.activeSyllableIndex = -1;
+          this.notify();
+          options.onSyllableHighlight?.(-1, null);
+          options.onPlaybackEnd?.();
         };
-        src.start(t0, spriteEntry.offset, spriteEntry.duration);
+        window.speechSynthesis.speak(utter);
+      } catch {
+        // ignore
       }
-
-      const timerId = window.setTimeout(() => {
-        this.activeSyllableIndex = idx;
-        this.notify();
-        options.onSyllableHighlight?.(idx, timingItem);
-      }, startMs);
-      this.highlightTimers.push(timerId);
-
-      // Slight prosodic overlap/crossfade for natural连读
-      cursorSec += Math.max(0.08, playDur - 0.012);
     }
-
-    this.activeTimings = timings;
-    const totalMs = Math.ceil(cursorSec * 1000) + 60;
-    const finishId = window.setTimeout(() => {
-      this.isPlayingState = false;
-      this.activeSyllableIndex = -1;
-      this.notify();
-      options.onSyllableHighlight?.(-1, null);
-      options.onPlaybackEnd?.();
-    }, totalMs);
-    this.highlightTimers.push(finishId);
-
+    this.isPlayingState = false;
     this.notify();
     return {
-      mode: 'neural-sprite',
-      sampleRate: 48000,
-      durationSec: cursorSec,
-      syllableTimings: timings,
+      mode: 'legacy-tts',
+      sampleRate: 24000,
+      durationSec: 1.0,
+      syllableTimings: [],
     };
   }
 }

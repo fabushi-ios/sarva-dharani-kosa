@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Plan 1 & Plan 3 FastAPI Neural Sanskrit TTS & 48kHz Audio Sprite Service.
+Plan 1 FastAPI Native Classical Sanskrit Neural VITS TTS Service (48,000 Hz).
 
 Listens on `http://127.0.0.1:8765` and provides:
 - `GET /api/health`
 - `POST /api/tts` and `GET /api/tts`
 - `GET /api/tts/cache/{filename}`
-- `GET /api/syllable/{slp1_key}`
-- Static `/audio/*` serving `/home/antigravity/public/audio/*` with CORS & exposed headers
+- `GET /api/syllable/{slp1_key}` (100% Plan 1 Native Classical Sanskrit VITS synthesis)
 - Static `/sanskrit_phonetic_engine.html` serving `/home/antigravity/sanskrit_phonetic_engine.html`
 """
 from __future__ import annotations
@@ -20,11 +19,9 @@ import subprocess
 import sys
 import threading
 import urllib.parse
-import wave
 from pathlib import Path
 from typing import Any
 
-import numpy as np
 from fastapi import FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -42,16 +39,12 @@ from backend.sanskrit_tts_engine import (
     SYLLABLE_OVERRIDES,
     TARGET_SAMPLE_RATE,
     VOWEL_SET,
-     encode_wav_48k_bytes,
     get_tts_engine,
     input_to_slp1,
 )
 
 PUBLIC_AUDIO_DIR = PROJECT_ROOT / "public" / "audio"
 CACHE_DIR = PUBLIC_AUDIO_DIR / "cache"
-SPRITE_WAV_PATH = PUBLIC_AUDIO_DIR / "siddham_sprite_48k.wav"
-SPRITE_OGG_PATH = PUBLIC_AUDIO_DIR / "siddham_sprite_48k.ogg"
-SPRITE_MANIFEST_PATH = PUBLIC_AUDIO_DIR / "siddham_sprite_manifest.json"
 
 PUBLIC_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -66,78 +59,6 @@ class TTSRequest(BaseModel):
     format: str | None = Field(default=None)
 
 
-class SpriteStore:
-    """Thread-safe in-memory loader for the Plan 3 48,000 Hz audio sprite and manifest."""
-
-    def __init__(self) -> None:
-        self._lock = threading.Lock()
-        self.manifest: dict[str, Any] | None = None
-        self.pcm_48k: np.ndarray | None = None
-        self._manifest_mtime: float = 0.0
-        self._wav_mtime: float = 0.0
-
-    def ensure_loaded(self) -> tuple[dict[str, Any] | None, np.ndarray | None]:
-        with self._lock:
-            if not SPRITE_MANIFEST_PATH.exists() or not SPRITE_WAV_PATH.exists():
-                return None, None
-            try:
-                m_mtime = SPRITE_MANIFEST_PATH.stat().st_mtime
-                w_mtime = SPRITE_WAV_PATH.stat().st_mtime
-                if (
-                    self.manifest is not None
-                    and self.pcm_48k is not None
-                    and m_mtime == self._manifest_mtime
-                    and w_mtime == self._wav_mtime
-                ):
-                    return self.manifest, self.pcm_48k
-
-                manifest_data = json.loads(SPRITE_MANIFEST_PATH.read_text(encoding="utf-8"))
-                with wave.open(str(SPRITE_WAV_PATH), "rb") as wf:
-                    n_frames = wf.getnframes()
-                    raw_bytes = wf.readframes(n_frames)
-                    pcm_i16 = np.frombuffer(raw_bytes, dtype="<i2")
-                    pcm_f32 = (pcm_i16.astype(np.float32) / 32767.0).copy()
-
-                self.manifest = manifest_data
-                self.pcm_48k = pcm_f32
-                self._manifest_mtime = m_mtime
-                self._wav_mtime = w_mtime
-                return self.manifest, self.pcm_48k
-            except Exception:
-                return self.manifest, self.pcm_48k
-
-    def slice_syllable(self, slp1_key: str) -> dict[str, Any] | None:
-        manifest, pcm = self.ensure_loaded()
-        if manifest is None or pcm is None:
-            return None
-        sprites = manifest.get("sprites", {})
-        meta = sprites.get(slp1_key)
-        if meta is None:
-            return None
-        offset_sec = float(meta["offset"])
-        dur_sec = float(meta["duration"])
-        st = max(0, int(round(offset_sec * TARGET_SAMPLE_RATE)))
-        ed = min(len(pcm), st + max(1, int(round(dur_sec * TARGET_SAMPLE_RATE))))
-        slice_pcm = pcm[st:ed].copy()
-        wav_bytes = encode_wav_48k_bytes(slice_pcm)
-        return {
-            "slp1": meta["slp1"],
-            "iast": meta["iast"],
-            "deva": meta["deva"],
-            "meter": meta["meter"],
-            "sampleRate": TARGET_SAMPLE_RATE,
-            "durationSec": round(len(slice_pcm) / float(TARGET_SAMPLE_RATE), 4),
-            "rms": meta.get("rms", round(float(np.sqrt(np.mean(slice_pcm * slice_pcm))), 4)),
-            "peak": meta.get("peak", round(float(np.max(np.abs(slice_pcm))), 4)),
-            "voice": "male",
-            "model": manifest.get("model", "gnumanth/ninada:onnx/sa.onnx"),
-            "source": "neural-sprite",
-            "pcm48k": slice_pcm,
-            "wavBytes": wav_bytes,
-        }
-
-
-_SPRITE_STORE = SpriteStore()
 _MEM_TTS_CACHE: dict[str, dict[str, Any]] = {}
 _MEM_SYL_CACHE: dict[str, dict[str, Any]] = {}
 _SYNTH_LOCK = threading.Lock()
@@ -147,9 +68,6 @@ def _normalize_slp1_key(raw_key: str) -> str:
     decoded = urllib.parse.unquote(raw_key or "").strip()
     if not decoded:
         return ""
-    manifest, _ = _SPRITE_STORE.ensure_loaded()
-    if manifest and decoded in manifest.get("sprites", {}):
-        return decoded
     if decoded in STANDALONE_SVARAS or decoded in SYLLABLE_OVERRIDES:
         return decoded
     valid_slp_chars = CONS_SET | VOWEL_SET | MOD_SET
@@ -209,7 +127,7 @@ def _run_cached_tts(text: str, script: str, voice: str, rate: float) -> dict[str
         norm_voice = "male"
     norm_script = (script or "auto").strip().lower()
 
-    key_str = f"v1|{clean_text}|{norm_script}|{norm_voice}|{eff_rate:.3f}"
+    key_str = f"v2_plan1|{clean_text}|{norm_script}|{norm_voice}|{eff_rate:.3f}"
     sha = hashlib.sha256(key_str.encode("utf-8")).hexdigest()
     wav_cache_path = CACHE_DIR / f"{sha}.wav"
     meta_cache_path = CACHE_DIR / f"{sha}.json"
@@ -270,8 +188,8 @@ def _run_cached_tts(text: str, script: str, voice: str, rate: float) -> dict[str
 
 
 app = FastAPI(
-    title="Classical Sanskrit Neural TTS & 48kHz Audio Sprite API",
-    version="3.0.0",
+    title="Plan 1 Classical Sanskrit Neural VITS TTS API (48kHz)",
+    version="3.1.0",
 )
 
 app.add_middleware(
@@ -287,28 +205,16 @@ app.add_middleware(
 @app.on_event("startup")
 def _startup_preload() -> None:
     get_tts_engine()
-    _SPRITE_STORE.ensure_loaded()
 
 
 @app.get("/api/health")
 def api_health() -> dict[str, Any]:
     engine = get_tts_engine()
-    manifest, pcm = _SPRITE_STORE.ensure_loaded()
-    sprite_count = int(manifest.get("totalCount", len(manifest.get("sprites", {})))) if manifest else 0
-    sprite_ready = bool(
-        manifest is not None
-        and pcm is not None
-        and sprite_count >= 650
-        and SPRITE_WAV_PATH.exists()
-        and SPRITE_OGG_PATH.exists()
-    )
     return {
         "status": "ok",
         "engine": "ninada-vits-sanskrit-48khz",
         "sampleRate": TARGET_SAMPLE_RATE,
         "modelsLoaded": engine.models_loaded,
-        "spriteCount": sprite_count,
-        "spriteReady": sprite_ready,
     }
 
 
@@ -433,25 +339,20 @@ def get_syllable(
     if norm_voice not in ("male", "female", "mobile", "mobile_female"):
         norm_voice = "male"
 
-    res: dict[str, Any] | None = None
-    if norm_voice == "male" and abs(eff_rate - 1.0) < 1e-3:
-        res = _SPRITE_STORE.slice_syllable(norm_key)
-
-    if res is None:
-        cache_key = f"{norm_key}|{norm_voice}|{eff_rate:.3f}"
-        if cache_key in _MEM_SYL_CACHE:
-            res = _MEM_SYL_CACHE[cache_key]
-        else:
-            with _SYNTH_LOCK:
-                engine = get_tts_engine()
-                synth = engine.synthesize_single_syllable(norm_key, voice=norm_voice, rate=eff_rate)
-            res = {
-                **synth,
-                "source": "neural-tts",
-            }
-            if len(_MEM_SYL_CACHE) >= 512:
-                _MEM_SYL_CACHE.pop(next(iter(_MEM_SYL_CACHE)))
-            _MEM_SYL_CACHE[cache_key] = res
+    cache_key = f"v2_plan1|{norm_key}|{norm_voice}|{eff_rate:.3f}"
+    if cache_key in _MEM_SYL_CACHE:
+        res = _MEM_SYL_CACHE[cache_key]
+    else:
+        with _SYNTH_LOCK:
+            engine = get_tts_engine()
+            synth = engine.synthesize_single_syllable(norm_key, voice=norm_voice, rate=eff_rate)
+        res = {
+            **synth,
+            "source": "neural-tts",
+        }
+        if len(_MEM_SYL_CACHE) >= 512:
+            _MEM_SYL_CACHE.pop(next(iter(_MEM_SYL_CACHE)))
+        _MEM_SYL_CACHE[cache_key] = res
 
     dur_ms = int(round(res["durationSec"] * 1000.0))
     timings = [
@@ -468,7 +369,7 @@ def get_syllable(
     ]
     headers = {
         "X-Sample-Rate": str(TARGET_SAMPLE_RATE),
-        "X-Audio-Source": res["source"],
+        "X-Audio-Source": "neural-tts",
         "X-Syllable-Timings": json.dumps(timings, ensure_ascii=True),
         "Access-Control-Expose-Headers": "X-Syllable-Timings, X-Sample-Rate, X-Audio-Source",
     }
@@ -486,14 +387,14 @@ def get_syllable(
             "peak": res["peak"],
             "voice": norm_voice,
             "model": res["model"],
-            "source": res["source"],
+            "source": "neural-tts",
             "audioBase64Wav": base64.b64encode(res["wavBytes"]).decode("ascii"),
             "syllableTimings": timings,
         }
         return JSONResponse(content=payload, headers=headers)
 
     if fmt == "ogg":
-        sha = hashlib.sha256(f"syl|{norm_key}|{norm_voice}|{eff_rate:.3f}".encode("utf-8")).hexdigest()
+        sha = hashlib.sha256(f"syl_v2|{norm_key}|{norm_voice}|{eff_rate:.3f}".encode("utf-8")).hexdigest()
         wav_tmp = CACHE_DIR / f"syl_{sha}.wav"
         ogg_tmp = CACHE_DIR / f"syl_{sha}.ogg"
         if not wav_tmp.exists():

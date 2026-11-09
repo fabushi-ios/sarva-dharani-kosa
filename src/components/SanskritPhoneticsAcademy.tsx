@@ -4,7 +4,7 @@
  * 1. 16 Standalone Svaras (摩多韵母: 14 Vowels a..au + aṃ 空点 + aḥ 涅槃点)
  * 2. Complete 34×14 Siddhaṃ Consonant-Vowel Matrix (476 CV cells + 34 bare Virāma cells = 510 consonant cells)
  * 3. 28 Sacred Bīja Seed Syllables & Special Conjuncts (`SYLLABLE_OVERRIDES`)
- * Every cell carries `data-slp1="..."` and triggers 0-latency 48,000 Hz neural audio from the Plan 3 Sprite!
+ * Every cell carries `data-slp1="..."` and triggers 48,000 Hz neural audio from Plan 1 (`Ninada VITS`)!
  */
 
 import React, { useState } from 'react';
@@ -23,7 +23,7 @@ import sanskritAudioEngine from '../services/audio/sanskritAudioEngine';
 export const SanskritPhoneticsAcademy: React.FC = () => {
   const [activeKey, setActiveKey] = useState<string>('ka');
   const [lastPlayInfo, setLastPlayInfo] = useState<string>(
-    '点击下方任意悉昙摩多、34×14 体文矩阵单元格或种子字，即刻体验 0 延迟 48kHz 神经采样发音'
+    '点击下方任意悉昙摩多、34×14 体文矩阵单元格或种子字，即刻体验方案 1 (48kHz VITS 神经引擎) 真人级发音'
   );
   const [selectedVargaFilter, setSelectedVargaFilter] = useState<string>('ALL');
 
@@ -60,13 +60,13 @@ export const SanskritPhoneticsAcademy: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span className="rounded-full border border-emerald-500/40 bg-emerald-950/70 px-3 py-0.5 text-xs font-semibold text-emerald-300">
-              方案 3：48,000 Hz 悉昙五十音 & 34×14 音素全矩阵真人级神经采样库
+              方案 1：IIT Madras 48,000 Hz 悉昙五十音 & 34×14 音素全矩阵原生梵文神经网络引擎
             </span>
             <h2 className="mt-2 font-serif-cn text-2xl font-bold text-amber-100">
               悉昙声韵学院 · 16 摩多韵母 × 34 体文声母 × 14 韵母全矩阵 (510 格) + 28 神圣种子字
             </h2>
             <p className="mt-1 text-xs text-stone-300">
-              彻底告别浏览器 `hi-IN` 吞音与 `136.1Hz` 锯齿波电子蜂鸣器！本院全部单元格直接绑定 IIT Madras 古典梵文 VITS 48kHz 预生成音频切片，0毫秒延迟即点即发声。
+              彻底告别浏览器 `hi-IN` 吞音与 `136.1Hz` 锯齿波电子蜂鸣器！本院全部单元格统一绑定方案 1 (IIT Madras 古典梵文 VITS 48kHz 神经语音合成引擎 + 内存 AudioBuffer 缓存)。
             </p>
           </div>
           <div className="rounded-xl border border-amber-500/40 bg-stone-950/90 px-4 py-3 text-xs text-amber-200 shadow-inner">
