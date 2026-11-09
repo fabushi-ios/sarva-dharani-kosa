@@ -11,6 +11,16 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     allowedHosts: true,
+    watch: {
+      ignored: [
+        '**/.gemini/**',
+        '**/.agents/**',
+        '**/fabushi-ios/**',
+        '**/data/**',
+        '**/dist/**',
+        '**/models/**',
+      ],
+    },
     proxy: {
       '/api': {
         target: 'http://127.0.0.1:8765',
