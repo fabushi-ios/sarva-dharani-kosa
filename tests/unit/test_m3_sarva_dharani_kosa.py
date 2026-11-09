@@ -21,7 +21,7 @@ import urllib.request
 import wave
 from pathlib import Path
 
-WORKSPACE_ROOT = Path("/home/antigravity")
+WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
 FRONTEND_URL = "http://localhost:5173"
 
 

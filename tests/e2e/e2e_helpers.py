@@ -26,7 +26,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-WORKSPACE_ROOT = Path("/home/antigravity")
+WORKSPACE_ROOT = Path(__file__).resolve().parents[2]
 MODELS_DIR = WORKSPACE_ROOT / "models" / "ninada"
 PUBLIC_AUDIO_DIR = WORKSPACE_ROOT / "public" / "audio"
 SPRITE_OGG_PATH = PUBLIC_AUDIO_DIR / "siddham_sprite_48k.ogg"

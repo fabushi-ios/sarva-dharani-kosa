@@ -22,6 +22,34 @@ export type ScriptDisplayLayer =
   | 'wordGloss'      // 逐詞詞根與八格語法解析
   | 'prosodyMeter';  // 輕重音律 (Guru — / Laghu ⏑)
 
+export type AudioEngineMode =
+  | 'neural-auto'    // 智能雙擎 (優先 48kHz 原生梵文神經模型 /api/tts + 136.1Hz 共振峰兜底)
+  | 'neural-tts'     // 方案 1：48kHz 古典梵文神經網絡 VITS 模型 (/api/tts & /api/syllable)
+  | 'synth'          // 136.1 Hz 宇宙音 Om Web Audio 共振峰合成器
+  | 'legacy-tts';    // 瀏覽器系統語音 (Web Speech API)
+
+export type NeuralVoice = 'male' | 'female' | 'mobile';
+
+export type ChandasMeter = '—' | '⏑' | '';
+
+export interface SyllableTimingItem {
+  index: number;
+  slp1: string;
+  deva: string;
+  iast: string;
+  meter: ChandasMeter;
+  startMs: number;
+  endMs: number;
+  durationMs: number;
+}
+
+export interface AudioHealthStatus {
+  backendOnline: boolean;
+  engine: string;
+  sampleRate: number;
+  modelsLoaded: string[];
+}
+
 /**
  * Cross-canonical identifiers linking a Dhāraṇī or scripture across all 12 databases
  */

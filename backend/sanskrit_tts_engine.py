@@ -29,7 +29,7 @@ import scipy.signal
 from ninada.g2p import text_to_ids as ninada_mms_text_to_ids
 from ninada.studio_g2p import STUDIO_HOP_LENGTH, STUDIO_SAMPLE_RATE, STUDIO_VOCABS, studio_text_to_ids
 
-PROJECT_ROOT = Path("/home/antigravity")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODELS_DIR = PROJECT_ROOT / "models" / "ninada"
 TARGET_SAMPLE_RATE = 48000
 PEAK_TARGET_LINEAR = 0.8912509381337456  # -1.0 dBFS

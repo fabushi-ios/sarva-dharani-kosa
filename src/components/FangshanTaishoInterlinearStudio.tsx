@@ -4,15 +4,22 @@ import {
   CBETA_GAIJI_MAP,
   DB1_FANGSHAN_CORPUS,
   DB2_TAISHO_EXT_CORPUS,
+  GRETIL_AUTH_RECORDS,
+  TAISHO_MIKKYO_INDEX,
 } from '../data/unifiedCorpusRegistry';
-import { speakSanskrit } from '../services/sanskritAudioEngine';
+import { sanskritAudioEngine, speakSanskrit } from '../services/sanskritAudioEngine';
 
 export function FangshanTaishoInterlinearStudio() {
-  const [subMode, setSubMode] = useState<'fangshan' | 't54' | 'cbeta_tt'>('fangshan');
+  const [subMode, setSubMode] = useState<'fangshan' | 't54' | 'cbeta_tt' | 'taisho_gretil'>('fangshan');
   const [workFilter, setWorkFilter] = useState<string>('ALL');
   const [searchFilter, setSearchFilter] = useState<string>('');
   const [selectedRecordId, setSelectedRecordId] = useState<string>(
     DB1_FANGSHAN_CORPUS.records[0]?.id || ''
+  );
+  const [taishoVolFilter, setTaishoVolFilter] = useState<string>('ALL');
+  const [taishoQuery, setTaishoQuery] = useState<string>('');
+  const [selectedGretilId, setSelectedGretilId] = useState<string>(
+    GRETIL_AUTH_RECORDS[0]?.id || ''
   );
 
   const stats = DB1_FANGSHAN_CORPUS.f28n1071Stats;
@@ -46,13 +53,33 @@ export function FangshanTaishoInterlinearStudio() {
     [selectedRecordId, filteredFangshanRecords]
   );
 
+  const filteredTaishoMikkyo = useMemo(() => {
+    return TAISHO_MIKKYO_INDEX.filter((item) => {
+      if (taishoVolFilter !== 'ALL' && item.vol !== taishoVolFilter) return false;
+      if (!taishoQuery.trim()) return true;
+      const q = taishoQuery.trim().toLowerCase();
+      return (
+        item.xmlId.toLowerCase().includes(q) ||
+        item.title.toLowerCase().includes(q) ||
+        item.byline.toLowerCase().includes(q)
+      );
+    }).slice(0, 80);
+  }, [taishoVolFilter, taishoQuery]);
+
+  const selectedGretil = useMemo(
+    () =>
+      GRETIL_AUTH_RECORDS.find((g) => g.id === selectedGretilId) ||
+      GRETIL_AUTH_RECORDS[0],
+    [selectedGretilId]
+  );
+
   return (
     <div className="workbench-container">
       <div className="workbench-card">
         <div className="workbench-header-row">
           <div>
             <h2 className="workbench-title">
-              房山石經 (`F28n1071`) 與大正藏 (`T54`) 悉曇梵漢對音工作台 (Fangshan & T54 Interlinear Studio)
+              房山石經 (`F28n1071`) 與大正藏 (`T54` / `T18–T21`) 悉曇梵漢對音工作台 (Fangshan & T54 Interlinear Studio)
             </h2>
             <p className="workbench-subtitle">
               《釋教最上乘秘密藏陀羅尼集》({stats.totalRolls} 卷 · {stats.totalDharaniBlocks} 首陀羅尼 ·{' '}
@@ -85,6 +112,13 @@ export function FangshanTaishoInterlinearStudio() {
               onClick={() => setSubMode('cbeta_tt')}
             >
               基準唐代密教梵漢對音 ({CBETA_AUTH_RECORDS.length} 部)
+            </button>
+            <button
+              type="button"
+              className={`pill-btn ${subMode === 'taisho_gretil' ? 'active' : ''}`}
+              onClick={() => setSubMode('taisho_gretil')}
+            >
+              大正藏密教部 ({TAISHO_MIKKYO_INDEX.length} 部) & GRETIL ({GRETIL_AUTH_RECORDS.length} 部)
             </button>
           </div>
         </div>
@@ -143,13 +177,26 @@ export function FangshanTaishoInterlinearStudio() {
                     </div>
                   </div>
                   {selectedFangshan.reconstructedIast && (
-                    <button
-                      type="button"
-                      className="primary-btn"
-                      onClick={() => speakSanskrit(selectedFangshan.reconstructedIast || '', { mode: 'synth' })}
-                    >
-                      播放擬音合成
-                    </button>
+                    <div className="pill-group">
+                      <button
+                        type="button"
+                        className="primary-btn"
+                        onClick={() =>
+                          void sanskritAudioEngine.speakText(selectedFangshan.reconstructedIast || '')
+                        }
+                      >
+                        🔊 48kHz 神經模型吟誦
+                      </button>
+                      <button
+                        type="button"
+                        className="pill-btn"
+                        onClick={() =>
+                          speakSanskrit(selectedFangshan.reconstructedIast || '', { mode: 'synth' })
+                        }
+                      >
+                        播放擬音合成 (136.1 Hz)
+                      </button>
+                    </div>
                   )}
                 </div>
 
@@ -210,6 +257,13 @@ export function FangshanTaishoInterlinearStudio() {
                   <strong className="hit-title">
                     《{entry.workTitle}》 — 漢義: {entry.headwordZh} / 音譯: {entry.phoneticZh}
                   </strong>
+                  <button
+                    type="button"
+                    className="chip-btn"
+                    onClick={() => void sanskritAudioEngine.speakText(entry.iast)}
+                  >
+                    🔊 48kHz 發音
+                  </button>
                 </div>
                 <div className="siddham-script" style={{ fontSize: '1.35rem' }}>
                   {entry.siddhamUnicode}
@@ -235,6 +289,17 @@ export function FangshanTaishoInterlinearStudio() {
                 <div className="search-hit-header">
                   <span className="db-badge">{rec.taishoId}</span>
                   <strong className="hit-title">{rec.title}</strong>
+                  {rec.dharaniBlocks[0] && (
+                    <button
+                      type="button"
+                      className="chip-btn"
+                      onClick={() =>
+                        void sanskritAudioEngine.speakText(rec.dharaniBlocks[0].iastReconstruction)
+                      }
+                    >
+                      🔊 48kHz 吟誦
+                    </button>
+                  )}
                 </div>
                 <div className="hit-subtitle">
                   {rec.translator} · 共 {rec.ttAlignmentsCount} 組 <code>&lt;cb:tt&gt;</code> 對音
@@ -248,6 +313,98 @@ export function FangshanTaishoInterlinearStudio() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {subMode === 'taisho_gretil' && (
+        <div className="two-col-grid">
+          <div className="workbench-card">
+            <h3 className="section-heading">
+              大正新脩大藏經・密教部 (`T18–T21` 共 {TAISHO_MIKKYO_INDEX.length} 部經軌總目)
+            </h3>
+            <div className="search-controls">
+              <select
+                value={taishoVolFilter}
+                onChange={(e) => setTaishoVolFilter(e.target.value)}
+                className="select-input"
+              >
+                <option value="ALL">全部冊別 (T18–T21)</option>
+                <option value="T18">T18 密教部一</option>
+                <option value="T19">T19 密教部二</option>
+                <option value="T20">T20 密教部三</option>
+                <option value="T21">T21 密教部四</option>
+              </select>
+              <input
+                type="text"
+                value={taishoQuery}
+                onChange={(e) => setTaishoQuery(e.target.value)}
+                placeholder="搜尋經號、經名或譯者 (如 不空, T19n0944A, 大日經)..."
+                className="text-input"
+              />
+            </div>
+            <div className="search-results-list">
+              {filteredTaishoMikkyo.map((work) => (
+                <div key={work.xmlId} className="search-hit-item">
+                  <div className="search-hit-header">
+                    <span className="db-badge">{work.xmlId}</span>
+                    <strong className="hit-title">{work.title}</strong>
+                    {work.hasSiddhamTt && <span className="script-tag">含悉曇對音</span>}
+                  </div>
+                  <div className="hit-subtitle">
+                    {work.byline} · {work.juans} 卷 · {work.categoryLabel}
+                  </div>
+                  <div className="hit-refs">
+                    <a href={work.rawXmlUrl} target="_blank" rel="noreferrer">
+                      CBETA TEI-P5 原文 XML ↗
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="workbench-card">
+            <h3 className="section-heading">
+              GRETIL 哥廷根大學梵文佛教陀羅尼與密續底本 ({GRETIL_AUTH_RECORDS.length} 部)
+            </h3>
+            <div className="search-controls">
+              <select
+                value={selectedGretilId}
+                onChange={(e) => setSelectedGretilId(e.target.value)}
+                className="select-input"
+              >
+                {GRETIL_AUTH_RECORDS.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.titleZh} — {g.titleSanskrit} ({g.filename})
+                  </option>
+                ))}
+              </select>
+            </div>
+            {selectedGretil && (
+              <div>
+                <div className="workbench-header-row" style={{ marginTop: '0.5rem' }}>
+                  <div>
+                    <strong style={{ color: '#fbbf24' }}>{selectedGretil.titleSanskrit}</strong>
+                    <div className="hit-subtitle">
+                      {selectedGretil.titleZh} · 校勘者: {selectedGretil.editor}
+                    </div>
+                  </div>
+                  {selectedGretil.extractedMantras[0] && (
+                    <button
+                      type="button"
+                      className="primary-btn"
+                      onClick={() =>
+                        void sanskritAudioEngine.speakText(selectedGretil.extractedMantras[0])
+                      }
+                    >
+                      🔊 48kHz 吟誦摘錄真言
+                    </button>
+                  )}
+                </div>
+                <pre className="json-preview">{selectedGretil.fullTextExcerpt}</pre>
+              </div>
+            )}
           </div>
         </div>
       )}

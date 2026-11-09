@@ -7,11 +7,29 @@ import {
   DB2_TAISHO_EXT_CORPUS,
   DB12_MUKTABODHA_OCHS_CORPUS,
 } from '../data/unifiedCorpusRegistry';
-import { playSingleSyllable } from '../services/sanskritAudioEngine';
+import { CONS_MATRIX, VOWEL_IPA_MAP, VOWEL_MAP } from '../data/siddhamMatrix';
+import {
+  slp1ToDevanagari,
+  slp1ToIast,
+  slp1ToSiddhamUnicode,
+} from '../core/transliterator';
+import { playSingleSyllable, sanskritAudioEngine } from '../services/sanskritAudioEngine';
+
+const VOWEL_COLS = [
+  { slp: 'a', label: 'a/ā (阿)' },
+  { slp: 'i', label: 'i/ī (伊)' },
+  { slp: 'u', label: 'u/ū (塢)' },
+  { slp: 'f', label: 'ṛ/ḷ (哩)' },
+  { slp: 'e', label: 'e (翳)' },
+  { slp: 'E', label: 'ai (藹)' },
+  { slp: 'o', label: 'o (污)' },
+  { slp: 'O', label: 'au (奧)' },
+];
 
 export function SiddhamBijaAcademy() {
   const [bijaInput, setBijaInput] = useState<string>('hūṃ');
   const [selectedChapNum, setSelectedChapNum] = useState<number>(1);
+  const [selectedVarga, setSelectedVarga] = useState<string>('ALL');
 
   const allBijaEntries = useMemo(() => getAllBijaLexiconEntries(), []);
   const deciphered = useMemo(() => decipherBijaSyllable(bijaInput), [bijaInput]);
@@ -22,6 +40,22 @@ export function SiddhamBijaAcademy() {
       DB2_TAISHO_EXT_CORPUS.siddham18Chapters[0],
     [selectedChapNum]
   );
+
+  const consonantEntries = useMemo(() => {
+    const entries = Object.entries(CONS_MATRIX);
+    if (selectedVarga === 'ALL') return entries;
+    return entries.filter(([, info]) => info.varga === selectedVarga);
+  }, [selectedVarga]);
+
+  const vargaCategories = useMemo(
+    () => ['ALL', ...Array.from(new Set(Object.values(CONS_MATRIX).map((c) => c.varga)))],
+    []
+  );
+
+  const handlePlaySyllable = (slp1: string) => {
+    playSingleSyllable(slp1, { mode: 'synth' });
+    void sanskritAudioEngine.playSyllable(slp1);
+  };
 
   return (
     <div className="workbench-container">
@@ -36,13 +70,28 @@ export function SiddhamBijaAcademy() {
             </p>
           </div>
           {deciphered.entry && (
-            <button
-              type="button"
-              className="primary-btn"
-              onClick={() => playSingleSyllable(deciphered.entry?.bijaSlp1 || 'oM', { mode: 'synth' })}
-            >
-              播放種子字 136.1 Hz 共振音 ({deciphered.entry.bijaIast})
-            </button>
+            <div className="pill-group">
+              <button
+                type="button"
+                className="primary-btn"
+                onClick={() =>
+                  void sanskritAudioEngine.playSyllable(
+                    deciphered.entry?.bijaSlp1 || 'oM'
+                  )
+                }
+              >
+                🔊 48kHz 神經種子音 ({deciphered.entry.bijaIast})
+              </button>
+              <button
+                type="button"
+                className="pill-btn"
+                onClick={() =>
+                  playSingleSyllable(deciphered.entry?.bijaSlp1 || 'oM', { mode: 'synth' })
+                }
+              >
+                播放種子字 136.1 Hz 共振音 ({deciphered.entry.bijaIast})
+              </button>
+            </div>
           )}
         </div>
 
@@ -89,6 +138,13 @@ export function SiddhamBijaAcademy() {
                 <span className="db-badge">
                   詩律: {e.chandasWeight} ({e.meterSymbol})
                 </span>
+                <button
+                  type="button"
+                  className="chip-btn"
+                  onClick={() => handlePlaySyllable(e.bijaSlp1)}
+                >
+                  🔊 試聽種子字
+                </button>
               </div>
               <div className="hit-snippet">
                 <div>
@@ -120,6 +176,96 @@ export function SiddhamBijaAcademy() {
         </div>
       </div>
 
+      {/* Interactive 14 Svaras + 34x8 Consonant Siddham Matrix (SanskritPhoneticsAcademy) */}
+      <div className="workbench-card">
+        <div className="workbench-header-row">
+          <div>
+            <h3 className="section-heading" style={{ marginBottom: '0.2rem' }}>
+              悉曇五十音全表 · 14 摩多 (Svaras) 與 34×8 體文雙軌音韻矩陣 (點擊任意字格即時播放 48kHz / 136.1Hz 梵音)
+            </h3>
+            <p className="workbench-subtitle">
+              每一格同步呈現：Unicode 悉曇體 · 天城體 · IAST · 現代聽感近似音 (今) · 盛唐長安對音 (唐)
+            </p>
+          </div>
+          <div className="preset-chips" style={{ marginBottom: 0 }}>
+            {vargaCategories.map((v) => (
+              <button
+                key={v}
+                type="button"
+                className={`chip-btn ${selectedVarga === v ? 'active' : ''}`}
+                onClick={() => setSelectedVarga(v)}
+              >
+                {v === 'ALL' ? '全部五類聲母 (34 體文)' : v}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="syllable-grid" style={{ marginBottom: '1rem' }}>
+          {Object.entries(VOWEL_MAP).map(([slp, [mod, tang]]) => (
+            <button
+              key={slp}
+              type="button"
+              className="syllable-card"
+              onClick={() => handlePlaySyllable(slp)}
+            >
+              <div className="siddham-script">{slp1ToSiddhamUnicode(slp)}</div>
+              <div className="syl-iast">
+                {slp1ToIast(slp)} ({slp1ToDevanagari(slp)})
+              </div>
+              <div className="syl-phonetics">
+                唐:{tang} / 今:{mod}
+              </div>
+              <div className="syl-meter">[{VOWEL_IPA_MAP[slp]}]</div>
+            </button>
+          ))}
+        </div>
+
+        <div className="matrix-table-wrapper">
+          <table className="matrix-table">
+            <thead>
+              <tr>
+                <th>聲母 (Vyañjana)</th>
+                {VOWEL_COLS.map((vc) => (
+                  <th key={vc.slp}>{vc.label}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {consonantEntries.map(([cSlp, info]) => (
+                <tr key={cSlp}>
+                  <td>
+                    <div className="syl-iast">
+                      {slp1ToIast(cSlp)} ({slp1ToDevanagari(cSlp)}) · [{info.ipa}]
+                    </div>
+                    <div className="syl-meter">{info.varga}</div>
+                    <div className="syl-meter">{info.note}</div>
+                  </td>
+                  {VOWEL_COLS.map((vc, idx) => {
+                    const sylSlp = `${cSlp}${vc.slp}`;
+                    return (
+                      <td
+                        key={sylSlp}
+                        onClick={() => handlePlaySyllable(sylSlp)}
+                        title={`點擊試聽 ${slp1ToIast(sylSlp)}`}
+                      >
+                        <span className="siddham-script" style={{ fontSize: '1.15rem' }}>
+                          {slp1ToSiddhamUnicode(sylSlp)}
+                        </span>{' '}
+                        <span className="syl-iast">{slp1ToIast(sylSlp)}</span>
+                        <div className="syl-phonetics">
+                          唐:{info.t[idx]} / 今:{info.m[idx]}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div className="two-col-grid">
         <div className="workbench-card">
           <h3 className="section-heading">
@@ -144,11 +290,16 @@ export function SiddhamBijaAcademy() {
               <p className="dharani-summary">{selectedChapter.description}</p>
               <div className="syllable-grid">
                 {selectedChapter.sampleCells.map((cell) => (
-                  <div key={cell.cellId} className="syllable-card">
+                  <button
+                    key={cell.cellId}
+                    type="button"
+                    className="syllable-card"
+                    onClick={() => handlePlaySyllable(cell.iast)}
+                  >
                     <div className="siddham-script">{cell.siddhamUnicode}</div>
                     <div className="syl-iast">{cell.iast}</div>
                     <div className="syl-meter">{cell.cellId}</div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>

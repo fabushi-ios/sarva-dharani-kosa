@@ -1,5 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { DatabaseId } from './types/corpus';
+import type {
+  AudioEngineMode,
+  AudioHealthStatus,
+  NeuralVoice,
+  SyllableTimingItem,
+} from './types/dharani';
 import {
   BASELINE_CORPUS_SUMMARY,
   CANONICAL_DATABASE_IDS,
@@ -11,7 +17,10 @@ import { UNIFIED_BIJA_LEXICON } from './core/bijaLexiconEngine';
 import { searchAllDatabases } from './core/searchEngine';
 import { slp1ToSiddhamUnicode } from './core/transliterator';
 import { analyzeSanskritLine } from './core/prosody';
-import { speakSanskrit } from './services/sanskritAudioEngine';
+import {
+  sanskritAudioEngine,
+  speakSanskrit,
+} from './services/sanskritAudioEngine';
 
 import { DatabaseHubExplorer } from './components/DatabaseHubExplorer';
 import { MultiScriptDharaniReader } from './components/MultiScriptDharaniReader';
@@ -19,6 +28,7 @@ import { FangshanTaishoInterlinearStudio } from './components/FangshanTaishoInte
 import { ConcordanceParallelStudio } from './components/ConcordanceParallelStudio';
 import { CudlPalmLeafViewer } from './components/CudlPalmLeafViewer';
 import { SiddhamBijaAcademy } from './components/SiddhamBijaAcademy';
+import { AudioPlayerBar } from './components/AudioPlayerBar';
 
 export type WorkbenchTabId =
   | 'hub'
@@ -26,7 +36,8 @@ export type WorkbenchTabId =
   | 'interlinear'
   | 'concordance'
   | 'cudl'
-  | 'academy';
+  | 'academy'
+  | 'engine';
 
 export const APP_CANONICAL_DATABASE_IDS: DatabaseId[] = [
   'db1_fangshan',
@@ -51,13 +62,13 @@ const WORKBENCH_TABS: Array<{ id: WorkbenchTabId; labelZh: string; labelEn: stri
   },
   {
     id: 'reader',
-    labelZh: '多體陀羅尼讀誦・音韻與 136.1 Hz 合成器',
+    labelZh: '多體陀羅尼讀誦・音韻與 48kHz / 136.1Hz 合成器',
     labelEn: 'Multi-Script Reader & Phonetics',
   },
   {
     id: 'interlinear',
-    labelZh: '房山石經 (F28n1071) 與大正藏 (T54) 梵漢對音',
-    labelEn: 'Fangshan & T54 Interlinear Studio',
+    labelZh: '房山石經 (F28n1071) 與大正藏 (T54/T18-21) 梵漢對音',
+    labelEn: 'Fangshan & Taishō Interlinear Studio',
   },
   {
     id: 'concordance',
@@ -71,14 +82,59 @@ const WORKBENCH_TABS: Array<{ id: WorkbenchTabId; labelZh: string; labelEn: stri
   },
   {
     id: 'academy',
-    labelZh: '悉曇十八章 (T84) 與密續種子字破譯 (Bīja)',
+    labelZh: '悉曇十八章・五十音全表與密續種子字 (Bīja)',
     labelEn: 'Siddhaṃ 18-Chapter & Bīja Academy',
+  },
+  {
+    id: 'engine',
+    labelZh: '梵音 100% 全覆蓋音譯與發聲引擎 v3.0',
+    labelEn: 'Standalone 4-Line Score & 48kHz VITS Engine',
   },
 ];
 
 export function App() {
   const [activeTab, setActiveTab] = useState<WorkbenchTabId>('hub');
   const [quickQuery, setQuickQuery] = useState<string>('');
+
+  const [isPlaying, setIsPlaying] = useState<boolean>(sanskritAudioEngine.isPlaying());
+  const [activeSyllableIndex, setActiveSyllableIndex] = useState<number>(
+    sanskritAudioEngine.getActiveSyllableIndex()
+  );
+  const [syllableTimings, setSyllableTimings] = useState<SyllableTimingItem[]>(
+    sanskritAudioEngine.getActiveTimings()
+  );
+  const [audioRate, setAudioRate] = useState<number>(sanskritAudioEngine.getRate());
+  const [audioMode, setAudioMode] = useState<AudioEngineMode>(sanskritAudioEngine.getMode());
+  const [audioVoice, setAudioVoice] = useState<NeuralVoice>(sanskritAudioEngine.getVoice());
+  const [healthStatus, setHealthStatus] = useState<AudioHealthStatus>(
+    sanskritAudioEngine.getHealthStatus()
+  );
+  const [lastWavDataUrl, setLastWavDataUrl] = useState<string | null>(
+    sanskritAudioEngine.getLastDownloadWavUrl()
+  );
+
+  useEffect(() => {
+    const unsubscribe = sanskritAudioEngine.subscribe(() => {
+      setIsPlaying(sanskritAudioEngine.isPlaying());
+      setActiveSyllableIndex(sanskritAudioEngine.getActiveSyllableIndex());
+      setSyllableTimings([...sanskritAudioEngine.getActiveTimings()]);
+      setAudioRate(sanskritAudioEngine.getRate());
+      setAudioMode(sanskritAudioEngine.getMode());
+      setAudioVoice(sanskritAudioEngine.getVoice());
+      setHealthStatus(sanskritAudioEngine.getHealthStatus());
+      setLastWavDataUrl(sanskritAudioEngine.getLastDownloadWavUrl());
+    });
+    void sanskritAudioEngine.init();
+    return unsubscribe;
+  }, []);
+
+  const activeSyllable = useMemo(
+    () =>
+      activeSyllableIndex >= 0
+        ? syllableTimings.find((t) => t.index === activeSyllableIndex) || null
+        : null,
+    [activeSyllableIndex, syllableTimings]
+  );
 
   const systemStats = useMemo(() => getUnifiedSystemStats(), []);
   const headerInvocation = useMemo(
@@ -108,13 +164,26 @@ export function App() {
               密續種子字 ({UNIFIED_BIJA_LEXICON.length} 尊)
             </p>
           </div>
-          <button
-            type="button"
-            className="primary-btn"
-            onClick={() => speakSanskrit(headerInvocation.normalizedIast, { mode: 'synth' })}
-          >
-            護摩禮讚: {headerInvocation.siddhamUnicode} ({headerInvocation.normalizedIast})
-          </button>
+          <div className="pill-group">
+            <button
+              type="button"
+              className="primary-btn"
+              onClick={() => {
+                speakSanskrit(headerInvocation.normalizedIast, { mode: 'synth' });
+                void sanskritAudioEngine.speakText(headerInvocation.normalizedIast);
+              }}
+            >
+              護摩禮讚: {headerInvocation.siddhamUnicode} ({headerInvocation.normalizedIast})
+            </button>
+            <a
+              href="/sanskrit_phonetic_engine.html"
+              target="_blank"
+              rel="noreferrer"
+              className="pill-btn"
+            >
+              ↗ 獨立開啟四行譜音譯引擎 v3.0
+            </a>
+          </div>
         </div>
 
         <div className="quick-search-bar">
@@ -159,6 +228,35 @@ export function App() {
         {activeTab === 'concordance' && <ConcordanceParallelStudio />}
         {activeTab === 'cudl' && <CudlPalmLeafViewer />}
         {activeTab === 'academy' && <SiddhamBijaAcademy />}
+        {activeTab === 'engine' && (
+          <div className="workbench-card">
+            <div className="workbench-header-row">
+              <div>
+                <h2 className="workbench-title">
+                  梵音 · Sanskrit Phonetics 100% 全覆蓋四行譜音譯與 48,000 Hz 神經發聲引擎 v3.0
+                </h2>
+                <p className="workbench-subtitle">
+                  整合會話 1《梵文發聲與音譯引擎上線》與會話 3《改善語音發音方案》之完整四行對照譜 (現代聽感近似音 + 唐代悉曇古音 + 音節切分/連音注記 + 天城體/IAST/詩律輕重音) 與悉曇五十音抽屜
+                </p>
+              </div>
+              <a
+                href="/sanskrit_phonetic_engine.html"
+                target="_blank"
+                rel="noreferrer"
+                className="primary-btn"
+              >
+                ↗ 於新分頁全螢幕開啟 (sanskrit_phonetic_engine.html)
+              </a>
+            </div>
+            <div className="engine-iframe-wrapper">
+              <iframe
+                src="/sanskrit_phonetic_engine.html"
+                title="梵音 Sanskrit Phonetics Engine v3.0"
+                className="engine-iframe"
+              />
+            </div>
+          </div>
+        )}
       </main>
 
       <footer className="app-footer">
@@ -167,9 +265,42 @@ export function App() {
         </div>
         <div>
           四語詞條: {systemStats.quadrilingualGlossaryCount} · 精校陀羅尼: {BASELINE_CORPUS_SUMMARY.curatedDharanisCount} 首 ·
-          136.1 Hz Web Audio 共振峰合成器就緒
+          48,000 Hz 原生梵語神經模型 (ninada-vits-sanskrit-48khz) & 136.1 Hz Web Audio 共振峰合成器雙引擎就緒
         </div>
       </footer>
+
+      <AudioPlayerBar
+        isPlaying={isPlaying}
+        activeSyllableIndex={activeSyllableIndex}
+        activeSyllable={activeSyllable}
+        syllableTimings={syllableTimings}
+        rate={audioRate}
+        audioMode={audioMode}
+        voice={audioVoice}
+        healthStatus={healthStatus}
+        lastWavDataUrl={lastWavDataUrl}
+        onRateChange={(r) => {
+          setAudioRate(r);
+          sanskritAudioEngine.setRate(r);
+        }}
+        onModeChange={(m) => {
+          setAudioMode(m);
+          sanskritAudioEngine.setMode(m);
+        }}
+        onVoiceChange={(v) => {
+          setAudioVoice(v);
+          sanskritAudioEngine.setVoice(v);
+        }}
+        onStop={() => sanskritAudioEngine.stop()}
+        onPlayDefault={() =>
+          void sanskritAudioEngine.speakText(
+            'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā'
+          )
+        }
+        onPlaySingleSyllable={(slp1) =>
+          void sanskritAudioEngine.playSyllable(slp1)
+        }
+      />
     </div>
   );
 }

@@ -503,3 +503,191 @@ a:hover {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+
+/* ============================================================================
+ * Unified 48kHz AudioPlayerBar, AuthoritativeSourceModal, WordGloss & Matrix
+ * ========================================================================== */
+
+.app-shell {
+  padding-bottom: 6.5rem;
+}
+
+.audio-player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  background: rgba(12, 10, 9, 0.96);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-gold);
+  padding: 0.6rem 1.25rem;
+  box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.65);
+}
+
+.audio-player-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.audio-player-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.audio-status-info {
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.audio-status-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.audio-active-syl {
+  color: var(--text-muted);
+}
+
+.audio-syllable-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  max-width: 420px;
+  overflow-x: auto;
+  padding: 0.15rem 0;
+}
+
+.audio-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.audio-control-label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.compact-select {
+  min-width: 140px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.78rem;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.modal-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.35rem;
+  max-width: 960px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.word-gloss-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+}
+
+.word-gloss-card {
+  background: var(--bg-elevated);
+  border: 1px solid #44403c;
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.8rem;
+}
+
+.word-gloss-top {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--accent-gold);
+}
+
+.matrix-table-wrapper {
+  overflow-x: auto;
+  max-height: 520px;
+  border: 1px solid #292524;
+  border-radius: 8px;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid #292524;
+  padding: 0.4rem 0.5rem;
+  text-align: center;
+}
+
+.matrix-table th {
+  background: #0c0a09;
+  color: var(--accent-gold);
+  position: sticky;
+  top: 0;
+}
+
+.matrix-table td {
+  cursor: pointer;
+  background: var(--bg-elevated);
+}
+
+.matrix-table td:hover {
+  border-color: var(--accent-amber);
+  background: rgba(217, 119, 6, 0.18);
+}
+
+.engine-iframe-wrapper {
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #faf6f0;
+}
+
+.engine-iframe {
+  width: 100%;
+  height: 820px;
+  border: none;
+  display: block;
+}

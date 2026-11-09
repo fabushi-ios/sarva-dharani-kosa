@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-export const ROOT_DIR = '/home/antigravity';
+export const ROOT_DIR = path.resolve(import.meta.dirname, '../../..');
 export const CLI_PATH = path.join(ROOT_DIR, 'scripts', 'kosa-cli.mjs');
 
 export const CANONICAL_DB_IDS = [
