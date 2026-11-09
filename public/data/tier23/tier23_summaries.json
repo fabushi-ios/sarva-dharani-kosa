@@ -1,0 +1,171 @@
+[
+  {
+    "id": "db7_cudl_hidas",
+    "number": 7,
+    "priorityTier": 2,
+    "nameZh": "剑桥大学《陀罗尼集》(Dhāraṇīsaṃgraha) 贝叶写本校勘库 (CUDL & Gergely Hidas)",
+    "nameEn": "Cambridge University CUDL Dhāraṇīsaṃgraha Palm-Leaf MSS & Gergely Hidas Critical Editions",
+    "institution": "Cambridge University Library (CUDL) & Gergely Hidas (ERC / 84000 / DharmaMitra)",
+    "primarySourceUrls": [
+      "https://cudl.lib.cam.ac.uk/search/JSON?keyword=Dh%C4%81ra%E1%B9%87%C4%AB&start=0&end=20",
+      "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01326",
+      "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01680-00008-00003",
+      "https://dharmamitra.org/api-db/text-view/text-parallels/"
+    ],
+    "totalRecordsCount": 78,
+    "mantraOrDharaniCount": 78,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Siddham",
+      "English"
+    ],
+    "highlights": [
+      "69 Cambridge Sanskrit Dhāraṇī manuscripts including MS-ADD-01326 (1719 CE, 458 pages) and 12th–13th c. palm-leaf MS-ADD-01680-00008-00001..3",
+      "30+ diplomatic dhāraṇī section rubrics ([1r4] Āryagrahamātṛkā, [15r2] Āryoṣṇīṣavijayā, [15v2] Āryacundā, [23v5] Āryadhātukaraṇḍā) + Saptavāra, Pañcarakṣā, and 770 CE Hyakumantō darani (PR-FG-00870)",
+      "All 9 open-access Gergely Hidas critical/diplomatic dhāraṇī editions based on CUL Add. 1326 and Add. 1680.8"
+    ]
+  },
+  {
+    "id": "db8_polyglotta",
+    "number": 8,
+    "priorityTier": 2,
+    "nameZh": "奥斯陆大学「佛教文献宝库」多语对勘库 (Bibliotheca Polyglotta / TLB)",
+    "nameEn": "University of Oslo Bibliotheca Polyglotta / Thesaurus Literaturae Buddhicae (TLB)",
+    "institution": "University of Oslo (Norwegian Institute of Palaeography and Historical Philology, Ed. Jens Braarvig)",
+    "primarySourceUrls": [
+      "https://polyglotta.uio.no/index.php?page=fulltext&view=fulltext&vid=1175",
+      "https://polyglotta.uio.no/index.php?page=fulltext&view=fulltext&vid=483&cid=456868",
+      "https://polyglotta.uio.no/index.php?page=fulltext&view=fulltext&vid=263&cid=335411",
+      "https://polyglotta.uio.no/index.php?page=fulltext&view=fulltext&vid=263&cid=338889"
+    ],
+    "totalRecordsCount": 184,
+    "mantraOrDharaniCount": 184,
+    "scriptsAvailable": [
+      "IAST",
+      "Tibetan-EWTS",
+      "Tibetan-Unicode",
+      "Chinese",
+      "English"
+    ],
+    "highlights": [
+      "16-witness sentence-by-sentence alignment of Prajñāpāramitāhṛdaya (vid=1175: Vaidya, Conze, T.250–T.257, Dunhuang/Kanjur Tibetan, English)",
+      "Quadrilingual alignments of Tārā 21 Homages (vid=1134), Nirvikalpapraveśadhāraṇī (vid=727), Drāmiḍāvidyārājā (vid=207), Bhaiṣajyaguru (vid=1020), Caṇḍamahāroṣaṇa (vid=1264), Saddharmapuṇḍarīka Ch. 21 Dhāraṇīparivarta (vid=483&cid=456868), and 7 Kanjur Esoteric Prajñāpāramitā volumes (vid=691..683)",
+      "116 quadrilingual esoteric terms from Mahāvyutpatti §25 (bodhisattvadhāraṇyaḥ, cid=335411) and §198 (mantranayāvanirgatāni, cid=338889) with sGra sbyor bam po gñis pa commentaries"
+    ]
+  },
+  {
+    "id": "db9_rkts",
+    "number": 9,
+    "priorityTier": 2,
+    "nameZh": "维也纳大学甘珠尔与丹珠尔研究资源库 (rKTs & 德格版《陀罗尼集》Zungdu)",
+    "nameEn": "University of Vienna Resources for Kanjur and Tanjur Studies (rKTs & Derge Zungdu)",
+    "institution": "University of Vienna (Department of South Asian, Tibetan and Buddhist Studies)",
+    "primarySourceUrls": [
+      "http://www.rkts.org/rkts1/data/general/standard.xml",
+      "http://www.rkts.org/rkts1/data/general/collections.json",
+      "http://www.rkts.org/rkts1/data/collections/D/D.xml",
+      "http://www.rkts.org/rkts1/data/etexts/1D/100.txt",
+      "http://www.rkts.org/rkts1/data/etexts/1D/101.txt",
+      "https://github.com/tokushige-koyasan/tibetan-corpus"
+    ],
+    "totalRecordsCount": 16179,
+    "mantraOrDharaniCount": 265,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Tibetan-EWTS",
+      "Tibetan-Unicode",
+      "English"
+    ],
+    "highlights": [
+      "standard.xml concordance of 16179 canonical works (4997 with standardized <skt> Sanskrit titles) across 68 canonical collections (Derge BDRC MW22084)",
+      "D/D.xml catalog of 265 Derge Zungdu (<sec>gzungs</sec>, D846–D1095 in BDRC vols. 0985 & 0986) and 3115 Tantra (<sec>rgyud</sec>) works",
+      "Full-text diplomatic e-texts 1D/100.txt & 1D/101.txt (143 rgya gar skad du/ Sanskrit titles & EWTS mantras converted to IAST & Tibetan Unicode) + 3452 texts in tokushige-koyasan/tibetan-corpus"
+    ]
+  },
+  {
+    "id": "db10_all_nibs",
+    "number": 10,
+    "priorityTier": 3,
+    "nameZh": "亚洲遗产图书馆 × 尼泊尔龙树学院「陀罗尼保护工程」 (ALL-NIBS & NIBS/DSBC)",
+    "nameEn": "ALL-NIBS Dharani Preservation Project (Asian Legacy Library × Nagarjuna Institute)",
+    "institution": "Asian Legacy Library (ALL) & Nagarjuna Institute of Buddhist Studies (NIBS, Kathmandu)",
+    "primarySourceUrls": [
+      "https://publicapi.asianlegacylibrary.org/resources?indexes=sa&page=1&page_size=150&q=",
+      "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "https://www.dsbcproject.org/canon-text/content/862/2990"
+    ],
+    "totalRecordsCount": 141,
+    "mantraOrDharaniCount": 51,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Tibetan-EWTS",
+      "English"
+    ],
+    "highlights": [
+      "106 Sanskrit manuscript editions from ALL Public API (10 NIBS Kathmandu + 96 Varanasi Preservation Center) authenticated with Bearer token byang-chub-kyi-sems",
+      "Full-text diplomatic folio transcriptions (@1a, @1b, candrabindu oṃ̐) for 16 core MSS including SA00019.001 (KSK-00556 Suvarṇaprabhāsottama), SA00016.001 (KSK-00381 Saṃpuṭatantra), SA00024.001 (TSK-01351 Sekoddeśaṭīkā), SA00025.001 (TSK-01785 Pradīpoddyotana), and SA00028.001 (TSK-03400 Sādhanamālā)",
+      "35 Newar Sanskrit dhāraṇī witnesses from NIBS's Dhāraṇī Saṃgraha (820/2949) and Grahamātṛkā (862/2990, input by Miroj Shakya) with Newar-to-Classical Sanskrit normalization (sarvva→sarva, sbāhā→svāhā, bajra→vajra)"
+    ]
+  },
+  {
+    "id": "db11_idp_dunhuang",
+    "number": 11,
+    "priorityTier": 3,
+    "nameZh": "国际敦煌项目 (IDP Berlin)、法国国家图书馆 (BnF Pelliot Sanskrit / CEToM) 与 CBETA 敦煌写卷 (T85 & ZW)",
+    "nameEn": "IDP Berlin, BnF Pelliot Sanskrit / Vienna CEToM & CBETA Dunhuang (T85 & ZW) Silk Road Corpus",
+    "institution": "Berlin-Brandenburg Academy of Sciences (IDP), University of Vienna (CEToM), BnF & CBETA",
+    "primarySourceUrls": [
+      "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Kudo_2006b",
+      "https://cetom.univie.ac.at/?m-tht3187",
+      "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T85/T85n2880.xml"
+    ],
+    "totalRecordsCount": 85,
+    "mantraOrDharaniCount": 310,
+    "scriptsAvailable": [
+      "Brahmi",
+      "Khotanese",
+      "IAST",
+      "Tibetan-EWTS",
+      "Chinese",
+      "English"
+    ],
+    "highlights": [
+      "13 IDP Berlin Silk Road XML catalogs (idp.bbaw.de) including Dalton_vanSchaik_2005 (348 Dunhuang Tantric MSS), PelliotTibetain_I (850), Kudo_2006b (IOL San 397 / Ch.00262 Mahāyāna vidyārājñī charm), Wille_2009a (Or.15001/18 Khotanese Brāhmī dhāraṇī), BLSF_II_04 (Or.15009 Hoernle MSS), and SHT_0001-0099",
+      "13 University of Vienna CEToM (cetom.univie.ac.at) editions including Kizil Brāhmī THT 3187 (SHT 1815 Nīlakaṇṭha / Avalokiteśvara Dhāraṇī) and all 12 BnF Pelliot Sanskrit (psbl13..psuv67) manuscripts",
+      "8 CBETA Dunhuang T85 & Zangwai (ZW) esoteric scriptures (T85n2880, T85n2898, ZW01n0011, ZW03n0023, ZW06n0051, ZW06n0055, ZW11n0091, ZW11n0092) with Stein (S.) and Pelliot (P.) shelfmarks"
+    ]
+  },
+  {
+    "id": "db12_muktabodha_ochs",
+    "number": 12,
+    "priorityTier": 3,
+    "nameZh": "慕克塔博达数字图书馆 (Muktabodha)、ERC DHARMA 校勘本与牛津印度写本库 (OCHS)",
+    "nameEn": "Muktabodha Digital Library, ERC DHARMA Critical Editions & Oxford OCHS Bīja/Mantra Lexicons",
+    "institution": "Muktabodha Indological Research Institute, ERC DHARMA & Oxford Centre for Hindu Studies (OCHS)",
+    "primarySourceUrls": [
+      "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/catalog.csv",
+      "https://raw.githubusercontent.com/tokushige-koyasan/dharma-editions-corpus/main/texts/stts_crited.txt",
+      "https://ochs-database.netlify.app/manuscripts/ochs_000_000_030_bijanighantu/",
+      "https://ochs-database.netlify.app/manuscripts/ochs_000_000_046_ekaksarakosa/"
+    ],
+    "totalRecordsCount": 505,
+    "mantraOrDharaniCount": 2052,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Siddham",
+      "SLP1",
+      "Chinese",
+      "English"
+    ],
+    "highlights": [
+      "499 Tantric IAST e-texts in tokushige-koyasan/muktabodha-corpus including Dakṣiṇāmūrti's Uddhārakośa (M00247), Āśāditya's Mantrakoṣa (M00292), Mantracandrikā (M00635), Mantrakaumudī (M00229), Mātṛkārṇanighaṇṭu (M00626), and Buddhist Advayavajrasaṃgraha (M00018 / M00510)",
+      "ERC DHARMA critical editions of Sarvatathāgatatattvasaṅgraha (stts_crited.txt, T0865 / D479, 378,754 chars) and Ānandagarbha's Sarvavajrodayā Maṇḍalopāyikā (svu_crited.txt, 76,857 chars)",
+      "Oxford OCHS verse-by-verse JSON lexicons of Bījanighaṇṭu (#30: vyomāsya + vidārī + nādabindu = hūṃ, pitṛbhūvāsinī = krīṃ, vāgbhava = aiṃ), Ekākṣarakośa (#46), Mantrakoṣa (#259), and Mātṛkārṇanighaṇṭu (#262)"
+    ]
+  }
+]

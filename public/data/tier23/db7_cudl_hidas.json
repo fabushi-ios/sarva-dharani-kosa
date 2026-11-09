@@ -1,0 +1,2645 @@
+{
+  "summary": {
+    "id": "db7_cudl_hidas",
+    "number": 7,
+    "priorityTier": 2,
+    "nameZh": "剑桥大学《陀罗尼集》(Dhāraṇīsaṃgraha) 贝叶写本校勘库 (CUDL & Gergely Hidas)",
+    "nameEn": "Cambridge University CUDL Dhāraṇīsaṃgraha Palm-Leaf MSS & Gergely Hidas Critical Editions",
+    "institution": "Cambridge University Library (CUDL) & Gergely Hidas (ERC / 84000 / DharmaMitra)",
+    "primarySourceUrls": [
+      "https://cudl.lib.cam.ac.uk/search/JSON?keyword=Dh%C4%81ra%E1%B9%87%C4%AB&start=0&end=20",
+      "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01326",
+      "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01680-00008-00003",
+      "https://dharmamitra.org/api-db/text-view/text-parallels/"
+    ],
+    "totalRecordsCount": 78,
+    "mantraOrDharaniCount": 78,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Siddham",
+      "English"
+    ],
+    "highlights": [
+      "69 Cambridge Sanskrit Dhāraṇī manuscripts including MS-ADD-01326 (1719 CE, 458 pages) and 12th–13th c. palm-leaf MS-ADD-01680-00008-00001..3",
+      "30+ diplomatic dhāraṇī section rubrics ([1r4] Āryagrahamātṛkā, [15r2] Āryoṣṇīṣavijayā, [15v2] Āryacundā, [23v5] Āryadhātukaraṇḍā) + Saptavāra, Pañcarakṣā, and 770 CE Hyakumantō darani (PR-FG-00870)",
+      "All 9 open-access Gergely Hidas critical/diplomatic dhāraṇī editions based on CUL Add. 1326 and Add. 1680.8"
+    ]
+  },
+  "totalDharaniManuscriptsFound": 69,
+  "manuscripts": [
+    {
+      "cudlId": "MS-ADD-01326",
+      "shelfLocator": "MS Add.1326",
+      "title": "Dhāraṇīsaṅgraha",
+      "dateDisplay": "839 Nepāla Saṃvat (1719 CE)",
+      "script": "Nepālākṣarā in black ink. Its regular ductus seems to imitate the style of Nepalese ornate scripts. Scribe: Patideva.",
+      "material": "Nepalese multi-layered yellow paper. Folio height: 10 cm, width: 39.7 cm.",
+      "extent": "225 ff.",
+      "numberOfPages": 458,
+      "abstractShort": "The Dhāraṇīsaṅgraha , or Dhāraṇīmantrasaṃgraha , 'Dhāraṇī(-mantra) Collection’ includes hundreds of dhāraṇī s, \"connected with all the chief personages of the Buddhist Pantheon, as well as with some of the chief literary works: e.g. the 'Lotus' and the Laṅkāvatāra (Bendall 1883: 49)\". This important Buddhist text remains unedited. This beautifully illuminated paper manuscript from Nepāl is dated to 1719 CE, and has been written in the Tarumūla Mahāvihāra in Kathmandu by a Buddhist scribe named Patideva, during the reign of Jayamahendrasiṃha Malla (1714-1722). It was commissioned by a Buddhist monk named Trailokara (who belonged to the Bhāskadeva Saṃskārita Śrīkeśavacandrakṛtapārāvatamahāvihāra), and his wife Pūrṇṇāvatī, probably represented with their family in the illumination on folio 223 verso (the members of the family are mentioned in the colophon).",
+      "transcribedRubricsAndExcerpts": [
+        "Rubric: [1v1] ≀ oṃ namaḥ sarvvabuddhabodhisatvebhyaḥ ||",
+        "Incipit: [1v1] śrīmantrijadīśvaraṃ suvimalaṃ sa [ miniature ] mbuddhajātaḥ svayaṃ, dīnāddhe magnastvam uddhṛtakaraṃ kāruṇyasampādakam | [1v2] māraṃ vinirjitya sasainyakalaṃ śastrena vai vande tasmair guṇālayaṃ supu [ miniature ] ruṣaṃ buddhaṃ sadānandakaṃ || ādau ratnatrayaṃ natvā, likhyate saṃgrahaṃ mayā |¦ [1v3] yāṃ smṛtvā prahatāṃ vyādhi,s tāṃ vidyādhāraṇī ca sā || ❈ || prathama¦ [ miniature ] talaṃ parvvātāraṇyāder atyuccaśiṣaropari mahāgrasiddha \\ bhū / tale, sa[1v4] rvvopadravavirahite gahvaraguhārāmalayanādiṣu viviktavijane¦ [ miniature ] ṣu manorameṣu vā vasan_ | vidhivad buddhādidevatāyā pa [ du ] pratimāyā ¦[1v5] agrataḥ gurumaṇḍalake puṣpābhikīrṇṇaṃ kṛtvā, sarvvabuddhabodhisatvaṃ pra¦ [ miniature ] ṇamya, bodhicittaṃ ca samutpādya, ātmānaṃ niryyātayet_ || tatreyaṃ vidya ¦[1v6] sarvvadhāraṇīmantraḥ prasiddhyarthaṃ, vijitendriyan sahasraṃ jayet_ || tadyathā [ miniature ] ||",
+        "Final Rubric, section: [223v1] || ❈ || iti skaṇḍapurāne śaniśvastvasto¦ [224r1] tra samāptaḥ || ❈ ||",
+        "Final Rubric: [224r1] iti dhāraṇīsaṃgrahaḥ saṃkṣiptaḥ parisamāptaḥ || ❈ ||",
+        "Colophon: [224r1] ye dharmmā hetuprabhāvā, hetu teṣāṃ tagato (!) | hy avadat teṣāñ ca yo nirodha, e¦[224r2] vaṃ vādimahāśramaṇaḥ || ❈ || deyaṃ dharmmo yaṃ pravaramahāyānayā¦|| ❈ ||yinaḥ paramopaśaka,paramadhārmikadharmmātmā, śrītrailokara, strīpūrṇṇāva[224r3]tī, dvayo, pramukhādisagaṇaparivārāṇāṃ, yat puṇya tad bhavat ācāryyopādhyāya,mātāpitṛpūrvvagamanaṃ kṛtvā, sakarasatvarāśer 'nuttarasamyaksaṃbodhipadaṃ prāptayo 'stu ḥ ||¦ [224r4] || ❈ || ❈ || svasti || śrīmatpaśupaticaraṇakamala,dhūrīdhūsarita,śirorūha,śrīmanmāneśvarīṣṭadevatāvaralabdha,prasādadedīvyamānamānonnata[224r5]ravikulatirakahanumantadhvaja,nepāleśvara,mahārājādhija,rājarājendrasakararājacakrādhīśvara,gajapati,śrīśrījayamaḥindrasiṃhamalladeva,parama 〚 bha 〛 ¦[224r6] bhaṭṭarakadevānāṃśrīmatpaśupaticaraṇakamala,-dhūrīdhūsarita,-śirorūha,-śrīman-māneśvarīṣṭadevatā-varalabdha,prasāda-dedīpyamānamānonnata[224r5]ravikulatirakahanumanta-dhvaja,-nepāleśvara,-mahārājādhija,-rājarājendra-sakararājacakrādhīśvara,-gajapati,-śrīśrījayamaḥindrasiṃhamalladeva,-parama 〚 bha 〛 ¦[224r6] bhaṭṭaraka-devānāṃ sadāsamalavijayināṃ, prabhṛthākulasya, vijayarājye || ❈ || ❈ || dānapati śrīkāntipūrīmahānagare, śrībhāskadeva¦ [224v1] 〚 -38- 〛 \\ saṃskāritasata,śrīkeśavacandrakṛ [ ta ] pārāvarttamahāvihārādhiṣṭhita, kasmirapaḍo nāma, hnaracchebho || ❈ / || mārgasya pūrvvapāśve sthita,gṛhādhivāśina, dharmmā¦[224v2]tmā, śākyabhikṣuśrītrailokara || tasya bhāryyā, pūrṇṇāvatī lakṣmī || trailokarasya prathamabhāryyāyāḥ || prathama 〚 -2- 〛 \\ putra,, / 〚 putra 〛 śākyabhikṣuśrī, dharmmātmā, dharmacandra || tasya kāntā viṣṇumatī || [224v3] trailokarasya, dvitīyabhāryyāyaḥ || prathamaputra, puṇyātmā, śākyabhikṣuśrībuddhaśaraṇa || dvitīyaputra,guṇātmāśākyabhikṣuśrīkaruṇāmaya || dharmacandrakasyātmaja, vārakumāra¦[224v4] śrīdharmmaśaraṇa || trailokarasya, putrī kanyā pradānapuṇyavatī lakṣmī || dvitī (!) putrī cakravatī lakṣmī saheti || ❈ || ete sahānumantena, idaṃ bhagavatī śrī3dhāra[224v5] ṇīsaṃgrahapustaka, pitakāgatapatre, karjjarākṣareṇa likhitaṃ kṛtvā gṛhe ṣṭhāpitā bhavanti || ❈ || atha deśabhākhā, dānapati, śrītrailokarasya, bhāryyā¦[224v6] pūrṇṇavatī yāmanasa, atipuṇyacitta utpati jasyaṃ vayāva, thva bhagavatīśrīśrīśrīdhāraṇīsaṃgrahapustaka, navagrahādi,samastamāra,vighna,roga,bhaya,haraṇa,yāya¦[ [225r1] nimirttina, dhāraṇīsa,dhākvapuṇyaphalarāya,kāmanāna, thva pustakacocakaṃ dayakāva, śrī3kuladevatāprītinadohorapājaro || ❈ || etat puṇyānubhā¦[225r2]vena jajamānasya, sagaṇaparivārānā,m āyurārogya,janadhanasantāna,navaratnādi, catuṣaṣṭivri [ kcā ] dilakṣmī vṛdhir astu \\ addition given within the body of line 5 by means of \"°°4\" / || ❈ || śrayo (!) 'stu || samvat_ 839 bhā[225r3]drapadamāse śuklapakṣe, paṃcamyāyāṃ tīthau || cittānakṣatre, śuddhiyogya \\ yathā karṇamūhurtte 1 / ādityavāsare, siṃharāśigate savite, kanyarāśigate candramasi || etaddine, likhitasaṃ¦[225r4]pūrṇṇam iti || ❈ || lekhakasya, kaṣṭhamaṇḍapamahānagale, talumūramahāvihāre khaṇḍacūka,mahāpuṣkariṇyāṃ, pūrvvadi 〚 ga 〛 śasthita, vajadevyācaraṇāmbujaśe[225r5]vita mahāpātrakulaśrīvajācāryya, śrīpatidevena, likhitasaṃpūrṇṇaṃ karomi || ❈ || yathā drṣṭaṃ °paratrakāle, samyaksaṃbodhipadaṃ, prāptā, bhavanti°4 [225r6] tathā likhitaṃ, lekhako nāsti dokhaṇaṃ | yadi śuddham aśuddham vā, sodhanīyaṃ mahadbudhaiḥ || ❈ || bhagnapṛṣṭhakaṭigrīvā, tabdhadṛṣṭīr adhomuka | kaṣṭena likhi [225v1] taṃ śāstraṃ, putravat patipārayet_ || ❈ || bhākhā thva puṣṭaka, sunānaṃ, phayakayāḍo | robhayātasā, senakarasā,, pañcamahāyāya rāka jaro || ❈ || [225v2] gvakmanaṃ, robhamayāse, nidāna || ❈ || yātasā, lakṣāhutiyajñayāṅāphala rākajaro || ❈ || śubhamaṅgalaṃ bhavantu sarvvadā ḥ || ❈ ||"
+      ],
+      "sectionTitlesIast": [
+        "Dhāraṇīsaṅgraha (458 pages, 839 NS / 1719 CE)",
+        "Māṇibhadradhāraṇī (p. 146, no. 73)",
+        "Uṣṇīṣavijayādhāraṇī",
+        "Vasudhārādhāraṇī",
+        "Grahamātṛkādhāraṇī",
+        "Pañcarakṣā-dhāraṇīs",
+        "Saptavāra-dhāraṇīs"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01326",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01326-000-00001.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01326-000-00002.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01326-000-00003.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01326-000-00004.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01326",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01326",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01326/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01680-00008-00001",
+      "shelfLocator": "MS Add.1680.8.1",
+      "title": "Dhāraṇīsaṃgraha",
+      "dateDisplay": "12th–13th century",
+      "script": "Hooked Nepālākṣarā in black ink.",
+      "material": "Palm leaf Folio height: 5 cm, width: 28 cm.",
+      "extent": "15 (folios are numbered 2, 3, 4, 4bis, 7, 8, 9, 9bis, 9tris, 10, 13, 14, 15, 19 and one last unnumbered folio)",
+      "numberOfPages": 30,
+      "abstractShort": "This fragmentary palm-leaf manuscript of a Dhāraṇīsaṃgraha is part of a bundle of a few manuscripts (Add.1680.8), all seemingly composed of collections of dhāraṇī s. Three different manuscripts, all from around the 12th-13th century, have been tentatively identified on the basis of the (often deficient) foliation and of the layout (string hole in a square blank space, string hole in a column-like blank space or an alternation of the two). Further research might shed more light on the subdivision of the whole manuscript bundle. This identified manuscript has 15 folio. The foliation of some of them is repeated; therefore, they might have originally belonged to different manuscripts. Two folios are beautifully illuminated.",
+      "transcribedRubricsAndExcerpts": [
+        "Final Rubric, section: [4r1] | āryahalāhalahṛdayaṃ samāptaṃ ◎ || ||",
+        "Final Rubric, section: [4v1] || āryajātismarā nāma dhāraṇī sam \\ ā / [4v2]ptā || ❈ ||",
+        "Final Rubric, section: [9r4] sarvajinadhāturatnakaraṇḍakaṃ nāma bhagavadāryāvalokiteśvarasya nāmāṣṭo[9r5]ttaraśatakaṃ samāptaṃ || ❈ ||",
+        "Final Rubric, section: [9v5] || āryakalla ≤ ≤ jayā nāma dhāraṇī samāptā || ❈ ||",
+        "Final Rubric, section: [9bisr4] || || [ -5- ] [9bisr5] nāma dhāraṇī samāptā || ❈ ||",
+        "Final Rubric, section: [13r3] || āryoṣṇīṣavijayā sādhanam samāptaṃ || ❈ ||",
+        "Final Rubric, section: [15r2] || āryoṣṇīṣavijayā nāma dhā¦ [ miniature ] raṇī samāptā || [ miniature ]",
+        "[4r1] āryahalāhalahṛdayaṃ samāptaṃ ||",
+        "[15r2] āryoṣṇīṣavijayā dhāraṇī samāptā ||"
+      ],
+      "sectionTitlesIast": [
+        "Āryahalāhalahṛdaya ([4r1])",
+        "Āryoṣṇīṣavijayā ([15r2])",
+        "Mahādhāraṇī",
+        "Mahāśrīnāmadvādaśaka"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00001-000-00001.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00001-000-00002.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00001-000-00003.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00001-000-00004.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01680-00008-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01680-00008-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01680-00008-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01680-00008-00001",
+          "MS-ADD-01680-00008-00002",
+          "MS-ADD-01680-00008-00003"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01680-00008-00002",
+      "shelfLocator": "MS Add.1680.8.2",
+      "title": "Dhāraṇīsaṃgraha",
+      "dateDisplay": "12th–13th century",
+      "script": "Hooked Nepālākṣarā in black ink.",
+      "material": "Palm leaf Folio height: 5 cm, width: 28 cm.",
+      "extent": "2 ff. (numbered as 9 and 11)",
+      "numberOfPages": 4,
+      "abstractShort": "This fragmentary palm-leaf manuscript of a Dhāraṇīsaṃgraha is part of a bundle of a few manuscripts (Add.1680.8), all seemingly composed of collections of dhāraṇī s. Three different manuscripts, all from around the 12th-13th century, have been tentatively identified on the basis of the (often deficient) foliation and of the layout (string hole in a square blank space, string hole in a column-like blank space or an alternation of the two). Further research might shed more light on the subdivision of the whole manuscript bundle. This identified manuscript has only 2 folios, numbered as 9 and 11, and is characterized by square blank spaces for the string hole on one side and column-like blank spaces on the other.",
+      "transcribedRubricsAndExcerpts": [
+        "Final Rubric, section: [9r1] || || āryamahāmaṇevipulavimānasupratiṣṭhitaguhyā nāma dhāraṇī samā¦[9r2]ptā || ||",
+        "Final Rubric, section: [11r5] || buddhānusmṛti || ❈ ||",
+        "Final Rubric, section: [11v2] || ekagāthā || ❈ ||",
+        "Final Rubric, section: [11v5] || caturgāthā || ❈ ||"
+      ],
+      "sectionTitlesIast": [
+        "Sahasrāvartādhāraṇī",
+        "Āryāparimitāyurjñānadhāraṇī",
+        "Āryavajravidāraṇādhāraṇī"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00002-000-00001.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00002-000-00002.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00002-000-00003.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00002-000-00004.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01680-00008-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01680-00008-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01680-00008-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01680-00008-00001",
+          "MS-ADD-01680-00008-00002",
+          "MS-ADD-01680-00008-00003"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01680-00008-00003",
+      "shelfLocator": "MS Add.1680.8.3",
+      "title": "Dhāraṇīsaṃgraha",
+      "dateDisplay": "12th–13th century",
+      "script": "Hooked Nepālākṣarā in black ink.",
+      "material": "Palm leaf Folio height: 5 cm, width: 28 cm.",
+      "extent": "29 ff. (Two folios are numbered as 17. Folios 7-9, 11, 27, 28, 31 and 34 missing)",
+      "numberOfPages": 58,
+      "abstractShort": "This fragmentary palm-leaf manuscript of a Dhāraṇīsaṃgraha is part of a bundle of a few manuscripts (Add.1680.8), all seemingly composed of collections of dhāraṇī s. Three different manuscripts, all from around the 12th-13th century, have been tentatively identified on the basis of the (often deficient) foliation and of the layout (string hole in a square blank space, string hole in a column-like blank space or an alternation of the two). Further research might shed more light on the subdivision of the whole manuscript bundle. This identified manuscript has 29 folios. The first six folios are foliated by a modern hand in pencil with Arabic numerals, and are only tentatively attributed to the same manuscript as the following folios.",
+      "transcribedRubricsAndExcerpts": [
+        "Final Rubric, section: [1r4] || ❈ || āryahrahamā¦◎tṛkā nāma dhāraṇī || ||",
+        "Final Rubric, section: [1r5] || āryaniyatakarmajayaṃkarī nāma dhāraṇī samāptā || ❈ || ||",
+        "Final Rubric, section: [2r3] || || āryamārīcī nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [4r4] || āryasamantabhadrapra [ -1- ] [4r5]jña nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [5r2] || aṣṭamahābhayatāraṇī nāma dhāraṇī",
+        "Final Rubric, section: [5r5] || āryajātismaro nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [12r2] || āryava◎jrottarā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [14r4] || || āryalakṣa nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [14v2] | hṛṣṭapratyayaḥ stutidharā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [15v2] āryacundā¦◎ dhāraṇī sarvatathāgatahṛdayā samāptā || ||",
+        "Final Rubric, section: [16v3] || || ārya¦◎hemaṅgā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [17r2] || āryajaṅgulī mahāvidyā samāptā ◎ || ||",
+        "Final Rubric, section: [17bisr1] || || āryākṣobhyā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [17bisr5] | āryāvajrottara nāma dhāraṇī samāptā || || ❈ ||",
+        "Final Rubric, section: [18r3] || || ◎ koṇḍā nāma dhāraṇī caityakaraṇavidhi samāptā || ||",
+        "Final Rubric, section: [21r2] || || āryamahā dhāraṇī samāptā ◎ || ||",
+        "Final Rubric, section: [22v3] || || āryabuddhahṛdayā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [23r2] || || āryasamantabhadrā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [23v5] | āryadhātukaraṇḍā nāma dhāraṇī s 〚 ā 〛 amāptā || ||",
+        "Final Rubric, section: [27v2] || || iti svapnandadā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [32r1] || || āryakallajayā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [32r3] | āryacaityavandanā nāma dhāraṇī ◎ samāptā || ❈ ||",
+        "Final Rubric, section: [33r1] || || mahā[33r2] [ -1- ] nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [36r2] | āryarucarāṅgayaṣṭi nā¦◎ma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [36r4] sarvvamaṅgalā nāma dhāraṇī samāptā || ||",
+        "Final Rubric, section: [36v5] sarvvarogapraśamanī nāma dhāraṇī samāptā || ||",
+        "[1r4] āryagrahamātṛkā dhāraṇī ||",
+        "[2r3] āryamārīcī nāma dhāraṇī ||",
+        "[15v2] āryacundā dhāraṇī ||",
+        "[17bisr1] āryāparimitāyuḥ ||",
+        "[23v5] āryadhātukaraṇḍā dhāraṇī ||",
+        "[36r4] sarvvamaṅgalā dhāraṇī ||"
+      ],
+      "sectionTitlesIast": [
+        "Āryagrahamātṛkā ([1r4])",
+        "Āryamārīcī ([2r3])",
+        "Āryacundā ([15v2])",
+        "Āryāparimitāyuḥ ([17bisr1])",
+        "Āryadhātukaraṇḍā ([23v5])",
+        "Sarvvamaṅgalā ([36r4])",
+        "Āryoṣṇīṣavijayā ([15r2] in sibling MS-ADD-01680-00008-00001)",
+        "Sarvakarmāvaraṇaviśodhanīdhāraṇī",
+        "Surūpādhāraṇī"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00003",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00003-000-00001.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00003-000-00002.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00003-000-00003.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00008-00003-000-00004.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01680-00008-00003",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01680-00008-00003",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01680-00008-00003/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01680-00008-00001",
+          "MS-ADD-01680-00008-00002",
+          "MS-ADD-01680-00008-00003"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01485",
+      "shelfLocator": "MS Add.1485",
+      "title": "Dhāraṇī collection",
+      "dateDisplay": "12th–18th century",
+      "script": "Rañjanā in gold ink.",
+      "material": "Nepalese multi-layered black paper. Folio height: 9 cm, width: 23 cm.",
+      "extent": "45 ff. (Including three blank folios at the beginning and three at the end; the rest is numbered 16-54)",
+      "numberOfPages": 1,
+      "abstractShort": "This Nepalese black-paper manuscript, incomplete and dated 797 Nepāla Saṃvat (1677 CE), contains a Dhāraṇī Collection , consisting of the Prajñāpāramitāhṛdaya and a somewhat unusual Saptavāra compendium, as it lacks the Vasudhārā and only includes the Vajravidāraṇā , the Gaṇapatihṛdayā , the Uṣṇīṣavijayā , the Parṇaśavarī-Mahāmāyāpraśamanī , the Mārīcī and the Grahamātṛkā .",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01485",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01485-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01485",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01485",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01485/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01485"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01553",
+      "shelfLocator": "MS Add.1553",
+      "title": "Dhāraṇī Collection",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā in black and red ink.",
+      "material": "Paper. Folio height: 7 cm, width: 16 cm.",
+      "extent": "15 ff. (1-11, 13, 15, 18 and 19)",
+      "numberOfPages": 1,
+      "abstractShort": "An illuminated Nepalese paper manuscript of a Dhāraṇī Collection , consisting of the Pañcaviṃśatikāprajñāpāramitāhṛdaya , the Dhvajāgrakeyūrī , the Āryāmokṣapada , andthe Sahasrabhujalokeśvara .",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01553",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01553-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01553",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01553",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01553/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01553"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01315",
+      "shelfLocator": "MS Add.1315",
+      "title": "Saptavāra (Saptavāra)",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā in black ink.",
+      "material": "Nepalese multi-layered paper. Folio height: 6.7 cm, width: 19.7 cm.",
+      "extent": "33 ff.",
+      "numberOfPages": 1,
+      "abstractShort": "The Saptavāra (\"Seven Days\") usually incorporates seven dhāraṇī s, the Vasudhārā , Vajravidāraṇā , Gaṇapatihṛdaya , Uṣṇīṣavijayā , Parṇaśavarī or Prajñāpāramitā , Mārīcī , and Grahamātṛkā . This collection associates each dhāraṇī with a specific day of the week, a tradition going back to at least the sixteenth century in Nepal. This paper manuscript, dated 1801 CE, contains the Saptavāra starting with an additional Mahākāladhāraṇī and Mahākālasādhana section placed at the very beginning, and continuing with the Vasundhārānāmāṣṭottaraśataka in the place of the usual Vasudhārādhāraṇī .",
+      "transcribedRubricsAndExcerpts": [
+        "Rubric: [1v1] ≀ oṃ namo ratnatrayāya ḥ | oṃ namo śrīvajasatvāya ḥ | oṃ namaḥ śrīvajamahākā[1v2]rāya ḥ",
+        "Final Rubric: [1v4] iti śrīca¦[1v5]turbhujamāhākārasya tantraṇāmarājasya hṛdayaparivarttā nāma ḍhā [2r1] ranī palisamāptaḥ || ||",
+        "Rubric: [2r1] oṃ namaḥ śrīmahākārāya ḥ ||",
+        "Final Rubric: [2r4] iti śrīmahākālasādhanaṃ | kirtti[2r5]sumatibhadrasya ti \\ 2 / i \\ 1 / samāptaḥ || || ye dharmmā hetuprabhāḥ ||",
+        "Rubric: [2v1] ≀ oṃ namo ratnatrayāya ḥ || [ space left blank for a miniature ] oṃ namo śrīvajasatvāya ḥ [2v2] oṃ namaḥ buddhāya ḥ oṃ na [ space left blank for a miniature ] mo dharmmāya ḥ oṃ namo saṃ [2v3]ghāya ḥ oṃ namaḥ śrīma [ space left blank for a miniature ] hākārāya ḥ",
+        "Final Rubric: [3v5] iti śrīmahākāla [4r1] tantrarāja nāma ṣatabhujasya māhākālasādhana parisamāptaḥ || ❈ [4r2] ḥ || ||",
+        "Rubric: [4r1] oṃ namo bhagavatyai āryyaśrī3vasudhārāyai ḥ || ||",
+        "Incipit: [4r2] namaḥ dirvya[4r3]rūpi śvarūpī | ca saumyarūpī varapradā || vasuśrī śrī[4r4]karī va[1v4]rā || dharaṇī dhāraṇī dhātā, śaraṇabhaktivatsama ḥ || prajñāpāra[1v5]mitādevi prajñā śrībuddhivarddhanī ||",
+        "Final Rubric: [7r2] āryyaśrīvasundhā[7r3]rā 〚 dhā 〛 nāmāṣṭottaraśatakaṃ parisamāpta ḥ śubhaṃ || ||",
+        "Rubric: [7r3] oṃ namo bhagava¦[7r4]tyai āryyavajavidāriṇ [ yaiya ] || namo ratnatrayāya ḥ | ||",
+        "Final Rubric: [10r4] || || āryavajavīdāriṇyai nāma hṛdayaṃ samāpta || ||",
+        "Rubric: [10r4] oṃ namo bhagavatyai āryyagaṇapatīhṛdayāyai || namo ratnatrayāya [10v1] || ||",
+        "Final Rubric: [13r2] āryyaga[13r3]ṇapatihṛdayaṃ parisamāptaḥ || || ❈ ||",
+        "Rubric: [13r3] oṃ namo bhagavatyai āryyaṣṇī[13r4]ṣav 〚 ī 〛 \\ i / jayāyai ḥ ||",
+        "Final Rubric: [17r3] || || āryyaṣṇī[17r4]ṣavijayā nāma dhāraṇī samāpta || || ❈ ||",
+        "Rubric: [17r4] oṃ namo bhagavatya āryyapannaśavarītārāyai || namo ratnatrayāya || namo amitābhāya taṃ ||",
+        "Final Rubric: [19r1] || || āryyapannaśavar 〚 i 〛 \\ ī / [19r2] nāma dhāraṇī samāpta || || ❈ ||",
+        "Rubric: [19r2] oṃ namo bhagavatyai āryyamāricyai ya ḥ |",
+        "Final Rubric: [21r1] || || āryamārī 〚 -1- 〛 cī nāma dhāraṇī samāpta || || ❈ ||",
+        "Rubric: [21r1] oṃ namo bhaga[21r2]vatyai",
+        "Explicit: [32v2] atha tasya sarvvagrahā,, śādhu 2 bhagavatīti pra[32v3]ṇamya t_ bhūvanasaḥ || || idam avocad bhagavān_ āttamanās te śca bhikṣavaḥ [32v4] bodhisattvamahāsattvā,, sā ca sarvvāvatīparṣa,, sadevamānuṣāśuragaruḍagandha[32v5]rvvaś ca loko bhagavato,, bhāṣitaḥm abhyanandan iti || ||",
+        "Final Rubric: [32v5] āryyagrahamātṛ [33r1] 〚 tṛvā 〛 kā nāma dhāraṇī parisamāptaḥ || ||",
+        "Colophon: [33r1] ye dharmmā hetu,,prabhāvā,, hetu teṣāṃ [33r2] tathāgato,, [ -1- ] hy avadat teṣāṃñ ca yo nirodha evaṃvādi (!) mahāśramanaḥ || || ¦ śreyo stu samvat eka,, netra,, durggā, māsa, māghaśuddhi 1 saṃpūrṇṇaḥ | dānapati [33r4] jajomān_, bhadra-pūli-mahānagala-śrīvajācāryya,-rājamuṇiyā hlya (!) sakṣatrasa[33r5]codāvarasa,-atidharmma-citta utpattijayā jo,thamanaśvārddhārthanimitina [33v1] [ dayakā jātayājalaśubhaṃ ḥ || || śubhaṃ maṅgalaṃ bhavantu sarvvajagatām_ || ]"
+      ],
+      "sectionTitlesIast": [
+        "Saptavāra (Vasudhārā, Vajravidāraṇā, Gaṇapatihṛdaya, Uṣṇīṣavijayā, Parṇaśabarī, Mārīcī, Grahamātṛkā)"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01315",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01315-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01315",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01315",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01315/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01315"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01325",
+      "shelfLocator": "MS Add.1325",
+      "title": "Pañcarakṣā (Pañcarakṣā)",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā in black ink. Possibly several hands, very difficult to distinguish; the following two have been tentatively recognised: First hand: 1v-37v . Second hand: 38r-178v .",
+      "material": "Paper. Folio height: 6.8 cm, width: 24.5 cm.",
+      "extent": "178 ff.",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā , Mahāmāyūrī , Mahāsāhasrapramardanī , Mahāmantrānusāriṇī , and Mahāśītavatī . The earliest evidence for texts grouped together as the \"Five Great Dhāraṇīs\" comes from Tibetan catalogues around 800 CE, but this compendium is somewhat different from the surviving Sanskrit collection, which is preserved in manuscripts dating back to the eleventh century. These scriptures include spells, enumerations of benefits and ritual instructions for use. With the course of time all of them became deified and five related goddesses emerged. It is, however, important to note that the texts themselves do not have any references to these goddesses. This paper manuscript, dated to 1819 CE, is a quite recent exemplar of the corpus, which testifies to its importance in early modernity as well.",
+      "transcribedRubricsAndExcerpts": [
+        "Rubric: [1v1] oṃ namo bhagavatyai āryamahāpratisarāyai ||",
+        "Incipit: [1v1] evam mayā śrutam ekasmin samaye bhagavān mahāvajramerusikharakūṭāgāre viharati sma || mahā[1v2]vajrasamādhibhūmipratiṣṭhāne mahāvajrakalpavṛkṣasamalaṃkṛte |",
+        "Final Rubric, section: [36v7] mahāvidyārajñīmahāpratisarāyāḥ prathamakalpaḥ samāpta ||",
+        "Final Rubric, section: [48v1] ā[48v2]ryamahāpratisarāyā mahāvidyārajñī rakṣāvidhānakalpo vidyādharasyāyaṃ samāpta || ❈ || ❈ || ||",
+        "Final Rubric: [108r1] || ❈ || āryamahāsāhasrapramardinī nāma mahānasūtraṃ (!) samāpta || ❈ || ❈ ||",
+        "Final Rubric, section: [168v6] [ ārya ] mahāmāyūrī vidyārājñī [ a ] yamu [169r1] pacāravidhi samāpta || ❈ ||",
+        "Final Rubric, section: [172v6] || ❈ || āryamahāśītavatī nāma vidyārajñī samāptā || ❈ || ❈ ||",
+        "Explicit: [178r5] jānīha bhūtāti 〚 -1- 〛 samāgatāni sthitāni bhūmav (!) athavāntarīkṣe || kurvantu maitrī satataṃ [178r6] prajāsu divā ca rātrau ca carantu dharmam || ◎ || iti tatra buddhānubhāvena devatānubhāvena mahāti iti [ ryyu ] [178v1] paśānteti || ❈ ||",
+        "Final Rubric: [178v1] iti mantrānusārīnī parisamāpta|| ❈ || āryaśrimahāpratiśarā, mahāsāhasrapramardinī, [178v2] mahāmāyurī, mahāśitavatī, mahāmantrānusāranī etāni paṃ [ -1- ] mahārakṣāsutrāṇi samāpta || ❈❈ ||",
+        "Colophon: [178v3] ye dharmā hetuprabhāvā hetu (!) teṣān tathāgata hy a [ -2- ] teṣāṃ ca yo nirodha evaṃ \\ vādī / mahāśramaṇaṃ || ❈ || samvat_ || [178v4] 939 sasatatatatajajajajabhabhabhabha"
+      ],
+      "sectionTitlesIast": [
+        "Pañcarakṣā (Mahāpratisarā, Mahāsāhasrapramardanī, Mahāmāyūrī, Mahāśītavatī, Mahāmantrānusāriṇī)"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01325",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01325-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01325",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01325",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01325/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01325"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01447",
+      "shelfLocator": "MS Add.1447",
+      "title": "Uṣṇīṣavijayadhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā in black ink.",
+      "material": "Paper. Folio height: 5 cm, width: 25 cm.",
+      "extent": "2 ff. (numbered 2-3)",
+      "numberOfPages": 1,
+      "abstractShort": "A Nepalese paper manuscript of the Uṣṇīṣavijayadhāraṇī .",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [
+        "Uṣṇīṣavijayādhāraṇī"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01447",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01447-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01447",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01447",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01447/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01447"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01355",
+      "shelfLocator": "MS Add.1355",
+      "title": "Vasudhārādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Rañjanā in black ink.",
+      "material": "Palm leaf (lightish green), trimmed. Folio height: 4.8 cm, width: 24.7 cm.",
+      "extent": "21 ff. (folio 14 is missing).",
+      "numberOfPages": 44,
+      "abstractShort": "The Vasudhāradhāraṇī , dedicated to Vasudhārā, the bodhisattva of wealth, prosperity, and abundance (who has a strong following among the Newar Buddhists of the Kathmandu Valley), is taught by the Buddha in Kauśambī to the rich merchant and layman Sucandra. He has been reduced to poverty and so requests a sermon from the Lord so that he may provide for his own family and so that all beings may become prosperous. This scripture includes a dhāraṇī along with enumerations of benefits and ritual instructions for use. This palm-leaf manuscript is dated to 1576 CE, under the reign of ‏Sadāśiva Malla (1574-1583).",
+      "transcribedRubricsAndExcerpts": [
+        "Rubric: [1v1] ≀ oṃ namo bhagavatyai āryaśrīvasudhārāyai ||",
+        "Incipit: [1v2] kalpoditena vidhinā paripaśyamānā, yā dhārayā vividhi (!) ratnasuvarṇṇamayyā | pūrṇṇaṃ ka[1v2]roti bhavana (!) sahasava (!) sarvvaṃ tāṅ 〚 kalya 〛 sarvval \\ o / ◎ka jan 〚 ī 〛 anī (!) praṇamāmi bhaktyā || || evaṃ mayā śrutam ekasmin_ samaye bha[1v3]gavān_ kośāmbyāṃ mahānagaryāṃ viharati sma ◎ kaṇṭakasa [ ṃjñ ] ke mahāvanavare ghosirālāme mahatā mahābhikṣusaghena sārdhaṃ pa¦[2v3] ñcamātrair bhikṣuśataiḥ sabahu 〚 śca 〛 laiś ca mahāśrā◎vakair asaṃkhyayaś (!) ca bodhisatvair mmahāsatvaiḥ sarvabuddhasamanvāgataiḥ |",
+        "Incipit, section: [2r2] tena khalu punaḥ samayena kośāṃbyā (!) mahānagaryāṃ sucandro nāma gṛhapatiḥ prativasati sma ||",
+        "Explicit: [22r5] idam avocad bhagavān āttamanā āyuṣmān ānandas te ca bhikṣavas te ca bodhisatvā mahāsattvā sā ca sarvāvatī parṣat_ sadevamānuṣāsuraga [22v1] ndharvaloko bhagavato bhāṣitam abhyanandann iti || ||",
+        "Final Rubric: [22v1] āryaśrīvasudhārā nāma dhāraṇī samāptā ḥ || ||",
+        "Colophon: [22v1] ye dharmmā hetuprabhāvā hetu teṣā[22v2]n tathāgato hy avadat teṣāñ ca yo nirodha evaṃvā¦¦◎¦¦dī mahāśramanaḥ || || dheyadharmo || || yaṃ 'pravaramahāyānayāyinaḥ¦ [22v3] paramopāśaka (!) śrīphataśālagṛhādhivāśinajaka◎nājabhārobhāryāputrapautrādi [ ḥ ] sagaraparivārasya yad atra puṇyaṃ tad bhavatv ācāryopādhyā[22v4] yamātāpitṛpurvaṅgamaṅ kṛtvā sakalasatvarāśe¦◎r anuttarajñānaphalam avāpnuyād iti || ❈ || samvat_ 676 jeṣṭamāśe kṛṣṇapakṣe [22v5] caturthyāyāṃ tithau bṛhaspativārasare || mahārājādhirājaparameśvaraparamabhaṭṭāraka-śrīśrījayasadāśivamalladevasya vijayarājye || śubham astu ||"
+      ],
+      "sectionTitlesIast": [
+        "Vasudhārādhāraṇī"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01355",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01355-000-00001.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01355-000-00002.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01355-000-00003.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01355-000-00004.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01355",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01355",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01355/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01355"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01554",
+      "shelfLocator": "MS Add.1554",
+      "title": "Prajñāpāramitāhṛdayadhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā in black ink.",
+      "material": "Paper. Folio height: 7 cm, width: 15 cm.",
+      "extent": "3 ff.",
+      "numberOfPages": 1,
+      "abstractShort": "A Nepalese paper manuscript of the Prajñāpāramitāhṛdayadhāraṇī (a different text from the one found in Add.1485).",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [
+        "Prajñāpāramitāhṛdaya"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01554",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01554-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01554",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01554",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01554/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01554"
+        ]
+      }
+    },
+    {
+      "cudlId": "PR-FG-00870",
+      "shelfLocator": "FG.870.1-4",
+      "title": "Hyakumantō darani (百萬塔陀羅尼, 770 CE Vimalaśuddha-prabhāsa-mahādhāraṇī)",
+      "dateDisplay": "770 CE (Nara Period, Empress Shōtoku)",
+      "script": "Siddhaṃ / Early Chinese Woodblock Print",
+      "material": "paper",
+      "extent": "Jishin’in darani 自心印陀羅尼 (short): 5.8 X 46.6 cm, Jishin’in darani 自心印陀羅尼 (long): 5.5 X 42.3 cm, Sōrin darani 相輪陀羅尼 (short): 5.6 X 40.2 cm, Konpon darani 根本陀羅尼 (long): 5.7 X 56.3 cm.",
+      "numberOfPages": 15,
+      "abstractShort": "Commissioned by the Empress Shōtoku 称徳天皇 (718-770), a large number of the Buddhist invocations called Darani 陀羅尼 (dhāraņī) were printed by woodblock between the years 764 and 770, each of which then enclosed inside a small wooden pagoda. Cambridge University Library possesses four examples of Darani (dhāraņī): Jishin’in darani 自心印陀羅尼 (short), Jishin’in darani 自心印陀羅尼 (long), Sōrin darani 相輪陀羅尼 (short), Konpon darani 根本陀羅尼 (long). These are among the oldest printed materials in the world, with the possible exception of a single dhāraņī found in Korea. Hyakumantō darani (FG.870.1-4) by Cambridge Digital Library on Sketchfab This item was included in the Library’s 600th anniversary exhibition Lines of Thought: Discoveries that changed the world . Earliest dated printed dhāraṇī in the world (770 CE), preserved alongside Cambridge University Library's Nepalese palm-leaf Saptavāra (MS-ADD-01315) and Pañcarakṣā (MS-ADD-01325) dhāraṇī collections.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [
+        "Vimalaśuddhaprabhāsamahādhāraṇī (Hyakumantō darani)",
+        "Saptavāra parallel",
+        "Pañcarakṣā parallel"
+      ],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/PR-FG-00870",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/PR-FG-00870-000-00001.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/PR-FG-00870-000-00002.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/PR-FG-00870-000-00003.jp2/full/,800/0/default.jpg",
+        "https://images.lib.cam.ac.uk/iiif/PR-FG-00870-000-00004.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/PR-FG-00870",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/PR-FG-00870",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/PR-FG-00870/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "PR-FG-00870"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-00875",
+      "shelfLocator": "MS Add.875",
+      "title": "Suvarṇaprabhāsottamasūtra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A fundamental and very popular sūtra on various topics of mahāyāna Buddhism (philosophy, medicine, legends, dhāraṇīs etc.),",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-00875",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-00875-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-00875",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-00875",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-00875/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-00875"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01164-00001",
+      "shelfLocator": "MS Add.1164.1",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01164-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01164-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01164-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01164-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01164-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01164-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01164-00002",
+      "shelfLocator": "MS Add.1164.2",
+      "title": "Vajrasatvakāyasya Tathāgatavyāptaśata",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This modern multi-text manuscript of a few folios contains two short texts, the Tathāgatavyāptaśata and the Pañcaviṃśatikāprajñāpāramitāhṛdayadhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01164-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01164-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01164-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01164-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01164-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01164-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01164-00003",
+      "shelfLocator": "MS Add.1164.3",
+      "title": "Nairātmāguhyeśvarīmantradhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "These three paper folios contain the Nairātmāguhyeśvarīmantradhāraṇī, a ritualistic text dedicated to the tantric goddess",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01164-00003",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01164-00003-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01164-00003",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01164-00003",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01164-00003/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01164-00003"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01277",
+      "shelfLocator": "MS Add.1277",
+      "title": "Aparimitāyurdhāraṇīsūtra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "An illuminated black-paper manuscript of the Aparimitāyurdhāraṇīsūtra, a popular text containig the spell of Aparimitāyus.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01277",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01277-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01277",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01277",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01277/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01277"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01336",
+      "shelfLocator": "MS Add.1336",
+      "title": "Saptavāra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Saptavāra (\"Seven Days\") usually incorporates seven dhāraṇīs, the Vasudhārā, Vajravidāraṇā, Gaṇapatihṛdayā, Uṣṇīṣavijayā,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01336",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01336-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01336",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01336",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01336/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01336"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01342-00001",
+      "shelfLocator": "MS Add.1342.1",
+      "title": "Suvarṇaprabhāsottamasūtra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A paper manuscript of the Suvarṇaprabhāsa, a fundamental and very popular sūtra on various topics of mahāyāna Buddhism (philosophy,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01342-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01342-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01342-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01342-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01342-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01342-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01343",
+      "shelfLocator": "MS Add.1343",
+      "title": "Saptavāra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This Nepalese paper manuscript contains the Saptavāra, the Mañjuśrīnāmasaṅgīti and the Daśabalastavastotra. The Saptavāra",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01343",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01343-000-00003.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01343",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01343",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01343/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01343"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01348",
+      "shelfLocator": "MS Add.1348",
+      "title": "Mahāpratyaṅgirādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A Nepalese paper manuscript of the Mahāpratyaṅgirādhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01348",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01348-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01348",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01348",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01348/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01348"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01356",
+      "shelfLocator": "MS Add.1356",
+      "title": "Saptavāra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Saptavāra (\"Seven Days\") usually incorporates seven dhāraṇīs, the Vasudhārā, Vajravidāraṇā, Gaṇapatihṛdaya, Uṣṇīṣavijayā,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01356",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01356-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01356",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01356",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01356/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01356"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01358",
+      "shelfLocator": "MS Add.1358",
+      "title": "Mahāpratyaṅgirādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "An illuminated Nepalese paper manuscript of the Mahāpratyaṅgirādhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01358",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01358-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01358",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01358",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01358/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01358"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01395",
+      "shelfLocator": "MS Add.1395",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01395",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01395-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01395",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01395",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01395/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01395"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01400",
+      "shelfLocator": "MS Add.1400",
+      "title": "Vasudhāraṇīkathā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A paper manuscript of the Vasudhāraṇīkathā (Sucandrāvadāna).",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01400",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01400-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01400",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01400",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01400/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01400"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01449",
+      "shelfLocator": "MS Add.1449",
+      "title": "Collection of dhāraṇīs, stotras and ritual texts",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A Nepalese concertina manuscript containing a Collection of dhāraṇīs, stotras and ritual texts such as the Vakrasaṃvara",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01449",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01449-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01449",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01449",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01449/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01449"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01453",
+      "shelfLocator": "MS Add.1453",
+      "title": "Aikajaṭādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A partial Nepalese paper manuscript of the Aikajaṭādhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01453",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01453-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01453",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01453",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01453/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01453"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01455",
+      "shelfLocator": "MS Add.1455",
+      "title": "Unidentified Dhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A fragmenatry Nepalese paper manuscript of an unidentified dhāraṇī, with some passages in Newari.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01455",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01455-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01455",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01455",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01455/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01455"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01460",
+      "shelfLocator": "MS Add.1460",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01460",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01460-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01460",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01460",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01460/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01460"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01475-00001",
+      "shelfLocator": "MS Add.1475.1",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01475-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01475-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01475-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01475-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01475-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01475-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01476-00001",
+      "shelfLocator": "MS Add.1476.1",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This beautifully illuminated multi-text manuscript is written on black paper in golden ink. It was completed in 1791 CE",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01476-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01476-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01476-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01476-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01476-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01476-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01476-00002",
+      "shelfLocator": "MS Add.1476.2",
+      "title": "Saptavāra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "Two folios of an illuminated black-paper manuscript of the Saptavāra (containing only the end of the Vajravidāraṇā and the",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01476-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01476-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01476-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01476-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01476-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01476-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01546-00001",
+      "shelfLocator": "MS Add.1546.1",
+      "title": "Pañcabuddhadhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This small-size illuminated black-paper manuscript, written in gold ink, contains the Pañcabuddhadhāraṇī, dedicated to the",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01546-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01546-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01546-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01546-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01546-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01546-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01546-00002",
+      "shelfLocator": "MS Add.1546.2",
+      "title": "Mahāsaṃvarahṛdayadhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This small-size black-paper manuscript containing the Mahāsaṃvarahṛdayadhāraṇī has the peculiarity of being written in inks",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01546-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01546-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01546-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01546-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01546-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01546-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01550",
+      "shelfLocator": "MS Add.1550",
+      "title": "Pañcarākṣa dhāraṇī Collections",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A Nepalese paper manuscript containing a Pañcarākṣa dhāraṇī Collections, consisting of the 5 usual dhāraṇīs and two additional",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01550",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01550-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01550",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01550",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01550/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01550"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01551",
+      "shelfLocator": "MS Add.1551",
+      "title": "Dhāraṇīs and Stotras Collection",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "An illuminated Nepalese paper manuscript containing a Dhāraṇīs and Stotras Collection that consists of the Cakrasaṃvarahṛdayadhāraṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01551",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01551-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01551",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01551",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01551/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01551"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01552",
+      "shelfLocator": "MS Add.1552",
+      "title": "Caṇḍamahāroṣaṇatantradhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "Two folios of a Nepalese paper manuscript containig the Caṇḍamahāroṣaṇatantradhāraṇī and the Kālacakramantradhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01552",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01552-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01552",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01552",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01552/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01552"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01555",
+      "shelfLocator": "MS Add.1555",
+      "title": "Mahāsaṃvaradhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A Nepalese paper manuscript containing the Mahāsaṃvaradhāraṇī and the Bhūtaḍāṃaradhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01555",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01555-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01555",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01555",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01555/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01555"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01577",
+      "shelfLocator": "MS Add.1577",
+      "title": "Saptākṣarī Vajrapātādyahārī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A polychrome charm (yantra) against lightning made of seven intertwined letters (kūṭākṣara, monogram script): ya, ra, va,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01577",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01577-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01577",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01577",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01577/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01577"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01582",
+      "shelfLocator": "MS Add.1582",
+      "title": "Aparimitāyurdhāraṇīsūtra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "An incomplete paper manuscript of the Aparimitāyurdhāraṇīsūtra, a popular text containig the spell of Aparimitāyus. It is",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01582",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01582-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01582",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01582",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01582/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01582"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01644",
+      "shelfLocator": "MS Add.1644",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01644",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01644-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01644",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01644",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01644/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01644"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01647",
+      "shelfLocator": "MS Add.1647",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01647",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01647-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01647",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01647",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01647/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01647"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01656",
+      "shelfLocator": "MS Add.1656",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01656",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01656-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01656",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01656",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01656/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01656"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01662",
+      "shelfLocator": "MS Add.1662",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01662",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01662-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01662",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01662",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01662/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01662"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01680-00014-00003",
+      "shelfLocator": "MS Add.1680.14.3",
+      "title": "Fragment with Invocations to Buddhas and Bodhisattvas (Vasudhārādhāraṇī?)",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A palm-leaf fragment consisting of one single folio, containing invocations to various Buddhas and Bodhisattvas. The first",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01680-00014-00003",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01680-00014-00003-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01680-00014-00003",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01680-00014-00003",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01680-00014-00003/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01680-00014-00003"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01688",
+      "shelfLocator": "MS Add.1688",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01688",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01688-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01688",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01688",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01688/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01688"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01690-00001",
+      "shelfLocator": "MS Add.1690.1",
+      "title": "Vasudhārādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Vasudhāradhāraṇī, dedicated to Vasudhārā, the bodhisattva of wealth, prosperity, and abundance (who has a strong following",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01690-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01690-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01690-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01690-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01690-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01690-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01697-00004",
+      "shelfLocator": "MS Add.1697.4",
+      "title": "Balimālikā, Dhāraṇī, Vajrayoginīpranāmaikaviṃśatikādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A palm-leaf manuscript of the Balimālikā, Dhāraṇī, Vajrayoginīpranāmaikaviṃśatikādhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01697-00004",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01697-00004-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01697-00004",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01697-00004",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01697-00004/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01697-00004"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-01701-00001",
+      "shelfLocator": "MS Add.1701.1",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-01701-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-01701-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-01701-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-01701-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-01701-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01701-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-02196-00001",
+      "shelfLocator": "MS Add.2196.1",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-02196-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-02196-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-02196-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-02196-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-02196-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-02196-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-02196-00002",
+      "shelfLocator": "MS Add.2196.2",
+      "title": "Dhāraṇi",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A palm-leaf manuscript of a Dhāraṇi.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-02196-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-02196-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-02196-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-02196-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-02196-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-02196-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-ADD-02198",
+      "shelfLocator": "MS Add.2198",
+      "title": "Vasudhārādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Vasudhāradhāraṇī, dedicated to Vasudhārā, the bodhisattva of wealth, prosperity, and abundance (who has a strong following",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-ADD-02198",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-ADD-02198-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-ADD-02198",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-ADD-02198",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-ADD-02198/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-02198"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-CC-00037-ADD-B-00005",
+      "shelfLocator": "MS Corpus Christi 37 Add.B.5",
+      "title": "Bālabodhinī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A 19th-century paper manuscript in devanāgarī script of the Gītagovinda with Bālabodhinī commentary by Caitanyadāsa, a Bengali",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-CC-00037-ADD-B-00005",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-CC-00037-ADD-B-00005-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-CC-00037-ADD-B-00005",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-CC-00037-ADD-B-00005",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-CC-00037-ADD-B-00005/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-CC-00037-ADD-B-00005"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-00117",
+      "shelfLocator": "MS Or.117",
+      "title": "Vasudhārādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Vasudhāradhāraṇī, dedicated to Vasudhārā, the bodhisattva of wealth, prosperity, and abundance (who has a strong following",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-00117",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-00117-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-00117",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-00117",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-00117/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-00117"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-00130",
+      "shelfLocator": "MS Or.130",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-00130",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-00130-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-00130",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-00130",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-00130/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-00130"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-00142-00001",
+      "shelfLocator": "MS Or.142.1",
+      "title": "Vasudhārādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Vasudhāradhāraṇī, dedicated to Vasudhārā, the bodhisattva of wealth, prosperity, and abundance (who has a strong following",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-00142-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-00142-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-00142-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-00142-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-00142-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-00142-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-00142-00002",
+      "shelfLocator": "MS Or.142.2",
+      "title": "Vasudhārādhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Vasudhāradhāraṇī, dedicated to Vasudhārā, the bodhisattva of wealth, prosperity, and abundance (who has a strong following",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-00142-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-00142-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-00142-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-00142-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-00142-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-00142-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-00153",
+      "shelfLocator": "MS Or.153",
+      "title": "Aparimitāyurdhāraṇīsūtra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "An old palm-leaf manuscript (13th century) of the Aparimitāyurdhāraṇīsūtra, a popular text containig the spell of Aparimitāyus.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-00153",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-00153-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-00153",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-00153",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-00153/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-00153"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-00725-00002",
+      "shelfLocator": "MS Or.725.2",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-00725-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-00725-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-00725-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-00725-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-00725-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-00725-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01810",
+      "shelfLocator": "MS Or.1810",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā \"Five Protections\" consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01810",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01810-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01810",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01810",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01810/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01810"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01811",
+      "shelfLocator": "MS Or.1811",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This manuscript includes a Pañcarakṣā collection and a Saptavāra collection. The Pañcarakṣā \"Five Protections\" consists",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01811",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01811-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01811",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01811",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01811/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01811"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01812-00001",
+      "shelfLocator": "MS Or.1812.1",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This manuscript includes a Pañcarakṣā collection and a Saptavāra collection. The Pañcarakṣā \"Five Protections\" consists",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01812-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01812-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01812-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01812-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01812-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01812-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01812-00002",
+      "shelfLocator": "MS Or.1812.2",
+      "title": "Dhāraṇī",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A paper manuscript of an unidentified BUddhist Dhāraṇī.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01812-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01812-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01812-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01812-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01812-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01812-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01814-00001",
+      "shelfLocator": "MS Or.1814.1",
+      "title": "Collection of Dhāraṇis",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "This illuminated Nepalese paper manuscript contains a collection of four dhāraṇis related to various goddesses, each represented",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01814-00001",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01814-00001-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01814-00001",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01814-00001",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01814-00001/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01814-00001"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01814-00002",
+      "shelfLocator": "MS Or.1814.2",
+      "title": "Saptavāra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Saptavāra (\"Seven Days\") usually incorporates seven dhāraṇīs, the Vasudhārā, Vajravidāraṇā, Gaṇapatihṛdayā, Uṣṇīṣavijayā,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01814-00002",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01814-00002-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01814-00002",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01814-00002",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01814-00002/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01814-00002"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01814-00003",
+      "shelfLocator": "MS Or.1814.3",
+      "title": "Aparimitāyurdhāraṇīsūtra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "A modern, illuminated Nepalese paper manuscript of the Aparimitāyurdhāraṇīsūtra, a popular text containig the spell of Aparimitāyus.",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01814-00003",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01814-00003-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01814-00003",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01814-00003",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01814-00003/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01814-00003"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01814-00004",
+      "shelfLocator": "MS Or.1814.4",
+      "title": "Vasudhārānāmāṣṭottaraśataka",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Vasudhārānāmāṣṭottaraśataka is a hymn in praise to Vasudhārā, a Buddhist deity of wealth and abundance, composed of",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01814-00004",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01814-00004-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01814-00004",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01814-00004",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01814-00004/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01814-00004"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-01814-00005",
+      "shelfLocator": "MS Or.1814.5",
+      "title": "Saptavāra",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Saptavāra (\"Seven Days\") usually incorporates seven dhāraṇīs, the Vasudhārā, Vajravidāraṇā, Gaṇapatihṛdayā, Uṣṇīṣavijayā,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-01814-00005",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-01814-00005-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-01814-00005",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-01814-00005",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-01814-00005/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-01814-00005"
+        ]
+      }
+    },
+    {
+      "cudlId": "MS-OR-02258",
+      "shelfLocator": "MS Or.2258",
+      "title": "Pañcarakṣā",
+      "dateDisplay": "12th–18th century",
+      "script": "Nepālākṣarā / Hooked Nepālākṣarā",
+      "material": "Palm leaf / Nepalese paper",
+      "extent": "1 pages",
+      "numberOfPages": 1,
+      "abstractShort": "The Pañcarakṣā corpus (\"Five Protections\") consists of the Mahāpratisarā, Mahāmāyūrī, Mahāsāhasrapramardanī, Mahāmantrānusāriṇī,",
+      "transcribedRubricsAndExcerpts": [],
+      "sectionTitlesIast": [],
+      "iiifManifestUrl": "https://cudl.lib.cam.ac.uk/iiif/MS-OR-02258",
+      "sampleFolioImageUrls": [
+        "https://images.lib.cam.ac.uk/iiif/MS-OR-02258-000-00001.jp2/full/,800/0/default.jpg"
+      ],
+      "metadataJsonUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/json/MS-OR-02258",
+      "metadataTeiUrl": "https://services.cudl.lib.cam.ac.uk/v1/metadata/tei/MS-OR-02258",
+      "viewerUrl": "https://cudl.lib.cam.ac.uk/view/MS-OR-02258/1",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-OR-02258"
+        ]
+      }
+    }
+  ],
+  "hidasCriticalEditions": [
+    {
+      "id": "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas",
+      "titleSanskrit": "Māṇibhadradhāraṇī (Āryamāṇibhadranāmadhāraṇī)",
+      "editorCitation": "Gergely Hidas (2021), Powers of Protection / 84000, based on CUL MS Add. 1326, p. 146 (no. 73) & CUL MS Add. 1680.8",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1326, p. 146 (no. 73)",
+        "CUL MS Add. 1680.8.3"
+      ],
+      "tibetanParallelRef": "D 764 [=970] (Toh 764 / Toh 970)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas:0",
+          "textIast": "Māṇibhadradhāraṇī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas:1",
+          "textIast": "Source: slightly updated from Hidas' 2021 edition (no. 73 in Cambridge University Library Ms. Add. 1326, p. 146)"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas:2",
+          "textIast": "Tibetan: D 764 [=970]"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas:3",
+          "textIast": "oṃ namo māṇibhadrāya | evaṃ mayā śrutam ekasmin samaye bhagavāñ śrāvastyāṃ viharati sma jetavane ’nāthapiṇḍadasyārāme | atha khalu māṇibhadro mahāyakṣasenāpatir yena bhagavāṃs tenopasaṃkrāntaḥ | upasaṃkramya bhagavataḥ pādau śirasā vanditvaikānte ’sthāt | ekānte sthito māṇibhadro mahāyakṣasenāpatir bhagavantam etad avocat | idaṃ bhadanta mama hṛdayaṃ yaḥ kaścid bhikṣur vā bhikṣuṇī vopāsako vopāsikā vā triṣkṛtvā divase vācayiṣyati tasyāhaṃ satatānubaddho bhaviṣyāmi | sarvakāryāṇi kariṣyāmi | bhojanavastrahiraṇyasuvarṇadhanadhānyarūpyaṃ ca dāsyāmi | sarvārthaṃ cāsya kārayiṣyāmi | sarvasattvānāṃ ca mānasīkariṣyāmi | sarvacittaṃ cāsya kariṣyāmi sthāpayitvā maithunopasaṃhitaṃ sāvadyam | namo ratnatrayāya | namo māṇibhadrāya mahāyakṣasenāpataye | hili māṇibhadra hili 2 māṇibhadra | cili māṇibhadra cili 2 māṇibhadra | culu māṇibhadra culu 2 māṇibhadra | turu māṇibhadra turu 2 māṇibhadra | kuru māṇibhadra kuru 2 māṇibhadra | suru māṇibhadra suru 2 māṇibhadra | sarvārthaṃ me sādhaya svāhā | tadyathā | pūtane supūtane surūpe susumate surate supuṣye hilike hili kāli pūrṇe siddhe bhadre hili 2 svāhā | ehi koniṣke ehi soniṣke ehi goniṣke svāhā | sapta vārān parijapya siddhir bhavati | asyopacāraḥ | śuklapañcadaśyāṃ triṣkālaṃ śucinā gugguludhūpaṃ dahamānenāṣṭasahasraṃ japet | suvarṇaghaṭo labhate || || āryamāṇibhadranāmadhāraṇī samāptā || ||"
+        }
+      ],
+      "extractedMantraIast": "oṃ namo māṇibhadrāya | evaṃ mayā śrutam ekasmin samaye bhagavāñ śrāvastyāṃ viharati sma jetavane ’nāthapiṇḍadasyārāme | atha khalu māṇibhadro mahāyakṣasenāpatir yena bhagavāṃs tenopasaṃkrāntaḥ | upasaṃkramya bhagavataḥ pādau śirasā vanditvaikānte ’sthāt | ekānte sthito māṇibhadro mahāyakṣasenāpatir bhagavantam etad avocat | idaṃ bhadanta mama hṛdayaṃ yaḥ kaścid bhikṣur vā bhikṣuṇī vopāsako vopāsikā vā triṣkṛtvā divase vācayiṣyati tasyāhaṃ satatānubaddho bhaviṣyāmi | sarvakāryāṇi kariṣyāmi | bhojanavastrahiraṇyasuvarṇadhanadhānyarūpyaṃ ca dāsyāmi | sarvārthaṃ cāsya kārayiṣyāmi | sarvasattvānāṃ ca mānasīkariṣyāmi | sarvacittaṃ cāsya kariṣyāmi sthāpayitvā maithunopasaṃhitaṃ sāvadyam | namo ratnatrayāya | namo māṇibhadrāya mahāyakṣasenāpataye | hili māṇibhadra hili 2 māṇibhadra | cili māṇibhadra cili 2 māṇibhadra | culu māṇibhadra culu 2 māṇibhadra | turu māṇibhadra turu 2 māṇibhadra | kuru māṇibhadra kuru 2 māṇibhadra | suru māṇibhadra suru 2 māṇibhadra | sarvārthaṃ me sādhaya svāhā | tadyathā | pūtane supūtane surūpe susumate surate supuṣye hilike hili kāli pūrṇe siddhe bhadre hili 2 svāhā | ehi koniṣke ehi soniṣke ehi goniṣke svāhā | sapta vārān parijapya siddhir bhavati | asyopacāraḥ | śuklapañcadaśyāṃ triṣkālaṃ śucinā gugguludhūpaṃ dahamānenāṣṭasahasraṃ japet | suvarṇaghaṭo labhate || || āryamāṇibhadranāmadhāraṇī samāptā || ||",
+      "sourceApiId": "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326",
+          "MS-ADD-01680-00008-00003"
+        ],
+        "tohokuIds": [
+          "Toh 764",
+          "Toh 970"
+        ],
+        "rktsIds": [
+          "D764",
+          "D970"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Māṇibhadradhāraṇī_Hidas"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Mahādhāraṇī",
+      "titleSanskrit": "Mahādhāraṇī",
+      "editorCitation": "Gergely Hidas & Péter-Dániel Szántó (84000), based on CUL MS Add. 1680.8 & Add. 1326",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1680.8",
+        "CUL MS Add. 1326"
+      ],
+      "tibetanParallelRef": "D 529 [=888] (Toh 529 / Toh 888)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:0",
+          "textIast": "Mahādhāraṇī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:1",
+          "textIast": "Source: Hidas & Szántó, CUL Add. 1680.8"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:2",
+          "textIast": "Tibetan: D 529=888"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:3",
+          "textIast": "[29] namo bhagavatyai āryamahādhāriṇyai | evaṃ mayā śrutam ekasmin samaye bhagavān śrāvastyāṃ viharati sma | jetavane anāthapiṇḍadasyārāme mahatā bhikṣusaṃghena sārdham ardhatrayodaśabhir bhikṣuśataiḥ | atha khalv āyuṣmān ānandaḥ sāketake varṣoṣitaḥ pātracīvaram ādāya yena bhagavān tenopasaṃkrānta upasaṃkramya bhagataḥ pādau śirasā vanditvā ekānte 'sthād ekāntasthitam āyuṣmantam ānandaṃ bhagavan etad avocat |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:4",
+          "textIast": "udgṛhṇa tvam ānanda imāni mahādhāraṇīmantrapadāni sarvasattvānām arthāya hitāya sukhāya dhāraya | grāhaya | vācaya | manasi kuru | paryavāpnuhi |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:5",
+          "textIast": "tat kasya hetoḥ | durlabhā hy ānanda mahādhāraṇīmantrapadāḥ | durlabhas tathāgatānām arhatāṃ samyaksambuddhānāṃ loke prādurbhāvaḥ | tadyathā | audumbarapuṣpasamam | [missing ... ?]"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:6",
+          "textIast": "yaḥ kaścid ānanda kulaputro vā kuladuhitā vā | imāṃ mahādhāraṇīmantrapadān dhārayiṣyati | vācayiṣyati | grāhayiṣyati | manasi kariṣyati | paryavāpsyati | nāsau śastreṇa kālaṃ kariṣyati | na viṣeṇa nāgninā kālaṃ kariṣyati | na cāsya rājabhayaṃ bhaviṣyati |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:7",
+          "textIast": "na cāsya devāsuragaruḍakiṃnaramahoragayakṣarākṣasapretapiśācabhūtakumbhāṇḍapūtanakaṭapūtanalūtāpasmāra-unmādakṛtyakarma+++++ostārakagraho vā bhaviṣyati |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:8",
+          "textIast": "na cāsya jvarā vā | ekāhikā | dvyāhikā | tryāhikā | cāturthakā | sāṃnipātikā | nityajvarā | viṣamajvarā vā bhaviṣyanti | na ++++++ vā | mūlakarmā vā bhaviṣyati ||"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:9",
+          "textIast": "saṃyyathīdaṃ | bale mahābale | jvale | mahājvale | jvalite | ukke mukke | sampade | mahāsampade | tapane | mahātapane svāhā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:10",
+          "textIast": "ime khalv ānanda mahādhāraṇīmantrapadāḥ saptasaptatibhiḥ | samyaksambuddhakoṭībhir bhāṣitāḥ | mayāpy etarhi bhāṣitāḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:11",
+          "textIast": "yaḥ kaścid ānanda kulaputro vā kuladuhitā vā | imāṃ mahādhāraṇīmantrapadāni dhārayiṣyati | vācayiṣyati | grāhayiṣyati | manasikariṣyati | paryavāpsyati | sa saptajāti jātismaro bhaviṣyati | na cāsya bodhicittaṃ vimuhyayiṣyati |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:12",
+          "textIast": "saṃyyathedam | aṇḍe maṇḍe | kṣame | mahākṣame | varado | anado | kule | ++++++++++++saha[?] svāhā ||"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:13",
+          "textIast": "ime khalv ānanda mahādhāraṇīmantrapadāḥ | aṣṭāśītibhiḥ samyaksambuddhakoṭībhir bhāṣitāḥ | mayāpy etarhi bhāṣitā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:14",
+          "textIast": "yaḥ kaścid ānanda kulaputro vā kuladuhitā vā imāṃ dhāraṇīmantrapadāni dhārayiṣyati | grāhayiṣyati | vācayiṣyati | manasikariṣyati | paryavāpsyati | sa caturdaśajāti jātismaro bhaviṣyati | na cāsya bodhicittaṃ vimuhyayiṣyati |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:15",
+          "textIast": "saṃyyathīdam | aṭṭe | vaṭe | ṭhakke | ṭharakke | ṭake | vare va++++kosi | mahākosi | ili mili raurave | mahāraurave timi | bhūtaṃgame | mahābhūtaṃgame | parāyaṇe | ghasi | mahamati | ghasi svāhā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:16",
+          "textIast": "ime khalv ānanda mahādhāraṇīmantrapadāni navanavatibhiḥ samyaksaṃbuddhakoṭībhir bhāṣitā | mayāpy etarhi bhāṣitā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:17",
+          "textIast": "yaḥ kaścid ānanda kulaputro vā kuladihutā vā | imāṃ dhāraṇīmantrapadāni dhārayiṣyati | vācayiṣyati | grāhayiṣyati | manasi kariṣyati | paryavāpsyati | sa ekaviṃśatijāti jātismaro bhaviṣyati | na cāsya bodhicittaṃ vimuhyayiṣyati |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:18",
+          "textIast": "tadyathā | akkile | vakkile | rule | auhani | mohani | stambhani | jambhani | svāhā ||"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:19",
+          "textIast": "(Skt iii) ebhiḥ khalv ānanda mahādhāraṇīmantrapadaiḥ | śuṣkavṛkṣasyāpi śāntiṃ svastyayanaṃ kṛtvā daṇḍaparihāraṃ pratisaraṃ bandhayet | patrāṇy asya jāyeyuḥ pallavāni pravālāni puṣpāni phalāni ca jāyeyuḥ | kaḥ punar vādaḥ savijñānake mānuṣyake śarīre | sthāpayitvā ānanda paurāṇakaṃ karmavipākam ||"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:20",
+          "textIast": "(Skt ii) apy evānanda candrasūryāv apy evaṃ maharddhikau evaṃmahānubhāvāv evaṃ[...] bhūmau nipatetām | apy evānanda | iyaṃ mahāpṛthivī sahasā vicālayet | apy evānanda catvāro mahāsamudrā evaṃ gambhīrā | evaṃ vistīrṇāḥ | śoṣaṃ gaccheyuḥ | apy evānanda sumeruḥ parvatarājā sthānād vicālayet | na caitad anyathā syāt |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:21",
+          "textIast": "(Skt i) yaś cemāny ānanda mahādhāraṇīmantrapadāny atikramet | devo vā | nāgo vā | asuro vā | garuḍo vā | kiṃnaro vā | mahorago vā | yakṣo vā | rākṣaso vā | kumbhāṇḍo vā | pūtano vā | kaṭapūtano vā | bhūto vā | apasmāro vā | manuṣyo vā | amanuṣyo vā | yo vā | so vā | tasya dhṛtarāṣṭro rājā taptenāyomayena cakreṇa +++++ vajrapāṇiś ca mahāyakṣasenāpatir cakreṇādīptena pradīptena saṃprajvalitena | ekajvālībhūtena | praharet | śakro devānām indraḥ ++++++++ jvalitena | ekajvālībhūtena praharet | na cāsyāḍakavatyāṃ rājadhānyāṃ pātrodakaṃ prapatet | saptadhāsya mūrdhānaṃ sphoṭayed arjakasyeva mañjarī |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:22",
+          "textIast": "idam avocad bhagavān āyuṣmān ānandas te ca bhikṣavaḥ sadevamānuṣāsuragaruḍagandharvaś ca loko bhagavato bhāṣitam abhyanandann iti ||"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādhāraṇī:23",
+          "textIast": "āryamahādhāraṇī samāptā || ||"
+        }
+      ],
+      "extractedMantraIast": "[29] namo bhagavatyai āryamahādhāriṇyai | evaṃ mayā śrutam ekasmin samaye bhagavān śrāvastyāṃ viharati sma | jetavane anāthapiṇḍadasyārāme mahatā bhikṣusaṃghena sārdham ardhatrayodaśabhir bhikṣuśataiḥ | atha khalv āyuṣmān ānandaḥ sāketake varṣoṣitaḥ pātracīvaram ādāya yena bhagavān tenopasaṃkrānta upasaṃkramya bhagataḥ pādau śirasā vanditvā ekānte 'sthād ekāntasthitam āyuṣmantam ānandaṃ bhagavan etad avocat | tat kasya hetoḥ | durlabhā hy ānanda mahādhāraṇīmantrapadāḥ | durlabhas tathāgatānām arhatāṃ samyaksambuddhānāṃ loke prādurbhāvaḥ | tadyathā | audumbarapuṣpasamam | [missing ... ?] saṃyyathīdaṃ | bale mahābale | jvale | mahājvale | jvalite | ukke mukke | sampade | mahāsampade | tapane | mahātapane svāhā | saṃyyathedam | aṇḍe maṇḍe | kṣame | mahākṣame | varado | anado | kule | ++++++++++++saha[?] svāhā || saṃyyathīdam | aṭṭe | vaṭe | ṭhakke | ṭharakke | ṭake | vare va++++kosi | mahākosi | ili mili raurave | mahāraurave timi | bhūtaṃgame | mahābhūtaṃgame | parāyaṇe | ghasi | mahamati | ghasi svāhā | tadyathā | akkile | vakkile | rule | auhani | mohani | stambhani | jambhani | svāhā ||",
+      "sourceApiId": "SA_K12_Āgama_Mahādhāraṇī",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01680-00008-00001",
+          "MS-ADD-01326"
+        ],
+        "tohokuIds": [
+          "Toh 529",
+          "Toh 888"
+        ],
+        "rktsIds": [
+          "D529",
+          "D888"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Mahādhāraṇī"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī",
+      "titleSanskrit": "Sarvakarmāvaraṇaviśodhanīdhāraṇī",
+      "editorCitation": "Gergely Hidas & Péter-Dániel Szántó (84000), based on CUL MS Add. 1680.8.3 & Add. 1326",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1680.8.3",
+        "CUL MS Add. 1326"
+      ],
+      "tibetanParallelRef": "D 743 [=1009] (Toh 743 / Toh 1009)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī:0",
+          "textIast": "Sarvakarmāvaraṇaviśodhanī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī:1",
+          "textIast": "Source: Cambridge University Library Ms. Add. 1680.8.3"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī:2",
+          "textIast": "Tibetan: D 743 [=1009]"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī:3",
+          "textIast": "namo bhagavate ’kṣobhyāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā oṃ hūṃ kakani kakani | vākani vākani | rocani rocani | troṭani | troṭani | saṃtrāsani | saṃtrāsani + + + 2 pratihana 2 sarvakarmaparamparāni me svāhā | ya imāṃ dhāraṇīm antaśaḥ kuḍyalikhitām api paśyet tasya pañcānantaryāṇi parikṣayaṃ [explicit]"
+        }
+      ],
+      "extractedMantraIast": "namo bhagavate ’kṣobhyāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā oṃ hūṃ kakani kakani | vākani vākani | rocani rocani | troṭani | troṭani | saṃtrāsani | saṃtrāsani + + + 2 pratihana 2 sarvakarmaparamparāni me svāhā | ya imāṃ dhāraṇīm antaśaḥ kuḍyalikhitām api paśyet tasya pañcānantaryāṇi parikṣayaṃ [explicit]",
+      "sourceApiId": "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01680-00008-00003",
+          "MS-ADD-01326"
+        ],
+        "tohokuIds": [
+          "Toh 743",
+          "Toh 1009"
+        ],
+        "rktsIds": [
+          "D743",
+          "D1009"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Sarvakarmāvaraṇaviśodhanīdhāraṇī"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas",
+      "titleSanskrit": "Mahāśrīnāmadvādaśaka (Śrīmahādevīvyākaraṇa)",
+      "editorCitation": "Gergely Hidas & Péter-Dániel Szántó (84000), based on CUL MS Add. 1326 & Add. 1680.8",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1326",
+        "CUL MS Add. 1680.8"
+      ],
+      "tibetanParallelRef": "D 741 [=1006] (Toh 741 / Toh 1006)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:0",
+          "textIast": "Mahāśrīnāmadvādaśa"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:1",
+          "textIast": "Source: Hidas & Szántó 84000"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:2",
+          "textIast": "Tibetan: D 741 [=1006]"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:3",
+          "textIast": "DS old1"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:4",
+          "textIast": "[3] [1v] @ namas tārāyai || evaṃ mayā śrutam ekasmi[n samaye] bhagavān sukhāvatyāṃ viharati sma | atha khalu bhagavān mahāśriyaṃ dṛṣṭvā mañjuśriyam āryāvalokiteśvaraṃ ca bodhisattvaṃ mahāsattva[m e]tad avocat | yaḥ khalu punar mañjuśrīr mahāśriyo devatāyā nāmadvādaśakaṃ jñāsyati | bhikṣur vā bhikṣuṇī vā upāsako vā upāsikā vā | anyo vā yaḥ ka[ścid dhā]rayiṣyati vācayiṣyati likhiṣyati likhāpayiṣyati | na tasya dāridryabhayaṃ bhaviṣyati | dāridryaṃ prahāya āḍhyo bhaviṣyati | atha khalu bhagavān mahāśri[yo de]vatāyā nāmadvādaśakaṃ bhāṣate sma | tadyathā oṃ lakṣmīḥ śrīḥ padmamālinī dhanādhipatiḥ gaurī mahāyaśāḥ padmanetrī kartrī ma[hādyutiḥ | annadāyinī | ratna]prabhā | mahāśrīś ceti | atra mantrapadāni | jini 2 glini 2 kāyaviśodhani vāgviśodhani manaḥsaṃśodhani | sisi sisi | nimi 2 alakṣmīṃ [me nāśaya svāhā |] [the rest is lost] [Mahāśrī-nāma-dhāraṇī]"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:5",
+          "textIast": "DS old2"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas:6",
+          "textIast": "[40] [siddham] evaṃ mayā śrutam ekasmin samaye bhagavān sukhāvatyāṃ viharati sma | a[tha] khalu bhagavān mahāśriyaṃ dṛṣṭvā mañjuśriyam āryāvalokiteśvaraṃ ca bodhisattvaṃ mahāsattvam etad avocat | yaḥ khalu punar mañjuśrīr mahāśriyo devatāyā nāmadvādaśakaṃ jñāsyati | bhikṣur vā | bhikṣuṇī vā | upāsako vā | upāsikā vā | anyo vā yaḥ kaścid dhārayiṣyati vācayiṣyati | likhiṣyati | likhā[32v]payiṣyati | na tasya dāridryabhayaṃ bhaviṣyati | dāridrya[ṃ] prahāya āḍhyo bhaviṣyati | atha khalu bhagavān mahāśriyo devatāyā nāmadvādaśakaṃ bhāṣate sma | tadyathā oṃ lakṣmīḥ | śrīḥ | padmamālinī dhanādhipatiḥ | gaurī mahāyaśā padmanetrī | karttrī mahādyutiḥ | annadāyinī | ratnaprabhā | mahāśrīś ceti | atra mantrapadā[ḥ/ni | jini 2 gli]ni 2 kāyaviśodhani | vāgviśodhani | manaḥsaṃśodhani | sisi sisi | nimi 2 alakṣmīṃ me nāśaya svāhā || trijaptā kartavyā || +++[=yaś co?]ccārayiṣyati | tasya sarve pratipakṣā vināśaṃ yāsyanti | subhagaś ca bhaviṣyati | rājadarśane vācayitavyaḥ | rājā tasya vaśo bhaviṣyati | putrasaṃjñāṃ ca dadāti yat kathayati tat karoti | satatajāpena mahābrahmā āgacchati | āgatya ca yam icchati taṃ varaṃ dadāti | idam avocad bhagavān [āttamanā ma][33r][ñju]śrīr āryāvalokiteśvaraś ca bodhisattvo mahāsattvaḥ sā ca sarvāvatī parṣat sadevamānuṣāsuragandharvaś ca loko bhagavato bhāṣitam abhyanandann iti || || āryamahāśrīnāmadhāraṇī samāptā || ||"
+        }
+      ],
+      "extractedMantraIast": "[3] [1v] @ namas tārāyai || evaṃ mayā śrutam ekasmi[n samaye] bhagavān sukhāvatyāṃ viharati sma | atha khalu bhagavān mahāśriyaṃ dṛṣṭvā mañjuśriyam āryāvalokiteśvaraṃ ca bodhisattvaṃ mahāsattva[m e]tad avocat | yaḥ khalu punar mañjuśrīr mahāśriyo devatāyā nāmadvādaśakaṃ jñāsyati | bhikṣur vā bhikṣuṇī vā upāsako vā upāsikā vā | anyo vā yaḥ ka[ścid dhā]rayiṣyati vācayiṣyati likhiṣyati likhāpayiṣyati | na tasya dāridryabhayaṃ bhaviṣyati | dāridryaṃ prahāya āḍhyo bhaviṣyati | atha khalu bhagavān mahāśri[yo de]vatāyā nāmadvādaśakaṃ bhāṣate sma | tadyathā oṃ lakṣmīḥ śrīḥ padmamālinī dhanādhipatiḥ gaurī mahāyaśāḥ padmanetrī kartrī ma[hādyutiḥ | annadāyinī | ratna]prabhā | mahāśrīś ceti | atra mantrapadāni | jini 2 glini 2 kāyaviśodhani vāgviśodhani manaḥsaṃśodhani | sisi sisi | nimi 2 alakṣmīṃ [me nāśaya svāhā |] [the rest is lost] [Mahāśrī-nāma-dhāraṇī] [40] [siddham] evaṃ mayā śrutam ekasmin samaye bhagavān sukhāvatyāṃ viharati sma | a[tha] khalu bhagavān mahāśriyaṃ dṛṣṭvā mañjuśriyam āryāvalokiteśvaraṃ ca bodhisattvaṃ mahāsattvam etad avocat | yaḥ khalu punar mañjuśrīr mahāśriyo devatāyā nāmadvādaśakaṃ jñāsyati | bhikṣur vā | bhikṣuṇī vā | upāsako vā | upāsikā vā | anyo vā yaḥ kaścid dhārayiṣyati vācayiṣyati | likhiṣyati | likhā[32v]payiṣyati | na tasya dāridryabhayaṃ bhaviṣyati | dāridrya[ṃ] prahāya āḍhyo bhaviṣyati | atha khalu bhagavān mahāśriyo devatāyā nāmadvādaśakaṃ bhāṣate sma | tadyathā oṃ lakṣmīḥ | śrīḥ | padmamālinī dhanādhipatiḥ | gaurī mahāyaśā padmanetrī | karttrī mahādyutiḥ | annadāyinī | ratnaprabhā | mahāśrīś ceti | atra mantrapadā[ḥ/ni | jini 2 gli]ni 2 kāyaviśodhani | vāgviśodhani | manaḥsaṃśodhani | sisi sisi | nimi 2 alakṣmīṃ me nāśaya svāhā || trijaptā kartavyā || +++[=yaś co?]ccārayiṣyati | tasya sarve pratipakṣā vināśaṃ yāsyanti | subhagaś ca bhaviṣyati | rājadarśane vācayitavyaḥ | rājā tasya vaśo bhaviṣyati | putrasaṃjñāṃ ca dadāti yat kathayati tat karoti | satatajāpena mahābrahmā āgacchati | āgatya ca yam icchati taṃ varaṃ dadāti | idam avocad bhagavān [āttamanā ma][33r][ñju]śrīr āryāvalokiteśvaraś ca bodhisattvo mahāsattvaḥ sā ca sarvāvatī parṣat sadevamānuṣāsuragandharvaś ca loko bhagavato bhāṣitam abhyanandann iti || || āryamahāśrīnāmadhāraṇī samāptā || ||",
+      "sourceApiId": "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326",
+          "MS-ADD-01680-00008-00001"
+        ],
+        "tohokuIds": [
+          "Toh 741",
+          "Toh 1006"
+        ],
+        "rktsIds": [
+          "D741",
+          "D1006"
+        ],
+        "gretilIds": [
+          "bsu007_u.htm"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Mahāśrīnāmadvādaśaka_Hidas"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Sahasrāvartādhāraṇī",
+      "titleSanskrit": "Sahasrāvartādhāraṇī",
+      "editorCitation": "Gergely Hidas & Péter-Dániel Szántó (84000), based on CUL MS Add. 1326 & Add. 1680.8",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1326",
+        "CUL MS Add. 1680.8"
+      ],
+      "tibetanParallelRef": "D 710 [=930] (Toh 710 / Toh 930)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Sahasrāvartādhāraṇī:0",
+          "textIast": "Sahasrāvartānāmadhāraṇī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Sahasrāvartādhāraṇī:1",
+          "textIast": "Source: Hidas & Szántó 84000"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Sahasrāvartādhāraṇī:2",
+          "textIast": "Tibetan: D 710 [=930]"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Sahasrāvartādhāraṇī:3",
+          "textIast": "namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya || tadyathā | oṃ jaye 2 mahājaye jayavāhini jayottari kala 2 mala 2 cala 2 hulu 2 chiṇi 2 sarvakarmāvaraṇāni mama bhagavati sahasrāvarte sarvabuddhāvalokite cakṣuḥśrotaghrāṇajihvākāyamanovijñānaviśodhani | tadyathā | oṃ suru 2 prasuru 2 bhara 2 saṃbhara 2 hara 2 smara 2 oṃ sarvabuddhādhiṣṭhite svāhā | oṃ sarvabuddhāvalokite svāhā | oṃ dharmadhātugarbhe svāhā | oṃ abhāvasvabhāvadharmāvabodhani svāhā || asyā dhāraṇyā ayam upacāraḥ | kalpasahasrasaṃcitaṃ karmāvaraṇam ekavāroccāritena parikṣayaṃ gacchati | buddhasahasrāvaropitaṃ kuśalamūlaṃ bhavati | jātiparivartena cakravartirājyaiśvaryaṃ śatasahasraṃ pratilabhate | maraṇakāle ca buddhasahasraṃ paśyati | pratidinaṃ sahasrāvartaṃ kurvann ekaviṃśatidivasena bodhisattvasaṃkhyāṃ gacchati | pariśuddheṣu buddhakṣetreṣūpapadyate | triṣkṛtvā rātrau triṣkṛtvā divasasya japet | yathepsitāni svapnāni paśyati | suvarṇavarṇatathāgataṃ paśyati | aparimitānuśaṃsā bodhisattvasaṃgītīḥ śrūyante paśyante | satatasamitaṃ manasi kartavyā || āryasahasrāvartānāmadhāraṇī parisamāptaḥ || ||"
+        }
+      ],
+      "extractedMantraIast": "namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya || tadyathā | oṃ jaye 2 mahājaye jayavāhini jayottari kala 2 mala 2 cala 2 hulu 2 chiṇi 2 sarvakarmāvaraṇāni mama bhagavati sahasrāvarte sarvabuddhāvalokite cakṣuḥśrotaghrāṇajihvākāyamanovijñānaviśodhani | tadyathā | oṃ suru 2 prasuru 2 bhara 2 saṃbhara 2 hara 2 smara 2 oṃ sarvabuddhādhiṣṭhite svāhā | oṃ sarvabuddhāvalokite svāhā | oṃ dharmadhātugarbhe svāhā | oṃ abhāvasvabhāvadharmāvabodhani svāhā || asyā dhāraṇyā ayam upacāraḥ | kalpasahasrasaṃcitaṃ karmāvaraṇam ekavāroccāritena parikṣayaṃ gacchati | buddhasahasrāvaropitaṃ kuśalamūlaṃ bhavati | jātiparivartena cakravartirājyaiśvaryaṃ śatasahasraṃ pratilabhate | maraṇakāle ca buddhasahasraṃ paśyati | pratidinaṃ sahasrāvartaṃ kurvann ekaviṃśatidivasena bodhisattvasaṃkhyāṃ gacchati | pariśuddheṣu buddhakṣetreṣūpapadyate | triṣkṛtvā rātrau triṣkṛtvā divasasya japet | yathepsitāni svapnāni paśyati | suvarṇavarṇatathāgataṃ paśyati | aparimitānuśaṃsā bodhisattvasaṃgītīḥ śrūyante paśyante | satatasamitaṃ manasi kartavyā || āryasahasrāvartānāmadhāraṇī parisamāptaḥ || ||",
+      "sourceApiId": "SA_K12_Āgama_Sahasrāvartādhāraṇī",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326",
+          "MS-ADD-01680-00008-00002"
+        ],
+        "tohokuIds": [
+          "Toh 710",
+          "Toh 930"
+        ],
+        "rktsIds": [
+          "D710",
+          "D930"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Sahasrāvartādhāraṇī"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Surūpādhāraṇī",
+      "titleSanskrit": "Surūpādhāraṇī",
+      "editorCitation": "Gergely Hidas & Péter-Dániel Szántó (84000), based on CUL MS Add. 1326 & Add. 1680.8",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1326",
+        "CUL MS Add. 1680.8"
+      ],
+      "tibetanParallelRef": "D 540 [=1078] (Toh 540 / Toh 1078)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:0",
+          "textIast": "Surūpādhāraṇī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:1",
+          "textIast": "Source: Hidas & Szántó 84000"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:2",
+          "textIast": "Tibetan: D 540=1078"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:3",
+          "textIast": "namaḥ surūpāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā | oṃ suru suru prasuru prasuru tara tara bhara bhara saṃbhara saṃbhara smara smara saṃtarpaya saṃtarpaya sarvapretānāṃ svāhā | anayā dhāraṇyodakasahitaṃ bhaktaṃ sapta vārān parijapya vāmahastenācchaṭātrayaṃ dattvā sarvapretebhyo vivikte pradeśe dātavyam | evaṃ ca bhāṣitavyam | apasarantv avatāraprekṣiṇo dadāmy ahaṃ sarvalokadhātuvāsināṃ pretānām āhāram iti | abhuktenaiva kartavyam | evaṃ sarvapretānāṃ taṇḍuladroṇabhaktaṃ pratyekaṃ dattaṃ bhavati | evaṃ kurvan na durbalo bhavati na daridro bhavaty api tu jātau jātau mahābalaḥ prāsādiko darśanīya āḍhyo mahābhogo bhavati dīrghāyur arogī kṣipraṃ cānuttarāṃ samyaksaṃbodhim abhisaṃbhotsyate | cyutaś ca sukhāvatyāṃ lokadhātāv upapadyate || iti surūpā nāma dhāraṇī ||"
+        }
+      ],
+      "extractedMantraIast": "namaḥ surūpāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā | oṃ suru suru prasuru prasuru tara tara bhara bhara saṃbhara saṃbhara smara smara saṃtarpaya saṃtarpaya sarvapretānāṃ svāhā | anayā dhāraṇyodakasahitaṃ bhaktaṃ sapta vārān parijapya vāmahastenācchaṭātrayaṃ dattvā sarvapretebhyo vivikte pradeśe dātavyam | evaṃ ca bhāṣitavyam | apasarantv avatāraprekṣiṇo dadāmy ahaṃ sarvalokadhātuvāsināṃ pretānām āhāram iti | abhuktenaiva kartavyam | evaṃ sarvapretānāṃ taṇḍuladroṇabhaktaṃ pratyekaṃ dattaṃ bhavati | evaṃ kurvan na durbalo bhavati na daridro bhavaty api tu jātau jātau mahābalaḥ prāsādiko darśanīya āḍhyo mahābhogo bhavati dīrghāyur arogī kṣipraṃ cānuttarāṃ samyaksaṃbodhim abhisaṃbhotsyate | cyutaś ca sukhāvatyāṃ lokadhātāv upapadyate || iti surūpā nāma dhāraṇī ||",
+      "sourceApiId": "SA_K12_Āgama_Surūpādhāraṇī",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326",
+          "MS-ADD-01680-00008-00003"
+        ],
+        "tohokuIds": [
+          "Toh 540",
+          "Toh 1078"
+        ],
+        "rktsIds": [
+          "D540",
+          "D1078"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Surūpādhāraṇī"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas",
+      "titleSanskrit": "Mahādaṇḍadhāraṇī-Śītavatī (Mahāśītavatī)",
+      "editorCitation": "Gergely Hidas (2017), Bulletin of SOAS / 84000, based on CUL MS Add. 1326 & Pañcarakṣā MSS",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1326",
+        "CUL MS Add. 1325 (Pañcarakṣā)"
+      ],
+      "tibetanParallelRef": "Toh 606 [=958] (D 606 / D 958)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:0",
+          "textIast": "Mahādaṇḍadhāraṇīśītavatī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:1",
+          "textIast": "Published: Hidas 2017"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:2",
+          "textIast": "% Tōh. 606 (=958)"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:3",
+          "textIast": "[0] [siddham] namaḥ sarvabuddhabodhisattvebhyaḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:4",
+          "textIast": "[1] evaṃ mayā śrutam ekasmin samaye bhagavān rājagṛhe viharati sma | śītavane mahāśmaśāne iṅghikāyatanapratyuddeśe | tatrāyuṣmān rāhulo 'tīva viheṭhyate devagrahair nāgagrahair yakṣagrahai rākṣasagrahaiḥ kinnaragrahair garuḍagrahair mahoragagrahair manuṣyagrahair amanuṣyagrahaiḥ pretagrahair bhūtagrahaiḥ piśācagrahaiḥ kumbhāṇḍagrahair dvīpibhiḥ kākair ulūkaiḥ kīṭaiḥ sarīsṛpair anyaiś ca manuṣyāmanuṣyaiḥ sattvaiḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:5",
+          "textIast": "[2] athāyuṣmān rāhulo yena bhagavāṃs tenopasaṃkrānta upasaṃkramya bhagavataḥ pādau śirasābhivanditvā bhagavantaṃ triḥpradakṣiṇīkṛtya bhagavataḥ purato rudann aśrūṇi pravartayati sma |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:6",
+          "textIast": "[3] atha bhagavān jānann eva rāhulam āmantrayate sma | kiṃ tvaṃ rāhula mama purataḥ sthitvā aśrūṇi pravartayasi | evam ukte āyuṣmān rāhulo bhagavantam etad avocat | ihāhaṃ bhagavān rājagṛhe viharāmi | śītavane mahāśmaśāne iṅghikāyatanapratyuddeśe | so 'haṃ bhagavaṃs tatra viheṭhye devagrahair nāgagrahair yakṣagrahai rākṣasagrahaiḥ kinnaragrahair garuḍagrahair mahoragagrahair manuṣyagrahair amanuṣyagrahaiḥ pretagrahair bhūtagrahaiḥ piśācagrahaiḥ kumbhāṇḍagrahair dvīpibhiḥ kākair ulūkaiḥ kīṭaiḥ sarīsṛpair anyaiś ca manuṣyāmanuṣyaiḥ sattvair iti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:7",
+          "textIast": "[4] atha khalu bhagavān āyuṣmantaṃ rāhulam āmantrayate sma | udgṛhṇa tvaṃ rāhula imāṃ mahādaṇḍadhāraṇīṃ vidyām | catasṛṇāṃ parṣadāṃ rakṣāvaraṇaguptaye bhikṣūṇāṃ bhikṣuṇīnām upāsakānām upāsikānāṃ ca dīrgharātram arthāya hitāya sukhāya bhaviṣyati |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:8",
+          "textIast": "[5] tadyathā | aṅgā | vaṅgā | bhaṅgā | varaṅgā | saṃsārataraṅgā | sāsadaṅgā | bhaṅgā | jesurā | ekatarā | ara vīrā | tara vīrā | kara vīrā | kara kara vīrā | indrā | indrakisarā | haṃsā | haṃsakisarā | picimalā | mahākiccā | viheṭhikā | kālucchikā | aṅgodarā | jayā | jayālikā | velā | elā | cintāli | cili cili | hili hili | sumati | vasumati | culu naṭṭe | culu culu naṭṭe | culu nāḍi | kunāḍi | hārīṭaki | kārīṭaki | gauri | gandhāri | caṇḍāli | mātaṅgi | dharaṇi dhāraṇi | uṣṭrapālike | kaca kārike | cala nāṭike | kākalike | lalamati | rakṣamati | varākule | manmate utpale | kara vīre | tara vīre | tara tara vīre | kuru vīre | kuru kuru vīre | curu vīre | curu curu vīre | mahāvīre | iramati | varamati | rakṣamati | sarvārthasādhani | paramārthasādhani | apratihate | indro rājā | yamo rājā | varuṇo rājā | kubero rājā | manasvī rājā | vāsukī rājā | daṇḍāgni rājā | brahmā sahasrādhipatī rājā | buddho bhagavān dharmasvāmī rājā | anuttaro lokānukampakaḥ mama sarvasattvānāṃ ca rakṣāṃ kurvantu | paritrāṇaṃ parigrahaṃ paripālanaṃ śāntiṃ svastyayanaṃ daṇḍaparihāraṃ śastraparihāraṃ viṣadūṣaṇaṃ viṣanāśanaṃ sīmābandhaṃ dharaṇībandhaṃ ca kurvantu | jīvatu varṣaśataṃ paśyatu śaradāṃ śatam |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:9",
+          "textIast": "[6] tadyathā | balavati | varamati | talamati | lakṣamati | rakṣamati | huru huru | phuru phuru | cara cara | khara khara | khuru khuru | mati mati | bhūmicaṇḍe | kālikeṭi | akisalā | pīne | sāmalate | hūle sthūle | sthūlaśikhare | jaya sthūle | jaya naṭṭe | cala nāsi | culu nāsi | vāgbandhani | virohaṇi | solohite | aṇḍare | paṇḍare | karāle | kinnare | keyūre | ketumati | bhūtaṃgame | bhūtamati | dhanye | maṅgalye | mahābalalohitamūle | acaladaṇḍe | dhuraṃdharā | jayālike | jayā | gorohaṇi | curu curu | rundha rundha | dhuru dhuru | khuru khuru | khurumati | bandhumati | dhuraṃdhare | dhare dhare | vidhare vimati | viṣkambhaṇi | nāśani vināśani | bandhani | mokṣaṇi | mocani | mohani | bhāvani | śodhani | saṃśodhani viśodhani | saṃkhiraṇi | saṃchindani | sādhu turumāṇe hara hara bandhumati | hiri hiri | khiri khiri | kharali | huru huru | piṅgale | namo 'stu buddhānāṃ bhagavatāṃ svāhā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:10",
+          "textIast": "[7] asyāṃ khalu rāhula mahādaṇḍadhāraṇyāṃ vidyāyām antaśo 'ṣṭottaraśatapadānāṃ sūtraṃ granthiṃ baddhāyāṃ hastena dhāryamāṇāyāṃ kaṇṭhena dhāryamāṇāyāṃ samantād yojanaśatasya rakṣā kṛtā bhaviṣyati | gandhair vā puṣpair vā mudrābhir vā naiva manuṣyo vāmanuṣyo vābhibhaviṣyati | na viṣaṃ na śastraṃ na rogo na jvaro na prajvaro na vidyāmantro na vetāḍaḥ | na vyādhau nāgnau na viṣodakena kālaṃ kariṣyati | vidyāmantraprayogānāṃ ca sarveṣāṃ sādhuprayuktānāṃ ca bandhanī | parabandhānāṃ ca pramocanī | sarvarogaśokavighnavināśanakarī | kalikaluṣapraśamanakarī | sarvagrahavimocanakarī | yo graho na muñcet saptadhāsya sphuṭen mūrdhā arjakasyeva mañjarī | vajrapāṇiś cāsya mahāyakṣasenāpatir vajreṇādīptena samprajvālitena ekajvālībhūtena dhyāyitvā mūrdhānaṃ sphoṭayet | catvāraś ca mahārājāno 'yomayena cakreṇa kṣuradhārāprahāreṇa vināśayeyuḥ | tasmād yakṣalokāc cyavanaṃ bhavet | aḍakavatyāṃ rājadhānyāṃ na labhate vāsam |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:11",
+          "textIast": "[8] asyāṃ khalu rāhula mahādaṇḍadhāraṇyāṃ vidyāyāṃ sakṛtparivartitāyāṃ rājacaurodakāgniviṣaśastrāṭavīkāntāraparvatadurgamadhyagataḥ sarvabhayebhyaḥ pratimucyate | iyaṃ khalu mahādaṇḍadhāraṇīvidyā ekanavatigaṅgānadīvālikāsamair buddhair bhāṣitā bhāṣyate bhāṣiṣyate ca siddhā paramasiddhā sarvadevanāgayakṣagandharvāsuragaruḍakinaramahoragābhir vanditā sarvajanagaṇaparivṛtā | sarvabhayopadraveṣu mama sarvasattvānāṃ ca śivam ārogyaṃ bhavatu |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:12",
+          "textIast": "[9] idam avocad bhagavān āttamanā āyuṣmān rāhulo bhagavato bhāṣitam abhyanandann iti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas:13",
+          "textIast": "[10] āryamahādaṇḍadhāraṇīśītavatī samāptā |"
+        }
+      ],
+      "extractedMantraIast": "[0] [siddham] namaḥ sarvabuddhabodhisattvebhyaḥ | [5] tadyathā | aṅgā | vaṅgā | bhaṅgā | varaṅgā | saṃsārataraṅgā | sāsadaṅgā | bhaṅgā | jesurā | ekatarā | ara vīrā | tara vīrā | kara vīrā | kara kara vīrā | indrā | indrakisarā | haṃsā | haṃsakisarā | picimalā | mahākiccā | viheṭhikā | kālucchikā | aṅgodarā | jayā | jayālikā | velā | elā | cintāli | cili cili | hili hili | sumati | vasumati | culu naṭṭe | culu culu naṭṭe | culu nāḍi | kunāḍi | hārīṭaki | kārīṭaki | gauri | gandhāri | caṇḍāli | mātaṅgi | dharaṇi dhāraṇi | uṣṭrapālike | kaca kārike | cala nāṭike | kākalike | lalamati | rakṣamati | varākule | manmate utpale | kara vīre | tara vīre | tara tara vīre | kuru vīre | kuru kuru vīre | curu vīre | curu curu vīre | mahāvīre | iramati | varamati | rakṣamati | sarvārthasādhani | paramārthasādhani | apratihate | indro rājā | yamo rājā | varuṇo rājā | kubero rājā | manasvī rājā | vāsukī rājā | daṇḍāgni rājā | brahmā sahasrādhipatī rājā | buddho bhagavān dharmasvāmī rājā | anuttaro lokānukampakaḥ mama sarvasattvānāṃ ca rakṣāṃ kurvantu | paritrāṇaṃ parigrahaṃ paripālanaṃ śāntiṃ svastyayanaṃ daṇḍaparihāraṃ śastraparihāraṃ viṣadūṣaṇaṃ viṣanāśanaṃ sīmābandhaṃ dharaṇībandhaṃ ca kurvantu | jīvatu varṣaśataṃ paśyatu śaradāṃ śatam | [6] tadyathā | balavati | varamati | talamati | lakṣamati | rakṣamati | huru huru | phuru phuru | cara cara | khara khara | khuru khuru | mati mati | bhūmicaṇḍe | kālikeṭi | akisalā | pīne | sāmalate | hūle sthūle | sthūlaśikhare | jaya sthūle | jaya naṭṭe | cala nāsi | culu nāsi | vāgbandhani | virohaṇi | solohite | aṇḍare | paṇḍare | karāle | kinnare | keyūre | ketumati | bhūtaṃgame | bhūtamati | dhanye | maṅgalye | mahābalalohitamūle | acaladaṇḍe | dhuraṃdharā | jayālike | jayā | gorohaṇi | curu curu | rundha rundha | dhuru dhuru | khuru khuru | khurumati | bandhumati | dhuraṃdhare | dhare dhare | vidhare vimati | viṣkambhaṇi | nāśani vināśani | bandhani | mokṣaṇi | mocani | mohani | bhāvani | śodhani | saṃśodhani viśodhani | saṃkhiraṇi | saṃchindani | sādhu turumāṇe hara hara bandhumati | hiri hiri | khiri khiri | kharali | huru huru | piṅgale | namo 'stu buddhānāṃ bhagavatāṃ svāhā |",
+      "sourceApiId": "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326",
+          "MS-ADD-01325"
+        ],
+        "tohokuIds": [
+          "Toh 606",
+          "Toh 958"
+        ],
+        "rktsIds": [
+          "D606",
+          "D958"
+        ],
+        "gretilIds": [
+          "msitvatu.htm"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Mahādaṇḍadhāraṇīśītavatī_Hidas"
+        ]
+      }
+    },
+    {
+      "id": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas",
+      "titleSanskrit": "Vajratuṇḍanāgasamayadhāraṇī (Vajratuṇḍasamayakalparāja)",
+      "editorCitation": "Gergely Hidas (2019), A Buddhist Ritual Manual on Agriculture (De Gruyter), based on CUL MSS",
+      "manuscriptWitnesses": [
+        "CUL MS Add. 1326",
+        "CUL MS Add. 1708"
+      ],
+      "tibetanParallelRef": "Toh 759 [=965] (D 759 / D 965)",
+      "segments": [
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:0",
+          "textIast": "[0] siddhaṃ namo ratnatrayāya |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:1",
+          "textIast": "[1.1] atha bhagavān vārāṇasyāṃ mahānagaryāṃ viharati sma | mahatārthakaraṇena sattvānāṃ dharmaṃ deśayati sma | yad uta sarvāśāmanorathaparipūrṇakalyāṇakārakam | mahatā parṣatsaṃnipāte takṣakapūrvaṃgamanāgarājaparṣadā | mahatā devamānuṣaparṣadā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:2",
+          "textIast": "[1.2] atha navanagare viṣṇudatto nāma brāhmaṇa āḍhyo mahādhano mahābhogaḥ prabhūtavittopakaraṇasaṃpanno vedavedāṅgapāragaḥ | mantrapravartako mantrasādhakaḥ | sa punaḥ punar nāgān āvāhayanti | agnihotraṃ juhoti | tasya brāhmaṇasya sasyakāle udakakṣayamati prādurabhūt | sa cāhaṃkāraśabdena mantrapadānumatena evaṃ kathayati | varṣadhārā-m-"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:3",
+          "textIast": "utsṛjāmy aham | nāgān āvāhayiṣyāmi | tenāgnihotraṃ prajñaptaṃ tilataṇḍulasarṣapakaṭutailābhyaktaṃ juhoti | tena kasyacid duṣṭanāgasya pratikṛtirūpaṃ kṛtam | tenāyomayaṃ kīlakaṃ parijapya tatas tasya nāgasya mūrdhni dattam | sa ca nāgo mūrdhānaṃ sphuṭati | mahatīṃ vedanām anubhavati | sa ca nāgo mahatā krodhena kruddhataraḥ | tataḥ"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:4",
+          "textIast": "kṣaṇalavamuhūrtena svaśarīraṃ nāgaplavanavegena mahāpīḍānvitaḥ | tatas tai raśmayo svaśarīrād utsṛṣṭās tena tasya brāhmaṇasya kṣetrāṇi dagdhāni mahāpīḍena saṃchādya tasya mahatī agnivarṣadhārā brāhmaṇasya śarīre nipātitā | sa ca brāhmaṇa agnihotrāṇy utsṛjya atrāṇo aśaraṇa aparāyaṇo na kaścit trātāsti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:5",
+          "textIast": "sa ca bhagavantaṃ śaraṇaṃ trāṇaṃ parāyaṇaṃ gaveṣya vipralāpaṃ kartum ārabdhaḥ | bhagavato ’ntikam anudhāvati | yena bhagavāṃs tenopasaṃkrānto bhagavataḥ pādayor nipatyaivam āha | trāyatu bhagavān trāyatu sugataḥ | †catuṣugata† caṇḍanāgo mama jīvitavināśaṃ kartukāmo na kaścit trātāsti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:6",
+          "textIast": "[1.3] atha bhagavāṃs taṃ mahābrāhmaṇaṃ samāśvāsyaivam āha | mā bhayaṃ hi mahābrāhmaṇa ahaṃ te śaraṇaṃ gatiḥ parāyaṇaṃ bhaviṣyāmīti | tūṣṇīm āsthitaḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:7",
+          "textIast": "[1.4] atha khalu vajrapāṇir mahāyakṣasenāpatir bhagavantam etad avocat | paśya bhagavan pratyakṣībhāvena duṣṭanāgena sarvasasyāni vināśitāni | tat kathaṃ paścime kāle paścime samaye tvayi nirvṛte sarvasattvānāṃ gatiḥ syād iti | tad bhagavān bhāṣantu atha sasyaparipālanam | nāganivāraṇaṃ sarvasasyārtham | sarvasasyāni samarpitāni bhaviṣyanti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:8",
+          "textIast": "saṃrakṣitāni pravardhitāni bhaviṣyanti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:9",
+          "textIast": "[1.5] atha bhagavān vajrapāṇiṃ guhyakādhipatim etad avocat | asti vajrapāṇe nāgapratisarikāvagṛhītavajrā nāma dhāraṇī tathāgatahṛdayamudrā pūrvakais tathāgatair arhadbhiḥ saṃyaksaṃbuddhair bhāṣitā | aham apy etarhi bhāṣiṣye | yena śīghraṃ pīḍāpratiṣedhanārthāya sarvasasyapratipālanaṃ bhaviṣyati | svārakṣitāni bhaviṣyanti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:10",
+          "textIast": "sarvanāgānāṃ sīmābandho bhaviṣyati | mahāgniparvataprāgbhārāḥ samantena caturdiśaṃ mahāgnijvālāpaṭalameghagaruḍavegapakṣivijṛmbhitaṃ nāmātra paṭalam ākāśaṃ saṃchādayanti | sarvapuṣpaphalasaṃrakṣaṇāya tiṣṭhati | yena sarvanāgādayaḥ saṃprajvalitā bhaviṣyanti | sarvaduṣṭanāgā vinaśyanti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:11",
+          "textIast": "[1.6] atha vajrapāṇir mahāyakṣasenāpatir bhagavantam etad avocat | nirdiśatu bhagavān mahādhāraṇīmantrapadaṃ sarvasattvānāṃ hitaṃ kuru iti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:12",
+          "textIast": "[1.7] atha bhagavān idaṃ hṛdayaṃ bhāṣate sma |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:13",
+          "textIast": "namo bhagavate buddhānām | namo bhagavate śākyamunirājāya | oṃ jvala jvala giri bhavanaṃ dīptavega mahācaṇḍahṛdayasphālani | huru huru hana hana daha daha paca paca pācaya sarvasasyanāśakanāgakulavaṃśam | dhara dhara pravaracaṇḍavega mahābalaparākrama sphūrjitaraudravaktra |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:14",
+          "textIast": "matha matha jvālāmālādhāriṇi caṇḍavegavati pravaravimānadhāraṇi hūṃ hūṃ balavati vegavati visara visara visaranti sarvasasyatṛṇagulmoṣadhivanaspatipuṣpaphalapatrasaṃdhāraṇi | apasarantu sarvanāgadoṣāḥ | sarvabhavanavigatavegavati svāhā | hūṃ hūṃ phaṭ | nāgavidāriṇi phaṭ | jvālāmālini phaṭ svāhā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:15",
+          "textIast": "[1.8] samanantarabhāṣitā bhagavatā iyaṃ vidyā sarvanāgasarvaduṣṭopadravanāśakā | mahānāgāḥ sarve śīrṣarogāḥ samvṛttāḥ | klinnakāyā durgandhapūtikakāyāḥ saṃvṛttāḥ | bhagavataḥ pādayor"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:16",
+          "textIast": "nipatyaivam āhuḥ | atidāruṇāni bhagavan mantrapadāni bhāṣitāni | mama bhagavann aparādhaṃ jānīte | api tu bhagavan duṣṭavidyādhareṇāhaṃ paribhūyāmi | tāḍayāmi visarjayāmi | tadā bhagavan duṣṭanāgāḥ kṣubhanti | tadā sasyāni nāśayanti | puṣpaphalāni nāśayanti | aśaniṃ pātayanti | śītavātān"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:17",
+          "textIast": "saṃkṣobhayanti | ativṛṣṭim anāvṛṣṭim akālavṛṣṭiṃ pātayanti | api tu bhagavan maitrīvihāriṇā vidyādhareṇa mantravādinā bhavitavyam | maitrīsattvasaṃnāhena bhavitavyam | maitrīkhaḍgahastena bhavitavyam | maitryā sarvaduṣṭā niśāmyanti | api tu bhagavann adyaprabhṛty ahaṃ tathāgatasya purataḥ pratijñāṃ kariṣyāmi |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:18",
+          "textIast": "yatrāyaṃ vidyādhararājā pracariṣyati na tatra bhagavan bhūyo nāgā upadravaṃ kariṣyāmaḥ | yatrāyaṃ hṛdayadhāraṇī rakṣāyāṃ kṛtāyāṃ paritrāṇaṃ parigrahaṃ paripālanaṃ sīmābandhaṃ maṇḍalabandhaṃ pratisarāyāṃ kṛtāyāṃ tasya vayaṃ bhagavan satatasamitaṃ sarvopadravān nivārayiṣyāmaḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:19",
+          "textIast": "[1.9] atha bhagavāṃs teṣāṃ nāgādhipatīnāṃ sādhukāram adāt | sādhu sādhu bhujagādhipatayaḥ | evaṃ yuṣmābhiḥ karaṇīyam | surakṣitair yuṣmābhir jambudvīpam anurakṣitavyam iti |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:20",
+          "textIast": "[1.10] athāta upacāravidhiṃ pravakṣyāmi sarvakarmakaraṃ śubham | sasyapīḍākāle kṣubhanti | tadā vidyādhareṇa kṣetramadhye ’raṇye vā caturasraṃ maṇḍalakaṃ kartavyam | catvāraḥ pūrṇakumbhāḥ sthāpayitavyāḥ | puṣpāvakīrṇaṃ kartavyam | sapta rūpakavalayaḥ kartavyāḥ | taṇḍulavalayaḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:21",
+          "textIast": "ekaikarūpakam ekaviṃśatirūpakaṃ kartavyam | bhaktapāyasakṛsaradadhikṣīraṃ saṃsthāpayitavyam | phalapuṣpaṃ sthāpayitavyam | catvāro ghaṭikāḥ sthāpayitavyāḥ | saktupramukhā mahābalipūrvaṃ sthāpayitavyā | madhye maṇḍalake kuṇḍaṃ sthāpayitavyam | pañcagavyaṃ kṣīram udakaṃ pūrayitavyam | sarṣapalājā prakṣeptavyā |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:22",
+          "textIast": "ṣaṣṭivārān mantraḥ parijaptaḥ khadirakīlakāni catvāri ayomayāni | ekakīlakam aṣṭāṅgulapramāṇaṃ sarveṣāṃ kartavyam | caturṣu koṇeṣu maṇḍalakasya kapilagomayā catvāro nāgāḥ kartavyāḥ | khadirakīlakā ca hṛdayasthā sakalaṃ nikhantavyam | aṣṭottaraśataṃ mantraṃ parijaptavyam | pūrvasyāṃ saptaśīrṣakaṃ nāgaḥ sthāpayitavyaḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:23",
+          "textIast": "paścimāyāṃ diśi aṣṭaśīrṣakam | dakṣiṇasyāṃ pañcaśīrṣakam | uttarasyāṃ triśīrṣakam | madhye maṇḍale navaśīrṣako nāgaḥ sthāpayitavyaḥ | catvāro dhūpakaṭacchukāḥ sthāpayitavyāḥ | pañcamo madhyamaṇḍale | lājāsarṣapamiśrena ekaviṃśati vārān parijapya caturdiśaṃ prakṣeptavyāḥ | iyaṃ dhāraṇī likhya caturṣu maṇḍalakoṇeṣu dhvajāgre ’varopayitavyāḥ |"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas:24",
+          "textIast": "kṣetramadhye ca sthāpayitavyāḥ | ārāmamadhye ca sthāpayitavyāḥ | sahasthāpitamātreṇa samantāc caturdiśaṃ mahāparvataprāgbhārasīmābandhaḥ kṛto bhavati |"
+        }
+      ],
+      "extractedMantraIast": "[0] siddhaṃ namo ratnatrayāya | namo bhagavate buddhānām | namo bhagavate śākyamunirājāya | oṃ jvala jvala giri bhavanaṃ dīptavega mahācaṇḍahṛdayasphālani | huru huru hana hana daha daha paca paca pācaya sarvasasyanāśakanāgakulavaṃśam | dhara dhara pravaracaṇḍavega mahābalaparākrama sphūrjitaraudravaktra | matha matha jvālāmālādhāriṇi caṇḍavegavati pravaravimānadhāraṇi hūṃ hūṃ balavati vegavati visara visara visaranti sarvasasyatṛṇagulmoṣadhivanaspatipuṣpaphalapatrasaṃdhāraṇi | apasarantu sarvanāgadoṣāḥ | sarvabhavanavigatavegavati svāhā | hūṃ hūṃ phaṭ | nāgavidāriṇi phaṭ | jvālāmālini phaṭ svāhā | namo buddhasya | ili mili caṇḍo micili caṇḍa caṇḍa caṇḍe bandhaya svāhā | namo bhagavate śākyamunaye tathāgatāya | namo agastyāya maharṣaye | tadyathā | kṛmi | cūri | cameli | vara vara | he vila | bandhani nāśani | daha daha | sumuri | cari | sarvaduṣṭabandhane tuṇḍabandhani sarvasaraṇi | kṣa kṣa kṣa | maṇi | kṣariṣi vasari | phuli phuṭi phuṭi samariṭi | sarantu sarvapāpaprāṇajāḥ | kṣadhili svāhā | ghumuru cale svāhā | tadyathā | oṃ vipulapravare | nāge mahānāge nāgahṛdayāvarte | jvala jvala sarvanāgahṛdayāni | kimi kimi | nāgakulavidhvaṃsani | hana hana sarvaduṣṭanāgahṛdayāni | daha daha sarvanāgabhavanāni | paca paca pācaya pācaya sarvaduṣṭanāgānām | ākrama ākrama sarvasamudrasāgaravimalavikrame mahānāgatejavare svāhā | tadyathā | oṃ caṭa caṭa vicaṭa vicaṭa śletha śletha śavari ciṭi svāhā |",
+      "sourceApiId": "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326"
+        ],
+        "tohokuIds": [
+          "Toh 759",
+          "Toh 965"
+        ],
+        "rktsIds": [
+          "D759",
+          "D965"
+        ],
+        "buddhaNexusIds": [
+          "SA_K12_Āgama_Vajratuṇḍanāgasamaya_Hidas"
+        ]
+      }
+    },
+    {
+      "id": "SA_T01_Vajraḍākadaṇḍakastotra_CUL",
+      "titleSanskrit": "Vajraḍākadaṇḍakastotra",
+      "editorCitation": "Cambridge University Library Sanskrit Manuscript Edition (CUL Or. 722.4 & Add. 1697.7)",
+      "manuscriptWitnesses": [
+        "CUL Or. 722.4",
+        "CUL MS Add. 1697.7"
+      ],
+      "tibetanParallelRef": "Toh 1442 (Tengyur D 1442)",
+      "segments": [
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:0",
+          "textIast": "CUL Or. 722.4 single folio fragment, beginning of a sādhana"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:1",
+          "textIast": "CUL Add. 1697.7 is a complete ms. input also from there"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:2",
+          "textIast": "= — * Vajraḍākastotradaṇḍaka (Dpal rdo rje mkha' 'gro'i bstod pa rgyun chags). Tôh. no. 1442. Dergé Tanjur, vol. WA, folios 242r.4-243v.6. Tr. by Maṇikaśrījñāna and Dpal gyi mtha' can (i.e., Chos rje dpal)."
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:3",
+          "textIast": "# || rgya gar skad du | shr'i badzra D'a ka sya sto tra daNDa ka n'a ma | bod skad du | dpal rdo rje mkha' 'gro'i bstod pa rgyun chags zhes bya ba | dpal 'khor lo sdom pa la {242a5} phyag 'tshal lo ||"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:4",
+          "textIast": "@ namaḥ śrīcakrasamvarāya ||"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:5",
+          "textIast": "kuvalayadalanīlajīmūtamālātamālāmalavyomanīlaṃ mahāvāyuvaiśvānarāmbhomahāmedinīmaṇḍalordhvasthahemācalasyopari sphītapadmāsanāsīnam ākrānta|śarvottamāṅgaṃ samārūḍhagaurīstanadvandvam āndolitopendrasūryendracandrādidevā ? ? ? ? (=devotkaraṃ) satā(=trāsitā)nekadaityākaraṃ lokarakṣākaraṃ sarvaśaṅkāharaṃ vyāghracarmāmbaraṃ duḥkaraṃ dustaraṃ"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:6",
+          "textIast": "dhīragambhīrahūṃkāraphetkārahāhāravāpūrṇasarvāmbaraṃ viśvavajrārdhacandrāṅkasacchekharaṃ dhvastamohāndhakāraṃ sutāraṃ mahāśaṃkhahāraṃ jvaladvajraghaṇṭāsanātho(?)llasa [ṭha x 5 for string space] dbāhuyugmopagūḍhādvayā ? ? ? ? (=ādvayajñānaśūnya)svabhāva- [the rest is lost]"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:7",
+          "textIast": "% cont'd in Add. 1697.7 thus: -svabhāvāṅganāliṅganaṃ mattamātaṅgacarmāmbara{ṃ}vyagrahastadvayaṃ visphuratparśuśūlograkarttijvaladvajrakhaṭvāṅgapāśolasadbrahmamuṇḍaiḥ kṛpīṭena patreṇa ca prasphuradbhi[r] bhujaiḥ śobhamānaṃ mahāmā[ṃ]samedosinaṃ dhyāyinaṃ molinaṃ jñāninaṃ dhīdhanaṃ ṣoḍaśārdhārdhavaktraṃ trinetraṃ pavitraṃ nṛmuṇḍāvalībhūṣaṇaṃ bhīṣaṇaṃ"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:8",
+          "textIast": "ghorasaṃsārakāntārasantāraṇaṃ māravihāvanaṃ vajrasattva[ṃ] name || 1 ||"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:9",
+          "textIast": "autpala mdog sngon char sprin phreng ba dri med nam mkha' sngon po'i mchog rlung chen me chu sa yi dkyil 'khor steng du gnas pa'i gser gyi ri bo'i steng na padma rgyas pa'i gdan gnas dbang phyug mnan cing dkar mo'i nu ma gnyis po mnyam brdzis zil gyis dbang po nye dbang {242a6} nya mi zla ba la sogs lha rnams bsngags mdzad lha min du ma skrag par"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:10",
+          "textIast": "mdzad cing 'jig rten bsrung mdzad dogs pa kun 'phrogs stag lpags na bzas bkab mdzad ngan bsgral brtan zhing zab pa'i yi ge h'uM dang phaT kyi rnam pa h'a h'a'i nga ro nam mkha' kun gang sna tshogs rdo rje zla phyed kyis {242a7} mtshan gtsug tor dam pa gti mug mun bcom legs bar sgrol ba dung chen phreng ba'i bar ba'i rdo rje sgrar bcas dril bu rab"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:11",
+          "textIast": "gsal dam pa'i phyag rgya nye bar 'khyud pa gnyis med ye shes chags pa'i yan lag rang bzhin \\{{{\\ btsun mo'i grogs dang ldan pa phyag gnyis glang chen myos pa chen {242b1} po'i pags pa'i na bza' bsnams pas brel zhing rnam par 'phro ba'i dgra sta mdud rno gri gug 'bar ba'i rdo rje kha Tv'aM ga dang zhags pa 'phro ba tshangs ba'i mgo dang cang te'u"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:12",
+          "textIast": "dang ni thod pa 'phro ba'i phyag rnams kyis mdzes sha dang tshil bu chen po gsol ba bsam gtan ldan pa cod pan ldan pa ye {242b2} shes ldan pa blo nor ldan pa bcu drug phyed phyed zhal dang ldan pa spyan gsum dag par mdzad pa mi mgo'i phreng bas brgyan pa 'jigs su rung ba drag po mi bzad 'khor ba'i dgon pa yang dag sgrol ba bdud rnams 'joms pa rdo"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:13",
+          "textIast": "rje sems dpa' la phyag 'tshal || ||"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:14",
+          "textIast": "tadanu kamaladikcatuḥpatragābhir mahāḍākinīlāmikākhaṇḍarohāmanohāriṇīrūpiṇībhir yutaṃ koṇasaṃsthaiḥ karoṭaiḥ parītaṃ tataḥ kāyavākcittacakrasthapātālabhūsvargacāritritattvasphuradvīravīreśvarīcakrasaccakriṇaṃ kākatuṇḍādidevībhir aṣṭābhir abhyarcitaṃ digvidikṣu sthitābhi[ḥ] svadevīsamāśleṣaśṛṅgāriṇaṃ mārasenācamatkāravisphāraṇasattvasaṃrāgiṇaṃ"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:15",
+          "textIast": "dveṣavidveṣiṇaṃ roṣasaṃroṣiṇaṃ kleśasaṃbhāriṇaṃ mṛtyumārādiraktāsavāpānamattasucittaṃ trailokaikakṛtye sthitaṃ buddhakāryonnataṃ vajradevīmukhasparśasaṃjātaromāñcasaṃchāditāṅgaṃ cala[n]netrapatraṃ kvanatkaṇṭharandhrasasītkārahāsaṃ priyābāhupāśāvabaddhonnatagrīvam uttuṅgapīnastanadvandvasarmma(?)saṃjātaromāgrasañcāridya(?)rmoda(?)bindūtkare racitaṃ"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:16",
+          "textIast": "sūryakoṭiprabhārociṣā vyāptadigmaṇḍalaṃ kuṇḍalālaṃkṛtaṃ bālacandrāgradaṃṣṭrākuraṃ bhāsuraṃ śrīkaraṃ dhīkaraṃ puṣṭidaṃ tuṣṭidaṃ rājyadaṃ siddhidaṃ sarvasampatkaraṃ nāyakaṃ vajraḍākaṃ sadā ||"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:17",
+          "textIast": "de yi rjes su phyogs kyi {242b3} padma'i 'dab ma bzhir bzhugs mkha' 'gro chen mo l'a ma dum skyes gzugs can ma ni yid 'phrog byed ma rnams dang ldan zhing mtshams su kun gnas thod pas bskor cing de nas sku gsung thugs kyi 'khor lor bzhugs shing sa 'og sa steng mtho ris spyod pa de nyid gsum las khros pa dpa' bo dpa' {242b4} mo'i dbang phyug 'khor"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:18",
+          "textIast": "lo dam pa 'khor lo can ni phyogs dang phyogs min dag na gnas pa'i khva gdong la sogs lha mo brgyad kyis mngon par mchod cing rang gi lha mos mnyam par sbyar ba'i sgeg pa dang ldan bdud kyi sde rnams sngangs par mdzad pa rnam par 'phro ba sems can la ni yang dag chags can {242b5} sdang la rnam sdang khro la kun khro nyon mongs rnams 'joms 'chi bdag"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:19",
+          "textIast": "bdud sogs khrag dron btung bas tshim pa'i thugs bde 'jig rten gsum na mdzad pa gcig bzhugs sangs rgyas mdzad brtson rdo rje lha mo'i bde ba reg pa las skyes pa sbu langs pa'i tshogs kyis khyab pa'i sku can spyan gyi rdzi ma {242b6} g-yo zhing mgur gyi sbubs nas sid kyi sgrar bcas bzhad cing yid 'ong phyag gi zhags pas mgul 'khyud nu ma gnyis rgyas"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:20",
+          "textIast": "mkhrang rten las byung rdul gyi thigs pa'i tshogs kyis mchod cing nyi ma bye ba'i 'od kyi snang bas phyogs kyi dkyil 'khor sna tshogs khyab cing snyan chas brgyan pa zla ba gzhon {242b7} nu phyed pa'i mche ba'i myu gu lham me dpal mdzad blo mdzad tshim pa ster zhing rgyas ba ster ba rgyal srid ster zhing dngos grub ster ba phun sum tshogs ba thams"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:21",
+          "textIast": "cad rab ster 'dren pa rdo rje mkha' 'gro la ni rtag tu 'dud || ||"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:22",
+          "textIast": "anupamakaruṇāvaśāveśavisphāritāśeṣatāthāgatāvyūhavidhvastasaṃsāraghorārṇavārṇar(?)gatakleśakallolamālajvalajjātavedaḥ saha śrādhikoddīptavidyucchaṭābhāsuraṃ jñānarāśiprabhāvāt saṃdraśitā(!)nantavastusvabhāvaṃ bhavaṃ nirbhavaṃ bhāvam udbhu[¯]tabhāvaṃ tridhātusvabhāvaṃ svarūpaṃ virūpaṃ hatāśeṣarūpaṃ catu[r]brahmavīhāranaivāśikaṃ lakṣaṇālaṃkṛtaṃ"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:23",
+          "textIast": "vyañjanaiḥ sa[ṃ]skṛtaṃ dharmasaṃbhoganirmāṇakāyavyāptasattvārthakṛte sthitaṃ oṃtritattvaṃ mahārāgaraktaṃ mahādveṣaduṣṭamahāmohamugdhaṃ mahālobhalubdhaṃ kṛpāśūnyatābhinnapūrvāparāntadvayatyaktalokatraye[=ai]kakṣaṇavyāpivijñānamābhirvaśrībhavacchrīmadānandasandohasatsundaraḥ dānaśīlādisaṃśuddhaṃ bāhyāntaraṃ bhīrṇaghorāndakāraṃ jagatkāraṇaṃ"
+        },
+        {
+          "segnr": "SA_T01_Vajraḍākadaṇḍakastotra_CUL:24",
+          "textIast": "kāraṇāhāriṇaṃ bhīmasaṃveṣiṇaṃ kleśasatāriṇaṃ rūpasaṃtāriṇaṃ sūkṣmakāyamahāsthūladehaṃ vibhuṃ vyāpinaṃ dhyāyinaṃ nityam ekākṣaṇaṃ sthāyinaṃ yāyinaṃ sthāvaraṃ bhāsvaraṃ vīravīreśvaraṃ sarvabhāvena lokeśvaram || 3 ||"
+        }
+      ],
+      "extractedMantraIast": "@ namaḥ śrīcakrasamvarāya || dhīragambhīrahūṃkāraphetkārahāhāravāpūrṇasarvāmbaraṃ viśvavajrārdhacandrāṅkasacchekharaṃ dhvastamohāndhakāraṃ sutāraṃ mahāśaṃkhahāraṃ jvaladvajraghaṇṭāsanātho(?)llasa [ṭha x 5 for string space] dbāhuyugmopagūḍhādvayā ? ? ? ? (=ādvayajñānaśūnya)svabhāva- [the rest is lost] vyañjanaiḥ sa[ṃ]skṛtaṃ dharmasaṃbhoganirmāṇakāyavyāptasattvārthakṛte sthitaṃ oṃtritattvaṃ mahārāgaraktaṃ mahādveṣaduṣṭamahāmohamugdhaṃ mahālobhalubdhaṃ kṛpāśūnyatābhinnapūrvāparāntadvayatyaktalokatraye[=ai]kakṣaṇavyāpivijñānamābhirvaśrībhavacchrīmadānandasandohasatsundaraḥ dānaśīlādisaṃśuddhaṃ bāhyāntaraṃ bhīrṇaghorāndakāraṃ jagatkāraṇaṃ",
+      "sourceApiId": "SA_T01_Vajraḍākadaṇḍakastotra_CUL",
+      "crossRefs": {
+        "cudlMsIds": [
+          "MS-ADD-01326"
+        ],
+        "tohokuIds": [
+          "Toh 1442"
+        ],
+        "rktsIds": [
+          "T1442"
+        ],
+        "buddhaNexusIds": [
+          "SA_T01_Vajraḍākadaṇḍakastotra_CUL"
+        ]
+      }
+    }
+  ]
+}

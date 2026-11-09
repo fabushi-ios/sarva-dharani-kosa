@@ -1,0 +1,2892 @@
+{
+  "summary": {
+    "id": "db6_sarit",
+    "number": 6,
+    "priorityTier": 1,
+    "nameZh": "SARIT 印度學電子文本庫（聖天《行合集燈論》Caryāmelāpakapradīpa 語遠離真言品及22+部梵文原典）",
+    "nameEn": "SARIT Indology TEI-P5 Corpus (Āryadeva’s Caryāmelāpakapradīpa Ch. 3 Mantratattva & 26 Buddhist/Tantric Works)",
+    "institution": "SARIT: Search and Retrieval of Indic Texts (github.com/sarit/SARIT-corpus)",
+    "primarySourceUrls": [
+      "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/caryamelapakapradipa.xml",
+      "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/asvaghosa-buddhacarita.xml",
+      "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/tattvasangrahapanjika.xml",
+      "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/pramanavarttikavrtti.xml",
+      "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/ratnasritika-dn.xml"
+    ],
+    "totalRecordsCount": 27,
+    "mantraOrDharaniCount": 161,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari"
+    ],
+    "highlights": [
+      "完整解析聖天 (Āryadeva)《行合集燈論》(caryamelapakapradipa.xml, Christian K. Wedemeyer 校勘本) 第三章〈語遠離 / 真言真實品〉(Vāgviveka / Mantratattva, CMP03.001–CMP03.145+)，涵蓋《密集續》(Guhyasamāja) 三字金剛誦 (tryakṣara vajrajāpa = oṃ āḥ hūṃ) 與身語意三遠離 (kāyavākcitta)",
+      "嚴格執行 TEI-P5 標籤清洗與連字符規整：完全剝離詞中葉碼標記 [A:16a]、頁碼標記、刪除標記與校勘注釋標記，展開增補標記，並將複合詞點號 (kāya.vāk.citta → kāyavākcitta、vajra.jāpa → vajrajāpa、mantra.tattva → mantratattva、vāg.viveka → vāgviveka) 標準化，同時保存 Asiatic Society MS 4837、NAK MS 3-363 與藏譯 Toh 1803 校勘異文",
+      "收錄 SARIT 全庫 26 部佛教哲學、因明、詩學與瑜伽丹術 TEI 典籍（含 sa-Latn 羅馬轉寫本 buddhacarita、rasarnava、yogapradipa 及 sa-Deva 天城體本 tattvasangrahapanjika、pramanavarttikavrtti、ratnasritika-dn.xml）"
+    ]
+  },
+  "records": [
+    {
+      "xmlId": "sarit__caryamelapakapradipa",
+      "filename": "caryamelapakapradipa.xml",
+      "titleSanskrit": "Caryāmelāpakapradīpa (Guhyasamāja Tantric Treatise on Kāya-Vāk-Citta-Viveka & Mantratattva)",
+      "author": "Āryadeva (Vajrayāna Siddha)",
+      "editor": "Christian K. Wedemeyer (Columbia University / AIBS 2007)",
+      "scriptEncoding": "sa-Latn",
+      "category": "Vajrayāna-Tantra",
+      "sizeBytes": 953804,
+      "paragraphCount": 442,
+      "verseLineCount": 428,
+      "featuredUnits": [
+        {
+          "unitId": "CMP01.034",
+          "chapterOrSection": "Chapter 1: Kāya-vāk-citta-viveka & Vajrajāpa Overview",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP01.034/ kāyaviveke sthitvā ālikālidvāreṇa vāgviveke 'vatarati | yadā vajrajāpakrameṇa prāṇāyāmam adhigato bhavati tadā vāgvajra- samādhau pratiṣṭhito bhavati | vāgviveke sthitvā prakṛtyābhāsakrameṇa cittaviveke 'vatarati | yadā prakṛtyābhāsaṃ vāyuvāhanaprabhedaṃ yathābhūtaṃ śikṣate tadā cittavajrasamādhisamāpanno bhavati | cittasya yathābhūtaparijñāne sthitvā dvādaśamāyādṛṣṭāntena saṃvṛtisatye 'vatarati | yadā māyopamasamādhisamāpanno bhavati tadā sarvabuddhābhiṣekaṃ pratilabhate | māyopamasamādhau sthitvâṣṭādaśamahāśūnyatānukrameṇa paramārthasatye 'vatarati | yadā piṇḍagrahānubhedasamādhinā bhūtakoṭiṃ praviśati tadā sarvakleśaviśuddho bhavati | yadā jñānakrameṇa vyutthāya prakṛtiprabhāsvaraṃ satyadvayādvaidhīkāreṇâtmānam abhisambudhyati tadā niṣpannakramasamādhau śikṣito bhavati |",
+          "manuscriptLoci": [
+            "[A:5b]"
+          ],
+          "criticalApparatus": [
+            "sthitvā ālikāli.dvāreṇa] C; A sthitvā 'likāli.dvāreṇa; Pn sthitvā''likālidvāreṇa.",
+            "vajra.jāpa.krameṇa] A; C vajra pā jāpa.krameṇa.",
+            "prakṛty.ābhāsaṃ vāyu.vāhana.prabhedaṃ] A; C prakṛty.ābhāsa.vāyu.vāhana.prabhedaṃ.",
+            "citta.vajra.samādhau samāpanno] A; C citta.vajra.samādhi.sampanno.",
+            "māyopama.samādhi.samāpanno] A; C māyopama.samādhi.sampanno.",
+            "sthitvâṣṭādaśa.mahāśūnyatānukrameṇa] rectification; A sthitvā'ṣṭādaśa.mahāśūnyatānukrameṇa; C sthitvā aṣṭādaśamahāśūnyatākrameṇa; Pn sthitvā aṣṭādaśa.mahāśūnyatā'nukrameṇa.",
+            "piṇḍa.] A; the reading in C is not certain: it seems to read piṇḍī. , but the vowel marker looks as though it had been incompletely erased."
+          ]
+        },
+        {
+          "unitId": "CMP03.001",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.001/ || vajraśiṣya uvāca || kāyavivekaśikṣāyāṃ apagatasaṃśayaḥ | kathaṃ bhagavan vāgviveke śikṣitavyaṃ kathaṃ pratipattavyam | brūhi bhagavān vajraguruḥ śāstā || [Guhyasamāja Vāgviveka / Mantratattva: kāya vāk citta / kāyavākcitta, tryakṣara vajrajāpa = oṃ āḥ hūṃ]",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "Christian K. Wedemeyer critical apparatus sigla: A = Asiatic Society of Bengal MS 4837; B = National Archives Kathmandu (NAK) MS 3-363/vi; C = Sāṅkṛtyāyana MS Xc 14/30; TIB = Toh 1803 (Spyod pa bsdus pa’i sgron ma, variant readings).",
+            ".śikṣāyāṃ apagata.saṃśayaḥ] C; A .śikṣayāpagata.saṃśayaḥ; Pn .śikṣayāpagataḥ saṃśayaḥ.",
+            "C inserts punar; A (and TIB) Ø.",
+            "vāgviveke] C; A vāgvivekaṃ.",
+            "bhagavān] A bhagavāṃ; C (also Pn) bhagavan.",
+            "vajraguruḥ śāstā] A; C vajraguroḥ śāstur."
+          ]
+        },
+        {
+          "unitId": "CMP03.002",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.002/ vajragurur āha || sādhu sādhu mahāsattva | skandhadhātvāyatanādyanantaroktakāyavivekas tatra devatāvinyāsaś ca sarveṣāṃ sādhāraṇam sthūlayogatvāt | vāgvivekas tu yogijñānam atisūkṣmaṃ mahāyānikānām aviṣayaḥ | vajrayānikānām apy utpattikramacāriṇām agocaraḥ sūkṣmayogatvāt | tasmād yatnataḥ śṛṇv ahaṃ te vistareṇa vyākhyātantrānusāreṇa vāgvajrasamādhiṃ pratibodhayāmi |",
+          "manuscriptLoci": [
+            "[A:16a]"
+          ],
+          "criticalApparatus": [
+            ".anantarokta.] A; C .antarokta..",
+            "yogi.jñānam] AC; Pn yo hi jñānam.",
+            "atisūkṣmaṃ] A (and TIB); C iti śūkṣmaṃ.",
+            "aviṣayaḥ |] A; C aviṣayo.",
+            "vyākhyā.tantrānusāreṇa] C (also Pn); A vyākhyāt | ntrānusāre‸, with ṇa written in upper margin.",
+            "pratibodhayāmi] A; C prabodhayāmi. TIB so sor (usually prati. )."
+          ]
+        },
+        {
+          "unitId": "CMP03.003",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.003/ tatra kulāḥ śatavidhāḥ proktā ityādipūrvoktasūtraṃ kāyavākcittavivekasyâpi sādhāraṇam | tatra vāgviveko nāma mantratattvam | tac ca vāyutattvānupūrveṇa vinā na jñāyate | vāyutattvaṃ nāma prāṇāyāmaḥ | ato vāyutattvasyôddeśapadaṃ śrīguhyasamājād avatāryate |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vāyutattvānupūrveṇa] A (and TIB); C vāyutvānupūrveṇa.",
+            "jñāyate] A; C prajñāyate.",
+            "vāyu.tattvaṃ nāma] C (also Pn); A vāyu.tattvānnāma."
+          ]
+        },
+        {
+          "unitId": "CMP03.004",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.004/ pañcavarṇaṃ mahāratnaṃ sarṣapasthūlamātrakam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "sarṣapasthūlamātrakaṃ] C śarṣapasthūlamātrakaṃ; A sarṣapaṃ sthūlamātrakaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.005",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.005/ nāsikāgre prayatnena bhāvayed yogataḥ sadêti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "prayatnena] C (also Pn); A preyatnena, corrected to prayatnena.",
+            "yogataḥ sadeti] A (and TIB); C yogavit sadeti."
+          ]
+        },
+        {
+          "unitId": "CMP03.006",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.006/ idaṃ vajrapadaṃ neyanītārthabhedena dvividhadevatāyogasyâpi yujyate | tatrôtpattikramabhāvako nāsāgre sarṣapaphalapramāṇaṃ svadevatācihnaṃ svacittadṛḍhīkaraṇārthaṃ bhāvayed iti sūkṣmayogavyapadeśaḥ |",
+          "manuscriptLoci": [
+            "[A:16b]"
+          ],
+          "criticalApparatus": [
+            "dvividha.devatāyogasyâpi] C (and TIB); A dvividhan devatāyogasyāpi (Pn dvividhaṃ devatāyogasyāpi).",
+            "iti] C (and TIB); A itri."
+          ]
+        },
+        {
+          "unitId": "CMP03.007",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.007/ anenaîva niṣpannakramasamādhisamāgatānāṃ sūkṣmayogam āha | ālikālibhiḥ strīpunnapuṃsakarūpeṇa tryakṣaraṃ niṣpādya | akṣaratrayam api praveśasthitivyutthāne niyojya caturmaṇḍalakrameṇa prāṇāyāmātmakaṃ vajrajāpaṃ kuryād iti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ālikālibhiḥ] A; C ālikalibhiḥ.",
+            "tryakṣaraṃ] C (also Pn); A tryakṣara.",
+            "praveśa.sthiti.vyutthāne] C (and TIB); A praveśya.sthiti.vyutthāne, though the .śya. seems to have been corrected to .śa.; Pn follows uncorrected reading of A.",
+            "prāṇāyāmātmakaṃ] C; A prāṇāyātmakaṃ; Pn prāṇāyā[mā]tmakaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.008",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.008/ imam arthaṃ dyotayann āha ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.009",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.009/ pañcajñānamayaṃ śvāsaṃ pañcabhūtasvabhāvakam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.010",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.010/ niścārya padmanāsāgre piṇḍarūpeṇa kalpayet |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.011",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.011/ pañcavarṇaṃ mahāratnaṃ prāṇāyāmam iti smṛtam",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.012",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.012/ ity uktaṃ samājottare ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "samājottare] A (and TIB); C śrīsamājottare."
+          ]
+        },
+        {
+          "unitId": "CMP03.013",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.013/ eṣām uddeśapadānāṃ nirdeśam āha | sandhyāvyākaraṇasamājavyākhyātantre ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "nirdeśam] A nirddeśam; C pratinirdeśam.",
+            "sandhyā.vyākaraṇa.samāja.vyākhyā.tantre] rectification; C sandhā.vyākaraṇa.samāja.vyākhyā.tantre; A sandhyā.vyākaraṇa.mahā.vyākhyā.tantre."
+          ]
+        },
+        {
+          "unitId": "CMP03.014",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.014/ atha bhagavān mahāvajrī vajrajāpārthabhāṣiṇam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.015",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.015/ pratyuvāca tataḥ samyak praṇamyaîkaṃ jagadgurum ||",
+          "manuscriptLoci": [
+            "[C:49b]"
+          ],
+          "criticalApparatus": [
+            "jagadguruṃ] AC; Pn jagadguruḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.016",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.016/ laukikāgamam evêdaṃ bodhicittaṃ prakāśitam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "prakāśitaṃ] A; C prekāśitaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.017",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.017/ lokottaraṃ kathaṃ nāma pratipatsyanty āgāmikāḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.018",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.018/ sarvadṛṣṭiprahāṇāya tvayā dharmo hi deśitaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.019",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.019/ tat kathaṃ bodhicittaṃ tu sā dṛṣṭiḥ sudṛḍhīkṛtā ||",
+          "manuscriptLoci": [
+            "[A:17a]"
+          ],
+          "criticalApparatus": [
+            "bodhicittaṃ tu sā] A bodhicittaṃ tu śā; C bodhicittāt tasya."
+          ]
+        },
+        {
+          "unitId": "CMP03.020",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.020/ uktam arthaṃ na budhyanti sandhyāyavākyamohitāḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.021",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.021/ yathārutaṃ te gṛhṇanti vadanti nânyathêti ca ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "te] A; C hi te.",
+            "vadanti nânyathêti ca] AC; Pn tathaiva hi pacanti ca."
+          ]
+        },
+        {
+          "unitId": "CMP03.022",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.022/ atha bhagavān viśvo vajrapāṇiṃ vadet tataḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.023",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.023/ sādhu sādhu ca guhyeśa vyākṛtā āgāmikās tvayā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ca] C (also Pn); A Ø.",
+            "vyākṛtā āgāmikās] C; A vyākṛtā'gāmikā; Pn vyākṛtā''gāmikā."
+          ]
+        },
+        {
+          "unitId": "CMP03.024",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.024/ bodhicittaṃ bhaved vāyur ambare ca vyavasthitaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vyavasthitaḥ] C (also Pn); A vyavasthitāḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.025",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.025/ prāṇabhūtaś ca sattvānāṃ pañcātmā daśasañjñakaḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.026",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.026/ pratītyadvādaśāṅgākhyaṃ svabhāvāt tritayaṃ bhavet |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "svabhāvāt] C (also Pn); A svabhāvā."
+          ]
+        },
+        {
+          "unitId": "CMP03.027",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.027/ sarvendriyapradhānêdaṃ vāyvākhyaṃ bodhicittakam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vāyvākhyaṃ] C (and TIB; also Pn); A bāhyakhyaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.028",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.028/ avyaktaṃ sūkṣmam ity evaṃ vyaktam ity ucyate sadā |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "evaṃ] A; C ekaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.029",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.029/ tadāśrayāt tu karmāṇi kuryād viṣayādikaṃ janaḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "tadāśrayāt tu] A; C tadāśrayāc ca."
+          ]
+        },
+        {
+          "unitId": "CMP03.030",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.030/ śāntikaṃ pauṣṭikaṃ caîva vaśyābhicārukaṃ tathā |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vaśyābhicārukaṃ] AC; Pn vaśyābhicārakaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.031",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.031/ bodhicittāt tu tat sarvaṃ tritattvanilayāśraye ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "tri.tattva.nilayāśraye] C; A tritattva.nilayāśrayā; Pn emends to tritattva.nilayāśrayāt."
+          ]
+        },
+        {
+          "unitId": "CMP03.032",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.032/ yāvanto lokasaṅketāḥ kalpitā vividhās tathā |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "yāvanto loka.saṅketāḥ] AC; Pn yāvac câloka.saṅketāḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.033",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.033/ bhavanti bodhicittāt tu vikalpā vāyutaḥ sadā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "bodhicittāt tu] A; C bodhicittād.",
+            "vikalpā] A; C vikalpo."
+          ]
+        },
+        {
+          "unitId": "CMP03.034",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.034/ sukhaduḥkhādiko dharmo bījād eva vidhīyate |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.035",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.035/ bodhicittasvabhāvo 'sau skandhādyadvayakhopamaḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            ".khopamaḥ] C (and TIB); A .kopamaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.036",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.036/ prajñopāyaikayogena bodhicittaṃ jagad bhavet |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.037",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.037/ svayaṃ samuccaret svāmī dhyānādhyayanavarjitaḥ ||",
+          "manuscriptLoci": [
+            "[A:17b]"
+          ],
+          "criticalApparatus": [
+            "svāmī] A; C svādyomī."
+          ]
+        },
+        {
+          "unitId": "CMP03.038",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.038/ divārātrivibhāgena candrasūryaprayogataḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.039",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.039/ niḥśvāso hi jagadvyāpī bodhicittaikamārutaḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "niḥśvāso hi] C (also Pn); A nisvāśo; TIB *niḥsvabhāvo."
+          ]
+        },
+        {
+          "unitId": "CMP03.040",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.040/ śubhāśubhaphalaṃ tyaktvā bhavaty eva nabhopama iti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "śubhāśubha.phalaṃ] C (also Pn); A śubhāśubhaṃ phalaṃ.",
+            "nabhopama iti ||] A (and TIB); C nabhopamaḥ |."
+          ]
+        },
+        {
+          "unitId": "CMP03.041",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.041/ vajraśiṣya uvāca || vāyuḥ pañcātmā daśasañjñaka ity uktam | anukampām upādāya brūhi bhagavann ekaikasya vāyoḥ sañjñāntaram ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vāyuḥ] A; C vāyu."
+          ]
+        },
+        {
+          "unitId": "CMP03.042",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.042/ vajragurur āha || anantarokta. vyākhyātantre ṇaîva nirdiṣṭaṃ tad darśayāmaḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "anantarokta.vyākhyātantreṇaiva] C; A anantaroktaṃ vyākhyātantreṇaiva."
+          ]
+        },
+        {
+          "unitId": "CMP03.043",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.043/ atha bhagavān sarvatathāgatān sarvabodhisattvāṃś ca tathaîva ca praviśya toṣanārthāya tathāgatādhipater daśavāyūn āha ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "atha bhagavān sarva.tathāgatān sarva.bodhisattvāṃś ca tathaiva ca praviśya toṣaṇārthāya tathāgatādhipateḥ daśa.vāyūn āha ||] emendation; A atha tathāgatāḥ sarva.bodhisattvāñ caiva ca praviśya toṣaṇarthāya tathāgatādhipaśyate ||; C atha bhagavān sarva.tathāgatān sarva.bodhisattvāṃś ca tathaiva ca praviśya toṣanārthāya daśa.vāyūn āha |; Pn atha tathāgatāḥ sarva.bodhisattvāś caiva ca praviśya toṣanārthāya tathāgatādhipateḥ |. The Tibetan translation treats this as a verse: de nas de bzhin gshegs pa kun dang | de bzhin byang chub sems dpa' rnams | de bzhin gshegs pa bdag po de | mnyes bya'i phyir ni zhugs par 'gyur ||."
+          ]
+        },
+        {
+          "unitId": "CMP03.044",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.044/ prāṇāpānasamānākhyān udānavyānasañjñakān |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "prāṇāpāna.] A; C prāṇopāna.."
+          ]
+        },
+        {
+          "unitId": "CMP03.045",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.045/ nāgakūrmakṛkarāṃś ca devadattadhanañjayān ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            ".kṛkarāṃś] C (also Pn); A .kṛkalāṃś."
+          ]
+        },
+        {
+          "unitId": "CMP03.046",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.046/ kṛtvaîtān ātmano bimbaṃ strītvaṃ nirmāyate punar iti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "kṛtvaitān] C; A kṛtvaitad.",
+            "strītvaṃ] C; A tritattvaṃ; Pn strītattvaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.047",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.047/ ete daśa vāyavaḥ śrīsarvabuddhasamāyogaḍākinījālasaṃvara .naye yena yena rutenôktās tāṃs tān apy āha ||",
+          "manuscriptLoci": [
+            "[C:50a]"
+          ],
+          "criticalApparatus": [
+            "śrī.sarva.buddha.samāyoga.ḍākinī.jāla.saṃvara.naye] C; A śrī.sarva.buddha.samāgama.yoga.ḍākinī.jāla.saṃvara.naye.",
+            "rutenoktās] A rutena uktās; C rutenoktāḥ.",
+            "tāṃs tān apy] rectification (also Pn); A tānastān apy; C tān tān apy."
+          ]
+        },
+        {
+          "unitId": "CMP03.048",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.048/ koṭākhyaḥ koṭavaḥ koṭaḥ koṭābhaś ca kaṭīrakaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "koṭākhyaḥ] C; TIB koṭakhya; A koṭākṣaḥ.",
+            "koṭavaḥ] C (also Pn) (and TIB); A koṭacaḥ.",
+            "koṭaḥ] AC; Pn koṭāḥ.",
+            "kaṭīrakaḥ] AC; TIB koṭīragaḥ; Pn koṭīrakaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.049",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.049/ kolākhyaḥ kolavaḥ kolaḥ kolābhaś ca kalis tathā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "kolākhyaḥ] C; TIB kolakhya; A kolākṣaḥ.",
+            "kolavaḥ] C and A; TIB kolavā.",
+            "kalis] A; C kalas; TIB kola."
+          ]
+        },
+        {
+          "unitId": "CMP03.050",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.050/ etāni daśa nāmāni vajramukhīmahāyogatantre 'pi yathārutārthena daśavāyūn prāha || prāṇāpānodānasamānavyānodvāhavivāhasaṃvāhapravāhanirvāhāś cêti ||",
+          "manuscriptLoci": [
+            "[A:18a]"
+          ],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.051",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.051/ vajraśiṣya uvāca || prāṇādidaśavāyavo 'smin kāye kutra prativasanti | kiṃ kurvanti ca brūhi bhagavan vajraguruḥ śāstā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "prativasanti] A; C prativeśanti.",
+            "vajraguruḥ śāstā] A; C vajraguru śāstaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.052",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.052/ vajragurur āha || pañca vāyavaḥ kāyavibhāge sthitvā kāyavyāpāraṃ kurvanti | pañca vāyavaś cakṣurādyāyatane sthitvā indriyavyāpāraṃ kurvanti |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.053",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.053/ tatra prāṇo hṛdistho 'kṣobhyas tathāgataḥ | apāno gudastho ratnasambhavas tathāgataḥ | udānaḥ kaṇṭhastho 'mitābhas tathāgataḥ | samāno nābhistho 'moghasiddhis tathāgataḥ | vyānaḥ sarvasandhistho vairocanas tathāgata iti || udvāho rūpam | vivāhaḥ śabdaḥ | saṃvāho gandhaḥ | pravāho rasaḥ | nirvāhaḥ sparśaś cêti |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "hṛdistho] C; A hṛdastho; Pn hṛdayastho.",
+            "udānaḥ] C (also Pn); A udāna.",
+            "sarva.sandhi.stho] A (and TIB); C sarvāṅgasandhistho.",
+            "vivāhaḥ] A (and TIB); C vivāhaś ca.",
+            "saṃvāho] A (and TIB); C evaṃ saṃvāho.",
+            "nirvāhaḥ] C (also Pn); A nirvāha."
+          ]
+        },
+        {
+          "unitId": "CMP03.054",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.054/ ete daśa vāyavaḥ punar ucchvāsapraśvāsā bhavanti | te ca punar vāyavyādicaturmaṇḍalātmakā bhavanti || te ca punaś caturdevyātmakā bhavanti | te ca punaḥ pañcabhūtātmakā bhavanti | te ca punar ādarśādipañcajñānātmakā bhavanti | te ca punaḥ sitādipañcaraśmyātmakā bhavanti | te ca punaḥ pañcatathāgatātmakā bhavanti | te ca punas tryakṣarādhāro bhūtvā praveśasthitivyutthānakrameṇa vajrajāpaṃ kārayanti | te ca punar vāyavo 'kārasyâdhāro bhūtvā aśeṣavākpravyāhāraṃ kārayanti | te ca punar anāhataṃ vyāpya niḥsvabhāvā bhavanti ||",
+          "manuscriptLoci": [
+            "[A:18b]"
+          ],
+          "criticalApparatus": [
+            "ucchvāsa.praśvāsā] C (also Pn); A uśvāsa.praśvāsā.",
+            ".pañcaraśmyātmakā] C (and TIB; also Pn); A .pañcarasmātmakā",
+            "try.akṣarādhāro] AC; Pn try.akṣarādhārā.",
+            "'kārasyâdhāro] AC; Pn 'kārasyādhārā.",
+            "aśeṣa.vāk.pravyāhāraṃ] A 'śeṣavākpravyāhāraṃ; C aśeṣavākyapravyāhāraṇaṃ. The Tibetan translation seems to follow the latter.",
+            "anāhataṃ vyāpya] A; C āhātaṃ prāpya."
+          ]
+        },
+        {
+          "unitId": "CMP03.055",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.055/ vajraśiṣya uvāca || kathaṃ bhagavann ete daśa vāyava ekānekasvabhāvena divārātrau svakāye spharaṇasaṃharaṇaṃ kurvanti | brūhi bhagavān vajraguruḥ śāstā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ete] A; C eta.",
+            "bhagavān] rectification; AC bhagavan.",
+            "vajraguruḥ śāstā] A; C vajraguror śāstaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.056",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.056/ vajragurur āha || sādhu sādhu mahāsattva śrītattvasaṅgrahā dau mūlatantre côttaratantre ca vāyutattvaṃ na vispaṣṭenôktam | sandhyāyabhāṣitatvāt | vyākhyātantre tu yathārutena bhāṣitaṃ tad avatāryate ||",
+          "manuscriptLoci": [
+            "[C:50b]"
+          ],
+          "criticalApparatus": [
+            "sandhyāya.bhāṣitatvāt] A; C sandhyābhāṣitatvāt."
+          ]
+        },
+        {
+          "unitId": "CMP03.057",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.057/ nāsikācchidrasambhūtaḥ pañcabuddhakulasthitaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "pañca.buddha.kula.sthitaḥ] A (and TIB); C pañcabuddhakule sthitaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.058",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.058/ pañcavāyūrdhvasañcāro dehe carati nityaśaḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "carati] A; C sañcarati."
+          ]
+        },
+        {
+          "unitId": "CMP03.059",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.059/ saṃvṛtighrāṇasañcāro dvārāt tasya viniḥsṛtaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            ".sañcāro] C; A –sañcārād.",
+            "viniḥsṛtaḥ] rectification; A viniśṛtaḥ; C viniśritaḥ; Pn vinisṛtāḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.060",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.060/ vāmadakṣiṇadvandvāś ca stabdhaś caîte caturvidhāḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            ".dvandvāś ca stabdhaś] emendation (also Pn); A .dvandvāś ca taccaś; C .dvandvās tu stabdhaś."
+          ]
+        },
+        {
+          "unitId": "CMP03.061",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.061/ dakṣiṇāt prasaro dhātur hutabhugmaṇḍalaṃ ca vai |",
+          "manuscriptLoci": [
+            "[A:19a]"
+          ],
+          "criticalApparatus": [
+            "From this point until the line ``vajranāthasya sañcaret'' corresponds to the DK redaction of the Vajramālā in the Twelfth Chapter, ``Explanation of Wind Reality,'' from 222b7 to 223a2. This is also the section (plus one following verse, ``sarvadhātūn samuddhṛtya,'' etc.) which corresponds to the verses cited in the same context in the Pañcakrama . The Sanskrit for these verses runs: ūrdhvaghrāṇād viniḥkrānto vāma.dakṣina.dvandvataḥ | stabdhaś ceti caturdhā syād velā tv ādhyātmikā smṛtā || kaṇṭha.hṛn.nābhi.guhyābje gatyāgatiṃ vinirdiśet | vihared ardhayāmikaṃ paripāṭyā yathākramam || dakṣiṇān nirgato raśmir hutabhuṅ.maṇḍalaṃ ca tat | raktavarṇam idaṃ vyaktaṃ padmanātho 'tra devatā || vāmād vinirgato raśmir vāyu.maṇḍala.sañjñitaḥ | harita.śyāma.saṅkāśaḥ karmanātho 'tra devatā || dvābhyāṃ vinirgato raśmiḥ pītavarṇo mahādyutiḥ | māhendra.maṇḍalaṃ caitad ratnanātho 'tra devatā || stabdho manda.pracāras tu sita.kundendu.sannibhaḥ | maṇḍalaṃ vāruṇaṃ caitad vajranātho 'tra devatā || sarva.dehānugo vāyuḥ sarvaceṣṭa.pravartakaḥ | Vairocana.svabhāvo 'sau mṛta.kāyād viniścaret ||. See PK I.17–23.",
+            "hutabhug.maṇḍalaṃ] A, C and SUT; Pn hutabhuṅ.maṇḍalaṃ.",
+            "ca vai] AC; SUT sthittaḥ and gives also variant readings sthita, ca vai , caiva, caivaḥ, cava, and caret."
+          ]
+        },
+        {
+          "unitId": "CMP03.062",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.062/ raktavarṇam idaṃ vyaktaṃ padmanāthasya sañcaret ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vyaktaṃ] C and SUT; A vaktraṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.063",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.063/ vāmāc ca prasaro dhātur vāyumaṇḍalaniḥsṛtaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.064",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.064/ haritaśyāmasaṅkāśaṃ karmanāthasya sañcaret ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "harita.śyāma.saṅkāśaṃ] SUT (MS A); C harita.śyāma.saṅkāsa.; A haritaḥ syāma.saṅkāśaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.065",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.065/ dvandvasya prasaro dhātuḥ kanakavarṇasannibhaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "kanaka.varṇa.sannibhaḥ] C and SUT; A kanakavarṇa sya sannibhaḥ; Pn follows uncorrected reading of A."
+          ]
+        },
+        {
+          "unitId": "CMP03.066",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.066/ māhendramaṇḍalaṃ caîva ratnanāthasya sañcaret ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.067",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.067/ stabdho na prasaro dhātuḥ kṣaṇād vāruṇamaṇḍalam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "na prasaro] A; C and SUT manda.prasaro.",
+            ".maṇḍalaṃ] C and SUT; A .maṇḍalaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.068",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.068/ śuddhasphaṭikasaṅkāśaṃ vajranāthasya sañcaret ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.069",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.069/ sarvadhātūn samuddhṛtya hy ādhārādheyadhāritaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "sarva.dhātūn] A, C and SUT; Pn sarva.dhātuṃ.",
+            "hy ādhārādheya.dhāritaḥ] A; C vā hy ādhārādheya.dhāribhiḥ; SUT ādhārādheya.dhāribhiḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.070",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.070/ vairocanamahākāyo maraṇānte viniścaret ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "maraṇānte viniścaret] emendation; AC both maraṇānte.na.viniścaret; SUT vairocanasya mahāvāyur mṛtakāyād viniścaret."
+          ]
+        },
+        {
+          "unitId": "CMP03.071",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.071/ caturmaṇḍalam etadd hi japen nityaṃ samāhitaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.072",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.072/ ahorātraṃ sadā jāpyo mantriṇāṃ japasaṅkhyayā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "jāpyo] C; A jāpo.",
+            "japa.saṅkhyayā] C; A japa.saṅkṣay(eti); Pn japasaṅkṣa(khya)yā."
+          ]
+        },
+        {
+          "unitId": "CMP03.073",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.073/ ity uktaṃ bhagavatā vajramālāmahāyogatantre | asyāyam arthaḥ || vajrapadmayor nāsikābhyāṃ raśmiṃ viniścaret | ūrdhvagataḥ saṃvṛtināsāgrād vāmadakṣiṇadvandvastabdhakrameṇa niścarati |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vajramālā.mahāyoga.tantre] C (and TIB); A vajramālā.yoga.tantre.",
+            "asyāyam arthaḥ] AC; Pn asyāyamamarthaḥ.",
+            "vajra.padmayor] A; C padma.vajrayor."
+          ]
+        },
+        {
+          "unitId": "CMP03.074",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.074/ tatrâyaṃ kramaḥ | vāmaghrāṇād vinirgato vāyur amoghasiddhis tathāgataḥ | vāyusvabhāvo vāyavyamaṇḍalaṃ haritaśyāmaraśmisvarūpam iti || dakṣiṇaghrāṇāt sañcarito vāyur amitābhas tathāgataḥ | tejaḥsvabhāvo 'gnimaṇḍalaṃ raktaraśmisvabhāvam | ghrāṇadvandvād vinirgato vāyū ratnasambhavo māhendramaṇḍalaṃ pītaraśmisvabhāvam || stabdho mandapracāro vāyur akṣobhyaḥ | svacchābdhatusvabhāvo vāruṇamaṇḍalaṃ śvetaraśmisvabhāvam | catvāri dhātumaṇḍalāni vyāno vyāpto vāyur na niścarati raśmiḥ śrīvairocanas tathāgataḥ khasamasvabhāvaḥ |",
+          "manuscriptLoci": [
+            "[A:19b]"
+          ],
+          "criticalApparatus": [
+            "'gni.maṇḍalaṃ rakta.raśmi.svabhāvam] AC; Pn 'gni.maṇḍala.rakta.raśmi.svabhāvaḥ.",
+            "ghrāṇa.dvandvād] C; A dvandvād ghrāṇād.",
+            "pītaraśmisvabhāvaṃ] A; C pītaṃ raśmisvabhāvaṃ.",
+            "akṣobhyaḥ] AC; Pn akṣobhyas tathāgataḥ; TIB suggests *akṣobhyasvabhāvaḥ (mi bskyod pa'i ngo bo nyid).",
+            "svacchābdhātu.svabhāvo] C; A svabhāvaṃ |; Pn Ø; TIB suggests svaccha.. Original reading was likely svacchā.svabhāvo, with .abdhātu. subsequently added as an editorial gloss.",
+            "vāyur na niścarati raśmiḥ] A; C vāyur na nirgato vyāpta.raśmiḥ. TIB seems to follow C."
+          ]
+        },
+        {
+          "unitId": "CMP03.075",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.075/ kintv ekaiko raśmir viniścaret | pañcapañcaraśmir vinirgacchati | ekena dhātumaṇḍalena catvāro dhātavo vyāptā iti || ekaikasminn api maṇḍale tryakṣaramantrādhipatiḥ praveśādikrameṇa svayam eva satataṃ japed iti || saṅkṣepato vāyutattvam uktaṃ ||",
+          "manuscriptLoci": [
+            "[C:51a]"
+          ],
+          "criticalApparatus": [
+            "vinirgacchati] C; A niścati; Pn niścarati.",
+            "vyāptā] A; C vyāpta.",
+            "ekaikasminn api maṇḍale] A (and TIB); C ekaika.raśmi.maṇḍale.",
+            "vāyu.tattvam uktaṃ] C vāyutattvam uktam iti; A vāyu.tattva uktaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.076",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.076/ vajraśiṣya uvāca || gurupādaprasādād vāyutattvam āgamādhigamābhyāṃ suśikṣito 'ham | adhunā mantratattvasya lakṣaṇaṃ jñātum icchāmi | anukampām upādāya nirdiśatu bhagavān vajraguruḥ śāstā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "guru.pāda.prasādād] A; C vajra.guru.pāda.prasādād.",
+            "vāyu.tattvam āgamādhigamābhyāṃ] C vāyu.tattvaṃ āgamādhigamābhyāṃ; A vāyu.tattvāgamamadhigamābhyāṃ.",
+            "nirdiśatu] C (also Pn); A nirdiśayatu.",
+            "vajraguruḥ] A; C vajraguru."
+          ]
+        },
+        {
+          "unitId": "CMP03.077",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.077/ vajragurur āha || sādhu sādhu mahāsattva mantratattvaṃ nāma tattvasaṅgrahādau mūlatantre côttaratantre ca kevalaṃ mantramātram udīritaṃ mantroddhāro na pradarśitaḥ | vyākhyātantre tu mantroddhāro mantrasaṅketo mantrārtho mantratattvaṃ ca bhagavatā sadbhāvena vivṛtam || ato vyākhyātantram anadhigatā bāhyamantraparāyaṇā na prajānanti | tasmād yatnataḥ śṛṇu vyākhyātantrā nusāreṇa mantratattvaṃ te pratibodhayāmi |",
+          "manuscriptLoci": [
+            "[A:20a]"
+          ],
+          "criticalApparatus": [
+            "pradarśitaḥ] A; C darśito.",
+            "ca] C (also Pn); A Ø.",
+            "vyākhyā.tantram anadhigatā] A; C vyākhyātantrānadhigatā.",
+            "bāhya.mantra.parāyaṇā] A; C bāhyamantraparāyaṇāḥ |.",
+            "pratibodhayāmi] A; C prabodhayāmi."
+          ]
+        },
+        {
+          "unitId": "CMP03.078",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.078/ tatra sarpādimantrā ālikālisamudbhavāḥ | teṣāṃ tattvam anāhatodbhavaṃ tryakṣaram | yasmāt sarvamantrāḥ strīpunnapuṃsakasvabhāvā yathālabdhopadeśena tryakṣare praviśanti | tena tryakṣaraḥ sarvamantrādhipatiḥ | te ca punar ekaikaśo 'nāhatena saha tribhis tribhir akṣarair niṣpannāḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "sarpādi.mantrā ālikāli.samudbhavāḥ] C; A sarpyādimantrā alikālisamudbhavās. As sarpa. is well-attested in, e.g., PU, I follow C here. Pn tatra(tre)me'rcādimantrā ālikālisamudbhavās.",
+            "sarva.mantrāḥ] A; C sarve mantrāḥ.",
+            ".svabhāvā] A; C .svabhāvāḥ.",
+            "yathālabdhopadeśena] A; C yathopalabdhopadeśena.",
+            "tena] C (and TIB; also Pn); A te‸, with na written in upper margin.",
+            "ekaikaśo] C; A ekaiko."
+          ]
+        },
+        {
+          "unitId": "CMP03.079",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.079/ adhunā 'kṣaratrayasya vyāpāro nirdiśyate | tatra tāvat trisaṃyogād devatāmūrtiṃ niṣpādayati | sa eva praveśasthitivyutthānakrameṇa deham aharniśaṃ dhārayati | sa evâlikālibhiḥ saha dvayendriyasamāpattikāle 'dhomukho bhūtvā guhyanāsikācchidrāc chukrarūpeṇa vinirgatya sattvadhātūn utpādayati | sa eva prāṇāyāmena saha punar ūrdhvaṃ gatvā indriyadvāraṃ prabodhya saṃvṛtighrāṇa- dvārād vāmadakṣiṇādikrameṇa nirgatyânābhogena vajrajāpaṃ kṛtvā pūrvakarmāvaraṇaṃ viśodhayati | sa evâhorātrakrameṇa japasaṅkhyām upalakṣya vāruṇādimaṇḍalodaye sitādivarṇam āśritya śāntikādisarvakarmāṇi karoti | sa evâkṣararūpeṇa parikalpito nâbhiṣpanditajihvāgrêtyādivāgjāpalakṣaṇena jāpaṃ kṛtvā bāhyavarṇādikriyām āśritya śāntikādisarvakarmāṇi karoti | sa eva tryakṣaraśodhanabodhanajvalanakrameṇâhāraṃ viśodhya nirāmayaṃ karoti | evaṃ kaḍevarāvasthāyāṃ sarvaṃ kṛtvā paryante 'nāhate praviśya punar api prākṛtadeham āśritya tathaîva sarvaṃ karoti ||",
+          "manuscriptLoci": [
+            "[A:20b]",
+            "[C:51b]"
+          ],
+          "criticalApparatus": [
+            "'kṣara.trayasya vyāpāro] A 'kṣara.trayasya vyāpārā; C akṣara.vyāpāro; Pn 'kṣara.trayasya vyāpārān(rā).",
+            "nirdiśyate] AC; Pn nirdiśyante.",
+            "devatā.mūrtiṃ] rectification (also Pn); AC devatāmūrti.",
+            "dhārayati] emendation (also Pn); C dhārayanti; A dhārayanti. C adds here: etad vādyety arthaḥ | anutpādaḥ |.",
+            "vinirgatya] A; C nirgatya.",
+            "utpādayati] C (also Pn); A utpādayanti.",
+            "gatvā indriya.dvāraṃ] AC; Pn gandhendriya.dvāraṃ.",
+            "saṃvṛti.ghrāṇa.dvārād] A (and TIB); C saṃvṛti. dvāra .ghrāṇa.dvārāt.",
+            "viśodhayati] C (also Pn); A viśodhayanti.",
+            "upalakṣya] AC; Pn upalabhya.",
+            "vāruṇādi.maṇḍalodaye] C; A vāruṇyādi.maṇḍalodaye, though it may have been corrected.",
+            "parikalpito] AC parikalpite; Pn parikalpite.",
+            "nābhiṣpandita.jihvāgretyādi.vāgjāpa.lakṣaṇena] rectification (STTS); A nābhispanditajihvāgreṇa‸vāgjāpa.lakṣaṇena, but I cannot recognize the inserted syllables; C nābhispandita.jihvāgreṇetyādi.vāgjāpa.lakṣaṇe; Pn nābhispandita.jihvāgreṇa kṛtyetyādi.vāgjāpalakṣaṇena.",
+            "jāpaṃ] C; A japaṃ.",
+            "karoti] C (also Pn); A kurvanti.",
+            "tryakṣara.śodhana.bodhana.jvalana.krameṇāhāraṃ] A; C .jvālana.; Pn .krameṇā' 'hāraṃ.",
+            "karoti] C (also Pn); A karotti.",
+            "kaḍevarāvasthāyāṃ] A; C kalevarāvasthāyāṃ; Pn kṛte varāvasthāyāṃ.",
+            "karoti] C (also Pn); A karotti."
+          ]
+        },
+        {
+          "unitId": "CMP03.080",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.080/ idānīṃ tryakṣarotpattim āha || bhagavān sandhyāvyākaraṇamahāyogatantre ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "bhagavān] A; C (and TIB) Ø."
+          ]
+        },
+        {
+          "unitId": "CMP03.081",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.081/ ekādir navamadhye tu daśabhir yo na badhyate |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.082",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.082/ tam abaddhaṃ vijānīyāt sa vetti paramaṃ padam ||",
+          "manuscriptLoci": [
+            "[A:21a]"
+          ],
+          "criticalApparatus": [
+            "vijānīyāt] C (also Pn); A vi†jājānīyāt."
+          ]
+        },
+        {
+          "unitId": "CMP03.083",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.083/ svaravyañjanavarṇāś ca navasaṅkhyānuvartinaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "svara.vyañjana.varṇāś] AC; Pn svara.vyañjana.varṇāṃś.",
+            "nava.saṅkhyānuvartinaḥ] C (also Pn); A nava.saṅkhyānuāvarttinaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.084",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.084/ abaddhânyonyasaṃyogād yo vetti sa jagadguruḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "abaddhânyonya.saṃyogād] C abaddhā anyonyasaṃyogād; A abaddhānyonya.saṃyogā; PK abaddhânyonya.saṃyogād. PKṬ and PKṬYM support this emendation."
+          ]
+        },
+        {
+          "unitId": "CMP03.085",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.085/ yo buddhvā vāñchayet siddhiṃ vimuktiphalasampadam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "buddhvā] C (and TIB); A buddhā; Pn buddhā(ddhvā)."
+          ]
+        },
+        {
+          "unitId": "CMP03.086",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.086/ sa tad eva samāpnoti arūpād rūpavarjitam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "arūpād] C (and TIB); A arūpā; Pn arūpo."
+          ]
+        },
+        {
+          "unitId": "CMP03.087",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.087/ bhūtāntena samāyuktaṃ kalādiṣoḍaśe sthitam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "kalādiṣoḍaśe sthitam] A; C kalādiṣoḍaśaiḥ sthitam"
+          ]
+        },
+        {
+          "unitId": "CMP03.088",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.088/ pañcapañcakasaṃyuktaṃ catustrayaniyojitam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.089",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.089/ sānusvāraṃ sadīrghaṃ ca guṇasaṃyogalopavat |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.090",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.090/ hrasvaṃ samastavākyaṃ syān na cânekaṃ na caîkakam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.091",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.091/ yakārārthena yat kiñcit kartavyaṃ siddhim icchatā |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.092",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.092/ rephāditritayenaîva jagatkāryaṃ pravartate ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.093",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.093/ ye varṇāḥ pṛṣṭhataḥ proktā abhimukhāś ca ye punaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ca] A (and PK); C cāpi."
+          ]
+        },
+        {
+          "unitId": "CMP03.094",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.094/ strīpunnapuṃsakās te ca dhātvādiparikalpitāḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "strī.pun.napuṃsakās] C; A strīpunnapuṃsakas."
+          ]
+        },
+        {
+          "unitId": "CMP03.095",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.095/ adhaūrdhvasamāyuktā jñātvā buddhyā niyojitāḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "adha.ūrdhva.samāyuktā] AC; PK adha.ūrdhva.samāyuktaṃ.",
+            "niyojitāḥ] AC; PK niyojayet."
+          ]
+        },
+        {
+          "unitId": "CMP03.096",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.096/ ṣaḍbhir uktaṃ catustryaikān niḥsvabhāvaikabhāvajām ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "catustryaikān] C catustryekān; A catutraikān; Pn catustrai(stryai)kān.",
+            "niḥsvabhāvaikabhāvajām] A niḥsvaābhāvaikabhāvajāṃ; C niḥsvabhāvaikasvabhāvajām."
+          ]
+        },
+        {
+          "unitId": "CMP03.097",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.097/ tān yādyarthe samāyojya tryadhvajñānaṃ tu jāyate |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "tān yādyarthe] C; A trānyādyarthe; Pn trā(tryā)dyādyarthe.",
+            "samāyojya] C (also Pn); A samāyojña.",
+            "try.adhva.jñānaṃ] rectification (also Pn); AC try.adhva.jñānas."
+          ]
+        },
+        {
+          "unitId": "CMP03.098",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.098/ svapnendrajālavad vidvān kuryāj jagat tridhātuke ||",
+          "manuscriptLoci": [
+            "[A:21b]"
+          ],
+          "criticalApparatus": [
+            "vidvān] C; A vidvāra; Pn bidhvā."
+          ]
+        },
+        {
+          "unitId": "CMP03.099",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.099/ pravyāhāram idaṃ mantraṃ niḥsvabhāvasvabhāvajam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "pravyāhāram] C; A pratyāhāram. PK has both of these readings in its MS tradition; Mimaki and Tomabechi favor pravyāhāraṃ; PKṬ pratyāhāraḥ; PKṬYM pravyāhāraṃ. I here read pravyāhāram, as this term is found elsewhere in CMP."
+          ]
+        },
+        {
+          "unitId": "CMP03.100",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.100/ tataḥ pariṇataṃ rūpaṃ yad devatopalambhakam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "devatopalambhakam] rectification (PKṬ and PKṬYM); A reads devatopalambh(a/i)kam (vowel has been corrected—seemingly from a to i , but uncertain); C devatopalabdhikam; PK .upalambhakaṃ (variants: .upalambhikaṃ/.upalabhikaṃ); PN daivatopalambhakaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.101",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.101/ sāṅketikaṃ tritattvasthaṃ prakṛtijāpalakṣaṇam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "prakṛti.jāpa.lakṣaṇam] A; C prakṛtijāpasya lakṣaṇam."
+          ]
+        },
+        {
+          "unitId": "CMP03.102",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.102/ anākhyeyam anuccāryaṃ bodhicittam idaṃ param ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "anākhyeyam] A; C anādheyam."
+          ]
+        },
+        {
+          "unitId": "CMP03.103",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.103/ tad eva tritayaikaṃ syād anirgamam anāgamam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.104",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.104/ anirodhaṃ praśāntaṃ ca śāśvatocchedavarjitam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "anirodhaṃ praśāntaṃ ca] rectification; A anirodhaprasāntaś ca; C anirodhapraśāntaṃ ca; Pn anirodhaḥ praśāntaś ca."
+          ]
+        },
+        {
+          "unitId": "CMP03.105",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.105/ tryadhvavidākṛtasaṅkalpam ākāśābhedalakṣaṇam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "try.adhva.vid.ākṛta.saṅkalpam] AC; Pn try.adhva.vidā'kṛta.saṅkalpam."
+          ]
+        },
+        {
+          "unitId": "CMP03.106",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.106/ pāramārthikam evêdaṃ pratyātmavedyalakṣaṇam ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.107",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.107/ sarvāsv api kriyāsv eva niṣadyādiṣu yogavit |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "sarvāsv api] A; C sarvāsvāpi.",
+            "kriyāsv eva] C; A kriyāś caiva; Pn kriyāścai(sve)va."
+          ]
+        },
+        {
+          "unitId": "CMP03.108",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.108/ anākhyeyam anuccāryaṃ tryadhvātītaṃ japet sadā ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "anākhyeyam] A; C anādheyam."
+          ]
+        },
+        {
+          "unitId": "CMP03.109",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.109/ pāṇḍarādijapaḥ proktaḥ pañcaviṃśacchatadvayam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "proktaḥ] rectification (PK); A proktāḥ; C proktaṃ.",
+            "pañcaviṃśacchatadvayam] A; C pañcaviṃśatiśatadvaya."
+          ]
+        },
+        {
+          "unitId": "CMP03.110",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.110/ caturbhir guṇitaṃ samyak caturyogaṃ śataṃ nava ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "caturyogaṃ] A; C caturyoga."
+          ]
+        },
+        {
+          "unitId": "CMP03.111",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.111/ navaśataṃ tu yad dṛṣṭaṃ caturviṃśatiparikramaiḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "yad dṛṣṭaṃ] PK (also Pn); A ya dṛṣṭaṃ; C yad uddiṣṭaṃ.",
+            "caturviṃśati.parikramaiḥ] AC; PK caturviṃśat.parikramaiḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.112",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.112/ pratyutpādād bhavet tac ca dvyayutaṃ śataṣoḍaśam ||",
+          "manuscriptLoci": [
+            "[C:52a]"
+          ],
+          "criticalApparatus": [
+            "tac ca] A; C (and PK) tatra; Pn tat tu."
+          ]
+        },
+        {
+          "unitId": "CMP03.113",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.113/ tad itthaṃ guhyasandhyāyāṃ sūkṣmayogaṃ prakāśitam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.114",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.114/ dhyānādhyayanavītaṃ tu tathâpi japa ucyate ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.115",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.115/ ity adhyātmamantratattvam ucyate ||",
+          "manuscriptLoci": [
+            "[A:22a]"
+          ],
+          "criticalApparatus": [
+            "adhyātma.mantra.tattvam] C; Pn (who worked exclusively from A) adhyātma.maitra.tattvam; on my reading A has ādhyātma.mentra.tattvam.",
+            "ucyate] C; A ity ucyate."
+          ]
+        },
+        {
+          "unitId": "CMP03.116",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.116/ vajraśiṣya uvāca || ādhyātmikavāgakṣarapravṛttikāraṇe 'pagatasaṃśayaḥ | api ca hrasvaṃ samastavākyaṃ syād ity uktaṃ bhagavatā tat kathaṃ hrasvo 'kāraḥ samastavākpravṛtteḥ kāraṇaṃ bhavati ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ādhyātmika.vāg.akṣara.pravṛtti.kāraṇe] rectification (also Pn); A adhyātmika.vāgakṣara.pravṛtti.kāraṇe; C ādhyātma.vāg.akṣara.pravṛtti.karaṇe.",
+            "'pagata.saṃśayaḥ] AC; Pn 'pagataḥ saṃśayaḥ.",
+            "samasta.vākyaṃ] AC; Pn samastaṃ vākyaṃ.",
+            "hrasvo 'kāraḥ] rectification; A hrasva akāraḥ; C hrasvaṃ akāraḥ.",
+            "samasta.vāk.pravṛtteḥ kāraṇaṃ] A; C samasta.vākya.pravṛtti.kāraṇaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.117",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.117/ vajragurur āha || sādhu sādhu mahāsattva | iha prāvacanikā vyākaraṇaṃ puraskṛtya kevalaśabdārthamātram anusmaranti | na tu punar akṣaram abhilāpaś ca kutra kasmāt kathaṃ pravartata iti | yathābhūtākṣaratattvaṃ na prajānanti buddhagocaratvāt | śṛṇu deśanānusāreṇa te pratibodhayāmi |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "prāvacanikā] C; A pravacanikā.",
+            "puraskṛtya] C (and TIB); A puraskṛta; Pn puraskṛta(tya).",
+            "anusmaranti] AC; TIB rjes su 'brang (*anusāranti).",
+            "na tu] A; C na.",
+            "pratibodhayāmi] A; C prabodhayāmi."
+          ]
+        },
+        {
+          "unitId": "CMP03.118",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.118/ śabdas tāvad ālikālimayaḥ | ālîty akārādiṣoḍaśasvarāḥ | kālîti kakārādivarṇās trayastriṃśat || ṣoḍaśasvarasaṃyuktam ekonapañcāśallipikaṃ sarvam astavyastasamastasvaravyañjanabinduvisargasaṃhitādhātuvibhaktisamāsapadavigrahastrīliṅgatiṅantakṛttaddhitapratyayādibhir bhāṣyaparyantaṃ vyākaraṇam iti nāma saṅketakena paribhāṣaṇena jñāyate || atas tasya padavākyacchandovṛttaślokagāthādaṇḍakādibhiś caturaśītisāhasradharmaskandhasūtrāntatantrakalpatripiṭakakāvyanāṭakādayo laukikalokottaraśāstrāṇi sambhavanti | śāstram āśritya sarvasiddhayaḥ sampadyante || yathôktaṃ bhagavatā laṅkāvatārasūtre ||",
+          "manuscriptLoci": [
+            "[A:22b]"
+          ],
+          "criticalApparatus": [
+            "trayastriṃśat] A; C trayastriṃśakāḥ.",
+            "A inserts kathaṃ; C (and TIB) Ø.",
+            "ekonapañcāśallipikaṃ] A ekonnapañcāśallipikaṃ; C ekonapañcāśatalipikaṃ.",
+            ".saṃhitā.] A; C sahitā.",
+            ".vigraha.] rectification (also Pn); AC vigrahas..",
+            ".strīliṅga.] A; C strīliṅgas; Pn striliṅga; TIB suggests *triliṅga (rtags gsum).",
+            ".pratyayādibhir] A; C .pratyayādi..",
+            "bhāṣyaparyantaṃ] A; C bhāṣyaparyanta.",
+            "paribhāṣaṇena] AC; Pn paribhāṣa[mā]ṇena.",
+            "pada.vākya.cchando.vṛtta.śloka.gāthā.daṇḍakādibhiś] C; A pada.vākya.cchanda.vṛtti.śloka.gāthā.daṇḍakādibhiś; Pn pada.vākya.cchando.vṛtti.śloka.gāthā.daṇḍakādibhiś.",
+            "caturaśīti.sāhasra.dharma.skandha.] rectification; A caturaśīti.sahasra.dharma.skandha; C caturaśīti.sāhasra.dharma.skandhaḥ.",
+            "lokottara.śāstrāṇi] A; C lokottarāṇi śāstrāṇi.",
+            "sambhavanti] C; A sambhāvyante."
+          ]
+        },
+        {
+          "unitId": "CMP03.119",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.119/ tadyathā mahāmate kaścid eva puruṣaḥ pradīpaṃ gṛhya dhanam anveṣayati| evam eva mahāmate vāgvikalparutapradīpena bodhisattvā mahāsattvā vāgvikalparahitāṃ svapratyātmagatim anupraviśantîti |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "gṛhya dhanam anveṣayati |] A; C gṛhya dhanam anveṣayati | asmin pradeśe | (there follow eight deleted syllables); LAS gṛhītvā dhanam avalokayed idaṃ me dhanam evaṃ.vidham asmin pradeśa iti.",
+            "vāgvikalpa.rahitāṃ] AC; LAS vāgvikalpa.rahitāḥ.",
+            "sva.pratyātma.gatim] AC; LAS sva.pratyātmārya.gatim; Pn sva.pratyayātmārtha.gatiṃ; SS pratyātma.gatim."
+          ]
+        },
+        {
+          "unitId": "CMP03.120",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.120/ kintu teṣāṃ padavākyādigatavarṇaviśeṣāṇāṃ vijñānabhūto 'yam akāraḥ | yasmād akārasvaraviyuktā na santi kakārādayo varṇāḥ | halantatvān na bhavanti vācyāḥ | yathôktaṃ bhagavatā nāmasaṅgītikāyām |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "akāra.svara.viyuktā na] A akāra.svara.viyuktāni; C (and TIB) akāra.svarā.saṃyuktā na.",
+            "varṇāḥ |] C (and TIB); A varṇā.",
+            "halantatvān] AC; Pn phalaṃ tattvān."
+          ]
+        },
+        {
+          "unitId": "CMP03.121",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.121/ akāraḥ sarvavarṇāgryo mahārthaḥ paramākṣaraḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.122",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.122/ mahāprāṇo hy anutpādo vāgudāhāravarjitaḥ |",
+          "manuscriptLoci": [
+            "[C:52b]"
+          ],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.123",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.123/ sarvābhilāpahetvagryaḥ sarvavāksuprabhāsvara iti ||",
+          "manuscriptLoci": [
+            "[A:23a]"
+          ],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.124",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.124/ tenôktaṃ bhagavatā sakaladhyānamukhabījapadam | akāro mukhaṃ sarvadharmāṇām ādyanutpannatvād iti | sahajākṣaraṃ tu punar ucyate | vajramaṇḍalālaṅkāratantre 'py akāraṃ dyotayann āha ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vajra.maṇḍalālaṅkāra.tantre] C; A vajra.maṇḍālaṅkāra.tantre."
+          ]
+        },
+        {
+          "unitId": "CMP03.125",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.125/ jvalantaṃ dīpasadṛśaṃ hṛdi madhyam anāhatam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.126",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.126/ akṣaraṃ paramaṃ sūkṣmam akāraṃ paramaṃ prabhum iti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "akāraṃ] AC (and TIB); AKṬ mahārthaṃ.",
+            "prabhum] A; C vibhum [either reading is suitable]."
+          ]
+        },
+        {
+          "unitId": "CMP03.127",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.127/ evaṃ sarvatathāgatā akārānvayam akārahetubhūtam akāranirjātam uccaritapradhvansisvabhāvaṃ vāgvikalpalakṣaṇaṃ yathā- bhūtaṃ jñātvā śabdāpaśabdanirapekṣaṃ sattvāśayānuśayabhedena vineyajanebhyo dharmaṃ deśayantîti |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "akāra.nirjātam] A; C akāra.niryātam [either reading is suitable].",
+            "C inserts tva here; TIB seems to have a similar reading ( nyid ).",
+            "śabdāpaśabda.nirapekṣaṃ] A; C śabdāpaśabda.nirapekṣāḥ [either reading is suitable].",
+            "sattvāśayānuśaya.bhedena] C; A sarvāśayānubhedena; TIB sems can gyi bsam pa'i dbye bas (*sattvāśaya.bhedena)."
+          ]
+        },
+        {
+          "unitId": "CMP03.128",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.128/ ata evôktaṃ bhagavatā laṅkāvatārasūtre ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ata evoktaṃ] A; C ata eva coktaṃ.",
+            "bhagavatā] A; C bhagavātā."
+          ]
+        },
+        {
+          "unitId": "CMP03.129",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.129/ arthapratiśaraṇena mahāmate bodhisattvena mahāsattvena bhavitavyaṃ | na vyañjanapratiśaraṇena | vyañjanānusārī mahāmate kulaputro vā kuladuhitā vā svam ātmānaṃ ca nāśayati | paramārthaṃ ca paraṃ nâvabodhayati |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ca] C; A Ø. LAS paramārthan parāṃśca."
+          ]
+        },
+        {
+          "unitId": "CMP03.130",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.130/ tadyathā mahāmate aṅgulyā kaścit kasyacit kiñcid darśayet | sa câpy aṅgulyagram eva pratisared vīkṣitum | evam eva mahāmate bālajātīyā iva bālapṛthagjanavargā yathārutāṅgulyagrābhiniveśābhiniviṣṭā evaṃ kālaṃ kariṣyanti | na yathārutāṅgulyagrārthaṃ hitvā paramārtham anveṣayanti |",
+          "manuscriptLoci": [
+            "[A:23b]"
+          ],
+          "criticalApparatus": [
+            "aṅgulyā kaścit] rectification (LAS; also Pn); A aṅgulyāt kaścit; C only aṅgulyā.",
+            "darśayet] AC; LAS ādarśayet.",
+            "sa cāpy aṅgulyagram] A; C and LAS sa cāṅgulyagram; Pn sa cāpy aṅgulyāgram.",
+            "iva] A and LAS; C iha.",
+            "bāla.pṛthagjana.vargā] A; C bālagjana.vargā.",
+            "yathārutāṅguly.agrābhiniveśābhiniviṣṭā] C and LAS; A yathārutāṅguly.agrābhiniveśābhiniviṣṭānām.",
+            "evaṃ] A and LAS; C eva.",
+            "kālaṃ] AC; Pn kāraṃ.",
+            "yathārutāṅgulyagrārthaṃ] rectification (LAS); C yathāṅgurutāṅgulyagrārthaṃ (or, perhaps, .graṃ thaṃ); A yathārutā aṅgulyāgrārthaṃ; Pn yathārutā aṅgulyagrārthaṃ.",
+            "anveṣayanti] A; C anveṣayiṣyanti; LAS āgamiṣyanti."
+          ]
+        },
+        {
+          "unitId": "CMP03.131",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.131/ tasmād arthakāmena te sevanīyāḥ | ato viparītā ye yathārutārthābhiniviṣṭās te varjanīyā arthānveṣiṇêti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "artha.kāmena] A and LAS; C artha.kāmena na.",
+            "sevanīyāḥ] A and LAS; C sevanīyā.",
+            "viparītā ye] C and LAS; A viparītād; Pn viparītā.",
+            "arthānveṣiṇeti] C (also Pn); A arthānveṣaṇeti; LAS tattvānveṣinā."
+          ]
+        },
+        {
+          "unitId": "CMP03.132",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.132/ vākpravṛttir api caturvidhêty uktaṃ bhagavatā atraîva sūtre",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "caturvidhety] C (also Pn); A caturvidham ity."
+          ]
+        },
+        {
+          "unitId": "CMP03.133",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.133/ caturvidhaṃ mahāmate vāgvikalpalakṣaṇaṃ bhavati || yad uta lakṣaṇavāk svapnavāk dauṣṭhulyābhiniveśavāk | anādikālavikalpavāk | tatra mahāmate lakṣaṇavāk svavikalparūpanimittābhiniveśāt pravartate | svapnavāk punar mahāmate pūrvānubhūtaviṣayānusmaraṇāt pratinibaddhaviṣayābhāvāc ca pravartate | dauṣṭhulyavikalpābhiniveśavāk punar mahāmate sattvapūrvakṛtakarmānusmaraṇāt pravartate | anādikālavikalpavāk punar mahāmate anādikālaprapañcābhiniveśadauṣṭhulyasvabījavāsanātaḥ pravartate | etadd hi mahāmate caturvidhaṃ vāgvikalpalakṣaṇam iti |",
+          "manuscriptLoci": [
+            "[A:24a]"
+          ],
+          "criticalApparatus": [
+            "bhavati] C and LAS (also Pn); A bhavanti.",
+            "dauṣṭhulyābhiniveśa.vāk] AC; LAS and Pn dauṣṭhulya.vikalpābhiniveśa.vāk.",
+            "pratinibaddha.viṣayābhāvāc] AC; LAS prativibuddha.viṣayābhāvāc",
+            "dauṣṭhulya.vikalpābhiniveśa.vāk] A and LAS (and TIB); C dauṣṭhulyābhiniveśa.vāk.",
+            "sattva.pūrva.kṛta.karmānusmaraṇāt] C (also Pn); A sattva.pūrva.karmānusmaraṇāt; LAS śatru.pūrva.kṛta.karmānusmaraṇāt (or śaktana., sukṛt[a]., śaktata.).",
+            "anādi.kāla.prapañcābhiniveśa.dauṣṭhulya.svabīja.vāsanātaḥ] C and LAS (also Pn); A anādi.kāla.prapañcābhiniveśa.dauṣṭhulya.svabīja.vāsanāt.",
+            "etaddhi] A and LAS; C etan.",
+            "catur.vidhaṃ] C; A catur.vidha.."
+          ]
+        },
+        {
+          "unitId": "CMP03.134",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.134/ anena nyāyena śabdo 'kārodbhavatvād akṣaraḥ | kṣaraṃ vināśo 'kṣaram avināśaḥ | khasamasvabhāvaṃ yac chabdadvāreṇa pratipādyate | niṣpannakramaṃ tad apy akṛtakam anādinidhanasvabhāvam iti | yathôktam ekanayanirdeśasūtre |",
+          "manuscriptLoci": [
+            "[C:53a]"
+          ],
+          "criticalApparatus": [
+            "khasama.svabhāvaṃ] A; C khasama.svabhāvaḥ.",
+            "eka.naya.nirdeśa.sūtre] A, SS, (and TIB); C eka.nirdeśa.krama.sūtre."
+          ]
+        },
+        {
+          "unitId": "CMP03.135",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "verse",
+          "cleanSanskritIast": "CMP03.135/ dharmā ime śabdarutena vyākṛtā dharmāś ca śabdaś ca hi nâtra labhyate |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vyākṛtā] A and SS; C vyākṛtāḥ |."
+          ]
+        },
+        {
+          "unitId": "CMP03.136",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.136/ nayaikatāṃ câpy avatīrya dharmatām anuttarāṃ kṣāntivarāṃ spṛśiṣyata iti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "nayaikatāṃ] A; SS (also Pn) na caikatāṃ; C is ambiguous (either nayai. or nacai.).",
+            "spṛśiṣyata iti] A; C spṛśiṣyatheti; SS pṛṣiṣyatheti."
+          ]
+        },
+        {
+          "unitId": "CMP03.137",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.137/ yathôktaṃ vairocanābhisambodhicaryātantre |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.138",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.138/ api tu guhyakādhipate mantrāṇāṃ lakṣaṇaṃ sarvabuddhair na kṛtaṃ na kāritaṃ nânumoditam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "nānumoditam] A; C nâpy anumoditam."
+          ]
+        },
+        {
+          "unitId": "CMP03.139",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.139/ tat kasya hetoḥ | eṣāṃ dharmāṇāṃ dharmatā yad uta utpādād vā tathāgatānām anutpādād vā tathāgatānāṃ sthitaîvaîṣāṃ dharmāṇāṃ dharmatā yad uta mantrāṇāṃ mantradharmatā |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "tathāgatānāṃ] C (also Pn); Ø in main text of A—written in along lower margin."
+          ]
+        },
+        {
+          "unitId": "CMP03.140",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.140/ tatra guhyakādhipate 'sti kāmadhātvīśvarasya madayantikā nāma vidyā | tayā sarvān kāmāvacarān devaputrān madena mūrcchayati | vividhavicitraramaṇīyāṃś ca pradeśān darśayati | vividhavicitraparibhogāṃś câbhinirmāya paranirmitavaśavartibhyo devebhyaḥ prayacchaty ātmanā ca paribhuṅkte ||",
+          "manuscriptLoci": [
+            "[A:24b]"
+          ],
+          "criticalApparatus": [
+            "tatra] A (and TIB); C atra; Pn tad.",
+            "sarvān kāmāvacarān] C; A sarvakāmāvacarān.",
+            "cābhinirmāya] C (also Pn); A cābhinirmāṇaya.",
+            "paranirmita.vaśavartibhyo] C (also Pn); A parinirmita.vaśavartibhyo.",
+            "devebhyaḥ] A; C devaputrebhyaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.141",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.141/ tadyathâsti maheśvarasya devaputrasya manojavā nāma vidyā | tayā trisāhasramahāsāhasre lokadhātau sarvakāryaṃ karoti | sarvopabhogaparibhogāṃś câbhinirmāya śuddhāvāsakāyikebhyo devebhyaḥ prayacchaty ātmanā ca paribhuṅkte ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "C inserts hi.",
+            "trisāhasra.mahāsāhasre] A; C trisāhasra.mahāsāsre.",
+            "sarvopabhoga.paribhogāṃś] A; C sarvopabhogāś.",
+            "devebhyaḥ] A; C devaputrebhyaḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.142",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.142/ tadyathā māhendrajāliko mantrair vividhavicitrārthān manuṣyādikān darśayati | tadyathâpi nāma mantrair māyāṃ darśayati | tadyathâpi nāma mantrair viṣam apanayati jvarādikaṃ ca | tadyathâpi nāma mantrakalpikā devatā mantraiḥ śreyaḥ sattvebhyaḥ prayacchati | tadyathâpi nāma mantrair agner uṣṇatā naśyati śītatā ca sambhavati |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vividha.vicitrārthān] A; C vividha.vicitrān.",
+            "manuṣyādikān] C (also Pn); A manuṣyadikān.",
+            "tadyathāpi nāma] C; A Ø; TIB lha ma yin rnams; Pn (after TIB) tadyathā asurān.",
+            "tadyathāpi nāma] C; A Ø.",
+            "apanayati] A; C apagacchati.",
+            "C inserts: tadyathāpi nāma mantrakalpikāṃ devatāṃ mantrair māras sattvebhyaḥ prayacchati |.",
+            "tadyathâpi nāma] A; C Ø.",
+            "mantra.kalpikā devatā] A; C mantra.kalpitā devatā.",
+            "śreyaḥ] C śreyas (Pn śreyaḥ); A śrayaḥ.",
+            "C inserts: iti dvitīyaḥ pāṭhaḥ |.",
+            "tadyathâpi nāma] C; A Ø.",
+            "uṣṇatā naśyati] C (also Pn); A uṣṇatānnaśyati (for uṣṇatāṃ naśyati).",
+            "sambhavati] A; C bhavati."
+          ]
+        },
+        {
+          "unitId": "CMP03.143",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.143/ ebhir nidarśanapadair mantraprabhāvo 'bhiśraddhātavya iti | sa ca mantraprabhāvo hi na mantrato niṣkrāmati | na sattveṣu praviśati | na prayoktṛta upalabhyate || atha ca kulaputra mantrādhiṣṭhānadharmatā sambhavaṃ nâtikrāmati | kālatrayātītatvāt | sarvathâcintyapratītyasamutpādābhinivartitatvāc ca |",
+          "manuscriptLoci": [
+            "[A:25a]"
+          ],
+          "criticalApparatus": [
+            "sattveṣu] A; C sattve.",
+            "na prayoktṛta upalabhyate] A na prāyoktṛta uplabhyate; C na prayoktṛta upa u labhyate; Pn reads na prāṇāṃ kṛta upalabhyate , and emends (after TIB) to na dravyād utpadyate na kartur dṛśyate ."
+          ]
+        },
+        {
+          "unitId": "CMP03.144",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.144/ tasmāt tarhi kulaputrâcintyadharmatāsvabhāvagatiṅgatena satatasamitaṃ mantranayo 'nugantavya iti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "satata.samitaṃ] C; A satatasamita.",
+            "acintya.pratītya.samutpādābhinivartitatvāc ca | tasmāt tarhi kula.putrâcintya.dharmatā.svabhāva.gatiṅgatena satata.samitaṃ mantranayo] Pn (after TIB) acintya.pratītya.samutpādād siddhyati | kulaputra! ataḥ sarve dharmā acintya.svabhāvenety adhigamya sadā tat satata.mantranayo.",
+            "acintyapratītyasamutpādābhinivartitatvāc ca tasmāt tarhi kulaputrācintyadharmatā.svabhāvagatiṃ gatena satatasamitaṃ mantranayo 'nugantavya iti |] C; A has a damaged line here and reads: acintyapratītyasamutpādābhini...svabhāvagatiṃ gatena satatasamitaṃ mantranayo 'nugantavya iti |."
+          ]
+        },
+        {
+          "unitId": "CMP03.145",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.145/ evam ādhyātmikabāhyamaṇimantrauṣadhīnām acintyaprabhāvam āgamādhigamābhyāṃ pratipādya | idānīṃ niṣpannāniṣpannasattvadhātūnāṃ yathābhūtavāgviśuddhiṃ darśayann āha || kinnararājaparipṛcchāsūtre ||",
+          "manuscriptLoci": [
+            "[C:53b]"
+          ],
+          "criticalApparatus": [
+            "ādhyātmika.bāhya.maṇi.mantrauṣadhīnām] C (also Pn); A adhyātmika.bāhya.maṇi.mantrauṣadhīnām.",
+            "acintya.prabhāvam] A acintya.prabhāvām (Pn acintya.prabhāvam); C is unclear but seems to read .prabhāvam.",
+            "niṣpannāniṣpanna.sattvadhātūnāṃ] A (and TIB); C niṣpannāniṣpanna.sarvadhātūnāṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.146",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.146/ kutaḥ punaḥ kinnarādhipate sarvasattvānāṃ rutaghoṣā niścaranti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "C inserts (not found in A or TIB): anyatamaḥ kulaputra kinnarādhipatiṃ paripṛcchati |."
+          ]
+        },
+        {
+          "unitId": "CMP03.147",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.147/ āha || ākāśāt kulaputra sarvasattvānāṃ rutaghoṣā niścaranti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "CMP03.148",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.148/ āha || na punaḥ kinnarādhipate adhyātmikakoṣṭhāt sarvasattvānāṃ rutaghoṣā niścaranti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "āha |] C (and TIB); not found in A.",
+            "adhyātmika.koṣṭhāt] A; C (also Pn) ādhyātmaka.koṣṭhāt."
+          ]
+        },
+        {
+          "unitId": "CMP03.149",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.149/ āha || tat kiṃ manyase kulaputra kāyābhyantarakoṣṭhāt sarvasattvānāṃ rutaghoṣā niścaranti | āhosvic cittāt ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "āhosvic] C and SS; A āhosviś; Pn āhosvit."
+          ]
+        },
+        {
+          "unitId": "CMP03.150",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.150/ āha || kinnarādhipate na kāyān na cittāt | tat kasmādd hetoḥ | kāyo hi jaḍo niśceṣṭas tṛṇakuḍyakāṣṭhapratibhāsopamaḥ | cittaṃ câpy anidarśanaṃ māyopamam apratigham avijñaptikam ||",
+          "manuscriptLoci": [
+            "[A:25b]"
+          ],
+          "criticalApparatus": [
+            "niśceṣṭas] C (and TIB); A niśceṣṭa; Pn niśceṣṭatas.",
+            "tṛṇa.kuḍya.kāṣṭha.pratibhāsopamaḥ] AC; Pn tṛṇa.kuḍya. loṣṭha . marīcikā .kāṣṭha.pratibhāsopamaḥ.",
+            "apratigham] AC; SS apratimaṃ."
+          ]
+        },
+        {
+          "unitId": "CMP03.151",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.151/ āha || kāyacittavinirmuktāni punaḥ kulaputra kuto 'nyato rutāni niścaranti ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "kāyacittavinirmuktāni] C (and TIB); A kāya.vāk.cittavinirmuktāni; SS kāyaṃ cittaṃ muktvā tu.",
+            "rutāni] AC; SS rutaghoṣā."
+          ]
+        },
+        {
+          "unitId": "CMP03.152",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.152/ āha || ākāśād amanaskārāt sambhavati kinnarādhipate sarvasattvānāṃ rutavijñaptiḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "ākāśād amanaskārāt] A ākāśa‸manaskārāt (inserted syllable illegible); C amanaskārad ākāśat; Pn ākāśaṃ te manaskārāt.",
+            "sambhavati] A; C sambhavanti.",
+            "ruta.vijñaptiḥ] AC; Pn tatra."
+          ]
+        },
+        {
+          "unitId": "CMP03.153",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.153/ āha || tat kiṃ manyase kulaputra yady ākāśaṃ na bhavet kuto rutāni niścareyuḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "rutāni niścareyuḥ] A; C rutāniścareyuḥ."
+          ]
+        },
+        {
+          "unitId": "CMP03.154",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.154/ āha || nâkāśavinirmuktaḥ kinnarādhipate kaścid rutaniścāraḥ ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            ".vinirmuktaḥ] A; C .nirmuktaḥ.",
+            "ruta.niścāraḥ |] C (also Pn); A rutaniścāratadanena.."
+          ]
+        },
+        {
+          "unitId": "CMP03.155",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.155/ (āha ||) tad anena te kulaputra paryāyeṇaîvaṃ veditavyam | ye kecid rutavyāpārā niścaranti | sarve te ākāśān niścarantîti | ākāśasvabhāvāni hi rutāni samanantaraniryātāni ca niruddhyante | niruddhāni câkāśasvabhāvatāyām eva santiṣṭhante |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "āha] emendation (TIB; also Pn); not found in A, C, or SS, though it is also added in latter by editor.",
+            "sarve te] A; C te sarve.",
+            "samanantara.niryātāni] A; C and SS (and TIB) samanantara.vijñātāni.",
+            "niruddhyante] C (also Pn); A niruddhante.",
+            "câkāśa.svabhāvatāyām] AC; perhaps better câkāśa.svabhāvatām?"
+          ]
+        },
+        {
+          "unitId": "CMP03.156",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.156/ ākāśasvabhāvāḥ sarvadharmās te udāhṛtā anudāhṛtā vā | tām evâkāśakoṭisamatāṃ na vijahati | rutamātrā hi kulaputra sarvadharmā avijñaptivijñapanīyās te tu saṅketena vyavahriyante | sa ca vyavahāro 'vyavahāraḥ | yo hi rutasaṅketena vyavahāraḥ sa na ca kvacid dharme 'bhiniviśata iti ||",
+          "manuscriptLoci": [
+            "[A:26a]"
+          ],
+          "criticalApparatus": [
+            "vijahati] emendation; AC both (singular) vijahāti.",
+            "hi] C (also Pn); A di.",
+            "avijñapti.vijñapanīyās] AC; Pn avijñapti.vijñapanīyaṃ.",
+            "From vyava. to .'vyavahāraḥ is obliterated in MS A due to damage.",
+            "te tu saṅketena vyavahriyante | sa ca vyavahāro 'vyavahāraḥ] SS MS (though editor emends vyavahāro vyavahāraḥ to saṅketa.vyavahāraḥ); Pn śabdena śabdasaṅketena kathyante sa ca saṅketavyavahāro.",
+            "'vyavahāraḥ |] C; A 'vyavahāro.",
+            "ruta.saṅketena] C; A and SS ruta.saṅketa..",
+            "vyavahāraḥ] SS; C vyavahāraś ca. From vyavahā. (the end of p. 25b) to saṃhriyate (26a2), the text of A is mostly obliterated. For niṣpannāniṣpanna.sattva.dhātūnāṃ doṣa.guṇa.varṇanātmaka.vākyaṃ śrutvā nânulīyate | na saṃhriyate, Pn reads: niṣpannāniṣpanna.sattvaiḥ saha stutibhir nāsakto bhavati samyaktayā tuṣṭo.",
+            "TIB here inserts a largish passage which I deem to be a Tibetan interpolation (see notes to translation and Pn, pp. 35–36)."
+          ]
+        },
+        {
+          "unitId": "CMP03.157",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.157/ evaṃ vāgvajrasamādhistho mahāyogī niṣpannāniṣpannasattvadhātūnāṃ doṣaguṇavarṇanātmakavākyaṃ śrutvā nânulīyate | na saṃhriyate | nôttrasyati | na santrasati | na vicikitsati | tathaîva laukikalokottaraśāstradaṇḍakatroṭakādiśabdaracanāviśeṣaṃ śrutvā na rajyati na duṣyati na muhyati sarvaśabdānāṃ gatiṅgatatvāt | yathôktaṃ bhagavatā sarvadharmāpravṛttinirdeśasūtre |",
+          "manuscriptLoci": [
+            "[C:54a]"
+          ],
+          "criticalApparatus": [
+            "evaṃ] A; C evaṃ ca.",
+            "saṃhriyate] A saṃhriyati; C saṅklisyate [read: saṅkliśyate].",
+            "santrasati] A; C sṛjjati [or sarjjati?].",
+            "laukika.lokottara.śāstra.daṇḍaka.troṭakādi.śabda.racanāviśeṣaṃ] A; C laukika.lokottara.śāstra.daṇḍaka.ch[ū]rṇakādi.śabda.racanāviśeṣaṃ [ sic for .cūrṇaka.]; Pn .trāṭakādi..",
+            "A inserts ca.",
+            "sarva.dharmāpravṛtti.nirdeśa.sūtre] A and SS; C sarva.dharmāprāvṛtti.nirdeśa.sūtre."
+          ]
+        },
+        {
+          "unitId": "CMP03.158",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.158/ śabdarutapraveśapratiṣṭho devaputra bodhisattvo mahāsattvaḥ || saced gaṅgānadīvālukāsamān kalpān ākruṣyet paribhāṣyet vitathair asadbhūtaiḥ padair na tasya tatra pratighacittam utpadyate || saced gaṅgānadīvālukāsamān kalpān satkriyed gurukriyed mānyet pūjyet sarvasukhopadhānaiś cīvarapiṇḍapātaśayanāsanaglānapratyayabhaiṣajyapariṣkārair na tasya tatrânunayacittam utpadyate |",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "śabdaruta.praveśa.pratiṣṭho] A; C śabdaruta.praveśe praviṣṭho; SS śabdarutapraviṣṭo; TIB sgra grag pa la 'jug pas zhugs pa (*śabda.ruta.praveśena praviṣṭo?).",
+            "saced] AC; not found in SS.",
+            "gaṅgā.nadī.vālukā.samān] A; SS (also Pn) gaṅgānadī.bālukasamān; C gaṅgā.nadī.vālukopamān.",
+            "kalpān] AC; Pn akalpān.",
+            "ākruṣyet] A ( sic for ākruśyet); C ākrūṣyet; SS ruṣyet (though, as Bendall notes that ``the Ms. reading looks more like dūṣyet'' [p. 27], perhaps the reading of C is to be preferred in this instance—the vowel length in A is unclear). Cf. also Sanskrit.Wörterbuch der buddhistischen Texte aus den Turfan.Funden , 3. Lieferung, pp. 225–226, where the forms ā.kroṣa, ā.kroṣaka, and ā.kroṣṭṛ are attested for the root ā.kruś (in fact, it attests ākroṣaṃ in connection with [pa]ribhāṣaṃ). Pn ākṛṣyet.",
+            "paribhāṣyet] AC; Pn paribhāṣet.",
+            "vitathair] AC; SS vitathaiva (though Bendall gives the MS reading as .aiva.r).",
+            "asadbhūtaiḥ padair] A; C and SS asadbhūta.padaiḥ.",
+            "tasya tatra] AC; SS tatra; Pn tasya tat.",
+            "pratigha.cittam] A and SS; C pratighāta.cittam.",
+            "utpadyate] C and SS; A utpadyet; Pn utpādyeta.",
+            "gaṅgānadīvālukāsamān] A; C gaṅgānadīvālukopamān.",
+            "kalpān] AC; Pn akalpān.",
+            "mānyet] AC; Pn mānyeta.",
+            "pūjyet] AC; Pn pūjyeta.",
+            "tatrānunayacittam] C (and TIB); A tatrānutapacittam; Pn tatrānutāpacittam.",
+            "utpadyate] C and SS; A utpadyet; Pn utpadyeta."
+          ]
+        },
+        {
+          "unitId": "CMP03.159",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.159/ evaṃ vāgvajrasamādhistho 'ṣṭamīśvāro mantrī sarvalābhālābhayaśo.'yaśonindāpraśaṃsāsukhaduḥkhair na bādhyate na saṃhriyate | ataḥ sarvāṃś ca lokadharmān abhibhūyôtpattikramam atikramya cittavivekam anveṣayitukāmaḥ kalyāṇamitraṃ paryupāste ||",
+          "manuscriptLoci": [
+            "[A:26b]"
+          ],
+          "criticalApparatus": [
+            "vāg.vajra.samādhi.stho] AC; Pn vāg.vajra.samādhi.sthito.",
+            "'ṣṭamīśvāro] A; C 'ṣṭamībhūmīśvāro; Pn 'ṣṭamī(ṣṭamai)śvaryo.",
+            "sarva.lābhālābha.yaśo.'yaśo.nindā.praśaṃsā.sukha.duḥkhair] C sarva.lābhālābhā.yaśo.'yaśo.nindā.praśaṃsā.sukha.duḥkhair; A sarva.lābhālābha.yaśo.'yaśo.nindā.praśaṃsā.sukha.duḥkhaṃ.",
+            "utpatti.kramam] AC; Pn utpatteḥ kramam.",
+            "anveṣayitukāmaḥ] A; C anveṣayatukāmaḥ.",
+            "paryupāste] C (also Pn); A paryupāsta iti."
+          ]
+        },
+        {
+          "unitId": "CMP03.160",
+          "chapterOrSection": "Chapter 3: Vāgviveka / Mantratattva (Guhyasamāja Vajrajāpa & Mantroddhāra)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "CMP03.160/ || vāgvivekamelāvanasaṃśayaparicchedas tṛtīyaḥ || Chapter IV :: cittavivekamelāvanasaṃśayaparicchedaḥ",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "vāgviveka.melāvana.saṃśaya.paricchedas] rectification; C (also Pn) vāgviveka.melāvaṇa.saṃśaya.paricchedas; A vāgviveka.saṃsaya.melāvaṇa.paricchedas.",
+            "[ CMP tr. 207--229"
+          ]
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/caryamelapakapradipa.xml"
+    },
+    {
+      "xmlId": "sarit__buddhacarita",
+      "filename": "asvaghosa-buddhacarita.xml",
+      "titleSanskrit": "Buddhacarita",
+      "author": "Aśvaghoṣa",
+      "editor": "E. H. Johnston",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Kāvya",
+      "sizeBytes": 60767,
+      "paragraphCount": 50,
+      "verseLineCount": 654,
+      "featuredUnits": [
+        {
+          "unitId": "asvaghosa-buddhacarita_1",
+          "chapterOrSection": "Buddhacarita (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "evaṃ* jarāṃ* rūpa+vināśayitrīṃ* |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "asvaghosa-buddhacarita_2",
+          "chapterOrSection": "Buddhacarita (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "jānāti ca*eva*icchati (ca*eva Cca*eṣa* )lokaḥ ||3.33|",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "asvaghosa-buddhacarita_3",
+          "chapterOrSection": "Buddhacarita (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "tataḥ sa* pūrva+āśaya+śuddha+buddhir |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/asvaghosa-buddhacarita.xml"
+    },
+    {
+      "xmlId": "tsp-SARIT",
+      "filename": "tattvasangrahapanjika.xml",
+      "titleSanskrit": "Tattvasaṅgrahapañjikā",
+      "author": "Śāntarakṣita & Kamalaśīla",
+      "editor": "Swami Dwarikadas Shastri",
+      "scriptEncoding": "sa-Deva",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 34527,
+      "paragraphCount": 42,
+      "verseLineCount": 12,
+      "featuredUnits": [
+        {
+          "unitId": "tattvasangrahapanjika_1",
+          "chapterOrSection": "Tattvasaṅgrahapañjikā (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "ननु प्रयोजनविशेषार्थितैव पुंसः प्रयोजनविशेषसंशयोत्पत्तिहेतुः प्राग्विद्यत एव । तथाहि प्रयोजनविशेषाकाङ्क्षापरिगतमनसः प्रथमतरमेवं भवत्येव, किमिदमस्मदधि गतप्रयोजनेन सप्रयोजनम् ? आहोस्विदन्येन ? किं वा निष्प्रयोजनमिति; तत्साधक बाधकप्रमाणाभावे तस्य न्यायप्राप्तत्वात् । प्रयोजनविशेषप्रतिपादकशास्त्रान्तरोपल ब्धेश्च । अतो भवत्येव प्रागपि प्रयोजनविशेषविषयसंशय इति व्यर्थः प्रयोजनवाक्यो पन्यासः । नैतदस्ति । यद्यपि प्रयोजनविशेषार्थितापि संशयविशेषहेतुर्भवति । त थापि न सा सर्वेषां संमुखीभवति । अव्युत्पन्नपुरुषार्थानां मूढधियां केषांचिदसंमु खीभावात् । तथाहि—मोक्षः परमपुरुषार्थतया सिद्धः, अथ च सन्ति केचिदव्यु त्पन्ना ये तमपि परमपुरुषार्थं पुरुषार्थतया न जानन्ति । प्राग्ये न तं प्रार्थयिष्यन्ते ते । न वा संमुखीभूता प्रयोजनविशेषाकाङ्क्षा प्रयोजनविशेषविषयसन्देहोत्पत्तिहेतु र्युक्ता, कारणसत्ताधीनत्वात्कार्याणाम् । यदि नाम सा केषांचिदपि संमुखीभवति, तथाप्यसौ साधनान्तरपरित्यागेन प्रतिनियतसाधनोपादानहेतोः संशयविशेषस्य हेतुर्न भवति; सर्वत्र साधकबाधकप्रमाणाभावेन तस्यास्तद्धेतुत्वेन न्यायप्राप्तत्वात् । न चै तावन्मात्रेण प्रवृत्तिर्युक्ता । सर्वत्र प्रवृत्तिप्रसङ्गात् । न च शक्यं केनचित्सर्वत्र प्रवर्त्ति तुमित्यतः फलविशेषार्थिनोऽपि प्रतिनियतसाधनपरिग्रहनिबन्धनाभावादुदासीरन् । तस्मात्प्रतिनियतसाधनपरिग्रहहेतुप्रयोजनविशेषविषयसंशयोत्पादनायात्यन्तपरोक्षार्थ विषयागमप्रणयनवत् फलविशेषार्थिना प्रतिनियतसाधनपरिग्रहायाभिधानीयमेव प्रयो जनवाक्यम् । तथा हि तेनास्यैव शास्त्रस्यार्थविशेष उपदर्श्यते नान्यस्य । अतोऽनेन प्रतिनियतसाधनसाध्यफलविशेषविषयः संशयो जन्यते । स च श्रोता कदाचिन्म मायमर्थविशेषो निष्पत्स्यत इति प्रयोजनवाक्योपजनितात् प्रयोजनविशेषविषयादत्य न्तपरोक्षार्थविषयागमोपजनितादिव संशयात्प्रवर्त्तेतापीत्यतः प्रयोजनवाक्योपन्यासः ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "tattvasangrahapanjika_2",
+          "chapterOrSection": "Tattvasaṅgrahapañjikā (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "अवश्यं चैतदेवं विज्ञेयम्, अन्यथाऽत्यन्तपरोक्षार्थविषयागमप्रणयनमपि व्यर्थं स्यात्; प्रागप्यागमप्रणयनाद्दानादिषु फलविशेषार्थिनां साधकबाधकप्रमाणाभावेन त त्संशयस्य विद्यमानत्वात् । किं त्वसावव्युत्पन्नस्वर्गादिफलानां नैवोत्पद्यते । तत्कार णभूतायाः फलविशेषार्थिताया असंमुखीभावात् । येषां चोपजायते तेषामपि सर्व त्रोपलादिभक्षणेऽपि प्रवृत्तिहेतुतया साधारणत्वादुपलादिभक्षणपरिहारेण (न) प्रति नियतदानादिपरिग्रहहेतुर्भवतीति मत्वा तदर्थमागमप्रणेतृभिरागमः प्रणीयते तद्वत्प्रयो जनवाक्यमपि शास्त्रकारैरित्यचोद्यमेतत् । न चापि जिज्ञासितप्रयोजनविशेषप्रतिपादकं शास्त्रान्तरमुपलब्धम्, येन तदुपलब्धिबलादभिमतप्रयोजनविशेषविषयः सन्देहो भ वेत् । न ह्यभिमतप्रयोजनविशेषसाधने शास्त्रान्तरे सम्भवति कश्चित्प्रेक्षावान् परं शा स्त्रान्तरमारभते । प्रेक्षावत्त्वहानिप्रसङ्गात् । अतो न शास्त्रान्तरोपलब्धिरपि विवक्षि तप्रयोजनविशेषसन्देहहेतुर्भवति । तस्माच्छ्रोतृजनप्रवृत्त्यर्थः प्रयोजनादिवाक्योपन्यास इति स्थितम् ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "tattvasangrahapanjika_3",
+          "chapterOrSection": "Tattvasaṅgrahapañjikā (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "यस्तु मन्यते न श्रोतृजनप्रवृत्त्यर्थं प्रयोजनादिकथनम्, ततः संशयोत्पत्तेः; सं शयेन तु प्रेक्षावतः प्रवृत्त्यसम्भवात् । किंतु यत्प्रयोजनरहितमनर्थकं वा तन्नारब्ध व्यम्, यथा काकदन्तपरीक्षोन्मत्तादिवाक्यम्; प्रयोजनरहितं चेदं शास्त्रमतो न श्रोतुं कर्त्तुं वा प्रारब्धव्यमित्येवं व्यापकानुपलब्ध्या यः प्रत्यवतिष्ठते तस्य हेतोरसिद्धतोद्भा वनार्थमादौ प्रयोजनादिवाक्योपन्यास इति । तदसम्यगिव लक्ष्यते । संशयेनापि प्रवृत्तेः प्रसाधितत्वात् । असिद्धतोद्भावनस्य च वैयर्थ्यात् । एवं हि तदर्थवद्भवेत् । यदि तस्य परस्यातो वाक्यात्प्रवृत्तिर्भवेत् । यावतोद्भावितायामप्यनेन वाक्येनासिद्ध तायां नातो वाक्यात्प्रेक्षावतो यथोक्तव्यापकात्तत्वनिश्चयः समुत्पद्यते येनासौ प्रव र्त्तितो भवेत् । पूर्ववद्वाक्यस्यास्याप्रमाणत्वात् । संशयेन च प्रेक्षापूर्वकारिणो भवन्म तेन प्रवृत्त्यसम्भवात् । अतो विफलमेवासिद्धतोद्भावनम् । नापि कश्चित्प्रेक्षावानवि दितशास्त्रशरीरोऽकस्माद्व्यापकाभावं निश्चित्यानेन प्रत्यवतिष्ठते । नापि तत्प्रत्यवस्था नात् स्वयं विदितशास्त्रप्रयोजनोऽपि शास्त्रकृन्नारभेत कर्तुं श्रोता वा प्रेक्षापूर्वकारी निर्निबन्धनाद्वाक्यान्निवर्त्तते येन तयोः प्रवृत्त्यर्थमसिद्धतोद्भावनं स्यात् । अथापि स्याद्योऽप्रेक्षापूर्वकारी सोऽनिबन्धनमकस्मादपि यथोक्तव्यापकाभावं गृह्णीयात् । परैश्च ग्राहयेदपि, अतस्तं प्रत्यसिद्धतोद्भावनं क्रियत इत्येतदप्ययुक्तम् ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/tattvasangrahapanjika.xml"
+    },
+    {
+      "xmlId": "pvv-SARIT",
+      "filename": "pramanavarttikavrtti.xml",
+      "titleSanskrit": "Pramāṇavārttikavṛtti",
+      "author": "Dharmakīrti / Manorathanandin",
+      "editor": "Rāhula Sāṅkṛtyāyana",
+      "scriptEncoding": "sa-Deva",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 37277,
+      "paragraphCount": 126,
+      "verseLineCount": 38,
+      "featuredUnits": [
+        {
+          "unitId": "pramanavarttikavrtti_1",
+          "chapterOrSection": "Pramāṇavārttikavṛtti (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "ज्ञेयानित्यतया तस्या अध्रौव्यात्;",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikavrtti_2",
+          "chapterOrSection": "Pramāṇavārttikavṛtti (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "ज्ञेय स्य वस्तुनोऽर्थक्रियाका रित्वेना नित्य त्वात् तस्या वस्तुसङ्गते रपि तज्जन्यायाऽ(?अ) ध्रौव्याद नित्यत्वात् ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikavrtti_3",
+          "chapterOrSection": "Pramāṇavārttikavṛtti (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "स्यादेतद् (।) अनित्यविषयमनित्यमेव ज्ञानं केवलं यस्य तत् ज्ञानं स ज्ञाता नित्यो भविष्यतीत्याह (।)",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/pramanavarttikavrtti.xml"
+    },
+    {
+      "xmlId": "sarit__kāvyādarśa_ratnaśrīṭīkā",
+      "filename": "ratnasritika-dn.xml",
+      "titleSanskrit": "Ratnaśrīṭīkā (Kāvyādarśaṭīkā, Devanāgarī)",
+      "author": "Ratnaśrījñāna",
+      "editor": "Anantalal Thakur & Upendra Jha",
+      "scriptEncoding": "sa-Deva",
+      "category": "Buddhist-Kāvya",
+      "sizeBytes": 30550,
+      "paragraphCount": 64,
+      "verseLineCount": 52,
+      "featuredUnits": [
+        {
+          "unitId": "ratnasritika-dn_1",
+          "chapterOrSection": "Ratnaśrīṭīkā (Kāvyādarśaṭīkā, Devanāgarī) (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "अलंकृतमसंक्षिप्तरसभावनिरन्तरम् ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "ratnasritika-dn_2",
+          "chapterOrSection": "Ratnaśrīṭīkā (Kāvyādarśaṭīkā, Devanāgarī) (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "सर्गैरनतिविस्तीर्णैः श्रव्यवृत्तैः सुसन्धिभिः ॥ १८ ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "ratnasritika-dn_3",
+          "chapterOrSection": "Ratnaśrīṭīkā (Kāvyādarśaṭīkā, Devanāgarī) (sa-Deva)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "अलंकृतं विभूषितम् । असंक्षिप्ताः भूयांसः । रसाः श्रृङ्गारवीरादयः । भावा रत्युत्सवादयः । विस्तरस्तु तच्छास्त्रात् । तैर्निरन्तरं व्याप्तम् । सर्गैरुपेतमिति वक्ष्यति । अनतिविस्तीर्णैर्नातिमहद्भिर्मध्यमैरित्यर्थः । श्रव्यं श्रुति[सु]भगं वृत्तं पद्यमिन्द्रवज्रादिकं येषां तैः । सुसन्धिभिः शोभनः स्पष्टः सन्धिः परस्परसङ्गतत्वम् अन्योऽन्यव्यपेक्षा अर्थतो येषां तैः । परस्परसंबद्धार्थाः सर्गाः कर्तव्याः । नत्वयःशलाकाकल्पा इत्यर्थः ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "१.१९"
+          ]
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/ratnasritika-dn.xml"
+    },
+    {
+      "xmlId": "sarit__XML-ID_HERE",
+      "filename": "rasarnava.xml",
+      "titleSanskrit": "Rasārṇava (Rasārṇavatantra)",
+      "author": "Śaiva/Tantric Rasāyana Tradition",
+      "editor": "Praphulla Chandra Ray & Harischandra Kaviratna",
+      "scriptEncoding": "sa-Latn",
+      "category": "Rasa-Yoga-Tantra",
+      "sizeBytes": 59362,
+      "paragraphCount": 29,
+      "verseLineCount": 585,
+      "featuredUnits": [
+        {
+          "unitId": "rasarnava_1",
+          "chapterOrSection": "Rasārṇava (Rasārṇavatantra) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "lohāvartaḥ sa vijñeyaḥ | sattvaṃ patati nirmalam || (RA_4.55)",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "rasarnava_2",
+          "chapterOrSection": "Rasārṇava (Rasārṇavatantra) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "ṣoḍaśāṅgulavistīrṇaṃ | hastamātrāyataṃ śubham |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "rasarnava_3",
+          "chapterOrSection": "Rasārṇava (Rasārṇavatantra) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "dhātusattvanipātārthaṃ | koṣṭhakaṃ varavarṇini || (RA_4.56)",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/rasarnava.xml"
+    },
+    {
+      "xmlId": "sarit__Yogapradīpa",
+      "filename": "yogapradipa.xml",
+      "titleSanskrit": "Yogapradīpa",
+      "author": "Haṭha/Mantra Yoga Tradition",
+      "editor": "SARIT Edition",
+      "scriptEncoding": "sa-Latn",
+      "category": "Rasa-Yoga-Tantra",
+      "sizeBytes": 47266,
+      "paragraphCount": 12,
+      "verseLineCount": 293,
+      "featuredUnits": [
+        {
+          "unitId": "yogapradipa_1",
+          "chapterOrSection": "Yogapradīpa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "nāhaṃ baddho vimuktaś ca iti yasyāsti niścayaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "yogapradipa_2",
+          "chapterOrSection": "Yogapradīpa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "nānyaṃ tato jñāno mūrkhaḥ so 'smin śāstre 'dhikāravān ||141||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "yogapradipa_3",
+          "chapterOrSection": "Yogapradīpa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "sarvasaṅkalpasanyastam ekāntadhanavāsanaṃ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/yogapradipa.xml"
+    },
+    {
+      "xmlId": "avayavinirākaraṇa",
+      "filename": "avayavinirakarana.xml",
+      "titleSanskrit": "Avayavinirākaraṇa",
+      "author": "Paṇḍita Aśoka",
+      "editor": "Anantalal Thakur",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 29186,
+      "paragraphCount": 99,
+      "verseLineCount": 8,
+      "featuredUnits": [
+        {
+          "unitId": "avayavinirakarana_1",
+          "chapterOrSection": "Avayavinirākaraṇa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "तस्माद् व्या° om R",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "avayavinirakarana_2",
+          "chapterOrSection": "Avayavinirākaraṇa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "एवं प्रसाधितेऽस्यास्त्रैरूप्येऽसिद्धविरुद्धानैकान्तिका दोषा नावकाशं लभन्त इति ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "avayavinirakarana_3",
+          "chapterOrSection": "Avayavinirākaraṇa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "एवं मया बहुषु दुर्मतिनिर्मितेषु",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/avayavinirakarana.xml"
+    },
+    {
+      "xmlId": "dharmottarapradipa",
+      "filename": "dharmottarapradipa.xml",
+      "titleSanskrit": "Dharmottarapradīpa",
+      "author": "Durveka Miśra",
+      "editor": "Dalsukhbhai Malvania",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 41609,
+      "paragraphCount": 81,
+      "verseLineCount": 7,
+      "featuredUnits": [
+        {
+          "unitId": "dharmottarapradipa_1",
+          "chapterOrSection": "Dharmottarapradīpa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "एकोऽक्षरोत्र वर्त्तते किन्तु स सम्यङ्न पठ्यते ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "dharmottarapradipa_2",
+          "chapterOrSection": "Dharmottarapradīpa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "केचित् पुनरिदं धर्मोत्तरीयं वाक्यमन्यथा व्याचक्षते । नात्र प्रयोजनशब्देन फलमभिप्रेतं किन्तु प्रयुज्यते प्रवर्त्त्यतेऽनेनेति, प्रयोजयतीति वा प्रयोजनम् । तच्च पुरुषार्थसिद्धिहेतुत्वम् । अभिधेयस्य हि सम्यग्ज्ञानस्य पुरुषार्थसिद्धिहेतुत्वेन प्रयुक्तः पुरुषः प्रवर्त्तत इति । उत्तरत्रापि प्रयोजनमिदमेव विवक्षितम् । अत एव-- अत्र चे त्यादिवाक्ये सर्वपुरुषार्थसिद्धिहेतुत्वं प्रयोजनं प्रवर्त्तक मुक्त मिति स्पष्टीकरणं घटत इति । तच्च नातिश्लिष्टमुत्पश्यामः । तथा हि अत्र च प्रकरणाभिधेयस्य सम्यग्ज्ञानस्य पुरुषार्थसिद्धिहेतुत्वं प्रयोजनमुक्त मिति वक्ष्यमाणेन व्यक्तीकृतत्वादिहापि अभिधेय स्य प्रयोजनम् इति षष्ठीतत्पुरुषोऽवश्यकार्यः । तथा चाय मसमर्थः पदविधिर्भवेत् । तद्धि पुरुषार्थसिद्धिहेतुत्वं नाभिधेयस्य सम्यग्ज्ञानस्य प्रवर्त्तकमपि तु पुरुषस्य । तत् कथमभिधेयपदेन समस्येत प्रयोजनपदम् ? न च केनचिद्रूपेणाभिधेयसम्बन्धि त्वऽस्य समर्थयोरेकार्थीभावो भवतीति । न हि यज्ञदत्तपुत्रो भृत्यत्वादिना रूपेण देवदत्त सम्बन्धी भवन्देवदत्तपुत्र इति षष्ठीसमासस्य विषयो भवितुमर्हति ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "dharmottarapradipa_3",
+          "chapterOrSection": "Dharmottarapradīpa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "अथ भावप्रधानत्वान्निर्देशस्य प्रयोजनं प्रयोजकत्वमित्यर्थः । तच्चाश्रितस्य प्रयोजकतया भवति सम्बन्धीति समर्थविधिः कल्प्यते ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/dharmottarapradipa.xml"
+    },
+    {
+      "xmlId": "sarit__dharmottaratippanaka",
+      "filename": "dharmottaratippanaka.xml",
+      "titleSanskrit": "Nyāyabinduṭīkāṭippaṇī (Dharmottaraṭippaṇaka)",
+      "author": "Mallavādin / Buddhist Pramāṇa",
+      "editor": "Th. Stcherbatsky",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 61087,
+      "paragraphCount": 111,
+      "verseLineCount": 20,
+      "featuredUnits": [
+        {
+          "unitId": "dharmottaratippanaka_1",
+          "chapterOrSection": "Nyāyabinduṭīkāṭippaṇī (Dharmottaraṭippaṇaka) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "A : nāmaivaṃparyayasto .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "dharmottaratippanaka_2",
+          "chapterOrSection": "Nyāyabinduṭīkāṭippaṇī (Dharmottaraṭippaṇaka) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "P : śakyata iti .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "dharmottaratippanaka_3",
+          "chapterOrSection": "Nyāyabinduṭīkāṭippaṇī (Dharmottaraṭippaṇaka) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "All omit j .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/dharmottaratippanaka.xml"
+    },
+    {
+      "xmlId": "isvaravadimatapariksa",
+      "filename": "jitari-isvaravadimatapariksa.xml",
+      "titleSanskrit": "Īśvaravādimataparīkṣā",
+      "author": "Jitāri",
+      "editor": "Kei Kataoka",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 29620,
+      "paragraphCount": 102,
+      "verseLineCount": 20,
+      "featuredUnits": [
+        {
+          "unitId": "jitari-isvaravadimatapariksa_1",
+          "chapterOrSection": "Īśvaravādimataparīkṣā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "tasmādīty asamātrārtham MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-isvaravadimatapariksa_2",
+          "chapterOrSection": "Īśvaravādimataparīkṣā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "vya° MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-isvaravadimatapariksa_3",
+          "chapterOrSection": "Īśvaravādimataparīkṣā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "atitotātravatāṃ MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/jitari-isvaravadimatapariksa.xml"
+    },
+    {
+      "xmlId": "jatinirakrti",
+      "filename": "jitari-jatinirakrti.xml",
+      "titleSanskrit": "Jātinirākṛti",
+      "author": "Jitāri",
+      "editor": "Giuseppe Tucci",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 59554,
+      "paragraphCount": 298,
+      "verseLineCount": 16,
+      "featuredUnits": [
+        {
+          "unitId": "jitari-jatinirakrti_1",
+          "chapterOrSection": "Jātinirākṛti (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "°nāpi tu I",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-jatinirakrti_2",
+          "chapterOrSection": "Jātinirākṛti (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "na ca I",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-jatinirakrti_3",
+          "chapterOrSection": "Jātinirākṛti (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "tathā I",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/jitari-jatinirakrti.xml"
+    },
+    {
+      "xmlId": "jitāri-nairātmyasiddhi",
+      "filename": "jitari-nairatmyasiddhi.xml",
+      "titleSanskrit": "Nairātmyasiddhi",
+      "author": "Jitāri",
+      "editor": "SARIT Edition",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 10526,
+      "paragraphCount": 21,
+      "verseLineCount": 20,
+      "featuredUnits": [
+        {
+          "unitId": "jitari-nairatmyasiddhi_1",
+          "chapterOrSection": "Nairātmyasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "yasya yena saha kaścit pratibandho nāsti | na sa tena ta d v ān | tad yathā himālayo malayena | na sthirātmanā saha kaścit saṃbandho jīvaccharīrasya i ti vyāpakānupalabdhiḥ nāyam asiddho hetuḥ | yataḥ saṃbandho bhavan tādātmyaṃ tadu tpattir vā bhāvet | na ca tādātmyam ātmaśarīrayoḥ | śarīrasyā nityādirūpa tvāt | tadviparītasyātmano abhyupetatvāt | nāpi tadutpattir nityasyātmanaḥ śarīra-utpattyayogāt Lies śarīrād ut°",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-nairatmyasiddhi_2",
+          "chapterOrSection": "Nairātmyasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "saṃyogalakṣaṇas tayoḥ saṃbandha iti cet |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-nairatmyasiddhi_3",
+          "chapterOrSection": "Nairātmyasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "tenaiva saha tayoḥ | kaḥ saṃbandhaḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/jitari-nairatmyasiddhi.xml"
+    },
+    {
+      "xmlId": "jitāri-sarvajñasiddhi",
+      "filename": "jitari-sarvajnasiddhi.xml",
+      "titleSanskrit": "Sarvajñasiddhi",
+      "author": "Jitāri",
+      "editor": "Gudrun Bühnemann",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 14847,
+      "paragraphCount": 39,
+      "verseLineCount": 2,
+      "featuredUnits": [
+        {
+          "unitId": "jitari-sarvajnasiddhi_1",
+          "chapterOrSection": "Sarvajñasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "°nanumāna° MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-sarvajnasiddhi_2",
+          "chapterOrSection": "Sarvajñasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "bhavat MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-sarvajnasiddhi_3",
+          "chapterOrSection": "Sarvajñasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "°kta° MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/jitari-sarvajnasiddhi.xml"
+    },
+    {
+      "xmlId": "jitāri-vedapramanyasiddhi",
+      "filename": "jitari-vedapramanyasiddhi.xml",
+      "titleSanskrit": "Vedaprāmāṇyasiddhi",
+      "author": "Jitāri",
+      "editor": "SARIT Edition",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 25666,
+      "paragraphCount": 90,
+      "verseLineCount": 3,
+      "featuredUnits": [
+        {
+          "unitId": "jitari-vedapramanyasiddhi_1",
+          "chapterOrSection": "Vedaprāmāṇyasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "bādhakapramāṇasaṃbhavāt R",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-vedapramanyasiddhi_2",
+          "chapterOrSection": "Vedaprāmāṇyasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "°pratiprati° MS",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jitari-vedapramanyasiddhi_3",
+          "chapterOrSection": "Vedaprāmāṇyasiddhi (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "hi sādhye R",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/jitari-vedapramanyasiddhi.xml"
+    },
+    {
+      "xmlId": "jna",
+      "filename": "jnanasrimitra-nibandhavali.xml",
+      "titleSanskrit": "Jñānaśrīmitranibandhāvalī",
+      "author": "Jñānaśrīmitra",
+      "editor": "Anantalal Thakur",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 34599,
+      "paragraphCount": 181,
+      "verseLineCount": 10,
+      "featuredUnits": [
+        {
+          "unitId": "jnanasrimitra-nibandhavali_1",
+          "chapterOrSection": "Jñānaśrīmitranibandhāvalī (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "चकारो नास्ति र",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jnanasrimitra-nibandhavali_2",
+          "chapterOrSection": "Jñānaśrīmitranibandhāvalī (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "०णादुषण० अ",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "jnanasrimitra-nibandhavali_3",
+          "chapterOrSection": "Jñānaśrīmitranibandhāvalī (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "०ताव० अ",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/jnanasrimitra-nibandhavali.xml"
+    },
+    {
+      "xmlId": "pramanantarbhava",
+      "filename": "pramanantarbhava.xml",
+      "titleSanskrit": "Pramāṇāntarbhāvaprakaraṇa",
+      "author": "Ratnakīrti / Vikramaśīla Tradition",
+      "editor": "SARIT Edition",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 37750,
+      "paragraphCount": 120,
+      "verseLineCount": 308,
+      "featuredUnits": [
+        {
+          "unitId": "pramanantarbhava_1",
+          "chapterOrSection": "Pramāṇāntarbhāvaprakaraṇa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "प्रसिद्धेन हि साधर्म्यादुपमा साध्यसाधनम् ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanantarbhava_2",
+          "chapterOrSection": "Pramāṇāntarbhāvaprakaraṇa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "श्रुतातिदेशवाक्योऽयमीक्षते Ms. मीक्ष्यते ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanantarbhava_3",
+          "chapterOrSection": "Pramāṇāntarbhāvaprakaraṇa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "प्रत्यक्षैव हि सा वित्तिस्तेनायं सदृशो न तु ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/pramanantarbhava.xml"
+    },
+    {
+      "xmlId": "pva-SARIT",
+      "filename": "pramanavarttikalankarabhasya.xml",
+      "titleSanskrit": "Pramāṇavārttikālaṅkārabhāṣya",
+      "author": "Prajñākaragupta",
+      "editor": "Rāhula Sāṅkṛtyāyana",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 33055,
+      "paragraphCount": 113,
+      "verseLineCount": 66,
+      "featuredUnits": [
+        {
+          "unitId": "pramanavarttikalankarabhasya_1",
+          "chapterOrSection": "Pramāṇavārttikālaṅkārabhāṣya (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "न खलु द्विजादिभावः प्रमाणगोचरचारी । स हि जातियोगलक्षणो गोत्रलक्षणः क्रियासामर्थ्यातिशययोगो वा भवेत् । न तावद् गोत्वादिजातिमिव तज्जातिमाकार विशेषादेव केचिदवधारयितुमीशते । आकृतिसङ्करस्य दर्शनात् । शूद्राद्यभिमतानामपि सैवाकृतिरुपलभ्यते । न खलु वाहुलेयाद्याकृतय इव कौण्डिन्यादीनामपि विजातीयाभि मतव्यक्तिविलक्षणा व्यक्तय उपलभ्यन्ते । अतएव व्यक्तिसङ्करेण सन्देहविषयत्वादुपदेश सहितं प्रत्यक्षं प्रमाणं ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikalankarabhasya_2",
+          "chapterOrSection": "Pramāṇavārttikālaṅkārabhāṣya (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "परोपदेशप्रामाण्यं प्रत्यक्षार्थे न युक्तिमत् । उपदेशो हि लोकानामन्यथापि प्रवर्त्तते ।। ६२ ।।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikalankarabhasya_3",
+          "chapterOrSection": "Pramāṇavārttikālaṅkārabhāṣya (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "यदि खलु बाह्मणत्वादिजातिः प्रत्यक्षेणेक्ष्यते । परोपदेशस्य व्यर्थता । नहि प्रत्यक्षार्थे परोपदेशो गरीयान् । तथा चेन्न परोपदेशतः सन्देहः स्यात् । अतएव प्रत्यक्षं सहायमपेक्षते ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/pramanavarttikalankarabhasya.xml"
+    },
+    {
+      "xmlId": "pramanavarttika-parisista-1-SARIT",
+      "filename": "pramanavarttikaparisista-1.xml",
+      "titleSanskrit": "Pramāṇavārttikapariśiṣṭa",
+      "author": "Buddhist Pramāṇa School",
+      "editor": "SARIT Edition",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 33314,
+      "paragraphCount": 45,
+      "verseLineCount": 12,
+      "featuredUnits": [
+        {
+          "unitId": "pramanavarttikaparisista-1_1",
+          "chapterOrSection": "Pramāṇavārttikapariśiṣṭa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "ननु भावनाबलनिष्‍पन्‍ननिष्‍कल्पा विकल्पा विकल्पभ्रान्तज्ञानात्मकत्वाद् भगवतः प्रत्यक्षप्रमाणस्वभावता साक्षादस्त्येव किमुपचाराश्रयेणेति चेददोषोयं सविकल्पज्ञा नावस्थाश्रयेणाभिधानादित्येके । इदन्त्वत्र युक्‍तं । यद्यपि यथोक्‍तप्रमाणात्मकः सदा भगवान् तथाप्यसंव्यावहारिकोसौऽवस्थाभेदस्ततः सांव्यवहारिकप्रमाणेनोप मीयते लोकबोधनाय । अमुनैव व्यवहरन्ति मुक्‍ता न लोकोत्तरेणातद्विप (क्ष) त्वादितरेषां । यथोक्‍तं ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikaparisista-1_2",
+          "chapterOrSection": "Pramāṇavārttikapariśiṣṭa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "रूपणव्यपदेशाभ्यां लौकिके वर्त्मनि स्थितौ ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikaparisista-1_3",
+          "chapterOrSection": "Pramāṇavārttikapariśiṣṭa (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "ज्ञानं प्रत्यभिलापञ्‍च सदृशौ बालपण्डिताविति ॥",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/pramanavarttikaparisista-1.xml"
+    },
+    {
+      "xmlId": "pvsvt-SARIT",
+      "filename": "pramanavarttikasvavrttitika.xml",
+      "titleSanskrit": "Pramāṇavārttikasvavṛttiṭīkā",
+      "author": "Karṇakagomin",
+      "editor": "Rāhula Sāṅkṛtyāyana",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 38122,
+      "paragraphCount": 67,
+      "verseLineCount": 11,
+      "featuredUnits": [
+        {
+          "unitId": "pramanavarttikasvavrttitika_1",
+          "chapterOrSection": "Pramāṇavārttikasvavṛttiṭīkā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "यद्वानुमानशब्देन यदा लिङ्गमेवोच्यते तदा तद्विप्रतिपत्तेर्हेतुमेव व्यवस्था पयतीत्यदोषः ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikasvavrttitika_2",
+          "chapterOrSection": "Pramāṇavārttikasvavṛttiṭīkā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "अत्र श्लोके लिंगस्य लक्षणं संख्यानियमः संख्यानियमकारणम्विपक्षनिवृत्ति श्चोक्ता । पक्षधर्मस्तदङ्शेन व्याप्त इति लक्षणं ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "pramanavarttikasvavrttitika_3",
+          "chapterOrSection": "Pramāṇavārttikasvavṛttiṭīkā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "तस्य पक्ष स्याङ्शः साधयितुमिष्टो ध र्मस्तेन व्याप्त एवेत्यवधारणं । त्रिधैवे ति संख्यानियमः । अविनाभावनियमादि ति संख्यानियमकारणं । त्रिष्वेवाविनाभावस्य नियतत्वादित्यर्थः । हेत्वाभासास्ततोपर इति विपक्षनिवृत्तिः । तस्माद्धेतुत्रयादन्ये हेत्वाभासाः ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/pramanavarttikasvavrttitika.xml"
+    },
+    {
+      "xmlId": "sarit__ratnakīrtinibandhāvali",
+      "filename": "ratnakirti-nibandhavali.xml",
+      "titleSanskrit": "Ratnakīrtinibandhāvalī",
+      "author": "Ratnakīrti",
+      "editor": "Anantalal Thakur",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 57149,
+      "paragraphCount": 140,
+      "verseLineCount": 34,
+      "featuredUnits": [
+        {
+          "unitId": "ratnakirti-nibandhavali_1",
+          "chapterOrSection": "Ratnakīrtinibandhāvalī (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "yad api vācaspatinā satyam ityādinā punaḥ punar uttarottaram āśaṅkya tat kim anumānena vahniṃ vyavasthāpyetyādinā bhāvanābalajasyānumānapūrvakatve visaṃvādam upadarśyopasaṃhṛtam, tan na bhāvanāyā bhūtārthatvaṃ tajjaviśadavijñānaprāmāṇyahetuḥ, vyabhicārād iti | tad asaṅgatam | tathā hy ayaṃ vahniviṣaye 'numānapūrvakabhāvanābalataḥ spaṣṭavahnipratyayaḥ kiṃ vahner apy utpannaḥ, tathābhūtabhāvanāmātrād eva vā |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "ratnakirti-nibandhavali_2",
+          "chapterOrSection": "Ratnakīrtinibandhāvalī (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "parathampakṣe visaṃvādaś ca bahulam upalabhyate iti yad uktaṃ tad durbhāṣitam | sākṣād arthād utpannasyāpi visaṃvādasambhave 'nyasyāpi pratyakṣasya hastakatyāgaprasaṅgāt |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "ratnakirti-nibandhavali_3",
+          "chapterOrSection": "Ratnakīrtinibandhāvalī (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "dvitīyapakṣe tu bhāvanāprakarṣamātrajasyārthād anutpannasya bahulaṃ visaṃvādopalambhe 'pi bhāvanārthābhyāṃ sākṣād utpannasya yogipratyakṣasyāpi visaṃvādasambhava iti sthavīyasī bhrāntiḥ |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/ratnakirti-nibandhavali.xml"
+    },
+    {
+      "xmlId": "sāmānyadūṣaṇa",
+      "filename": "samanyadusana.xml",
+      "titleSanskrit": "Sāmānyadūṣaṇadikprasāritā",
+      "author": "Paṇḍita Aśoka",
+      "editor": "Anantalal Thakur",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 19504,
+      "paragraphCount": 62,
+      "verseLineCount": 18,
+      "featuredUnits": [
+        {
+          "unitId": "samanyadusana_1",
+          "chapterOrSection": "Sāmānyadūṣaṇadikprasāritā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "सर्वस्य च पूर्वोक्तस्यायं परमार्थः ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "samanyadusana_2",
+          "chapterOrSection": "Sāmānyadūṣaṇadikprasāritā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "प्रत्यक्षप्रतिभासिवर्ष्मसु न पन्ँचस्वङ्गुलीषु स्थितं °वर्त्म न पन्ँच…लीषु स्थितम् S , °भासि धर्मसु S . Intro. p. V , °ष्ववस्थितम् R .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "samanyadusana_3",
+          "chapterOrSection": "Sāmānyadūṣaṇadikprasāritā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "सामान्यं प्रतिभासते न च विकल्पाकारबुद्धौ तथा ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/samanyadusana.xml"
+    },
+    {
+      "xmlId": "tarkarahasya",
+      "filename": "tarkarahasya.xml",
+      "titleSanskrit": "Tarkarahasyam",
+      "author": "Vikramaśīla Buddhist Logic",
+      "editor": "Parashuram Lakshman Vaidya",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 62335,
+      "paragraphCount": 101,
+      "verseLineCount": 9,
+      "featuredUnits": [
+        {
+          "unitId": "tarkarahasya_1",
+          "chapterOrSection": "Tarkarahasyam (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "athārthyata ity artho hātum upādātuṃ Ms : upāpātuñ ? ; Sh : upādātuś .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "tarkarahasya_2",
+          "chapterOrSection": "Tarkarahasyam (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "Cf. NBT 76,3-4 : arthyata ity arthaḥ, heya upādeyaś ca. heyo hi hātum iṣyate, upādeyaś copādātum .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "tarkarahasya_3",
+          "chapterOrSection": "Tarkarahasyam (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "Ms : atha ? - for artha- .",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/tarkarahasya.xml"
+    },
+    {
+      "xmlId": "vnt-SARIT",
+      "filename": "vadanyayatika.xml",
+      "titleSanskrit": "Vādanyāyaṭīkā Vipañcitārthā",
+      "author": "Śāntarakṣita",
+      "editor": "Rāhula Sāṅkṛtyāyana",
+      "scriptEncoding": "sa-Latn",
+      "category": "Buddhist-Philosophy-Pramāṇa",
+      "sizeBytes": 37126,
+      "paragraphCount": 29,
+      "verseLineCount": 4,
+      "featuredUnits": [
+        {
+          "unitId": "vadanyayatika_1",
+          "chapterOrSection": "Vādanyāyaṭīkā Vipañcitārthā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "एवमभिधाय प्रयोजनं सकलप्रकरणार्थसंग्राहकं श्लोकमाह असाधनाङ्वचन 1b1 मित्यादिना । असाधनाङ्गवचनमदोषोद्भावनञ्च द्वयोर्वादिप्रतिवादि नोर्यथाक्रमं निग्रहस्थानं पराजयाधिकरणं । अन्यत्त्वित्येत द्धेयव्यतिरिक्तम क्षपादप रिकल्पितं प्रतिज्ञासंन्यासादिकं वक्ष्यमाणं निग्रहस्थानं न युक्तमिति कृत्वा नेष्यते । निग्रहस्थानमिति वर्त्तते । अयं तावत् स मासेन श्लोकार्थः । इष्टस्ये 1b1 त्यादिना विभागमारभते । इष्टोऽर्थोऽनित्त्यः शब्द इत्यादि साध्यत्त्वेनेप्सितः । तस्य सिद्धिः प्रतिपत्तिः साधनं । तदनेन भावस्य साधनोयं साधनशब्दस्तावदस्मिन्व्याख्यानेऽभिप्रेतो न तु करणसाधन इति दर्शयति ॥ तस्य साधनस्येष्टार्थसिद्धिलक्षणमस्याङ्गं किन्तदित्याह । निर्वर्त्तकं जनकं । अने नाङ्गशब्दं व्याचष्टे । कारणपर्यायोयमत्राङ्गशब्दो नावयवपर्याय इत्यर्थः । तच्च साधनाङ्गमिह निश्चितत्रैरूप्यं लिङ्गमुच्यते । अस्य साधनाङ्गस्य वचनं त्रिरूपलिङ्गा ख्यानं । तस्य साधनाङ्गस्यावचनमनुच्चारणम 1b2 नभिधानं यत्तदसाधनाङ्गवचनं । अनेनैतत्कथयति असाधनाङ्गस्य पक्षोपनयना देर्वचनमसाधनाङ्गवचनमिति नै व प्रतिपत्तव्यमस्मिन्व्याख्याने । किन्तु साधनाङ्ग स्यैवावचनमसाधनाङ्गवचनमिति । तदसाधनाङ्गवचनं वादिनो निग्रहस्थानं । तदेतेन श्लोकस्य पूर्व्वभागम्विवृणोति । कथम्पुनः साधनाङ्गस्यानुच्चारणम्भवति निग्रहस्थानं चेत्याह । तदभ्युपगम्येति 1b2 तदितीष्टं साध्यमभ्युपगम्याह मेतत्साधयामीति प्रतिज्ञयाप्रतिभया करण भूतया तूष्णीम्भावात् । अप्रतिभाऽत्र पूर्व्वाधिगतार्थविस्मरणं स्तम्भितत्त्वञ्च गृह्यते ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "vadanyayatika_2",
+          "chapterOrSection": "Vādanyāyaṭīkā Vipañcitārthā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "अनेन सर्व्वथा साधनाङ्गस्यावचनमाह अभिधाने वा यदि न समर्थितं तदोक्त मप्यऽ नूक्तमेव स्वकार्याकरणात् । इत्यभिप्रायवानाह — साधनाङ्गस्या समर्थनाद्वेति 1b2 । तदभ्युपगम्येतिवर्तते । वा शब्दः पुर्व्वापेक्षया विकल्पार्थः । साधना ङ्गस्यासमर्थनं त्रिष्वपि रूपेषु निश्चयाप्रदर्शनं । तस्मात्तू ष्णीम्भावादसमर्थनाच्च साधनाङ्गस्यानुच्चारणं । ततश्च प्रतिज्ञातार्थाकारणात् वादिनो निग्रहाधिकरण मिति 1b2 प्रकृतेन सम्बन्धः । क्वचित्तु वादिन इति पाठः । तत्र तच्छब्देन प्रकृतमनुच्चारणं संबध्यते ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "vadanyayatika_3",
+          "chapterOrSection": "Vādanyāyaṭīkā Vipañcitārthā (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "कथम्पुनः साधनाङ्गासमर्थनम्भ वति । येन तद्विपर्ययेनासमर्थनात्प्रति ज्ञातार्थाकारणाद्वादिनो निग्रहाधिकरणत्त्वमिति कदाचित्कश्चिद् ब्रूयादित्येतत्परि जिहीर्षुरादिप्रस्थानमारचयति त्रिविधमेवे 1b2 त्यादिना त्रिप्रकारमेव लिङ्ग मङ्गङ्करणं कस्यासिद्धेः प्रतिपत्तिरूपायाः । कस्य सिद्धेरित्याह । अप्रत्य क्षस्या परोक्षस्यानुमेयभूतस्य वस्तुन इति यावत् । अवधारणञ्चतुरादि व्यवच्छेदमाचष्टे । त्रिविधमेवेति नियमः कथमयमिति चेत् । यस्माद्विधि प्रतिषेधरूपतया द्विधा साध्यं व्यवस्थितं । विधिरूपञ्च सद्भा वरूपङ्कारणरू पम्वा भवद् भवेत् । नान्यत् । तत्र हेतोः प्रतिबन्धायोगात् । नह्यर्थान्तरस्याका र्यस्य सद्भावेऽपरस्य सद्भावो युक्तः । पटसद्भाव इवोष्ट्रस्य । नाप्यर्थां तरस्याकारणस्य निवृत्तावकार्यस्यान्यस्य च निवृत्तिर्युक्तिमती । उष्ट्रे निवृत्ताविव पटस्य । न चान्वयव्यतिरेकविकलस्यागमकत्त्वं युक्तं । पटस्याप्युष्ट्रगमकत्त्व प्रसङ्गात् । स्वभावभूतधर्मसद्भावे तु स्वभावभूतस्यान्यस्य सद्भावो युक्तो नहि स्वभावः स्वम्भावम्परित्यज्य वर्त्ते । तत्स्वभावत्त्वाभावप्रसङ्गात् । तन्निवृत्तौ च निवृ त्तिः ॥ कार्यस्यापि भावे कारणस्य भावो युक्तः । तन्निवृत्तौ च निवृत्तिरन्यथा तेन विनापि भावात्कार्यमेव तत्तस्य न स्यात्तदन्यवत् । तस्मात्स्वभाव कारणभूतसाध्यभेदात् । द्विधैव विधिरूपं साध्यं तत्रैव हेतोः प्रतिबन्धात् । स्वभावभूतञ्च साध्यं स्वभावहेतुः साधयति । कारणभूतञ्च कार्यहेतु रित्यभ्युपेयं । प्रतिषेधमप्युपलब्धिलक्षणप्राप्तानुपलब्धिरेव साधयति । नान्या यथा तथा विस्तरेण प्रतिपादयिष्यति । तदिदमिह संक्षिप्तमर्थ तत्त्वं विषयव्यपेक्षया विषयिणो लिंगस्य व्यवस्था । विषयश्च विधिः प्रतिषेधो वा भवेत् । विधावप्यर्थान्तरम्वा विधीये तानर्थान्तरं वा अर्थान्तरविधावपि का र्यकारणमनुभयम्वा साध्यते । कार्यप्रतिपादनेपि कारणसामान्यम्वाऽमेघादि व्यावृत्तं वस्तुमात्रं लिङ्गत्वेनोच्यते । कारणविशेषो वा योऽप्रति बद्धसामर्थ्ये मे घादिः । प्रतिषेधोपि निषेध्याभिमतस्यानुपलम्भेनोपलम्भेन वा प्रतिपाद्येत । अनुपलम्भेपि उपलम्भनिवृत्तिमात्रलक्षणो वा भवेत् । तत्तुल्ययोगावस्थ ः केवला परपदार्थोपलम्भरूपो वेति विकल्पाः । तत्र नावश्यं गम्भीरध्वानादियुक्तमपि मेघादिकारणमात्रं वृष्ट्यादिकार्याविर्भावक मन्तरा प्रतिबन्धसम्भवेन व्य भिचारात् । अतो न कारणमात्रं गमकं । कारण विशेषादप्यप्रतिहतशक्तेरनन्तरं सम्बन्धस्मृतिव्यवहितादनुमेयविज्ञानात्प्राक् कार्यमेवोद्भूतमक्षज्ञानग्राह्यं भवतीति न तस्यापि लिङ्गत्वं । कार्यन्तु कारण लिङ्गं युक्तं । तदविनाभावात् । तदतिक्रमे वा हेतुमत्ताम्विलंघयेत् । अनुभयमप्य सम्बन्धानुगमकमतिप्रसङ्गो वा । अनर्थान्तरमप्यव्यभिचाराङ्गम्यत इति युक्ति मत् । निषेधोप्युपलम्भेन न युज्यते विरोधात् । कथं हि नामोपलभ्यते च नास्ति चेत्युपपद्यते । तज्ज्ञान निवृत्तिमात्रमपि व्यभिचारि । एकज्ञानसंसर्गिणस्तु कैवल्य दृष्टेरसत्ताव्यवहारो युक्तो यदि हि स्यादुपलभ्य सत्त्व एव भवेत् । प्रमाणञ्च यद नुपपद्य मानविषयं न तद्विषयि युक्तं । यथा वाजिविषाणं । अनुपपद्यमानविषय ञ्चोक्तप्रकारेण स्वभावादि स्यादन्यसंयोग्यादिपरपरिकल्पितं लिं गमिति व्याप कानुपलम्भः । वैधर्म्येण नीलादिज्ञानं । तदेव वा कार्यादिलिङ्गं । नैमित्तिकशब्दा र्थानुपपत्तिर्बाधिका । किमेवं सिद्धमगमकत्त्वमन्येषां । तथाहि विष यित्वङ्ग मकत्त्वं प्रकाशकत्त्वमित्यादयः पर्यायाः । तस्मात्साध्यस्य त्रिविधत्त्वात्तङ्गमको हेतुरपि त्रिविध एवेति स्थितमेतत् ।",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/vadanyayatika.xml"
+    },
+    {
+      "xmlId": "sarit__XML-ID_HERE",
+      "filename": "govindabhagavatpada-rasahrdayatantra.xml",
+      "titleSanskrit": "Rasahṛdayatantra",
+      "author": "Govindabhagavatpāda",
+      "editor": "Jadavji Tricumji Acharya",
+      "scriptEncoding": "sa-Latn",
+      "category": "Rasa-Yoga-Tantra",
+      "sizeBytes": 60095,
+      "paragraphCount": 315,
+      "verseLineCount": 62,
+      "featuredUnits": [
+        {
+          "unitId": "govindabhagavatpada-rasahrdayatantra_1",
+          "chapterOrSection": "Rasahṛdayatantra (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "yaḥ puruṣaḥ sūtakaṃ rasendraṃ na jānāti kutaḥ pramāṇataḥ pramākaraṇaṃ pramāṇaṃ pramitisādhanaṃ vā tataḥ kimbhūtāt pramāṇataḥ pratyakṣāc cakṣurindriyagrāhyarūpāt sa pumān cinmayam atisūkṣmam ātmānaṃ kathaṃ jñāsyati na katham apītyarthaḥ indriyāgocaratvāt // GRhtCM_1.28:2 //",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "govindabhagavatpada-rasahrdayatantra_2",
+          "chapterOrSection": "Rasahṛdayatantra (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "kiṃviśiṣṭam anādivigraham ādiśca vigrahaṃ ca ādivigrahe te na vidyete yatra saḥ taṃ utpattiśarīrayorabhāvāt sthūpajñānābhāva iti tātparyārthaḥ // GRhtCM_1.28:3 //",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "govindabhagavatpada-rasahrdayatantra_3",
+          "chapterOrSection": "Rasahṛdayatantra (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "yajjarayā jarjaritaṃ kāsaśvāsādiduḥkhavaśamāptam /",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/govindabhagavatpada-rasahrdayatantra.xml"
+    },
+    {
+      "xmlId": "nityanatha-rasaratnakara-rasayanakhanda",
+      "filename": "nityanatha-rasaratnakara-rasayanakhanda.xml",
+      "titleSanskrit": "Rasaratnākara (Rasāyanakhaṇḍa)",
+      "author": "Nityanātha Siddha",
+      "editor": "Jadavji Tricumji Acharya",
+      "scriptEncoding": "sa-Latn",
+      "category": "Rasa-Yoga-Tantra",
+      "sizeBytes": 60517,
+      "paragraphCount": 33,
+      "verseLineCount": 387,
+      "featuredUnits": [
+        {
+          "unitId": "nityanatha-rasaratnakara-rasayanakhanda_1",
+          "chapterOrSection": "Rasaratnākara (Rasāyanakhaṇḍa) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "catuḥpalaṃ śuddhasūtaṃ palaikaṃ mṛtahāṭakam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "nityanatha-rasaratnakara-rasayanakhanda_2",
+          "chapterOrSection": "Rasaratnākara (Rasāyanakhaṇḍa) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "palāśakuḍmaladrāvaistattailaiśca dinatrayam || 131 ||",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "nityanatha-rasaratnakara-rasayanakhanda_3",
+          "chapterOrSection": "Rasaratnākara (Rasāyanakhaṇḍa) (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "mardayettaptakhalve tu svarṇatulyaṃ ca gandhakam |",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/nityanatha-rasaratnakara-rasayanakhanda.xml"
+    },
+    {
+      "xmlId": "navalkishore-bandimocana1913",
+      "filename": "bandimocana.xml",
+      "titleSanskrit": "Bandīmocanastuti",
+      "author": "Stotra Tradition",
+      "editor": "SARIT Edition",
+      "scriptEncoding": "sa-Latn",
+      "category": "Rasa-Yoga-Tantra",
+      "sizeBytes": 8890,
+      "paragraphCount": 8,
+      "verseLineCount": 20,
+      "featuredUnits": [
+        {
+          "unitId": "bandimocana_1",
+          "chapterOrSection": "Bandīmocanastuti (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "More information and fuller details of this license are given on the Creative Commons website.",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "bandimocana_2",
+          "chapterOrSection": "Bandīmocanastuti (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "SARIT assumes no responsibility for unauthorised use that infringes the rights of any copyright owners, known or unknown.",
+          "manuscriptLoci": [],
+          "criticalApparatus": []
+        },
+        {
+          "unitId": "bandimocana_3",
+          "chapterOrSection": "Bandīmocanastuti (sa-Latn)",
+          "unitType": "paragraph",
+          "cleanSanskritIast": "Bandīmocana: Jisako Yantrālaya Ke śreṣṭha Vidvānoṃ Ne Atipariśrama Se śodhā. 2nd ed. Lakhanaū: Munśī Navalakiśora Sī. Āī.; 1913.",
+          "manuscriptLoci": [],
+          "criticalApparatus": [
+            "A digital copy of this book is available on https://doi.org/10.11588/diglit.29105 ."
+          ]
+        }
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/sarit/SARIT-corpus/master/bandimocana.xml"
+    }
+  ]
+}

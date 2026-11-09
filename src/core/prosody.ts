@@ -1,142 +1,151 @@
 /**
- * Sanskrit Chandas Prosody, Akṣara Syllabifier & Context-Aware Śikṣā Mapper (`src/core/prosody.ts`)
- * Implements 3-pass prosodic syllabification, Guru (— 2-mātrā) vs Laghu (⏑ 1-mātrā) Chandas weight,
- * homorganic Anusvāra (ṃ) nasal assimilation across all 5 Vargas, and Visarga (ḥ) vowel echo.
+ * src/core/prosody.ts
+ * 3-Pass Sanskrit Akṣara Syllabifier, Anusvāra/Visarga Sandhi & Chandas Guru/Laghu Meter Analyzer
+ * Ported from sanskrit_phonetic_engine.html (Module 3, lines 646–1025)
  */
 
-import { ChandasMeter, SyllableToken } from '../types/dharani';
+import type { SyllableAnalysis, LineAnalysis } from '../types/dharani';
 import {
-  CANONICAL_14_VOWELS,
-  CONS_MATRIX,
-  SYLLABLE_OVERRIDES,
   inputToSlp1,
-  slp1ToDevanagari,
   slp1ToIast,
+  slp1ToDevanagari,
+  slp1ToSiddhamUnicode,
   slp1ToIpa,
-  slp1ToSiddham,
+  type InputMode
 } from './transliterator';
+import {
+  VOWEL_MAP,
+  CONS_MATRIX,
+  VOWEL_INDEX,
+  LONG_VOWELS,
+  INHERENT_LONG_VOWELS,
+  SYLLABLE_OVERRIDES,
+  TRAD_WORD_REPLACEMENTS
+} from '../data/siddhamMatrix';
 
-const VOWEL_SET = new Set(CANONICAL_14_VOWELS.map((v) => v.slp1));
-const LONG_VOWELS = new Set(['A', 'I', 'U', 'F', 'X', 'e', 'E', 'o', 'O']);
-const INHERENT_LONG_VOWELS = new Set(['A', 'I', 'U', 'F', 'X']);
-const VOWEL_INDEX: Record<string, number> = {
-  a: 0, A: 0, i: 1, I: 1, u: 2, U: 2, f: 3, F: 3, x: 3, X: 3, e: 4, E: 5, o: 6, O: 7,
-};
+export type { SyllableAnalysis, LineAnalysis };
+
+const VOWEL_SET = new Set('aAiIuUfFxXeEoO'.split(''));
 const CONS_SET = new Set(Object.keys(CONS_MATRIX));
 const MOD_SET = new Set(['M', 'H', '~']);
 
-const VALID_ONSET_PAIRS = new Set([
-  'pr', 'pl', 'br', 'bl', 'tr', 'tv', 'dr', 'dv', 'kr', 'kl', 'kv', 'gr', 'gl', 'gv',
-  'Sr', 'Sl', 'Sv', 'Sy', 'zw', 'zW', 'sn', 'sm', 'sv', 'sy', 'sr', 'st', 'sT', 'sp', 'sP', 'sk',
-  'kz', 'jY', 'vy', 'vr', 'dy', 'dB', 'Dy', 'Dr', 'Dv', 'ny', 'nr', 'my', 'mr', 'ml',
-  'ky', 'kr', 'gy', 'Gr', 'cy', 'jy', 'jv', 'ty', 'tr', 'py', 'pr', 'By', 'Br', 'hr', 'hl', 'hv',
+export const VALID_ONSET_PAIRS = new Set([
+  'pr', 'br', 'tr', 'dr', 'kr', 'gr', 'Sr', 'zr', 'sr', 'Pl', 'kl', 'gl', 'Sl',
+  'sv', 'tv', 'dv', 'kv', 'gv', 'zv', 'Sv',
+  'ky', 'gy', 'py', 'by', 'vy', 'ty', 'Dy', 'Sy', 'zy', 'sy', 'hy', 'jy', 'cy',
+  'kz', 'jY', 'zw', 'zW', 'st', 'sT', 'sp', 'sP', 'sk', 'sK', 'sm', 'sn'
 ]);
 
-export const TRAD_WORD_REPLACEMENTS: Record<string, string> = {
-  gate: '揭谛',
-  pAragate: '波罗揭谛',
-  pArasaMgate: '波罗僧揭谛',
-  boDi: '菩提',
-  svAhA: '萨婆诃',
-  namo: '南无',
-  namaH: '南无',
-  Bagavate: '婆伽伐帝',
-  BEzajyaguru: '鞞杀社窭噜',
-  vEdUryapraBarAjAya: '吠琉璃钵喇婆喝啰阇耶',
-  taTAgatAya: '怛他揭多耶',
-  arhate: '阿啰喝帝',
-  samyaksaMbudDAya: '三藐三勃陀耶',
-  tadyaTA: '怛侄他',
-  avalokiteSvara: '阿缚卢枳低湿伐逻',
-  prajYApAramitA: '般若波罗蜜多',
-  tAre: '多',
-  tuttAre: '都多',
-  ture: '都',
-};
-
-interface RawAksharaToken {
-  onset: string;
-  vowel: string;
-  mod: string;
-  coda: string;
+export interface RawSyllableToken {
+  onset?: string;
+  vowel?: string;
+  mod?: string;
+  coda?: string;
+  isOm?: boolean;
   symbol?: string;
 }
 
-export function syllabifySlp1Word(slpWord: string): RawAksharaToken[] {
-  const rawTokens: RawAksharaToken[] = [];
+export interface ParsedWordSyllable {
+  raw: string;
+  m: string;
+  t: string;
+  meter: '—' | '⏑' | '';
+  varga: string;
+  note: string;
+  sandhiNotes: string[];
+  bijaMeaning?: string;
+  isSymbol?: boolean;
+}
+
+export interface ProsodyOptions {
+  mode?: InputMode;
+  assimilate?: boolean;
+  longMarkSymbol?: string;
+}
+
+/**
+ * 3-Pass Sanskrit Akṣara Tokenizer (`syllabifySlp1Word`)
+ */
+export function syllabifySlp1Word(slpWord: string): RawSyllableToken[] {
+  const rawTokens: RawSyllableToken[] = [];
   let i = 0;
   const n = slpWord.length;
 
+  // Pass 1: Group (onset, vowel, mod) or standalone oM / punctuation symbols
   while (i < n) {
-    const ch = slpWord[i];
-    if (!CONS_SET.has(ch) && !VOWEL_SET.has(ch) && !MOD_SET.has(ch)) {
-      rawTokens.push({ onset: '', vowel: '', mod: '', coda: '', symbol: ch });
-      i++;
-      continue;
-    }
-    if (slpWord.startsWith('oM', i) && i === 0 && (n === 2 || !VOWEL_SET.has(slpWord[2]))) {
-      rawTokens.push({ onset: '', vowel: 'o', mod: 'M', coda: '' });
+    if (
+      slpWord.slice(i, i + 2) === 'oM' &&
+      (i === 0 || !CONS_SET.has(slpWord[i - 1])) &&
+      (i + 2 === n || !VOWEL_SET.has(slpWord[i + 2]))
+    ) {
+      rawTokens.push({ onset: '', vowel: 'o', mod: 'M', coda: '', isOm: true });
       i += 2;
       continue;
     }
-    let onset = '';
+
+    let consCluster = '';
     while (i < n && CONS_SET.has(slpWord[i])) {
-      onset += slpWord[i];
+      consCluster += slpWord[i];
       i++;
     }
+
     let vowel = '';
     if (i < n && VOWEL_SET.has(slpWord[i])) {
       vowel = slpWord[i];
       i++;
     }
+
     let mod = '';
     while (i < n && MOD_SET.has(slpWord[i])) {
       mod += slpWord[i];
       i++;
     }
-    rawTokens.push({ onset, vowel, mod, coda: '' });
-  }
 
-  // Pass 2: Merge vowelless trailing consonant clusters into previous syllable's coda
-  const merged: RawAksharaToken[] = [];
-  for (const tk of rawTokens) {
-    if (tk.symbol) {
-      merged.push(tk);
+    if (!consCluster && !vowel && !mod) {
+      const sym = slpWord[i];
+      rawTokens.push({ symbol: sym });
+      i++;
       continue;
     }
-    if (!tk.vowel && tk.onset) {
-      let prev: RawAksharaToken | null = null;
-      for (let j = merged.length - 1; j >= 0; j--) {
-        if (!merged[j].symbol && merged[j].vowel) {
-          prev = merged[j];
-          break;
-        }
-      }
-      if (prev) {
-        prev.coda += tk.onset;
-      } else {
-        merged.push(tk);
-      }
-    } else {
-      merged.push(tk);
-    }
+
+    rawTokens.push({ onset: consCluster, vowel, mod, coda: '' });
   }
 
-  // Pass 3: Medial consonant cluster splitting per Sanskrit Śikṣā prosodic laws
-  for (let k = 1; k < merged.length; k++) {
-    const cur = merged[k];
-    const prev = merged[k - 1];
-    if (cur.symbol || prev.symbol || !prev.vowel || !cur.vowel || prev.mod || prev.coda) continue;
+  // Pass 2: Merge word-final vowelless consonant clusters into preceding syllable's coda
+  const merged: RawSyllableToken[] = [];
+  for (let idx = 0; idx < rawTokens.length; idx++) {
+    const cur = rawTokens[idx];
+    if (cur.symbol !== undefined) {
+      merged.push(cur);
+      continue;
+    }
+    if (cur.onset && !cur.vowel && !cur.mod && merged.length > 0) {
+      const prev = merged[merged.length - 1];
+      if (prev && prev.vowel && !prev.mod && !prev.isOm) {
+        prev.coda = (prev.coda || '') + cur.onset;
+        continue;
+      }
+    }
+    merged.push(cur);
+  }
 
-    const cluster = cur.onset;
+  // Pass 3: Split medial consonant clusters (cluster.length >= 2) into prev.coda + cur.onset
+  for (let idx = 1; idx < merged.length; idx++) {
+    const prev = merged[idx - 1];
+    const cur = merged[idx];
+    if (!prev || !cur || prev.symbol || cur.symbol || !prev.vowel || !cur.vowel) continue;
+    if (prev.mod || prev.coda) continue;
+
+    const cluster = cur.onset || '';
     if (cluster.length >= 2) {
-      const candidateOverride = cluster + cur.vowel + cur.mod;
-      if (SYLLABLE_OVERRIDES[candidateOverride]) continue;
+      const candidateWhole = cluster + cur.vowel + (cur.mod || '');
+      if (SYLLABLE_OVERRIDES[candidateWhole]) continue;
 
       if (cluster.length === 2) {
         const c1 = cluster[0];
         const c2 = cluster[1];
-        if (c1 === 'r' || c1 === c2 || !VALID_ONSET_PAIRS.has(cluster)) {
+        const shouldSplit = c1 === 'r' || c1 === c2 || !VALID_ONSET_PAIRS.has(cluster);
+        if (shouldSplit) {
           prev.coda = c1;
           cur.onset = c2;
         }
@@ -155,274 +164,408 @@ export function syllabifySlp1Word(slpWord: string): RawAksharaToken[] {
   return merged;
 }
 
+/**
+ * Context-Aware Anusvāra (ṃ / ~) Nasal Assimilation & Visarga (ḥ) Echo-Vowel Resolver
+ */
 export function resolveModifiers(
   mod: string,
   vowel: string,
   nextOnsetChar: string,
   enableAssimilation = true
-): { mMod: string; tMod: string; modNote: string } {
-  if (!mod) return { mMod: '', tMod: '', modNote: '' };
+): { mMod: string; tMod: string; modNote: string; sandhiNotes: string[] } {
+  if (!mod) return { mMod: '', tMod: '', modNote: '', sandhiNotes: [] };
   let mMod = '';
   let tMod = '';
   const notes: string[] = [];
 
-  for (const mChar of mod) {
-    if (mChar === 'M' || mChar === '~') {
-      if (!enableAssimilation) {
-        mMod += '姆';
-        tMod += '南';
-        notes.push('随韵 ṃ [m]');
-      } else if (nextOnsetChar && /[kKgGN]/.test(nextOnsetChar)) {
+  if (mod.includes('M') || mod.includes('~')) {
+    if (enableAssimilation && nextOnsetChar) {
+      if ('kKgGN'.includes(nextOnsetChar)) {
         mMod += '昂';
         tMod += '僧';
-        notes.push('随韵遇喉音同化为 [ŋ](ng)');
-      } else if (nextOnsetChar && /[cCjJYSy]/.test(nextOnsetChar)) {
+        notes.push('随韵ṃ遇喉音同化为[ŋ]');
+      } else if ('cCjJYSy'.includes(nextOnsetChar)) {
         mMod += '恩';
         tMod += 'ဉ';
-        notes.push('随韵遇颚音同化为 [ɲ](ny)');
-      } else if (nextOnsetChar && /[wWqQRtTdDnsz]/.test(nextOnsetChar)) {
+        notes.push('随韵ṃ遇颚音同化为[ɲ]');
+      } else if ('wWqQRtTdDnsz'.includes(nextOnsetChar)) {
         mMod += '恩';
-        tMod += '南';
-        notes.push('随韵遇齿/卷舌音同化为 [n]');
+        tMod += '僧';
+        notes.push('随韵ṃ遇齿/卷舌音同化为[n]');
       } else {
         mMod += '姆';
         tMod += '牟';
-        notes.push('随韵闭合为双唇鼻音 [m]');
+        notes.push('随韵ṃ闭唇鼻音[m]');
       }
-    } else if (mChar === 'H') {
-      if (!enableAssimilation) {
+    } else {
+      mMod += '姆';
+      tMod += '南';
+      notes.push('随韵鼻音(Anusvāra)');
+    }
+  }
+
+  if (mod.includes('H')) {
+    if (enableAssimilation) {
+      if (vowel === 'i' || vowel === 'I') {
+        mMod += '希';
+        tMod += '醯';
+      } else if (vowel === 'u' || vowel === 'U') {
+        mMod += '呼';
+        tMod += '虎';
+      } else if (vowel === 'e' || vowel === 'E') {
+        mMod += '嘿';
+        tMod += '醯';
+      } else if (vowel === 'o' || vowel === 'O') {
+        mMod += '豁';
+        tMod += '呼';
+      } else if (vowel === 'f' || vowel === 'F') {
+        mMod += '里希';
+        tMod += '哩醯';
+      } else {
         mMod += '哈';
         tMod += '诃';
-        notes.push('止韵 ḥ [h]');
-      } else {
-        if (vowel === 'i' || vowel === 'I') {
-          mMod += '希';
-          tMod += '醯';
-          notes.push('止韵 ḥ 随 i 元音回响为 [hi]');
-        } else if (vowel === 'u' || vowel === 'U') {
-          mMod += '呼';
-          tMod += '虎';
-          notes.push('止韵 ḥ 随 u 元音回响为 [hu]');
-        } else if (vowel === 'e' || vowel === 'E') {
-          mMod += '嘿';
-          tMod += '醯';
-          notes.push('止韵 ḥ 随 e 元音回响为 [he]');
-        } else if (vowel === 'o' || vowel === 'O') {
-          mMod += '豁';
-          tMod += '呼';
-          notes.push('止韵 ḥ 随 o 元音回响为 [ho]');
-        } else if (vowel === 'f' || vowel === 'F') {
-          mMod += '希';
-          tMod += '醯';
-          notes.push('止韵 ḥ 随 ṛ 元音回响');
-        } else {
-          mMod += '哈';
-          tMod += '诃';
-          notes.push('止韵 ḥ 送气回响 [ha]');
-        }
       }
+      notes.push('止韵ḥ元音回响');
+    } else {
+      mMod += '哈';
+      tMod += '诃';
+      notes.push('止韵送气(Visarga)');
     }
   }
-  return { mMod, tMod, modNote: notes.join('；') };
+
+  return { mMod, tMod, modNote: notes.join('·'), sandhiNotes: notes };
 }
 
-export function analyzeSanskritText(
-  inputText: string,
-  options: { assimilate?: boolean; longMark?: string; sep?: string } = {}
-): {
-  slp1: string;
-  iast: string;
-  deva: string;
-  siddham: string;
-  ipa: string;
-  modernFull: string;
-  tradFull: string;
-  syllables: SyllableToken[];
-  guruCount: number;
-  laghuCount: number;
-} {
-  const assimilate = options.assimilate ?? true;
-  const longMark = options.longMark ?? '～';
-  const sep = options.sep ?? '·';
+/**
+ * Syllabify and transliterate a single SLP1 word into dual-track phonetics & Chandas prosody
+ */
+export function parseAndTransliterateWord(
+  slpWord: string,
+  options: ProsodyOptions = {}
+): ParsedWordSyllable[] {
+  const { assimilate = true, longMarkSymbol = '～' } = options;
+  const tokens = syllabifySlp1Word(slpWord);
+  const syllables: ParsedWordSyllable[] = [];
 
-  const slp1 = inputToSlp1(inputText, 'smart');
-  const iast = slp1ToIast(slp1);
-  const deva = slp1ToDevanagari(slp1);
-  const siddham = slp1ToSiddham(slp1);
-  const ipa = slp1ToIpa(slp1);
+  for (let idx = 0; idx < tokens.length; idx++) {
+    const tk = tokens[idx];
+    const nextTk = tokens[idx + 1];
+    const nextOnsetChar = nextTk && nextTk.onset ? nextTk.onset[0] : '';
 
-  const words = slp1.trim().split(/\s+/).filter(Boolean);
-  const allSyllables: SyllableToken[] = [];
-  const modernWords: string[] = [];
-  const tradWords: string[] = [];
-  let guruCount = 0;
-  let laghuCount = 0;
-  let globalIndex = 0;
-
-  const vowelMapBySlp = Object.fromEntries(CANONICAL_14_VOWELS.map((v) => [v.slp1, v]));
-
-  for (const word of words) {
-    const tokens = syllabifySlp1Word(word);
-    const wordModParts: string[] = [];
-    const wordTradParts: string[] = [];
-
-    for (let idx = 0; idx < tokens.length; idx++) {
-      const tk = tokens[idx];
-      if (tk.symbol) {
-        allSyllables.push({
-          index: globalIndex++,
-          slp1: tk.symbol,
-          iast: tk.symbol,
-          deva: tk.symbol === '||' ? '॥' : tk.symbol === '|' ? '।' : tk.symbol,
-          siddham: tk.symbol === '||' ? '𑗃' : tk.symbol === '|' ? '𑗂' : tk.symbol,
-          ipa: tk.symbol,
-          modern: tk.symbol === '|' || tk.symbol === '||' ? '｜' : tk.symbol,
-          trad: tk.symbol,
+    if (tk.symbol !== undefined) {
+      if (tk.symbol === "'") {
+        syllables.push({
+          raw: "'",
+          m: '·',
+          t: '',
           meter: '',
-          onset: '',
-          vowel: '',
-          mod: '',
-          coda: '',
-          vargaNote: '诗律分句停顿符 (Daṇḍa)',
-          isSymbol: true,
+          varga: '连音符',
+          note: '省音符 Avagraha (前接长元音延音)',
+          sandhiNotes: ['省音符 Avagraha'],
+          isSymbol: true
         });
-        continue;
-      }
-
-      const raw = tk.onset + tk.vowel + tk.mod + tk.coda;
-      const nextTk = tokens[idx + 1];
-      const nextOnset = nextTk && !nextTk.symbol ? nextTk.onset : '';
-      const nextClusterLen = nextOnset.length;
-
-      // Chandas Prosodic Meter (Guru — vs Laghu ⏑)
-      const isGuru =
-        LONG_VOWELS.has(tk.vowel) ||
-        Boolean(tk.mod) ||
-        Boolean(tk.coda) ||
-        nextClusterLen >= 2;
-      const meter: ChandasMeter = tk.vowel ? (isGuru ? '—' : '⏑') : '—';
-      if (meter === '—') guruCount++;
-      else if (meter === '⏑') laghuCount++;
-
-      let mSyl = '';
-      let tSyl = '';
-      let vargaNote = '';
-
-      if (SYLLABLE_OVERRIDES[raw]) {
-        const ov = SYLLABLE_OVERRIDES[raw];
-        mSyl = longMark !== '～' ? ov.m.replace(/～/g, longMark) : ov.m;
-        if (raw === 'saM' && assimilate && nextOnset[0]) {
-          const { mMod } = resolveModifiers('M', 'a', nextOnset[0], true);
-          mSyl = '萨' + mMod;
-        }
-        tSyl = ov.t;
-        vargaNote = ov.note;
+      } else if (tk.symbol === '|' || tk.symbol === '.') {
+        syllables.push({
+          raw: tk.symbol,
+          m: '｜',
+          t: '।',
+          meter: '',
+          varga: '标点',
+          note: '梵文句读竖线 (Daṇḍa)',
+          sandhiNotes: [],
+          isSymbol: true
+        });
       } else {
-        const baseKey = tk.onset + tk.vowel + tk.mod;
-        if (SYLLABLE_OVERRIDES[baseKey]) {
-          const ov = SYLLABLE_OVERRIDES[baseKey];
-          mSyl = longMark !== '～' ? ov.m.replace(/～/g, longMark) : ov.m;
-          tSyl = ov.t;
-          vargaNote = ov.note;
-        } else {
-          const vIdx = VOWEL_INDEX[tk.vowel] ?? 0;
-          const isInherentLong = INHERENT_LONG_VOWELS.has(tk.vowel);
-          if (!tk.onset) {
-            const vEntry = vowelMapBySlp[tk.vowel];
-            mSyl = vEntry ? (longMark !== '～' ? vEntry.modern.replace(/～/g, longMark) : vEntry.modern) : tk.vowel;
-            tSyl = vEntry ? vEntry.trad : tk.vowel;
-            vargaNote = vEntry ? vEntry.note : '独立元音摩多';
-          } else if (tk.onset === 'kz') {
-            const zRow = CONS_MATRIX.z;
-            mSyl = '克' + zRow.m[vIdx] + (isInherentLong ? longMark : '');
-            tSyl = ['叉', '絺', '刍', '刹哩', '制', '差', '初', '抄'][vIdx];
-            vargaNote = '特殊二合复辅音 kṣ [kʂ]';
-          } else if (tk.onset === 'jY') {
-            const yRow = CONS_MATRIX.Y;
-            mSyl = '佳' + yRow.m[vIdx] + (isInherentLong ? longMark : '');
-            tSyl = ['若', '若', '如', '若哩', '若', '若', '若', '若'][vIdx];
-            vargaNote = '般若二合复辅音 jñ [dʑɲ]';
-          } else {
-            const prefixCons = tk.onset.slice(0, -1);
-            const mainCons = tk.onset.slice(-1);
-            for (const pc of prefixCons) {
-              if (CONS_MATRIX[pc]) {
-                mSyl += CONS_MATRIX[pc].bare[0];
-                tSyl += CONS_MATRIX[pc].bare[1];
-              }
-            }
-            const mainRow = CONS_MATRIX[mainCons];
-            if (mainRow) {
-              mSyl += mainRow.m[vIdx] + (isInherentLong ? longMark : '');
-              tSyl += mainRow.t[vIdx];
-              vargaNote = mainRow.note;
-            }
-          }
+        syllables.push({
+          raw: tk.symbol,
+          m: tk.symbol,
+          t: tk.symbol,
+          meter: '',
+          varga: '符号',
+          note: '分隔符',
+          sandhiNotes: [],
+          isSymbol: true
+        });
+      }
+      continue;
+    }
 
-          if (tk.mod) {
-            const { mMod, tMod, modNote } = resolveModifiers(
-              tk.mod,
-              tk.vowel,
-              tk.coda ? tk.coda[0] : nextOnset[0] || '',
-              assimilate
-            );
-            mSyl += mMod;
-            tSyl += tMod;
-            if (modNote) vargaNote += ` · ${modNote}`;
-          }
-        }
+    const onset = tk.onset || '';
+    const vowel = tk.vowel || '';
+    const mod = tk.mod || '';
+    const coda = tk.coda || '';
+    const rawSyl = onset + vowel + mod + coda;
 
-        if (tk.coda && !SYLLABLE_OVERRIDES[raw]) {
-          for (const cc of tk.coda) {
-            const nextFirst = nextOnset[0] || '';
-            const isGeminate =
-              cc.toLowerCase() === nextFirst.toLowerCase() && /[kKgGcCjJwWqQtTdDpPbB]/.test(cc);
-            if (!isGeminate && CONS_MATRIX[cc]) {
-              mSyl += `(${CONS_MATRIX[cc].bare[0]})`;
-            }
-          }
-        }
+    // Determine Chandas meter weight (Guru — vs Laghu ⏑)
+    const nextClusterLen = nextTk && nextTk.onset ? nextTk.onset.length : 0;
+    const isGuru =
+      LONG_VOWELS.has(vowel) || Boolean(mod) || Boolean(coda) || nextClusterLen >= 2;
+    const meter: '—' | '⏑' | '' = vowel ? (isGuru ? '—' : '⏑') : '';
+
+    // 1. Check SYLLABLE_OVERRIDES first
+    if (tk.isOm || SYLLABLE_OVERRIDES[rawSyl]) {
+      const ov = tk.isOm ? SYLLABLE_OVERRIDES['oM'] : SYLLABLE_OVERRIDES[rawSyl];
+      let mText = ov.m;
+      const tText = ov.t;
+      const sandhiNotes: string[] = [];
+
+      if (longMarkSymbol && INHERENT_LONG_VOWELS.has(vowel) && !mod && !coda) {
+        mText += longMarkSymbol;
+      }
+      if (rawSyl === 'saM' && assimilate && nextOnsetChar) {
+        const res = resolveModifiers('M', 'a', nextOnsetChar, true);
+        mText = '萨' + res.mMod;
+        sandhiNotes.push(...res.sandhiNotes);
+      } else if (mod) {
+        const res = resolveModifiers(mod, vowel, nextOnsetChar, assimilate);
+        sandhiNotes.push(...res.sandhiNotes);
       }
 
-      wordModParts.push(mSyl);
-      wordTradParts.push(tSyl);
-
-      allSyllables.push({
-        index: globalIndex++,
-        slp1: raw,
-        iast: slp1ToIast(raw),
-        deva: slp1ToDevanagari(raw),
-        siddham: slp1ToSiddham(raw),
-        ipa: slp1ToIpa(raw),
-        modern: mSyl,
-        trad: tSyl,
+      syllables.push({
+        raw: rawSyl,
+        m: mText,
+        t: tText,
         meter,
-        onset: tk.onset,
-        vowel: tk.vowel,
-        mod: tk.mod,
-        coda: tk.coda,
-        vargaNote,
-        tangNote: tk.onset.length >= 2 ? '二合' : LONG_VOWELS.has(tk.vowel) ? '引' : undefined,
+        varga: '特殊陀罗尼音节',
+        note: ov.note + (isGuru ? ' · 重音节(Guru)' : ' · 轻音节(Laghu)'),
+        sandhiNotes,
+        ...(ov.bijaMeaning ? { bijaMeaning: ov.bijaMeaning } : {})
       });
+      continue;
     }
 
-    if (wordModParts.length > 0) {
-      modernWords.push(wordModParts.join(sep));
-      const cleanWord = word.replace(/[|']/g, '');
-      tradWords.push(TRAD_WORD_REPLACEMENTS[cleanWord] || wordTradParts.join(''));
+    // Check override on base syllable without coda (e.g., SrI + coda)
+    const baseWithoutCoda = onset + vowel + mod;
+    if (coda && SYLLABLE_OVERRIDES[baseWithoutCoda]) {
+      const ov = SYLLABLE_OVERRIDES[baseWithoutCoda];
+      let codaM = '';
+      let codaT = '';
+      for (const c of coda) {
+        codaM += CONS_MATRIX[c]?.bare[0] ?? c;
+        codaT += CONS_MATRIX[c]?.bare[1] ?? c;
+      }
+      const lMark =
+        longMarkSymbol && INHERENT_LONG_VOWELS.has(vowel) && !mod ? longMarkSymbol : '';
+      syllables.push({
+        raw: rawSyl,
+        m: ov.m + lMark + codaM,
+        t: ov.t + codaT,
+        meter,
+        varga: '复合闭音节',
+        note: `${ov.note} + 尾收音[-${slp1ToIast(coda)}]`,
+        sandhiNotes: [`闭音节收音[-${slp1ToIast(coda)}]`],
+        ...(ov.bijaMeaning ? { bijaMeaning: ov.bijaMeaning } : {})
+      });
+      continue;
     }
+
+    // 2. Pure vowelless consonant cluster
+    if (onset && !vowel) {
+      const mParts: string[] = [];
+      const tParts: string[] = [];
+      for (const c of onset) {
+        mParts.push(CONS_MATRIX[c]?.bare[0] ?? c);
+        tParts.push(CONS_MATRIX[c]?.bare[1] ?? c);
+      }
+      syllables.push({
+        raw: rawSyl,
+        m: `(${mParts.join('')})`,
+        t: tParts.join(''),
+        meter: '',
+        varga: CONS_MATRIX[onset[0]]?.varga ?? '辅音',
+        note: '无元音收音辅音 (Virāma)',
+        sandhiNotes: ['无元音收音辅音 (Virāma)']
+      });
+      continue;
+    }
+
+    // 3. Independent vowel (no onset consonant)
+    if (!onset && vowel) {
+      let [mBase, tBase] = VOWEL_MAP[vowel] || [vowel, vowel];
+      if (longMarkSymbol && INHERENT_LONG_VOWELS.has(vowel)) {
+        mBase += longMarkSymbol;
+      }
+      const { mMod, tMod, modNote, sandhiNotes } = resolveModifiers(
+        mod,
+        vowel,
+        nextOnsetChar,
+        assimilate
+      );
+      let codaM = '';
+      let codaT = '';
+      for (const c of coda) {
+        codaM += CONS_MATRIX[c]?.bare[0] ?? c;
+        codaT += CONS_MATRIX[c]?.bare[1] ?? c;
+      }
+      if (coda) sandhiNotes.push(`闭音节收音[-${slp1ToIast(coda)}]`);
+      syllables.push({
+        raw: rawSyl,
+        m: mBase + mMod + codaM,
+        t: tBase + tMod + codaT,
+        meter,
+        varga: '独立元音 (Svara)',
+        note:
+          (LONG_VOWELS.has(vowel) ? '独立长元音' : '独立短元音') +
+          (modNote ? ` · ${modNote}` : '') +
+          (coda ? ` · 收音[-${slp1ToIast(coda)}]` : ''),
+        sandhiNotes
+      });
+      continue;
+    }
+
+    // 4. Standard Consonant(s) + Vowel + (Modifier) + (Coda)
+    let prefixM = '';
+    let prefixT = '';
+    let prefixCons = onset.slice(0, -1);
+    let mainCons = onset.slice(-1);
+
+    let isSpecialConjunct = false;
+    let specialNote = '';
+    if (onset.endsWith('kz')) {
+      prefixCons = onset.slice(0, -2);
+      for (const c of prefixCons) {
+        prefixM += CONS_MATRIX[c]?.bare[0] ?? c;
+        prefixT += CONS_MATRIX[c]?.bare[1] ?? c;
+      }
+      prefixM += '克';
+      mainCons = 'z';
+      isSpecialConjunct = true;
+      specialNote = '二合辅音[kṣ] · ';
+    } else if (onset.endsWith('jY')) {
+      prefixCons = onset.slice(0, -2);
+      for (const c of prefixCons) {
+        prefixM += CONS_MATRIX[c]?.bare[0] ?? c;
+        prefixT += CONS_MATRIX[c]?.bare[1] ?? c;
+      }
+      prefixM += '佳';
+      mainCons = 'Y';
+      isSpecialConjunct = true;
+      specialNote = '二合辅音[jñ] · ';
+    } else {
+      for (const c of prefixCons) {
+        prefixM += CONS_MATRIX[c]?.bare[0] ?? c;
+        prefixT += CONS_MATRIX[c]?.bare[1] ?? c;
+      }
+    }
+
+    const vIdx = VOWEL_INDEX[vowel] ?? 0;
+    const cEntry = CONS_MATRIX[mainCons];
+    let mainM = cEntry ? cEntry.m[vIdx] : mainCons;
+    const mainT =
+      isSpecialConjunct && onset.endsWith('kz')
+        ? ['叉', '絺', '刍', '刹哩', '制', '差', '初', '抄'][vIdx]
+        : isSpecialConjunct && onset.endsWith('jY')
+          ? ['若', '若', '如', '若哩', '若', '若', '若', '若'][vIdx]
+          : cEntry
+            ? cEntry.t[vIdx]
+            : mainCons;
+
+    if (longMarkSymbol && INHERENT_LONG_VOWELS.has(vowel)) {
+      mainM += longMarkSymbol;
+    }
+
+    const { mMod, tMod, modNote, sandhiNotes } = resolveModifiers(
+      mod,
+      vowel,
+      nextOnsetChar,
+      assimilate
+    );
+
+    let codaM = '';
+    let codaT = '';
+    if (coda) {
+      for (const c of coda) {
+        if (
+          nextOnsetChar &&
+          (c === nextOnsetChar ||
+            (c === 'd' && nextOnsetChar === 'D') ||
+            (c === 't' && nextOnsetChar === 'T'))
+        ) {
+          codaM += '';
+          codaT += CONS_MATRIX[c]?.bare[1] ?? c;
+        } else {
+          codaM += CONS_MATRIX[c]?.bare[0] ?? c;
+          codaT += CONS_MATRIX[c]?.bare[1] ?? c;
+        }
+      }
+      sandhiNotes.push(`闭音节收音[-${slp1ToIast(coda)}]`);
+    }
+
+    const noteParts: string[] = [];
+    if (prefixCons && !isSpecialConjunct) noteParts.push(`前置复辅音[${slp1ToIast(prefixCons)}-]`);
+    if (specialNote) noteParts.push(specialNote.replace(' · ', ''));
+    if (cEntry) noteParts.push(cEntry.note);
+    if (LONG_VOWELS.has(vowel)) noteParts.push('长元音');
+    if (modNote) noteParts.push(modNote);
+    if (coda) noteParts.push(`闭音节收音[-${slp1ToIast(coda)}]`);
+
+    syllables.push({
+      raw: rawSyl,
+      m: prefixM + mainM + mMod + codaM,
+      t: prefixT + mainT + tMod + codaT,
+      meter,
+      varga: cEntry ? cEntry.varga : '辅音',
+      note: noteParts.join(' · '),
+      sandhiNotes
+    });
   }
 
+  return syllables;
+}
+
+/**
+ * Analyze a full line of Sanskrit (in IAST, Devanāgarī, Siddhaṃ, or SLP1) into structured
+ * words and syllables with multi-script representations, dual-track phonetics, Sandhi notes,
+ * and Chandas Guru/Laghu prosody.
+ */
+export function analyzeSanskritLine(text: string, options: ProsodyOptions = {}): LineAnalysis {
+  const { mode = 'smart', assimilate = true, longMarkSymbol = '～' } = options;
+  const slp1Full = inputToSlp1(text.trim(), mode);
+  const normalizedIast = slp1ToIast(slp1Full);
+  const devanagari = slp1ToDevanagari(slp1Full);
+  const siddhamUnicode = slp1ToSiddhamUnicode(slp1Full);
+
+  const rawWords = slp1Full.replace(/-/g, ' ').split(/\s+/).filter(Boolean);
+  const words = rawWords.map((w) => {
+    const parsedSyls = parseAndTransliterateWord(w, { assimilate, longMarkSymbol });
+    const syllables: SyllableAnalysis[] = parsedSyls
+      .filter((s) => !s.isSymbol)
+      .map((s) => ({
+        rawIast: slp1ToIast(s.raw),
+        slp1: s.raw,
+        devanagari: slp1ToDevanagari(s.raw),
+        siddhamUnicode: slp1ToSiddhamUnicode(s.raw),
+        modernPhonetic: s.m,
+        tangReconstruction: s.t,
+        ipa: slp1ToIpa(s.raw),
+        weight: s.meter === '—' ? 'Guru' : 'Laghu',
+        meterSymbol: s.meter === '—' ? '—' : '⏑',
+        varga: s.varga,
+        acousticNote: s.note,
+        sandhiNotes: s.sandhiNotes,
+        ...(s.bijaMeaning ? { bijaMeaning: s.bijaMeaning } : {})
+      }));
+
+    const wordModernPhonetic = syllables.map((s) => s.modernPhonetic).join('');
+    const wordTangReconstruction =
+      TRAD_WORD_REPLACEMENTS[w] ?? syllables.map((s) => s.tangReconstruction).join('');
+
+    return {
+      wordIast: slp1ToIast(w),
+      wordDevanagari: slp1ToDevanagari(w),
+      wordSiddham: slp1ToSiddhamUnicode(w),
+      wordModernPhonetic,
+      wordTangReconstruction,
+      syllables
+    };
+  });
+
   return {
-    slp1,
-    iast,
-    deva,
-    siddham,
-    ipa,
-    modernFull: modernWords.join(' '),
-    tradFull: tradWords.join(' '),
-    syllables: allSyllables,
-    guruCount,
-    laghuCount,
+    originalText: text,
+    normalizedIast,
+    devanagari,
+    siddhamUnicode,
+    slp1: slp1Full,
+    words
   };
 }

@@ -1,0 +1,2032 @@
+{
+  "summary": {
+    "id": "db5_buddhanexus",
+    "number": 5,
+    "priorityTier": 1,
+    "nameZh": "BuddhaNexus 全量梵文分句對齊庫（K12* 甘珠爾密續、T01/T02 陀羅尼集與 DharmaMitra API）",
+    "nameEn": "BuddhaNexus Segmented Sanskrit Corpus (K12*, T01*, T02*) & Live DharmaMitra REST API (3,548 Texts)",
+    "institution": "BuddhaNexus / DharmaMitra (github.com/BuddhaNexus/segmented-sanskrit & dharmamitra.org)",
+    "primarySourceUrls": [
+      "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12n2949u.json",
+      "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12Xbsu017_u.json",
+      "https://dharmamitra.org/api-db/menudata/?language=sa",
+      "https://dharmamitra.org/api-db/text-view/text-parallels/"
+    ],
+    "totalRecordsCount": 3548,
+    "mantraOrDharaniCount": 542,
+    "scriptsAvailable": [
+      "IAST"
+    ],
+    "highlights": [
+      "完整解析 K12n2949u.json (SA_K12_n2949u)《陀羅尼集》(Dhāraṇīsaṃgraha) 全 7,700 個分句 (7700 segments) 與 113+ 處 (實測 114 處) samāpta / samāptā 結尾題記 (colophon)，支援靜態檔名 K12n2949u 與 DharmaMitra ID SA_K12_n2949u 雙向別名解析",
+      "涵蓋 segmented-sanskrit 三大密教分類：K12* (42檔，含 K12Xbsu017_u Hayagrīvavidyā namo ratnatrayāya、K12bsu004_u Sitātapatrā、K12mahpratu、K12grahmdhu、K12sarvttsu、K12n2967u)、T01* (105檔，含 T01n802u、T01n809u、T01tarasdhu)、T02* (65檔，含 T02dipguhsu、T02psarkdhu)",
+      "整合 DharmaMitra 全量梵文總目 menudata/?language=sa (3548 部梵本) 與 POST /api-db/text-view/text-parallels/ (filters: par_length=1000, score=100)，收錄 SA_K12_Āgama_Surūpādhāraṇī 與月稱《密集續・燈作明論》SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984"
+    ]
+  },
+  "catalogStats": {
+    "staticSegmentedFilesCount": 1303,
+    "k12FilesCount": 42,
+    "t01FilesCount": 105,
+    "t02FilesCount": 65,
+    "dharmaMitraTotalSanskritTexts": 3548
+  },
+  "records": [
+    {
+      "fileId": "K12n2949u",
+      "category": "K12",
+      "displayName": "Dhāraṇīsaṃgraha (Nepalese Compendium, 535 Folios, 113+ samāpta/samāptā colophons)",
+      "totalSegments": 7700,
+      "colophonsExtracted": [
+        "itiśrī vajrasatva kāyasva tathāgata vyāpta śataṁsamāptaṁ ||",
+        "āryā aparimitānāma dhāraṇī mahānaya sūtraṁ samāptaḥ |",
+        "(46) aparimitānāma dhāraṇī mahāyānasūtra samāpta ||",
+        "āryya pacavigaṁtikā prajñāpāramitā nāmadhāraṇī parisamāpta ||",
+        "āryya svalpākṣarā bhagavatī prajñā pāramitā nāma dhāraṇī parisamāptā ||",
+        "itisugatā vadānasapta buddha muni samāptaḥ oṁ namaḥ sarvabuddha bodhisatvānāṁ mulāmūlahālakā nantā sukṣataḥ sarvvajinā-asimaniṣṭha |",
+        "imūlavidhāmantrasiddhimādhāraṇī samāptaḥ oṁ namo buddha-āya ||",
+        "iti akṣobha nāma dhāranī samāpta ||",
+        "iti ratne saṁbhavanā dharanī samāpta |",
+        "iti amitābhasya nāma dhāranī samāpta |",
+        "iti amogha siddhī nāma dhāranī samāpta |",
+        "iti amṛta bhakṣānāma dhāranī samāpta ||",
+        "iti-arapañacanamaṁjuśrīḥ sādhananāmadhāraṇīsamāptaḥ ||",
+        "itisūvarṇtra prabhāyāṁkuleva tā ti samāpta ||",
+        "iti śrī maitrīnātha-ātha ||",
+        "iti maitrīya nāmadhāraṇī samāptaṁ || 23 ||",
+        "iti āryā smoghapāśanāma hṛdayaṁmahāyāna sūtraṁ nāmadhāraṇāṁ parisamāptaḥ oṁ namaḥ śrīlokanāthāya ||",
+        "āryā khasarpyanāmadhāraṇī samāpta |",
+        "āryā abhayaṁ karināma dhāranī samāpta |",
+        "ārya śrī sabhamra bhujalokeśvarasya nāma dhāranī samāpta |",
+        "āryā siṁhanādalokeśvara nāma dhāranī samāpta |",
+        "āryya mokṣa prada nāmadhāraṇī samāptaḥ || 29 ||",
+        "āryāva lokiteśvarasya siddhinikānāmadhāraṇī samāptaḥ || 30 ||",
+        "āryya ṣaḍakṣarī mahāviyānāma dhāraṇī samāptaḥ || 31 ||",
+        "itiśrī āryyāvalokiteśvara sya nīla kaṇṭha hṛdayaṁ sāmaptaḥ || 32 ||",
+        "padmahastāya svārha āryya padmahastadhāraṇī samāptaḥ || 33 ||",
+        "dhāraṇī samāptaḥ || 34 ||",
+        "rasapta miśrana saṁyukta ṣaḍakṣarasatva samāptaḥ || 35 ||",
+        "itiśrī madā ryyā va lokiteśvara spajamacā jā muti samāptaḥ ||",
+        "iti āryyāvalokiteśvarasya umāmaheśvara kṛtmṇati samāptaṁ || 3 ||",
+        "āryyabhadravarīmahāpraṇidhāna ratna rājaṁ samāptaṁ || ||",
+        "sarvvajñajina ratnadhātu karaṇukaṁnāma bhagavanta āryyālokiteśvara spa-aṣṭobhāra śatanāma mahāyāna śūtraṁ samāptaṁ || 0 || (192) ||",
+        "āryā sarvva dūrgnati pariśo dhanarājyasya tathāgatasyārhataḥ samyakaṁ būḍacasya kalpaika samāptaḥ ||",
+        "oṁ kinira tathāgato dbhabaśānta bala daṁḍattama tathāgato dabhabahūṃ phaṭ svāhā āryya gandhavyū hanāmadhāraśāṁ samāptaḥ oṁ namo ratnatrayāya tadyathā ||",
+        "ḍaṁdhana 2 hūṃ hūṃ hūṃ hūṃ phaṭ svāhā āryya samādhi rājanāma dhāraṇī samāptaḥ ||",
+        "āryya ṣṭha mahā dū bhayapurgala nāma dhāraśrī samāptaṁ ||",
+        "āryyaktarṇu jopānāma dhāraṇī samāptaṁ ||",
+        "dharaṇī samāptaḥ || ||",
+        "āryya pajasarasvatī 1 nāmadhāraṇī samāpta ||",
+        "āryya puṇya vibaddhanī nāmadhāraṇī samāptaṁ ||",
+        "iti mekū timera sahe sahe sahe saha sahe stuhe stuhe stuhe stuhe stuhe svāhā iti saddharmma paśunī kānāmadhāraṇī samāptā ||",
+        "āryya gāthā ghayanāmadhāraṇī samāptaṁ ||",
+        "āryyā amritā nāma dhāraṇī samāptaṁ || ||",
+        "āryya sugata nāmadhāraṇī samāptaṁ ||",
+        "āryya bhaiṣayta rājanāma dhāraṇī samāptaṁ ||",
+        "āryya śākya muni nāmadhāraṇī samāptaṁ ||",
+        "āryya cundā nāmadhāraṇī samāptaṁ ||",
+        "āryya dhvajā grakeyaranāma dhāraṇī samāptaṁ ||",
+        "iti mahāsatvara hṛdayaṁ samāptaṁ || ||",
+        "iti caṇuma (222) hā roṣaṇa samādhi hṛdaya samāptaṁ ||",
+        "āryya śrī heru kaspaprasavaroganāmadhāraṇī samāptaṁ ||",
+        "ārya mahāmāyā vajavārāhī nāmadhāraṇī samāptā || 31 ||",
+        "ityāhi maṁtra phaladāsiddhidāyani vijayo ginī nairotmā guśkeśvarīmantra nāmadhāraṇī samāptaḥ || ||",
+        "āryyatārā nāma dhāraṇī samāptaṁ || ||",
+        "iti yoga gāmvarasya kamma4rā janāma dhāraṇī samāptaṁ || ||",
+        "(231) āryya ugratārā nāma dhāraṇī samāptaṁ || ||",
+        "iti āryya jārgulī hṛdaya nāmadhāraṇī samāptaṁ || ||",
+        "itri daśa kroṭha nāma dhāraṇī samāptaṁ || 13 ||",
+        "āryya uṣī cakravartī nāmadhāraṇī samāptaṁ || 14 ||",
+        "itiśrī lokātīta stavanāmastotraṁ samāptaṁ || 15 ||",
+        "āryyatārā bhaṭṭārikā yāḥ nāmāṣṭottaraśataṁ buddhabhāṣitaṁparisamāptaḥ ||",
+        "inyāryyantarā bhaṭṭā rikāyāḥ śragdharāskāśraṁ samāptaṁ || 90 ||",
+        "āryyā eka jaṭā nāmadhāraṇī samāptaṁ ||",
+        "iti śrīsvayabhūcai tyabhaṭṭāra koddelodharmma dhātutpanno nāmaprathamaḥ paricchedaḥ || 1 ||",
+        "iti śrī svayaṁtuvaityabhaṇara kojadeśayū pachandohetpādano nāma tṛtīyaḥ parichedaḥ || 3 ||",
+        "itiśrīsvayaṁ juvaitya bhyabhatyabhaṭṭa (286)",
+        "iti śrī svayaṁbhu cetya bhuhārakodūdaśve tīrtthāparitirthā nirupena guṇacarś-ha no nāma |",
+        "itiśrīsvayaṁjucaibhya bhaṭṭārakaudadeśe dharmmadhātu vāgīśvarapravartta nonā maṣaṣṭamaḥ paricchedaḥ || 6 ||",
+        "itiśrī svāya mantuṁ caivya bhayṭhā 2 ko dde śe dharmma dhātu vāgīśva vā gupto nāmasaptaḥ parichedaḥ ||",
+        "itiśrī svayatthūḥ pūrāṇe caitya bhaṭarakoddeśa mahaprabhāvarṇṇano namo-uṣṭhamaḥ paricheda samāptaṁ || 22 ||",
+        "itiśrī vasudhārāvratapūrvvamartyamaṇḍalāgata kathā samāptaṁ || (331) | 83 ||",
+        "iti śrīvasudārāyā nāmoṣśettaraśataṁ buddhabhāṣitaṁ samāptam || 83 ||",
+        "iti āryyaśrīvajacidāriṇī hṛdaya mūlamaṁtra dhāraṇī samāpta || 84 ||",
+        "aryya gaṇapati hṛdayānāmadhyāraṇī parisamāptaḥ ||",
+        "āryyaṣnīvijayamāntāmadhāraṇī parisamāptāṁ ||",
+        "āryyaparṇṇaśavarī mahāmārī praśamanīnāmadhāraṇī samāpta || 87 ||",
+        "āryya mārīcī nāmadhāraṇīpari samāpta || 88 ||",
+        "āryyagṛhamātṛkānāma dhāraṇī samāpta ||",
+        "āryyānāhavyagraha śānti upadrava nāma dhāraṇī pari samāptaḥ ||",
+        "āryyaketugrahaśāṁtapaṇāmadhāraṇī pari samāpta ||",
+        "itidaśakroḍadhāraṇī samāptaṁ ||",
+        "ityāryya mahāsāhasrapramadardanī nāmamahāyāna sūtraṁ samāptah ||",
+        "āryyamahāmāyūrī vidyārārājñī avinaṣṭāyakṣa prasutvānpratiladdhā samāptāḥ || 3 ||",
+        "āryya mahāśītavatīnāma mahāvidyārājñī parisamāptā || 4 ||",
+        "ārya mahāpratisarāyāḥ prathamaḥ kalpa samāptaḥ || 0 ||",
+        "āryya mahāpratisarāyāḥ mahāvidyārājñāḥ rakṣā vidhāna kalpaḥ samāptaḥ || 95 ||",
+        "(434) āryyamarakṣā mahāmantrānusāriṇī mahāvidyārājñī parisamāptā || 8 ||",
+        "āryā sarvatathāgatoṣṇīṣa śitātapatrenāmāparājitā mahāpratyaṁgirā mahāvipyā rājñī parisamāptaḥ ||",
+        "madhāraṇī samāptaḥ || ||",
+        "āryā mahāvajadhārāhīnāma dhāraṇī parisamāptaḥ ||",
+        "itiśrī sarasvatī nāmadhāraṇī pari samāptaḥ || 100 ||",
+        "iti saddharmma pāṭhanāma dhāraṇī samāptaṁ ||",
+        "itiśrī vajastārānāma dhāraṇī samāptaṁ || 102 ||",
+        "iti śīla pāra mitā nāma dhāraṇī samāptaṁ || 104 ||",
+        "iti kṣānti pāramitā nāma dhāraṇī samāptaṁ || 105 ||",
+        "itivīryya pāramitā nāma dhāraṇī samāptaṁ || 106 ||",
+        "ti dhyāna pāramitā nāma dhāraṇī samāptaṁ || 107 ||",
+        "itiprajñāpāramitā nāma dhāraṇī samāptaṁ || 108 ||",
+        "itiṣadadhāra mitā nāma hṛdayadhāraṇī samāptaṁ || 102 ||",
+        "āryyacundā nāma dhāraṇī samāptaṁ || 110 ||",
+        "āryyajanha harandrasya nāma dhāraṇī samāptaṁ || 111 ||",
+        "āryya mahāmegha nirnnāda vijṛmbhita sūraketū nāma dhāraṇī sarvva buddhabhāṣitaṁ samāptaṁ || 114 ||",
+        "tamaṇḍālī parivarttayaḥ pañcaṣakṛtamaḥ samāptaḥ || 115 ||",
+        "iti śrīvairocaṇī devīstava strotraṁ samāptaṁ || 116 ||",
+        "ita buddha bhaddāra kasya nāma dhāraṇī samāptaḥ || 119 ||",
+        "iti āryya śrīpadmottamanāma dhāraṇī samāptaḥ || 120 ||",
+        "iti śrīsuvarṇaprabhāsottame sūtrendrarāje sarvabuddhabodhisattvanāma saṁdhāraṇī samāptaḥ || 121 ||",
+        "iti śrīsamyak sambuddhattaḍhaṇaśaṣachaśra ṅaśatraṣatam bhagavatyai āryatārādevyā namaskāraikaviṁśati nāma stotraṁ samāptaḥ || (524) || 123 ||",
+        "iti caturbhujamahākālasādhana nāma samāptaḥ || 124 ||",
+        "iti kulakullānāma dhāriṇī samāptaḥ ||",
+        "iti nī dhāraṇī saṁgraha mahāpurāṇe sarvvaśāstraprahitā nāmadhāraṇī paṁcaviśaśatakaṁ samāptaḥ ||",
+        "vajatārā nāmadhāraṇī samāptaḥ (531)",
+        "pūtrī jiotha kūṁtha tejala samoha naṁcā parisamāptaḥ || 0 || 127 | ? |"
+      ],
+      "sampleSegments": [
+        {
+          "segnr": "K12n2949u_001:0",
+          "text": "dhāraṇī-saṁgraha ----- (1) @----- (2) @----- (3)"
+        },
+        {
+          "segnr": "K12n2949u_001:3",
+          "text": "oṁ namaḥ śrī vajrasattvāya ||"
+        },
+        {
+          "segnr": "K12n2949u_001:4",
+          "text": "vajrasatvavāce |"
+        },
+        {
+          "segnr": "K12n2949u_001:5",
+          "text": "nīlañaniṁnalākāra śunya śunya mahāśunya- nilā ramva nilākāra amaratitato nahi pṛthi- vī || 1 ||"
+        },
+        {
+          "segnr": "K12n2949u_001:7",
+          "text": "manavāja satva śarīre viro-elī svargama- dhyāpātālepādaskha āpana udarantuḥ matsayamaṇḍale- || 2 ||"
+        },
+        {
+          "segnr": "K12n2949u_001:9",
+          "text": "ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā || 3 ||"
+        },
+        {
+          "segnr": "K12n2949u_001:11",
+          "text": "vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa || 4 ||"
+        },
+        {
+          "segnr": "K12n2949u_001:13",
+          "text": "lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi || 5 ||"
+        },
+        {
+          "segnr": "K12n2949u_001:15",
+          "text": "vairocanamahājotiḥ śukṛparṣṇumahodvalaṁ śvetavita (4)"
+        },
+        {
+          "segnr": "K12n2949u_001:16",
+          "text": "rakṣaśāmaḥ catuvaktrābhavatu'haṁ || 6 ||"
+        },
+        {
+          "segnr": "K12n2949u_001:18",
+          "text": "paramagu ruvajācārythaḥ vajaghaṇḍadharaḥ śubhaḥ ||"
+        },
+        {
+          "segnr": "K12n2949u_001:19",
+          "text": "prajñā- jñānasamāliptaḥ sarvatathāgatodbhava || 7 ||"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12n2949u.json",
+      "dharmaMitraApiId": "SA_K12_n2949u"
+    },
+    {
+      "fileId": "K12Xbsu017_u",
+      "category": "K12",
+      "displayName": "Hayagrīvavidyā (Gilgit Manuscript Edition)",
+      "totalSegments": 57,
+      "sampleSegments": [
+        {
+          "segnr": "K12Xbsu017_u:0",
+          "text": "Hayagrīvavidyā"
+        },
+        {
+          "segnr": "K12Xbsu017_u:1",
+          "text": "namo ratnatrayāya /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:2",
+          "text": "nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:3",
+          "text": "namaḥ sarvasattvavyasanaghātine /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:4",
+          "text": "namaḥ sarvasattvabhayapraśamanakarāya /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:5",
+          "text": "namaḥ sarvasattvabhayottāraṇakarāya /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:6",
+          "text": "namaḥ sarvavidyādhigatāya /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:7",
+          "text": "namaḥ sarvavidyāvidhigatamūrtaye mahākāruṇikāya /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:8",
+          "text": "namo mahāvidyārājaprāptaye mahāyogine /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:9",
+          "text": "tasmai namaskṛtvā idamāryāvalokiteśvaramukhodgīrṇaṃ vajradharamahīyaṃ hayagrīvaṃ nāma paramahṛdayamāvartayiṣyāmisarvakarmārthasādhakam /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:10",
+          "text": "asahyaṃ sarvabhūtānāṃ yakṣāṇāṃ cavināśakam /"
+        },
+        {
+          "segnr": "K12Xbsu017_u:11",
+          "text": "amoghaṃ sarvakarmaṇāṃ viṣāṇāṃ ca nāśakam / tadyathā"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12Xbsu017_u.json",
+      "dharmaMitraApiId": "SA_K12_bsu017_u"
+    },
+    {
+      "fileId": "K12bsu004_u",
+      "category": "K12",
+      "displayName": "Āryatathāgatoṣṇīṣasitātapatrāparājitāmahāpratyaṅgirādhāraṇī (Sitātapatrā)",
+      "totalSegments": 483,
+      "sampleSegments": [
+        {
+          "segnr": "K12bsu004_u:0",
+          "text": "Sitātapatrā"
+        },
+        {
+          "segnr": "K12bsu004_u:1",
+          "text": "(Sitā 147)"
+        },
+        {
+          "segnr": "K12bsu004_u:2",
+          "text": "om namaḥ śrīsarvabuddhabodhisattvebhyaḥ /"
+        },
+        {
+          "segnr": "K12bsu004_u:3",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān deveṣu trāyastriṃśeṣu viharati sma /"
+        },
+        {
+          "segnr": "K12bsu004_u:4",
+          "text": "sudharmāyāṃ devasabhāyāṃ mahatā bhikṣusaṃghena mahatā ca bodhisattvasaṃghena bhikṣuśataiḥ śakreṇa ca devatānāmindreṇa sārdham /"
+        },
+        {
+          "segnr": "K12bsu004_u:5",
+          "text": "tatra khalu bhagavān prajñapta evāsane niṣadya uṣṇīṣamavalokitaṃ nāma samādhiṃ samāpadyate sma /"
+        },
+        {
+          "segnr": "K12bsu004_u:6",
+          "text": "samanantarasamāpannasya bhagavata uṣṇīṣamadhyādimāni mantrapadāni niścaranti sma /"
+        },
+        {
+          "segnr": "K12bsu004_u:7",
+          "text": "namo bhagavate uṣṇīṣāya śuddhe viraje vimale svāhā /"
+        },
+        {
+          "segnr": "K12bsu004_u:8",
+          "text": "namo bhagavate apraṇihato uṣṇīṣāya /"
+        },
+        {
+          "segnr": "K12bsu004_u:9",
+          "text": "namo buddhāya /"
+        },
+        {
+          "segnr": "K12bsu004_u:10",
+          "text": "namo dharmāya /"
+        },
+        {
+          "segnr": "K12bsu004_u:11",
+          "text": "namo saṃghāya /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12bsu004_u.json",
+      "dharmaMitraApiId": "SA_K12_bsu004_u"
+    },
+    {
+      "fileId": "K12mahpratu",
+      "category": "K12",
+      "displayName": "Mahāpratisarā-Mahāvidyārājñī",
+      "totalSegments": 1256,
+      "sampleSegments": [
+        {
+          "segnr": "K12mahpratu:0",
+          "text": "namo bhagavatyai āryamahāpratisarāyai /"
+        },
+        {
+          "segnr": "K12mahpratu:1",
+          "text": "lokārthasiddhiparamaṃ bahuratnacitraṃ"
+        },
+        {
+          "segnr": "K12mahpratu:2",
+          "text": "saddharmakośam asamaṃ śravaṇāya dhīrāḥ /"
+        },
+        {
+          "segnr": "K12mahpratu:3",
+          "text": "āyāntu rākṣasamahoragadaityasaṃghāḥ"
+        },
+        {
+          "segnr": "K12mahpratu:4",
+          "text": "pūjāvidhānaniratā garuḍā narendrāḥ // 1 //"
+        },
+        {
+          "segnr": "K12mahpratu:5",
+          "text": "āryām imāṃ pratisarāṃ smṛtimātranāthāṃ"
+        },
+        {
+          "segnr": "K12mahpratu:6",
+          "text": "rakṣāvidhānacaturāṃ jagataḥ samantāt /"
+        },
+        {
+          "segnr": "K12mahpratu:7",
+          "text": "saṃvarṇitāṃ stutiśataiś ca tathāgatais taiḥ"
+        },
+        {
+          "segnr": "K12mahpratu:8",
+          "text": "sarvārthasiddhinicayāṃ praṇamāmi bhūyaḥ // 2 //"
+        },
+        {
+          "segnr": "K12mahpratu:9",
+          "text": "[1] evaṃ mayā śrutam /"
+        },
+        {
+          "segnr": "K12mahpratu:10",
+          "text": "ekasmin samaye bhagavān mahāvajrameruśikharakūṭāgāre viharati sma /"
+        },
+        {
+          "segnr": "K12mahpratu:11",
+          "text": "mahāvajrasamādhibhūmipratiṣṭhāne mahāvajrakalpavṛkṣasamalaṃkṛte mahāvajrapuṣkiriṇīratnapadmaprabhodbhāsite mahāvajravālikāsaṃstṛtabhūmibhāge"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12mahpratu.json",
+      "dharmaMitraApiId": "SA_K12_mahpratu"
+    },
+    {
+      "fileId": "K12grahmdhu",
+      "category": "K12",
+      "displayName": "Grahamātṛkānāmadhāraṇī",
+      "totalSegments": 183,
+      "sampleSegments": [
+        {
+          "segnr": "K12grahmdhu:0",
+          "text": "Grahamātṛkānāmadhāraṇī"
+        },
+        {
+          "segnr": "K12grahmdhu:1",
+          "text": "(Gmdh 171)"
+        },
+        {
+          "segnr": "K12grahmdhu:2",
+          "text": "āryagrahamātṛkā nāma dhāraṇī"
+        },
+        {
+          "segnr": "K12grahmdhu:3",
+          "text": "oṃ namo bhagavatyai āryagrahamātṛkāyai /"
+        },
+        {
+          "segnr": "K12grahmdhu:4",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān aḍakavatyāṃ mahānagaryām anekadevanāgayakṣarākṣasagandharvāsuragaruḍakinnaramahoragāpasmārādityasomāṅgārabudhabṛhaspatiśukraśaniścararāhuketvādibhiś"
+        },
+        {
+          "segnr": "K12grahmdhu:5",
+          "text": "cāṣṭāviṃśatinakṣatrādibhiḥ stūyamāno mahāvajrasamayālaṅkāravyūhādhiṣṭhānādhiṣṭhite"
+        },
+        {
+          "segnr": "K12grahmdhu:6",
+          "text": "siṃhāsane viharati sma /"
+        },
+        {
+          "segnr": "K12grahmdhu:7",
+          "text": "anekair bodhisattvasahasraiḥ sārdham* /"
+        },
+        {
+          "segnr": "K12grahmdhu:8",
+          "text": "tadyathā - vajrapāṇinā ca nāma bodhisattvena mahāsattvena /"
+        },
+        {
+          "segnr": "K12grahmdhu:9",
+          "text": "vajracaṇḍena ca nāma bodhisattvena mahāsattvena /"
+        },
+        {
+          "segnr": "K12grahmdhu:10",
+          "text": "vajrasenena ca nāma bodhisattvena mahāsattvena /"
+        },
+        {
+          "segnr": "K12grahmdhu:11",
+          "text": "vajravināyakena ca nāma bodhisattvena mahāsattvena /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12grahmdhu.json",
+      "dharmaMitraApiId": "SA_K12_grahmdhu"
+    },
+    {
+      "fileId": "K12sarvttsu",
+      "category": "K12",
+      "displayName": "Sarvatathāgatatattvasaṃgraha",
+      "totalSegments": 7111,
+      "sampleSegments": [
+        {
+          "segnr": "K12sarvttsu:0",
+          "text": "Sarva Tathāgata Tattva Saṅgrah"
+        },
+        {
+          "segnr": "K12sarvttsu:1",
+          "text": "CHAPTER 1"
+        },
+        {
+          "segnr": "K12sarvttsu:2",
+          "text": "VAJRADHATU-MAHA-MANDALA-VIDHI-VISTARA-MANDALA I.1"
+        },
+        {
+          "segnr": "K12sarvttsu:3",
+          "text": "[evaṃ mayā śru]tamekasmin samaye bhagavān sarvatathāgata-vajrādhiṣṭhānasamayajñānavividhaviśeṣasamanvāgataḥ,"
+        },
+        {
+          "segnr": "K12sarvttsu:4",
+          "text": "sarvatathāgataratnamukuṭatraidhātukadharmarājyābhiṣekaprāptaḥ,"
+        },
+        {
+          "segnr": "K12sarvttsu:5",
+          "text": "sarvatathāgatasarvajñānamahāyogīśvaraḥ,"
+        },
+        {
+          "segnr": "K12sarvttsu:6",
+          "text": "sarvatathāgatasarvamudrāsamatādhigataviśvakāryakaraṇatāśeṣānavaśeṣasattvadhātusarvāśāparipūrakaḥ,"
+        },
+        {
+          "segnr": "K12sarvttsu:7",
+          "text": "mahākṛpo vairocanaḥ śāśvatastryadhvasamayavyavasthitaḥ sarvakāyavākcittavajrastathāgataḥ,"
+        },
+        {
+          "segnr": "K12sarvttsu:8",
+          "text": "sarvatathāgatādhyuṣitapraśastastavite mahāmaṇiratnapratyupte vicitravarṇaghaṇṭāvasaktamārutoddhatapaṭṭasrakcāmarahārārdhahāracandropaśobhite akaniṣṭhadevarājasya bhavane vijahāra /"
+        },
+        {
+          "segnr": "K12sarvttsu:9",
+          "text": "navanavatibhirbodhisattvakoṭibhiḥ sārdhaṃ,"
+        },
+        {
+          "segnr": "K12sarvttsu:10",
+          "text": "tadyathā vajrapāṇinā ca bodhisattvena,"
+        },
+        {
+          "segnr": "K12sarvttsu:11",
+          "text": "avalokiteśvareṇa ca bodhisattvena,"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12sarvttsu.json",
+      "dharmaMitraApiId": "SA_K12_sarvttsu"
+    },
+    {
+      "fileId": "K12n2967u",
+      "category": "K12",
+      "displayName": "Śrīguhyasamājatantra",
+      "totalSegments": 2826,
+      "sampleSegments": [
+        {
+          "segnr": "K12n2967u_001:25",
+          "text": "ekasmin samaye bhagavān sarvatathāgatakāyavākcittahṛdayavajrayoṣidbhageṣu vijahāra |"
+        },
+        {
+          "segnr": "K12n2967u_001:26",
+          "text": "anabhilāpyānabhilāpyaiḥ sarvabuddhakṣetrasumeruparamāṇurajaḥsamairbodhisattvairmahāsattvaiḥ |"
+        },
+        {
+          "segnr": "K12n2967u_001:27",
+          "text": "tadyathā |"
+        },
+        {
+          "segnr": "K12n2967u_001:28",
+          "text": "samayavajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:29",
+          "text": "kāyavajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:30",
+          "text": "vāgvajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:31",
+          "text": "cittavajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:32",
+          "text": "samādhivajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:33",
+          "text": "japavajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:34",
+          "text": "pṛthivīvajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:35",
+          "text": "abvajreṇa ca nāma bodhisattvena mahāsattvena |"
+        },
+        {
+          "segnr": "K12n2967u_001:36",
+          "text": "tejovajreṇa ca nāma bodhisattvena mahāsattvena |"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12n2967u.json",
+      "dharmaMitraApiId": "SA_K12_n2967u"
+    },
+    {
+      "fileId": "K12namekvsu",
+      "category": "K12",
+      "displayName": "Namaskāraikaviṃśatistotra (Tārā 21 Praises)",
+      "totalSegments": 56,
+      "sampleSegments": [
+        {
+          "segnr": "K12namekvsu:0",
+          "text": "Ekaviṃśatistotra"
+        },
+        {
+          "segnr": "K12namekvsu:1",
+          "text": "namas tāre ture vīre kṣaṇadyutinibhekṣaṇe /"
+        },
+        {
+          "segnr": "K12namekvsu:2",
+          "text": "trailokyanāthavaktrābjavikasatkesarodbhave // Nevs_1"
+        },
+        {
+          "segnr": "K12namekvsu:3",
+          "text": "namas śāntasaraccandrasaṃpūrṇapaṭalānane /"
+        },
+        {
+          "segnr": "K12namekvsu:4",
+          "text": "tāre sahasravikalpaprahasatkiraṇojjvale // Nevs_2"
+        },
+        {
+          "segnr": "K12namekvsu:5",
+          "text": "namaḥ kanakanīlābjapāṇipadmavibhūṣite /"
+        },
+        {
+          "segnr": "K12namekvsu:6",
+          "text": "dānavīryatapaḥkṣāntititikṣādhyānagocare // Nevs_3"
+        },
+        {
+          "segnr": "K12namekvsu:7",
+          "text": "namas tathāgatoṣṇīṣavijayānantacāriṇi /"
+        },
+        {
+          "segnr": "K12namekvsu:8",
+          "text": "aśeṣapāramitāprāptajinaputraniṣevite // Nevs_4"
+        },
+        {
+          "segnr": "K12namekvsu:9",
+          "text": "namas tuttārahūṃkārapūritāśādigantare /"
+        },
+        {
+          "segnr": "K12namekvsu:10",
+          "text": "saptalokakramākrāntā aśeṣākarṣaṇakṣaṇe // Nevs_5"
+        },
+        {
+          "segnr": "K12namekvsu:11",
+          "text": "namaḥ śakranarabrahmamarudviśveśvarārcite /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12namekvsu.json",
+      "dharmaMitraApiId": "SA_K12_namekvsu"
+    },
+    {
+      "fileId": "K12maricdhu",
+      "category": "K12",
+      "displayName": "Āryamārīcīnāmadhāraṇī",
+      "totalSegments": 52,
+      "sampleSegments": [
+        {
+          "segnr": "K12maricdhu:0",
+          "text": "Mārīcīnāmadhāraṇī"
+        },
+        {
+          "segnr": "K12maricdhu:1",
+          "text": "oṃ namo bhagavatyai āryamārīcīdevatāyai /"
+        },
+        {
+          "segnr": "K12maricdhu:2",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān śrāvastyāṃ viharati sma /"
+        },
+        {
+          "segnr": "K12maricdhu:3",
+          "text": "jetavane 'nāthapiṇḍadasyārāme mahatā bhikṣusaṃghena sārdhatrayodaśabhikṣuśataiḥ saṃbahulaiś ca mahāśrāvakabodhisatvamahāsatvaiḥ /"
+        },
+        {
+          "segnr": "K12maricdhu:4",
+          "text": "tatra khalu bhagavān bhikṣūn āmantrayate sma /"
+        },
+        {
+          "segnr": "K12maricdhu:5",
+          "text": "asti bhikṣavo mārīcī nāma devatā sā sūryacandramāsoḥ purato 'nūpagacchati /"
+        },
+        {
+          "segnr": "K12maricdhu:6",
+          "text": "sā na dṛśyate na gṛhyate na badhyate na nirudhyate na virudhyate na muṣyate na muhyate na daṇḍyate na muṇḍyate na dahyate na śatror anūpagacchati"
+        },
+        {
+          "segnr": "K12maricdhu:7",
+          "text": "yo 'pi tasya bhikṣavo mārīcīnāmadevatāyā nāma jānāti so 'pi na dṛśyate na gṛhyate"
+        },
+        {
+          "segnr": "K12maricdhu:8",
+          "text": "na badhyate na nirudhyate na virudhyate na muṣyate na muhyate na daṇḍyate na muṇḍyate"
+        },
+        {
+          "segnr": "K12maricdhu:9",
+          "text": "na dahyate na śatror anūpagacchati /"
+        },
+        {
+          "segnr": "K12maricdhu:10",
+          "text": "so 'haṃ bhikṣavo mārīcīnāmadevatāyā nāma jānāmi /"
+        },
+        {
+          "segnr": "K12maricdhu:11",
+          "text": "aham api @ayam api@@ na dṛśyate na badhyate na nirudhyate na virudhyate na muhyate na daṇḍyate na muṇḍyate na dahyate na śatror anūpagacchati"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12maricdhu.json",
+      "dharmaMitraApiId": "SA_K12_maricdhu"
+    },
+    {
+      "fileId": "K12ganphrdu",
+      "category": "K12",
+      "displayName": "Āryagaṇapatihṛdayadhāraṇī",
+      "totalSegments": 40,
+      "sampleSegments": [
+        {
+          "segnr": "K12ganphrdu:0",
+          "text": "namo bhagavate āryamahāgaṇapatihṛdayāya /"
+        },
+        {
+          "segnr": "K12ganphrdu:1",
+          "text": "namo ratnatrayāya //"
+        },
+        {
+          "segnr": "K12ganphrdu:2",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān rājagṛhe viharati sma /"
+        },
+        {
+          "segnr": "K12ganphrdu:3",
+          "text": "gṛdhrakūṭaparvate mahatā bhikṣusaṃghena sārdham ardhatrayodaśabhir bhikṣuśataiḥ saṃbahulaiś ca bodhisatvair mahāsatvaiḥ /"
+        },
+        {
+          "segnr": "K12ganphrdu:4",
+          "text": "tena khalu punaḥ samayena bhagavān āyuṣmantam ānandam āmantrayate sma //"
+        },
+        {
+          "segnr": "K12ganphrdu:5",
+          "text": "yaḥ kaścit kulaputra ānanda imāni gaṇapatihṛdayāni dhārayiṣyati vācayiṣyati paryavāpsyati pravartayiṣyati tasya sarvāṇi kāryasiddhāni bhaviṣyanti"
+        },
+        {
+          "segnr": "K12ganphrdu:6",
+          "text": "oṃ namo 'stu te mahāgaṇapataye svāhā /"
+        },
+        {
+          "segnr": "K12ganphrdu:7",
+          "text": "oṃ gaḥ gaḥ gaḥ gaḥ gaḥ gaḥ gaḥ gaḥ /"
+        },
+        {
+          "segnr": "K12ganphrdu:8",
+          "text": "oṃ namo gaṇapataye svāhā /"
+        },
+        {
+          "segnr": "K12ganphrdu:9",
+          "text": "oṃ gaṇādhipataye svāhā /"
+        },
+        {
+          "segnr": "K12ganphrdu:10",
+          "text": "oṃ gaṇeśvarāya svāhā /"
+        },
+        {
+          "segnr": "K12ganphrdu:11",
+          "text": "oṃ gaṇapatipūjitāya svāhā /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12ganphrdu.json",
+      "dharmaMitraApiId": "SA_K12_ganphrdu"
+    },
+    {
+      "fileId": "K12dhvajkdu",
+      "category": "K12",
+      "displayName": "Āryadhvajāgrakeyūrānāmadhāraṇī",
+      "totalSegments": 63,
+      "sampleSegments": [
+        {
+          "segnr": "K12dhvajkdu:0",
+          "text": "// siddhaṃ namo bhagavatyai āryadhvajāgrakeyūrāyai //"
+        },
+        {
+          "segnr": "K12dhvajkdu:1",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān deveṣu trayastriṃśeṣu viharati sma pāṇḍukambalaśilāyām* /"
+        },
+        {
+          "segnr": "K12dhvajkdu:2",
+          "text": "atha khalu śakro devānām indro 'surair jitaḥ parājitaḥ satvaraṃ tvaramāṇarūpo yena bhagavāṃs tenopasaṃkrāntaḥ /"
+        },
+        {
+          "segnr": "K12dhvajkdu:3",
+          "text": "upasaṃkramya bhagavataḥ pādau śirasābhivandya bhagavantam etad avocat* /"
+        },
+        {
+          "segnr": "K12dhvajkdu:4",
+          "text": "ihāhaṃ bhagavan vemacitriṇāsurendreṇa jitaḥ parājito devās trayastriṃśāś ca jitāḥ parājitāḥ /"
+        },
+        {
+          "segnr": "K12dhvajkdu:5",
+          "text": "tatrāsmābhir bhagavan kathaṃ pratipattavyam* /"
+        },
+        {
+          "segnr": "K12dhvajkdu:6",
+          "text": "bhagavān āha /"
+        },
+        {
+          "segnr": "K12dhvajkdu:7",
+          "text": "udgṛhṇa tvaṃ devendra dhvajāgrakeyūrānāmadhāriṇīm aparājitāṃ yā mayā pūrvaṃ bodhisatvabhūtenāparājitadhvajasya tathāgatasyāntikād udgṛhītā /"
+        },
+        {
+          "segnr": "K12dhvajkdu:8",
+          "text": "udgṛhya parebhyo vistareṇa saṃprakāśitā /"
+        },
+        {
+          "segnr": "K12dhvajkdu:9",
+          "text": "nābhijānāmi tato 'rvāg bhayaṃ vā stambhitatvaṃ vā romaharṣanimittaṃ vāntaśaḥ kṣaṇikām api kāyapīḍām* /"
+        },
+        {
+          "segnr": "K12dhvajkdu:10",
+          "text": "tat katamā sā bhagavan dhvajāgrakeyūrā nāma dhāriṇī aparājitā /"
+        },
+        {
+          "segnr": "K12dhvajkdu:11",
+          "text": "tadyathā oṃ jaya 2 vijaya 2 jayavāhini śaṅkari bhayaṅkari prabhañjani rakṣa rakṣa āvadhūtaśrīālakhavajraṃ saparivāraṃ sarvasatvāṃś ca /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12dhvajkdu.json",
+      "dharmaMitraApiId": "SA_K12_dhvajkdu"
+    },
+    {
+      "fileId": "K12ekmuhr_u",
+      "category": "K12",
+      "displayName": "Ekādaśamukhahṛdayadhāraṇī",
+      "totalSegments": 178,
+      "sampleSegments": [
+        {
+          "segnr": "K12ekmuhr_u:0",
+          "text": "oṃ namaḥ sarvabuddhabodhisattvebhyaḥ //"
+        },
+        {
+          "segnr": "K12ekmuhr_u:1",
+          "text": "ñ1.1 evaṃ mayā śru[tam eka{smin}?"
+        },
+        {
+          "segnr": "K12ekmuhr_u:2",
+          "text": "] samaye bhagavāṃ cchrāvastyāṃ viharati sma,"
+        },
+        {
+          "segnr": "K12ekmuhr_u:3",
+          "text": "karī[ṭe ma]ṇḍalavāṭe\\var{karī[ṭema]ṇḍalavāṭe\\lem \\cod;"
+        },
+        {
+          "segnr": "K12ekmuhr_u:4",
+          "text": "karī[ma]ṇḍale ca \\Dutt} /"
+        },
+        {
+          "segnr": "K12ekmuhr_u:5",
+          "text": "ñ1.2 atha khalv āryāvalokiteśvaro bodhisa[ttvo] mahāsattvo 'nekavidyādharakoṭīniyutaśatasaha[sreṇa] parivṛto yena bhagavāṃs tenopasamakrāmad"
+        },
+        {
+          "segnr": "K12ekmuhr_u:6",
+          "text": "ñ1.3 upasaṃkramya bhagavataḥ pādau śirasā vanditvā bhagavantaṃ pradakṣiṇīkṛtvā\\var{kṛtvā\\lem \\cod;"
+        },
+        {
+          "segnr": "K12ekmuhr_u:7",
+          "text": "kṛtya \\Dutt} kānte nyasīda bhagavantam etad avocat /"
+        },
+        {
+          "segnr": "K12ekmuhr_u:8",
+          "text": "ñ1.4 idaṃ mama bhagavann ekādaśamukhaṃ nāma hṛdayam ekādaśabhi [kalpako]ṭībhir bhāṣitam /"
+        },
+        {
+          "segnr": "K12ekmuhr_u:9",
+          "text": "ñ1.5 ahaṃ caitarhi\\var{caitarhi\\lem \\cod;"
+        },
+        {
+          "segnr": "K12ekmuhr_u:10",
+          "text": "cet tarhi \\Dutt} bhāṣiṣyāmi sarva[sattvānā]m arthāya hitāya sukhāya sarvavyādhipraśa[ma]nāya{ḥ}"
+        },
+        {
+          "segnr": "K12ekmuhr_u:11",
+          "text": "sarvapāpālakṣmīduḥsvapnapratinivāraṇāya sarvākālamṛtyupratinivāraṇāya aprasādānāṃ"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12ekmuhr_u.json",
+      "dharmaMitraApiId": "SA_K12_ekmuhr_u"
+    },
+    {
+      "fileId": "K12vjviddhu",
+      "category": "K12",
+      "displayName": "Vajravidāraṇānāmadhāraṇī",
+      "totalSegments": 69,
+      "sampleSegments": [
+        {
+          "segnr": "K12vjviddhu:0",
+          "text": "Vajravidāraṇā-Dhāraṇī"
+        },
+        {
+          "segnr": "K12vjviddhu:1",
+          "text": "āryavajravidāraṇā nāma dhāraṇī"
+        },
+        {
+          "segnr": "K12vjviddhu:2",
+          "text": "om namo bhagavatyai āryavajravidāraṇāyai /"
+        },
+        {
+          "segnr": "K12vjviddhu:3",
+          "text": "evaṃ mayā śrutamekasmin samaye bhagavān vajreṣu viharati sma /"
+        },
+        {
+          "segnr": "K12vjviddhu:4",
+          "text": "sarvaśarīraṃ vajramayamadhiṣṭhāya vajrapāṇiśca buddhānubhāvena vajrasamādhiṃ samāpannaḥ /"
+        },
+        {
+          "segnr": "K12vjviddhu:5",
+          "text": "tato vajrapāṇiḥ [sarva]buddhānubhāvena sarvabuddhādhiṣṭhānaṃ [sarvabodhisattvādhiṣṭhā]nañca mahākrodhasambhūtaṃ vajrasāramabhāṣate sma /"
+        },
+        {
+          "segnr": "K12vjviddhu:6",
+          "text": "acchedyamabhedyaṃ satyaṃ dṛḍhaṃ sthiraṃ sarvatrāpratihataṃ sarvatrāparājitaṃ sarvasattvavidrāvaṇakaraṃ"
+        },
+        {
+          "segnr": "K12vjviddhu:7",
+          "text": "sarvasattvotsādanakaraṃ sarvavidyācchedanakaraṃ sarvavidyāstambhanakaraṃ sarvakarmavidhvaṃsanakaraṃ"
+        },
+        {
+          "segnr": "K12vjviddhu:8",
+          "text": "sarvakarmavidrāvaṇakaraṃ sarvagrahotsādanakaraṃ sarvagrahavimokṣaṇakaraṃ sarvabhūtākarṣaṇakaraṃ"
+        },
+        {
+          "segnr": "K12vjviddhu:9",
+          "text": "[sarvabhūtanigrahaṇakaraṃ] sarvavidyāmantrakarmaparāyaṇakaraṃ asiddhānāṃ siddhakaraṃ"
+        },
+        {
+          "segnr": "K12vjviddhu:10",
+          "text": "siddhānāñcāvināśanakaraṃ [sarvakāmapradānakaraṃ] sarvasattvānāṃ rakṣaṇakaraṃ śāntikaṃ"
+        },
+        {
+          "segnr": "K12vjviddhu:11",
+          "text": "pauṣṭikaṃ sarvasattvānāñca stambhanakaraṃ sarvasattvānāṃ ca mohanakaram imaṃ mantraṃ"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12vjviddhu.json",
+      "dharmaMitraApiId": "SA_K12_vjviddhu"
+    },
+    {
+      "fileId": "K12manjnspu",
+      "category": "K12",
+      "displayName": "Mañjuśrīnāmasaṃgīti",
+      "totalSegments": 364,
+      "sampleSegments": [
+        {
+          "segnr": "K12manjnspu:0",
+          "text": "advayaparamārthā nāmasaṃgīti"
+        },
+        {
+          "segnr": "K12manjnspu:1",
+          "text": "oṃ namaḥ śrīmahāmañjunāthāya"
+        },
+        {
+          "segnr": "K12manjnspu:2",
+          "text": "atha vajradharaḥ śrīmān durdāntadamakaḥ paraḥ /"
+        },
+        {
+          "segnr": "K12manjnspu:3",
+          "text": "trilokavijayī vīro guhyarāṭ kuliśeśvaraḥ // Mns_1 //"
+        },
+        {
+          "segnr": "K12manjnspu:4",
+          "text": "vibuddhapuṇḍarīkākṣaḥ protphullakamalānanaḥ /"
+        },
+        {
+          "segnr": "K12manjnspu:5",
+          "text": "prollālayan vajravaraṃ svakareṇa muhurmuhuḥ // Mns_2 //"
+        },
+        {
+          "segnr": "K12manjnspu:6",
+          "text": "bhṛkuṭītaraṅgapramukhair anantair vajrapāṇibhiḥ /"
+        },
+        {
+          "segnr": "K12manjnspu:7",
+          "text": "durdāntadamakair vīrair vīrabībhatsarūpibhiḥ // Mns_3 //"
+        },
+        {
+          "segnr": "K12manjnspu:8",
+          "text": "ullālayadbhiḥ svakaraiḥ prasphuradvajrakoṭibhiḥ /"
+        },
+        {
+          "segnr": "K12manjnspu:9",
+          "text": "prajñopāyamahākaruṇā- jagadarthakaraiḥ paraḥ // Mns_4 //"
+        },
+        {
+          "segnr": "K12manjnspu:10",
+          "text": "hṛṣṭatuṣṭāśayair muditaiḥ krodhavigraharūpibhiḥ /"
+        },
+        {
+          "segnr": "K12manjnspu:11",
+          "text": "buddhakṛtyakarair nāthaiḥ sārddhaṃ praṇatavigrahaiḥ // Mns_5 //"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12manjnspu.json",
+      "dharmaMitraApiId": "SA_K12_manjnspu"
+    },
+    {
+      "fileId": "K12tarb108u",
+      "category": "K12",
+      "displayName": "Tārābhaṭṭārikānāmāṣṭottaraśatakastotra",
+      "totalSegments": 117,
+      "sampleSegments": [
+        {
+          "segnr": "K12tarb108u:0",
+          "text": "Āryatārābhaṭṭārikānāmāṣṭottaraśatakastotra"
+        },
+        {
+          "segnr": "K12tarb108u:1",
+          "text": "oṃ namaḥ śrīmadāryatārāyai"
+        },
+        {
+          "segnr": "K12tarb108u:2",
+          "text": "śrīmatpotalake ramye nānādhātuvirājite /"
+        },
+        {
+          "segnr": "K12tarb108u:3",
+          "text": "nānādrumalatākīrṇe nānāpakṣinikūjite // Tbh_1"
+        },
+        {
+          "segnr": "K12tarb108u:4",
+          "text": "nānānirjharajhaṃkāre nānāmṛgasamākule /"
+        },
+        {
+          "segnr": "K12tarb108u:5",
+          "text": "nānākusumajātībhiḥ samantād adhivāsite // Tbh_2"
+        },
+        {
+          "segnr": "K12tarb108u:6",
+          "text": "nānāhṛdayaphalopete ṣaṭpadodgītanisvane /"
+        },
+        {
+          "segnr": "K12tarb108u:7",
+          "text": "kinnarair madhurair gītair mattavāraṇasaṃkule // Tbh_3"
+        },
+        {
+          "segnr": "K12tarb108u:8",
+          "text": "siddhavidyādhāragaṇaiḥ gandharvaiś ca ninādite /"
+        },
+        {
+          "segnr": "K12tarb108u:9",
+          "text": "munibhir vītarāgaiś ca satataṃ saṃniṣevite // Tbh_4"
+        },
+        {
+          "segnr": "K12tarb108u:10",
+          "text": "bodhisatvagaṇaiś cānyaiḥ daśabhūmīśvarair api /"
+        },
+        {
+          "segnr": "K12tarb108u:11",
+          "text": "āyatārādibhir devīvidyārājñīsahasrakaiḥ // Tbh_5"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12tarb108u.json",
+      "dharmaMitraApiId": "SA_K12_tarb108u"
+    },
+    {
+      "fileId": "K12madadh_u",
+      "category": "K12",
+      "displayName": "Mahādaṇḍadhāraṇī",
+      "totalSegments": 192,
+      "sampleSegments": [
+        {
+          "segnr": "K12madadh_u:0",
+          "text": "Mahādaṇḍadhāraṇīśītavatī"
+        },
+        {
+          "segnr": "K12madadh_u:1",
+          "text": "[0] [siddham] namaḥ sarvabuddhabodhisattvebhyaḥ /"
+        },
+        {
+          "segnr": "K12madadh_u:2",
+          "text": "[1] evaṃ mayā śrutam ekasmin samaye bhagavān rājagṛhe viharati sma /"
+        },
+        {
+          "segnr": "K12madadh_u:3",
+          "text": "śītavane mahāśmaśāne iṅghikāyatanapratyuddeśe /"
+        },
+        {
+          "segnr": "K12madadh_u:4",
+          "text": "tatrāyuṣmān rāhulo 'tīva viheṭhyate devagrahair nāgagrahair yakṣagrahai rākṣasagrahaiḥ"
+        },
+        {
+          "segnr": "K12madadh_u:5",
+          "text": "kinnaragrahair garuḍagrahair mahoragagrahair manuṣyagrahair amanuṣyagrahaiḥ pretagrahair"
+        },
+        {
+          "segnr": "K12madadh_u:6",
+          "text": "bhūtagrahaiḥ piśācagrahaiḥ kumbhāṇḍagrahair dvīpibhiḥ kākair ulūkaiḥ kīṭaiḥ sarīsṛpaiṛ"
+        },
+        {
+          "segnr": "K12madadh_u:7",
+          "text": "anyaiś ca manuṣyāmanuṣyaiḥ sattvaiḥ /"
+        },
+        {
+          "segnr": "K12madadh_u:8",
+          "text": "[2] athāyuṣmān rāhulo yena bhagavāṃs tenopasaṃkrānta upasaṃkramya bhagavataḥ pādau"
+        },
+        {
+          "segnr": "K12madadh_u:9",
+          "text": "śirasābhivanditvā bhagavantaṃ tripradakṣiṇīkṛtya bhagavataḥ purato rudann aśrūṇi pravartayati sma /"
+        },
+        {
+          "segnr": "K12madadh_u:10",
+          "text": "[3] atha bhagavān jānann eva rāhulam āmantrayate sma /"
+        },
+        {
+          "segnr": "K12madadh_u:11",
+          "text": "kiṃ tvaṃ rāhula mama purataḥ sthitvā aśrūṇi pravartayasi /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/K12madadh_u.json",
+      "dharmaMitraApiId": "SA_K12_madadh_u"
+    },
+    {
+      "fileId": "T01n802u",
+      "category": "T01",
+      "displayName": "Ādibuddhadvādaśakastotram (DSBC Stotra)",
+      "totalSegments": 29,
+      "sampleSegments": [
+        {
+          "segnr": "T01n802u_001:0",
+          "text": "ādibuddhadvādaśakastotram"
+        },
+        {
+          "segnr": "T01n802u_001:1",
+          "text": "om nama ādibuddhāya"
+        },
+        {
+          "segnr": "T01n802u_001:2",
+          "text": "namaste buddharūpāya dharmarūpāya te namaḥ |"
+        },
+        {
+          "segnr": "T01n802u_001:3",
+          "text": "namaste saṃgharūpāya pañcabuddhātmane namaḥ || 1 ||"
+        },
+        {
+          "segnr": "T01n802u_001:4",
+          "text": "pṛthvīrūpāyābrūpāya tejorūpāya te namaḥ |"
+        },
+        {
+          "segnr": "T01n802u_001:5",
+          "text": "namaste vāyurūpāyākāśarūpāya te namaḥ || 2 ||"
+        },
+        {
+          "segnr": "T01n802u_001:6",
+          "text": "brahmaṇe sattvarūpāya rajorūpāya viṣṇave |"
+        },
+        {
+          "segnr": "T01n802u_001:7",
+          "text": "tamorūpamaheśāya jñānarūpāya te namaḥ || 3 ||"
+        },
+        {
+          "segnr": "T01n802u_001:8",
+          "text": "prajñopāyātmarūpāya guhyarūpāya te namaḥ |"
+        },
+        {
+          "segnr": "T01n802u_001:9",
+          "text": "digrūpalokapālāya viśvarūpāya te namaḥ || 4 ||"
+        },
+        {
+          "segnr": "T01n802u_001:10",
+          "text": "cakṣūrūpāya karṇāya ghrāṇarūpāya jihvake |"
+        },
+        {
+          "segnr": "T01n802u_001:11",
+          "text": "kāyarūpāya śrīdharmarūpāya manase namaḥ || 5 ||"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T01n802u.json",
+      "dharmaMitraApiId": "SA_T01_n802u"
+    },
+    {
+      "fileId": "T01n809u",
+      "category": "T01",
+      "displayName": "Āryatārāstutiḥ (Candradāsa)",
+      "totalSegments": 44,
+      "sampleSegments": [
+        {
+          "segnr": "T01n809u_001:0",
+          "text": "(ārya)tārāstutiḥ"
+        },
+        {
+          "segnr": "T01n809u_001:1",
+          "text": "ācārya candradāsakṛtā"
+        },
+        {
+          "segnr": "T01n809u_001:2",
+          "text": "namastārāyai"
+        },
+        {
+          "segnr": "T01n809u_001:3",
+          "text": "sukhadacakracārucūḍāmaṇiruciramarīcisaṃcaya-"
+        },
+        {
+          "segnr": "T01n809u_001:4",
+          "text": "pracuraśikhāpracāraparicumbitacarcitacaraṇacandrake |"
+        },
+        {
+          "segnr": "T01n809u_001:5",
+          "text": "jagati carācare'pi sācīkṛtacakitakṛpālulocane"
+        },
+        {
+          "segnr": "T01n809u_001:6",
+          "text": "stutivacanopacāramucitācaratiṃ racayāmi devi te || 1 ||"
+        },
+        {
+          "segnr": "T01n809u_001:7",
+          "text": "nakharakaṭhorakoṭikuṭṭitakarikaṭataṭapāṭanotkaṭāḥ"
+        },
+        {
+          "segnr": "T01n809u_001:8",
+          "text": "pravikaṭarudhirapaṭalapaṭapālitā aṭavīviluṇṭhakāḥ |"
+        },
+        {
+          "segnr": "T01n809u_001:9",
+          "text": "vikaṭasaṭāṭṭahāsaghaṭitāvaṭataṭaghaṭānodbhaṭāstvajjuṣi"
+        },
+        {
+          "segnr": "T01n809u_001:10",
+          "text": "jhaṭiti yānti saṭinaḥ kuṇṭhādapi kuṇṭhaśaktitām || 2 ||"
+        },
+        {
+          "segnr": "T01n809u_001:11",
+          "text": "malinamahākapolatalavigalitamadajalamalanavihvalāḥ"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T01n809u.json",
+      "dharmaMitraApiId": "SA_T01_n809u"
+    },
+    {
+      "fileId": "T01tarasdhu",
+      "category": "T01",
+      "displayName": "Āryatārāsragdharāstotra / Tārāsādhana",
+      "totalSegments": 150,
+      "sampleSegments": [
+        {
+          "segnr": "T01tarasdhu:0",
+          "text": "Āryatārāsragdharāstotra"
+        },
+        {
+          "segnr": "T01tarasdhu:1",
+          "text": "oṃ namo bhagavatyai āryatārāyai."
+        },
+        {
+          "segnr": "T01tarasdhu:2",
+          "text": "bālārkālokatāmrapravarasuraśiraścārucūḍāmaṇiśrī-"
+        },
+        {
+          "segnr": "T01tarasdhu:3",
+          "text": "saṃpatsaṃparkarāganāticiraracitālaktakavyaktabhaktī /"
+        },
+        {
+          "segnr": "T01tarasdhu:4",
+          "text": "bhaktyā pādau tavārye karapuṭamukuṭātopabhugnottamāṅgas"
+        },
+        {
+          "segnr": "T01tarasdhu:5",
+          "text": "tāriṇy āpaccharaṇyair navanutikusumasragbhir abhyarcayāmi // Tss_1"
+        },
+        {
+          "segnr": "T01tarasdhu:6",
+          "text": "durlaṅghe duḥkhavahnau vinipatitatanur durbhagaḥ kāṃdiśīkaḥ"
+        },
+        {
+          "segnr": "T01tarasdhu:7",
+          "text": "kiṃ kiṃ mūḍhaḥ karomīty asakṛd api kṛtārambhavaiyarthyakhinnaḥ /"
+        },
+        {
+          "segnr": "T01tarasdhu:8",
+          "text": "śrutvā bhūyaḥ parebhyaḥ kṣatanayana iva vyomni candrārkalakṣmīm"
+        },
+        {
+          "segnr": "T01tarasdhu:9",
+          "text": "ālokāśānibaddhaḥ paragatigamanas tvāṃ śraye pāpahantrīṃ // Tss_2"
+        },
+        {
+          "segnr": "T01tarasdhu:10",
+          "text": "sarvasmin satvamārge nanu tava karuṇā nirviśeṣaṃ pravṛttā"
+        },
+        {
+          "segnr": "T01tarasdhu:11",
+          "text": "tanmadhye tadgraheṇa grahaṇam upagataṃ mādṛśasyāpy avaśyam /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T01tarasdhu.json",
+      "dharmaMitraApiId": "SA_T01_tarasdhu"
+    },
+    {
+      "fileId": "T02dipguhsu",
+      "category": "T02",
+      "displayName": "Guhyasamājamaṇḍalavidhi (Dīpaṃkarabhadra)",
+      "totalSegments": 897,
+      "sampleSegments": [
+        {
+          "segnr": "T02dipguhsu:0",
+          "text": "Dīpaṃkarabhadra's Guhyasamājamaṇḍalavidhi"
+        },
+        {
+          "segnr": "T02dipguhsu:1",
+          "text": "namo vajrasattvāya //"
+        },
+        {
+          "segnr": "T02dipguhsu:2",
+          "text": "jñeyādyāvṛtinirmuktaṃ jñānādarśādisaṃyutam /"
+        },
+        {
+          "segnr": "T02dipguhsu:3",
+          "text": "mañjuśrīguhyasaccakraṃ natvā tad vacmī matsmṛtau // 1"
+        },
+        {
+          "segnr": "T02dipguhsu:4",
+          "text": "śrīmatsamājasannītyā cakrāmnātakramād ataḥ /"
+        },
+        {
+          "segnr": "T02dipguhsu:5",
+          "text": "udakādyam anujñāntaṃ yo 'bhiṣikto guros tataḥ // 2"
+        },
+        {
+          "segnr": "T02dipguhsu:6",
+          "text": "tattvāptau guhyacakre 'smin guhyaprajñābhiṣekataḥ /"
+        },
+        {
+          "segnr": "T02dipguhsu:7",
+          "text": "guhyajño yogatattvajñas triyānasandhitattvavit // 3"
+        },
+        {
+          "segnr": "T02dipguhsu:8",
+          "text": "vidyāhṛnmantramudrāṇāṃ samādhitritayasya ca /"
+        },
+        {
+          "segnr": "T02dipguhsu:9",
+          "text": "sāmānyetarasiddhīnāṃ tantranītyā vibhāgavit // 4"
+        },
+        {
+          "segnr": "T02dipguhsu:10",
+          "text": "samayasaṃvarastho vā prajñāyogasutatparaḥ /"
+        },
+        {
+          "segnr": "T02dipguhsu:11",
+          "text": "mantratantraprayogajño bhavyaḥ sattvārthasādhane // 5"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T02dipguhsu.json",
+      "dharmaMitraApiId": "SA_T02_dipguhsu"
+    },
+    {
+      "fileId": "T02psarkdhu",
+      "category": "T02",
+      "displayName": "Pañcarakṣādhāraṇī",
+      "totalSegments": 48,
+      "sampleSegments": [
+        {
+          "segnr": "T02psarkdhu:0",
+          "text": "atha vidyādharakalpaṃ pravakṣye sattvānukampayā /"
+        },
+        {
+          "segnr": "T02psarkdhu:1",
+          "text": "namo buddhāya namo dharmāya namaḥ saṃghāya /"
+        },
+        {
+          "segnr": "T02psarkdhu:2",
+          "text": "namo bhagavate śākyamunaye mahākāruṇikāya tathāgatāyārhate samyaksaṃbuddhāya /"
+        },
+        {
+          "segnr": "T02psarkdhu:3",
+          "text": "namaḥ samantebhyaḥ samyaksaṃbuddhebhyaḥ /"
+        },
+        {
+          "segnr": "T02psarkdhu:4",
+          "text": "oṃ giri giri giriṇi giriṇi girivati guṇavati ākāśavati ākāśaviśuddhe sarvapāpavigate"
+        },
+        {
+          "segnr": "T02psarkdhu:5",
+          "text": "ākāśe gaganatale ākāśavicāriṇi maṇidhari vajriṇi jvalitaśikhare maṇimuktākhacitamaulidhare"
+        },
+        {
+          "segnr": "T02psarkdhu:6",
+          "text": "sukeśe suveṣe suvaktre sunetre suvarṇagaure atīte anutpanne anāgate pratyutpanne"
+        },
+        {
+          "segnr": "T02psarkdhu:7",
+          "text": "namaḥ sarvabuddhānāṃ jvalitaujasāṃ buddhe subuddhe bhagavati surakṣaṇi akṣaya sukṣaya"
+        },
+        {
+          "segnr": "T02psarkdhu:8",
+          "text": "sūkṣme suprabhe sudame sudānte suvrate varade pravare bhagavati bhadravati subhadravati"
+        },
+        {
+          "segnr": "T02psarkdhu:9",
+          "text": "bhadre subhadre vimale jayabhadre caṇḍi pracaṇḍi caṇḍe vajracaṇḍe mahācaṇḍe gauri"
+        },
+        {
+          "segnr": "T02psarkdhu:10",
+          "text": "gandhāri caṇḍāli mātaṅgi vaccasi sumati pukkasi sumukhi śabari śāvari śaṃkari dramaṇḍi"
+        },
+        {
+          "segnr": "T02psarkdhu:11",
+          "text": "drāmaṇḍi raudriṇi sarvārthasādhani paramārthasādhani hana hana sarvaśatrūn daha daha"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T02psarkdhu.json",
+      "dharmaMitraApiId": "SA_T02_psarkdhu"
+    },
+    {
+      "fileId": "T02msitvatu",
+      "category": "T02",
+      "displayName": "Mahāśītavatīvidyārājñī",
+      "totalSegments": 161,
+      "sampleSegments": [
+        {
+          "segnr": "T02msitvatu:0",
+          "text": "Mahāśītavatī"
+        },
+        {
+          "segnr": "T02msitvatu:1",
+          "text": "namo bhagavatyai āryamahāśītavatyai /"
+        },
+        {
+          "segnr": "T02msitvatu:2",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān rājagṛhe viharati sma /"
+        },
+        {
+          "segnr": "T02msitvatu:3",
+          "text": "śītavane mahāśmaśāne iṅghikāyatanapratyuddeśe tatrāyuṣmān rāhulo 'tīva viheṭhyate /"
+        },
+        {
+          "segnr": "T02msitvatu:4",
+          "text": "devagrahair nāgagrahair yakṣagrahai rākṣagrahair marutagrahair asuragrahair kinnaragrahair"
+        },
+        {
+          "segnr": "T02msitvatu:5",
+          "text": "garuḍagrahair gandharvagrahair mahoragagrahair manuṣyagrahair amanuṣyagrahair pretagrahair"
+        },
+        {
+          "segnr": "T02msitvatu:6",
+          "text": "bhūtagrahair piśācagrahair kumbhāṇḍagrahair dvīpibhiḥ kākair ulūkaiḥ kīṭaiḥ sarīsṛpair"
+        },
+        {
+          "segnr": "T02msitvatu:7",
+          "text": "anyaiś ca manuṣyāmanuṣyaiḥ satvaiḥ /"
+        },
+        {
+          "segnr": "T02msitvatu:8",
+          "text": "athāyuṣmān rāhulo yena bhagavāṃs tenopasaṃkrānta upasaṃkramya bhagavataḥ pādau śirasā vanditvā bhagavantaṃ tripradakṣiṇīkṛtya bhagavataḥ purato rudann aśrūṇi pravartayati sma /"
+        },
+        {
+          "segnr": "T02msitvatu:9",
+          "text": "atha bhagavān jānann eva rāhulam āmantrayate sma /"
+        },
+        {
+          "segnr": "T02msitvatu:10",
+          "text": "kiṃ tvaṃ rāhula mama prataḥ sthitvā aśrūṇi pravartayasi /"
+        },
+        {
+          "segnr": "T02msitvatu:11",
+          "text": "evam ukte āyuṣmān rāhulo bhagavantam etad avocat /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T02msitvatu.json",
+      "dharmaMitraApiId": "SA_T02_msitvatu"
+    },
+    {
+      "fileId": "T02vadhdhdu",
+      "category": "T02",
+      "displayName": "Āryavasudhārādhāraṇī",
+      "totalSegments": 588,
+      "sampleSegments": [
+        {
+          "segnr": "T02vadhdhdu:0",
+          "text": "Vasudhārādhāraṇīsūtra"
+        },
+        {
+          "segnr": "T02vadhdhdu:1",
+          "text": "āryavasudhārādhāraṇīsūtra"
+        },
+        {
+          "segnr": "T02vadhdhdu:2",
+          "text": "oṃ namo bhagavatyai āryaśrīvasudhārāyai /"
+        },
+        {
+          "segnr": "T02vadhdhdu:3",
+          "text": "evaṃ mayā śrutam ekasmin samaye bhagavān kośāmbyāṃ mahānagaryāṃ viharati sma /"
+        },
+        {
+          "segnr": "T02vadhdhdu:4",
+          "text": "kaṇṭakasaṃjñake mahāvanavare ghoṣitārāme mahatā bhikṣusaṃghena sārdhaṃ pañcamātrair"
+        },
+        {
+          "segnr": "T02vadhdhdu:5",
+          "text": "bhikṣuśataiḥ saṃbahulaiś ca śrāvakair asaṃkhyayaiś ca bodhisattvaiḥ sarvabuddhaguṇasamanvāgataiḥ /"
+        },
+        {
+          "segnr": "T02vadhdhdu:6",
+          "text": "tatra khalu bhagavāṃs tasyām eva parṣadi tair eva parivṛtaḥ puraskṛtaḥ sarvadāridryavyādhiduḥkhārṇavapariśoṣaṇaṃ nāma dharmaparyāyaṃ deśayati sma /"
+        },
+        {
+          "segnr": "T02vadhdhdu:7",
+          "text": "ādau kalyāṇaṃ madhye kalyāṇaṃ paryavasāne kalyāṇaṃ svarthaṃ suvyañjanaṃ kevalaṃ paripūrṇaṃ pariśuddhaṃ paryavadātaṃ brahmacaryaṃ saṃprakāśayati sma /"
+        },
+        {
+          "segnr": "T02vadhdhdu:8",
+          "text": "tena khalu punaḥ samayena kauśāmbyāṃ mahānagaryāṃ sucandro nāma gṛhapatiḥ prativasati sma /"
+        },
+        {
+          "segnr": "T02vadhdhdu:9",
+          "text": "upaśāntendriyopaśāntamānaso bahuputro bahuduhitaro bahubhṛtyajanasaṃpannaḥ śrāddho mahāśrāddhaḥ /"
+        },
+        {
+          "segnr": "T02vadhdhdu:10",
+          "text": "tena khalu punaḥ samayena yena bhagavāṃs tenopasaṃkrānta upasaṃkramya bhagavataḥ pādau śirasā vanditvā bhagavantam anekaśatasahasraṃ pradakṣiṇīkṛtya ekānte nyaṣīdat /"
+        },
+        {
+          "segnr": "T02vadhdhdu:11",
+          "text": "ekānte niṣaṇṇaḥ sucandro nāma gṛhapatir bhagavantam etad avocat /"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T02vadhdhdu.json",
+      "dharmaMitraApiId": "SA_T02_vadhdhdu"
+    },
+    {
+      "fileId": "T02mrtvts_u",
+      "category": "T02",
+      "displayName": "Mṛtyuvañcanopadeśa (Vāgīśvarakīrti)",
+      "totalSegments": 16,
+      "sampleSegments": [
+        {
+          "segnr": "T02mrtvts_u:0",
+          "text": "Mṛtyuvañcanatārāsādhana"
+        },
+        {
+          "segnr": "T02mrtvts_u:1",
+          "text": "// namaḥ sitatārāyai //"
+        },
+        {
+          "segnr": "T02mrtvts_u:2",
+          "text": "pūrvavac chūnyatāparyantaṃ vibhāvya"
+        },
+        {
+          "segnr": "T02mrtvts_u:3",
+          "text": "sitāravindamadhyasthāṃ tāṃbhūtāṃ candraviṣṭarām /"
+        },
+        {
+          "segnr": "T02mrtvts_u:4",
+          "text": "ābaddhavajraparyaṅkāṃ varadotpaladhāriṇīm // Mvts_1 //"
+        },
+        {
+          "segnr": "T02mrtvts_u:5",
+          "text": "śaraccandrakarākārāṃ pṛṣṭhacandrasamāśritām /"
+        },
+        {
+          "segnr": "T02mrtvts_u:6",
+          "text": "sarvālaṅkārasaṃpūrṇāṃ ṣoḍaśābdavapuḥkramām // Mvts_2 //"
+        },
+        {
+          "segnr": "T02mrtvts_u:7",
+          "text": "dhyātvāryatārāṃ hṛdaye tasyāś cakraṃ sitadyuti /"
+        },
+        {
+          "segnr": "T02mrtvts_u:8",
+          "text": "aṣṭakoṣṭhakam aṣṭābhir akṣaraiḥ paripūritam // Mvts_3 //"
+        },
+        {
+          "segnr": "T02mrtvts_u:9",
+          "text": "oṃhāvyañjanamadhyasthasādhyanāmādyanābhikam /"
+        },
+        {
+          "segnr": "T02mrtvts_u:10",
+          "text": "dhyāyād ekāgracittaḥ san ṣaṇ māsān dṛḍhaniścayaḥ // Mvts_4 //"
+        },
+        {
+          "segnr": "T02mrtvts_u:11",
+          "text": "japed akhinnacittaḥ san mantram enaṃ daśākṣaram //"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T02mrtvts_u.json",
+      "dharmaMitraApiId": "SA_T02_mrtvts_u"
+    },
+    {
+      "fileId": "T02abhnispu",
+      "category": "T02",
+      "displayName": "Niṣpannayogāvalī (Abhayākaragupta)",
+      "totalSegments": 111,
+      "sampleSegments": [
+        {
+          "segnr": "T02abhnispu:0",
+          "text": "(Am 223)"
+        },
+        {
+          "segnr": "T02abhnispu:1",
+          "text": "Oṃ namaḥ śrīvajrasattvāya //"
+        },
+        {
+          "segnr": "T02abhnispu:2",
+          "text": "jyotibhir vijitaṃ yad asya jagatīṃ jiṣṇv antaratvatamo (?)"
+        },
+        {
+          "segnr": "T02abhnispu:3",
+          "text": "yac cādvaitadaśārṇasaty api parīṇāmo guṇaughaḥ śriyām /"
+        },
+        {
+          "segnr": "T02abhnispu:4",
+          "text": "(Am 224)"
+        },
+        {
+          "segnr": "T02abhnispu:5",
+          "text": "yat kāruṇyatarāmṛtārdrahṛdayair uhyanti taṃ vajriṇas"
+        },
+        {
+          "segnr": "T02abhnispu:6",
+          "text": "tair etac caritādbhutāni nijadhīdhāmāni dhāvantu vaḥ //"
+        },
+        {
+          "segnr": "T02abhnispu:7",
+          "text": "vajrāvalīmaṇḍitamaṇḍaleṣu drāg vajrabhṛc cārucaritram uccaiḥ /"
+        },
+        {
+          "segnr": "T02abhnispu:8",
+          "text": "tadañcitais tadvacanirmitaughair amogham agryāṃ śriyam ādadhātu //"
+        },
+        {
+          "segnr": "T02abhnispu:9",
+          "text": "iha hi mṛdumadhyakramābhyāṃ subhāvitasamādher adhimātraprajñasya bhagavatā /"
+        },
+        {
+          "segnr": "T02abhnispu:10",
+          "text": "sarvākāravaropetaḥ sphurat saṃhārakārakaḥ /"
+        },
+        {
+          "segnr": "T02abhnispu:11",
+          "text": "jhatiti jñānaniṣpanno yogo niṣpanna ucyate //"
+        }
+      ],
+      "rawJsonUrl": "https://raw.githubusercontent.com/BuddhaNexus/segmented-sanskrit/master/segmented_files/T02abhnispu.json",
+      "dharmaMitraApiId": "SA_T02_abhnispu"
+    },
+    {
+      "fileId": "SA_K12_Āgama_Surūpādhāraṇī",
+      "category": "K12",
+      "displayName": "Surūpādhāraṇī (Hidas & Szántó 84000 Critical Edition | Tibetan: D 540=1078)",
+      "sourceCitation": "Source: Hidas & Szántó 84000 | Tibetan: D 540=1078 (POST /api-db/text-view/text-parallels/ par_length=1000)",
+      "totalSegments": 4,
+      "sampleSegments": [
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:0",
+          "text": "Surūpādhāraṇī"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:1",
+          "text": "Source: Hidas & Szántó 84000"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:2",
+          "text": "Tibetan: D 540=1078"
+        },
+        {
+          "segnr": "SA_K12_Āgama_Surūpādhāraṇī:3",
+          "text": "namaḥ surūpāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā | oṃ suru suru prasuru prasuru tara tara bhara bhara saṃbhara saṃbhara smara smara saṃtarpaya saṃtarpaya sarvapretānāṃ svāhā | anayā dhāraṇyodakasahitaṃ bhaktaṃ sapta vārān parijapya vāmahastenācchaṭātrayaṃ dattvā sarvapretebhyo vivikte pradeśe dātavyam | evaṃ ca bhāṣitavyam | apasarantv avatāraprekṣiṇo dadāmy ahaṃ sarvalokadhātuvāsināṃ pretānām āhāram iti | abhuktenaiva kartavyam | evaṃ sarvapretānāṃ taṇḍuladroṇabhaktaṃ pratyekaṃ dattaṃ bhavati | evaṃ kurvan na durbalo bhavati na daridro bhavaty api tu jātau jātau mahābalaḥ prāsādiko darśanīya āḍhyo mahābhogo bhavati dīrghāyur arogī kṣipraṃ cānuttarāṃ samyaksaṃbodhim abhisaṃbhotsyate | cyutaś ca sukhāvatyāṃ lokadhātāv upapadyate || iti surūpā nāma dhāraṇī ||"
+        }
+      ],
+      "dharmaMitraApiId": "SA_K12_Āgama_Surūpādhāraṇī"
+    },
+    {
+      "fileId": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984",
+      "category": "T02",
+      "displayName": "Candrakīrti: Pradīpoddyotana (Guhyasamājatantrapradīpoddyotanaṭīkā Ṣaṭkoṭivyākhyā, ed. Chakravarti 1984)",
+      "sourceCitation": "Chintaharan Chakravarti 1984 (Mithila Institute) via DharmaMitra REST API (par_length=1000, score=100)",
+      "totalSegments": 6412,
+      "sampleSegments": [
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:0",
+          "text": "vrīvaslā dvivedī guhyasamājatantrapradīpodyotanaṭīkā ṣaṭkoṭivyākhyā oṃ namaḥ śrīvajrasattvāya ||"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:1",
+          "text": "prathamaḥ paṭalaḥ ||"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:2",
+          "text": "śrīmattantrādhirājaṃ vivṛtapaṭutarairyogatantraiśca neyaṃ buddhaṃ ṣaṭkoṭivandhaijinasutaviṣayaṃ yatsamājaṃ jinānām |"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:3",
+          "text": "tat śrīnāgārjunāptaṃ kramayuganilayaṃ mudritaṃ sarvabuddhai- rnatvā śrīvajrasattvaṃ prakaṭayati vibhuṃ candrakīrtiḥ krameṇa ||"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:4",
+          "text": "utpattikramamādau syānmantramūrtiprasādhakaḥ |"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:5",
+          "text": "cittanidhyaptimātraṃ tu dvitīyaḥ krama ucyate ||"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:6",
+          "text": "tṛtīyaśca kramo ramyaḥ saṃvṛteḥ satyadarśanam |"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:7",
+          "text": "satyasya saṃvṛteḥ śuddhiścaturthakrama ucyate ||"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:8",
+          "text": "pañcamo yuganaddhākhyo yat satyadvayayojanam |"
+        },
+        {
+          "segnr": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984:9",
+          "text": "`sādhanāṅgamidaṃ ṣaṣṭhaṃ sarvatantrārthasaṃgraham ||"
+        }
+      ],
+      "dharmaMitraApiId": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984"
+    }
+  ],
+  "dharmaMitraCatalogSample": [
+    {
+      "filename": "SA_K12_n2949u",
+      "category": "K12",
+      "displayName": "Dhāraṇīsaṃgraha",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K12_bsu004_u",
+      "category": "K12",
+      "displayName": "Sarvatathāgatoṣṇīṣasitātapatrānāmāparājitāpratyaṅgirāmahāvidyārājñī",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K12_Āgama_Surūpādhāraṇī",
+      "category": "K12",
+      "displayName": "Surūpādhāraṇī",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_T02_Candrakīrti_Pradīpoddyotana-Guhyasamājatantra_Chakravarti_1984",
+      "category": "T02",
+      "displayName": "Candrakīrti: Guhyasamājatantrapradīpoddyotana",
+      "collection": "Buddhist_Non-Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinsutru",
+      "category": "K01",
+      "displayName": "Guṇaprabha: Vinayasūtra",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_bsu058_u",
+      "category": "K01",
+      "displayName": "Guṇaprabha: Vinayasūtra with Vinayasūtravṛtti (chapter 1: Pravrajyāvastu)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_abhisdhu",
+      "category": "K01",
+      "displayName": "Abhisamācārikadharma",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv16_u",
+      "category": "K01",
+      "displayName": "Adhikaraṇavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv06_u",
+      "category": "K01",
+      "displayName": "Bhaiṣajyavastu (with lacunae)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_bsa068_u",
+      "category": "K01",
+      "displayName": "Bhikṣukarmavākya",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_bhikavau",
+      "category": "K01",
+      "displayName": "Bhikṣuṇīkarmavācanā (incomplete)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_bhivin_u",
+      "category": "K01",
+      "displayName": "Bhikṣuṇīvinaya",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n742u",
+      "category": "K01",
+      "displayName": "Bhikṣuṇīvinaya",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_bsu011_u",
+      "category": "K01",
+      "displayName": "Bodhisattvaprātimokṣasūtra (part 1: ritual for taking the bodhisattva vows)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv05_u",
+      "category": "K01",
+      "displayName": "Carmavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv07_u",
+      "category": "K01",
+      "displayName": "Cīvaravastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv10_u",
+      "category": "K01",
+      "displayName": "Karmavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv08_u",
+      "category": "K01",
+      "displayName": "Kaṭhinavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv09_u",
+      "category": "K01",
+      "displayName": "Kośāmbakavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2904u",
+      "category": "K01",
+      "displayName": "Lokeśvarapārājikā",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_bsu046_u",
+      "category": "K01",
+      "displayName": "Mahāsāṃghikaprātimokṣasūtra",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2900u",
+      "category": "K01",
+      "displayName": "Mañjuśrīpārājikā",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv11_u",
+      "category": "K01",
+      "displayName": "Pāṇḍulohitakavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv13_u",
+      "category": "K01",
+      "displayName": "Pārivāsikavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv14_u",
+      "category": "K01",
+      "displayName": "Poṣadhasthāpanavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv02_u",
+      "category": "K01",
+      "displayName": "Poṣadhavastu (incomplete)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_prmosu_u",
+      "category": "K01",
+      "displayName": "Prātimokṣasūtra",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_prmosubu",
+      "category": "K01",
+      "displayName": "Prātimokṣasūtra",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_prmosulu",
+      "category": "K01",
+      "displayName": "Prātimokṣasūtra",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_prmosufu",
+      "category": "K01",
+      "displayName": "Prātimokṣasūtra (fragments)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv03_u",
+      "category": "K01",
+      "displayName": "Pravāraṇāvastu (incomplete)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv01_u",
+      "category": "K01",
+      "displayName": "Pravrajyāvastu (fragments)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv12_u",
+      "category": "K01",
+      "displayName": "Pudgalavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2894u",
+      "category": "K01",
+      "displayName": "Saddharmapārājikā",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv171u",
+      "category": "K01",
+      "displayName": "Saṅghabhedavastu (part 1)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv172u",
+      "category": "K01",
+      "displayName": "Saṅghabhedavastu (part 2)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2853u",
+      "category": "K01",
+      "displayName": "Śayanāsanavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv15_u",
+      "category": "K01",
+      "displayName": "Śayanāsanavastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2896u",
+      "category": "K01",
+      "displayName": "Śrīlokeśvarabhāṣitaparājikā (incomplete)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2954u",
+      "category": "K01",
+      "displayName": "Upasampadājñapti",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_upsmpjnu",
+      "category": "K01",
+      "displayName": "Upasaṃpadājñapti",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_n2892u",
+      "category": "K01",
+      "displayName": "Vajrasattvapārājikā",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K01_vinv04_u",
+      "category": "K01",
+      "displayName": "Varṣāvastu",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K02_bsu057_u",
+      "category": "K02",
+      "displayName": "Advayaśatikā Prajñāpāramitāsūtra",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K02_ilx_gr_zatasAhasrikAprajJApAramitA_1",
+      "category": "K02",
+      "displayName": "Śatasāhasrikā Prajñāpāramitā (chapters 1–12)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K02_sspp2_1u",
+      "category": "K02",
+      "displayName": "Śatasāhasrikā Prajñāpāramitā (chapter 12)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K02_sspp2_2u",
+      "category": "K02",
+      "displayName": "Śatasāhasrikā Prajñāpāramitā (chapters 13–14)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K02_sspp2_3u",
+      "category": "K02",
+      "displayName": "Śatasāhasrikā Prajñāpāramitā (chapters 15–16)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K02_sspp2_4u",
+      "category": "K02",
+      "displayName": "Śatasāhasrikā Prajñāpāramitā (chapters 17–23)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_psp_1u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (abhisamaya 1: Sarvākārajñatādhikāra)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_pspdut2u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (chapter 1)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_psp_2-3u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (chapters 2–3)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_psp_4u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (abhisamaya 4: Sarvākārābhisaṃbodha)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_psp_5u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (Abhisamaya 5: Mūrdhābhisamaya)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_psp_6-8u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (abhisamayas 6–8)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K03_pvspl_u",
+      "category": "K03",
+      "displayName": "Pañcaviṃśatisāhasrikā Prajñāpāramitā (fragment)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K05_adsp55-u",
+      "category": "K05",
+      "displayName": "Aṣṭādaśasāhasrikā Prajñāpāramitā (chapters 55–70)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K05_adsp70-u",
+      "category": "K05",
+      "displayName": "Aṣṭādaśasāhasrikā Prajñāpāramitā (chapters 70–82)",
+      "collection": "Buddhist_Scriptures"
+    },
+    {
+      "filename": "SA_K05_bsu049_u",
+      "category": "K05",
+      "displayName": "Aṣṭasāhasrikā Prajñāpāramitā",
+      "collection": "Buddhist_Scriptures"
+    }
+  ]
+}

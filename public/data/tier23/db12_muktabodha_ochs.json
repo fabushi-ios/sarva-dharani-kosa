@@ -1,0 +1,1922 @@
+{
+  "summary": {
+    "id": "db12_muktabodha_ochs",
+    "number": 12,
+    "priorityTier": 3,
+    "nameZh": "慕克塔博达数字图书馆 (Muktabodha)、ERC DHARMA 校勘本与牛津印度写本库 (OCHS)",
+    "nameEn": "Muktabodha Digital Library, ERC DHARMA Critical Editions & Oxford OCHS Bīja/Mantra Lexicons",
+    "institution": "Muktabodha Indological Research Institute, ERC DHARMA & Oxford Centre for Hindu Studies (OCHS)",
+    "primarySourceUrls": [
+      "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/catalog.csv",
+      "https://raw.githubusercontent.com/tokushige-koyasan/dharma-editions-corpus/main/texts/stts_crited.txt",
+      "https://ochs-database.netlify.app/manuscripts/ochs_000_000_030_bijanighantu/",
+      "https://ochs-database.netlify.app/manuscripts/ochs_000_000_046_ekaksarakosa/"
+    ],
+    "totalRecordsCount": 505,
+    "mantraOrDharaniCount": 2052,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Siddham",
+      "SLP1",
+      "Chinese",
+      "English"
+    ],
+    "highlights": [
+      "499 Tantric IAST e-texts in tokushige-koyasan/muktabodha-corpus including Dakṣiṇāmūrti's Uddhārakośa (M00247), Āśāditya's Mantrakoṣa (M00292), Mantracandrikā (M00635), Mantrakaumudī (M00229), Mātṛkārṇanighaṇṭu (M00626), and Buddhist Advayavajrasaṃgraha (M00018 / M00510)",
+      "ERC DHARMA critical editions of Sarvatathāgatatattvasaṅgraha (stts_crited.txt, T0865 / D479, 378,754 chars) and Ānandagarbha's Sarvavajrodayā Maṇḍalopāyikā (svu_crited.txt, 76,857 chars)",
+      "Oxford OCHS verse-by-verse JSON lexicons of Bījanighaṇṭu (#30: vyomāsya + vidārī + nādabindu = hūṃ, pitṛbhūvāsinī = krīṃ, vāgbhava = aiṃ), Ekākṣarakośa (#46), Mantrakoṣa (#259), and Mātṛkārṇanighaṇṭu (#262)"
+    ]
+  },
+  "corpusStats": {
+    "muktabodhaTotalTexts": 499,
+    "ochsTotalManuscripts": 1603,
+    "ochsFullTextJsonCount": 494,
+    "dharmaEditionsCount": 4
+  },
+  "muktabodhaTexts": [
+    {
+      "catalogNo": "M00247",
+      "uniformTitle": "Uddhārakośa",
+      "mainTitle": "Dakṣiṇāmūrti's Uddhārakośa (Kośa of Tantric Seed-Syllable Code-Names)",
+      "author": "Dakṣiṇāmūrti (ed. Raghu Vira & Shodo Taki)",
+      "tradition": "Tantric-Bīja-Lexicon",
+      "charCount": 69705,
+      "textExcerptIast": "śrī-dakṣiṇāmūrti-viracita\nuddhārakośaḥ\nācārya-raghuvīreṇa tadantevāsinā takivaṃśodbhavena śodavena ca pariṣkṛtaḥ\nOriginal edition first published in 1938\nuddhārakośasya\nviṣayāḥ\nprathamaḥ kalpaḥ \t\t\t\t\tprakāśam\nślokāḥ\nbhūmikā \t\t\t\t1-19\t\t7 śārikā-mantaḥ\t\t53\n1 tripurā-mantraḥ \t\t\t20-23\t\t(18) sindhura-bījāni\t\t54\n(1) lakṣmī-bījāni \t\t24-25\t\t(19) ākāśa-bījāni \t55\n(2) hrīṃ-bījāni \t\t26\t\t(20) kalyāṇa-bījāni \t56\n(3) madana-bījāni \t\t27\tprakāśam\n(4) vāgbhava-bījāni \t28\t\t8 rājñī-mantraḥ\t\t57-58\n(5) śakti-bījāni \t\t29\t\t(21) agni-bījāni \t\t59",
+      "extractedSeedDefinitions": [
+        "(4) vāgbhava-bījāni \t28\t\t8 rājñī-mantraḥ\t\t57-58",
+        "(6) oṃkāra-bījāni \t\t30\tprakāśam",
+        "(11) kūrca-bījāni \t\t43\t\t        tārā-bījāni \t\t8",
+        "vārāhī-dhyānam \t\t\t50-51\t\tbīja-nāmāni \t\t89-90",
+        "lakṣmīḥ parā madana-vāgbhavaśaktiyuktā |",
+        "parā bhūtim tathā lajjā māyāpi sakalā kṛśā |",
+        "samastāpi tathā kṣāmā devī praṇava-vīrakau |",
+        "vāraṇārṇaṃ sudhābījaṃ kṛtrimāṇyaparāṇi ca || 26 ||"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/uddhArakoza-M00247-IAST.txt"
+    },
+    {
+      "catalogNo": "M00292",
+      "uniformTitle": "Mantrakoṣa",
+      "mainTitle": "Mantrakoṣa of Āśāditya Tripāṭhi",
+      "author": "Āśāditya Tripāṭhi",
+      "tradition": "Tantric-Bīja-Lexicon",
+      "charCount": 325017,
+      "textExcerptIast": "śrīgaṇeśāya namaḥ ||\npraṇamya sūryaṃ vighneśaṃ śivaṃ durgāṃ hariṃ kramāt |\nprakaṭīkṛtya sanmaṃtrān vakṣye sāṃgānsugopitān ||\nāgameṣu mayā jñātāḥ prayogāgurvanugrahāt |\npūjā mātraṃ tathāppatralikhyategraṃtha gauravāt ||\nviṃśatsaṃkhyā paricchede maṃtrakoṣena dūṣitāḥ |\nye maṃtrāstetralikhyaṃte pūjādi phalapūrvakāḥ ||\nprathame tu paricchede pūjāphala manukramāt |\nliṃgapūjā viśeṣaśca devādhāra vivecanaṃ ||\nśalagrāmaphalaṃ caiva tatparīkṣādikaṃ tathā |\ndvitīyetvarcanadravyaṃ paribhāṣā vidhikramaḥ ||\nvastrādi rūpakathanasadhikārinirūpaṇaṃ |\npātralakṣaṇaṃ marghyaṃ ca snānapātrādikaṃ tathā ||\npūjādravyavihīne ca pūjane'niṣṭabhāgitā |\nviśeṣapātradānena viśeṣaphalabhāgitā ||",
+      "extractedSeedDefinitions": [
+        "caṃdanā gurukarpūradhūpitaṃ astreṇa prakṣālitāṃtaraṃ praṇavaṃ japan kalaśaṃ",
+        "sthūlaṃ niḥpādya sūkṣmaśarīraṃ kuryāt | praṇavaṃ trayamuccārya ātmanaḥ",
+        "rajase 2 saṃ satvāya 3 māṃ māyāyai 4 viṃ vidyāyai 5 āṃ ātmane 6 paṃ",
+        "vyāpinyai 49 kṣaṃ saṃvartakeśāya māyāyai 50 namaḥ iti pūrvoktasthāneṣu",
+        "hrāṃ hrīṃ ityādi śāradāyāṃ ṣaḍaṃgaṃ || aiṃdrāṃ drāvaṇavāṇāya namaḥ 1",
+        "aiṃdrīṃ mohanavāṇāya namaḥ 2 aiṃ klīṃ saṃdīpanavāṇāya namaḥ 3 aiṃ klūṃ",
+        "māyāyai 4 viṃ vidyāyai 5 vahnimaṃḍalāya 6 sūryamaṃḍalāya 7 somamaṃḍalāya",
+        "lakṣmīrdevatālakṣmīprāptaye viniyogaḥ oṃ śrīṃ vījaṃ hrīṃ śaktiḥ praṇavaḥ"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/mantrakoSa-M00292-IAST.txt"
+    },
+    {
+      "catalogNo": "M00635",
+      "uniformTitle": "Mantracandrikā",
+      "mainTitle": "Mantracandrikā of Gosvāmī Janārdana",
+      "author": "Gosvāmī Janārdana",
+      "tradition": "Tantric-Bīja-Lexicon",
+      "charCount": 187198,
+      "textExcerptIast": "naṃ0 - 4853\nnāma - mantracandrikā\nkarttā - gosvāmījanārdanaḥjagannivāsaputraḥ\npatrasaṃ0 - 90 patrāṇi\nviṣayaḥ - tantram\npṛ0 1a) oṃśrīgaṇeśāyanamaḥ|| āraktābhaṃtrinetraṃpṛthutarajaṭharaṃvedahastāndadhānaṃvibhrāṇaṃmaulideśehimakaraśakalaṃdānadhārā\nsakuṃbhaṃvrahmeṃdrādyaiḥsamastairamaraparivṛddhaiḥsevitaṃśubhradaṃtaṃbhogīṃdrādyaṃṣasastaisakalaśubhakaraṃtaṃbhajekuṃjarāsyaṃ 1 udita\ndivākaradehāṃpuraharavāmāṃgakṛtagehāṃ paripūritabhaktehāṃdevanutāṃśailajāṃvaṃde 2 pīyūṣāṃśukalāmanojñamukuṭāṃśaivālatu\nlyālakāṃbhālaśrīvijitāṣṭamīśaśadharāṃnīlāravīṃdekṣaṇāṃ jāpaṃbāṇaguṇāṃkuśānmṛdutaraiḥsaṃvibhratīṃvāhubhiḥ pra\ntyaṃgaṃsumanoramāmasūṇabhāṃvaṃdegirīṃdrātmajāṃ 3 kāliṃdīkalakūlakelikalanānaṃdākulaiḥsaṃtataṃsaṃvītaṃśiśuvṛṃdakai\nrmunivarairggītaṃguṇaikālayaṃ līlānāhitaviśvaviśvabhayadāśeśāstrapānīkakaṃsaṃsāraikamahādrumasyaruciraṃkaṃdaṃmukuṃ\ndaṃbhaje 4 muralīvaraṃjitaviśvajanasvanubhāvijinokṣamanavyadyana",
+      "extractedSeedDefinitions": [
+        "liruktvāmūlenakaraśuddhikṛtvā aṃguṣṭayoḥ oṃgaṇaṃjayāyasvāhā hṛdayāyanamaḥ tarjjanyoḥ ekadaṃṣṭāyahuṃphaṭśira",
+        "virivirihṛdayāyanamaḥ hrīṃgaṇapatiśirasesvāhā hrīṃvaravaradaśikhāyaivaṣaṭ hrīṃsarvalokaṃmekavacāyahuṃ hrīṃva",
+        "maṃtrasyaṣaḍaṃgadhyānādikaṃpūrvamaṃtravadeva māyādipūrvoktamaṃtrasyaivamaṃtrāṃtaratvenoktatvātasyadhyāneviśeṣaḥ vījāpūra",
+        "śamaṃtraḥ athaakṣaraśaktigaṇapaḥ hrīṃgnīṃhrīṃ itimaṃtreṇaprāṇāyāmatrayaṃkṛtvāśirasioṃbhārgavāyṛṣayenamaḥ",
+        "māyudhadhyānaṃ itidhyātvājapaṃkṛtvāsamarpayediti akṣaraśaktigaṇapaḥ athacaturakṣaraṃśaktigaṇapatimaṃtraḥ oṃhrīṃ",
+        "oṃgūṃnamaḥ itimaṃtreṇaprāṇāyāmatrayaṃkṛtvāśirasi oṃgaṇakāyṛṣayenamaḥ mukheoṃgāyatrīchaṃdasenamaḥ hṛda",
+        "japaṃkṛtvāsamarpayet itiheraṃvagaṇeśamaṃtraḥ athasubrahmaṇyagaṇeśamaṃtraḥ oṃvacatbhuvenamaḥ itisaptākṣaramaṃ",
+        "gaṇapatimaṃtraḥ oṃśrīṃhrīṃklīṃglaugaṃgaṇapatayevaravaradasarvajanamevaśamānayasvāhā ityaṣṭāviṃśatyakṣarātmeka"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/mantracandrikA-M00635-IAST.txt"
+    },
+    {
+      "catalogNo": "M00229",
+      "uniformTitle": "Mantrakaumudī",
+      "mainTitle": "Mantrakaumudī of Devanātha Ṭhakkura",
+      "author": "Devanātha Ṭhakkura",
+      "tradition": "Tantric-Bīja-Lexicon",
+      "charCount": 241597,
+      "textExcerptIast": "mantrakaumudī\nmithilāvidyāpiṭhagranthamālā\nprācinācāryagranthāvalī\naṣṭamaṃ puṣpam\nmantrakaumudī\nmahāmahopādhyāyadevanāthaṭhākuratarkapañcānanakṛtā\nśrīramānātha śarmaṇā sampāditā\nḍā0 janārdanamiśreṇa\nprastāvanāsūcyādibhiḥ saṃskṛtā\nprakāśitā ca\nśaka 1882 sam. 2016 āḍ 1960\n|| oṃ nama iṣṭadevatāyai ||\noṅkāre militaśrutermṛgadṛśāṃ mānāvadāne raṇa-\ntpañceṣorniśitaḥ śaro nidhuvanakrīḍātaroraṅkuraḥ |\nātodyadhvananaṃ manobhavamanorājyābhiṣekaśriyaḥ svānte",
+      "extractedSeedDefinitions": [
+        "māyātritattvaṃ vā bījarāvahīnastu yo manuḥ | śaktihīnaḥ sa",
+        "prokto hakāro bīja saṃyutaḥ || 6 ||",
+        "mukhena praṇavaḥ sthitaḥ || 12 ||",
+        "śrībījaṃ vā viniḥkṣipya japenmantraṃ viśuddhaye |",
+        "sambhāvyapūrake bījaṃ nītvā bhālasudhārucim | pīyūṣabījaṃ",
+        "tadeva pūrakaṃ bījaṃ dhyāne kiñca niyāmakam |",
+        "dhyānamātramatastasya svadhābījaṃ japaṃ matam |",
+        "kavagrahaṇa ityasmāddhātoḥ kavacasaṃbhavaḥ | hūṃtejastejasā"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/mantrakaumudI-M00229-IAST.txt"
+    },
+    {
+      "catalogNo": "M00626",
+      "uniformTitle": "Mātṛkārṇanighaṇṭu",
+      "mainTitle": "Mātṛkārṇanighaṇṭu of Bhānudīkṣita",
+      "author": "Bhānudīkṣita",
+      "tradition": "Tantric-Bīja-Lexicon",
+      "charCount": 8448,
+      "textExcerptIast": "naṃ0- 4858\nnāma- mātṛkārṇa nighaṇṭuḥ\nkarttā- bhānudīkṣitaḥ nārāyaṇadīkṣita putraḥ\npatrasaṃkhyā- 6 patrāṇi\nviṣayaḥ- taṃtram\npṛ0 1a)||śrīgaṇeśāyanamaḥ||vṛṃdāruvṛṃdārakaṃvṛṃdavaṃdyaṃvṛṃdāvanotsaṃgipadāraviṃdaṃ||iṃdiṃdirodaṃ\ncamamaṃdamūrtimukuṃdamānaṃdamayaṃnatosmi||1||mukuṃdarāmakṛṣṇākhyaubhrātaraupūrvasaṃbhavau||\nkavitāvedaśāstrādiratnaratnākaraustūmaḥ||2||āgamaśāstravācāṃvimalatvaṃsatvaraṃ\ndiśatu||śrīpuruṣottamasudhiyāṃcaraṇadvaṃdvesamarpitāpraṇatiḥ||3||āgamāṃbudhimāko\nḍyasadgurūṇāṃprasādataḥ||śrībhānunāvivikriyatemātṛkāvarṇasaṃgrahaḥ||4||athoṃkā\nranāmāni|| ||oṃkārastārako'vyaktovedādyaḥpraṇavo'vyayaḥ||dhruvastāraḥśivomū\nlaṃjyotiḥśākhādikaḥsmṛtāḥ||5|| ||akāranāmāni||śrīkaṃṭhaḥkeśavaḥkīrttirnivṛ\nttiramṛtālaghuḥ||pūrṇodarīmātṛkādyaḥsvarādyohyamṛteśvaraḥ||6||kālādyaḥkeśavāṃḥ\nkasthomṛteśaḥprathamobhavet||nyāsādyo'varṇakojñeyo|| ||ākāranāmāni||hya\nthākārogururmataḥ||7||vṛtākārovāsudevaḥkāṃtirn",
+      "extractedSeedDefinitions": [
+        "ranāmāni|| ||oṃkārastārako'vyaktovedādyaḥpraṇavo'vyayaḥ||dhruvastāraḥśivomū",
+        "iṃdramūrttirmahāmāyāsureśaḥśāṃtirīritaḥ|| ||u0||ukārevarttulākṣītuyāmyakarṇo-",
+        "rau||76||amṛteśaḥsudhābījaṃdravojalacaraḥsmṛtaḥ||paṃcacatvāriṃśalāṃtau||śa0||",
+        "pṛ0 6a) syātupaṃcāśat||kṣa0||kṣakāromātṛkāvadhiḥ||anaṃtāvidyutāmāyāsaṃvarttakakṛtāṃ"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/mAtRkArNanighaNTu-M00626-IAST.txt"
+    },
+    {
+      "catalogNo": "M00341",
+      "uniformTitle": "Mātṛkācakraviveka",
+      "mainTitle": "Mātṛkācakraviveka of Svatantrānandanātha",
+      "author": "Svatantrānandanātha",
+      "tradition": "Śākta-Kaula",
+      "charCount": 199417,
+      "textExcerptIast": "|| śrīḥ ||\nmātṛkācakravivekaḥ |\nsvatantrānandanātha viracitaḥ\nprathamaḥ khaṇḍaḥ |\njāgratsuṣuptikṛtadakṣiṇavāmabhāgāṃ\nsvapnasvabhāvaparikḷptajaghanyabhāgām |\niha khalu paramaśivabhaṭṭārakasya prāṇabhūtayā\nvidyāvidyobhayacamatkāramayyā svarasavāhinyā vimarśaśaktyā samunmīlitāsu\nbāhyābhyantaravividhavicitrasiddhāntavipratipattiṣu viluṭhato lokasyānugrahāya\nśivaprayuktaḥ svatantānandanāmā mahāsiddhaḥ svarasiddhatayā\nnikhilavāṅmayanidānatayā ca mahāpramāṇasya\nmātṛkāmahāmantrasyārthopadeśena nikhilasaṃśayanirāsanirākulaṃ\nparamārthasvarūpaṃ nirūpayitukāma ādau mahāmantrārtharūpiṇīṃ bhagavato\nmahādevasya mahāśaktiṃ granthasya pāramparyapravṛttirūpābhīṣṭasiddhaye\nparāmṛśati-jāgradityādi | suptinivṛttau ghaṭapaṭādīnāṃ",
+      "extractedSeedDefinitions": [
+        "api) tu māyāparyāyaviparyayajñānanibandhana ityabhiprāyaḥ |",
+        "stimitasvabhāvā | idaṃ ca viśeṣeṇa bījatvasamarthakam | bījaṃ hi niścalaṃ tiṣṭhati",
+        "sūtratātparyam | caityacityoriti | caityaśabdasya pūrvanipātena māyāprābalyāt",
+        "māyābalātprathamabhāsi jaḍasvabhāvaṃ",
+        "prāthamyaṃ na māyāyāḥ ato māyābalāt suptiviśramaṇaprathamabhāse",
+        "nijasamāśrayameva svamāśrayameva kurvan abahiḥ - antaḥ sīmāyām |",
+        "paśoḥ saṃsārapade vimarśasya māyācamatkāraparigraheṇa viparītapratītirūpeṇa",
+        "māyāpadaṃ padamidaṃ prakṛtestu sākṣāt || 11 ||"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/mAtRkAcakraviveka-M00341-IAST.txt"
+    },
+    {
+      "catalogNo": "M00643",
+      "uniformTitle": "Sāvaratantramantrasaṃgraha",
+      "mainTitle": "Sāvaratantramantrasaṃgraha",
+      "author": "Anonymous",
+      "tradition": "Śākta-Kaula",
+      "charCount": 41407,
+      "textExcerptIast": "kṛ0- 142\npari0saṃ0- 5144\nsāvaratantramantrasaṃgraha\npatra- 31- pūrṇa\npṛ0 1a) śrīgaṇeśāyanamaḥ vāvāādamamaṃtrasaṃllāsmaviṣṇusuragurukāpūjyomiāvanakāraḥādiguru\nkaṭhaśastravaṇaṃharacāhiyokāpiyugacāritīnilokacārivedapāṃcapāṃḍavakumāraśatasamudra\nāṣṭhavasunavagrahadaśarāvanegyāraharudravāraharāsiterahatamolacaudahabhuvanapaṃdrahatithicā\nrikhānicārikanipaṃcabhūtātmācaurāsīsrāṣajīvayoniaṣṭakulīnāgateṃtīsakoṭidevatā\nākāsupātālaṣṇutemaṃḍalarātidinapaharadharīupalavipalayogamurhurtasāṣīdharatahoīvoamu\nkākepiṃḍadevatāhoidevadānavabhūtapretarāṣīsu muṣisujānuvinānukitākarāvāditādevādharai\nuṭhimūṭhiraṣānabhūṣāṇāmilanicāpunāphorīḍiṭhairīgadinīnīkaṣolāyapeghaukaraṇamūla\nvāyusūlanaśukraharaṃtevāyurūvāiḍagarahakaraṇapitamūtrakṛchaaṭhārahapramehavāyagolāphi\npṛ0 1ba) hiāniharuvāhogāstegārdhāśīśīluṭīḍalūtāvuvārīmirigīkamalaviyuhāprā\nvumuvāvuraalagaḍatakravāucoṭapeṭaditākritālāpālagāyāpākharapililadhyāvāṭa(ha",
+      "extractedSeedDefinitions": [
+        "kamaṃtraḥ oṃmuratoghāṃgaḍāvetālajānīmorakānanehīśāḍārenīthilācikiṭhārā",
+        "ghrādiprayogaḥvādhavarāvaikā oṃasatyamātāśaṃkarapitāsaṃkarakīlaracāriudiśājahā",
+        "karathaṭhāṭhikarujhārimamarṣīnīkīkaru 23 amṛgīkāmaṃtra oṃhālahutsasaragatamāṇḍikapu",
+        "vaimaṃtrapaṭhikaivāra21sonīkahoī oṃkaṃkaṃrāṃkenāsyakonaagnitagnitaamukākarṣanahoi",
+        "rūdrāyanamaḥ32agastyayainamaḥ33athamaṃtradādukaipānīparoripiyāvaikāoṃgurubhyonamaḥ",
+        "pṛ0 11a) thābhautripurāmāyātinhametripurāsuṃdarīkīśaraṇajauamukākaivairīṣaharāyaparaivegidī 3|1|atha",
+        "vaṃdīṣalāśakāmaṃtra oṃcakreśvaricakradhāriṇiśaṃṣagadāprahāriṇīamukasyavaṃdīmokṣaṃkurukurusvā",
+        "hāvāra21|2|anyacatelamaṃtramāthelāvaipaṭhikaivaṃdīṣalāśahoīoṃhīṃklījebhesarvajanara"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/sAvaratantramantrasaMgraha-M00643-IAST.txt"
+    },
+    {
+      "catalogNo": "M00418",
+      "uniformTitle": "Siddhilakṣmīkyutākṣaramālāmantra",
+      "mainTitle": "Siddhilakṣmī-Kūṭākṣaramālāmantra",
+      "author": "Anonymous",
+      "tradition": "Śākta-Kaula",
+      "charCount": 29812,
+      "textExcerptIast": "śrīgaṇeśāya namaḥ ||\noṃ namaḥ śrīsiddhilakṣmī devyai ||\noṃ hrīṁ hraṁ hāṁ preṁ kṣoṁ kroṁ namaḥ ||\noṃ hrīṁ hraṁ hāṁ phreṁ kṣoṁ kroṁ namaḥ ||\noṃ hrīṁ hraṁ hāṁ phreṁ oṃ kroṁ namaḥ ||\noṃ tatsat || oṃ tatsat || oṃ tatsat ||\noṃ asya śrīsiddhilakṣmyā yutākṣaramālāmaṃtrasya bharadvāja ṛṣiḥ mmadhyā\npratiṣṭhā supratiṣṭhā gāyatryuvliganuṣṭuvvṛhatī paṃktitṛṣṭupjagatpaṃti jagatī\nśarkaryatiśarkarī prakṛtputkṛtayaśchandāṃsi ||\nsiddhirlakṣmīrdevatā phreṁ vījaṃ ||\nkhphreṁ śaktiḥ kroṁ kīlakaṃ bhuktimuktisiddhyarthe jape viniyoge ||\n2a) aiṁ oṃ hrīṁ hraṁ phreṁ bhagavaticaṇḍakāpālini siddhilakṣmipratyaṅgire kṣoṁ kroṁ\nśrīṁ strīṁ raktamukhighorāṭṭahāsini bhīmanādini praṇatārtihāriṇi ||\nāṁ krīṁ hoṁ kṣoṁ gloṁ śmaśānavāsini himakiraṇaśubhraśarīre ||\nbhaktajanatāriṇi phreṁ khphreṁ hsphreṁ hskhphreṁ hsauṁ",
+      "extractedSeedDefinitions": [
+        "ajaḍejāḍyahāriṇi || amāye māyādāhini ||"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/siddhilakSmIkyutAkSaramAlAmantra-M00418-IAST.txt"
+    },
+    {
+      "catalogNo": "M00510",
+      "uniformTitle": "Advayavajrasaṃgraha",
+      "mainTitle": "Advayavajrasaṃgraha (Compendium of Buddhist Vajrayāna Works by Advayavajra)",
+      "author": "Advayavajra (Maitrīpa)",
+      "tradition": "Vajrayāna-Buddhist",
+      "charCount": 70097,
+      "textExcerptIast": "advayavajrasaṃgrahaḥ |\n1. kudṛṣṭinirghātanam |\nnamo buddhāya |\nvakṣye kudṛṣṭinirghātamādikarmavidhānataḥ |\nanenaiva vihāreṇa yatnena labhate padam ||\niha hi dvidhā satvāḥ śaikṣā aśaikṣāśca | tacca āśaya adhimuktiprayogaḥ\nbhūmiprapannaprayogaśca(ñca) vasitāptiparyantaḥ hetvavasthāsthitānāṃ\nśaikṣāṇāṃ suviśuddhādikarma(a)vidhānena\nsambhāradvayasambhṛtasamyaksambodhisampallābhaḥ | aśaikṣāṇāmapi\nnirastapratipakṣatattvaphalavikalpānāṃ śākyamuneriva\npraṇidhānavegasāmarthyāt yuganaddhānābhogayogataḥ\nsattvārthakriyālakṣaṇamavicchinnamādikarma pravartata eva iti sthitam | tathā ca -\nna te'sti manyanā nātha na vikalpo na veścanā |\nanābhogena te loke buddhakṛtyaṃ pravartate ||\nparārthasampadbuddhānām phalaṃ mukhyatamaṃ matam |",
+      "extractedSeedDefinitions": [
+        "tadanu pūrvadale śukla oṃkāraniṣpannaṃ śuklavarṇaṃ",
+        "māyāpuruṣavat sarvaṃ kuryādanupalambhataḥ ||",
+        "tadeva nirmitaṃ citraṃ bījaḥ sarvasvabhāvataḥ ||",
+        "ataḥ pūrvadale candramaṇḍalopari oṃkārajaḥ śuklavarṇavairocanaḥ",
+        "cakracihnā pṛthvidhātusvarūpā tathāgatakulodbhavā moharaktā | asyā bījaṃ oṃ",
+        "bījaṃ oṃ āḥ māṁ hūṁ svāhā iti |",
+        "raktavarṇā padmacihnatejodhātusvarūpā padmakulā rāgaraktā | asyā bījaṃ oṃ",
+        "| asyā bījaṃ oṃ āḥ tāṁ hūṁ svāhā |"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/advayavajrasaMgraha-M00510-IAST.txt"
+    },
+    {
+      "catalogNo": "M00018",
+      "uniformTitle": "Īśānaśivagurudevapaddhati (Vol. 3) / Advayavajrasaṃgraha (M00018 / M00510)",
+      "mainTitle": "Īśānaśivagurudevapaddhati Mantrapāda & Buddhist Advayavajrasaṃgraha Concordance",
+      "author": "Īśānaśivagurudeva / Advayavajra",
+      "tradition": "Vajrayāna-Buddhist",
+      "charCount": 440708,
+      "textExcerptIast": "||śrī ||\nīśānaśivagurudevapaddhatiḥ\nśrīmadīśānaśivagurudevamiśraviracitā |\n(tṛtīyaḥ kriyāpādaḥ)\natha prathamaḥ paṭalaḥ |\npraṇamyādau śivaṃ śaktiṃ sādeśaṃ ca gaṇeśvaram |\nśuddhavidyāṃ tathā vāṇīṃ mukhyaṃ dharmaṃ pracakṣmahe || 1-1 ||\nsāmānyamantrapādābhyāṃ pūrvārdhe khalu darśitāḥ |\ndharmārthakāmyāḥ sāmānyāḥ śiṣṭaṃ vyāvarṇyate'dhunā || 1-2 ||\nmukhyadharmacidāpnoti dṛṣṭādṛṣṭaphalodayāt |\nbhogān mokṣaṃ ca taddharmaviṣayaḥ parameśvaraḥ || 1-3 ||\nathāto dharmamityādisūtrād vaiśeṣikādataḥ |\ndharmaprayojanaṃ mokṣaḥ proktaścābhyudayo mahān || 1-4 ||\ndharmā bahuvidhāḥ khyātāstattadāgamacoditāḥ |\nnahi te mukhyadharmāḥ syurmukhyadharmāḥ śivoditāḥ || 1-5 ||",
+      "extractedSeedDefinitions": [
+        "māyāvikārahīnena viśuddhenāmalātmanā |",
+        "sa hi māyādibhūmyantaviśvakāryasya kāraṇam |",
+        "tattvānāṃ kāraṇaṃ māyā māyāyāśca maheśvaraḥ || 1-59 ||",
+        "aśuddhatattvaṃ māyākhyamindrajālavadudvabhau || 1-84 ||",
+        "p. 12) tatra māyātattvamindrajālabījam | tadabhijño bhagavān māyākandalīkandaḥ śivo malavidāraṇena svayamabhivyanakti | sā hi svayaṃ na satī | yadi satī bhaved māyaiva na syāditi ṣaṭtriṃśattattvasiddhau | tathāhi -",
+        "māyāvinā na māyāsti vinā māyī śarīravān |",
+        "puṃsojñakartṛkārthaṃ māyātastattvapañcakaṃ bhavati |",
+        "tasmāt tadāśrayībhūtā māyāstyeva duranvayā |"
+      ],
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/muktabodha-corpus/main/texts/IzAnazivagurudevapaddhati_Volume_3-M00018-IAST.txt"
+    }
+  ],
+  "dharmaEditions": [
+    {
+      "id": "stts_crited",
+      "titleSanskrit": "Sarvatathāgatatattvasaṅgraha (Sarvatathāgatatattvasaṃgraha)",
+      "editors": "Ryugen Tanemura & Arlo Griffiths (ERC DHARMA Critical Edition)",
+      "charCount": 395887,
+      "extractedMantrasIast": [
+        "oṃ vajrasattva samayam anupālaya vajrasattvatvenopatiṣṭha dṛḍho me bhava sutoṣyo me bhava supoṣyo me bhava anurakto me bhava sarvasiddhiṃ me prayaccha sarvakarmasu ca me cittaṃ śreyaḥ kuru hūṃ ha ha ha ha hoḥ bhagavan sarvatathāgatavajra mā me muñca vajrībhava mahāsamayasattva āḥ ||",
+        "oṁ cittaprativedhaṁ karomi” |",
+        "oṁ bodhicittam utpādayāmīty anena prakṛtisiddhena mantreṇa bodhicittam utpāditavantaḥ|",
+        "oṁ tiṣṭha! vajra!”|",
+        "oṁ vajrātmako 'ham!” |",
+        "vajradhātur vajradhātur!” iti vajranāmābhiṣekeṇaibhiṣiktaḥ |",
+        "vajradhātur mahābodhisattvas tān sarvatathāgatān evam āha |",
+        "oṁ yathā sarvatathāgatās tathā 'ham””|",
+        "vajradhātur mahābodhisattvas tathāgatam ātmānam abhisaṁbudhya tān sarvatathāgatān praṇipatyāhūyaivam āha |",
+        "vajradhātuṁ tathāgataṁ sarvatathāgatatve 'dhiṣṭhāya, sarvatathāgatasiṁhāsane sarvato mukhaṁ pratiṣṭhāpayām āsur iti |"
+      ],
+      "textExcerptIast": "[1_1_0] sarvatathāgatamahāyānābhisamayo nāma mahākalparājaḥ\n\n[1_1_0] vajradhātumahāmaṇḍalavidhivistaraḥ\n\n[1_1_1] evaṁ mayā śrutam: ekasmin samaye\n\n[1_1_2]\nbhagavān\nsarvatathāgatavajrādhiṣṭhānasamayajñānavividhaviśeṣasamanvāgataḥ |\nsarvatathāgataratnamukuṭatraidhātukadharmarājyābhiṣekaprāptaḥ |\nsarvatathāgatasarvajñajñānamahāyogīśvaraḥ |\nsarvatathāgatasarvamudrāsamatādhigataviśvakāryakaraṇatāśeṣānavaśeṣasattvadhātusarvāśāparipūrakaḥ |\n\n[1_2_3]\nmahākṛpo vairocanaḥ śāśvatas tryadhvasamayavyavasthitaḥ sarvakāryavākcittavajras tathāgataḥ\nsarvatathāgatādhyuṣitapraśastastavite mahāmaṇiratnapratyupte vicitravarṇaghaṇṭāvasaktamārutoddhūtapaṭṭasrakcāmarahārārdhahārārdhacandropaśobhite 'kaniṣṭhadevarājasya bhavane vijahāra |\n\n[1_2_5]\n\nnavanavatibhir bodhisattvakoṭibhiḥ sārdhaṁ |\ntad yathā\nvajrapāṇinā ca bodhisattvena |\navalokiteśvareṇa ca bodhisattvena |\nākāśagarbheṇa ca |\nvajramuṣṭinā ca |\nmañjuśr",
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/dharma-editions-corpus/main/texts/stts_crited.txt",
+      "crossRefs": {
+        "taishoIds": [
+          "T0865",
+          "T18n0865",
+          "T0866",
+          "T0882"
+        ],
+        "tohokuIds": [
+          "Toh 479"
+        ],
+        "rktsIds": [
+          "D479",
+          "K479"
+        ],
+        "gretilIds": [
+          "sarvttsu.htm"
+        ],
+        "buddhaNexusIds": [
+          "K12sarvttsu"
+        ],
+        "muktabodhaOrOchsIds": [
+          "stts_crited"
+        ]
+      }
+    },
+    {
+      "id": "svu_crited",
+      "titleSanskrit": "Sarvavajrodayā Maṇḍalopāyikā (by Ānandagarbha)",
+      "editors": "Arlo Griffiths, Ryugen Tanemura & Shiori Ijuin (ERC DHARMA Critical Edition)",
+      "charCount": 83340,
+      "extractedMantrasIast": [
+        "vajrasattvamāvartayet |",
+        "vajrasattva ahaṁ svayam |",
+        "vajrasattvasya purataś cāyaṁ sthāpyaḥ |",
+        "oṁ vajrasattva hūm̐ iti |",
+        "namaḥ samantavajrāṇāṁ caṇḍamahāroṣaṇa sphoṭaya hūṁ",
+        "oṁ vajracitrasamaya hūm̐ |",
+        "oṁ vajracitrasamaya hūm̐ |",
+        "vajrasattvasyāgrataḥ sthāpayet |",
+        "vajradhātu {\\ah\"/>iti |",
+        "samayastvaṁ |"
+      ],
+      "textExcerptIast": "Maṅgala\n\nTrisamādhi as Prior Service\n\nĀdiyoga\n\nInternal Purification: Meditation on All Phenomena Being Void of Intrinsic Nature\n\nProtection of the Practitioner, of the Site for Yoga, and of the Yogas Performed\n\nObeisance to the Tathāgatas of the Four Directions\n\nConfession of Sins, Rejoicing in Others' Merit, and Solicitation to the Tathāgatas\n\nWorship with Seals\n\nFlower\n\nIncense\n\nLamp\n\nFragrance\n\nSampuṭāñjali (Treasure)\n\nLaughter\n\nGarment\n\nSamādhi\n\nVajrasattva\n\nLāsyā\n\nMālā\n\nGītā\n\nNr̥tyā\n\nPuṣpā\n\nDhūpā\n\nKāyaniryātana\n\nStotra\n\nCittaniryātana\n\nGuhyaniryātana\n\nĀtmaniryātana\n\nTransfer of Merit\n\nTaking the Vow\n\nPossession by the Deities\n\nPurification and Removal of Sins and Evil Destinies\n\nSelf-Empowerment\n\nMeditation on the Self-Identification with the Mudrās\n\nMeditation on the Pledge-beings\n\nEntering into the Maṇḍala\n\nViewing the Maṇḍala\n\nConsecration with Water\n\nConsecration with Crown-tur",
+      "rawTextUrl": "https://raw.githubusercontent.com/tokushige-koyasan/dharma-editions-corpus/main/texts/svu_crited.txt",
+      "crossRefs": {
+        "tohokuIds": [
+          "Toh 2516"
+        ],
+        "rktsIds": [
+          "D2516",
+          "T2516"
+        ],
+        "muktabodhaOrOchsIds": [
+          "svu_crited"
+        ]
+      }
+    }
+  ],
+  "ochsLexiconManuscripts": [
+    {
+      "slug": "ochs_000_000_030_bijanighantu",
+      "ochsNumber": 30,
+      "titleSanskrit": "Bījanighaṇṭu (Oxford OCHS #30)",
+      "category": "Bīja / Mantra Nighaṇṭu Lexicon",
+      "totalVerses": 68,
+      "verses": [
+        {
+          "verseNumber": 1,
+          "chapterOrSection": "1",
+          "sanskritIast": "atha vakṣye mantrakośaṃ yad uktaṃ bhūtaḍāmare / kramād bījavidhānaṃ ca śrutyarthajñānasambhavam // 1",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 2,
+          "chapterOrSection": "2",
+          "sanskritIast": "śrīśiva uvāca / a vidyujjihvā ā kālavajrī i garjinī ī dhūmrabhairavī u kālarātriḥ ū vidārī ṛ mahāraudrī ṝ bhayaṃkarī ḷ saṃhāriṇī lu karālinī e ūrdhvakeśī ai ugrabhairavī o bhīmākṣī au ḍākinī aṃ rudrarākiṇī aḥ caṇḍikā ka krodhīśaḥ kha vāmanaḥ ga caṇḍaḥ gha vikārī ṅa unmattabhairavaḥ ca jvālāmukhaḥ cha raktadaṃṣṭraḥ ja asitāṅgaḥ jha vaḍavāmukhaḥ ja vidyunmukhaḥ ṭa mahājvālaḥ ṭha kapālī ḍa bhīṣaṇaḥ ḍha ruruḥ ṇa saṃhārī ta bhairavaḥ tha daṇḍī da balibhuk dha ugrasūladhṛk na siṃhanādī pa kapardī pha karālāgniḥ ba bhayaṃkaraḥ bha bahurūpī ma mahākālaḥ ya jīvātmā ra kṣatajokṣitaḥ la balabhedī va raktapaṭaḥ śa caṇḍīśaḥ ṣa jvalanadhvajaḥ sa dhūmadhvajaḥ ha vyomavaktraḥ kṣa tryailokyagrasanātmakaḥ // 2",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 3,
+          "chapterOrSection": "3viśabījaṃ",
+          "sanskritIast": "vidyujjihvā kālavaktrā mahākālair alaṃkṛtā // 3viśabījaṃ śrutimukhaṃ dhruvaṃ hālāhalaṃ priye ca tat // 4",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 4,
+          "chapterOrSection": "5",
+          "sanskritIast": "caṇḍīśaḥ kṣatajārūḍho dhūmrabhairavyalaṃkṛtaḥ / nādabindusamāyukto bījaṃ viṣṇupriyā mataṃ śrīṃ // 5",
+          "targetBijaSyllables": [
+            "śrīṃ"
+          ]
+        },
+        {
+          "verseNumber": 5,
+          "chapterOrSection": "6",
+          "sanskritIast": "kṣatajastho vyomavaktro dhūmrabhairavyalaṃkṛtaḥ / nādabindusamāyukto bījaṃ prāthamikaṃ smṛtaṃ hrīṃ // 6",
+          "targetBijaSyllables": [
+            "hrīṃ"
+          ]
+        },
+        {
+          "verseNumber": 6,
+          "chapterOrSection": "7",
+          "sanskritIast": "krodhīśaḥ kṣatajārūḍho dhūmrabhairavyalaṃkṛtaḥ / nādabindusamāyuktaḥ pitṛbhūvāsinī smṛtaḥ krīṃ // 7",
+          "targetBijaSyllables": [
+            "krīṃ"
+          ]
+        },
+        {
+          "verseNumber": 7,
+          "chapterOrSection": "8",
+          "sanskritIast": "vidārīyuktaṃ vyomāsyaṃ rudrarākiṇyalaṃkṛtam / kūrcaṃ kālaṃ krodhabījaṃ jānīhi vīravandite hūṃ // 8",
+          "targetBijaSyllables": [
+            "hūṃ"
+          ]
+        },
+        {
+          "verseNumber": 8,
+          "chapterOrSection": "9",
+          "sanskritIast": "nādabindusamāyuktāṃ samādāyograbhairavīm / bhautikaṃ vāgbhavaṃ bījaṃ viddhi sārasvataṃ priye ai // 9",
+          "targetBijaSyllables": [
+            "aiṃ"
+          ]
+        },
+        {
+          "verseNumber": 9,
+          "chapterOrSection": "10krodhīśaraktabhīmākṣyo",
+          "sanskritIast": "pralayāgnir mahājvālaḥ khyātaś cāstramanuḥ priye phaṭ // 10krodhīśaraktabhīmākṣyo 'ṅkuśo 'yaṃ nādabindumān kroṃ // 11dviṭhaḥ śiro vahnijāyā svāhā jvalanavallabhā svāhā // 12",
+          "targetBijaSyllables": [
+            "oṃ",
+            "phaṭ",
+            "svāhā"
+          ]
+        },
+        {
+          "verseNumber": 10,
+          "chapterOrSection": "13",
+          "sanskritIast": "krodhīśo balabhid dhūmrabhairavīnādabindubhiḥ / trimūrtir manmathaḥ kāmaḥ bījaṃ trailokyamohanam klīṃ // 13",
+          "targetBijaSyllables": [
+            "klīṃ"
+          ]
+        },
+        {
+          "verseNumber": 11,
+          "chapterOrSection": "14",
+          "sanskritIast": "vyomāsyaḥ kālarātryārḍhyo varma bindīndusaṃyutaḥ / kathitaṃ kavacaṃ bījaṃ kulācārapriye 'male huṃ // 14",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 12,
+          "chapterOrSection": "15",
+          "sanskritIast": "vyomāsyaḥ kṣatajārūḍho ḍākinīnādabindubhiḥ / jyotir mantraḥ samākhyāto mahāpātakanāśanaḥ hrauṃ // 15",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 13,
+          "chapterOrSection": "16",
+          "sanskritIast": "saṃyukto dhūmrabhairavyā raktastho balibhojanaḥ / nādabindusamāyuktaḥ kiṅkiṇībījam uttamam drīṃ // 16",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 14,
+          "chapterOrSection": "17",
+          "sanskritIast": "bahurūpiṇam ādāya kṣatajokṣitasaṃsthitam / vidāryāliṅgitaṃ tadvad viśeṣārtho mahāmanuḥ bhrūṃ // 17",
+          "targetBijaSyllables": [
+            "bhrūṃ"
+          ]
+        },
+        {
+          "verseNumber": 15,
+          "chapterOrSection": "18",
+          "sanskritIast": "dhūmradhvajādhaḥ kālāgniḥ sordhvakeśīndubindubhiḥ / yugāntakārakaṃ bījaṃ bhairaveṇa prakāśitam spheṃ // 18",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 16,
+          "chapterOrSection": "19",
+          "sanskritIast": "saṃhāriṇyāśritaṃ cordhvakeśinī tu kapardinam / nādabindusamāyuktaṃ bījaṃ vaitālikaṃ smṛtam pleṃ // 19",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 17,
+          "chapterOrSection": "20",
+          "sanskritIast": "sanādabinduṃ krodhīśaṃ gṛhya saṃhāriṇīsthitam / kampinībījam ity uktaṃ dviṭhenoktā manoharī klīṃ svāhā // 20",
+          "targetBijaSyllables": [
+            "klīṃ",
+            "svāhā"
+          ]
+        },
+        {
+          "verseNumber": 18,
+          "chapterOrSection": "21",
+          "sanskritIast": "kapardinaṃ samādāya kṣatajokṣitasaṃsthitam / saṃyuktaṃ dhūmrabhairavyā dhvāṅkṣo 'yaṃ nādabindumān prīṃ // 21",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 19,
+          "chapterOrSection": "22",
+          "sanskritIast": "kapālidvayam ādāya mahākālena maṇḍitam / samāsanam iti proktaṃ caṇḍikāḍhyaṃ manoharam ṭhaṃ ṭhaṃ ṭhaḥ ṭhaḥ // 22",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 20,
+          "chapterOrSection": "23",
+          "sanskritIast": "pralayāgnisthito dhūmadhvajo guhye sabindumān / saṃyukto dhūmrabhairavyā smṛtā phetkāriṇī priye sphīṃ // 23",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 21,
+          "chapterOrSection": "24",
+          "sanskritIast": "kṣatajastho vyomavaktro bindukhaṇḍendvalaṃkṛtaḥ / khadyotam iti vikhyātaṃ grāsinī kālarātriyuk hruṃ // 24",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 22,
+          "chapterOrSection": "25",
+          "sanskritIast": "kṣatajasthaṃ vyomavaktraṃ nādabindusamanvitam / vidārībhūṣaṇaṃ kṛtvā bījaṃ vaivasvatātmakaṃ hrūṃ // 25",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 23,
+          "chapterOrSection": "26",
+          "sanskritIast": "vyomavaktro dhūmadhvajo vāraṇaḥ pralayāgnikaḥ / ūrdhvakeśī kṣatārūḍhā binducandrārdhasaṃgatā // 26",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 24,
+          "chapterOrSection": "27",
+          "sanskritIast": "bījam ānandabhairavyā mūkānandakaraṃ param hasakhaphreṃ // 27",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 25,
+          "chapterOrSection": "28",
+          "sanskritIast": "akāre bhīṣaṇā kīrtiṃ vidyujjihveti kīrtitā / ākāre tāmasī kālavajrī ca kālabhairavī // 28",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 26,
+          "chapterOrSection": "29",
+          "sanskritIast": "ikāre garjinī caṇḍā vijñeyā rudrabhairavī / īkāre śūlinī khyātā caṇḍogrā dhūmrabhairavī // 29",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 27,
+          "chapterOrSection": "30",
+          "sanskritIast": "ukāre kālakūṭākhyā pracaṇḍā caṇḍavallabhā / vidāry ūkārake proktā tālajaṅghā kapālinī // 30",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 28,
+          "chapterOrSection": "31",
+          "sanskritIast": "ṛkāre syān mahāraudrī jvālinī yoginīty api / ṝkāre kālikā proktā pitṛkālī bhayaṃkarī // 31",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 29,
+          "chapterOrSection": "32",
+          "sanskritIast": "saṃhāriṇī ḷkāre syān meghanādograbhāṣiṇī / rudracaṇḍā kālarātriḥ ḹkāre ca karālinī // 32",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 30,
+          "chapterOrSection": "33",
+          "sanskritIast": "ūrdhvakeśī ca cāmuṇḍā nādiny ekārake smṛtā / aikāre koṭarākṣī ca māliny unmattabhairavī // 33",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 31,
+          "chapterOrSection": "34",
+          "sanskritIast": "jvāliny okāragā jñeyā bhīmākṣī caṇḍamālinī / aukāre ḍākinī siṃhanādinī caṇḍabhairavī // 34",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 32,
+          "chapterOrSection": "35",
+          "sanskritIast": "akrūrākhyā vidārī ca aṃkāre rudrarākiṇī / śeṣe kapālinī yāmyā caṇḍikā kuṇḍaladvayam // 35",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 33,
+          "chapterOrSection": "36",
+          "sanskritIast": "visargo nādaḥ sakalāḥ ṣaḍdaśoktāḥ svarā matāḥ // 36",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 34,
+          "chapterOrSection": "37",
+          "sanskritIast": "krodhīśo vāraṇaś caṇḍaḥ śaṅkā tūnmattabhairavaḥ / jvālāmukho raktadaṃṣṭro 'sitāṅgo balayāmukhaḥ // 37",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 35,
+          "chapterOrSection": "38",
+          "sanskritIast": "vidyunmukho mahājvali kapālī bhīṣaṇo guruḥ / prahārī rauravo daṇḍī balito 'tyugraśūladhṛk // 38",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 36,
+          "chapterOrSection": "39",
+          "sanskritIast": "siṃhanādī kapardī ca pralayāgnir bhayaṃkaraḥ / bahurūpī mahākālaḥ sthirātmā kṣatajokṣitaḥ // 39",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 37,
+          "chapterOrSection": "40",
+          "sanskritIast": "balabhedī raktapaṭaś caṇḍiśo jvalanadhvajaḥ / dhūmadhvajo vyomavaktras trailokyagrasanātmakaḥ // 40",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 38,
+          "chapterOrSection": "41",
+          "sanskritIast": "nayanaśrotrāsyanāsāhṛtsu nyāse daśa svarāḥ // 41",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 39,
+          "chapterOrSection": "42",
+          "sanskritIast": "dhvajinīdhūmrabhairavyāvabhāve ca dṛśoḥ smṛte / mūlārṇamuramādiṣṭaṃ hṛdayaṃ svaraśaktayaḥ // 42",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 40,
+          "chapterOrSection": "43",
+          "sanskritIast": "ādimadhyāvasāneṣu pūrvābhāve yathottaram / kaṇṭhāsyaḥ kālavaktreṇa mahākālena bhūṣitaḥ / tadādiḥ pañcaraśmiś ca sṛṣṭisthitilayaṃ viṣam // 43",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 41,
+          "chapterOrSection": "44",
+          "sanskritIast": "śūlinyā sahito 'gnisthaś caṇḍīśa indubindumān / etad viṣṇupriyābījaṃ yan mānyaṃ jagataḥ priyam // 44",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 42,
+          "chapterOrSection": "45",
+          "sanskritIast": "kṣatajastho vyomavaktraś caṇḍogrābindubhūṣitaḥ / adrijā raudrī bhūteśī bījam prāthamikaṃ priyam // 45",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 43,
+          "chapterOrSection": "46",
+          "sanskritIast": "krodhīśo raktasaṃsthaś ca dhūmrabhairavyalaṃkṛtaḥ / bindvindusaṃyuto bījam drāvaṇaṃ kledanaṃ smṛtam // 46",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 44,
+          "chapterOrSection": "47",
+          "sanskritIast": "vyomāsyo bindusaṃyuktas tālajaṅghāvibhūṣitaḥ / kūrcakālo mahākālaḥ krodhabījam nirañjanam // 47",
+          "targetBijaSyllables": [
+            "hūṃ"
+          ]
+        },
+        {
+          "verseNumber": 45,
+          "chapterOrSection": "48",
+          "sanskritIast": "unmattabhairavī rudraḍākinyā ca vibhūṣitā / nādenālaṃkṛtā bījam vāgbhavaṃ buddhivardhanam // 48",
+          "targetBijaSyllables": [
+            "aiṃ"
+          ]
+        },
+        {
+          "verseNumber": 46,
+          "chapterOrSection": "49jvālāgnir",
+          "sanskritIast": "phaḍ ity astraṃ prasiddhaṃ syāj phaṭ // 49jvālāgnir vyāpakāṅkuśaḥ kror // 50śiraḥ svāhā dviṭho vahnijāyā jvalanavallabhā // 51dakṣajānudvayaṃ senduḥ devāsyaṃ vahnisundarī svāhā // 52indrāsanagato brahmā trimūrtīnduś ca manmathaḥ klīṃ // 53",
+          "targetBijaSyllables": [
+            "klīṃ",
+            "phaṭ",
+            "svāhā"
+          ]
+        },
+        {
+          "verseNumber": 47,
+          "chapterOrSection": "54",
+          "sanskritIast": "garjinīdhūmrabhairavyau dakṣavāmapayodharau / vyomāsyaḥ kālavaktrāḍhyo varmabindīndusaṃyutaḥ huṃ // 54",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 48,
+          "chapterOrSection": "55",
+          "sanskritIast": "śūnyaṃ kṣatajamārūḍhaṃ caṇḍabhairavyalaṃkṛtam / nādabinduyutaṃ mūrdhni jyotirmantra udāhṛto hrauṃ // 55",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 49,
+          "chapterOrSection": "56",
+          "sanskritIast": "ādidevena nirdiṣṭaṃ mantrakośam anuttamam / yad arthibhyaḥ purā guptaṃ tan mayādya prakāśitam // 56",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 50,
+          "chapterOrSection": "57",
+          "sanskritIast": "yakṣaḍāmaratantrasya mantrakośavivecanam / krodhīśena tu yat proktaṃ bhairavāya mahātmane // 57",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 51,
+          "chapterOrSection": "58",
+          "sanskritIast": "vidyuccaṇḍāśinī gaurī krośinī nāginī jayā / kiṃnarī yoginī yakṣī bhūtinī pretinī narī // 58",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 52,
+          "chapterOrSection": "59",
+          "sanskritIast": "grāsinī trāsinī caṇḍī kalety evaṃ prakīrtitā / kālabhairave 'marasarvāsu bhūtalāṅgalavarāsu ca // 59",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 53,
+          "chapterOrSection": "60",
+          "sanskritIast": "subhagā sumukhī caṇḍī pārvatī suratapriyā / urvaśī caindriṇī līlā kaṅkālī mekhalā śacī // 60",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 54,
+          "chapterOrSection": "61",
+          "sanskritIast": "māninī haṃsinī caulā kalanā bhūminīti ca / ādidevena nirdiṣṭāḥ prathamādhipaśaktayaḥ // 61",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 55,
+          "chapterOrSection": "62",
+          "sanskritIast": "vibhramo bāhulo daṇḍī bhairavo naṭakaḥ śukaḥ / vṛkodaro jaṭo bhīṣmaḥ kṣobhakaḥ khecaro naṭaḥ // 62",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 56,
+          "chapterOrSection": "63",
+          "sanskritIast": "niśācarā dhvajī bhīmo vicitraḥ kauśiko yamaḥ / liṅgī vatsādhiko bhṛṅgī maṇibhadro ghaṭotkacaḥ // 63",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 57,
+          "chapterOrSection": "64",
+          "sanskritIast": "mahānandī śuko daṇḍī sugrīvaḥ kalaho bhavaḥ / daṇḍī bhāṣāntako 'jeśo gargo haṃsaḥ pakṣaiścaro halī // 64",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 58,
+          "chapterOrSection": "65",
+          "sanskritIast": "caṇḍībījam iti khyātaṃ vidyunnāgāṅganāṃśukaiḥ / aurasādhike 'ṃśukādyā ca dhūminy asau kiṃnaraḥ smṛtaḥ // 65",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 59,
+          "chapterOrSection": "66vidyuccaṇḍā",
+          "sanskritIast": "urvaśyālaṃkṛto haṃso haṃsendumastakoddhṛtaḥ hūṃ // 66vidyuccaṇḍā ca haṃsī ca ketur nāginyalaṃkṛtā ha // 67ḍiṇḍibhena saraktena kāminī bindubhiḥ śaśī śrīṃ // 68haṃsagrīvapārvatyā kapardīndvādyalaṃkṛtā hrīṃ // 69vigrahakalahakāminīndvādiprāṇahāriṇī krīṃ // 70vibhramo raktapārvatyai svāhā ulkāmukhī smṛtā // 71jvālaṃdharīti vikhyātā sabindvindukalā naṭī // 72haṃsaḥ sugrīvaḥ caṇḍādyaiḥ khadyotaiḥ parikīrtitā hraṃ // 73śyāmāliṅgitadeho 'sau khadyoto jyotir īritaḥ hrauṃ // 74yamaḥ sugrīvaḥ kāminīndrendvādyaiḥ kiṃnarīti ca hruṃ // 75sugrīvo 'pi yamaś caṇḍo nīlādyair vāṇa īritaḥ drāṃ // 76yamaḥ sugrīvabindvindujapādyaḥ piśitāśanaḥ druṃ // 77",
+          "targetBijaSyllables": [
+            "hūṃ",
+            "hrīṃ",
+            "krīṃ",
+            "śrīṃ",
+            "svāhā"
+          ]
+        },
+        {
+          "verseNumber": 60,
+          "chapterOrSection": "78",
+          "sanskritIast": "tyāginaṃ maṇibhadrasthaṃ pretinīndvādyalaṃkṛtam / yugāntakārakaṃ bījam bhairaveṇa prakāśitam sphreṃ // 78",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 61,
+          "chapterOrSection": "79",
+          "sanskritIast": "bhṛṅgiṇaṃ mekhalāyuktaṃ pretinīndvādyalaṃkṛtam / bījaṃ vaitālikaṃ proktaṃ dviṭhenoktā manoharī pleṃ svāhā // 79",
+          "targetBijaSyllables": [
+            "svāhā"
+          ]
+        },
+        {
+          "verseNumber": 62,
+          "chapterOrSection": "80",
+          "sanskritIast": "vibhramo dhūminī vidyuccaṇḍikādyas tu kākinī / dhvāṅkṣabījam iti khyātaṃ sarvatantreṣu gopitaṃ prīṃ // 80",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 63,
+          "chapterOrSection": "81naṭo",
+          "sanskritIast": "naṭadvayena dhūminyā ūrdhvakeśyā hy alaṃkṛtaṃ phreṃ // 81naṭo dhavānasaṃyukto naṭītīkṣṇapayodharaiḥ ṭaṃṭhaṃ // 82",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 64,
+          "chapterOrSection": "83",
+          "sanskritIast": "pārvatyāliṅgitaṃ maṇibhadrasthaṃ yoginīpriye / phetkāriṇīti vikhyātā vidyuccaṇḍavibhūṣitā sphīṃ // 83",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 65,
+          "chapterOrSection": "84",
+          "sanskritIast": "sugrīvāsthilayaḥ śrotre hṛdyatvāvikalādṛśaḥ / vikalāyāḥ svabhāve ca syād gaurīti ca pārvatī // 84",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 66,
+          "chapterOrSection": "85",
+          "sanskritIast": "mūlārṇamāsam ākhyātaṃ hṛdayaṃ svaraśaktayaḥ / bhavasthityavasāneṣu vijñātavyaṃ yathottaram // 85",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 67,
+          "chapterOrSection": "86",
+          "sanskritIast": "ādidevena nirdiṣṭaṃ jambudvīpe kalau yuge / mantrakośam idaṃ bhūtayakṣaḍāmaratantrayoḥ // 86",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 68,
+          "chapterOrSection": "87",
+          "sanskritIast": "martyānām upakārāya triṣu lokeṣu durlabham // 87",
+          "targetBijaSyllables": []
+        }
+      ],
+      "sourceUrl": "https://ochs-database.netlify.app/manuscripts/ochs_000_000_030_bijanighantu/"
+    },
+    {
+      "slug": "ochs_000_000_046_ekaksarakosa",
+      "ochsNumber": 46,
+      "titleSanskrit": "Ekākṣarakośa (Oxford OCHS #46)",
+      "category": "Ekākṣara / Monosyllabic Lexicon",
+      "totalVerses": 27,
+      "verses": [
+        {
+          "verseNumber": 1,
+          "chapterOrSection": "pek_1",
+          "sanskritIast": "akāro vāsudevaḥ syād ākāraś ca pitāmahaḥ / pūjāyām api māṅgalye ākāraḥ parikīrttitaḥ // pek_1",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 2,
+          "chapterOrSection": "pek_2",
+          "sanskritIast": "ikāro ucyate kāmo lakṣmī rīkāra ucyate / ukāraḥ śaṅkaraḥ prokta ūkāraś cāpi rakṣaṇe // pek_2",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 3,
+          "chapterOrSection": "pek_3",
+          "sanskritIast": "ṛkāro devamātā syād ṝkāro danujaprasūḥ / ḷkāro devayoniḥ syāl ḹr mātā sadbhir ucyate // pek_3",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 4,
+          "chapterOrSection": "pek_4",
+          "sanskritIast": "ekāraḥ kathito viṣṇur aikāraś ca maheśvaraḥ / okāras tu bhaved brahmā aukāro rudra ucyate // pek_4",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 5,
+          "chapterOrSection": "pek_5",
+          "sanskritIast": "aṃ syāc ca paramaṃ brahma aḥ syād devo maheśvaraḥ / kaḥ prajāpatir uddiṣṭo ko vāyur iti śabditaḥ // pek_5",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 6,
+          "chapterOrSection": "pek_6",
+          "sanskritIast": "kaś cātmā ca samākhyātaḥ kaḥ prakāśa udāhṛtaḥ / kaṃ śiro jalam ākhyātaṃ kaṃ sukhaṃ ca prakīrtitam // pek_6",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 7,
+          "chapterOrSection": "pek_7",
+          "sanskritIast": "pṛthivyāṃ kuḥ samākhyātā kutsāyāṃ kuḥ prakīrtitaḥ / kham indriyaṃ samākhyātaṃ kham ākāśam udāhṛtam // pek_7",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 8,
+          "chapterOrSection": "pek_8",
+          "sanskritIast": "khaṃ svarge ca samākhyātaṃ khaṃ sarpe ca prakīrtitaṃ / tathā śvabhre ca khaṃ prāhuḥ khaṃ śūnye ca prakīrttitam // pek_8",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 9,
+          "chapterOrSection": "pek_9",
+          "sanskritIast": "go gaṇapatir uddiṣṭo go gandharvaḥ prakīrttitaḥ / gaṃ gītaṃ gā ca gāthā syād gaur dhenur gauḥ sarasvatī // pek_9",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 10,
+          "chapterOrSection": "pek_10",
+          "sanskritIast": "gaur mātāpi samuddiṣṭā pṛthivyāṃ gauḥ prakīrttitā / gho ghaṇṭāyāṃ samākhyātaḥ kiṅkiṇī ghā prakīrttitā // pek_10",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 11,
+          "chapterOrSection": "pek_11",
+          "sanskritIast": "upamā ghā samākhyātā kusvare ghuḥ prakīrttitaḥ / hanane ghā samākhyātā gandhane ghaḥ prakīrttitaḥ // pek_11",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 12,
+          "chapterOrSection": "pek_12",
+          "sanskritIast": "ṅakāro bhairavaḥ khyāto ṅakāro viṣaye smṛtaḥ / cakāraś candramāḥ khyātas taskaraś ca prakīrttitaḥ // pek_12",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 13,
+          "chapterOrSection": "pek_13",
+          "sanskritIast": "nirmalaṃ chaṃ samākhyātaṃ taraṇī chaḥ prakīrttitaḥ / chedane chaḥ samākhyāto vidvadbhiḥ śabdakovidaiḥ // pek_13",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 14,
+          "chapterOrSection": "pek_14",
+          "sanskritIast": "vegite jaḥ samākhyāto jaghane jaḥ prakīrttitaḥ / jetā ca jaḥ samākhyātaḥ prasiddhaiḥ śabdakovidaiḥ // pek_14",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 15,
+          "chapterOrSection": "pek_15",
+          "sanskritIast": "jhaṃjhāvāte jhakāraḥ syān naṣṭe jhaḥ samudāhṛtaḥ / ñakāro gāyane prokto ñakāro ghargharadhvanau // pek_15",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 16,
+          "chapterOrSection": "pek_16",
+          "sanskritIast": "ṭaṅkāre ṭaḥ pṛthivyāṃ ṭā ṭo dhvanau ca prakīrtitaḥ / ṭho maheśvara ākhyātaḥ śūnye ca ṭhaḥ prakīrtitaḥ // pek_16",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 17,
+          "chapterOrSection": "pek_17",
+          "sanskritIast": "bṛhaddhvanau ca ṭhaḥ proktas tathā candrasya maṇḍale / ḍakāraḥ śaṅkaraḥ proktas trāsadhvanyoḥ prakīrtitaḥ // pek_17",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 18,
+          "chapterOrSection": "pek_18",
+          "sanskritIast": "ḍhakāraḥ kīrtitā ḍhakkā nirguṇe ca dhvanāv api / ṇakāraḥ kīrtito jñāne nirṇaye 'pi prakīrtitaḥ // pek_18",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 19,
+          "chapterOrSection": "pek_19",
+          "sanskritIast": "takāraḥ kathitaś cauraḥ kroḍe pucche prakīrtitaḥ / śiloccaye thakāraḥ syāt thakāro bhayarakṣaṇe // pek_19",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 20,
+          "chapterOrSection": "pek_20",
+          "sanskritIast": "daṃ kalatre samākhyātaṃ do dānacchedadhātuṣu / dhaṃ dhane ca dhaneśe dho dhā dhātari nidarśitaḥ // pek_20",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 21,
+          "chapterOrSection": "pek_21",
+          "sanskritIast": "dhiṣaṇā dhīḥ samākhyātā dhūś ca syād bhāracintayoḥ / nakāraḥ sugate bandhe nuḥ stutau ca prakīrtitaḥ // pek_21",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 22,
+          "chapterOrSection": "pek_22",
+          "sanskritIast": "netā nīś ca samākhyātas taraṇau nauḥ prakīrtitā / nakāraḥ saugate buddhau stuto sūrye ca kīrtitaḥ // pek_22",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 23,
+          "chapterOrSection": "pek_23",
+          "sanskritIast": "naśabdaḥ svāgate bandhau vṛkṣe sūrye ca kīrtitaḥ / paḥ kuberaḥ samākhyātaḥ paścime ca prakīrtitaḥ // pek_23",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 24,
+          "chapterOrSection": "pek_24",
+          "sanskritIast": "pavane paḥ samākhyātaḥ pāḥ pāne pāś ca pātari / kaphe vāte phakāraḥ syāt tathāhvāne prakīrtitaḥ // pek_24",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 25,
+          "chapterOrSection": "pek_25",
+          "sanskritIast": "jhaṃjhāvāte phakāraḥ syād akṣare ca prakīrtitaḥ / kope phiś ca samākhyātas tathā niṣphalabhāṣaṇe // pek_25",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 26,
+          "chapterOrSection": "pek_26",
+          "sanskritIast": "vakṣaḥsthale ca baḥ prokto gadāyāṃ samudāhṛtaḥ / nakṣatraṃ bhaṃ budhaiḥ proktaṃ bhramare bhaḥ prakīrtitaḥ // pek_26",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 27,
+          "chapterOrSection": "pek_27",
+          "sanskritIast": "bhā dīptir api bhūr bhūmir bhīr bhayaṃ kathitā budhaiḥ / maḥ śivaś candramā vedhā mā ca lakṣmīḥ prakīrtitā // pek_27",
+          "targetBijaSyllables": []
+        }
+      ],
+      "sourceUrl": "https://ochs-database.netlify.app/manuscripts/ochs_000_000_046_ekaksarakosa/"
+    },
+    {
+      "slug": "ochs_000_000_259_mantrakosa",
+      "ochsNumber": 259,
+      "titleSanskrit": "Mantrakoṣa (Oxford OCHS #259)",
+      "category": "Bīja / Mantra Nighaṇṭu Lexicon",
+      "totalVerses": 1932,
+      "verses": [
+        {
+          "verseNumber": 2,
+          "chapterOrSection": "१अ)",
+          "sanskritIast": "1a)",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 3,
+          "chapterOrSection": "श्रीगणेशाय नमः ||",
+          "sanskritIast": "śrīgaṇeśāya namaḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 4,
+          "chapterOrSection": "प्रणम्य सूर्यं विघ्नेशं शिवं दुर्गां हरिं क्रमात् | प्रकटीकृत्य सन्मंत्रान् वक्ष्ये सांगान्सुगोपितान् ||",
+          "sanskritIast": "praṇamya sūryaṃ vighneśaṃ śivaṃ durgāṃ hariṃ kramāt | prakaṭīkṛtya sanmaṃtrān vakṣye sāṃgānsugopitān ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 5,
+          "chapterOrSection": "आगमेषु मया ज्ञाताः प्रयोगागुर्वनुग्रहात् | पूजा मात्रं तथाप्पत्रलिख्यतेग्रंथ गौरवात् ||",
+          "sanskritIast": "āgameṣu mayā jñātāḥ prayogāgurvanugrahāt | pūjā mātraṃ tathāppatralikhyategraṃtha gauravāt ||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 6,
+          "chapterOrSection": "विंशत्संख्या परिच्छेदे मंत्रकोषेन दूषिताः | ये मंत्रास्तेत्रलिख्यंते पूजादि फलपूर्वकाः ||",
+          "sanskritIast": "viṃśatsaṃkhyā paricchede maṃtrakoṣena dūṣitāḥ | ye maṃtrāstetralikhyaṃte pūjādi phalapūrvakāḥ ||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 7,
+          "chapterOrSection": "प्रथमे तु परिच्छेदे पूजाफल मनुक्रमात् | लिंगपूजा विशेषश्च देवाधार विवेचनं ||",
+          "sanskritIast": "prathame tu paricchede pūjāphala manukramāt | liṃgapūjā viśeṣaśca devādhāra vivecanaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 8,
+          "chapterOrSection": "शलग्रामफलं चैव तत्परीक्षादिकं तथा | द्वितीयेत्वर्चनद्रव्यं परिभाषा विधिक्रमः ||",
+          "sanskritIast": "śalagrāmaphalaṃ caiva tatparīkṣādikaṃ tathā | dvitīyetvarcanadravyaṃ paribhāṣā vidhikramaḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 9,
+          "chapterOrSection": "वस्त्रादि रूपकथनसधिकारिनिरूपणं | पात्रलक्षणं मर्घ्यं च स्नानपात्रादिकं तथा ||",
+          "sanskritIast": "vastrādi rūpakathanasadhikārinirūpaṇaṃ | pātralakṣaṇaṃ marghyaṃ ca snānapātrādikaṃ tathā ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 10,
+          "chapterOrSection": "पूजाद्रव्यविहीने च पूजनेऽनिष्टभागिता | विशेषपात्रदानेन विशेषफलभागिता ||",
+          "sanskritIast": "pūjādravyavihīne ca pūjane'niṣṭabhāgitā | viśeṣapātradānena viśeṣaphalabhāgitā ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 11,
+          "chapterOrSection": "घृतादि स्नानजं पुण्यं सूर्यादीनां विशेषतः | पूजोपकरणं चेति लिख्यते तत्समासतः ||",
+          "sanskritIast": "ghṛtādi snānajaṃ puṇyaṃ sūryādīnāṃ viśeṣataḥ | pūjopakaraṇaṃ ceti likhyate tatsamāsataḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 12,
+          "chapterOrSection": "तृतीयेऽनुलेपनं प्रोक्तं ग्राह्याग्राह्यं च पुष्पकं | सूर्यादीनां च सर्वेषां सामान्यकुसुमानि च ||",
+          "sanskritIast": "tṛtīye'nulepanaṃ proktaṃ grāhyāgrāhyaṃ ca puṣpakaṃ | sūryādīnāṃ ca sarveṣāṃ sāmānyakusumāni ca ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 13,
+          "chapterOrSection": "चतुर्थे धूपदीपादि वस्त्रालंकरणादिकं | पंचमे मंत्रदीक्षा च षष्ठे तु गुरुशिष्ययोः ||",
+          "sanskritIast": "caturthe dhūpadīpādi vastrālaṃkaraṇādikaṃ | paṃcame maṃtradīkṣā ca ṣaṣṭhe tu guruśiṣyayoḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 14,
+          "chapterOrSection": "१ब्)",
+          "sanskritIast": "1b)",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 15,
+          "chapterOrSection": "परीक्षामेलनं चैव मंत्राणाम् ऋजुमार्गतः | सप्तमे भूतशुद्धिश्च व्यासतश्च समासतः ||",
+          "sanskritIast": "parīkṣāmelanaṃ caiva maṃtrāṇām ṛjumārgataḥ | saptame bhūtaśuddhiśca vyāsataśca samāsataḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 16,
+          "chapterOrSection": "अष्टमे मातृकान्यासः केशवादि प्रभेदतः | नवमे सरस्वती मंत्रादशमेश्रीरनुक्रमः ||",
+          "sanskritIast": "aṣṭame mātṛkānyāsaḥ keśavādi prabhedataḥ | navame sarasvatī maṃtrādaśameśrīranukramaḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 17,
+          "chapterOrSection": "एकादशेरवेर्मंत्राद्वादशे वैद्यराजिकाः | त्रयोदशे च शैवाः स्युर्दौर्गाश्चापि चतुर्दशे ||",
+          "sanskritIast": "ekādaśeravermaṃtrādvādaśe vaidyarājikāḥ | trayodaśe ca śaivāḥ syurdaurgāścāpi caturdaśe ||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 18,
+          "chapterOrSection": "वैष्णवाः पंचदशके नारसिंहास्तु षोडशे | नानामंत्राः सप्तदशेऽष्टादशेत्तानिकानिचित् ||",
+          "sanskritIast": "vaiṣṇavāḥ paṃcadaśake nārasiṃhāstu ṣoḍaśe | nānāmaṃtrāḥ saptadaśe'ṣṭādaśettānikānicit ||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 19,
+          "chapterOrSection": "एकोनविंशेयंत्राणिविंशे मुद्राक्षमालिका | एवं क्रमानुकथने नमो होन्वेषणें भवेत् ||",
+          "sanskritIast": "ekonaviṃśeyaṃtrāṇiviṃśe mudrākṣamālikā | evaṃ kramānukathane namo honveṣaṇeṃ bhavet ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 20,
+          "chapterOrSection": "न कोषात् सुगमोपायोमंत्रार्णव विलंघने | न मंत्रात् सुगमो पायो भवार्णव विलंघने ||",
+          "sanskritIast": "na koṣāt sugamopāyomaṃtrārṇava vilaṃghane | na maṃtrāt sugamo pāyo bhavārṇava vilaṃghane ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 21,
+          "chapterOrSection": "विन्ययज्ञं विनातीर्थं विनादानं विनातपः | स्वर्गादिदेवं पूजायां जपध्यानांवु पुष्पतः ||",
+          "sanskritIast": "vinyayajñaṃ vinātīrthaṃ vinādānaṃ vinātapaḥ | svargādidevaṃ pūjāyāṃ japadhyānāṃvu puṣpataḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 22,
+          "chapterOrSection": "अनेकायासवित्तैश्च स्वर्गः साध्यो महाजनैः | स एव साध्यते लोकैर्मंत्रमात्रेण पूजनात् ||",
+          "sanskritIast": "anekāyāsavittaiśca svargaḥ sādhyo mahājanaiḥ | sa eva sādhyate lokairmaṃtramātreṇa pūjanāt ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 23,
+          "chapterOrSection": "तस्मात् कलियुगे घोरे धनविद्यां विवर्जिताः | नराः कुरुतं देवानामर्चनं श्रद्धयान्विताः ||",
+          "sanskritIast": "tasmāt kaliyuge ghore dhanavidyāṃ vivarjitāḥ | narāḥ kurutaṃ devānāmarcanaṃ śraddhayānvitāḥ ||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 24,
+          "chapterOrSection": "एवं पुष्पादिनापि देवपूजां कर्तुमसमर्थ | श्वेत्तदा मंत्रजपेनैव साधयति स्वर्गादिकं ||",
+          "sanskritIast": "evaṃ puṣpādināpi devapūjāṃ kartumasamartha | śvettadā maṃtrajapenaiva sādhayati svargādikaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 25,
+          "chapterOrSection": "तथा चोक्तं मनुना |",
+          "sanskritIast": "tathā coktaṃ manunā |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 26,
+          "chapterOrSection": "२अ)",
+          "sanskritIast": "2a)",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 27,
+          "chapterOrSection": "जप्येनैव तु संसिद्धोद्ब्राह्मणो नात्र संशयः | कुर्यादनान्नवा कुर्यान्मैत्रो ब्राह्मण उच्यते ||",
+          "sanskritIast": "japyenaiva tu saṃsiddhodbrāhmaṇo nātra saṃśayaḥ | kuryādanānnavā kuryānmaitro brāhmaṇa ucyate ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 28,
+          "chapterOrSection": "ब्राह्मण उत्युपलक्षणं | किंतु यत्र यस्याधिकारस्तत्तन्मंत्रं जपेत् | तस्य तेनैव संसिद्धिरिति उक्तं च भरते |",
+          "sanskritIast": "brāhmaṇa utyupalakṣaṇaṃ | kiṃtu yatra yasyādhikārastattanmaṃtraṃ japet | tasya tenaiva saṃsiddhiriti uktaṃ ca bharate |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 29,
+          "chapterOrSection": "आयुष्यंधनं पुत्रांश्च पशून् विद्यां महद्यशः | धर्मार्थकाममोक्षांश्च लभते वै जपन्नरः ||",
+          "sanskritIast": "āyuṣyaṃdhanaṃ putrāṁśca paśūn vidyāṃ mahadyaśaḥ | dharmārthakāmamokṣāṁśca labhate vai japannaraḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 30,
+          "chapterOrSection": "जपेचेदालस्यं भवति तदा ध्याने नैव देवता वरं ददाति | तथा च ध्यानेन मुनयः सर्वे परांसिद्धिमवाप्नुयुरिति | तच्च ध्यानं द्विविधं सगुणं निर्गुणं चेति | निर्गुणं मुमुक्षुभिः कार्यं सगुणमागमोक्त मंत्रपूतं गृहस्थैः कार्यं | तेऽत्र मंत्रालिख्यंते | वन्यपुष्पपूजादि मात्रेण कथं स्वर्गादि सिद्धिरित्पांशंकायां प्रमाणवचनानि लिख्यंते | प्रथमतः प्रयोजनमनुद्दिश्य नमंदोपि प्रवर्तते इति न्यायात् | तथा च मत्स्यपुराणे |",
+          "sanskritIast": "japecedālasyaṃ bhavati tadā dhyāne naiva devatā varaṃ dadāti | tathā ca dhyānena munayaḥ sarve parāṃsiddhimavāpnuyuriti | tacca dhyānaṃ dvividhaṃ saguṇaṃ nirguṇaṃ ceti | nirguṇaṃ mumukṣubhiḥ kāryaṃ saguṇamāgamokta maṃtrapūtaṃ gṛhasthaiḥ kāryaṃ | te'tra maṃtrālikhyaṃte | vanyapuṣpapūjādi mātreṇa kathaṃ svargādi siddhiritpāṃśaṃkāyāṃ pramāṇavacanāni likhyaṃte | prathamataḥ prayojanamanuddiśya namaṃdopi pravartate iti nyāyāt | tathā ca matsyapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 31,
+          "chapterOrSection": "यस्तु संपूजयेन्नित्यं देवतां नियतेंद्रियः | भक्तिभाव समायुक्तः सोपि गच्छेत्य संगतिं ||",
+          "sanskritIast": "yastu saṃpūjayennityaṃ devatāṃ niyateṃdriyaḥ | bhaktibhāva samāyuktaḥ sopi gacchetya saṃgatiṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 32,
+          "chapterOrSection": "कालिकापुराणे |",
+          "sanskritIast": "kālikāpurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 33,
+          "chapterOrSection": "शिवं भास्करमग्निं च केशवं कौशिकीमपि | मनसाऽनर्चयन् याति देवलोका दधोगतिं ||",
+          "sanskritIast": "śivaṃ bhāskaramagniṃ ca keśavaṃ kauśikīmapi | manasā'narcayan yāti devalokā dadhogatiṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 34,
+          "chapterOrSection": "२ब्)",
+          "sanskritIast": "2b)",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 35,
+          "chapterOrSection": "मनसा श्रद्धया अनर्चयन् |",
+          "sanskritIast": "manasā śraddhayā anarcayan |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 36,
+          "chapterOrSection": "अथ वा मनसाप्यनर्चयन् इत्यावश्यकपूजोक्तिरतिष्ट स्रवणात् | कौशिकीदुर्गा | अत्र पाठ क्रमेण पूजाक्रमो नवोद्धव्यः | यतः पूर्वं सूर्यपूजाशेषेण देवपूजेति शिष्टाचारो दृश्यते ||",
+          "sanskritIast": "atha vā manasāpyanarcayan ityāvaśyakapūjoktiratiṣṭa sravaṇāt | kauśikīdurgā | atra pāṭha krameṇa pūjākramo navoddhavyaḥ | yataḥ pūrvaṃ sūryapūjāśeṣeṇa devapūjeti śiṣṭācāro dṛśyate ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 37,
+          "chapterOrSection": "भविष्यपुराणे |",
+          "sanskritIast": "bhaviṣyapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 38,
+          "chapterOrSection": "यः प्रदद्याद्गवां लक्षं दोग्ध्रीणां वेदपारगे | एकाहमर्चयेद्भानुं तस्य पुण्यं ततोधिकं ||",
+          "sanskritIast": "yaḥ pradadyādgavāṃ lakṣaṃ dogdhrīṇāṃ vedapārage | ekāhamarcayedbhānuṃ tasya puṇyaṃ tatodhikaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 39,
+          "chapterOrSection": "सामान्यतोपि देवार्चने गोप्रदानफलं भवति वाधिकं |",
+          "sanskritIast": "sāmānyatopi devārcane gopradānaphalaṃ bhavati vādhikaṃ |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 40,
+          "chapterOrSection": "तथा च याज्ञवल्क्यः |",
+          "sanskritIast": "tathā ca yājñavalkyaḥ |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 41,
+          "chapterOrSection": "श्रांतसंवाहनंरेणि परिचर्या सुरार्चनं | विप्रपादोदकेच्छिष्टमार्जनं गोप्रदानवत् ||",
+          "sanskritIast": "śrāṃtasaṃvāhanaṃreṇi paricaryā surārcanaṃ | viprapādodakecchiṣṭamārjanaṃ gopradānavat ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 42,
+          "chapterOrSection": "हरिनाथनिवंधादौ क्वचिदेवं पाठः |",
+          "sanskritIast": "harināthanivaṃdhādau kvacidevaṃ pāṭhaḥ |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 43,
+          "chapterOrSection": "यः प्रदद्याद्गवां लक्षं येग्ध्रीणां वेदपारगे | एकाहमर्चयेद्भानुं शिवं वाप्यथ केशवं ||",
+          "sanskritIast": "yaḥ pradadyādgavāṃ lakṣaṃ yegdhrīṇāṃ vedapārage | ekāhamarcayedbhānuṃ śivaṃ vāpyatha keśavaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 44,
+          "chapterOrSection": "भवेच्चैव नरश्रेष्ठ तस्य पुण्यं ततोधिकं | अश्वमेध सहस्राणि वाजपेय शतानि च ||",
+          "sanskritIast": "bhaveccaiva naraśreṣṭha tasya puṇyaṃ tatodhikaṃ | aśvamedha sahasrāṇi vājapeya śatāni ca ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 45,
+          "chapterOrSection": "सूर्यस्यार्चार्चनस्यैते कलानांर्हति षोडशीं |",
+          "sanskritIast": "sūryasyārcārcanasyaite kalānāṃrhati ṣoḍaśīṃ |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 46,
+          "chapterOrSection": "अर्चा प्रतिमा |",
+          "sanskritIast": "arcā pratimā |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 47,
+          "chapterOrSection": "तथा सदायजंति यज्ञेन दानं ददति ते सदा | सदा ते वायुभक्षाश्चयेर्चयंति दिवाकरा तथा ||",
+          "sanskritIast": "tathā sadāyajaṃti yajñena dānaṃ dadati te sadā | sadā te vāyubhakṣāścayercayaṃti divākarā tathā ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 48,
+          "chapterOrSection": "येऽर्चयंति महात्मानं विघ्नराजं सदानराः | तेषां सर्वसमृद्धिश्च सर्वसिद्धिश्च जायते ||",
+          "sanskritIast": "ye'rcayaṃti mahātmānaṃ vighnarājaṃ sadānarāḥ | teṣāṃ sarvasamṛddhiśca sarvasiddhiśca jāyate ||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 49,
+          "chapterOrSection": "सुरार्चां लक्षणैर्हीनां यस्तु पूजयते नरः |",
+          "sanskritIast": "surārcāṃ lakṣaṇairhīnāṃ yastu pūjayate naraḥ |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 50,
+          "chapterOrSection": "३अ)",
+          "sanskritIast": "3a)",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 51,
+          "chapterOrSection": "तस्यान्नं नाभिनंदंति तस्मात्तां परिवर्जयेत् ||",
+          "sanskritIast": "tasyānnaṃ nābhinaṃdaṃti tasmāttāṃ parivarjayet ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 52,
+          "chapterOrSection": "इत्यनिष्टां श्रवणात्सलक्षणा पूजयेत् | लक्षणं तु ग्रंथगौरवभयान्नलिखितं ||",
+          "sanskritIast": "ityaniṣṭāṃ śravaṇātsalakṣaṇā pūjayet | lakṣaṇaṃ tu graṃthagauravabhayānnalikhitaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 53,
+          "chapterOrSection": "स्कंदपुराणे |",
+          "sanskritIast": "skaṃdapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 54,
+          "chapterOrSection": "अश्वमेध सहस्राणि राजसूय शतानि च | महेशार्चनं पुण्यस्यकलां नार्हति षोडशीं ||",
+          "sanskritIast": "aśvamedha sahasrāṇi rājasūya śatāni ca | maheśārcanaṃ puṇyasyakalāṃ nārhati ṣoḍaśīṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 55,
+          "chapterOrSection": "यावन्नाभ्येति मरणं यावन्नाभ्येति तेजस | यावन्नेंद्रियवैकल्यंतावदेवार्चयेश्वरं ||",
+          "sanskritIast": "yāvannābhyeti maraṇaṃ yāvannābhyeti tejasa | yāvanneṃdriyavaikalyaṃtāvadevārcayeśvaraṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 56,
+          "chapterOrSection": "भविष्यपुराणे |",
+          "sanskritIast": "bhaviṣyapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 57,
+          "chapterOrSection": "येन रानार्चयंतीह शिवं त्रिभुवनेश्वरं | न ते स्वर्गस्य मोक्षस्य राज्यस्यापि न भाजनं ||",
+          "sanskritIast": "yena rānārcayaṃtīha śivaṃ tribhuvaneśvaraṃ | na te svargasya mokṣasya rājyasyāpi na bhājanaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 58,
+          "chapterOrSection": "वरं प्राणपरित्यागः शिरसो वापि कर्तनं | नत्व संपूज्य भूंजीत भगवंतं त्रिलोचनं ||",
+          "sanskritIast": "varaṃ prāṇaparityāgaḥ śiraso vāpi kartanaṃ | natva saṃpūjya bhūṃjīta bhagavaṃtaṃ trilocanaṃ ||",
+          "targetBijaSyllables": [
+            "hūṃ"
+          ]
+        },
+        {
+          "verseNumber": 59,
+          "chapterOrSection": "स्फुटं निर्वहते यस्य यावज्जीवं शिवार्चनं | मनुष्य चर्मणानद्धः स रुद्रो नात्र संशयः ||",
+          "sanskritIast": "sphuṭaṃ nirvahate yasya yāvajjīvaṃ śivārcanaṃ | manuṣya carmaṇānaddhaḥ sa rudro nātra saṃśayaḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 60,
+          "chapterOrSection": "आकाशं लिंगमित्याहुः पृथिवी तस्यपीठिका | आलयः सर्वभूतानां लयनाल्लिंग मुच्यते ||",
+          "sanskritIast": "ākāśaṃ liṃgamityāhuḥ pṛthivī tasyapīṭhikā | ālayaḥ sarvabhūtānāṃ layanālliṃga mucyate ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 61,
+          "chapterOrSection": "अर्चायां पूजयेद्योमां विष्णुर्भवति पूजितः | अर्चिता मूर्तयः सर्वायोमेलिंगं समर्चयेत् ||",
+          "sanskritIast": "arcāyāṃ pūjayedyomāṃ viṣṇurbhavati pūjitaḥ | arcitā mūrtayaḥ sarvāyomeliṃgaṃ samarcayet ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 62,
+          "chapterOrSection": "लिंगपुराणे |",
+          "sanskritIast": "liṃgapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 63,
+          "chapterOrSection": "लिंगेपि पूजिते सर्वमर्चितं स्याच्चराचरं | तस्मात्तदर्चनं कार्यं लिंगस्य सुमहात्मभिः ||",
+          "sanskritIast": "liṃgepi pūjite sarvamarcitaṃ syāccarācaraṃ | tasmāttadarcanaṃ kāryaṃ liṃgasya sumahātmabhiḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 64,
+          "chapterOrSection": "अनेकजन्मसाहस्रं भ्राम्यमानस्तु योनिषु | कथं माप्नोति वै मुक्तिं शिवलिंगार्चनं विना ||",
+          "sanskritIast": "anekajanmasāhasraṃ bhrāmyamānastu yoniṣu | kathaṃ māpnoti vai muktiṃ śivaliṃgārcanaṃ vinā ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 65,
+          "chapterOrSection": "३ब्)",
+          "sanskritIast": "3b)",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 66,
+          "chapterOrSection": "सर्वेंद्रिय प्रसक्तोपि युक्तो वा सर्वपातकैः | सोपि याति शिवं देविलिंगं योर्चयतीहमे ||",
+          "sanskritIast": "sarveṃdriya prasaktopi yukto vā sarvapātakaiḥ | sopi yāti śivaṃ deviliṃgaṃ yorcayatīhame ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 67,
+          "chapterOrSection": "अर्चायां अर्चयेद्योमां पूर्णमष्टशतं नरः | एकं च दिवसं लिंगे सममेतन्न संशयः ||",
+          "sanskritIast": "arcāyāṃ arcayedyomāṃ pūrṇamaṣṭaśataṃ naraḥ | ekaṃ ca divasaṃ liṃge samametanna saṃśayaḥ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 68,
+          "chapterOrSection": "भविष्यपुराणे |",
+          "sanskritIast": "bhaviṣyapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 69,
+          "chapterOrSection": "यः कृत्वा पार्थिवं लिंगं पूजयेच्छुभवेदिकं | इहैव धनवान् श्रीमानं ते रुद्रस्तु जायते ||",
+          "sanskritIast": "yaḥ kṛtvā pārthivaṃ liṃgaṃ pūjayecchubhavedikaṃ | ihaiva dhanavān śrīmānaṃ te rudrastu jāyate ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 70,
+          "chapterOrSection": "शुभवेदिकं शोभनवेदिकायुक्तं |",
+          "sanskritIast": "śubhavedikaṃ śobhanavedikāyuktaṃ |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 71,
+          "chapterOrSection": "ब्रह्मपुराणे |",
+          "sanskritIast": "brahmapurāṇe |",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 72,
+          "chapterOrSection": "हरो महेश्वरश्चैव शूलपाणिः पिनाकधृक् | पशुपतिः शिवश्चेति क्षमस्वेति विसर्जनं ||",
+          "sanskritIast": "haro maheśvaraścaiva śūlapāṇiḥ pinākadhṛk | paśupatiḥ śivaśceti kṣamasveti visarjanaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 73,
+          "chapterOrSection": "मृदाहरण संघट्ट प्रतिष्ठाह्वानमेव च | स्नपनं पूजनं चैव क्षमस्वेति विसर्जनं ||",
+          "sanskritIast": "mṛdāharaṇa saṃghaṭṭa pratiṣṭhāhvānameva ca | snapanaṃ pūjanaṃ caiva kṣamasveti visarjanaṃ ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 74,
+          "chapterOrSection": "ओं हराय नमः मृदमाहरामि || १ || ओं महेश्वराय नमः मृदं संघट्टयामि || २ || ओं शूलपाणये नमः मृदं प्रतिष्टयामि || ३ || ओं पिनाकधृगेनमः मृदिशिवमावाहयामि || ४ || ओं पशुपतये नमः पाद्यादिकं स्नपनं कुर्यात् || ५ || ओं शिवाय नमः | इति पूजयेत् || ६ || इति पूजाक्रमः || उक्तं चागमे | पार्थिवं सिद्धिदमिति |",
+          "sanskritIast": "oṃ harāya namaḥ mṛdamāharāmi || 1 || oṃ maheśvarāya namaḥ mṛdaṃ saṃghaṭṭayāmi || 2 || oṃ śūlapāṇaye namaḥ mṛdaṃ pratiṣṭayāmi || 3 || oṃ pinākadhṛgenamaḥ mṛdiśivamāvāhayāmi || 4 || oṃ paśupataye namaḥ pādyādikaṃ snapanaṃ kuryāt || 5 || oṃ śivāya namaḥ | iti pūjayet || 6 || iti pūjākramaḥ || uktaṃ cāgame | pārthivaṃ siddhidamiti |",
+          "targetBijaSyllables": [
+            "oṃ"
+          ]
+        },
+        {
+          "verseNumber": 75,
+          "chapterOrSection": "त्रिसंध्यं पूजयेल्लिंगं कृत्वा विंवेन पार्थिवं | दशैकादशिकं यावत् तस्य पुण्यफलं शृणु ||",
+          "sanskritIast": "trisaṃdhyaṃ pūjayelliṃgaṃ kṛtvā viṃvena pārthivaṃ | daśaikādaśikaṃ yāvat tasya puṇyaphalaṃ śṛṇu ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 76,
+          "chapterOrSection": "अनेनैव स्वदेहेन रुद्रः संजायते क्षितौ | पापहा सर्वमर्त्यानां दर्शनात् स्पर्शनादपि ||",
+          "sanskritIast": "anenaiva svadehena rudraḥ saṃjāyate kṣitau | pāpahā sarvamartyānāṃ darśanāt sparśanādapi ||",
+          "targetBijaSyllables": []
+        }
+      ],
+      "sourceUrl": "https://ochs-database.netlify.app/manuscripts/ochs_000_000_259_mantrakosa/"
+    },
+    {
+      "slug": "ochs_000_000_262_matrkarnanighantu",
+      "ochsNumber": 262,
+      "titleSanskrit": "Mātṛkārṇanighaṇṭu (Oxford OCHS #262)",
+      "category": "Mātṛkā / Akṣara Nighaṇṭu Lexicon",
+      "totalVerses": 11,
+      "verses": [
+        {
+          "verseNumber": 1,
+          "chapterOrSection": "पृ० १अ)||श्रीगणेशायनमः||वृंदारुवृंदारकंवृंदवंद्यंवृंदावनोत्संगिपदारविंदं||इंदिंदिरोदं चममंदमूर्तिमुकुंदमानंदमयंनतोस्मि||१||मुकुंदरामकृष्णाख्यौभ्रातरौपूर्वसंभवौ|| कवितावेदशास्त्रादिरत्नरत्नाकरौस्तूमः||२||आगमशास्त्रवाचांविमलत्वंसत्वरं दिशतु||श्रीपुरुषोत्तमसुधियांचरणद्वंद्वेसमर्पिताप्रणतिः||३||आगमांबुधिमाको ड्यसद्गुरूणांप्रसादतः||श्रीभानुनाविविक्रियतेमातृकावर्णसंग्रहः||४||अथोंका रनामानि|| ||ओंकारस्तारकोऽव्यक्तोवेदाद्यःप्रणवोऽव्ययः||ध्रुवस्तारःशिवोमू लंज्योतिःशाखादिकःस्मृताः||५|| ||अकारनामानि||श्रीकंठःकेशवःकीर्त्तिर्निवृ त्तिरमृतालघुः||पूर्णोदरीमातृकाद्यःस्वराद्योह्यमृतेश्वरः||६||कालाद्यःकेशवांः कस्थोमृतेशःप्रथमोभवेत्||न्यासाद्योऽवर्णकोज्ञेयो|| ||आकारनामानि||ह्य थाकारोगुरुर्मतः||७||वृताकारोवासुदेवःकांतिर्नारायणःस्मृतः||अनंतःसप्रति ष्ठास्याद्विरजामानदातथा||८||दीर्घश्चतुर्मुखोदातो--नारायणःस्मृतः|| ||",
+          "sanskritIast": "pṛ0 1a)||śrīgaṇeśāyanamaḥ||vṛṃdāruvṛṃdārakaṃvṛṃdavaṃdyaṃvṛṃdāvanotsaṃgipadāraviṃdaṃ||iṃdiṃdirodaṃ camamaṃdamūrtimukuṃdamānaṃdamayaṃnatosmi||1||mukuṃdarāmakṛṣṇākhyaubhrātaraupūrvasaṃbhavau|| kavitāvedaśāstrādiratnaratnākaraustūmaḥ||2||āgamaśāstravācāṃvimalatvaṃsatvaraṃ diśatu||śrīpuruṣottamasudhiyāṃcaraṇadvaṃdvesamarpitāpraṇatiḥ||3||āgamāṃbudhimāko ḍyasadgurūṇāṃprasādataḥ||śrībhānunāvivikriyatemātṛkāvarṇasaṃgrahaḥ||4||athoṃkā ranāmāni|| ||oṃkārastārako'vyaktovedādyaḥpraṇavo'vyayaḥ||dhruvastāraḥśivomū laṃjyotiḥśākhādikaḥsmṛtāḥ||5|| ||akāranāmāni||śrīkaṃṭhaḥkeśavaḥkīrttirnivṛ ttiramṛtālaghuḥ||pūrṇodarīmātṛkādyaḥsvarādyohyamṛteśvaraḥ||6||kālādyaḥkeśavāṃḥ kasthomṛteśaḥprathamobhavet||nyāsādyo'varṇakojñeyo|| ||ākāranāmāni||hya thākārogururmataḥ||7||vṛtākārovāsudevaḥkāṃtirnārāyaṇaḥsmṛtaḥ||anaṃtaḥsaprati ṣṭhāsyādvirajāmānadātathā||8||dīrghaścaturmukhodāto--nārāyaṇaḥsmṛtaḥ|| ||",
+          "targetBijaSyllables": [
+            "oṃ",
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 2,
+          "chapterOrSection": "पृ० १ब) इ०||इकारोमाधवःसूक्ष्मःपांचजन्योमुखांकुरुः||९||पूषाविद्याद्विबिंदुश्चतुष्टिःशा ल्मलिकःस्मृतः||दक्षनेत्रंतृतीयश्चगंधर्वःपरमेश्वरः||१०|| ||ई०||ईकारस्तुत्रि मूर्त्तिःस्याल्लोलाक्षीवामलोचनं||तुष्टिःपुष्टिर्नृसिंहास्त्रंगोविंदश्चचतुर्थकः||११|| इंद्रमूर्त्तिर्महामायासुरेशःशांतिरीरितः|| ||उ०||उकारेवर्त्तुलाक्षीतुयाम्यकर्णो- रमेश्वरः||१२||अमरेशोधृतिर्विष्णुरिंधिकापुष्टिरेवच||गजांकुशोमन्मथःस्याद्विज योविघ्नहारकः||१३||पंचम|| ऊ०||स्त्वथूकारोदीपिकामधुसूदनः||वामांगोवा मकर्णश्चदीर्घःशांतिरतिःस्मृतः||१४||इंद्रवायौदीर्घघोणाह्यधीशःषण्मुखोमतः|| षट्स्वरःसूक्ष्मित्युक्तः||ऋ०||ऋकारःसुमुखीक्रिया||१५||दक्षनासाभारभूतिस्तप नोरेचिकाधृतिः||त्रिविक्रमोरिपुघ्नःस्याद्वर्मीविग्रहनायकः||१६||सप्तम||ऋ०|| स्त्वथृकारशशिनीमोचिकादया||वामनासातिथीशश्चगोमुखीस्थाणुरीश्वरः|| १७||वामनोह्यमृतेशःस्यात्श्रीधरस्त्रिपुरांतकः||देवज्ञोह्यष्टमःप्रोक्तो||ऌ०||",
+          "sanskritIast": "pṛ0 1ba) i0||ikāromādhavaḥsūkṣmaḥpāṃcajanyomukhāṃkuruḥ||9||pūṣāvidyādvibiṃduścatuṣṭiḥśā lmalikaḥsmṛtaḥ||dakṣanetraṃtṛtīyaścagaṃdharvaḥparameśvaraḥ||10|| ||ī0||īkārastutri mūrttiḥsyāllolākṣīvāmalocanaṃ||tuṣṭiḥpuṣṭirnṛsiṃhāstraṃgoviṃdaścacaturthakaḥ||11|| iṃdramūrttirmahāmāyāsureśaḥśāṃtirīritaḥ|| ||u0||ukārevarttulākṣītuyāmyakarṇo- rameśvaraḥ||12||amareśodhṛtirviṣṇuriṃdhikāpuṣṭirevaca||gajāṃkuśomanmathaḥsyādvija yovighnahārakaḥ||13||paṃcama|| ū0||stvathūkārodīpikāmadhusūdanaḥ||vāmāṃgovā makarṇaścadīrghaḥśāṃtiratiḥsmṛtaḥ||14||iṃdravāyaudīrghaghoṇāhyadhīśaḥṣaṇmukhomataḥ|| ṣaṭsvaraḥsūkṣmityuktaḥ||ṛ0||ṛkāraḥsumukhīkriyā||15||dakṣanāsābhārabhūtistapa norecikādhṛtiḥ||trivikramoripughnaḥsyādvarmīvigrahanāyakaḥ||16||saptama||ṛ0|| stvathṛkāraśaśinīmocikādayā||vāmanāsātithīśaścagomukhīsthāṇurīśvaraḥ|| 17||vāmanohyamṛteśaḥsyātśrīdharastripurāṃtakaḥ||devajñohyaṣṭamaḥprokto||ḷ0||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 3,
+          "chapterOrSection": "पृ० २अ) ऌकारश्चंद्रिकामतः||१८||ग्राम्यगंडस्थितःस्थाणुदीर्घजिह्वात्रिवेदकः||एकांद्विर्व ज्रदंडश्चव्योमार्द्धोनवमस्वरः|१९||मेधादेवसूतिश्रीधरःकीर्त्यतेबुधैः||ॡ०||ॡ कारोवामगंडःस्याकुबेरदृक्||२०||सूक्ष्मार्द्धिर्घोहरःकुंडोदरीतथा||हृषीकेशःसहर्षा चगणेशश्चत्रिकंटकः||२१||नीलांघ्रिर्दशमःप्रोक्तः||ए०||एकारःस्यात्त्रिकोण गः||ऊर्ध्वोष्टस्थोझिंटिरीशःश्रधाज्ञानेतथामते||२२||जगज्योतिःपद्मनाभस्तुश क्तिकः||ऊर्ध्वकेशीतथाज्योत्स्नाएकादशितीरितः||२३||ऐ०||ऐकारोभौतिकोल ज्जाधरः स्मृतः||वागीशःप्रणजोवर्मभयदश्रीमृतातथा||२४||दामोदरोद्वादशस्या त्तथैवविकृतानना||ओ०||ओकारोनंगसंज्ञाश्च---राप्यायनीतथा||२५||ऊर्ध्व दंतालिजःसद्योजातःस्मृतः||ज्वालामुखीवासुदेवोलक्ष्मीश्चैवत्रिमात्रिकः||२६||त्र योदशश्चमंत्रेशोमात्रेशःप्रणवोमतः||औ०||औकारोव्यापिनीप्रोक्तोनृसिंहांगःस रस्वती||२७||अघोदंतीभिजोनेत्रलघुरुल्कामुखीस्मृतः||मुरारिश्चैवमायावीह्यं",
+          "sanskritIast": "pṛ0 2a) ḷkāraścaṃdrikāmataḥ||18||grāmyagaṃḍasthitaḥsthāṇudīrghajihvātrivedakaḥ||ekāṃdvirva jradaṃḍaścavyomārddhonavamasvaraḥ|19||medhādevasūtiśrīdharaḥkīrtyatebudhaiḥ||ḹ0||ḹ kārovāmagaṃḍaḥsyākuberadṛk||20||sūkṣmārddhirghoharaḥkuṃḍodarītathā||hṛṣīkeśaḥsaharṣā cagaṇeśaścatrikaṃṭakaḥ||21||nīlāṃghrirdaśamaḥproktaḥ||e0||ekāraḥsyāttrikoṇa gaḥ||ūrdhvoṣṭasthojhiṃṭirīśaḥśradhājñānetathāmate||22||jagajyotiḥpadmanābhastuśa ktikaḥ||ūrdhvakeśītathājyotsnāekādaśitīritaḥ||23||ai0||aikārobhautikola jjādharaḥ smṛtaḥ||vāgīśaḥpraṇajovarmabhayadaśrīmṛtātathā||24||dāmodarodvādaśasyā ttathaivavikṛtānanā||o0||okāronaṃgasaṃjñāśca---rāpyāyanītathā||25||ūrdhva daṃtālijaḥsadyojātaḥsmṛtaḥ||jvālāmukhīvāsudevolakṣmīścaivatrimātrikaḥ||26||tra yodaśaścamaṃtreśomātreśaḥpraṇavomataḥ||au0||aukārovyāpinīproktonṛsiṃhāṃgaḥsa rasvatī||27||aghodaṃtībhijonetralaghurulkāmukhīsmṛtaḥ||murāriścaivamāyāvīhyaṃ",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 4,
+          "chapterOrSection": "पृ० २ब) गदानुग्रहेश्वरः||२८||विद्वद्भिश्चतथाप्रोक्तौसंकर्षणचतुर्दशौ||अं०||अंस्वरश्चा-- -श्चपूर्णाप्रीतिःशशीमृतः||२९||सुश्रीमुखीह्यूर्ध्वदंतःप्रद्युम्नोऽक्रूरसंज्ञकः||मन्म थांगःकंठचारीव्योमरूपीनिगूढकः||३०||पूर्णापंचदशश्चैव||अ०||प्रोच्यतेह्यःस्व रोरतिः||वाक्यस्यस्थश्चमहासेनकन्यास्तनप्रभः||३१||पूर्णामुखीह्यनंताचविष्णुमि त्रानिरुद्धकौ||पूर्णामृताविसर्गांतोविरजःषोडशःस्वरः||३२||अथककारनामामि|| ककारःकामगःक्रोधीयादवेशोजया||याम्यकर्णःकजश्चक्रीमहीकन्य.सुरारिकौ|| ३३||सृष्टिःसप्तदशश्चैवस्पर्शाद्य||ख०||स्त्वथरवर्णकः||ऋद्धिश्चंडीश्वरोदुर्गाखगो नंदीसरस्वती||३४||दक्षिणःकूर्परःखेटःकैटभारिस्तथैवच||अष्टादशश्चमातं गःसंहार||ग०||स्त्वथगार्णकः||३५||स्मृतिःपंचांतकःसर्वसिद्धिःशार्ङ्गीप्रभामतः|| गोमुखोगजकुंभश्च--सिंहोगणेश्वरः||३६||एकोनविंशश्चतथादृक्षिणंमणिमा स्थितः||घ०||घकारो----मेधागौरीशिवोत्तमः||३७||अंगुलीमूलकःसत्याख",
+          "sanskritIast": "pṛ0 2ba) gadānugraheśvaraḥ||28||vidvadbhiścatathāproktausaṃkarṣaṇacaturdaśau||aṃ0||aṃsvaraścā-- -ścapūrṇāprītiḥśaśīmṛtaḥ||29||suśrīmukhīhyūrdhvadaṃtaḥpradyumno'krūrasaṃjñakaḥ||manma thāṃgaḥkaṃṭhacārīvyomarūpīnigūḍhakaḥ||30||pūrṇāpaṃcadaśaścaiva||a0||procyatehyaḥsva roratiḥ||vākyasyasthaścamahāsenakanyāstanaprabhaḥ||31||pūrṇāmukhīhyanaṃtācaviṣṇumi trāniruddhakau||pūrṇāmṛtāvisargāṃtovirajaḥṣoḍaśaḥsvaraḥ||32||athakakāranāmāmi|| kakāraḥkāmagaḥkrodhīyādaveśojayā||yāmyakarṇaḥkajaścakrīmahīkanya.surārikau|| 33||sṛṣṭiḥsaptadaśaścaivasparśādya||kha0||stvatharavarṇakaḥ||ṛddhiścaṃḍīśvarodurgākhago naṃdīsarasvatī||34||dakṣiṇaḥkūrparaḥkheṭaḥkaiṭabhāristathaivaca||aṣṭādaśaścamātaṃ gaḥsaṃhāra||ga0||stvathagārṇakaḥ||35||smṛtiḥpaṃcāṃtakaḥsarvasiddhiḥśārṅgīprabhāmataḥ|| gomukhogajakuṃbhaśca--siṃhogaṇeśvaraḥ||36||ekonaviṃśaścatathādṛkṣiṇaṃmaṇimā sthitaḥ||gha0||ghakāro----medhāgaurīśivottamaḥ||37||aṃgulīmūlakaḥsatyākha",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 5,
+          "chapterOrSection": "पृ० ३अ) ड्गीशोघनेवच||विंशोवराहोङादिश्च||ङ||ङार्णकस्तुस्मृतश्चंडीकांतिश्चाथेकरु द्रकः||दक्षांगुल्यग्रगःशंखीक्लीवास्यश्चानुनासिकः||३९||भद्रेश्वरोमंत्रशक्तिरे कविशःप्रकीर्तितः||च०||चकारश्चित्रचारीचलक्ष्मीकूर्मस्तुचंचलः||४०||हलीबा णीचात्मशक्ति|भूतेट्तारेशचंद्रकौ||द्वाविंशोवामकरगः||छ०||छकारोथंत्रिविं दकः||४१||वामकूर्परमुशलीभूतमाता|विलासिनीपरिपूर्णश्चैकनेत्रोज्वारीमाश्ले ष्मस्तथा||४२||त्रयोविंशोद्युतिश्चाथ||ज०||जकारोजनकस्थिराविजयाजीवना कारोजयंतश्चतुराननः||४३||वामांगमणिबंधस्थोशूलीभूतस्थमातृकः||चतुर्विं शो||झ०||झकारस्तुद्राविणीस्वस्तिकःस्थितिः||४४||वामांगुलीमूलयाशीस्थिरा कारोह्यजेश्वरः||वित्स्थातोविरजाःखंडोलंबोदर्यथञार्णकः||४५||ञ०||वामांगुल्य ग्रगःसोमःसर्वेशोनंदनःस्मृतः||सधर्मोह्यनुनासश्चज्ञप्तिगोह्यंकुशीमतः||४६|| निरंजनोनागरीतुसिद्धिर्विश्वानिरूपितः||षड्विंशकः||ट०||ष्टकारस्तुराजांकुशो",
+          "sanskritIast": "pṛ0 3a) ḍgīśoghanevaca||viṃśovarāhoṅādiśca||ṅa||ṅārṇakastusmṛtaścaṃḍīkāṃtiścāthekaru drakaḥ||dakṣāṃgulyagragaḥśaṃkhīklīvāsyaścānunāsikaḥ||39||bhadreśvaromaṃtraśaktire kaviśaḥprakīrtitaḥ||ca0||cakāraścitracārīcalakṣmīkūrmastucaṃcalaḥ||40||halībā ṇīcātmaśakti|bhūteṭtāreśacaṃdrakau||dvāviṃśovāmakaragaḥ||cha0||chakārothaṃtriviṃ dakaḥ||41||vāmakūrparamuśalībhūtamātā|vilāsinīparipūrṇaścaikanetrojvārīmāśle ṣmastathā||42||trayoviṃśodyutiścātha||ja0||jakārojanakasthirāvijayājīvanā kārojayaṃtaścaturānanaḥ||43||vāmāṃgamaṇibaṃdhasthośūlībhūtasthamātṛkaḥ||caturviṃ śo||jha0||jhakārastudrāviṇīsvastikaḥsthitiḥ||44||vāmāṃgulīmūlayāśīsthirā kārohyajeśvaraḥ||vitsthātovirajāḥkhaṃḍolaṃbodaryathañārṇakaḥ||45||ña0||vāmāṃgulya gragaḥsomaḥsarveśonaṃdanaḥsmṛtaḥ||sadharmohyanunāsaścajñaptigohyaṃkuśīmataḥ||46|| niraṃjanonāgarītusiddhirviśvānirūpitaḥ||ṣaḍviṃśakaḥ||ṭa0||ṣṭakārasturājāṃkuśo",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 6,
+          "chapterOrSection": "पृ० ३ब) जरा||४७||सोमेश्वरोनागरीतुखेचरीविमलाभृता||दक्षपादादिगश्चैवबालें दुश्चार्धचंद्रकः||४८||सप्तविंशोकुंदस्तु||ठ०||ठकारोलांगलीश्वरः||सुधाविं दुःपालनीतुनंदजःसुनंदाः||४९||याम्यजानुस्थितश्चंडोमंजरीदारुकोमतः||घ टाकारःफ्लावकस्तुह्यष्टाविंशोनिरूपितः||५०||याम्यगुल्फादारकेशःशांतिर्नं दीस्मृतिर्मतः||ड०||डकारोव्याघ्रपादश्चडामरोग्न्यद्रिनाडिकः||५१||भौमजोरूपि णीचैवेकोनत्रिंशसंज्ञकः||शुभांह्निरेषकथिता||ढ०||ढकारोथनरःस्मृतः||५२|| याम्यपादांगुलीसंस्थोह्यर्धनारीश्वरोढजः||ऐश्वरी|वीरिणीऋद्धिशंखनाभिनि भाकृतिः||५३||पूर्णोद्रांतस्त्रिंशनामा||ण०||णकारोनरकांतकः||दक्षांघ्र्यंगुल्यं तगस्तुसमृद्धिस्यात्त्रिविक्रमः||५४||उमाकांतोरतिःकृष्णोनिर्वाणस्त्रिगुणोर्मतः ||काकोदरीढांतनामाह्येकत्रिंशो||त०||थतार्णकः||५५||आषाढीपूतनोशुद्धिर्ह रिर्वामपदादिकः||कामिकातीव्रतरयोधातृनीलौप्रकीर्त्तितौ||५६||द्वात्रिंश||",
+          "sanskritIast": "pṛ0 3ba) jarā||47||someśvaronāgarītukhecarīvimalābhṛtā||dakṣapādādigaścaivabāleṃ duścārdhacaṃdrakaḥ||48||saptaviṃśokuṃdastu||ṭha0||ṭhakārolāṃgalīśvaraḥ||sudhāviṃ duḥpālanītunaṃdajaḥsunaṃdāḥ||49||yāmyajānusthitaścaṃḍomaṃjarīdārukomataḥ||gha ṭākāraḥphlāvakastuhyaṣṭāviṃśonirūpitaḥ||50||yāmyagulphādārakeśaḥśāṃtirnaṃ dīsmṛtirmataḥ||ḍa0||ḍakārovyāghrapādaścaḍāmarognyadrināḍikaḥ||51||bhaumajorūpi ṇīcaivekonatriṃśasaṃjñakaḥ||śubhāṃhnireṣakathitā||ḍha0||ḍhakārothanaraḥsmṛtaḥ||52|| yāmyapādāṃgulīsaṃsthohyardhanārīśvaroḍhajaḥ||aiśvarī|vīriṇīṛddhiśaṃkhanābhini bhākṛtiḥ||53||pūrṇodrāṃtastriṃśanāmā||ṇa0||ṇakāronarakāṃtakaḥ||dakṣāṃghryaṃgulyaṃ tagastusamṛddhisyāttrivikramaḥ||54||umākāṃtoratiḥkṛṣṇonirvāṇastriguṇormataḥ ||kākodarīḍhāṃtanāmāhyekatriṃśo||ta0||thatārṇakaḥ||55||āṣāḍhīpūtanośuddhirha rirvāmapadādikaḥ||kāmikātīvratarayodhātṛnīlauprakīrttitau||56||dvātriṃśa||",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 7,
+          "chapterOrSection": "पृ० ४अ) थ०||स्त्वथथःप्रोक्तःकृष्णबुद्धीकमंडलुः|वरदावामजानुस्थोदंडीशोभद्रकालिका|| || ५७||स्थविरश्चचिरस्थायीत्रयस्त्रिंशोविशालदृक्||५८||द०||दकारोह्लादिनीसत्यो बुद्धिर्धादिमीरितः||वामगुल्फस्थितःशूलोदेवेशोऽत्रिस्तुयोगिनी||चतुस्त्रिंशलकारां तौ||ध०||धकारोमतिसात्वतौ||५९||वामगुल्फांतगोमीनधर्मेशधरणीश्वराः||स्थाणुः प्रीतिशंखिनीतुदंतनंदीजनार्दना||६०||पंचत्रिंशो||न०||नकारस्याद्गुर्जनीमेषशौ रिणौ||वामांगुल्यंतगोदीर्घाभूधतोराकाप्यविषप्रभः||६१||नरोह्रादीक्षमावांदीन रनःस्यान्निषेधक||षट्त्रिशकः||प०||पकारस्तुकालरात्रिरमेमते|||६२||याम्यपा र्श्वःपद्मनाभोदक्षिश्चलोहितः||सप्तत्रिंशोविश्वमूर्त्तिःशूरपद्मेशपार्थिवाः||६३|| तीक्ष्णः||फ०||फकारोवैकुंठोवामपार्श्वःशिवोनलः||शिखीरौद्रीकुंडनीतुफट्कारः स्याज्जनार्दनः||६४||पुल्लोऽस्तुपल्लवोचोमाह्यष्टत्रिंशस्तथा||ब०||बकारःपृष्ठवं शश्चछगलंडःकपर्दनी||६५||भूधरोबलवान्वज्रमुष्टिःस्यात्पुरुषोत्तमः||सुरस",
+          "sanskritIast": "pṛ0 4a) tha0||stvathathaḥproktaḥkṛṣṇabuddhīkamaṃḍaluḥ|varadāvāmajānusthodaṃḍīśobhadrakālikā|| || 57||sthaviraścacirasthāyītrayastriṃśoviśāladṛk||58||da0||dakārohlādinīsatyo buddhirdhādimīritaḥ||vāmagulphasthitaḥśūlodeveśo'tristuyoginī||catustriṃśalakārāṃ tau||dha0||dhakāromatisātvatau||59||vāmagulphāṃtagomīnadharmeśadharaṇīśvarāḥ||sthāṇuḥ prītiśaṃkhinītudaṃtanaṃdījanārdanā||60||paṃcatriṃśo||na0||nakārasyādgurjanīmeṣaśau riṇau||vāmāṃgulyaṃtagodīrghābhūdhatorākāpyaviṣaprabhaḥ||61||narohrādīkṣamāvāṃdīna ranaḥsyānniṣedhaka||ṣaṭtriśakaḥ||pa0||pakārastukālarātriramemate|||62||yāmyapā rśvaḥpadmanābhodakṣiścalohitaḥ||saptatriṃśoviśvamūrttiḥśūrapadmeśapārthivāḥ||63|| tīkṣṇaḥ||pha0||phakārovaikuṃṭhovāmapārśvaḥśivonalaḥ||śikhīraudrīkuṃḍanītuphaṭkāraḥ syājjanārdanaḥ||64||pullo'stupallavocomāhyaṣṭatriṃśastathā||ba0||bakāraḥpṛṣṭhavaṃ śaścachagalaṃḍaḥkapardanī||65||bhūdharobalavānvajramuṣṭiḥsyātpuruṣottamaḥ||surasa",
+          "targetBijaSyllables": [
+            "āḥ",
+            "phaṭ"
+          ]
+        },
+        {
+          "verseNumber": 8,
+          "chapterOrSection": "पृ० ४ब) क्लेदिनीभाद्यःसुधांशोवार्णकःस्मृतः||६६||एकोनचत्वारिंशःस्यायी||भ०||थोभा र्णमुच्यते||विश्वमूर्तिद्विरंडेशनाभिजातभयापहः||६७||निद्राक्लिन्नाभारवीरःशुभ दोभृकुटीजया||चत्वारिंशोभरद्वाजोमकाराद्यो||म०||थमार्णकः||६८||महाकालो भारवीरःस्तंद्रीवैकुंठपुरुषौ||विजयार्कःसुधामानीमंडलोमाधवोमृडः||६९||एक चत्वारिंशकस्तुमंत्रेशस्तारमध्यगः||य०||यकारःश्वसनोबालीवसुधासुमुखे श्वरी||७०||हृदयस्थत्वगात्मानौमृगेंद्रपुरुषोत्तमौ||यमुनेयश्चद्विचत्वारिंशित्य पि||क्षु||७१||क्षुद्वायुबीजंगदितौ||र०||रेफोरेवतिकापरा||असृग्धातुभुजंगेश बलिनःक्रोधिनीमता||७२||दक्षिणांसस्तीव्रतेजास्त्रिचत्वारिंशित्यपि||हुताश नोवह्निबीजंरोचिष्मान्रुचिरोमतः||७३||ल०||लकारोमांसधातुःस्यात्ककुस्थो थबलानुजः||परायणीभूमिजमौदवलपटैः||७४||पिनाकीशोलाघवायोमा धवीवज्रमुष्टकः||चतुश्चत्वारिंशकःस्यादिंद्रबीजंवृषाक्रिया||७५||व०||वका",
+          "sanskritIast": "pṛ0 4ba) kledinībhādyaḥsudhāṃśovārṇakaḥsmṛtaḥ||66||ekonacatvāriṃśaḥsyāyī||bha0||thobhā rṇamucyate||viśvamūrtidviraṃḍeśanābhijātabhayāpahaḥ||67||nidrāklinnābhāravīraḥśubha dobhṛkuṭījayā||catvāriṃśobharadvājomakārādyo||ma0||thamārṇakaḥ||68||mahākālo bhāravīraḥstaṃdrīvaikuṃṭhapuruṣau||vijayārkaḥsudhāmānīmaṃḍalomādhavomṛḍaḥ||69||eka catvāriṃśakastumaṃtreśastāramadhyagaḥ||ya0||yakāraḥśvasanobālīvasudhāsumukhe śvarī||70||hṛdayasthatvagātmānaumṛgeṃdrapuruṣottamau||yamuneyaścadvicatvāriṃśitya pi||kṣu||71||kṣudvāyubījaṃgaditau||ra0||rephorevatikāparā||asṛgdhātubhujaṃgeśa balinaḥkrodhinīmatā||72||dakṣiṇāṃsastīvratejāstricatvāriṃśityapi||hutāśa novahnibījaṃrociṣmānruciromataḥ||73||la0||lakāromāṃsadhātuḥsyātkakustho thabalānujaḥ||parāyaṇībhūmijamaudavalapaṭaiḥ||74||pinākīśolāghavāyomā dhavīvajramuṣṭakaḥ||catuścatvāriṃśakaḥsyādiṃdrabījaṃvṛṣākriyā||75||va0||vakā",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 9,
+          "chapterOrSection": "पृ० ५अ) रोवारुणोबालःसूक्ष्माखड्गीशवारिदौ||वामांसस्थोमेदसंज्ञोवारुणीहंससीक रौ||७६||अमृतेशःसुधाबीजंद्रवोजलचरःस्मृतः||पंचचत्वारिंशलांतौ||श०|| शकारोवायवीबकः||७७||अस्थिधातुःशंकुकर्णवराहाध्यायनाःस्मृताः||सं ध्यामृत्युर्विषघ्नःस्याल्लक्ष्मीशोदक्षिपाणिगः||७८||षट्चत्वारिंशशंबौतु||ष ०||षकारःश्वेतखरामुखौ||मज्जात्मावामकरगवृषतत्पुरुषःस्मृतः||७९||घटा कारषडाकारौपीतारक्षोवधारिणी||सप्तचत्वारिंशकःस्यात्प्रज्ञाविमलषड्गदौ|| ८०||स०||सकारःसहजश्वेताहंसभृग्वीशसमग्मः|प्रभादीप्तास्यसमयसत्यानं दहिमांशवः||८१||शुक्रधातुःसत्यसगदक्षपादीवसानकौ||अष्टचत्वारिंशक स्या||ह०||हकारोनकुलीश्वरः||८२||हुताशहाकिनीद्रावहयातनसदाशिवाः||नी ललक्ष्मारुणाःप्राणहेरंबौवामपादगः||८३||ऊनपंचाशोव्योमबीजं||ल०||ला वर्णशिवेश्वरः||जीवात्मनाभिनिलयोविमलाह्यसितातथा||८४||अमोघा",
+          "sanskritIast": "pṛ0 5a) rovāruṇobālaḥsūkṣmākhaḍgīśavāridau||vāmāṃsasthomedasaṃjñovāruṇīhaṃsasīka rau||76||amṛteśaḥsudhābījaṃdravojalacaraḥsmṛtaḥ||paṃcacatvāriṃśalāṃtau||śa0|| śakārovāyavībakaḥ||77||asthidhātuḥśaṃkukarṇavarāhādhyāyanāḥsmṛtāḥ||saṃ dhyāmṛtyurviṣaghnaḥsyāllakṣmīśodakṣipāṇigaḥ||78||ṣaṭcatvāriṃśaśaṃbautu||ṣa 0||ṣakāraḥśvetakharāmukhau||majjātmāvāmakaragavṛṣatatpuruṣaḥsmṛtaḥ||79||ghaṭā kāraṣaḍākāraupītārakṣovadhāriṇī||saptacatvāriṃśakaḥsyātprajñāvimalaṣaḍgadau|| 80||sa0||sakāraḥsahajaśvetāhaṃsabhṛgvīśasamagmaḥ|prabhādīptāsyasamayasatyānaṃ dahimāṃśavaḥ||81||śukradhātuḥsatyasagadakṣapādīvasānakau||aṣṭacatvāriṃśaka syā||ha0||hakāronakulīśvaraḥ||82||hutāśahākinīdrāvahayātanasadāśivāḥ||nī lalakṣmāruṇāḥprāṇaheraṃbauvāmapādagaḥ||83||ūnapaṃcāśovyomabījaṃ||la0||lā varṇaśiveśvaraḥ||jīvātmanābhinilayovimalāhyasitātathā||84||amoghā",
+          "targetBijaSyllables": [
+            "āḥ"
+          ]
+        },
+        {
+          "verseNumber": 10,
+          "chapterOrSection": "पृ० ६अ) स्यातुपंचाशत्||क्ष०||क्षकारोमातृकावधिः||अनंताविद्युतामायासंवर्त्तककृतां तकौ||८५||वज्रकायनृसिंहाक्ष्मपरमात्मानीरिता||नंदनोव्यापकोव्यापीमातृ काशेषसंस्थितः||८६||म-तृकार्णनिघंटस्यकंठपीठनिवेशनात्||निर्धूयाज्ञान तिमिरंसुखंमीमांसतान्मनून्||८७|| ||इतिश्रीमत्सकलविद्वान्मंडलीमंडनश्रीदि क्षितनारायणतनयदी०भानुनाविरचितोमातृकार्णनिघंटःसमाप्तिति|| ||",
+          "sanskritIast": "pṛ0 6a) syātupaṃcāśat||kṣa0||kṣakāromātṛkāvadhiḥ||anaṃtāvidyutāmāyāsaṃvarttakakṛtāṃ takau||85||vajrakāyanṛsiṃhākṣmaparamātmānīritā||naṃdanovyāpakovyāpīmātṛ kāśeṣasaṃsthitaḥ||86||ma-tṛkārṇanighaṃṭasyakaṃṭhapīṭhaniveśanāt||nirdhūyājñāna timiraṃsukhaṃmīmāṃsatānmanūn||87|| ||itiśrīmatsakalavidvānmaṃḍalīmaṃḍanaśrīdi kṣitanārāyaṇatanayadī0bhānunāviracitomātṛkārṇanighaṃṭaḥsamāptiti|| ||",
+          "targetBijaSyllables": []
+        },
+        {
+          "verseNumber": 12,
+          "chapterOrSection": "########### END OF FILE #######",
+          "sanskritIast": "########### END OF FILE #######",
+          "targetBijaSyllables": []
+        }
+      ],
+      "sourceUrl": "https://ochs-database.netlify.app/manuscripts/ochs_000_000_262_matrkarnanighantu/"
+    }
+  ],
+  "bijaLexicon": [
+    {
+      "bijaIast": "oṃ",
+      "bijaSlp1": "oM",
+      "bijaDevanagari": "ॐ",
+      "bijaSiddham": "𑖌𑖼",
+      "tangChinese": "唵",
+      "phonemicBreakdown": [
+        "a (akāra / Vairocana)",
+        "u (ukāra / Avalokiteśvara)",
+        "m (makāra / Vajrapāṇi)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "praṇava",
+        "oṃkāra",
+        "tāra",
+        "dhruva",
+        "vedādya",
+        "триmātṛkā"
+      ],
+      "buddhistMeaning": "Root syllable of the Three Bodies (Trikāya: Dharmakāya, Sambhogakāya, Nirmāṇakāya), Vairocana crown consecration, and auspicious invocation at the head of all dhāraṇīs (Kūkai T84n2701).",
+      "tantricNighantuMeaning": "Mātṛkārṇanighaṇṭu (M00626 v.5): oṃkāro vedādyas tāro dhruvaḥ praṇavaḥ — supreme bridge (tāra) and immutable axis (dhruva).",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Mātṛkārṇanighaṇṭu (Muktabodha M00626 / OCHS #262, Verse 5)",
+          "verbatimQuote": "oṃkāro vedādyas tāro dhruvaḥ praṇava ucyate // 5"
+        },
+        {
+          "dbId": "db2_taisho_ext",
+          "workTitle": "空海《梵字悉曇字母并釋義》T84n2701",
+          "verbatimQuote": "唵字者三身義，亦是一切真言之母。"
+        }
+      ]
+    },
+    {
+      "bijaIast": "āḥ",
+      "bijaSlp1": "AH",
+      "bijaDevanagari": "आः",
+      "bijaSiddham": "𑖁𑖾",
+      "tangChinese": "噁 (阿)",
+      "phonemicBreakdown": [
+        "ā (ākāra / non-arising śūnyatā)",
+        "ḥ (visarga / radiant emission)"
+      ],
+      "uddharaCodeNames": [
+        "vāgvajra",
+        "amṛtākṣara",
+        "kālavajrī",
+        "visarganāda"
+      ],
+      "buddhistMeaning": "Speech-vajra (vāgvajra) seed-syllable of Amitābha and the Lotus (Padma) family located at the throat cakra; in vajrajāpa (Caryāmelāpakapradīpa Ch. 3) represents exhalation and speech purification.",
+      "tantricNighantuMeaning": "Bījanighaṇṭu (OCHS #30 Verse 2): ā kālavajrī — radiant energy of speech and creative matrix (mātṛkā).",
+      "sourceCitations": [
+        {
+          "dbId": "db6_sarit",
+          "workTitle": "Caryāmelāpakapradīpa (SARIT CMP03)",
+          "verbatimQuote": "oṃkāreṇa praveśo वै āḥkāreṇa sthitiḥ smṛtā hūṃkāreṇa निर्gamaḥ proktaḥ"
+        },
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Bījanighaṇṭu (OCHS #30, Verse 2)",
+          "verbatimQuote": "a vidyujjihvā ā kālavajrī i garjinī ī dhūmrabhairavī // 2"
+        }
+      ]
+    },
+    {
+      "bijaIast": "hūṃ",
+      "bijaSlp1": "hUM",
+      "bijaDevanagari": "हूं",
+      "bijaSiddham": "𑖮𑖳𑖼",
+      "tangChinese": "吽",
+      "phonemicBreakdown": [
+        "ha (vyomāsya / hetu)",
+        "ū (vidārī / ūha)",
+        "ṃ (nādabindu / nirātman)"
+      ],
+      "uddharaCodeNames": [
+        "vyomāsya",
+        "vidārī",
+        "kūrca",
+        "krodhabīja",
+        "nādabindu",
+        "kāla",
+        "rudrarākiṇī"
+      ],
+      "buddhistMeaning": "Mind-vajra (cittavajra) seed-syllable of Akṣobhya, Vajrasattva, and the Vajra family; indestructible bodhicitta and wrathful subjugation of kleśas (T84n2701, STTS).",
+      "tantricNighantuMeaning": "Bījanighaṇṭu (OCHS #30 Verse 8): Encoded as vyomāsya (ha) conjoined with vidārī (ū) and adorned with rudrarākiṇī / nādabindu (ṃ), known as kūrca and krodhabīja.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Bījanighaṇṭu (OCHS #30, Verse 8)",
+          "verbatimQuote": "vidārīyuktaṃ vyomāsyaṃ rudrarākiṇyalaṃkṛtam / kūrcaṃ kālaṃ krodhabījaṃ jānīhi vīravandite hūṃ // 8"
+        },
+        {
+          "dbId": "db2_taisho_ext",
+          "workTitle": "空海《梵字悉曇字母并釋義》T84n2701",
+          "verbatimQuote": "吽字者一切諸佛菩提心義，賀字因義，汙字損減義，空點大空義。"
+        }
+      ]
+    },
+    {
+      "bijaIast": "hrīḥ",
+      "bijaSlp1": "hrIH",
+      "bijaDevanagari": "ह्रीः",
+      "bijaSiddham": "𑖮𑖿𑖨𑖱𑖾",
+      "tangChinese": "紇哩 (赫里希)",
+      "phonemicBreakdown": [
+        "ha (hetu / vyomāsya)",
+        "ra (rajas-free purity)",
+        "ī (īśvara / mahākaruṇā)",
+        "ḥ (visarga nirvāṇa)"
+      ],
+      "uddharaCodeNames": [
+        "padmabīja",
+        "lajjābīja",
+        "amitābhabīja",
+        "karuṇābīja"
+      ],
+      "buddhistMeaning": "Sacred lotus seed-syllable of Amitābha, Avalokiteśvara (Nīlakaṇṭha, Ekādaśamukha, Cintāmaṇicakra), and Hayagrīva; embodies immaculate compassion (mahākaruṇā) and moral modesty (hrī).",
+      "tantricNighantuMeaning": "Uddhārakośa (Muktabodha M00247): Combine vyomāsya (ha), agni/repha (ra), mahāmāyā (ī), and visarga (ḥ) to form the solar-lotus seed.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Uddhārakośa (Muktabodha M00247)",
+          "verbatimQuote": "hrīḥ padmakulanāthasya bījaṃ karuṇātmakaṃ smṛtam"
+        },
+        {
+          "dbId": "db2_taisho_ext",
+          "workTitle": "空海《梵字悉曇字母并釋義》T84n2701",
+          "verbatimQuote": "紇哩字者阿彌陀佛觀自在菩薩種子，具足四字門義。"
+        }
+      ]
+    },
+    {
+      "bijaIast": "hrīṃ",
+      "bijaSlp1": "hrIM",
+      "bijaDevanagari": "ह्रीं",
+      "bijaSiddham": "𑖮𑖿𑖨𑖱𑖼",
+      "tangChinese": "紇哩",
+      "phonemicBreakdown": [
+        "ha (vyomāsya / śiva)",
+        "ra (vahni / prakṛti)",
+        "ī (mahāmāyā / dhūmrabhairavī)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "māyābīja",
+        "bhuvaneśvarībīja",
+        "śaktibīja",
+        "trailokyamohana"
+      ],
+      "buddhistMeaning": "Esoteric śakti and illusion-transmuting seed-syllable in Buddhist Goddess dhāraṇīs (Cundā, Kurukullā, Grahamātṛkā: hriṃ svāhā).",
+      "tantricNighantuMeaning": "Uddhārakośa (M00247 §2) & Mantrakoṣa (M00292): The supreme Māyābīja / Bhuvaneśvarī seed unitingākāśa (ha), agni (ra), īkāra, and bindu.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Uddhārakośa (Muktabodha M00247, §2)",
+          "verbatimQuote": "māyābījaṃ paraṃ brahma hrīṃkāraṃ bhuvaneśvarī"
+        }
+      ]
+    },
+    {
+      "bijaIast": "krīṃ",
+      "bijaSlp1": "krIM",
+      "bijaDevanagari": "क्रीं",
+      "bijaSiddham": "𑖎𑖿𑖨𑖱𑖼",
+      "tangChinese": "訖哩",
+      "phonemicBreakdown": [
+        "ka (krodhīśa / kālī)",
+        "ra (kṣatajārūḍha / brahma)",
+        "ī (dhūmrabhairavī / mahāmāyā)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "krodhīśa",
+        "kṣatajārūḍha",
+        "dhūmrabhairavī",
+        "nādabindu",
+        "pitṛbhūvāsinī",
+        "kālībīja"
+      ],
+      "buddhistMeaning": "Wrathfulḍākinī and Kālī/Nairātmyā transformation syllable cutting through dualistic conceptual proliferation.",
+      "tantricNighantuMeaning": "Bījanighaṇṭu (OCHS #30 Verse 7): krodhīśa (ka) mounted on kṣataja (ra), adorned with dhūmrabhairavī (ī) and nādabindu (ṃ), known as pitṛbhūvāsinī (krīṃ).",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Bījanighaṇṭu (OCHS #30, Verse 7)",
+          "verbatimQuote": "krodhīśaḥ kṣatajārūḍho dhūmrabhairavyalaṃkṛtaḥ / nādabindusamāyuktaḥ pitṛbhūvāsinī smṛtaḥ krīṃ // 7"
+        }
+      ]
+    },
+    {
+      "bijaIast": "aiṃ",
+      "bijaSlp1": "EM",
+      "bijaDevanagari": "ऐं",
+      "bijaSiddham": "𑖋𑖼",
+      "tangChinese": "藹",
+      "phonemicBreakdown": [
+        "ai (ugrabhairavī / vāgbhava)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "vāgbhava",
+        "bhautika",
+        "sārasvata",
+        "ugrabhairavī",
+        "nādabindu",
+        "vāgbīja"
+      ],
+      "buddhistMeaning": "Wisdom and eloquence seed-syllable of Sarasvatī, Vajrasarasvatī, and Mañjughoṣa bestowing prajñā and retention of dhāraṇīs.",
+      "tantricNighantuMeaning": "Bījanighaṇṭu (OCHS #30 Verse 9): Taking ugrabhairavī (ai) joined with nādabindu (ṃ) yields the bhautika, vāgbhava, sārasvata seed aiṃ.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Bījanighaṇṭu (OCHS #30, Verse 9)",
+          "verbatimQuote": "nādabindusamāyuktāṃ samādāyograbhairavīm / bhautikaṃ vāgbhavaṃ bījaṃ viddhi sārasvataṃ priye ai // 9"
+        }
+      ]
+    },
+    {
+      "bijaIast": "klīṃ",
+      "bijaSlp1": "klIM",
+      "bijaDevanagari": "क्लीं",
+      "bijaSiddham": "𑖎𑖿𑖩𑖱𑖼",
+      "tangChinese": "吉哩",
+      "phonemicBreakdown": [
+        "ka (kāmadeva)",
+        "la (indra / pṛthivī)",
+        "ī (tuṣṭi)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "kāmabīja",
+        "madanabīja",
+        "trailokyākarṣaṇa",
+        "manmatha"
+      ],
+      "buddhistMeaning": "Magnetizing (vaśīkaraṇa) seed-syllable of Kurukullā, Vajrarāga, and Trailokyavijaya attracting all beings to liberation.",
+      "tantricNighantuMeaning": "Uddhārakośa (M00247 §3) & Mantrakoṣa (M00292): The Kāmabīja / Madanabīja governing cosmic attraction and bliss.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Uddhārakośa (Muktabodha M00247, §3)",
+          "verbatimQuote": "kāmabījaṃ जगत्क्षोभकरं क्लीं मदनात्मकम्"
+        }
+      ]
+    },
+    {
+      "bijaIast": "śrīṃ",
+      "bijaSlp1": "SrIM",
+      "bijaDevanagari": "श्रीं",
+      "bijaSiddham": "𑖫𑖿𑖨𑖱𑖼",
+      "tangChinese": "室哩",
+      "phonemicBreakdown": [
+        "śa (mahālakṣmī)",
+        "ra (dhana / agni)",
+        "ī (tuṣṭi)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "lakṣmībīja",
+        "śrībīja",
+        "vasudhārābīja",
+        "ramābīja"
+      ],
+      "buddhistMeaning": "Seed-syllable of Vasudhārā and Mahāśrīdevī (Śrīmahādevīvyākaraṇa) bestowing spiritual and material abundance (puṣṭi).",
+      "tantricNighantuMeaning": "Uddhārakośa (M00247 §1): Lakṣmībīja combining śānti (śa), repha (ra), īkāra, and bindu.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Uddhārakośa (Muktabodha M00247, §1)",
+          "verbatimQuote": "śrībījaṃ sarvasampattidāyakaṃ śrīṃ प्रकीर्तितम्"
+        }
+      ]
+    },
+    {
+      "bijaIast": "strīṃ",
+      "bijaSlp1": "strIM",
+      "bijaDevanagari": "स्त्रीं",
+      "bijaSiddham": "𑖭𑖿𑖝𑖿𑖨𑖱𑖼",
+      "tangChinese": "悉底哩",
+      "phonemicBreakdown": [
+        "sa (śānti)",
+        "ta (tārā)",
+        "ra (rakta / agni)",
+        "ī (mahāmāyā)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "tārābīja",
+        "vadhūbīja",
+        "uttarabīja"
+      ],
+      "buddhistMeaning": "Swift-saving seed-syllable of Ugratārā / Ekajaṭā / Nīlasarasvatī ferrying beings across the ocean of saṃsāra.",
+      "tantricNighantuMeaning": "Bījanighaṇṭu (OCHS #30) & Mantrakaumudī (M00229): Vadhūbīja / Tārābīja granting instant deliverance from peril.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Mantrakaumudī (Muktabodha M00229)",
+          "verbatimQuote": "tārābījaṃ वधूबीजं स्त्रींकारं तारकं परम्"
+        }
+      ]
+    },
+    {
+      "bijaIast": "bhrūṃ",
+      "bijaSlp1": "BrUM",
+      "bijaDevanagari": "भ्रूं",
+      "bijaSiddham": "𑖥𑖿𑖨𑖳𑖼",
+      "tangChinese": "勃籠",
+      "phonemicBreakdown": [
+        "bha (bhaga / bhūmi)",
+        "ra (repha)",
+        "ū (ūrdhva uṣṇīṣa)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "uṣṇīṣabīja",
+        "cakravartibīja",
+        "kūṭāgārabīja"
+      ],
+      "buddhistMeaning": "Supreme crown-protuberance (Uṣṇīṣa) seed-syllable of Ekākṣaroṣṇīṣacakra and Uṣṇīṣavijayā (oṃ bhrūṃ svāhā), generating the indestructible vajra-pavilions (kūṭāgāra).",
+      "tantricNighantuMeaning": "Sarvatathāgatatattvasaṅgraha (stts_crited) & Uṣṇīṣavijayā: Sovereign syllable of all Tathāgata uṣṇīṣa deities.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Sarvatathāgatatattvasaṅgraha (ERC DHARMA stts_crited)",
+          "verbatimQuote": "oṃ bhrūṃ svāhā sarvatathāgatoṣṇīṣavijayāyai"
+        }
+      ]
+    },
+    {
+      "bijaIast": "trāṃ",
+      "bijaSlp1": "trAM",
+      "bijaDevanagari": "त्रां",
+      "bijaSiddham": "𑖝𑖿𑖨𑖯𑖼",
+      "tangChinese": "呾洛",
+      "phonemicBreakdown": [
+        "ta (tathatā)",
+        "ra (ratna)",
+        "ā (ākāśasamata)",
+        "ṃ (nādabindu)"
+      ],
+      "uddharaCodeNames": [
+        "ratnabīja",
+        "ratnasambhavabīja",
+        "cintāmaṇibīja"
+      ],
+      "buddhistMeaning": "Seed-syllable of Ratnasambhava and the Jewel (Ratna) family (Five-Buddha mantra in Dunhuang ZW11n0092: 寶生佛，唵，呾洛！), transmuting pride into the wisdom of equality (samatājñāna).",
+      "tantricNighantuMeaning": "Advayavajrasaṃgraha (M00510 / M00018): Ratnasambhava seed-syllable in the Pañcatathāgata maṇḍala.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Advayavajrasaṃgraha (Muktabodha M00510 / M00018)",
+          "verbatimQuote": "ratnasambhavasya trāṃkāro ratnakulabījam"
+        }
+      ]
+    },
+    {
+      "bijaIast": "phaṭ",
+      "bijaSlp1": "Paw",
+      "bijaDevanagari": "फट्",
+      "bijaSiddham": "𑖣𑖘𑖿",
+      "tangChinese": "發吒 (泮吒 / 帕特)",
+      "phonemicBreakdown": [
+        "pha (phala / shattering)",
+        "ṭ (ṭakāra / cutting obstacle-demons)"
+      ],
+      "uddharaCodeNames": [
+        "astrabīja",
+        "vighnaghāta",
+        "vidāraṇāstra"
+      ],
+      "buddhistMeaning": "Wrathful weapon-syllable (astrabīja) shattering māras, obstacles, and ignorance at the close of fierce mantras (hūṃ phaṭ svāhā).",
+      "tantricNighantuMeaning": "Mantrakoṣa (M00292 / OCHS #259): The Astramantra syllable used for protection (rakṣā) and expulsion of hostile forces.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Mantrakoṣa (Muktabodha M00292 / OCHS #259)",
+          "verbatimQuote": "phaṭkāro 'stramantraḥ sarvavighnavināśanaḥ"
+        }
+      ]
+    },
+    {
+      "bijaIast": "svāhā",
+      "bijaSlp1": "svAhA",
+      "bijaDevanagari": "स्वाहा",
+      "bijaSiddham": "𑖭𑖿𑖪𑖯𑖮𑖯",
+      "tangChinese": "娑嚩訶 (薩婆訶 / 莎訶)",
+      "phonemicBreakdown": [
+        "su / sva (well-spoken)",
+        "āhā (invocation & oblation)"
+      ],
+      "uddharaCodeNames": [
+        "agnivallabhā",
+        "vahnisundarī",
+        "hutāśanapriyā",
+        "śāntikapauṣṭika"
+      ],
+      "buddhistMeaning": "Auspicious seal of completion, nirvāṇic peace, and realization at the conclusion of śāntika (pacifying) and pauṣṭika (enriching) dhāraṇīs (Mahāvyutpatti §198 & T84n2701).",
+      "tantricNighantuMeaning": "Mātṛkārṇanighaṇṭu (M00626) & Uddhārakośa (M00247): Known as Agnivallabhā / Vahnisundarī (consort of Agni), sealing all Peaceful and Enriching mantras.",
+      "sourceCitations": [
+        {
+          "dbId": "db12_muktabodha_ochs",
+          "workTitle": "Uddhārakośa (Muktabodha M00247)",
+          "verbatimQuote": "svāhā vahnisundarī śāntikapauṣṭikakarmasu प्रयुज्यते"
+        }
+      ]
+    }
+  ]
+}

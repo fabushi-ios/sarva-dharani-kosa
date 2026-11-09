@@ -1,0 +1,2721 @@
+{
+  "summary": {
+    "id": "db10_all_nibs",
+    "number": 10,
+    "priorityTier": 3,
+    "nameZh": "亚洲遗产图书馆 × 尼泊尔龙树学院「陀罗尼保护工程」 (ALL-NIBS & NIBS/DSBC)",
+    "nameEn": "ALL-NIBS Dharani Preservation Project (Asian Legacy Library × Nagarjuna Institute)",
+    "institution": "Asian Legacy Library (ALL) & Nagarjuna Institute of Buddhist Studies (NIBS, Kathmandu)",
+    "primarySourceUrls": [
+      "https://publicapi.asianlegacylibrary.org/resources?indexes=sa&page=1&page_size=150&q=",
+      "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "https://www.dsbcproject.org/canon-text/content/862/2990"
+    ],
+    "totalRecordsCount": 141,
+    "mantraOrDharaniCount": 51,
+    "scriptsAvailable": [
+      "IAST",
+      "Devanagari",
+      "Tibetan-EWTS",
+      "English"
+    ],
+    "highlights": [
+      "106 Sanskrit manuscript editions from ALL Public API (10 NIBS Kathmandu + 96 Varanasi Preservation Center) authenticated with Bearer token byang-chub-kyi-sems",
+      "Full-text diplomatic folio transcriptions (@1a, @1b, candrabindu oṃ̐) for 16 core MSS including SA00019.001 (KSK-00556 Suvarṇaprabhāsottama), SA00016.001 (KSK-00381 Saṃpuṭatantra), SA00024.001 (TSK-01351 Sekoddeśaṭīkā), SA00025.001 (TSK-01785 Pradīpoddyotana), and SA00028.001 (TSK-03400 Sādhanamālā)",
+      "35 Newar Sanskrit dhāraṇī witnesses from NIBS's Dhāraṇī Saṃgraha (820/2949) and Grahamātṛkā (862/2990, input by Miroj Shakya) with Newar-to-Classical Sanskrit normalization (sarvva→sarva, sbāhā→svāhā, bajra→vajra)"
+    ]
+  },
+  "apiStats": {
+    "totalSanskritManuscripts": 106,
+    "nibsKathmanduCount": 10,
+    "varanasiPreservationCount": 96,
+    "acipTibetanTextsCount": 6685,
+    "newarDharaniWitnessesCount": 35
+  },
+  "manuscripts": [
+    {
+      "resourceId": "SA00086.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04210",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Vārtika",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00086.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00086.001",
+          "TSK-04210"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00063.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03934",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Sūtra Samuccaya",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Sūtra Samuccaya",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Sūtra Samuccaya",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00063.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00063.001",
+          "TSK-03934"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00090.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04215",
+      "titleIast": "Sambandha Parīkṣā Vṛtti",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Sambandha Parīkṣā Vṛtti",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Sambandha Parīkṣā Vṛtti",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00090.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00090.001",
+          "TSK-04215"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00009.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00211",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pratītyasamutpādādi Vibhaṅga Nirdeśa Nāma Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pratītyasamutpādādi Vibhaṅga Nirdeśa Nāma Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pratītyasamutpādādi Vibhaṅga Nirdeśa Nāma Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00009.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00009.001",
+          "KSK-00211"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00007.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "KSK-00068",
+      "titleIast": "Ārya Vinaya Viniścaya Upāli Paripṛcchā Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "totalChars": 14543,
+      "diplomaticFolioExcerpt": "Cambridge Manuscript Or.713\r\nhttps://cudl.lib.cam.ac.uk/view/MS-OR-00713/3\r\n\r\n- - - - - - - - - - - - - - - - - - \r\n\r\n@ 01A [BLANK PAGE]\r\n\r\n\r\n@ 01B\r\nnamaḥ sarvvabuddhabodhisatvebhyaḥ|| ya ete bodhisatvānāṁ trayaḥ śīlaskandhā uktāḥ| sambara śīlaṁ| kuśaladharmasaṁgrāhaka[???????????]\r\nṣu śikṣitukāmena gṛhiṇā vā pravrajitena vā'nuttarāyāṁ samyaksambodhau kṛtapraṇidhānena sahadhārmmikasya bodhisatvasya [??????]\r\nnasya vāgvijñaptyārtha grahaṇāvabodhasamarthasya pādayornnipatyādhyeṣaṇā kāryā| tavāhaṁ kulaputrāyuṣmanbhadanteti vā'ntikādbodhisatva[???]\r\nbarasamādānamākāṁkṣāmyādāntaṁ| tadarhasyanuparodhena muhūrttaṁ madanukampayā dāntaṁ śrontañceti| trirevamadhyeṣya ekāṁśamuttarāsaṅga kṛtvā[?]\r\nśasu dikṣvatītānāgatapratyutpannānāṁ buddhānāṁ bhagavat",
+      "normalizedIastExcerpt": "Cambridge Manuscript Or.713\r\nhttps://cudl.lib.cam.ac.uk/view/MS-OR-00713/3\r\n\r\n- - - - - - - - - - - - - - - - - - \r\n\r\n@ 01A [BLANK PAGE]\r\n\r\n\r\n@ 01B\r\nnamaḥ sarvabuddhabodhisatvebhyaḥ|| ya ete bodhisatvānāṃ trayaḥ śīlaskandhā uktāḥ| sambara śīlaṃ| kuśaladharmasaṃgrāhaka[???????????]\r\nṣu śikṣitukāmena gṛhiṇā vā pravrajitena vā'nuttarāyāṃ samyaksambodhau kṛtapraṇidhānena sahadhārmmikasya bodhisatvasya [??????]\r\nnasya vāgvijñaptyārtha grahaṇāvabodhasamarthasya pādayornnipatyādhyeṣaṇā kāryā| tavāhaṃ kulaputrāyuṣmanbhadanteti vā'ntikādbodhisatva[???]\r\nbarasamādānamākāṃkṣāmyādāntaṃ| tadarhasyanuparodhena muhūrttaṃ madanukampayā dāntaṃ śrontañceti| trirevamadhyeṣya ekāṃśamuttarāsaṅga kṛtvā[?]\r\nśasu dikṣvatītānāgatapratyutpannānāṃ buddhānāṃ bhagavat",
+      "extractedMantras": [
+        "namaḥ sarvvabuddhabodhisatvebhyaḥ||",
+        "namo buddhāya||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00007.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00007.001",
+          "KSK-00068"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00001.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00001",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bhaiṣajya vastu from Vinaya Vastu",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00001.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00001.002",
+          "KSK-00001"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00014.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00349",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śrīsena Avadāna",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śrīsena Avadāna",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śrīsena Avadāna",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00014.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00014.001",
+          "KSK-00349"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00092.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04377",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Bhadracaryā Praṇidhāna Rāja",
+      "category": "Sūtra",
+      "totalChars": 7985,
+      "diplomaticFolioExcerpt": "@1a\nnamaḥ samaṃta bhadrāya || atha khalu samaṃta bhadro bodhisatvo mahāsa\ntva etāne valoka dhātu paraṃparā nabhi lāpyā nabhi lāpya buddha kṣetra\nparamāṇu rajaḥ samānkalpānkalpa prasarā nabhidyotaya māno bhūya\nsyā mātrayā gāthābhirgītena praṇidhānama kārṣīt || yāvata ke\nciddaśaddiśi loke sarvvatriyadhvagatā narasiṃhāḥ || tānahu vaṃdami\n@1b\nsarvi aśeṣāna || kāyatuvāca manena prasannaḥ || kṣetra rajopamakā\nya praṇāmaiḥ sarvvajināna karomi praṇāmaṃ sarvva jinābhimukhenama\nnena bhadracariṃ praṇidhāna balena || ekarajāgri rajopama buddhāna\nbuddha sutāna niṣaṇṇaku madhye evama śeṣata dharmata dhātuṃ sarvvadhi\nmūcyami pūrṇṇa jinebhiḥ || teṣu ca akṣaya varṇṇa samudrān sarvva svarāṃga\n@2a\nsamudra rutebhiḥ | sarva jināna guṇānbhaṇamānastān sugatāṃsta",
+      "normalizedIastExcerpt": "@1a\nnamaḥ samaṃta bhadrāya || atha khalu samaṃta bhadro bodhisatvo mahāsa\ntva etāne valoka dhātu paraṃparā nabhi lāpyā nabhi lāpya buddha kṣetra\nparamāṇu rajaḥ samānkalpānkalpa prasarā nabhidyotaya māno bhūya\nsyā mātrayā gāthābhirgītena praṇidhānama kārṣīt || yāvata ke\nciddaśaddiśi loke sarvatriyadhvagatā narasiṃhāḥ || tānahu vaṃdami\n@1b\nsarvi aśeṣāna || kāyatuvāca manena prasannaḥ || kṣetra rajopamakā\nya praṇāmaiḥ sarvajināna karomi praṇāmaṃ sarva jinābhimukhenama\nnena bhadracariṃ praṇidhāna balena || ekarajāgri rajopama buddhāna\nbuddha sutāna niṣaṇṇaku madhye evama śeṣata dharmata dhātuṃ sarvadhi\nmūcyami pūrṇṇa jinebhiḥ || teṣu ca akṣaya varṇṇa samudrān sarva svarāṃga\n@2a\nsamudra rutebhiḥ | sarva jināna guṇānbhaṇamānastān sugatāṃsta",
+      "extractedMantras": [
+        "namaḥ samaṃta bhadrāya ||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00092.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00092.001",
+          "TSK-04377"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00026.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01800",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicitta Vivaraṇa Nāma",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicitta Vivaraṇa Nāma",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicitta Vivaraṇa Nāma",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00026.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00026.001",
+          "TSK-01800"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00004.004",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00008",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śatasahasrika Prajñā Pāramitā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00004.004/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00004.004",
+          "KSK-00008"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00087.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04210",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Vārtika",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00087.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00087.001",
+          "TSK-04210"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00004.003",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00008",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śatasahasrika Prajñā Pāramitā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00004.003/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00004.003",
+          "KSK-00008"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00084.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04210",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Vārtika",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00084.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00084.001",
+          "TSK-04210"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00004.005",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00008",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śatasahasrika Prajñā Pāramitā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00004.005/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00004.005",
+          "KSK-00008"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00043.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03855",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Madhyāmaka Hṛdaya Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Madhyāmaka Hṛdaya Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Madhyāmaka Hṛdaya Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00043.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00043.001",
+          "TSK-03855"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00073.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-04064",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Triṃśikā Bhāṣya",
+      "category": "Sūtra",
+      "totalChars": 29868,
+      "diplomaticFolioExcerpt": "Folio 07A\ntanā cittābhi saṁskāro manasaśceṣṭā yasyāṁ satyāmālambanaṁ prati cetasaḥ prasyanda iva bhavati| ayaskāntavasādayaḥ prasyandavat| vedanātrividhā sukhā duḥkhā aduḥkhā sukhā ca| dharmmāścatuḥ\nprakārāḥ| kuśalā akuśalāḥ| anivṛtāvyākṛtā nivṛtāvyākṛtāśca| tatrālayavijñāne vidita sāmānyopadeśena na vijñāyate tisṛṇāṁ vedanānāṁ katamā vedanā| tathā tadapikiṁ kuśalama\nkuśalamanivṛtāvyākṛtaṁ nivṛtāvyākṛtamiti na vijñāyata ityata āha|| upekṣāvedanā tatrānivṛtāvyākṛtañca tat|| tatretyālayavijñānameva prakṛtatvāt\nsaṁvadhyate| upekṣaivālayavijñāne vedanā na sukhā na duḥkhā tayoḥ paricchinnālambanākāratvāt| rāgadveṣānuśayitvācca| anivṛtāvyākṛtañca tat| ālayavijñā\nnamiti prakṛtaṁ| tatrānivṛtagrahaṇaṁ nivṛtavyavacchedārthaṁ| avyākṛtagrahaṇaṁ kuśalāk",
+      "normalizedIastExcerpt": "Folio 07A\ntanā cittābhi saṃskāro manasaśceṣṭā yasyāṃ satyāmālambanaṃ prati cetasaḥ prasyanda iva bhavati| ayaskāntavasādayaḥ prasyandavat| vedanātrividhā sukhā duḥkhā aduḥkhā sukhā ca| dharmāścatuḥ\nprakārāḥ| kuśalā akuśalāḥ| anivṛtāvyākṛtā nivṛtāvyākṛtāśca| tatrālayavijñāne vidita sāmānyopadeśena na vijñāyate tisṛṇāṃ vedanānāṃ katamā vedanā| tathā tadapikiṃ kuśalama\nkuśalamanivṛtāvyākṛtaṃ nivṛtāvyākṛtamiti na vijñāyata ityata āha|| upekṣāvedanā tatrānivṛtāvyākṛtañca tat|| tatretyālayavijñānameva prakṛtatvāt\nsaṃvadhyate| upekṣaivālayavijñāne vedanā na sukhā na duḥkhā tayoḥ paricchinnālambanākāratvāt| rāgadveṣānuśayitvācca| anivṛtāvyākṛtañca tat| ālayavijñā\nnamiti prakṛtaṃ| tatrānivṛtagrahaṇaṃ nivṛtavyavacchedārthaṃ| avyākṛtagrahaṇaṃ kuśalāk",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00073.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00073.001",
+          "TSK-04064"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00011.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00338",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Karma Vibhaṇga",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Karma Vibhaṇga",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Karma Vibhaṇga",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00011.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00011.001",
+          "KSK-00338"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00064.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03934",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Sūtra Samuccaya",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Sūtra Samuccaya",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Sūtra Samuccaya",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00064.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00064.001",
+          "TSK-03934"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00047.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03860",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00047.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00047.001",
+          "TSK-03860"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00075.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04092",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhidharmakoṣa Ṭīkā / Sphuṭārthā Abhidharmakoṣa Vyākhyā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharmakoṣa Ṭīkā / Sphuṭārthā Abhidharmakoṣa Vyākhyā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharmakoṣa Ṭīkā / Sphuṭārthā Abhidharmakoṣa Vyākhyā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00075.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00075.002",
+          "TSK-04092"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00082.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04182",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Suhṛllekha",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Suhṛllekha",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Suhṛllekha",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00082.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00082.001",
+          "TSK-04182"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00055.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03871",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00055.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00055.001",
+          "TSK-03871"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00012.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00338",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Karma Vibhaṇga",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Karma Vibhaṇga",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Karma Vibhaṇga",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00012.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00012.002",
+          "KSK-00338"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00061.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03915",
+      "titleIast": "[Prathama] Bhāvana Krama",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || [Prathama] Bhāvana Krama",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || [Prathama] Bhāvana Krama",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00061.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00061.001",
+          "TSK-03915"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00027.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-01800",
+      "manuscriptArchiveRef": "MS-OR-00713",
+      "titleIast": "Bodhicitta Vivaraṇa Nāma",
+      "category": "Sūtra",
+      "totalChars": 796,
+      "diplomaticFolioExcerpt": "dāya|| 0 || iti bodhisatvaprātimokṣaḥ|| 0 || namo\nbuddhāya|| bodhicittavivaraṇaṁ vakṣye|| citta vithapitāḥ\nsarvvadharmmā ityuktaṁ bhagavatā| ta\ndevatāvaccitaṁ nirūpyate kiṁ svabhāvamiti| āha|\nsarvvabhāvavigataṁ skandhadhātvāyatana grāhya\ngrāhakavarjjittaṁ| dharmmanairātmya samatayā sva\ncittamādyanutyannaṁ śūnyatāsvabhāvamiti\nkosyavacanasyārthaḥ sarvvabhāvavegatamiti bhāvaśabdena\nātmādaya ucyante| etaduktambhavati\nātmāsatva\njīvavantuṣoṣapuruṣapudgalamanujamānavakārakavedakādis\nvabhāvaṁtaccittaṁ na bhavati| kiṁ kāraṇaṁ||\nteṣāmevāmokṣe\nasamvidyamāna kriyālakṣaṇa tvāt| evaṁ tāvadātmādayo\nbhāvāna vidyante prāgevatatsvabhāvaṁ cittamiti| ataḥ\nsarvvabhāvavigataṁ ska\ntanasvabhāvaṁ cittaṁ bhavatītyāha|\nskandhadhātvāyatana grāhya grāhakavarjjitambhava",
+      "normalizedIastExcerpt": "dāya|| 0 || iti bodhisatvaprātimokṣaḥ|| 0 || namo\nbuddhāya|| bodhicittavivaraṇaṃ vakṣye|| citta vithapitāḥ\nsarvadharmā ityuktaṃ bhagavatā| ta\ndevatāvaccitaṃ nirūpyate kiṃ svabhāvamiti| āha|\nsarvabhāvavigataṃ skandhadhātvāyatana grāhya\ngrāhakavarjjittaṃ| dharmanairātmya samatayā sva\ncittamādyanutyannaṃ śūnyatāsvabhāvamiti\nkosyavacanasyārthaḥ sarvabhāvavegatamiti bhāvaśabdena\nātmādaya ucyante| etaduktambhavati\nātmāsatva\njīvavantuṣoṣapuruṣapudgalamanujamānavakārakavedakādis\nvabhāvaṃtaccittaṃ na bhavati| kiṃ kāraṇaṃ||\nteṣāmevāmokṣe\nasamvidyamāna kriyālakṣaṇa tvāt| evaṃ tāvadātmādayo\nbhāvāna vidyante prāgevatatsvabhāvaṃ cittamiti| ataḥ\nsarvabhāvavigataṃ ska\ntanasvabhāvaṃ cittaṃ bhavatītyāha|\nskandhadhātvāyatana grāhya grāhakavarjjitambhava",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00027.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00027.001",
+          "TSK-01800"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00057.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03871",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00057.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00057.001",
+          "TSK-03871"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00002.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00001–vol 1,2,3,4",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Vinaya Vastu",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Vastu",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Vastu",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00002.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00002.001",
+          "KSK-00001–vol 1,2,3,4"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00004.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00008",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śatasahasrika Prajñā Pāramitā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00004.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00004.002",
+          "KSK-00008"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00065.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-03995",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pratītya Samutpādasyādivibhaṃgayo Nirdeśa/ Pratītya Samutpādādi Vibhaṅga Nirdeśa\n/Pratītya Samutpāda Vyākhyā",
+      "category": "Sūtra",
+      "totalChars": 15797,
+      "diplomaticFolioExcerpt": "National Archives, Kathmandu, Nepal \n\nPratītyasamutpādavyākhyā\nMicrofilm: B 22/20\nSize: 0 x 4 cm x 6  Folios\nMaterial(s): Palm leaf\nScript(s): W\nLanguage: S\nSubject(s): B\nNAK Accession Number: 5/142\n\n[final file input by NIBS center, folios re-ordered as Tucci's edition by Aisha]\n\n\nPratitya Samutpāda Vyākhyā\nB 23-26-000  \n\n\nScanned image no. 013 / Folio __A / Duplicate of scanned image no. 011B\nB 23-26-006\nFolio A\n\rktvā vidhirvijñāyeta | na pūrvakālakriyārthe iti | punaścātrapaścādviniścayaṁ kariṣyāmaḥ | \nca iti | yuṣmabhyaṁ yuṣmānuddīsyeti darśayati | bhikṣava iti āmantraṇaṁ bhikṣūṇāṁ | \nanya cintānānta dutsukhīkaraṇārthaṁ | kasmādbhikṣūṇāmevanānyāsāṁ parṣadāṁ | \nagrandhācchreṣṭhandhā dāsannandhātsadā ca sānnidhyāt grahaṇe ca \nśaktimant",
+      "normalizedIastExcerpt": "National Archives, Kathmandu, Nepal \n\nPratītyasamutpādavyākhyā\nMicrofilm: B 22/20\nSize: 0 x 4 cm x 6  Folios\nMaterial(s): Palm leaf\nScript(s): W\nLanguage: S\nSubject(s): B\nNAK Accession Number: 5/142\n\n[final file input by NIBS center, folios re-ordered as Tucci's edition by Aisha]\n\n\nPratitya Samutpāda Vyākhyā\nB 23-26-000  \n\n\nScanned image no. 013 / Folio __A / Duplicate of scanned image no. 011B\nB 23-26-006\nFolio A\n\rktvā vidhirvijñāyeta | na pūrvakālakriyārthe iti | punaścātrapaścādviniścayaṃ kariṣyāmaḥ | \nca iti | yuṣmabhyaṃ yuṣmānuddīsyeti darśayati | bhikṣava iti āmantraṇaṃ bhikṣūṇāṃ | \nanya cintānānta dutsukhīkaraṇārthaṃ | kasmādbhikṣūṇāmevanānyāsāṃ parṣadāṃ | \nagrandhācchreṣṭhandhā dāsannandhātsadā ca sānnidhyāt grahaṇe ca \nśaktimant",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00065.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00065.001",
+          "TSK-03995"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00042.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03855",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Madhyāmaka Hṛdaya Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Madhyāmaka Hṛdaya Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Madhyāmaka Hṛdaya Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00042.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00042.001",
+          "TSK-03855"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00093.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04421",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhidharma Koṣa Bhāṣya Ṭīkā Tattvārtha Nāma",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharma Koṣa Bhāṣya Ṭīkā Tattvārtha Nāma",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharma Koṣa Bhāṣya Ṭīkā Tattvārtha Nāma",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00093.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00093.001",
+          "TSK-04421"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00018.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00556",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Suvarṇa Prabhāsottama Sūtrendra Rāja Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Suvarṇa Prabhāsottama Sūtrendra Rāja Nāma Mahāyāna Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Suvarṇa Prabhāsottama Sūtrendra Rāja Nāma Mahāyāna Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00018.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00018.001",
+          "KSK-00556"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00036.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03824",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00036.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00036.001",
+          "TSK-03824"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00079.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04155",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhisattva Avadāna Kalpalatā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhisattva Avadāna Kalpalatā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhisattva Avadāna Kalpalatā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00079.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00079.001",
+          "TSK-04155"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00080.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04158",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Rāja Parikathā Ratna Mālī / Ratnāvalī / Ratnamala",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Rāja Parikathā Ratna Mālī / Ratnāvalī / Ratnamala",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Rāja Parikathā Ratna Mālī / Ratnāvalī / Ratnamala",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00080.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00080.001",
+          "TSK-04158"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00016.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00381",
+      "manuscriptArchiveRef": "Columbia University",
+      "titleIast": "Saṃpuṭa Nāma Mahātantra",
+      "category": "Tantra",
+      "totalChars": 22397,
+      "diplomaticFolioExcerpt": "śrī saṃpuṭodbhava tantra \n\n[Elder, G.R., The Saṃpuṭa tantra: edition and translation, chapters I-IV. Unpublished Ph. D. dissertation submitted to Columbia University, 1978]\n\n\n\n\n\n\n\nTHE SAṂPUṬA TANTRA - SANSKRIT EDITION \n\n\n\n(Chapter 1) <<pp36-63>> \n\n(oṃ) namo vajraḍākāya // \n\nevaṃ mayā śrutam ekasmin samaye bhagavān sarvatathāgatakāyavākcitta(hṛdaya)vajrayoṣidbhageṣu vijahāra // \n\ntatra khalu bhagavān aśītikoṭiyogīśvaramadhye vajragarbham avalokaḥ smitam akārṣīt // \n\nsamanantaraṃ smite 'smin vajragarbha utthāyāsanād ekāṃsam uttarāsaṅgaṃ kṛtvā dakṣiṇaṃ jānumaṇḍalaṃ pṛthivyāṃ pratiṣṭhāpya kṛtāñjalipuṭottatvā bhagavantam etad avocat // \n\nśrotum icchāmi jñānendra sarvatantranidānakaṃ / \nrahasyaṃ saṃpuṭodbhūtaṃ lakṣaṇam // \n\nbhagavān āha //",
+      "normalizedIastExcerpt": "śrī saṃpuṭodbhava tantra \n\n[Elder, G.R., The Saṃpuṭa tantra: edition and translation, chapters I-IV. Unpublished Ph. D. dissertation submitted to Columbia University, 1978]\n\n\n\n\n\n\n\nTHE SAṂPUṬA TANTRA - SANSKRIT EDITION \n\n\n\n(Chapter 1) <<pp36-63>> \n\n(oṃ) namo vajraḍākāya // \n\nevaṃ mayā śrutam ekasmin samaye bhagavān sarvatathāgatakāyavākcitta(hṛdaya)vajrayoṣidbhageṣu vijahāra // \n\ntatra khalu bhagavān aśītikoṭiyogīśvaramadhye vajragarbham avalokaḥ smitam akārṣīt // \n\nsamanantaraṃ smite 'smin vajragarbha utthāyāsanād ekāṃsam uttarāsaṅgaṃ kṛtvā dakṣiṇaṃ jānumaṇḍalaṃ pṛthivyāṃ pratiṣṭhāpya kṛtāñjalipuṭottatvā bhagavantam etad avocat // \n\nśrotum icchāmi jñānendra sarvatantranidānakaṃ / \nrahasyaṃ saṃpuṭodbhūtaṃ lakṣaṇam // \n\nbhagavān āha //",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00016.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00016.001",
+          "KSK-00381"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00089.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04214",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Sambandha Parīkṣā Prakaraṇa",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Sambandha Parīkṣā Prakaraṇa",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Sambandha Parīkṣā Prakaraṇa",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00089.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00089.001",
+          "TSK-04214"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00005.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "KSK-00012",
+      "manuscriptArchiveRef": "MS 531",
+      "titleIast": "Aśtasahasrika Prajñāpāramita",
+      "category": "Sūtra",
+      "totalChars": 690453,
+      "diplomaticFolioExcerpt": "pṛṣṭha 1\nom namo bhagavatyai ārya prajñāpāramiatāyai || nirvikalpe namastubhyaṁ prajñāpāramiate'mite|yātvaṁ sarvānavadyāṁginiravadyairnirikṣase | ākāśamiva nirlapāṁ niprapañcaṁ nirakṣarāṁ | yastvāṁpaśyati bhāvena sapaśyati tathāgataṁ || tavacārya guṇādyāyā buddhasyaca jagadguroḥ | napasyantyantaraṁ santaścandracandrikayorivaḥ | kṛpātmakā prapadyatvāṁ buddha dharma purassarīṁ | sukhenāyānti mahātmya matulaṁ\nbhaktivatsale | sakṛdapyāsaye śuddheyastvāṁ vidhivadīkṣyate| tenāpi niyataṁsiddhi prāpyate moghadarśane || sarveṣāmapivīrāṇāṁ | parārthe'bhiratātmanāṁ yodhikā janayitrīcamātā tvamasivatsalā | yadbuddhā lokaguruvaḥputrāstava kṛpālavaḥ | tenatvamasi kalyānī sarvasatva pitāmahī | sarvapāramitābhistvaṁ nirmalābhiranindi te | candralekheva tār",
+      "normalizedIastExcerpt": "pṛṣṭha 1\nom namo bhagavatyai ārya prajñāpāramiatāyai || nirvikalpe namastubhyaṃ prajñāpāramiate'mite|yātvaṃ sarvānavadyāṃginiravadyairnirikṣase | ākāśamiva nirlapāṃ niprapañcaṃ nirakṣarāṃ | yastvāṃpaśyati bhāvena sapaśyati tathāgataṃ || tavacārya guṇādyāyā buddhasyaca jagadguroḥ | napasyantyantaraṃ santaścandracandrikayorivaḥ | kṛpātmakā prapadyatvāṃ buddha dharma purassarīṃ | sukhenāyānti mahātmya matulaṃ\nbhaktivatsale | sakṛdapyāsaye śuddheyastvāṃ vidhivadīkṣyate| tenāpi niyataṃsiddhi prāpyate moghadarśane || sarveṣāmapivīrāṇāṃ | parārthe'bhiratātmanāṃ yodhikā janayitrīcamātā tvamasivatsalā | yadbuddhā lokaguruvaḥputrāstava kṛpālavaḥ | tenatvamasi kalyānī sarvasatva pitāmahī | sarvapāramitābhistvaṃ nirmalābhiranindi te | candralekheva tār",
+      "extractedMantras": [
+        "namo bhagavatyai ārya prajñāpāramiatāyai ||",
+        "tadyathā nīlapītalohitāvadātamāñjiṣṭhasphaṭ",
+        "tadyathāpi nāma subhūte gandhahastino bodhisatvasya mahāsatvasya erhyakṣobhyasya tathāgatasyārhataḥ saṁmyaksaṁbuddhasyāntike brahmacaryañcaratīti ||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00005.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00005.001",
+          "KSK-00012"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00012.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00338",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Karma Vibhaṇga",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Karma Vibhaṇga",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Karma Vibhaṇga",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00012.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00012.001",
+          "KSK-00338"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00010.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "KSK-00248",
+      "manuscriptArchiveRef": "Cambridge MS Or.713",
+      "titleIast": "Bodhisattva Pratimokṣa Catuṣka Nirhāra Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "totalChars": 14516,
+      "diplomaticFolioExcerpt": "@ 01A [BLANK PAGE]\r\n\r\nBodhisattvapratimokṣasūtra\r\n[MS Cambridge: https://cudl.lib.cam.ac.uk/view/MS-OR-00713/4]\r\n\r\n@ 01B\r\nnamaḥ sarvvabuddhabodhisatvebhyaḥ|| ya ete bodhisatvānāṁ trayaḥ śīlaskandhā uktāḥ| sambara śīlaṁ| kuśaladharmasaṁgrāhaka[???????????]\r\nṣu śikṣitukāmena gṛhiṇā vā pravrajitena vā'nuttarāyāṁ samyaksambodhau kṛtapraṇidhānena sahadhārmmikasya bodhisatvasya [??????]\r\nnasya vāgvijñaptyārtha grahaṇāvabodhasamarthasya pādayornnipatyādhyeṣaṇā kāryā| tavāhaṁ kulaputrāyuṣmanbhadanteti vā'ntikādbodhisatva[???]\r\nbarasamādānamākāṁkṣāmyādāntaṁ| tadarhasyanuparodhena muhūrttaṁ madanukampayā dāntaṁ śrontañceti| trirevamadhyeṣya ekāṁśamuttarāsaṅga kṛtvā[?]\r\nśasu dikṣvatītānāgatapratyutpannānāṁ buddhānāṁ bhagavatāṁ mahābhūmipraviṣṭānāṁ ca",
+      "normalizedIastExcerpt": "@ 01A [BLANK PAGE]\r\n\r\nBodhisattvapratimokṣasūtra\r\n[MS Cambridge: https://cudl.lib.cam.ac.uk/view/MS-OR-00713/4]\r\n\r\n@ 01B\r\nnamaḥ sarvabuddhabodhisatvebhyaḥ|| ya ete bodhisatvānāṃ trayaḥ śīlaskandhā uktāḥ| sambara śīlaṃ| kuśaladharmasaṃgrāhaka[???????????]\r\nṣu śikṣitukāmena gṛhiṇā vā pravrajitena vā'nuttarāyāṃ samyaksambodhau kṛtapraṇidhānena sahadhārmmikasya bodhisatvasya [??????]\r\nnasya vāgvijñaptyārtha grahaṇāvabodhasamarthasya pādayornnipatyādhyeṣaṇā kāryā| tavāhaṃ kulaputrāyuṣmanbhadanteti vā'ntikādbodhisatva[???]\r\nbarasamādānamākāṃkṣāmyādāntaṃ| tadarhasyanuparodhena muhūrttaṃ madanukampayā dāntaṃ śrontañceti| trirevamadhyeṣya ekāṃśamuttarāsaṅga kṛtvā[?]\r\nśasu dikṣvatītānāgatapratyutpannānāṃ buddhānāṃ bhagavatāṃ mahābhūmipraviṣṭānāṃ ca",
+      "extractedMantras": [
+        "namaḥ sarvvabuddhabodhisatvebhyaḥ||",
+        "namo buddhāya||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00010.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00010.001",
+          "KSK-00248"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00032.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03791",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Prajñāpāramitā Aṣṭasahasrikā Vyākhyā Abhisamayālaṃkāra Āloka",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Prajñāpāramitā Aṣṭasahasrikā Vyākhyā Abhisamayālaṃkāra Āloka",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Prajñāpāramitā Aṣṭasahasrikā Vyākhyā Abhisamayālaṃkāra Āloka",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00032.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00032.001",
+          "TSK-03791"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00048.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-03860",
+      "manuscriptArchiveRef": "Matsunami No. 251",
+      "titleIast": "Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "category": "Ṭīkā",
+      "totalChars": 506840,
+      "diplomaticFolioExcerpt": "prasannapadā\r\n\r\n\r\n@ 001A   [ BLANK PAGE ] \r\n\r\n\r\n@ 001B \r\no̐ namo buddhāya|| yontadvayāvāsavidhūtavāsaḥ saṁbuddhadhīsāgaralabdhajanmā| saddharmatoyasya gabhīrabhāvaṁ yathānubuddhaṁ kṛpayā jagāda\r\n||    1    || yasya darśanatejāṁsi paravādimatendhanaṁ| dahatyadyāpi lokasya mānasāni tamānsi ca||    2    || yasyāsamajñānavacaḥśaraughā ni\r\nghnanti niḥśeṣabhavārisenāṁ| tridhāturājyaśriyamādadhānā vineyalokasya sadevakasya||    3    || nāgārjunāya praṇipatya tasmai ta\r\ntkārikāṇāṁ vivṛtiṁ kāriṣye| uttānasatprakriyavākyanaddhāṁ tarkānilāvyākulitāṁ prasannāṁ||    4    || tatra na svato nāpi parato\r\nna dvābhyāmityāadi vakṣyamāṇaṁ śāstraṁ|| tasya kāni saṁbandhābhidheyaprayojanānīti praśe|| madhyamakāvatāravihitavidhinā'dvaya\r\njñānālaṁkṛtaṁ mahākaruṇopā",
+      "normalizedIastExcerpt": "prasannapadā\r\n\r\n\r\n@ 001A   [ BLANK PAGE ] \r\n\r\n\r\n@ 001B \r\no̐ namo buddhāya|| yontadvayāvāsavidhūtavāsaḥ saṃbuddhadhīsāgaralabdhajanmā| saddharmatoyasya gabhīrabhāvaṃ yathānubuddhaṃ kṛpayā jagāda\r\n||    1    || yasya darśanatejāṃsi paravādimatendhanaṃ| dahatyadyāpi lokasya mānasāni tamānsi ca||    2    || yasyāsamajñānavacaḥśaraughā ni\r\nghnanti niḥśeṣabhavārisenāṃ| tridhāturājyaśriyamādadhānā vineyalokasya sadevakasya||    3    || nāgārjunāya praṇipatya tasmai ta\r\ntkārikāṇāṃ vivṛtiṃ kāriṣye| uttānasatprakriyavākyanaddhāṃ tarkānilāvyākulitāṃ prasannāṃ||    4    || tatra na svato nāpi parato\r\nna dvābhyāmityāadi vakṣyamāṇaṃ śāstraṃ|| tasya kāni saṃbandhābhidheyaprayojanānīti praśe|| madhyamakāvatāravihitavidhinā'dvaya\r\njñānālaṃkṛtaṃ mahākaruṇopā",
+      "extractedMantras": [
+        "namo buddhāya||",
+        "tadyathā māyāyuvatitatsvabhāvānabhijñānāṁ tathāgatanirmitaścopacitakuśalamūlānāṁ||",
+        "tadyathā kulaputra māyākāranāṭake pratyupasthite māyākāranirmitāṁ striyaṁ dṛṣṭvā kaścidrāgaparītavetāḥ||",
+        "tadyathā sarvebhyo vṛkṣebhyaḥ prāgvanaṁ nāsti tadā ekaikasmādapi nāsti||",
+        "tadyathā kūrmaromaprāvaraṇasyeti||",
+        "tadyathā sve bhṛtyāḥ svāni dhanāni yattu yasya parāyattaṁ na tattasyātmīyaṁ||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00048.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00048.001",
+          "TSK-03860"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00001.004",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00001",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bhaiṣajya vastu from Vinaya Vastu",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00001.004/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00001.004",
+          "KSK-00001"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00024.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01351",
+      "titleIast": "Paramārtha Saṃgraha Nāma Sekoddeśa Ṭīkā",
+      "category": "Ṭīkā",
+      "totalChars": 479403,
+      "diplomaticFolioExcerpt": "@001\r\nSERIE ORIENTALE ROMA\r\nXCIX\r\nTHE SEKODDEŚAṬĪKĀ\r\nBY NĀROPĀ\r\n(PARAMĀRTHASAṂGRAHA)\r\nCritical Edition of the Sanskrit Text\r\nby Francesco Sferra\r\nCritical Edition of the Tibetan Translation\r\nby Stefania Merzagora\r\nDD\r\nROMA\r\nISTITUTO ITALIANO PER LʼAFRICA E LʼORIENTE\r\n2006\r\n@002\r\nDistributed by Herder, International Book Centre,\r\n120, Piazza Montecitorio, 00186 Rome, Italy.\r\nPublished with grants from the\r\nDipartimento di Studi Asiatici\r\nUniversità di Napoli ʻʻLʼOrientaleʼʼ\r\nLayout: Francesco Sferra\r\nISBN 88-85320-37-6\r\nTUTTI I DIRITTI RISERVATI\r\nPrinted in Italy - Stampato in Italia\r\nFinito di stampare nel mese di marzo 2006\r\nGrafica Cristal S.r.l., via Raffaele Paolucci, 12/14 - 00152 Roma\r\n@003\r\nTo Raniero Gnoli\r\n@004\r\nBlank\r\n@005\r\nCONTEN",
+      "normalizedIastExcerpt": "@001\r\nSERIE ORIENTALE ROMA\r\nXCIX\r\nTHE SEKODDEŚAṬĪKĀ\r\nBY NĀROPĀ\r\n(PARAMĀRTHASAṂGRAHA)\r\nCritical Edition of the Sanskrit Text\r\nby Francesco Sferra\r\nCritical Edition of the Tibetan Translation\r\nby Stefania Merzagora\r\nDD\r\nROMA\r\nISTITUTO ITALIANO PER LʼAFRICA E LʼORIENTE\r\n2006\r\n@002\r\nDistributed by Herder, International Book Centre,\r\n120, Piazza Montecitorio, 00186 Rome, Italy.\r\nPublished with grants from the\r\nDipartimento di Studi Asiatici\r\nUniversità di Napoli ʻʻLʼOrientaleʼʼ\r\nLayout: Francesco Sferra\r\nISBN 88-85320-37-6\r\nTUTTI I DIRITTI RISERVATI\r\nPrinted in Italy - Stampato in Italia\r\nFinito di stampare nel mese di marzo 2006\r\nGrafica Cristal S.r.l., via Raffaele Paolucci, 12/14 - 00152 Roma\r\n@003\r\nTo Raniero Gnoli\r\n@004\r\nBlank\r\n@005\r\nCONTEN",
+      "extractedMantras": [
+        "oṃ̐ namaḥ kālacakrāya¹ ||",
+        "namo bhagavate yadupajñakāni³ viśvopakāravidhināṭakanartanāni⁴ ||",
+        "oṃ̐ āḥ hūṃ",
+        "oṃ̐ dvādaśāṅganirodhakāriṇe hūṃ phaṭ",
+        "oṃ̐ āḥ hūṃ",
+        "oṃ̐ divyendriyāṇyudghāṭaya svāhā"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00024.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00024.001",
+          "TSK-01351"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00044.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03860",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00044.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00044.001",
+          "TSK-03860"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00058.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03872",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicaryāvatārapañjikā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatārapañjikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatārapañjikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00058.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00058.001",
+          "TSK-03872"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00051.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03865",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhisattva Yogācāra Catuḥśataka Ṭīkā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhisattva Yogācāra Catuḥśataka Ṭīkā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhisattva Yogācāra Catuḥśataka Ṭīkā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00051.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00051.001",
+          "TSK-03865"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00095.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "EXTRA-cannonical",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Lakṣaṇaṭīkā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Lakṣaṇaṭīkā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Lakṣaṇaṭīkā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00095.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00095.001",
+          "EXTRA-cannonical"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00008.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00113",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Saddharma Puṇḍarīka Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Saddharma Puṇḍarīka Nāma Mahāyāna Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Saddharma Puṇḍarīka Nāma Mahāyāna Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00008.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00008.001",
+          "KSK-00113"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00017.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00504",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Bhagavān Bhaiṣajye Guru Vaiḍūrya Prabhāsya Pūrva Praṇidhāna Viśeṣa Vistāra Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Bhagavān Bhaiṣajye Guru Vaiḍūrya Prabhāsya Pūrva Praṇidhāna Viśeṣa Vistāra Nāma Mahāyāna Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Bhagavān Bhaiṣajye Guru Vaiḍūrya Prabhāsya Pūrva Praṇidhāna Viśeṣa Vistāra Nāma Mahāyāna Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00017.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00017.001",
+          "KSK-00504"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00091.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04268",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Viśālāmalavatī Pramāṇasamuccayaṭīkā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Viśālāmalavatī Pramāṇasamuccayaṭīkā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Viśālāmalavatī Pramāṇasamuccayaṭīkā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00091.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00091.001",
+          "TSK-04268"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00067.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04041",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Yogacaryabhūmau Paryāyasaṃgraha* or Paryāyasaṃgrahaṇī",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Yogacaryabhūmau Paryāyasaṃgraha* or Paryāyasaṃgrahaṇī",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Yogacaryabhūmau Paryāyasaṃgraha* or Paryāyasaṃgrahaṇī",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00067.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00067.001",
+          "TSK-04041"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00029.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03786",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhisamayālaṅkāra Nāma Prajñāpāramitopadeśa Śāstra Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhisamayālaṅkāra Nāma Prajñāpāramitopadeśa Śāstra Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhisamayālaṅkāra Nāma Prajñāpāramitopadeśa Śāstra Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00029.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00029.001",
+          "TSK-03786"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00004.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00008",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śatasahasrika Prajñā Pāramitā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śatasahasrika Prajñā Pāramitā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00004.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00004.001",
+          "KSK-00008"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00062.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03917",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "[Tṛtīya] Bhāvana Krama",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || [Tṛtīya] Bhāvana Krama",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || [Tṛtīya] Bhāvana Krama",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00062.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00062.001",
+          "TSK-03917"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00053.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-03871",
+      "manuscriptArchiveRef": "Palm leaf C 14",
+      "titleIast": "Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "category": "Sūtra",
+      "totalChars": 85652,
+      "diplomaticFolioExcerpt": "@ TTL< bodhicaryyāvatāra >\r\n\r\n\r\n@ 01AB [ MISSING FOLIO ] \r\n\r\n\r\n@ 02A \r\nhitaṁ punarapyeṣa samāgamaḥ kutaḥ|| rātrau yathā meghaghanā [????????????????????] | \r\ntathā kadācil lokasya puṇyeṣu matikṣaṇaṁ syāt|| tasmācchu [???] la [??????] ntu pāpasya maha [????]\r\njjīyate'nyena śubhena kena saṁbodhicittaṁ yadi nāma na syāt|| [??] nanalpān pravicintayadbhirdṛṣṭaṁ munī [?????]\r\ndeva| yata sukhenaiva sukhaṁ pravṛddhamutplāvayatyapramitā [??] ghān bhavaduḥkhaśatāni tartukīmairapi sa [???]\r\nnāni hartukāmaiḥ| bahusaukhyaśatāni bhoktukāmairna vimocyaṁ hi sadaiva bodhicittaṁ|| bhavacārakabandhano varā [???]\r\ntānāṁ suta ucyate kṣaṇena| sa narāmaralokavandanīyo bhavati smodita eva [????????????]\r\n\r\n\r\n@ 02B \r\ngṛhītvā jinaratnapratimāṁ karotyanarghān| rasajā",
+      "normalizedIastExcerpt": "@ TTL< bodhicaryyāvatāra >\r\n\r\n\r\n@ 01AB [ MISSING FOLIO ] \r\n\r\n\r\n@ 02A \r\nhitaṃ punarapyeṣa samāgamaḥ kutaḥ|| rātrau yathā meghaghanā [????????????????????] | \r\ntathā kadācil lokasya puṇyeṣu matikṣaṇaṃ syāt|| tasmācchu [???] la [??????] ntu pāpasya maha [????]\r\njjīyate'nyena śubhena kena saṃbodhicittaṃ yadi nāma na syāt|| [??] nanalpān pravicintayadbhirdṛṣṭaṃ munī [?????]\r\ndeva| yata sukhenaiva sukhaṃ pravṛddhamutplāvayatyapramitā [??] ghān bhavaduḥkhaśatāni tartukīmairapi sa [???]\r\nnāni hartukāmaiḥ| bahusaukhyaśatāni bhoktukāmairna vimocyaṃ hi sadaiva bodhicittaṃ|| bhavacārakabandhano varā [???]\r\ntānāṃ suta ucyate kṣaṇena| sa narāmaralokavandanīyo bhavati smodita eva [????????????]\r\n\r\n\r\n@ 02B \r\ngṛhītvā jinaratnapratimāṃ karotyanarghān| rasajā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00053.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00053.001",
+          "TSK-03871"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00083.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04208",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Śāstra Nyāya Praveśa",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Śāstra Nyāya Praveśa",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Śāstra Nyāya Praveśa",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00083.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00083.001",
+          "TSK-04208"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00071.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04057",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Viṃśaka Vṛtti",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Viṃśaka Vṛtti",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Viṃśaka Vṛtti",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00071.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00071.001",
+          "TSK-04057"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00078.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04117",
+      "titleIast": "the Karmabhedavastu of the Vinaya Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || the Karmabhedavastu of the Vinaya Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || the Karmabhedavastu of the Vinaya Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00078.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00078.001",
+          "TSK-04117"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00045.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03860",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00045.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00045.001",
+          "TSK-03860"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00023.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01127",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Prajñāpāramitā Stotra",
+      "category": "Stotra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñāpāramitā Stotra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñāpāramitā Stotra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00023.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00023.001",
+          "TSK-01127"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00066.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03995",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pratītya Samutpādasyādivibhaṃgayo Nirdeśa/ Pratītya Samutpādādi Vibhaṅga Nirdeśa\n/Pratītya Samutpāda Vyākhyā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pratītya Samutpādasyādivibhaṃgayo Nirdeśa/ Pratītya Samutpādādi Vibhaṅga Nirdeśa\n/Pratītya Samutpāda Vyākhyā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pratītya Samutpādasyādivibhaṃgayo Nirdeśa/ Pratītya Samutpādādi Vibhaṅga Nirdeśa\n/Pratītya Samutpāda Vyākhyā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00066.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00066.001",
+          "TSK-03995"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00032.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03791",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Prajñāpāramitā Aṣṭasahasrikā Vyākhyā Abhisamayālaṃkāra Āloka",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Prajñāpāramitā Aṣṭasahasrikā Vyākhyā Abhisamayālaṃkāra Āloka",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Prajñāpāramitā Aṣṭasahasrikā Vyākhyā Abhisamayālaṃkāra Āloka",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00032.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00032.002",
+          "TSK-03791"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00074.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04090",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhidharmakoṣa Bhāśya",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharmakoṣa Bhāśya",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharmakoṣa Bhāśya",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00074.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00074.001",
+          "TSK-04090"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00006.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00047",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Tathāgatācintya Guhya Nirdeśa Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Tathāgatācintya Guhya Nirdeśa Nāma Mahāyāna Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Tathāgatācintya Guhya Nirdeśa Nāma Mahāyāna Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00006.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00006.001",
+          "KSK-00047"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00013.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00349",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śrīsena Avadāna",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śrīsena Avadāna",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śrīsena Avadāna",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00013.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00013.001",
+          "KSK-00349"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00020.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01118",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Dharmadhātu Stava",
+      "category": "Stotra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Dharmadhātu Stava",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Dharmadhātu Stava",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00020.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00020.001",
+          "TSK-01118"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00025.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01785",
+      "manuscriptArchiveRef": "Tibetan Sanskrit Works",
+      "titleIast": "Pradīpodyotana Nāma Ṭīkā (Ṣaṭkoṭī Vyākhyā)",
+      "category": "Ṭīkā",
+      "totalChars": 472325,
+      "diplomaticFolioExcerpt": "@i\r\nTibetan Sanskrit Works Series No. 25\r\nPUBLISHED UNDER THE PATRONAGE OF THE\r\nGOVERNMENT OF THE STATE OF BIHAR\r\nGeneral Editor\r\nDR. J. S. JHA\r\nDirector\r\nGUHYASAMĀJATANTRAPRADĪPODYOTANAṬĪKĀ-\r\nṢAṬKOṬĪVYĀKHYĀ\r\nBy\r\nPROF. CHINTAHARAN CHAKRAVARTI\r\nKASHI PRASAD JAYASWAL RESEARCH INSTITUTE\r\nPATNA\r\n1984\r\nPrice Rs. 50-00\r\n@ii\r\nPublished by\r\nDr. Jata Shankar Jha,\r\nDirector, Kashi Prasad Jayaswal Research Institute,\r\nPatna.\r\n©\r\nGovernment of Bihar\r\nPrinted at the Bihar State Text-Book Corporation, Patna.\r\n@iii\r\nbhoṭadeśīya-saṃskṛta-granthamālā\r\npaṃcaviṃśatitamaṃ puṣpam\r\nācāryacandrakīrtikṛtā\r\nguhyasamājatantrapradīpodyotanaṭīkāṣaṭkoṭivyākhyā\r\nprādhyāpakavaryacintāharaṇacakravarttinā\r\nsampāditā\r\nkāśī-prasāda-jāyasavāla-anuśīlana-saṃsthā\r\npāṭaliputram",
+      "normalizedIastExcerpt": "@i\r\nTibetan Sanskrit Works Series No. 25\r\nPUBLISHED UNDER THE PATRONAGE OF THE\r\nGOVERNMENT OF THE STATE OF BIHAR\r\nGeneral Editor\r\nDR. J. S. JHA\r\nDirector\r\nGUHYASAMĀJATANTRAPRADĪPODYOTANAṬĪKĀ-\r\nṢAṬKOṬĪVYĀKHYĀ\r\nBy\r\nPROF. CHINTAHARAN CHAKRAVARTI\r\nKASHI PRASAD JAYASWAL RESEARCH INSTITUTE\r\nPATNA\r\n1984\r\nPrice Rs. 50-00\r\n@ii\r\nPublished by\r\nDr. Jata Shankar Jha,\r\nDirector, Kashi Prasad Jayaswal Research Institute,\r\nPatna.\r\n©\r\nGovernment of Bihar\r\nPrinted at the Bihar State Text-Book Corporation, Patna.\r\n@iii\r\nbhoṭadeśīya-saṃskṛta-granthamālā\r\npaṃcaviṃśatitamaṃ puṣpam\r\nācāryacandrakīrtikṛtā\r\nguhyasamājatantrapradīpodyotanaṭīkāṣaṭkoṭivyākhyā\r\nprādhyāpakavaryacintāharaṇacakravartinā\r\nsampāditā\r\nkāśī-prasāda-jāyasavāla-anuśīlana-saṃsthā\r\npāṭaliputram",
+      "extractedMantras": [
+        "namo’stu te ityantaṃ nāsandhyam ||",
+        "oṃkārākārayorupariṣṭātpadaṃ hūṃ",
+        "oṃ hūṃkāragītanirataḥ svamudrāmārāghya phaṭ",
+        "namokṣaprasādhakaḥ ||",
+        "oṃkārasaṃyuktaścādāvante svāhā",
+        "oṃ āḥ hū̐ iti ||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00025.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00025.001",
+          "TSK-01785"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00033.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03793",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhisamayālaṃkāra Nāma Prajñāpāramita Updeśa Śāstra Vṛtti",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhisamayālaṃkāra Nāma Prajñāpāramita Updeśa Śāstra Vṛtti",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhisamayālaṃkāra Nāma Prajñāpāramita Updeśa Śāstra Vṛtti",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00033.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00033.001",
+          "TSK-03793"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00034.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03824",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00034.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00034.001",
+          "TSK-03824"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00056.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-03871",
+      "manuscriptArchiveRef": "Palm leaf No 772",
+      "titleIast": "Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "category": "Sūtra",
+      "totalChars": 11764,
+      "diplomaticFolioExcerpt": "<01B>\nnamo mañjunāthāya|| sugatānsasutānsadharmmakāyān praṇipatyādarato'khilāśca vandyān| sugatātmajasambarāvatāraṁ kathayiṣyā\nmi yathāgama samāsāt|| na hi kiñcidapūrvamatra vācyanna ca saṁgranthanakauśalaṁ mamāsti| ataeva na me parārthacintā svamano bhāva\nyituṁ kṛtaṁ mayedam|| mama tāvadanena yāti vṛrddhiṁ kuśalaṁ bhāvayituṁ prasādavegaḥ|| atha matsamadhātureva paśyedaparopyenamatopi sārthakau\nyaṁ|| kṣyaṇasampadiyaṁ sudurllabhā pratilabdhā purūṣārthasādhanī| yadi nātra vicintyate hitaṁ punarapyeṣa samāgamaḥ kutaḥ|| rātro yathā me\nghaghanāndhakāre vidyutkṣyaṇaṁ darśayati prakāsaṁ|| buddhānubhāvena tathā kadācillokasya puṇyeṣu matiḥ kṣaṇa syāt|| tasmācchubhaṁ durlla\nmeva nityaṁ balaṁ tu pāpasya mahatsughoraṁ|| tajjīyate'nyena śu\n\n<04A>\ntraśo",
+      "normalizedIastExcerpt": "<01B>\nnamo mañjunāthāya|| sugatānsasutānsadharmakāyān praṇipatyādarato'khilāśca vandyān| sugatātmajasambarāvatāraṃ kathayiṣyā\nmi yathāgama samāsāt|| na hi kiñcidapūrvamatra vācyanna ca saṃgranthanakauśalaṃ mamāsti| ataeva na me parārthacintā svamano bhāva\nyituṃ kṛtaṃ mayedam|| mama tāvadanena yāti vṛrddhiṃ kuśalaṃ bhāvayituṃ prasādavegaḥ|| atha matsamadhātureva paśyedaparopyenamatopi sārthakau\nyaṃ|| kṣyaṇasampadiyaṃ sudurllabhā pratilabdhā purūṣārthasādhanī| yadi nātra vicintyate hitaṃ punarapyeṣa samāgamaḥ kutaḥ|| rātro yathā me\nghaghanāndhakāre vidyutkṣyaṇaṃ darśayati prakāsaṃ|| buddhānubhāvena tathā kadācillokasya puṇyeṣu matiḥ kṣaṇa syāt|| tasmācchubhaṃ durlla\nmeva nityaṃ balaṃ tu pāpasya mahatsughoraṃ|| tajjīyate'nyena śu\n\n<04A>\ntraśo",
+      "extractedMantras": [
+        "namo mañjunāthāya||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00056.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00056.001",
+          "TSK-03871"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00001.003",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00001",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bhaiṣajya vastu from Vinaya Vastu",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00001.003/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00001.003",
+          "KSK-00001"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00015.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00349",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Śrīsena Avadāna",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Śrīsena Avadāna",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Śrīsena Avadāna",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00015.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00015.001",
+          "KSK-00349"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00049.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03861",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Madhyāmaka Avatāra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Madhyāmaka Avatāra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Madhyāmaka Avatāra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00049.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00049.001",
+          "TSK-03861"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00068.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04049",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhidharma Samuccaya",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharma Samuccaya",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharma Samuccaya",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00068.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00068.001",
+          "TSK-04049"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00075.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04092",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhidharmakoṣa Ṭīkā / Sphuṭārthā Abhidharmakoṣa Vyākhyā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharmakoṣa Ṭīkā / Sphuṭārthā Abhidharmakoṣa Vyākhyā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharmakoṣa Ṭīkā / Sphuṭārthā Abhidharmakoṣa Vyākhyā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00075.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00075.001",
+          "TSK-04092"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00050.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03865",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhisattva Yogācāra Catuḥśataka Ṭīkā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhisattva Yogācāra Catuḥśataka Ṭīkā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhisattva Yogācāra Catuḥśataka Ṭīkā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00050.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00050.001",
+          "TSK-03865"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00081.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04158",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Rāja Parikathā Ratna Mālī / Ratnāvalī / Ratnamala",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Rāja Parikathā Ratna Mālī / Ratnāvalī / Ratnamala",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Rāja Parikathā Ratna Mālī / Ratnāvalī / Ratnamala",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00081.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00081.001",
+          "TSK-04158"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00070.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04056",
+      "titleIast": "Viṃśaka Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Viṃśaka Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Viṃśaka Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00070.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00070.001",
+          "TSK-04056"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00019.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00556",
+      "manuscriptArchiveRef": "Asha Archives MS 2145",
+      "titleIast": "Ārya Suvarṇa Prabhāsottama Sūtrendra Rāja Nāma Mahāyāna Sūtra",
+      "category": "Sūtra",
+      "totalChars": 166178,
+      "diplomaticFolioExcerpt": "@1a\r\noṃ̐ namaḥ śrī sarvva buddha bodhisatvebhyaḥ || nama śrī bhagavatya āryya prajñāpāramitāyaiḥ || tadyathā ||\r\nśruti smṛti gati vijaye svāhā || || śrutaṃ mayaika samaye gṛdva kuṭe tathā gataḥ vijahāra dharmma\r\ndhāto gambhire buddha gocare || bodhisatva samuccayeyā mahākuladevatayā sarasvatyā ca mahādeva tayā\r\nśrīyā ca mahādevatayā dṛḍhayā ca mahāpṛthividevatayā hārityā ca mahādevatayā || || evaṃ\r\nmpra mukhābhi mahādevatā bhiraneka devanāga yakṣa rākṣa sagandharvvā suragaruḍa kinnara mahoraga manuṣyā\r\n@1b\r\nmanuṣyaiḥ sārddhaṃ || athā yuṣmānānando bhagavanta metada vocat || kimetatsāca bhagavandharmma vinayaṃ bhaviṣyateti || bhagavānāha || gāthā-\r\nbhibhānaṃ ca naduḥ pṛchayā virajaskaṃ samādhi dharmma sāraṃ pratiṣṭhitaṃ || śuddheṣū virajaskeṣ",
+      "normalizedIastExcerpt": "@1a\r\noṃ̐ namaḥ śrī sarva buddha bodhisatvebhyaḥ || nama śrī bhagavatya ārya prajñāpāramitāyaiḥ || tadyathā ||\r\nśruti smṛti gati vijaye svāhā || || śrutaṃ mayaika samaye gṛdva kuṭe tathā gataḥ vijahāra dharma\r\ndhāto gambhire buddha gocare || bodhisatva samuccayeyā mahākuladevatayā sarasvatyā ca mahādeva tayā\r\nśrīyā ca mahādevatayā dṛḍhayā ca mahāpṛthividevatayā hārityā ca mahādevatayā || || evaṃ\r\nmpra mukhābhi mahādevatā bhiraneka devanāga yakṣa rākṣa sagandharvvā suragaruḍa kinnara mahoraga manuṣyā\r\n@1b\r\nmanuṣyaiḥ sārddhaṃ || athā yuṣmānānando bhagavanta metada vocat || kimetatsāca bhagavandharma vinayaṃ bhaviṣyateti || bhagavānāha || gāthā-\r\nbhibhānaṃ ca naduḥ pṛchayā virajaskaṃ samādhi dharma sāraṃ pratiṣṭhitaṃ || śuddheṣū virajaskeṣ",
+      "extractedMantras": [
+        "tadyathā || śruti smṛti gati vijaye svāhā ||",
+        "oṃ̐ namaḥ śrī sarvva buddha bodhisatvebhyaḥ ||",
+        "namostu buddhāya varolabhantu ||",
+        "namo bhagavatyai sarasvatyai sidhyantumantra yadā svāhā ||",
+        "namaḥ svāhātyaya devī namasyāmi syāme prayachatu guṇaughaṃ ||",
+        "namaḥ sarvvabuddha bodhisatvānāṃ ||",
+        "namo maitreya prabhṛtīnāṃ bodhisatvānāṃ ||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00019.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00019.001",
+          "KSK-00556"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00030.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03790",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pañcaviṃśati Sāhasrikā Prajnāparamitā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pañcaviṃśati Sāhasrikā Prajnāparamitā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pañcaviṃśati Sāhasrikā Prajnāparamitā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00030.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00030.001",
+          "TSK-03790"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00072.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04064",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Triṃśikā Bhāṣya",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Triṃśikā Bhāṣya",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Triṃśikā Bhāṣya",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00072.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00072.001",
+          "TSK-04064"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00022.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01127",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Prajñāpāramitā Stotra",
+      "category": "Stotra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñāpāramitā Stotra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñāpāramitā Stotra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00022.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00022.001",
+          "TSK-01127"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00037.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03825",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Yuktiṣaṣṭikā Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Yuktiṣaṣṭikā Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Yuktiṣaṣṭikā Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00037.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00037.001",
+          "TSK-03825"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00094.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "EXTRA-cannonical",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Divyāvadāna",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Divyāvadāna",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Divyāvadāna",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00094.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00094.001",
+          "EXTRA-cannonical"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00088.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04210",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Vārtika",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00088.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00088.001",
+          "TSK-04210"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00040.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03836",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pratītya Samutpāda Hṛdaya Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pratītya Samutpāda Hṛdaya Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pratītya Samutpāda Hṛdaya Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00040.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00040.001",
+          "TSK-03836"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00028.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03400",
+      "manuscriptArchiveRef": "GAEKWADʼS ORIENTAL SERIES",
+      "titleIast": "Sādhana Samuccaya (Sādhanamālā / Trisamaya Rāja Sādhana)",
+      "category": "Sādhana",
+      "totalChars": 449323,
+      "diplomaticFolioExcerpt": "@i\r\nGAEKWADʼS ORIENTAL SERIES\r\nPublished under the Authority of\r\nthe Government of His Highness\r\nthe Maharaja Gaekwad of Baroda.\r\nNo. XXVI.\r\nSĀDHANAMĀLĀ\r\nVol. I.\r\nBenoytosh Bhattacharyya, M.A.,\r\nGeneral Editor.\r\n@ii\r\nBlank\r\n@iii\r\nsādhanamālā |\r\nSĀDHANAMĀLĀ\r\nVol. I.\r\nEDITED BY\r\nBENOYTOSH BHATTACHARYYA, M.A.\r\nLife Member, Asiatic Society of Bengal.\r\nCentral Library,\r\nBaroda.\r\n1925.\r\n@iv\r\nPublished by Newton Mohun Dutt, Curator of State Libraries, for\r\nthe Government of H.H. the Maharaja Gaekwad of Baroda.\r\nPrinted at the Baptist Mission Press,\r\n41, Lower Circular Road, Calcutta.\r\nPrice, Rs. 5.\r\n@v\r\nPREFACE.\r\nHIS HIGHNESS MAHARAJA DR. SIR SAYAJI\r\nRAO GAEKWAD, G.C.S.I., G.C.I.E., LL.D., in the\r\ncourse of his memorable Address delivered before t",
+      "normalizedIastExcerpt": "@i\r\nGAEKWADʼS ORIENTAL SERIES\r\nPublished under the Authority of\r\nthe Government of His Highness\r\nthe Maharaja Gaekwad of Baroda.\r\nNo. XXVI.\r\nSĀDHANAMĀLĀ\r\nVol. I.\r\nBenoytosh Bhattacharyya, M.A.,\r\nGeneral Editor.\r\n@ii\r\nBlank\r\n@iii\r\nsādhanamālā |\r\nSĀDHANAMĀLĀ\r\nVol. I.\r\nEDITED BY\r\nBENOYTOSH BHATTACHARYYA, M.A.\r\nLife Member, Asiatic Society of Bengal.\r\nCentral Library,\r\nBaroda.\r\n1925.\r\n@iv\r\nPublished by Newton Mohun Dutt, Curator of State Libraries, for\r\nthe Government of H.H. the Maharaja Gaekwad of Baroda.\r\nPrinted at the Baptist Mission Press,\r\n41, Lower Circular Road, Calcutta.\r\nPrice, Rs. 5.\r\n@v\r\nPREFACE.\r\nHIS HIGHNESS MAHARAJA DR. SIR SAYAJI\r\nRAO GAEKWAD, G.C.S.I., G.C.I.E., LL.D., in the\r\ncourse of his memorable Address delivered before t",
+      "extractedMantras": [
+        "oṃ̐ hara hara mahānimitta hu̐ phaṭ",
+        "namo’stu⁴ varasiddhidāyakebhyo⁵ mahākṛpebhyaḥ svāhā",
+        "namaḥ samantavajrāṇāṃ oṃ̐ ha̐³ sphāṭayāmahe hu̐ phaṭ",
+        "oṃ̐ ha̐ hu̐ vajramaṇḍale bandha bandha hu̐ phaṭ",
+        "namo’stu te svāhā",
+        "oṃ̐ oṃ̐ vajrapuṣpe hu̐⁶ svāhā"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00028.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00028.001",
+          "TSK-03400"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00076.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04117",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Vinaya Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00076.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00076.001",
+          "TSK-04117"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00092.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04377",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Ārya Bhadracaryā Praṇidhāna Rāja",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Bhadracaryā Praṇidhāna Rāja",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Ārya Bhadracaryā Praṇidhāna Rāja",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00092.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00092.002",
+          "TSK-04377"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00060.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03903",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Munimatālaṃkāra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Munimatālaṃkāra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Munimatālaṃkāra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00060.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00060.001",
+          "TSK-03903"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00046.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03860",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Mūla Madhyāmika Vṛtti Prasanna Padā Nāma",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00046.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00046.001",
+          "TSK-03860"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00021.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-01119",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Nirupama Stava",
+      "category": "Stotra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Nirupama Stava",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Nirupama Stava",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00021.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00021.001",
+          "TSK-01119"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00069.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04053",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Abhidharma Samuccaya Bhāṣya",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharma Samuccaya Bhāṣya",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Abhidharma Samuccaya Bhāṣya",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00069.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00069.001",
+          "TSK-04053"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00052.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03871",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00052.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00052.001",
+          "TSK-03871"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00003.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00001–vol 1,2,3,4",
+      "manuscriptArchiveRef": "bauddha-saṃskṛta-granthāvalī—16\n(Buddhist Sanskrit Texts No. 16)",
+      "titleIast": "Vinaya Vastu",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Vastu",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Vastu",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00003.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00003.001",
+          "KSK-00001–vol 1,2,3,4"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00059.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03872",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicaryāvatārapañjikā",
+      "category": "Ṭīkā",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatārapañjikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatārapañjikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00059.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00059.001",
+          "TSK-03872"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00038.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03828",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Vigraha Vyāvartanī Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Vigraha Vyāvartanī Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Vigraha Vyāvartanī Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00038.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00038.001",
+          "TSK-03828"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00087.002",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04210",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Vārtika",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00087.002/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00087.002",
+          "TSK-04210"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00077.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04117",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Vinaya Sūtra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Sūtra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Vinaya Sūtra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00077.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00077.001",
+          "TSK-04117"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00001.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "KSK-00001",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bhaiṣajya vastu from Vinaya Vastu",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bhaiṣajya vastu from Vinaya Vastu",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00001.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00001.001",
+          "KSK-00001"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00085.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-04210",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Pramāṇa Vārtika",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Pramāṇa Vārtika",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00085.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00085.001",
+          "TSK-04210"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00031.001",
+      "sourceInstitution": "[NIBS] Nagarjuna Institute of Buddhist Studies",
+      "catalogCode": "TSK-03790",
+      "manuscriptArchiveRef": "Matsunami 234",
+      "titleIast": "Pañca Viṃśati Sāhasrikā Prajñā Pāramitā",
+      "category": "Sūtra",
+      "totalChars": 173522,
+      "diplomaticFolioExcerpt": "pañcaviṁśatisāhasrikā prajñāpāramitā\r\n@ 001A  [ BLANK PAGE ]\r\n\r\n\r\n@ 001B  [ DDC  maitreya bodhisattva  ]\r\no̐ namo maitreyanāthāya|| yā sarvvajñatayā nayatyupaśamaśāntaiṣiṇaḥ śrāvakān yā māggajñatayā jagaddhitakṛtālokārthasaṁpādikā| sarvvākāramidaṁ vadanti munayo viśvaṁ yayā saṁgatā tasyai [?????]\r\nsatvagaṇino buddhasya mātre namaḥ|| sarvvākārajñatāmārgaḥ śāsitā yotra deśitaḥ| dhīmanto vīkṣaṣīranstamanālīḍhamparairiti|| smṛtau cādhāya sūtrārtha dharmmacaryāṁ daśātmikāṁ| sukhena pratipatsī[???]\r\nrambhaprayojana|| prajñāpāramitāṣṭābhi padārtheḥ samudīrityatā| sarvvākārajñatā māggajñatā sarvvajñatā tataḥ|| sarvvākārābhisaṁbodho mūrddhaprāpto'nupūrvikaḥ| ekakṣaṇābhisaṁbodho dharmmakāyaśca\r\nte'ṣṭadhā|| cittotpādo'vavādaśca nivedhāṅgañcaturvvidhaṁ",
+      "normalizedIastExcerpt": "pañcaviṃśatisāhasrikā prajñāpāramitā\r\n@ 001A  [ BLANK PAGE ]\r\n\r\n\r\n@ 001B  [ DDC  maitreya bodhisattva  ]\r\no̐ namo maitreyanāthāya|| yā sarvajñatayā nayatyupaśamaśāntaiṣiṇaḥ śrāvakān yā māggajñatayā jagaddhitakṛtālokārthasaṃpādikā| sarvākāramidaṃ vadanti munayo viśvaṃ yayā saṃgatā tasyai [?????]\r\nsatvagaṇino buddhasya mātre namaḥ|| sarvākārajñatāmārgaḥ śāsitā yotra deśitaḥ| dhīmanto vīkṣaṣīranstamanālīḍhamparairiti|| smṛtau cādhāya sūtrārtha dharmacaryāṃ daśātmikāṃ| sukhena pratipatsī[???]\r\nrambhaprayojana|| prajñāpāramitāṣṭābhi padārtheḥ samudīrityatā| sarvākārajñatā māggajñatā sarvajñatā tataḥ|| sarvākārābhisaṃbodho mūrddhaprāpto'nupūrvikaḥ| ekakṣaṇābhisaṃbodho dharmakāyaśca\r\nte'ṣṭadhā|| cittotpādo'vavādaśca nivedhāṅgañcaturvvidhaṃ",
+      "extractedMantras": [
+        "namo maitreyanāthāya||",
+        "namohayoḥ||"
+      ],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00031.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00031.001",
+          "TSK-03790"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00039.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03828",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Vigraha Vyāvartanī Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Vigraha Vyāvartanī Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Vigraha Vyāvartanī Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00039.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00039.001",
+          "TSK-03828"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00035.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03824",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Prajñā Nāma Mūla Madhyāmaka Kārikā",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00035.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00035.001",
+          "TSK-03824"
+        ]
+      }
+    },
+    {
+      "resourceId": "SA00054.001",
+      "sourceInstitution": "[Varanasi] Varanasi Preservation Center",
+      "catalogCode": "TSK-03871",
+      "manuscriptArchiveRef": "-",
+      "titleIast": "Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "category": "Sūtra",
+      "diplomaticFolioExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "normalizedIastExcerpt": "@1a namaḥ śrīvajrasattvāya || Bodhicaryāvatāra/Bodhisattvacaryāvatāra",
+      "extractedMantras": [],
+      "apiUrl": "https://publicapi.asianlegacylibrary.org/resources/SA00054.001/search?q=&input=iast&output=iast&case=false&match=partial",
+      "crossRefs": {
+        "allNibsIds": [
+          "SA00054.001",
+          "TSK-03871"
+        ]
+      }
+    }
+  ],
+  "newarDharaniWitnesses": [
+    {
+      "id": "nibs_newar_grahamatrka_862_2990",
+      "titleDiplomaticNewar": "āryaśrīgrahamātṛkā nāma dhāraṇī (Input by Miroj Shakya, NIBS Kathmandu)",
+      "titleNormalizedIast": "Āryaśrīgrahamātṛkā-nāma-dhāraṇī",
+      "diplomaticMantraNewar": "imāni bajrapāṇe navagrahāṇāṁ mantra hṛdayāni paṭhitasiddhāni yathānu krama varṇa bhedena diśāca gandha maṇḍalake cintaye padmamadhye dvādaśāṁgula pramāṇaṁ caturasraṁ caturdbāreṇa śobhitaṁ kūṭāgāraṁ cakra samanvitaṁ || tanmadhye sita kamalopari kuṁkuma gandha maṇḍala kecittaye debabhāskaraṁ tāpasa rupadharaṁ raktavarṇa sahasra sūryyakoṭī samaprabho sindhūrabarṇa stejo mālina bigrahaṁ || asyadeyaṁ kṣīrabhojanaṁ || kundurudhūpaṁ || ommegholkāyasbāhā",
+      "normalizedMantraIast": "imāni vajrapāṇe navagrahāṇāṃ mantra hṛdayāni paṭhitasiddhāni yathānu krama varṇa bhedena diśāca gandha maṇḍalake cintaye padmamadhye dvādaśāṃgula pramāṇaṃ caturasraṃ caturdbāreṇa śobhitaṃ kūṭāgāraṃ cakra samanvitaṃ || tanmadhye sita kamalopari kuṃkuma gandha maṇḍala kecittaye devabhāskaraṃ tāpasa rupadharaṃ raktavarṇa sahasra sūryakoṭī samaprabho sindhūravarṇa stejo mālina bigrahaṃ || asyadeyaṃ kṣīrabhojanaṃ || kundurudhūpaṃ || ommegholkāyasvāhā",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "b → v (bajra → vajra, sarba → sarva, bhagabān → bhagavān)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/862/2990",
+      "crossRefs": {
+        "dsbcIds": [
+          "862/2990"
+        ],
+        "gretilIds": [
+          "grahmdhu.htm"
+        ],
+        "buddhaNexusIds": [
+          "K12grahmdhu"
+        ],
+        "cudlMsIds": [
+          "MS-ADD-01680-00008-00003"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_nilakantha",
+      "titleDiplomaticNewar": "matya nandanniti|| āryya ṣaḍakṣarī mahāviyānāma dhāraṇī samāptaḥ|| 31|| oṁ namo nīlakaṇṭha lokaśvarāya|| oṁ namo",
+      "titleNormalizedIast": "Āryāvalokiteśvarasya (Avalokiteśvara) Nīlakaṇṭha-nāma-hṛdaya",
+      "diplomaticMantraNewar": "(167) bhate|| ānanda paurāṇāṁsa tyathatāṣitekarmma vivākaṁ|| ida mavocadbhagavānattamanā āyuṣyānā nando bhagavato bhāṣita matya nandanniti|| āryya ṣaḍakṣarī mahāviyānāma dhāraṇī samāptaḥ|| 31|| oṁ namo nīlakaṇṭha lokaśvarāya|| oṁ namo āryyā valokiteśvarāya bodhita-ūttvāya| mahāsatvāya mahākāruṇikāya| tadyathā|| oṁ maṇi padme hū̐|| oṁ sarvva bandhanache danakarāya| sarvapāpa samudrocheṣanakarāya sarvvavyādhipraśesana ",
+      "normalizedMantraIast": "(167) bhate|| ānanda paurāṇāṃsa tyathatāṣitekarma vivākaṃ|| ida mavocadbhagavānattamanā āyuṣyānā nando bhagavato bhāṣita matya nandanniti|| ārya ṣaḍakṣarī mahāviyānāma dhāraṇī samāptaḥ|| 31|| oṃ namo nīlakaṇṭha lokaśvarāya|| oṃ namo āryā valokiteśvarāya bodhita-ūttvāya| mahāsatvāya mahākāruṇikāya| tadyathā|| oṃ maṇi padme hū̐|| oṃ sarva bandhanache danakarāya| sarvapāpa samudrocheṣanakarāya sarvavyādhipraśesana ",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_cunda",
+      "titleDiplomaticNewar": "tadyathā|| caleculu candra svāhā|| āryya cundā nāmadhāraṇī samāptaṁ|| oṁ namoratna trāya|| oṁ namaḥ samantra buddhānāṁ||",
+      "titleNormalizedIast": "Ārya-Cundā-nāma-dhāraṇī (Āryacundā)",
+      "diplomaticMantraNewar": "oṁ namaḥ sapta saptīnāṁsamyaksaṁbuddhā koṭīnāṁ|| (215) tadyathā|| caleculu candra svāhā|| āryya cundā nāmadhāraṇī samāptaṁ|| oṁ namoratna trāya|| oṁ namaḥ samantra buddhānāṁ|| oṁ dhvajārga keyure ja ya 2 vijaya 2 jayavāhinī| sarkali| prasarkali|| bhactrani| prabhactrāni rakṣamāṁ sarvva satvānāctra prabhyarthikāvā| prabhayāmitrāvā abhindramati jambha ya 2 stambhaya 2 māhya 2 bhagavati| jayavāhinī jayottā-ī| matha 2 pr",
+      "normalizedMantraIast": "oṃ namaḥ sapta saptīnāṃsamyaksaṃbuddhā koṭīnāṃ|| (215) tadyathā|| caleculu candra svāhā|| ārya cundā nāmadhāraṇī samāptaṃ|| oṃ namoratna trāya|| oṃ namaḥ samantra buddhānāṃ|| oṃ dhvajārga keyure ja ya 2 vijaya 2 jayavāhinī| sarkali| prasarkali|| bhactrani| prabhactrāni rakṣamāṃ sarva satvānāctra prabhyarthikāvā| prabhayāmitrāvā abhindramati jambha ya 2 stambhaya 2 māhya 2 bhagavati| jayavāhinī jayottā-ī| matha 2 pr",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_vasudhara",
+      "titleDiplomaticNewar": "bhūṣitā tuṇava devī gaṇa sarvvaṁ malitvā martya maṇḍale sarvvadaridraṁdṛṣṭhā|| śrī vasudhāraṇī pracodayāmāsa|| martya maṇḍene",
+      "titleNormalizedIast": "Śrī-Vasudhārā-dhāraṇī",
+      "diplomaticMantraNewar": "yaṁtātāvata (307) bhūṣitā tuṇava devī gaṇa sarvvaṁ malitvā martya maṇḍale sarvvadaridraṁdṛṣṭhā|| śrī vasudhāraṇī pracodayāmāsa|| martya maṇḍene sarvva daridraṁbhavantite sarvva uddhāraṇārtha prasanno bhūyaḥ devī saṁcintya vijñāpitaḥ prasanna citto bhūyaḥ martya maṇḍale yena yena rupena satvānā bodha yatena tena rupena dhammaṁ deśayāhī śrī vasudhāraṇī pracodayāmi ityukyātri kāyasphūṭī kṛtvā|| śrī vasudhārāme karupaṁ m",
+      "normalizedMantraIast": "yaṃtātāvata (307) bhūṣitā tuṇava devī gaṇa sarvaṃ malitvā martya maṇḍale sarvadaridraṃdṛṣṭhā|| śrī vasudhāraṇī pracodayāmāsa|| martya maṇḍene sarva daridraṃbhavantite sarva uddhāraṇārtha prasanno bhūyaḥ devī saṃcintya vijñāpitaḥ prasanna citto bhūyaḥ martya maṇḍale yena yena rupena satvānā bodha yatena tena rupena dhammaṃ deśayāhī śrī vasudhāraṇī pracodayāmi ityukyātri kāyasphūṭī kṛtvā|| śrī vasudhārāme karupaṃ m",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_vajravidarini",
+      "titleDiplomaticNewar": "? vajavārāhīnāma dhāraṇī ? guhyeśvarī nāmadhāraṇī ? āryyatārānāmadhāraṇī ? āryyatārānāmadhāraṇī ? yogāṁbara nāmadhāraṇī ? ugratārānāmadhāraṇ",
+      "titleNormalizedIast": "Ārya-Vajravidāriṇī-hṛdaya-mūlamantra-dhāraṇī",
+      "diplomaticMantraNewar": "? aparimitānāmadhāraṇī ? bhadracarī nāmadutraṁ ? durggatipariśodhana nāmadhāraṇī ? gandhavyuha nāmadhāraṇī ? samādhirāja nāmadhāraṇī ? laṁkāvatāra nāma dhāraṇī nāmadhāraṇī ? śākyamunī nāmadhāraṇī ? karṇṇayopānāma dhāraṇī ? sarvapāpa haraṇanāmadhāraṇī ? vajasarasvatī nāmadhāraṇī ? puṇyavivardhūnī nāmadhāraṇī ? sadharmma puṇḍarīkā nāmadhāraṇī ? gāthādvayanāmadhāraṇī ? sugata vajanāmadhāraṇī ? bhaiṣa nāmadhāraṇī ? cuḍān",
+      "normalizedMantraIast": "? aparimitānāmadhāraṇī ? bhadracarī nāmadutraṃ ? durggatipariśodhana nāmadhāraṇī ? gandhavyuha nāmadhāraṇī ? samādhirāja nāmadhāraṇī ? laṃkāvatāra nāma dhāraṇī nāmadhāraṇī ? śākyamunī nāmadhāraṇī ? karṇayopānāma dhāraṇī ? sarvapāpa haraṇanāmadhāraṇī ? vajrasarasvatī nāmadhāraṇī ? puṇyavivardhūnī nāmadhāraṇī ? sadharma puṇḍarīkā nāmadhāraṇī ? gāthādvayanāmadhāraṇī ? sugata vajranāmadhāraṇī ? bhaiṣa nāmadhāraṇī ? cuḍān",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)",
+        "vaja → vajra (Newar r-cluster reduction restored)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_kurukulla",
+      "titleDiplomaticNewar": "caturbhuja mahākāla sādhana nāma dhāraṇī 124? śubhaṁ samvat ha ta 1 || 1 || kṣyeṣṭa vadiḍha voya siddhaya kādiṁ || dānapati vūhālayāvaja | k",
+      "titleNormalizedIast": "Ārya-Kurukullā-nāma-dhāraṇī",
+      "diplomaticMantraNewar": "dānapāramitādhāraṇī śīlapārāmitānāmadhāraṇī kṣāntipārāmitānāmadhāraṇī vīryyapāramitānāmadhāraṇī dhyānapāramitānāmadhāraṇī prajñāpāramitānāmadhāraṇī prajñāpāramitānāmadhāraṇī cūndānāmadhāraṇī jambharendrasyanāmadhāraṇī ugratārānāmadhāraṇī mahāmeghasūtra vaorocanīdhāraṇī ādaśākṣaradāraṇī cintāmaṇilokeśvaranāmadhāraṇī buddhabhaṭṭārakanāmadhāraṇī padmāttamanāmadhāraṇī sarvabuddhabodhi satvanāmadhāraṇī āryyatāro viṁśatist",
+      "normalizedMantraIast": "dānapāramitādhāraṇī śīlapārāmitānāmadhāraṇī kṣāntipārāmitānāmadhāraṇī vīryapāramitānāmadhāraṇī dhyānapāramitānāmadhāraṇī prajñāpāramitānāmadhāraṇī prajñāpāramitānāmadhāraṇī cūndānāmadhāraṇī jambharendrasyanāmadhāraṇī ugratārānāmadhāraṇī mahāmeghasūtra vaorocanīdhāraṇī ādaśākṣaradāraṇī cintāmaṇilokeśvaranāmadhāraṇī buddhabhaṭṭārakanāmadhāraṇī padmāttamanāmadhāraṇī sarvabuddhabodhi satvanāmadhāraṇī āryatāro viṃśatist",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_ugratara",
+      "titleDiplomaticNewar": "namo bhagavatye ugratārāyai|| tāraṇī sarvvaduṣū bhayahanaṇī caturmāra nivāraṇī sarvvadai vā sucanaca gandharvva kinnara mahoraga",
+      "titleNormalizedIast": "Ugratārā-dhāraṇī",
+      "diplomaticMantraNewar": "gukhaḥ| oṁ dayrū̐ īḥ| oṁ cu̐ uḥ| oṁ cha̐ yuḥ| oṁ hū̐ jhaḥ| oṁ jhṛ̐ jhaḥ| oṁ tu̐ lṛḥ oṁ hū̐ lṛḥ oṁ ḍu̐ eḥ| oṁ ḍu̐ eḥ| oṁ ṭu̐ eḥ| oṁ ṭuṁ oḥ| oṁ thuṁ auḥ| oṁ dū̐ aḥ oṁ dhrū̐ aḥ|| iti yoga gāmvarasya kamma4rā janāma dhāraṇī samāptaṁ|| || oṁ namo bhagavatye ugratārāyai|| tāraṇī sarvvaduṣū bhayahanaṇī caturmāra nivāraṇī sarvvadai vā sucanaca gandharvva kinnara mahoraga upadravo pramarddanī bhūtapretāpiśāca yasa rākṣasā ḍāk",
+      "normalizedMantraIast": "gukhaḥ| oṃ dayrū̐ īḥ| oṃ cu̐ uḥ| oṃ cha̐ yuḥ| oṃ hū̐ jhaḥ| oṃ jhṛ̐ jhaḥ| oṃ tu̐ lṛḥ oṃ hū̐ lṛḥ oṃ ḍu̐ eḥ| oṃ ḍu̐ eḥ| oṃ ṭu̐ eḥ| oṃ ṭuṃ oḥ| oṃ thuṃ auḥ| oṃ dū̐ aḥ oṃ dhrū̐ aḥ|| iti yoga gāmvarasya kamma4rā janāma dhāraṇī samāptaṃ|| || oṃ namo bhagavatye ugratārāyai|| tāraṇī sarvaduṣū bhayahanaṇī caturmāra nivāraṇī sarvadai vā sucanaca gandharvva kinnara mahoraga upadravo pramarddanī bhūtapretāpiśāca yasa rākṣasā ḍāk",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_usnisavijaya",
+      "titleDiplomaticNewar": "Ārya-Sarvadurgatipariśodhanī Uṣṇīṣavijayā-dhāraṇī",
+      "titleNormalizedIast": "Ārya-Sarvadurgatipariśodhanī Uṣṇīṣavijayā-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ ārya-sarvadurgatipariśodhanī uṣṇīṣavijayā-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ ārya-sarvadurgatipariśodhanī uṣṇīṣavijayā-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_marici",
+      "titleDiplomaticNewar": "kroṭa rājagaṇe sardvaṁ viyā dhara gaṇe tathā| locanā bhṛkuṭīcaivatārā bhagavatī tathā| mārīcī parṇu sāmakī pāṇurā tatā||",
+      "titleNormalizedIast": "Ārya-Mārīcī-nāma-dhāraṇī",
+      "diplomaticMantraNewar": "(257) mayāśrutamekisma nsamaye bhagavānya dharmātye giriśikhare viharitismā|| mahatāca bhikṣu saṁghena sārddha bodhisatva gaṇenaca| kroṭa rājagaṇe sardvaṁ viyā dhara gaṇe tathā| locanā bhṛkuṭīcaivatārā bhagavatī tathā| mārīcī parṇu sāmakī pāṇurā tatā|| tatra bhagavantā spāgre bhagavannava lokitaḥ| lokānāma nukampāyeḥ śāstāraṁ paripṛcchati| bhagavantakṛ hi sarvajñajñāna nirmmala locanaḥ| bhagavatyā mṛtārāyoḥ kulamātu ",
+      "normalizedMantraIast": "(257) mayāśrutamekisma nsamaye bhagavānya dharmātye giriśikhare viharitismā|| mahatāca bhikṣu saṃghena sārddha bodhisatva gaṇenaca| kroṭa rājagaṇe sardvaṃ viyā dhara gaṇe tathā| locanā bhṛkuṭīcaivatārā bhagavatī tathā| mārīcī parṇu sāmakī pāṇurā tatā|| tatra bhagavantā spāgre bhagavannava lokitaḥ| lokānāma nukampāyeḥ śāstāraṃ paripṛcchati| bhagavantakṛ hi sarvajñajñāna nirmmala locanaḥ| bhagavatyā mṛtārāyoḥ kulamātu ",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_parnasabari",
+      "titleDiplomaticNewar": "praśame sarvvā kāla mṛtyanupaśama sarvvanakṣatra grehadoṣānupaśama sarvva drīṣṭraṇaśvo paśama bhagavati śiciparṇṇasavari || tunna 2 vitunna ",
+      "titleNormalizedIast": "Ārya-Parṇaśabarī-dhāraṇī",
+      "diplomaticMantraNewar": "vitamatyanandanniti || āryyaṣnīvijayamāntāmadhāraṇī parisamāptāṁ || om namo bhagavatyai āryyapūrṣṇa suvatī tārārai || om namo amitābhāya tathāgatāyārhatesamyakkaṁ būddhāya || namo dharmmāyā namomahāsyāthamaprāpataya || vāmanetyīnemesthāmitvāṁnasasyāmivā mane || bhagavatipiśācipūrṇṇa savaripāśa paraśudhāriyā niphakānidabhayānpūtyakṣyante || yānimāni cinmahāmāyāryakecidūpadravāḥ sabūddhā vā tyadyante || sarvāṇitāni vāl",
+      "normalizedMantraIast": "vitamatyanandanniti || āryaṣnīvijayamāntāmadhāraṇī parisamāptāṃ || om namo bhagavatyai āryapūrṣṇa suvatī tārārai || om namo amitābhāya tathāgatāyārhatesamyakkaṃ būddhāya || namo dharmāyā namomahāsyāthamaprāpataya || vāmanetyīnemesthāmitvāṃnasasyāmivā mane || bhagavatipiśācipūrṇṇa savaripāśa paraśudhāriyā niphakānidabhayānpūtyakṣyante || yānimāni cinmahāmāyāryakecidūpadravāḥ sabūddhā vā tyadyante || sarvāṇitāni vāl",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_mahapratisara",
+      "titleDiplomaticNewar": "kaṭapuṭanī svāhā || skandānāṁsvāhā || unmādānāṁsvādhacchayonāṁ svāhā || apasmariṇāṁ svāhā || drostābarakānāṁsvāhā || candrasūryyayoḥ svahā |",
+      "titleNormalizedIast": "Mahāpratisarā-vidyārājñī",
+      "diplomaticMantraNewar": "ddhānaṁ svāhā || pratyeka buddānāṁ svāhā || arhatānāṁ svāhā || maitrayasya ṣośrisatvasyasvāhā || savasarvabodhisatvānāṁsvāhā || sarvva bodhisatvā nāṁsvāhā || anāgāmināṁ svāhā || sakṛdāgā mināṁsvāhā || dhotāpannānāṁsvāhā || sampannatānā svāhā || samyakṛtipannaṇi svārīsvāhā || vṛntanesvāhā || indrāya svāhā || prajāpataye svāhā || īśāṁnoyasvāhā || agnayasvāhā || vāyavyasvāhā || varuvasvāhā || varūthayasvāhā || uamāthasv",
+      "normalizedMantraIast": "ddhānaṃ svāhā || pratyeka buddānāṃ svāhā || arhatānāṃ svāhā || maitrayasya ṣośrisatvasyasvāhā || savasarvabodhisatvānāṃsvāhā || sarva bodhisatvā nāṃsvāhā || anāgāmināṃ svāhā || sakṛdāgā mināṃsvāhā || dhotāpannānāṃsvāhā || sampannatānā svāhā || samyakṛtipannaṇi svārīsvāhā || vṛntanesvāhā || indrāya svāhā || prajāpataye svāhā || īśāṃnoyasvāhā || agnayasvāhā || vāyavyasvāhā || varuvasvāhā || varūthayasvāhā || uamāthasv",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_manibhadra",
+      "titleDiplomaticNewar": "na dhānya hiraṇya suvarṇṇu bhojanaṁca prāpayiṣyanti || om namo ratnatrayāya || namo mānibhadrāya mahāyakṣasenā pataye saṁpraskitaṁ || om hil",
+      "titleNormalizedIast": "Ārya-Māṇibhadra-nāma-dhāraṇī",
+      "diplomaticMantraNewar": "om namo bhagavate jambharāya || evaṁmayāśṛtameka sminsamaye bhagavāna śrāvatyāṁ viharatismā || jetavane anātha pinusyārā mamahatābhikṣa saṁghena sārddha marddha trayā daśabhirvbhitṛśataiḥ || athakhalu māṇibhadro mahāyakṣa senāpatiyena bhagavāṁsta nopasaṁkrāntaḥ ūpasaṁkramya bhagavataḥ pādauśila sāvanditvā ekānte skādaikānte skilvā mahāyakṣa senāpati vbhagavaṁnta me tadvocata || idaṁbhadanta bhagavanta mahudayaṁyaḥ ka",
+      "normalizedMantraIast": "om namo bhagavate jambharāya || evaṃmayāśṛtameka sminsamaye bhagavāna śrāvatyāṃ viharatismā || jetavane anātha pinusyārā mamahatābhikṣa saṃghena sārddha marddha trayā daśabhirvbhitṛśataiḥ || athakhalu māṇibhadro mahāyakṣa senāpatiyena bhagavāṃsta nopasaṃkrāntaḥ ūpasaṃkramya bhagavataḥ pādauśila sāvanditvā ekānte skādaikānte skilvā mahāyakṣa senāpati vbhagavaṃnta me tadvocata || idaṃbhadanta bhagavanta mahudayaṃyaḥ ka",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_aparimitayur",
+      "titleDiplomaticNewar": "apantu kāmo kulaputrovākusa saduhitovā-aparimitāyuṣasnatathāgatasyanāmāṣa-aṭhantaraśataṁśoṣṭāṁtidhāyayiśyaṁtivā",
+      "titleNormalizedIast": "Ārya-Aparimitāyurjñāna-hṛdaya-dhāraṇī",
+      "diplomaticMantraNewar": "yuṣaḥ satvānāma dhyayaṁ śroṣyānti dhāraciṣyānti vāca dhiṣyānti teṣāṁma māyu rvivardhva ciṣyānti|| tasmākarhī maṁjuśrīya dīrghāyuṣkāṁnā prārthadhi apantu kāmo kulaputrovākusa saduhitovā-aparimitāyuṣasnatathāgatasyanāmāṣa-aṭhantaraśataṁśoṣṭāṁtidhāyayiśyaṁtivā cayiṣyaṁti parthyavācspatineṣāmaṁ guṇānusaṁsābhaviṣyāṁni||1|| oṁ namo bhagavate aparimitāyujñānisuviniśa-a vitatejo rājāyatathāgatāyārhante sa myakakaṁ buddhāya||",
+      "normalizedMantraIast": "yuṣaḥ satvānāma dhyayaṃ śroṣyānti dhāraciṣyānti vāca dhiṣyānti teṣāṃma māyu rvivardhva ciṣyānti|| tasmākarhī maṃjuśrīya dīrghāyuṣkāṃnā prārthadhi apantu kāmo kulaputrovākusa saduhitovā-aparimitāyuṣasnatathāgatasyanāmāṣa-aṭhantaraśataṃśoṣṭāṃtidhāyayiśyaṃtivā cayiṣyaṃti parthyavācspatineṣāmaṃ guṇānusaṃsābhaviṣyāṃni||1|| oṃ namo bhagavate aparimitāyujñānisuviniśa-a vitatejo rājāyatathāgatāyārhante sa myakakaṃ buddhāya||",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_svalpaksara",
+      "titleDiplomaticNewar": "prajñā pāramitāṁ svalpākṣarāṁ mahāpuṇyāyasyā śravaṇa mātreṇa sarvva satvāṁnā sarva karmmā caraṇāni kṣapayiṣyanti||",
+      "titleNormalizedIast": "Ārya-Svalpākṣarā-Prajñāpāramitā-dhāraṇī",
+      "diplomaticMantraNewar": "(125) gulaṁ pṛthivyāṁ pratiṣṭhāṇya yena bhagavāṁstenāñajali praṇamya prahasita vadano bhūtvā bhagavanta meta davocata| deśayatra bhagavan prajñā pāramitāṁ svalpākṣarāṁ mahāpuṇyāyasyā śravaṇa mātreṇa sarvva satvāṁnā sarva karmmā caraṇāni kṣapayiṣyanti|| niyaṁtraca bodhi parāyanaṁ bhaviṣyati|| yeca satvāmant sādhanetyut vāteṣāṁ ca vighnena mantraṁ sigdheranniti| athakhalu bhaga vānnāryyāva lokiteśvarāya bodhisatvāya ma",
+      "normalizedMantraIast": "(125) gulaṃ pṛthivyāṃ pratiṣṭhāṇya yena bhagavāṃstenāñajali praṇamya prahasita vadano bhūtvā bhagavanta meta davocata| deśayatra bhagavan prajñā pāramitāṃ svalpākṣarāṃ mahāpuṇyāyasyā śravaṇa mātreṇa sarva satvāṃnā sarva karmā caraṇāni kṣapayiṣyanti|| niyaṃtraca bodhi parāyanaṃ bhaviṣyati|| yeca satvāmant sādhanetyut vāteṣāṃ ca vighnena mantraṃ sigdheranniti| athakhalu bhaga vānnāryāva lokiteśvarāya bodhisatvāya ma",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_aksobhya",
+      "titleDiplomaticNewar": "rucitareketunami bodhisattvasya || om namaḥ śrīsuvarṇaprabhā sottamānāma bodhisattvasya || om namaḥ śrīvarṇagandho nāma bodhisattvasya || om",
+      "titleNormalizedIast": "Akṣobhya-Tathāgata-dhāraṇī",
+      "diplomaticMantraNewar": "rāyā samyakkaṁ buddhāya || bodhi pratiṣṭhāyayati || om āḥ hu̐ sūgatavajatuṣyahoḥ svāhā || ita buddha bhaddāra kasya nāma dhāraṇī samāptaḥ || 119 || om namo buddhāya || om namo bhagavate āryya śrīpadamottama tathāgatā yārhate samyakkaṁ buddhāya || tadyathā || om padme 2 padmodbhave sukhāvatī managachaṇna svāhā || iti gāthādvayaṁkāragata suddhārta aṣṭottaraśataṁ jāppa etyo praśuddhā bhavanita || || iti āryya śrīpadmott",
+      "normalizedMantraIast": "rāyā samyakkaṃ buddhāya || bodhi pratiṣṭhāyayati || om āḥ hu̐ sūgatavajatuṣyahoḥ svāhā || ita buddha bhaddāra kasya nāma dhāraṇī samāptaḥ || 119 || om namo buddhāya || om namo bhagavate ārya śrīpadamottama tathāgatā yārhate samyakkaṃ buddhāya || tadyathā || om padme 2 padmodbhave sukhāvatī managachaṇna svāhā || iti gāthādvayaṃkāragata suddhārta aṣṭottaraśataṃ jāppa etyo praśuddhā bhavanita || || iti ārya śrīpadmott",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_ratnasambhava",
+      "titleDiplomaticNewar": "lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ",
+      "titleNormalizedIast": "Ratnasaṃbhava-dhāraṇī",
+      "diplomaticMantraNewar": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṁ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṁ ||6|| paramagu ruvajācārythaḥ vaj",
+      "normalizedMantraIast": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṃ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṃ ||6|| paramagu ruvajācārythaḥ vaj",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_amitabha",
+      "titleDiplomaticNewar": "lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ",
+      "titleNormalizedIast": "Amitābha-Tathāgata-dhāraṇī",
+      "diplomaticMantraNewar": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṁ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṁ ||6|| paramagu ruvajācārythaḥ vaj",
+      "normalizedMantraIast": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṃ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṃ ||6|| paramagu ruvajācārythaḥ vaj",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_amoghasiddhi",
+      "titleDiplomaticNewar": "lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ",
+      "titleNormalizedIast": "Amoghasiddhi-dhāraṇī",
+      "diplomaticMantraNewar": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṁ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṁ ||6|| paramagu ruvajācārythaḥ vaj",
+      "normalizedMantraIast": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṃ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṃ ||6|| paramagu ruvajācārythaḥ vaj",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_vairocana",
+      "titleDiplomaticNewar": "lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ",
+      "titleNormalizedIast": "Vairocana-Tathāgata-dhāraṇī",
+      "diplomaticMantraNewar": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṁ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṁ ||6|| paramagu ruvajācārythaḥ vaj",
+      "normalizedMantraIast": "matsayamaṇḍale- ||2|| ākārathāmate devī prajñāpāramitāśubhaḥ vajresatve vvajo pāpa ghaṇṭha prajñāpāra mitā ||3|| vailocanodbhava śirobhavavāmamakhe abhitābha-akṣommaḥ dhvajama vajaḍaghaṇṭhaḥ ratnanābhau amogha pāṇa ||4|| lalāṭarspavailocanaratnasambhavaḥ paścimaspaḥ amitābhaḥ vāmenaḥ amoghasiddhi ||5|| vairocanamahājotiḥ śukṛparṣṇumahodvalaṃ śvetavita rakṣaśāmaḥ catuvaktrābhavatu'haṃ ||6|| paramagu ruvajācārythaḥ vaj",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_manjusri",
+      "titleDiplomaticNewar": "būddhavijānatiyā' travipākodhiviśiṣṭa makākṣajanebha||54|| mañjuśrīrīya yathajānatuśulaḥ socasamanta bhadratātheva|",
+      "titleNormalizedIast": "Arapacana-Mañjuśrī-dhāraṇī",
+      "diplomaticMantraNewar": "pūjatibhontica sarvvatriloke||52|| kṣitrasagacchati bodhidrumendraṁ gatvaniṣidatisatvahitāya| buddhiya bodhipravarktayi vakra dharṣa yipāru sasainpa (nya) kū sarvva||53|| yo-imtābhadravarī praṇidhānaṁ, dhorayivācayiṁ deśayitovā| būddhavijānatiyā' travipākodhiviśiṣṭa makākṣajanebha||54|| mañjuśrīrīya yathajānatuśulaḥ socasamanta bhadratātheva| teṣūca ahaṁ-anuśrī kṣayamāṇo nāmayamī kuśalaṁ imūsarvvaṁ||55|| (186) sarvva",
+      "normalizedMantraIast": "pūjatibhontica sarvatriloke||52|| kṣitrasagacchati bodhidrumendraṃ gatvaniṣidatisatvahitāya| buddhiya bodhipravarktayi vakra dharṣa yipāru sasainpa (nya) kū sarva||53|| yo-imtābhadravarī praṇidhānaṃ, dhorayivācayiṃ deśayitovā| būddhavijānatiyā' travipākodhiviśiṣṭa makākṣajanebha||54|| mañjuśrīrīya yathajānatuśulaḥ socasamanta bhadratātheva| teṣūca ahaṃ-anuśrī kṣayamāṇo nāmayamī kuśalaṃ imūsarvaṃ||55|| (186) sarva",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_sadaksari",
+      "titleDiplomaticNewar": "mānanda māmantrayātisma|| uṅndatva mānanda imāṁ ṣaḍakṣarī mahāvidyā dhārayet paryyavo prūhitatkasya heto iya mānanda",
+      "titleNormalizedIast": "Ṣaḍakṣarī-Mahāvidyā-dhāraṇī",
+      "diplomaticMantraNewar": "śrāvastyāṁ viharatisma|| jetavane'nāthapiṇḍasyārāme tatra khalu bhagavānāyuṣmaṁta (165) mānanda māmantrayātisma|| uṅndatva mānanda imāṁ ṣaḍakṣarī mahāvidyā dhārayet paryyavo prūhitatkasya heto iya mānanda ṣaḍakṣarī mahāvidyāyo uccahi mahardvikahi mahānūbhāvahi bhāṣitāṁ tatra buddhena bhagavantova nā ca sahāpatinā śakraina devānābhindraṇadhṛtarāṣṭreṇa mahārājena viruṭakena mahārājena| virupākṣena mahārājena vaiśravaṇe",
+      "normalizedMantraIast": "śrāvastyāṃ viharatisma|| jetavane'nāthapiṇḍasyārāme tatra khalu bhagavānāyuṣmaṃta (165) mānanda māmantrayātisma|| uṅndatva mānanda imāṃ ṣaḍakṣarī mahāvidyā dhārayet paryyavo prūhitatkasya heto iya mānanda ṣaḍakṣarī mahāvidyāyo uccahi mahardvikahi mahānūbhāvahi bhāṣitāṃ tatra buddhena bhagavantova nā ca sahāpatinā śakraina devānābhindraṇadhṛtarāṣṭreṇa mahārājena viruṭakena mahārājena| virupākṣena mahārājena vaiśravaṇe",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_simhanada",
+      "titleDiplomaticNewar": "siṁhanādalokeśvara nāma dhāranī samāpta| oṁ namo mokṣa padāya| oṁ nama śrī āryāvajño kineśvarāya, bodhisatvāya",
+      "titleNormalizedIast": "Siṃhanāda-Lokeśvara-dhāraṇī",
+      "diplomaticMantraNewar": "samāpta| oṁ nama, śrī siṁha nādāya| namoratna namāya| namo āryāvalo kiṁteśvarāya bodhisatvāya mahāsatvāya, mahākāruṇikāya| taghayā| oṁ akaṭe, vikaṭe, nikaṭe, ikaṭe| kaṭaṁkaṭa kaloka karāṭavīryva| svāhā| āryā siṁhanādalokeśvara nāma dhāranī samāpta| oṁ namo mokṣa padāya| oṁ nama śrī āryāvajño kineśvarāya, bodhisatvāya mahāsatvāya, mahākāruṇikāya| tadyathā| oṁ yajñetu, cilītu, culutu, hayutu m (164) tu 2 hū̐ hū̐ hū̐ hū",
+      "normalizedMantraIast": "samāpta| oṃ nama, śrī siṃha nādāya| namoratna namāya| namo āryāvalo kiṃteśvarāya bodhisatvāya mahāsatvāya, mahākāruṇikāya| taghayā| oṃ akaṭe, vikaṭe, nikaṭe, ikaṭe| kaṭaṃkaṭa kaloka karāṭavīryva| svāhā| āryā siṃhanādalokeśvara nāma dhāranī samāpta| oṃ namo mokṣa padāya| oṃ nama śrī āryāvajño kineśvarāya, bodhisatvāya mahāsatvāya, mahākāruṇikāya| tadyathā| oṃ yajñetu, cilītu, culutu, hayutu m (164) tu 2 hū̐ hū̐ hū̐ hū",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_khasarpana",
+      "titleDiplomaticNewar": "Khasarpaṇa-Avalokiteśvara-dhāraṇī",
+      "titleNormalizedIast": "Khasarpaṇa-Avalokiteśvara-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ khasarpaṇa-avalokiteśvara-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ khasarpaṇa-avalokiteśvara-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_amoghapasa",
+      "titleDiplomaticNewar": "ṣpadhūpadīpa gandha yathā vidhinā sarvva dayāt || om āḥ hū̐ phaṭ svāhā || iti saddharmma pāṭhanāma dhāraṇī samāptaṁ || 101 om namaḥ śrī vaja",
+      "titleNormalizedIast": "Ārya-Amoghapāśa-hṛdaya-dhāraṇī",
+      "diplomaticMantraNewar": "sarasvataṁsarthipibe sma ptābhimantritaṁ || caturguṇa ajākṣīre ghṛtamasyaṁ vipācayet || jaiṣa'dhopari kāmātraṁsanaimṛhyabhivāsūdhīḥ | māṣamātraprabhūṁ jītavarṇīṁ prāpnośvanastaraṁ || ṣanmāsaprayogena sākṣādvāgīśvaro bhavet || rutakokila nirghāṣaḥ jāyate bhadhūra svarāḥ | saṁśayāne hūkartyavyāsūcintā bhavaḥ śaktayaḥ || itiśrī sarasvatī nāmadhāraṇī pari samāptaḥ || 100 || om namaḥ ścarmmapūṇulīkāyai || om vajaścaṇṭa āḥ",
+      "normalizedMantraIast": "sarasvataṃsarthipibe sma ptābhimantritaṃ || caturguṇa ajākṣīre ghṛtamasyaṃ vipācayet || jaiṣa'dhopari kāmātraṃsanaimṛhyabhivāsūdhīḥ | māṣamātraprabhūṃ jītavarṇīṃ prāpnośvanastaraṃ || ṣanmāsaprayogena sākṣādvāgīśvaro bhavet || rutakokila nirghāṣaḥ jāyate bhadhūra svarāḥ | saṃśayāne hūkartyavyāsūcintā bhavaḥ śaktayaḥ || itiśrī sarasvatī nāmadhāraṇī pari samāptaḥ || 100 || om namaḥ ścarmmapūṇulīkāyai || om vajraścaṇṭa āḥ",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)",
+        "vaja → vajra (Newar r-cluster reduction restored)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_sahasravarta",
+      "titleDiplomaticNewar": "Sahasrāvartā-dhāraṇī",
+      "titleNormalizedIast": "Sahasrāvartā-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ sahasrāvartā-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ sahasrāvartā-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_durgatiparisodhana",
+      "titleDiplomaticNewar": "Sarvadurgatipariśodhana-dhāraṇī",
+      "titleNormalizedIast": "Sarvadurgatipariśodhana-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ sarvadurgatipariśodhana-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ sarvadurgatipariśodhana-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_vajrasarasvati",
+      "titleDiplomaticNewar": "Vajrasarasvatī-dhāraṇī",
+      "titleNormalizedIast": "Vajrasarasvatī-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ vajrasarasvatī-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ vajrasarasvatī-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_bhaisajyaguru",
+      "titleDiplomaticNewar": "Bhaiṣajyaguru-vaiḍūryaprabha-dhāraṇī",
+      "titleNormalizedIast": "Bhaiṣajyaguru-vaiḍūryaprabha-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ bhaiṣajyaguru-vaiḍūryaprabha-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ bhaiṣajyaguru-vaiḍūryaprabha-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_dhvajagrakeyura",
+      "titleDiplomaticNewar": "? aparimitānāmadhāraṇī ? bhadracarī nāmadutraṁ ? durggatipariśodhana nāmadhāraṇī ? gandhavyuha nāmadhāraṇī ? samādhirāja nāmadhāraṇī ? laṁkā",
+      "titleNormalizedIast": "Ārya-Dhvajāgrakeyūrā-nāma-dhāraṇī",
+      "diplomaticMantraNewar": "? śrī khasaryya nāma dhāraṇī ? śrī abhayaṁkarināmadhāraṇī ? śrī mahamrabhujalokeśva ? śrī siṁhanādanāma dhāraṇī ? śrī mokṣapradanāma dhāraṇī ? śrī āryyavalokiteśvara siddhinikā ? śrī ṣaḍakṣarī nāma dhāraṇī ? śrī nīlakaṇṭha lokeśvara nāmadhāraṇī ? śrī padmahasta nāma dhāraṇī ? śrī sahastracarkānāmadhāraṇī ? śrī ṣaḍakṣarastuti nāmadhāraṇī ? śrī jamarājastuti ? śrī umāmaheśvarakṛti stuti ? śrī lokeśvara śatanāma dhāraṇī",
+      "normalizedMantraIast": "? śrī khasaryya nāma dhāraṇī ? śrī abhayaṃkarināmadhāraṇī ? śrī mahamrabhujalokeśva ? śrī siṃhanādanāma dhāraṇī ? śrī mokṣapradanāma dhāraṇī ? śrī āryavalokiteśvara siddhinikā ? śrī ṣaḍakṣarī nāma dhāraṇī ? śrī nīlakaṇṭha lokeśvara nāmadhāraṇī ? śrī padmahasta nāma dhāraṇī ? śrī sahastracarkānāmadhāraṇī ? śrī ṣaḍakṣarastuti nāmadhāraṇī ? śrī jamarājastuti ? śrī umāmaheśvarakṛti stuti ? śrī lokeśvara śatanāma dhāraṇī",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_vajravarahi",
+      "titleDiplomaticNewar": "Śrī-Vajravārāhī-dhāraṇī",
+      "titleNormalizedIast": "Śrī-Vajravārāhī-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ śrī-vajravārāhī-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ śrī-vajravārāhī-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_mahakala",
+      "titleDiplomaticNewar": "mahāvajrahastāya svāhā|| kṛṣṇasarvyatayajñāpavītāya svāhā|| mahākālamakūṭadharāya svāhā|| cakrāyūdhadharāyasvāhā||",
+      "titleNormalizedIast": "Caturbhuja-Mahākāla-dhāraṇī",
+      "diplomaticMantraNewar": "(169) ṇaṁ prasādhayamesvāhā|| siddhāyasvāhā|| varāhamukhāyasvāhā|| mahāpadmahastāya svāhā|| vajrahastāya svāhā|| mahāvajrahastāya svāhā|| kṛṣṇasarvyatayajñāpavītāya svāhā|| mahākālamakūṭadharāya svāhā|| cakrāyūdhadharāyasvāhā|| śaṁkhaśadvanirnno danakarāya svāhā|| bodhanakarāya svāhā|| vāmaskandha deśaskidata kṛṣṇā jināya svāhā|| vāmahastavyāghracarmma nivāsanāya svāhā| lokeśvarāya svāhā|| mahālokeśvarāya svāhā|| sar",
+      "normalizedMantraIast": "(169) ṇaṃ prasādhayamesvāhā|| siddhāyasvāhā|| varāhamukhāyasvāhā|| mahāpadmahastāya svāhā|| vajrahastāya svāhā|| mahāvajrahastāya svāhā|| kṛṣṇasarvyatayajñāpavītāya svāhā|| mahākālamakūṭadharāya svāhā|| cakrāyūdhadharāyasvāhā|| śaṃkhaśadvanirnno danakarāya svāhā|| bodhanakarāya svāhā|| vāmaskandha deśaskidata kṛṣṇā jināya svāhā|| vāmahastavyāghracarmma nivāsanāya svāhā| lokeśvarāya svāhā|| mahālokeśvarāya svāhā|| sar",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_ganapati",
+      "titleDiplomaticNewar": "||7|| gaṇamukhye gaṇācāryo gaṇeśo gaṇapatirvaṣā|| mahānubhāvo dhautreyo ananya neyo mahānayaḥ||8||",
+      "titleNormalizedIast": "Ārya-Gaṇapatihṛdaya-dhāraṇī",
+      "diplomaticMantraNewar": "bhūtavādī tathāvādī tathākārī ananya vāk||5|| advayau dvayavādī ca bhūta koṭī vyavāstitaḥ nairāmya siṁha nirnādaḥ kutīrthya mṛga bhīkaraḥ||6|| sarvatra gomogha gatistatha-āgata manojavaḥ jino jitari vijayī cakravarti mahābalaḥ ||7|| gaṇamukhye gaṇācāryo gaṇeśo gaṇapatirvaṣā|| mahānubhāvo dhautreyo ananya neyo mahānayaḥ||8|| vāgīśovākapatirvāgmī vācasya tiranaṁtagīḥ satyavāka satyavādī ca catraḥ satyopadeśakaḥ||9|| av",
+      "normalizedMantraIast": "bhūtavādī tathāvādī tathākārī ananya vāk||5|| advayau dvayavādī ca bhūta koṭī vyavāstitaḥ nairāmya siṃha nirnādaḥ kutīrthya mṛga bhīkaraḥ||6|| sarvatra gomogha gatistatha-āgata manojavaḥ jino jitari vijayī cakravarti mahābalaḥ ||7|| gaṇamukhye gaṇācāryo gaṇeśo gaṇapatirvaṣā|| mahānubhāvo dhautreyo ananya neyo mahānayaḥ||8|| vāgīśovākapatirvāgmī vācasya tiranaṃtagīḥ satyavāka satyavādī ca catraḥ satyopadeśakaḥ||9|| av",
+      "orthographicNotes": [
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_pratyangira",
+      "titleDiplomaticNewar": "Ārya-Mahāpratyaṅgirā-dhāraṇī",
+      "titleNormalizedIast": "Ārya-Mahāpratyaṅgirā-dhāraṇī",
+      "diplomaticMantraNewar": "oṁ namaḥ sarvvabuddhabodhisatvebhyaḥ || oṁ ārya-mahāpratyaṅgirā-dhāraṇī sbāhā ||",
+      "normalizedMantraIast": "oṃ namaḥ sarvabuddhabodhisatvebhyaḥ || oṃ ārya-mahāpratyaṅgirā-dhāraṇī svāhā ||",
+      "orthographicNotes": [
+        "sbāhā → svāhā (Newar bilabial-dental cluster)",
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_mahamantranusarini",
+      "titleDiplomaticNewar": "āryyamarakṣā mahāmantrānusāriṇī mahāvidyārājñī parisamāptā || 8 || om namobhagavatyai āryya mahāpratyaṁṅirāyai || eva mmayā śṛtamaikasmitsam",
+      "titleNormalizedIast": "Mahāmantrānusāriṇī-dhāraṇī",
+      "diplomaticMantraNewar": "svasti sarvvāṇi bhūtāni sarvvakālaṁdiśantuvaḥ || buddha puṣṇanū bhāvena devatā nāma satena nāyā'tha samābhapataḥ sabodhdhodyasahaścatāṁ | svasti bodhdhī padebhontu svasti vomtucatuṣpade || svastivāvrajatomārgge svasti pratyāgata ṣūrya || svasti rāḍau svastidivātvā smitanadyedine | sthite sarvatra svasti vo montu mācaiṣā pāpamāgata || sarvve satvā sarve prāṇāḥ sarvva bhūtāñca kevalaḥ || sarvai sukhinah santu sarva san",
+      "normalizedMantraIast": "svasti sarvāṇi bhūtāni sarvakālaṃdiśantuvaḥ || buddha puṣṇanū bhāvena devatā nāma satena nāyā'tha samābhapataḥ sabodhdhodyasahaścatāṃ | svasti bodhdhī padebhontu svasti vomtucatuṣpade || svastivāvrajatomārgge svasti pratyāgata ṣūrya || svasti rāḍau svastidivātvā smitanadyedine | sthite sarvatra svasti vo montu mācaiṣā pāpamāgata || sarve satvā sarve prāṇāḥ sarva bhūtāñca kevalaḥ || sarvai sukhinah santu sarva san",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    },
+    {
+      "id": "nibs_newar_mahasitavati",
+      "titleDiplomaticNewar": "ni | sādhani | vidhani viśodhani | saṁśodhani | saṁkhiraṇi | saṁkiraṇi | saṁcchidani | sādhūtaramāne | taramāne | hanū 2 bandhūmati | hiri 2",
+      "titleNormalizedIast": "Mahāśītavatī-dhāraṇī",
+      "diplomaticMantraNewar": "ndharaṇībandhañcakurvvantu jīvatuvarṣaśataṁ paśyatu saradāśataṁ || nadyathā || īlāmilā utpalā | īramati viramati | haramati | kṣanamati | rakṣamati | kurumati | hurumati | huru phūrū 2 cara 2 khara 2 mati || bhūmicaṇḍe | kākalike | abhisaṁlābhite | sāmalate | hūle sthule | sthūlaśidhare | jayasthule | jayavate | calanadre | calanāḍikunāḍi | cūrūnāḍi | vāgabandhani | virohani | sārāhite | aṇḍaretra paṇḍale | karāḍe | ",
+      "normalizedMantraIast": "ndharaṇībandhañcakurvvantu jīvatuvarṣaśataṃ paśyatu saradāśataṃ || nadyathā || īlāmilā utpalā | īramati viramati | haramati | kṣanamati | rakṣamati | kurumati | hurumati | huru phūrū 2 cara 2 khara 2 mati || bhūmicaṇḍe | kākalike | abhisaṃlābhite | sāmalate | hūle sthule | sthūlaśidhare | jayasthule | jayavate | calanadre | calanāḍikunāḍi | cūrūnāḍi | vāgabandhani | virohani | sārāhite | aṇḍaretra paṇḍale | karāḍe | ",
+      "orthographicNotes": [
+        "post-r gemination simplified (sarvva → sarva, dharmma → dharma, āryya → ārya)",
+        "ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)"
+      ],
+      "sourceUrl": "https://www.dsbcproject.org/canon-text/content/820/2949",
+      "crossRefs": {
+        "dsbcIds": [
+          "820/2949"
+        ],
+        "buddhaNexusIds": [
+          "K12n2949u"
+        ]
+      }
+    }
+  ]
+}

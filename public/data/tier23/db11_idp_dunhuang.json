@@ -1,0 +1,1844 @@
+{
+  "summary": {
+    "id": "db11_idp_dunhuang",
+    "number": 11,
+    "priorityTier": 3,
+    "nameZh": "国际敦煌项目 (IDP Berlin)、法国国家图书馆 (BnF Pelliot Sanskrit / CEToM) 与 CBETA 敦煌写卷 (T85 & ZW)",
+    "nameEn": "IDP Berlin, BnF Pelliot Sanskrit / Vienna CEToM & CBETA Dunhuang (T85 & ZW) Silk Road Corpus",
+    "institution": "Berlin-Brandenburg Academy of Sciences (IDP), University of Vienna (CEToM), BnF & CBETA",
+    "primarySourceUrls": [
+      "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Kudo_2006b",
+      "https://cetom.univie.ac.at/?m-tht3187",
+      "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T85/T85n2880.xml"
+    ],
+    "totalRecordsCount": 85,
+    "mantraOrDharaniCount": 310,
+    "scriptsAvailable": [
+      "Brahmi",
+      "Khotanese",
+      "IAST",
+      "Tibetan-EWTS",
+      "Chinese",
+      "English"
+    ],
+    "highlights": [
+      "13 IDP Berlin Silk Road XML catalogs (idp.bbaw.de) including Dalton_vanSchaik_2005 (348 Dunhuang Tantric MSS), PelliotTibetain_I (850), Kudo_2006b (IOL San 397 / Ch.00262 Mahāyāna vidyārājñī charm), Wille_2009a (Or.15001/18 Khotanese Brāhmī dhāraṇī), BLSF_II_04 (Or.15009 Hoernle MSS), and SHT_0001-0099",
+      "13 University of Vienna CEToM (cetom.univie.ac.at) editions including Kizil Brāhmī THT 3187 (SHT 1815 Nīlakaṇṭha / Avalokiteśvara Dhāraṇī) and all 12 BnF Pelliot Sanskrit (psbl13..psuv67) manuscripts",
+      "8 CBETA Dunhuang T85 & Zangwai (ZW) esoteric scriptures (T85n2880, T85n2898, ZW01n0011, ZW03n0023, ZW06n0051, ZW06n0055, ZW11n0091, ZW11n0092) with Stein (S.) and Pelliot (P.) shelfmarks"
+    ]
+  },
+  "corpusStats": {
+    "idpXmlDumpsCount": 16,
+    "daltonVanSchaikTantricCount": 348,
+    "pelliotTibetainCount": 850,
+    "cetomTotalManuscriptsCount": 1846,
+    "cetomPelliotSanskritCount": 12,
+    "cbetaT85FilesCount": 192,
+    "cbetaZwFilesCount": 182
+  },
+  "idpRecords": [
+    {
+      "id": "IOL San 397",
+      "pressmark": "IOL San 397",
+      "catalogShortref": "Kudo_2006b",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit / Hybrid Prakrit)",
+      "title": "[Unknown Mahāyāna charm]",
+      "description": "Section: R [Unknown Mahāyāna charm] First published by Louis de la Vallée Pouśin, “Nouveaux fragments de la collection Stein,” in: Journal of the Royal Asiatic Society 1913, pp. 843-855, esp. p. 850 (a romanized text of ll. 1-3 of recto side given). See also Aurel Stein, Serindia, vol. III, Appendix F: Inventory List of Manuscripts in Sanskrit, Khotanese, and Kuchean, prepared by A. F. Rudolf Hoernle, “IV Manuscripts in Sanskrit, Khotanese and Kuchean from Walled-up Chapel of Ch‘ien-fo-tung, Tun-huang,” pp. 1448-1455, esp. p. 1450 (registered as “Ch.00262.a-c”). transliteration: l.1: || namo buddhāya namo dharmāya nama saṃghāya nam[o bo] l.2: (Dunhuang Cave 17, Ch.00262.a-c, Kudo_2006b; parallel Dunhuang Tantric collection cataloged in Dalton_vanSchaik_2005)",
+      "diplomaticTransliteration": "l.1: || namo buddhāya namo dharmāya nama saṃghāya nam[o bo] l.2: dhisatvānāṃ mahāsatvānāṃ mahākāruṇikānāṃ namo l.3: sarvarājav[i]dyānāṃ tadyathā buddheṇa nirjito mā[r](o) dharmena l.4: .[o]pyadharma .. .. .. .[e](na) [ni](rj)[i] .. .. .. .. .. .. .. .. .. .. Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Kudo_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL San 397",
+          "Kudo_2006b"
+        ]
+      },
+      "normalizedMantraIast": "namo sarvarājavidyānāṃ tadyathā buddheṇa (buddhena) nirjito māro ... jayatu mama śaṃ tadyathā amāñi vihi phali (amāṇi vihi phali) svāhā"
+    },
+    {
+      "id": "IOL San 913",
+      "pressmark": "IOL San 913",
+      "catalogShortref": "Suzuki_2006",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Prajñāpāramitāstotra]",
+      "description": "Section: V [Prajñāpāramitāstotra] Prajñāpāramitāstotra 62.4ff. [ed. by Michael Hahn, in: Inddology and Indo-Tibetology: Thirty Years of Indian and Indo-Tibetan Studies in Bonn, ed. by Helmut Eimer, Bonn 1988 (indica et Tibetica 13), pp. 62-73.] transliteration: l.a: /// + .[dh]. .[m]. + + + + + + + + + + + + + + /// l.b: /// .[y].ti • ta[th]. + + + + + + + + + + + + + /// l.c: /// [tm]y.[ṃm] atul(a)ṃ + + + + + + + + + + + + + /// l.d: /// janayitrī ca [m]. + + + + + + + + + + + /// l.e: /// [le]khā (’)va tārābh[i] .. + + + + + + + + + + /// l.f: /// + tvāṃ prāpya pralaṃ[y]. + + + + + + + + + + /// l.g: /// [ṣ]va[ṅ]gas tvaṃnāthasya na vidyat[e",
+      "diplomaticTransliteration": "l.a: /// + .[dh]. .[m]. + + + + + + + + + + + + + + /// l.b: /// .[y].ti • ta[th]. + + + + + + + + + + + + + /// l.c: /// [tm]y.[ṃm] atul(a)ṃ + + + + + + + + + + + + + /// l.d: /// janayitrī ca [m]. + + + + + + + + + + + /// l.e: /// [le]khā (’)va tārābh[i] .. + + + + + + + + + + /// l.f: /// + tvāṃ prāpya pralaṃ[y]. + + + + + + + + + + /// l.g: /// [ṣ]va[ṅ]gas tvaṃnāthasya na vidyat[e] • t.sy. .. k(a) + + + /// l.h: /// [na] paśyanti prapadyante ca sādhavaḥ prapadya ca .. + /// l.i: /// [si] ga",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Suzuki_2006",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL San 913",
+          "Suzuki_2006"
+        ]
+      }
+    },
+    {
+      "id": "Or.15001/1",
+      "pressmark": "Or.15001/1",
+      "catalogShortref": "Wille_2009a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī (Sanskrit)",
+      "title": "Śūraṃgamasamādhisūtra",
+      "description": "Section: R Śūraṃgamasamādhisūtra Early South Turkestan Brāhmī; almost illegible; to the same folio belongs an unnumbered Stein fragment (IOL San 529); ed. Wille 2006 (BLSF I), pp. 51-53 (frg. 179) transliteration: l.1: Section: V [] transliteration: l.1:",
+      "diplomaticTransliteration": "l.1: Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15001/1",
+          "Wille_2009a"
+        ]
+      }
+    },
+    {
+      "id": "Or.15001/2",
+      "pressmark": "Or.15001/2",
+      "catalogShortref": "Wille_2009a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī (Sanskrit)",
+      "title": "[Prajñāpāramitā text?]",
+      "description": "Section: A [Prajñāpāramitā text?] South Turkestan Brāhmī (main type) transliteration: l.1: y /// [h](a) gaṃbh[īrāy](āṃ) /// l.2: z /// [ṣṭ]. pratisa[[ṃ]]lyā/// Section: B [] transliteration: l.1: /// [ṇ]āmayet ta[t k]. /// l.2: /// .. prajñā[p]ā[r](a)[mi] ///",
+      "diplomaticTransliteration": "l.1: y /// [h](a) gaṃbh[īrāy](āṃ) /// l.2: z /// [ṣṭ]. pratisa[[ṃ]]lyā/// Section: B []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15001/2",
+          "Wille_2009a"
+        ]
+      }
+    },
+    {
+      "id": "Or.15001/3",
+      "pressmark": "Or.15001/3",
+      "catalogShortref": "Wille_2009a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī (Sanskrit)",
+      "title": "Larger Prajñāpāramitā text?",
+      "description": "Section: R Larger Prajñāpāramitā text? Cf., i.e., AsP(V), p. 82.3-25(?) and PvsP(K)2 3, pp. 140f.; South Turkestan Brāhmī (main type) transliteration: l.1: a /// + + + + .. .. + + + + /// l.2: b /// + + + .. .. [n]ā[bodhis](a)[tv]. /// l.3: c /// + tad avocat* yad bha[danta] .. /// l.4: d /// .. piṇḍīkṛtvābhisaṃkṣipyā.r. /// l.5: e /// danta bhagavann agrānumo[da] .. /// l.6: f /// + [s](u)[bhū]ti ◯ m etad avo[c](at*) /// l.7: g /// + + + ◯ m arhatāṃ .. + /// l.8: h /// + + + + + + .. [lo] + + /// Section: V [] transliteration: l.1: a /// + + + + + .. .[ṣ]. + + + /// l.2: b /// + + ◯ tye[ka]bu[d]dh. + /// l.3: c /// + + .. ◯ t ku[ś]alamū+ ///",
+      "diplomaticTransliteration": "l.1: a /// + + + + .. .. + + + + /// l.2: b /// + + + .. .. [n]ā[bodhis](a)[tv]. /// l.3: c /// + tad avocat* yad bha[danta] .. /// l.4: d /// .. piṇḍīkṛtvābhisaṃkṣipyā.r. /// l.5: e /// danta bhagavann agrānumo[da] .. /// l.6: f /// + [s](u)[bhū]ti ◯ m etad avo[c](at*) /// l.7: g /// + + + ◯ m arhatāṃ .. + /// l.8: h /// + + + + + + .. [lo] + + /// Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15001/3",
+          "Wille_2009a"
+        ]
+      }
+    },
+    {
+      "id": "Or.15001/18",
+      "pressmark": "Or.15001/18",
+      "catalogShortref": "Wille_2009a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī (Sanskrit)",
+      "title": "Dhāraṇī text",
+      "description": "Section: A Dhāraṇī text South Turkestan Brāhmī (main type); To the same MS may belong Kha. i. 213 (Or.8212/65) and IOL 17B (folio 1, 2nd row, 2nd from the right). transliteration: l.1: /// + me dudume du[du] /// l.2: /// + ri kuṃdhari • ku .. /// l.3: /// .. lu ku ◯ /// l.4: /// .. kva dhare ◯ /// l.5: /// .. ti • du .. + + /// l.6: /// [dh](a)mbha dambhi .[i] + + /// Section: B Dhāraṇī text transliteration: l.1: /// [li] hi mil[i] + + /// l.2: /// .. rūpa[s]e + /// l.3: /// + cala ca ◯ /// l.4: /// [svā]hā || ◯ /// l.5: /// .. • [h]ulu hu[l]u /// l.6: /// + ti [t]ena male ///",
+      "diplomaticTransliteration": "l.1: /// + me dudume du[du] /// l.2: /// + ri kuṃdhari • ku .. /// l.3: /// .. lu ku ◯ /// l.4: /// .. kva dhare ◯ /// l.5: /// .. ti • du .. + + /// l.6: /// [dh](a)mbha dambhi .[i] + + /// Section: B Dhāraṇī text",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15001/18",
+          "Wille_2009a"
+        ]
+      }
+    },
+    {
+      "id": "Or.8212/1",
+      "pressmark": "Or.8212/1",
+      "catalogShortref": "Wille_2006a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Ratnaketuparivarta]",
+      "description": "Section: R [Ratnaketuparivarta] The script represents a transition from the early southern Turkestan Brāhmī to the southern Turkestan Brāhmī (main type). The text corresponds to RKP 124.6-125.7. Cf. AKh, p. 294: “D. III.3. MS. on paper; Brāhmī; No. 2. Two small fragments; from left and right sides of leaf, the former numbered 96. See Note ii.” AKh, p. 295: “Note ii. [by Dr. Hoernle:] No. 2, also one piece of No. 3, make up one almost complete leaf, numbered 96. Size: about 12\" 3\". Language: Sanskrit. Characters: upright Gupta, of seventh or eighth century. Contents: apparently a Buddhist canonical work.” transliteration: l.1: Section: V [] tr",
+      "diplomaticTransliteration": "l.1: Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.8212/1",
+          "Wille_2006a"
+        ]
+      }
+    },
+    {
+      "id": "Or.8212/7(1)",
+      "pressmark": "Or.8212/7(1)",
+      "catalogShortref": "Wille_2006a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Samādhirājasūtra]",
+      "description": "Section: R [Samādhirājasūtra] Written in the southern Turkestan Brāhmī (main type). Three times the Central Asian vowel -e is written with a long stroke and a flag-shaped hook to the right, but only once apparently because the Indian -e otherwise would have touched the preceding anusvāra. Five times the looped diacritic sign for -i is written. Cf. the description in AKh I, p. 297: “D. VI.1. MS. on paper; Brāhmī; No. 28. Note xv. Lefthand fragment, 4 1/2\" 3\", with string-hole, of a leaf numbered 70. Full size, probably 18\" 3\". Language: Sanskrit. Characters: upright Gupta of seventh or eighth century. Contents: apparently some Buddhist canonic",
+      "diplomaticTransliteration": "l.1: 1 bhāṣā[mi śī]lasya [c]a varṇa agraṃ [g]r. ¯ ˘ ¯ [tat]ra [t]a[t]o ba ¯ ˘ x (41) ≈ ¯ ˘¯ ¯ ˘ ˘ ¯ ˘ ¯ (|) ≈ ¯ .. śīle ca sadā pratiṣṭhita• (|) ≈ ¯ ˘ ¯ ¯ ˘ ˘ ¯ ˘ ¯ ˘ x (|) l.2: 2 tāṃś ce[va] bodhāya niyo[j]a[y]ā(mi 42) .. bra[h]maca(r)[ye] ˘ ˘ ¯ ˘ ¯ x (|) ≈ ¯ ˘¯ ¯ ˘ ˘ ¯ ˘ ¯ x (|) tebhya[ś ca] de .i ˘ ˘ ¯ ˘ ¯ x (|) ≈ ¯ ˘ ¯ ¯ ˘ ˘ ¯ ˘ ¯ l.3: 3 tha[t]* 43 smarāmy ahaṃ kalpam atītam adhvani .. /// l.4: 4 .. .ā pratijñāya-m-ahaṃ hi sthātvā • ◯ /// l.5: 5 + + + + + ¯ ¯ .. me kṣānti dṛḍhāpi mai ¯ /// l",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.8212/7(1)",
+          "Wille_2006a"
+        ]
+      }
+    },
+    {
+      "id": "Or.8212/25(1)",
+      "pressmark": "Or.8212/25(1)",
+      "catalogShortref": "Wille_2006a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Saddharmapuṇḍarīkasūtra]",
+      "description": "Section: R [Saddharmapuṇḍarīkasūtra] Written in the southern Turkestan Brāhmī (main type). Six times the Central Asian vowel -e is written, but only once apparently because the Indian -e otherwise would have touched the preceding superscribed vowel. There are two separated fragments of Kha. i.60. Fragment Or.8212/25(3) is given here in italics and Kha. i.209 in bold. Parallels: Ka 93b2-95a3; Otani (Lushun) SLLMC A-5 v4-8; SHT 4303, fragm. 17r5-v5 [ed. Wille 2000]; SI P/11.1 fragm. 3r2-4 [ed. BB 33, pp. 129f., No. 46]; KN 87.8(?)- 90.2; Wa 38.6(ḥ)-39.33, 214.25(?)-216.20. transliteration: l.1: 1 /// + + [m]. .. .. .. [s]. .. + + /// nasya nirg",
+      "diplomaticTransliteration": "l.1: 1 /// + + [m]. .. .. .. [s]. .. + + /// nasya nirgacchata .. + + + /// l.2: 2 /// .. ryāta t[ai]s tuṣṭama .[ā same] + /// .āmya ārabdhavī[r]. + .[v]. + /// l.3: 3 /// + [ś]i tiṣṭhan duḥkhavipramu[k]tā + /// + .āmasya madhye sthit. /// l.4: 4 /// + + .. .. .. + .i .. ta a[dya mā] /// + + .. naḥ putrāḥ pri[y]. /// l.5: 5 /// + + + + + + + + + + + + /// + + hasrasaṃkulara .. + /// l.6: 6 /// + + + + + + + + + + + + /// + + + .ā upaga .. + + + /// Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.8212/25(1)",
+          "Wille_2006a"
+        ]
+      }
+    },
+    {
+      "id": "Or.8212/63(6)",
+      "pressmark": "Or.8212/63(6)",
+      "catalogShortref": "Wille_2006a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Saddharmapuṇḍarīkasūtra]",
+      "description": "Section: R [Saddharmapuṇḍarīkasūtra] Written in the southern Turkestan Brāhmī (main type). Parallels: Ka 69b3-70b2; SI M/16.3r3-v7 [ed. Vorobyova-Desyatovskaya 1995, p. 34]; KN 64.13-65.10; Wa 205.22-206.2. transliteration: l.1: w /// + b[o]dh[i]satv. [r]. + + + + + + + + + /// l.2: x /// + [yi]tukāmaḥ imaṃ [sad]dh(ar)m. + + + + + + /// l.3: y /// śayāmi • api [tu] khalu punaḥ śāripu[t]r. + + .y. /// l.4: z /// .. .. .. [s](r)ā(ṇ)āṃ .. .. r(ma)ṃ [dh]ārayitvā vividhāṃ [ca] /// Section: V [] transliteration: l.1: 1 /// .o ’rh[ān] s(a)[m]y(a)ks(aṃb)[ud]dh(o) [l](o)k[e] bhaviṣyasi vidyācaraṇasa〈ṃ〉pa .. /// l.2: 2 /// + [t]e[na] khalu punaḥ śāripu",
+      "diplomaticTransliteration": "l.1: w /// + b[o]dh[i]satv. [r]. + + + + + + + + + /// l.2: x /// + [yi]tukāmaḥ imaṃ [sad]dh(ar)m. + + + + + + /// l.3: y /// śayāmi • api [tu] khalu punaḥ śāripu[t]r. + + .y. /// l.4: z /// .. .. .. [s](r)ā(ṇ)āṃ .. .. r(ma)ṃ [dh]ārayitvā vividhāṃ [ca] /// Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.8212/63(6)",
+          "Wille_2006a"
+        ]
+      }
+    },
+    {
+      "id": "Or.8212/33(2)",
+      "pressmark": "Or.8212/33(2)",
+      "catalogShortref": "Wille_2006a",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Saddharmapuṇḍarīkasūtra]",
+      "description": "Section: R [Saddharmapuṇḍarīkasūtra] Written in the southern Turkestan Brāhmī (main type). Cf. Ser III 1439: “Kha. i.303.b. [...] (2) fr. 4 1/2\" x 4 1/4\", on stiff paper, with 8 ll., perhaps of Saddharma-puṇḍarīka.” Parallels: Ka 203a4-205a3; Otani (LŸshun) SLLMC B-9r7-v3; KN 214.2-216.9. transliteration: l.1: 1 /// + + + + + + + + [y]. paramaṃ ca sau l.2: 2 /// + + + + + + (v)[y]ākaraṇena nā l.3: 3 /// + + + + (p)r(a)varaviśiṣṭa sarvabu l.4: 4 /// + + + + khalv āyuṣmān anandaḥ l.5: 5 /// + + + nucintayitvā prārthayitvā l.6: 6 /// (p)[r](ā)rth(a)yitvā bhagavataḥ pādayor nipatyai l.7: 7 /// + + + ..[ṃ h]i bhagavān pitā janak[o] l.8: 8 /// + + ",
+      "diplomaticTransliteration": "l.1: 1 /// + + + + + + + + [y]. paramaṃ ca sau l.2: 2 /// + + + + + + (v)[y]ākaraṇena nā l.3: 3 /// + + + + (p)r(a)varaviśiṣṭa sarvabu l.4: 4 /// + + + + khalv āyuṣmān anandaḥ l.5: 5 /// + + + nucintayitvā prārthayitvā l.6: 6 /// (p)[r](ā)rth(a)yitvā bhagavataḥ pādayor nipatyai l.7: 7 /// + + + ..[ṃ h]i bhagavān pitā janak[o] l.8: 8 /// + + + + + + + + .opas[th]āyakā Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006a",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.8212/33(2)",
+          "Wille_2006a"
+        ]
+      }
+    },
+    {
+      "id": "Or. 15004/1",
+      "pressmark": "Or. 15004/1",
+      "catalogShortref": "Wille_2009b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Pravāraṇasūtra",
+      "description": "Section: R Pravāraṇasūtra cf. Pell.Skt. Rouge 14.3, fol. (114) (not yet ed.) and SHT 24 frg. Lüders h (not yet ed; First transliteration by Else Lüders.) transliteration: l.1: 1 + [v]ācika[ṃ v]ā[caitasi]ka[ṃ] vā e[ṣ]ā/// l.2: 2 [ś]. [rip]u .. + [c]ānāṃ [bhi]kṣu ◯ /// l.3: 3 [śa] + [ni] .. [v]. [a]rhantaḥ [kṣī] ◯ /// l.4: 4 .[y]. [gājñā]ya su[vi] .. [kta]ci ◯ /// l.5: 5 .. [ṣ]. [m]. .. [h]. [śār]i .. .. [paṃcā]nāṃ bhik[ṣuśa] .. /// Section: V transliteration: l.1: 1 (r)[h](a)[t]i [kā]yika(ṃ) [v]āvā[c]ika[ṃ v]āc[ai]ta[s]i[k]. /// l.2: 2 ṣāṃ [bhad](a)n[t]a pa[ṃcānāṃ] bhikṣ[u] ◯ /// l.3: 3 ri .. .. [pa]ñ[c]ā[nāṃ bhi]kṣuśa ◯ /// l.4: 4 vī [śā]ripu",
+      "diplomaticTransliteration": "l.1: 1 + [v]ācika[ṃ v]ā[caitasi]ka[ṃ] vā e[ṣ]ā/// l.2: 2 [ś]. [rip]u .. + [c]ānāṃ [bhi]kṣu ◯ /// l.3: 3 [śa] + [ni] .. [v]. [a]rhantaḥ [kṣī] ◯ /// l.4: 4 .[y]. [gājñā]ya su[vi] .. [kta]ci ◯ /// l.5: 5 .. [ṣ]. [m]. .. [h]. [śār]i .. .. [paṃcā]nāṃ bhik[ṣuśa] .. /// Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or. 15004/1",
+          "Wille_2009b"
+        ]
+      }
+    },
+    {
+      "id": "Or. 15004/2",
+      "pressmark": "Or. 15004/2",
+      "catalogShortref": "Wille_2009b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Wille_2009b — Or. 15004/2",
+      "description": "Section: A transliteration: l.1: b /// .. .. [ka]lpi .. [| s]. [ci] /// l.2: c /// .. + [hmaṇā] .. .. /// Section: B transliteration: l.1: b /// .. .. [n]. [y]. [n]. .. .. ///",
+      "diplomaticTransliteration": "l.1: b /// .. .. [ka]lpi .. [| s]. [ci] /// l.2: c /// .. + [hmaṇā] .. .. /// Section: B",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or. 15004/2",
+          "Wille_2009b"
+        ]
+      }
+    },
+    {
+      "id": "Or. 15004/3",
+      "pressmark": "Or. 15004/3",
+      "catalogShortref": "Wille_2009b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Wille_2009b — Or. 15004/3",
+      "description": "Section: R Tocharian: see Tamai 2009: 559. transliteration: l.1: Section: V transliteration: l.1:",
+      "diplomaticTransliteration": "l.1: Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or. 15004/3",
+          "Wille_2009b"
+        ]
+      }
+    },
+    {
+      "id": "Or. 15004/28",
+      "pressmark": "Or. 15004/28",
+      "catalogShortref": "Wille_2009b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Dharmacakrapravartanasūtra [as an independent single sūtra, part of an anthology or sūtra 379 of the Chinese Saṃyuktāgama (T 99, II 103c13 104a29)]",
+      "description": "Section: R Dharmacakrapravartanasūtra [as an independent single sūtra, part of an anthology or sūtra 379 of the Chinese Saṃyuktāgama (T 99, II 103c13 104a29)] cf. DhCakrP-dh 19 transliteration: l.1: 1 /// + + + .. mṛga[d]āp[e] + /// l.2: 2 /// + + + śo manasi[ku] + /// l.3: 3 /// .. + .. m[i]nī pratipad [ā] .. /// l.4: 4 /// .. dapādi • ta[t] (kha)l(u) duḥ .. /// l.5: 5 /// + naṃ vidyā(b)ud(dh)[i] + + + /// Section: V transliteration: l.1: 1 /// + kurvata .. .. + + /// l.2: 2 /// [n](a)nuśruteṣ[u dha](r)[me]ṣu y[o] /// l.3: 3 /// + .. .[ij]ñayābhāva /// l.4: 4 /// + + (p)[ā]di • [tat kha]lu + /// l.5: 5 /// + + + + .[yābuddh]i u ///",
+      "diplomaticTransliteration": "l.1: 1 /// + + + .. mṛga[d]āp[e] + /// l.2: 2 /// + + + śo manasi[ku] + /// l.3: 3 /// .. + .. m[i]nī pratipad [ā] .. /// l.4: 4 /// .. dapādi • ta[t] (kha)l(u) duḥ .. /// l.5: 5 /// + naṃ vidyā(b)ud(dh)[i] + + + /// Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or. 15004/28",
+          "Wille_2009b"
+        ]
+      }
+    },
+    {
+      "id": "Or. 15004/79",
+      "pressmark": "Or. 15004/79",
+      "catalogShortref": "Wille_2009b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Dhvajāgrasūtra",
+      "description": "Section: R Dhvajāgrasūtra cf. DhvjSū11-13; see Or. 15004/80 transliteration: l.1: w /// + + + + + [it](i) [h](i)// l.2: x /// ddh[o] vidyā[c]. + /// l.3: y /// ṣadamyasā+ /// l.4: z /// + + .iṃ + + + /// Section: V transliteration: l.1: 1 /// + + + + + + /// l.2: 2 /// smād dheto s. + /// l.3: 3 /// haḥ apa[ri] + /// l.4: 4 /// + + [d]evad[u]ḥ .. ///",
+      "diplomaticTransliteration": "l.1: w /// + + + + + [it](i) [h](i)// l.2: x /// ddh[o] vidyā[c]. + /// l.3: y /// ṣadamyasā+ /// l.4: z /// + + .iṃ + + + /// Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2009b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or. 15004/79",
+          "Wille_2009b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15003/1",
+      "pressmark": "Or.15003/1",
+      "catalogShortref": "Wille_2006b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[]",
+      "description": "Section: A [] The text of side A possibly corresponds to sūtra 1307 of the Chinese Saṃyuktāgama (cf. the parallels in SHT VI 1534, SN I 61f. and AN II 47-50). transliteration: l.1: a /// + .. + + + + + /// l.2: b /// .. [n]. [n]. [lo] .. .[y]. [nt]. /// l.3: c /// [po] javo ’bhūt tadya[th]. /// l.4: d /// .. m s¨ aiśe (toch. /su aiśe/) .. /// Section: B [] transliteration: l.1: a /// + + + [my]. .s. .. /// l.2: b /// + .. tam udīritaṃ [pr]. /// l.3: c /// [t]. ity ucyate siṃh. /// l.4: d /// + .. tra va .. .. .y.ṃ .. ///",
+      "diplomaticTransliteration": "l.1: a /// + .. + + + + + /// l.2: b /// .. [n]. [n]. [lo] .. .[y]. [nt]. /// l.3: c /// [po] javo ’bhūt tadya[th]. /// l.4: d /// .. m s¨ aiśe (toch. /su aiśe/) .. /// Section: B []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15003/1",
+          "Wille_2006b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15003/2(a)",
+      "pressmark": "Or.15003/2(a)",
+      "catalogShortref": "Wille_2006b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[]",
+      "description": "Section: A [] transliteration: l.1: a /// + + + .. .. + + /// l.2: b /// + .. m [e]vaṃ .[r]. + /// l.3: c /// + + .[y](a)thā pū.. /// l.4: d /// ṇa samanvāgata [s]. /// l.5: e /// + .. prasrāvā .. + /// l.6: f /// + + + .. .[e] .. + + /// Section: B [] transliteration: l.1: a /// + + + .u[d]dh. .. + + /// l.2: b /// + [s](a)myaktvaṃ sa[t]v. + /// l.3: c /// .. bodhisatva a[nu] .. /// l.4: d /// + + .. .. ṣitaṃ .. /// l.5: e /// + + + [t](a)thāga .. + ///",
+      "diplomaticTransliteration": "l.1: a /// + + + .. .. + + /// l.2: b /// + .. m [e]vaṃ .[r]. + /// l.3: c /// + + .[y](a)thā pū.. /// l.4: d /// ṇa samanvāgata [s]. /// l.5: e /// + .. prasrāvā .. + /// l.6: f /// + + + .. .[e] .. + + /// Section: B []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15003/2(a)",
+          "Wille_2006b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15003/2(c)",
+      "pressmark": "Or.15003/2(c)",
+      "catalogShortref": "Wille_2006b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[]",
+      "description": "Section: R [] Fragment B: remnants of about 3 akṣaras each side transliteration: l.1: ILLEGIBLE Section: V [] transliteration: l.1: ILLEGIBLE",
+      "diplomaticTransliteration": "l.1: ILLEGIBLE Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15003/2(c)",
+          "Wille_2006b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15003/46",
+      "pressmark": "Or.15003/46",
+      "catalogShortref": "Wille_2006b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[Daśottarasūtra]",
+      "description": "Section: R [Daśottarasūtra] cf. Daśo IX.3(2)_4 transliteration: l.1: v /// .. [k](a)[t]v. .. [j]ñ(i)naḥ tadya[th]. + /// l.2: w /// .. tva[s]aṃjninaḥ tadyathā [de] + /// l.3: x /// [bh](a)kṛtsn[ā] ayaṃ [ca]turthaḥ sa .. /// l.4: y /// [s]atvāḥ sarva[ś]o rūpasaṃjnā ..[ṃ] /// l.5: z /// .. haraṃ .. + dyathā de + + + // Section: V [] transliteration: l.1: 1 /// .ñ. n. .. + [n]ānaṃ[ty]. + + /// l.2: 2 /// [jñā]nānaṃtyā[ya]tanaṃ sa[m]. + /// l.3: 3 /// [m] (a)ṣṭamaḥ satv[ā]vāsaḥ arū/// l.4: 4 /// [ta]dyathā devā naivasaṃj[ñ]ā + /// l.5: 5 /// + [j](a)naṃ mānasaṃyoja + + /// l.6: 6 /// + + + + + + .ā .ī [y]. + ///",
+      "diplomaticTransliteration": "l.1: v /// .. [k](a)[t]v. .. [j]ñ(i)naḥ tadya[th]. + /// l.2: w /// .. tva[s]aṃjninaḥ tadyathā [de] + /// l.3: x /// [bh](a)kṛtsn[ā] ayaṃ [ca]turthaḥ sa .. /// l.4: y /// [s]atvāḥ sarva[ś]o rūpasaṃjnā ..[ṃ] /// l.5: z /// .. haraṃ .. + dyathā de + + + // Section: V []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15003/46",
+          "Wille_2006b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15003/120",
+      "pressmark": "Or.15003/120",
+      "catalogShortref": "Wille_2006b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[]",
+      "description": "Section: A [] text with Dhāraṇīḥ transliteration: l.1: a /// .. .. ści + + + + + + /// l.2: b /// le • arasevate pa[d]m. + /// l.3: c /// [kh](a)sya svāhā atha bhaga /// l.4: d /// .. ya na karoti sma • .. /// l.5: e /// + .. di .. + + + + /// Section: B [] transliteration: l.1: a /// + + [v](a)t[i s]. + .. + + /// l.2: b /// .. hati • hariṇāvat. /// l.3: c /// + sudarśanam* 61 sa [c]. /// l.4: d /// .. ye • śucyaṃ na pā .. + /// l.5: e /// .[ī] padu[m]ā + + + + + ///",
+      "diplomaticTransliteration": "l.1: a /// .. .. ści + + + + + + /// l.2: b /// le • arasevate pa[d]m. + /// l.3: c /// [kh](a)sya svāhā atha bhaga /// l.4: d /// .. ya na karoti sma • .. /// l.5: e /// + .. di .. + + + + /// Section: B []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15003/120",
+          "Wille_2006b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15003/144",
+      "pressmark": "Or.15003/144",
+      "catalogShortref": "Wille_2006b",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "[]",
+      "description": "Section: A [] text with Dhāraṇī? transliteration: l.1: a /// + + .. .y. .. /// l.2: b /// vāluko .. /// l.3: c /// .. [na]mo .. /// Section: B [] transliteration: l.1: a /// .[i]sate • + /// l.2: b /// [ma]ntrapadā + /// l.3: c /// + + [mucy](a)[tu] ///",
+      "diplomaticTransliteration": "l.1: a /// + + .. .y. .. /// l.2: b /// vāluko .. /// l.3: c /// .. [na]mo .. /// Section: B []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Wille_2006b",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15003/144",
+          "Wille_2006b"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/1",
+      "pressmark": "Or.15009/1",
+      "catalogShortref": "BLSF_II_04",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Suvikrāntavikrāmiparipṛcchā:",
+      "description": "Section: R Suvikrāntavikrāmiparipṛcchā: SuPP 13.26−15.4, SuPP(V) 7.15−8.7; South Turkestan Brāhmī (main type); Or.15009/224 belongs to the same manuscript transliteration: l.1: q /// + + + + + + + .. + + /// l.2: r /// + + + .. b[o]dhiḥ na ca b[o] .. /// l.3: s /// + + + .. .ā kathaṃ vakta .. /// l.4: t /// + + + dhir na [bo]dhau kaści + + /// l.5: u /// [bo]dhi .. .. [s]yā satva saṃ .. + + /// l.6: v /// + .. ti yena jñāta [s]. + + + /// l.7: w /// + + .. .. sa[ṃ]jñā[v]i[bh]. + + + /// l.8: x /// + + .. svabhā[v]. vig[a] + + + /// l.9: y /// + + m iti .o[dh]i .. + + + + /// l.10: z /// + + + .. .. .. + + + + + /// Section: V transliteration:",
+      "diplomaticTransliteration": "l.1: q /// + + + + + + + .. + + /// l.2: r /// + + + .. b[o]dhiḥ na ca b[o] .. /// l.3: s /// + + + .. .ā kathaṃ vakta .. /// l.4: t /// + + + dhir na [bo]dhau kaści + + /// l.5: u /// [bo]dhi .. .. [s]yā satva saṃ .. + + /// l.6: v /// + .. ti yena jñāta [s]. + + + /// l.7: w /// + + .. .. sa[ṃ]jñā[v]i[bh]. + + + /// l.8: x /// + + .. svabhā[v]. vig[a] + + + /// l.9: y /// + + m iti .o[dh]i .. + + + + /// l.10: z /// + + + .. .. .. + + + + + /// Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=BLSF_II_04",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/1",
+          "BLSF_II_04"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/2",
+      "pressmark": "Or.15009/2",
+      "catalogShortref": "BLSF_II_04",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Prajñāpāramitā text?",
+      "description": "Section: A Prajñāpāramitā text? South Turkestan Brāhmī (main type) transliteration: l.1: v /// + + + + + + + + + + .. ri[p]ū + + /// l.2: w /// + + + + + + + .. .. + [r]. dvatī + /// l.3: x /// + + + [śā](ra)[d]v(a)tīputra bodhisatvo ma + /// l.4: y /// + .. na cit[t]ena tac ca dānaṃ sarvasatvebhi sārdhaṃ .. /// l.5: z /// .. bodhisa .. + + .āsa(t)vasya prajñāpāramitāyāṃ ca .. /// Section: B [] transliteration: l.1: 1 /// yānas[a]ṃ + + to mahāyānasamabh. + /// l.2: 2 /// + (ty u)cyate (•) athāyuṣmāñ cchāradvatī .. // l.3: 3 /// + + .. .o .. satvo mahāsatv. mahā .. + /// l.4: 4 /// + + + + + + .. .ā .. [dv]atīpu .. + /// l.5: 5 /// + + + + + +",
+      "diplomaticTransliteration": "l.1: v /// + + + + + + + + + + .. ri[p]ū + + /// l.2: w /// + + + + + + + .. .. + [r]. dvatī + /// l.3: x /// + + + [śā](ra)[d]v(a)tīputra bodhisatvo ma + /// l.4: y /// + .. na cit[t]ena tac ca dānaṃ sarvasatvebhi sārdhaṃ .. /// l.5: z /// .. bodhisa .. + + .āsa(t)vasya prajñāpāramitāyāṃ ca .. /// Section: B []",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=BLSF_II_04",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/2",
+          "BLSF_II_04"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/3",
+      "pressmark": "Or.15009/3",
+      "catalogShortref": "BLSF_II_04",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Prajñāpāramitā text?",
+      "description": "Section: A Prajñāpāramitā text? South Turkestan Brāhmī (main type) transliteration: l.1: a /// .. d. voca .. /// l.2: b /// + pāramitā /// l.3: c /// .āha ko .. /// Section: B transliteration: l.1: a /// ..tā y. /// l.: b /// .. kānte rū /// l.3: c /// .. .ā ti vy. /// (YS)",
+      "diplomaticTransliteration": "l.1: a /// .. d. voca .. /// l.2: b /// + pāramitā /// l.3: c /// .āha ko .. /// Section: B",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=BLSF_II_04",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/3",
+          "BLSF_II_04"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/4",
+      "pressmark": "Or.15009/4",
+      "catalogShortref": "BLSF_II_04",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "South Turkestan Brāhmī (main type)",
+      "description": "Section: R South Turkestan Brāhmī (main type) folio 299 transliteration: l.1: a hā /// l.2: b saṃ /// Section: V transliteration: l.1: a ti .. /// l.2: b su /// l.3: c .. // (YS)",
+      "diplomaticTransliteration": "l.1: a hā /// l.2: b saṃ /// Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=BLSF_II_04",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/4",
+          "BLSF_II_04"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/5",
+      "pressmark": "Or.15009/5",
+      "catalogShortref": "BLSF_II_04",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "the Larger Prajñāpāramitā",
+      "description": "Section: R the Larger Prajñāpāramitā PvsP IV 134.24−135.16; South Turkestan Brāhmī (main type) transliteration: l.1: a /// + + + + + .. .. .. + /// l.2: b /// + + + + tvaḥ sarva[dh]. + /// l.3: c /// .. s(a)tvasya mahāsatvasya /// l.4: d /// yatena cāyaṃ manasā /// l.5: e /// .i athāyuṣmāṃñ cchāra + /// l.6: f /// + .. .. tvo niryānya[k].F + /// l.7: g /// + + + + [h]ā + + + /// Section: V transliteration: l.1: a /// + + + + tv. + + + + /// l.2: b /// + + .. [v]ya sam[a]cittam u + /// l.3: c /// [v/c]āntike mahāmaitry utpā + /// l.4: d /// ntike śāstṛsaṃjñā karta(v)y. /// l.5: e /// + .. satvānāṃ cāntike /// l.6: f /// + + + .. tavyam* .. + /",
+      "diplomaticTransliteration": "l.1: a /// + + + + + .. .. .. + /// l.2: b /// + + + + tvaḥ sarva[dh]. + /// l.3: c /// .. s(a)tvasya mahāsatvasya /// l.4: d /// yatena cāyaṃ manasā /// l.5: e /// .i athāyuṣmāṃñ cchāra + /// l.6: f /// + .. .. tvo niryānya[k].F + /// l.7: g /// + + + + [h]ā + + + /// Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=BLSF_II_04",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/5",
+          "BLSF_II_04"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/6",
+      "pressmark": "Or.15009/6",
+      "catalogShortref": "BLSF_II_04",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Saddharmapuṇḍarīkasūtra",
+      "description": "Section: R Saddharmapuṇḍarīkasūtra SP(O) 235r2−v4; SP(KN) 245.9−12; South Turkestan Brāhmī (main type); Or.15009/9 belongs to the same manuscript;folio x[1]6 transliteration: l.1: 1 gbhāgā[t] sarve + + + + + + + + + + + + + + + + + + + + + + + + + + l.2: 2 diśāya śā .y. + + + + + + + + + + + + + + + + + + + + + + + + + + + + l.3: 3 lokadhāt[u]ṣv a[ny]o + + + + + + + + + + + + + + + + + + + + + + + + + + l.4: 4 thāgato (’)py av. + + + + + + + + + + + + + + + + + + + + + + + + + Section: V transliteration: l.1: 1 sarv[e] tayā r. + + + + + + + + + + + + + + + + + + + + + + + + + + l.2: 2 yā iha sahe + + + + + + + + + + + + + + + + + + + + + + + ",
+      "diplomaticTransliteration": "l.1: 1 gbhāgā[t] sarve + + + + + + + + + + + + + + + + + + + + + + + + + + l.2: 2 diśāya śā .y. + + + + + + + + + + + + + + + + + + + + + + + + + + + + l.3: 3 lokadhāt[u]ṣv a[ny]o + + + + + + + + + + + + + + + + + + + + + + + + + + l.4: 4 thāgato (’)py av. + + + + + + + + + + + + + + + + + + + + + + + + + Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=BLSF_II_04",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/6",
+          "BLSF_II_04"
+        ]
+      }
+    },
+    {
+      "id": "Or.15010/1",
+      "pressmark": "Or.15010/1",
+      "catalogShortref": "Karashima_2009",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Mahāyāna Mahāparinirvāṇa-mahāsūtra",
+      "description": "Section: R Mahāyāna Mahāparinirvāṇa-mahāsūtra see Habata_2009. transliteration: l.1: Section: V transliteration: l.1:",
+      "diplomaticTransliteration": "l.1: Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Karashima_2009",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15010/1",
+          "Karashima_2009"
+        ]
+      }
+    },
+    {
+      "id": "Or.15010/2",
+      "pressmark": "Or.15010/2",
+      "catalogShortref": "Karashima_2009",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Anantamukhanirhāradhāraṇīsūtra",
+      "description": "Section: R Anantamukhanirhāradhāraṇīsūtra Inagaki 1987: 264.3~289.6 (Tibetan text); cf. Inagaki 1999: 176, 195, 197, 200 (English translation); Tib(Pk), No. 539, rGyud, ’A 251b3~252a3; Tib(D), No. 914, gZungs, E 254a6~b6; T.19, No. 1009, 679a22~b6; T.19, No. 1011, 682a28~b5; T.19, No. 1012, 684c21~685a4; T.19, No. 1013, 688a5~18 etc.; cf. Or.15010/183; E.S.T.Br. transliteration: l.1: 1 sagārabhena sapra{{..}}deśena kṛtajñena bhavitavyaṃ kṛtavedināṃ gaṃbhīradharmakṣāntiprayukte- l.2: 2 na bhavitavyaṃ anutpādadharmapratyavekṣakena saṃvibhāgakuśalena bhavitavyaṃ kim āpriyāto l.3: 3 (’)pi kim āparittato : imasmiṃ kho puna dharmaparyyāye bhagavato",
+      "diplomaticTransliteration": "l.1: 1 sagārabhena sapra{{..}}deśena kṛtajñena bhavitavyaṃ kṛtavedināṃ gaṃbhīradharmakṣāntiprayukte- l.2: 2 na bhavitavyaṃ anutpādadharmapratyavekṣakena saṃvibhāgakuśalena bhavitavyaṃ kim āpriyāto l.3: 3 (’)pi kim āparittato : imasmiṃ kho puna dharmaparyyāye bhagavato bhāṣamānaṃ … dvātrīṃ- l.4: 4 śehi gaṃganadivālikasamehi bodhisatvehi ayaṃ dhāraṇipratilabdhā avaivartti- l.5: 5 kā ca-m-abhūṣi anutta○rāyāṃ samyaksaṃbodhāyāṃ ṣaṣṭehiṃ ca biṃbarehi anutpatti- l.6: 6 keṣu dharmeṣu kṣāntipra{[ti]}labd",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Karashima_2009",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15010/2",
+          "Karashima_2009"
+        ]
+      }
+    },
+    {
+      "id": "Or.15010/3",
+      "pressmark": "Or.15010/3",
+      "catalogShortref": "Karashima_2009",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Karashima_2009 — Or.15010/3",
+      "description": "Section: A transliteration: l.1: 1 .. .. .. .. .. .. .. .. .. .. .. .. + + l. + + + l.2: 2 + + + + ○ .. .. .. .. + + + .. .. .. .. Section: B transliteration: l.1:",
+      "diplomaticTransliteration": "l.1: 1 .. .. .. .. .. .. .. .. .. .. .. .. + + l. + + + l.2: 2 + + + + ○ .. .. .. .. + + + .. .. .. .. Section: B",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Karashima_2009",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15010/3",
+          "Karashima_2009"
+        ]
+      }
+    },
+    {
+      "id": "Or.15010/14",
+      "pressmark": "Or.15010/14",
+      "catalogShortref": "Karashima_2009",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Saddharmapuṇḍarīkasūtra",
+      "description": "Section: R Saddharmapuṇḍarīkasūtra SP(KN) 268.4~270.4; SP(O) 257v1~260r1; SP(F) 11r5~12v6; SI P/10, fol. 316 (= BB 33, p. 110, No. 15); Tyomkin 1995, pp. 9~12, fragment 1, r4~v6; SP(Wi), pp. 83~84, fragment 61; S.T.Br. (main type) transliteration: l.1: 1 + + + [y]āṃ lokadhātāv ādhimānikāḥ satvāḥ alpaku[ś](a) .. + + + + + + + + /// l.2: 2 + + + kṣuṇīsahasraiḥ sārdhaṃ śaikṣāśaikṣābhir bhikṣuṇībhiḥ s[ā] u(t)[th]. + + + + + /// l.3: 3 + + .y. v[e]lāyā mahāprajāpatīṃ gautamīm āmaṃtrayāmāsa ・ mā + + + + + /// l.4: 4 + + cānuttarasyāṃ samya○ksaṃbodhāv api tu khalu punaḥ gautam. + + + + /// l.5: 5 + .. tāṃ buddhakoṭīnayu○taśatasahasrāṇām antike bodhi",
+      "diplomaticTransliteration": "l.1: 1 + + + [y]āṃ lokadhātāv ādhimānikāḥ satvāḥ alpaku[ś](a) .. + + + + + + + + /// l.2: 2 + + + kṣuṇīsahasraiḥ sārdhaṃ śaikṣāśaikṣābhir bhikṣuṇībhiḥ s[ā] u(t)[th]. + + + + + /// l.3: 3 + + .y. v[e]lāyā mahāprajāpatīṃ gautamīm āmaṃtrayāmāsa ・ mā + + + + + /// l.4: 4 + + cānuttarasyāṃ samya○ksaṃbodhāv api tu khalu punaḥ gautam. + + + + /// l.5: 5 + .. tāṃ buddhakoṭīnayu○taśatasahasrāṇām antike bodhisa[t]v[o] + + + /// l.6: 6 .[ā] tvayai + (s)ārdhaṃ teṣāṃ tathāgatānām antike bodhisatvā mahāsatvā ",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Karashima_2009",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15010/14",
+          "Karashima_2009"
+        ]
+      }
+    },
+    {
+      "id": "Or.15010/15",
+      "pressmark": "Or.15010/15",
+      "catalogShortref": "Karashima_2009",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Pratyutpannasaṃmukhāvasthitasamādhisūtra",
+      "description": "Section: R Pratyutpannasaṃmukhāvasthitasamādhisūtra Harrison 1978: 83.5~85.23; Tib(Pk), vol. 32, No. 801, p. 112, mDo sna tshogs, Du 30a2~31a2; Tib(D), No. 133, mDo sde, Na 28b7~29b7; cf. Harrison 1990: 79~81 (English translation); T.13, No. 418, 909b19~c5, No. 416, 882c19~883a25, No. 417, 900c20~28; E.S.T.Br. transliteration: l.1: 1 /// + + + + + + + .. [car]. [s]. .[p]. [nne]na [a]numātreṣu (’)vaddhyeṣu bhayadarśā[yi] + + /// l.2: 2 /// + + + + + + + .. kṣāntikena ca bhavi[tavyaṃ] śūnyatānimittāpraṇihitāṃ .. + + /// l.3: 3 /// + + + + + + [s]. bodhisatvaḥ pariśuddhaśīlo bhavati acchidraśīlo (’)nupa .. .[bh]. + /// l.4: 4 /// + + + + + [bha]",
+      "diplomaticTransliteration": "l.1: 1 /// + + + + + + + .. [car]. [s]. .[p]. [nne]na [a]numātreṣu (’)vaddhyeṣu bhayadarśā[yi] + + /// l.2: 2 /// + + + + + + + .. kṣāntikena ca bhavi[tavyaṃ] śūnyatānimittāpraṇihitāṃ .. + + /// l.3: 3 /// + + + + + + [s]. bodhisatvaḥ pariśuddhaśīlo bhavati acchidraśīlo (’)nupa .. .[bh]. + /// l.4: 4 /// + + + + + [bha]ddapāla upāsako bhagavantam etad avocat* kathaṃ bhagavaṃ abhiniṣ[kk]rā + /// l.5: 5 /// + + + + [p](a)lambhaśīlaś ca nigṛtaśīlaś ca cyutaśīlaś ca : vijñugarhitaśīlaś ca [ā] /// l.",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Karashima_2009",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15010/15",
+          "Karashima_2009"
+        ]
+      }
+    },
+    {
+      "id": "Or.15009/305",
+      "pressmark": "Or.15009/305",
+      "catalogShortref": "Karashima_2009",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Central Asian Brāhmī (Sanskrit)",
+      "title": "Suvikrāntavikrāmiparipṛcchā",
+      "description": "Section: R Suvikrāntavikrāmiparipṛcchā see Or.15010/16 and Or.15010/87; SuPP 115.16~119.1; E.S.T.Br. transliteration: l.12: 12 /// + + (rv)[v]. satv. + .. m (a)rtha(ṃ) kartu[k]. + .. l.13: 13 /// .. jñāna saṃhartukāmena : sarvvasa[t]v(ā l.14: 14 /// .[y]ānasu[[bhi]]kṣa kartukāmena : sarvvasatv(ā) l.15: 15 /// r[t]ukāmena : sar[vv]asatvānā(ṃ) vidy(ā)[v]imu .. Section: V transliteration: l.1: 1 /// .. [s](arvva)satv[ā] .. .. .. .. .. .. .. .. .. l.2: 2 /// .. .. .. ..ṃ (b)r[ā](hmaṇ)e[na] + .. .. .. .. l.3: 3 /// + + .. .. .. .. .. .. .. .. (p)[r](at)[ye](kab)[uddha](bh)[ū] .. .. .. l.4: 4 /// + + + + + + .. .. + + + .. + + + + +",
+      "diplomaticTransliteration": "l.12: 12 /// + + (rv)[v]. satv. + .. m (a)rtha(ṃ) kartu[k]. + .. l.13: 13 /// .. jñāna saṃhartukāmena : sarvvasa[t]v(ā l.14: 14 /// .[y]ānasu[[bhi]]kṣa kartukāmena : sarvvasatv(ā) l.15: 15 /// r[t]ukāmena : sar[vv]asatvānā(ṃ) vidy(ā)[v]imu .. Section: V",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Karashima_2009",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.15009/305",
+          "Karashima_2009"
+        ]
+      }
+    },
+    {
+      "id": "IOL Tib J 52",
+      "pressmark": "IOL Tib J 52",
+      "catalogShortref": "Dalton_vanSchaik_2005",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Old Tibetan (Dunhuang Tantric)",
+      "title": "[rnam par mi rtog pa'i gzungs]",
+      "description": "Section: 1 [rnam par mi rtog pa'i gzungs] ['phags pa rnam par mi rtog par 'jug pa zhes bya ba'i gzungs] [Ārya-avikalpapraveśa-nāma-dhāraṇī] Incipit ( 1r.1 ): //kyis /yungsu gang ba'i rin po che /sna tshogs 'tsher ba'i /'di lta ste / Incomplete. Four folios from the dhāraṇī of Chinese origin (see Ueyama_1983b ). The present item is clearly a different translation from that found in the canon (compare P_810 ). Folio three has its recto-verso reversed. The four folios present correspond to the canonical version at the following locations: folio 1 = P_810: 4a.4-4b.6 , folio 2 = P_810: 3a.1-3b.2 , folio 3 = P_810: 3b.2-4a.4 , folio 4 = P_810: 6a.1",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL Tib J 52",
+          "Dalton_vanSchaik_2005"
+        ]
+      }
+    },
+    {
+      "id": "IOL Tib J 76",
+      "pressmark": "IOL Tib J 76",
+      "catalogShortref": "Dalton_vanSchaik_2005",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Old Tibetan (Dunhuang Tantric)",
+      "title": "shes rab kyi pha rol tu phyin",
+      "description": "Section: 1 The cover of the booklet contains the inscription, upside down in the middle of the page: shes rab kyi pha rol tu phyin . It also contains an inscription both upside down and in mirror-image at the bottom of the page, perhaps caused by another manuscript pressed against this page before the ink was dry. The inscription, read with the aid of an infrared image, may be read as follows: ...phu dru(g)...med..nu(s)... l.2: gsags...bsog dgu na(s) mtha' mu (sa) nyi shu...gi nang par pos...dus Bibliography: ? Section: 2 'phags pa rgyal bu don grub kyi mdo [Ārya-jinaputra-arthasiddhi-sūtra] Incipit ( 1v.1 ): @//_//'di skad bdag gyis thos pa ",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL Tib J 76",
+          "Dalton_vanSchaik_2005"
+        ]
+      }
+    },
+    {
+      "id": "IOL Tib J 96",
+      "pressmark": "IOL Tib J 96",
+      "catalogShortref": "Dalton_vanSchaik_2005",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Old Tibetan (Dunhuang Tantric)",
+      "title": "'phags pa shes rab kyi pha rol tu phyin pa'i tshul brgya lnga bcu pa",
+      "description": "Section: 1 'phags pa shes rab kyi pha rol tu phyin pa'i tshul brgya lnga bcu pa [Prajñāpāramitānaya-adhyardhaśatikā] [Ārya-prajñāpāramitānayaśatapañcāśatikā] Incipit ( 1r.1 ): @//_//rgya gar skad du prad nya pa ra myI ta na ya a ru rta sha ti ka // Complete copy of the influential tantra. The Dunhuang collections contain two distinct versions of the tantra, one that closely resembles the canonical and one that inserts a number of additional passages. The present manuscript is an example of the latter (compare for example the mantra added at 3r.10 to ITJ_97: 34v.3 and P_121: 281b.1 ) For a discussion of the two versions, see entry to ITJ_97 . ",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL Tib J 96",
+          "Dalton_vanSchaik_2005"
+        ]
+      }
+    },
+    {
+      "id": "IOL Tib J 97",
+      "pressmark": "IOL Tib J 97",
+      "catalogShortref": "Dalton_vanSchaik_2005",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Old Tibetan (Dunhuang Tantric)",
+      "title": "'phags pa shes rab kyi pha rol tu phyin pa'i tshul brgya lnga bcu pa",
+      "description": "Section: 1 'phags pa shes rab kyi pha rol tu phyin pa'i tshul brgya lnga bcu pa [Prajñāpāramitānaya-adhyardhaśatikā] [Ārya-prajñāpāramitānayaśatapañcāśatikā] Incipit ( 1r.1 ): @/:/rgya gar skad du /a rya prad nya pa ra mI dA na ya/ An almost complete copy of the influential Yoga tantra . Two folios are missing from the middle (Tib. fol. nos. 14 (= P_121: 278b.6-8 ) and 49 (= P_121: 282b.2 )), and the final one or two folios are missing so that the item ends at P_121: 284a.8 . Note that the Sanskrit title given for this item, as for many of the Dunhuang manuscripts ( Prajñāpāramitānaya-adhyardhaśatika ) is different from the Sanskrit title giv",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL Tib J 97",
+          "Dalton_vanSchaik_2005"
+        ]
+      }
+    },
+    {
+      "id": "IOL Tib J 100",
+      "pressmark": "IOL Tib J 100",
+      "catalogShortref": "Dalton_vanSchaik_2005",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Old Tibetan (Dunhuang Tantric)",
+      "title": "'phags pa shes rab kyi pha rol tu phyin pa'i tshul brgya lnga bcu pa",
+      "description": "Section: 1 'phags pa shes rab kyi pha rol tu phyin pa'i tshul brgya lnga bcu pa [Prajñāpāramitānaya-adhyardhaśatikā] [Ārya-prajñāpāramitānayaśatapañcāśatikā] Incipit ( 1r.1 ): dag pa'i tshig de ni 'di sde One folio from a concertina containing a copy of the influential Yoga tantra . The folio directly preceding this one is found at PT_604: recto . The Dunhuang collections contain two distinct versions of the tantra, one that closely resembles the canonical and one that inserts a number of additional passages. For a discussion of the variant Dunhuang version, see entry to ITJ_97 . Because the present item is so short, it is not possible to det",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL Tib J 100",
+          "Dalton_vanSchaik_2005"
+        ]
+      }
+    },
+    {
+      "id": "IOL Tib J 103",
+      "pressmark": "IOL Tib J 103",
+      "catalogShortref": "Dalton_vanSchaik_2005",
+      "collectionSite": "Dunhuang (Stein / British Library)",
+      "scriptAndLanguage": "Old Tibetan (Dunhuang Tantric)",
+      "title": "Sumukha-nāma-dhāraṇī",
+      "description": "Section: 1 Incipit ( Rf.1r.1 ): bdag rtag du /de bzhIn gshegs pa'I/yongsu skyong... pa dang/rtag du ram gro bgyid pa lags pa dang/ A long concertina contains at least five texts. Additional folios from the same concertina are found at ITJ_134 and PT_53 . The original folio order in all three manuscripts has been thoroughly scrambled and folios are missing from all. Apart from the present item, which is short and incomplete, the recto contains two works (the Sumukha-nāma-dhāraṇī followed by the Prajñāpāramitānayaśatapañcāśatikā ), while the verso contains three (the * Bodhicaryā-praṇidhāna , the Bhadracaryā-praṇidhānarāja , and the snang brgya",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Dalton_vanSchaik_2005",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "IOL Tib J 103",
+          "Dalton_vanSchaik_2005"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot tibétain 1",
+      "pressmark": "Pelliot tibétain 1",
+      "catalogShortref": "PelliotTibetain_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Old Tibetan (BnF Pelliot tibétain)",
+      "title": "praṇidhāna",
+      "description": "Recueil complet contenant 5 textes et une inscription au dos. Section: 1 Vœu ( praṇidhāna débutant: smon lam du gsol ba' // grags pas mngon bar khyab cing // gzhi mgon thams cad kyi mnga' bdag... Fin: mtha' yas mu myed pa'i sems can thams cad kyang // myur du bla na myed pa'i sangs rgyas su grub par smon to . Section: 2 Le même texte avec une variante au milieu. Section: 3 rgya'i smon lam Texte dont le titre rgya'i smon lam est répété au colophon: rgya'i smon lam rdzogs so . En tibétain aussi, sont, tracés en rouge, les noms des points cardinaux, mais le contexte est une transcription (du chinois?). Section: 4 Un texte débutant: skyabs ma mch",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotTibetain_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot tibétain 1",
+          "PelliotTibetain_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot tibétain 2",
+      "pressmark": "Pelliot tibétain 2",
+      "catalogShortref": "PelliotTibetain_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Old Tibetan (BnF Pelliot tibétain)",
+      "title": "mantra",
+      "description": "Recueil de quatre textes complets plus un mantra . Section: 1 Invitation ( spyan drang ba = āvāhana ) aux Buddha des dix directions. Débute: phyogs bcu'i sangs rgyas 'phags pa rnams spyan drang ba'... Finit: 'phags pa rnams spyan drang ba rdzogs so . Section: 2 Invitation et vœu ( praṇidhāna ) nommant au début Vairocana. Débute: rnam par snang mdzad chos kyi rje... Finit: 'phags pa rnam[s] spyan drang ba' smon lam rdzogs so . Section: 3 Vœu pour la bodhi . Débute: mar mye dbul ba'i smon lam du gsol ba' // dkon mchog gsum la phyag 'tshal lo ... Finit: ...sangs rgyas kyi gongs 'phang myur du thob nas // sems can thams cad kyi srid pa'i rgya mts",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotTibetain_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot tibétain 2",
+          "PelliotTibetain_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot tibétain 3",
+      "pressmark": "Pelliot tibétain 3",
+      "catalogShortref": "PelliotTibetain_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Old Tibetan (BnF Pelliot tibétain)",
+      "title": "dkon mchog gsum che ba'i byin kyi brlabs dang / rig gzung sngags gyi mthu dang / lha dang drang srong las bstsogs pa srum ma dam tsig can rnams kyi mthu dang / byin kyi rlabs dang / chos nyid kyi bden ba dang rgyu sbyor yon gi bdag po 'khor dang bcas pa rnams bsam ba rnam par dag pa'i mthu stobs dang ...",
+      "description": "Section: 1 D'un côté, prière qui paraît complète. Débute, après l'hommage aux Trois Joyaux: dkon mchog gsum che ba'i byin kyi brlabs dang / rig gzung sngags gyi mthu dang / lha dang drang srong las bstsogs pa srum ma dam tsig can rnams kyi mthu dang / byin kyi rlabs dang / chos nyid kyi bden ba dang rgyu sbyor yon gi bdag po 'khor dang bcas pa rnams bsam ba rnam par dag pa'i mthu stobs dang ... Fin: phan chen po yon gi bdag po bsgrub du gsol . - De l'autre côté: Section: 1 Un morceau versifié: mtho ris bde 'gro lus rnyed rab du dkon // dbang po rdzogs pa'i lus rnyed rab du dka' // bde blag nyam phag lus rnyed rab du dka' // grogs bzang mthun ",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotTibetain_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot tibétain 3",
+          "PelliotTibetain_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot tibétain 6",
+      "pressmark": "Pelliot tibétain 6",
+      "catalogShortref": "PelliotTibetain_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Old Tibetan (BnF Pelliot tibétain)",
+      "title": "snang ba mtha' yas mtshan rdzogs so",
+      "description": "Recueil incomplet, contenant d'un côté: Section: 1 Un texte dont le début manque. Fin: snang ba mtha' yas mtshan rdzogs so . \"Écrit par Dpal gyi shes rab et revu, c'est un modèle\" dpal gyi shes rab kyis bris ste / zhus nas tshad ma mchis . Section: 2 Bhadracaryāpraṇidhānarāja (bad dra tsa ra pra ni d+ha na rA dzA) Bzang po spyod pa'i smon lam gyi rgyal po Un seul feuillet, sans trace de mutilation, et le texte suivant débute immédiatement. Section: 3 Sarvadurgatipariśodhanī-uṣṇīṣavijayānāma-dhāraṇī sa rba dur rga ti pa ri sho d+ha ni / u sh+Ni sha b+hi dza ya na ma d+ha ra Ni Ngan 'gro thams cad yongs su sbyong ba gtsug tor rnam par rgyal ba ",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotTibetain_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot tibétain 6",
+          "PelliotTibetain_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot tibétain 7",
+      "pressmark": "Pelliot tibétain 7",
+      "catalogShortref": "PelliotTibetain_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Old Tibetan (BnF Pelliot tibétain)",
+      "title": "Bzang po spyod pa'i smon lam",
+      "description": "Recueil contenant 9 textes dont 6 sont incomplets: Section: 1 Bzang po spyod pa'i smon lam (Bhadracaryāpraṇidhāna[rāja]) Le début manque. Section: 2 Rgya cher rol pa'i mdo las shis par brjod pa'i tshigs su bcad pa 'byung ba (Maṅgalagāthā) extrait du Lalitavistarasūtra ; cf. Otani_1932: 728 . La fin manque. Section: 3 Rnam par snang mdzad 'khor dang bcas pa la bstod pa Le début manque. Section: 4 'Phags pa spyan ras gzigs yid bzhin 'khor lo la bstod pa Complet. Section: 5 Ārya-Avalokiteśvarasyanāmāṣṭaśataka (a rya ba lo ki ti swa ra sya ma ma a sh+ta sha ta ka nA) Spyan ras gzigs dbang phyug gi mtshan brgya rtsa brgyad pa Complet. Section: 6 B",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotTibetain_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot tibétain 7",
+          "PelliotTibetain_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot tibétain 8",
+      "pressmark": "Pelliot tibétain 8",
+      "catalogShortref": "PelliotTibetain_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Old Tibetan (BnF Pelliot tibétain)",
+      "title": "Bhadracaryāpraṇidhānarāja",
+      "description": "Fragments de deux textes. D'un côté: Section: 1 Bhadracaryāpraṇidhānarāja fragment du Bhadracaryāpraṇidhānarāja . Section: 2 De l'autre côté, rites du phur bu (cf. Tathāgata-uṣṇīṣasitātapatrā-dhāraṇī ?). 8 f. (5 x 19) paraventl 4 l.; sans début ni fin. (ML)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotTibetain_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot tibétain 8",
+          "PelliotTibetain_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot chinois 2001",
+      "pressmark": "Pelliot chinois 2001",
+      "catalogShortref": "PelliotChinois_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Dunhuang Chinese (BnF Pelliot chinois)",
+      "title": "Nan hai ji gui nei fa zhuan 南 海 寄 歸 內 法 傳 [parYi jing 義 淨].",
+      "description": "Rouleau de 15 ff. dont 14 de 34,7 à 36,3 cm (f. 7 : 7,4 cm). Pap. àpâte irrégulière, fin, mou et fragile, bis. Taches d'humidité. Réparationsd'origine. 28,9 à 29,5 × 508 cm Section: Recto Nan hai ji gui nei fa zhuan 南 海 寄 歸 內 法 傳 [parYi jing 義 淨]. Préface complète et j. 1. : T .2125, vol. 54, pp. 204 c-212 a. Écr. soignée, assez petits car., traitsfins. Quelques car. omis ajoutés entre les lignes à l'encre rouge sur lespremières ff., puis à l'encre noire. 24 à 28 col. par f., 27 à 30 car. par col.Commentaires en petits car. sur col. simples ou dédoublées. Marges non tracées,sup. 1 à 1,5 cm, inf. 0,5 à 1,2 cm.",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotChinois_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot chinois 2001",
+          "PelliotChinois_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot chinois 2002",
+      "pressmark": "Pelliot chinois 2002",
+      "catalogShortref": "PelliotChinois_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Dunhuang Chinese (BnF Pelliot chinois)",
+      "title": "Wu shang jin xuan shang miao dao de xuan jing 无 上 金 玄 上 妙 道 德 玄 經.",
+      "description": "Rouleau de 9 ff. de 48,9 à 49,9 cm. Beau pap., à pâte homogène, assez épais, souple, teinté à l' rpiment. La marge sup. du rouleau a été régularisée après brûlure. Quelquestaches d'humidité le long du bord inf. 23,1 à 23,4 × 446cm Section: Recto Wu shang jin xuan shang miao dao de xuan jing 无 上 金 玄 上 妙 道 德 玄 經. 1ère partie (col. 1-150), déb. manque, 2e partie (col. 151-249) : zhong pin intitulé : zi ran ling zhi da jue 自 然 靈 智 大 覺, complet. Déb. : [一] qi de jiang yue ming [一] 其 德 將 曰 明... Cf. : TKDM , p. 59. Bonne écr. call., encre foncée. 250 col. en tout. 28 col. par f., 17 ou 18 car. par col. En petits car. sur col. dédoublées, indication ",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotChinois_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot chinois 2002",
+          "PelliotChinois_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot chinois 2003",
+      "pressmark": "Pelliot chinois 2003",
+      "catalogShortref": "PelliotChinois_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Dunhuang Chinese (BnF Pelliot chinois)",
+      "title": "Fo shuo yan luo wang shou ji si zhong yu xiu sheng qi wang sheng jing tu jing 佛 說 閻 羅 王 授 記 四 衆 預 修 生 七 往 生 淨 土 經 par Zang chuan 藏 川.",
+      "description": "Rouleau de 16 ff.dont 13 de 48,7 à 50,4 cm (f. de couverture [f. 1] : 41 cm ; f. 2 : 42,6 cm ;f. 16 : 25,3 cm). Pap. épais, à grosses verg., beige. Taches d'humidité. 29,2 à 29,6 × 760 cm Section: Recto Fo shuo yan luo wang shou ji si zhong yu xiu sheng qi wang sheng jing tu jing 佛 說 閻 羅 王 授 記 四 衆 預 修 生 七 往 生 淨 土 經 par Zang chuan 藏 川. Complet en 1 j. Sūtra apocryphe. A droite du titre initial, rubrique rituelle. A la fin de cette rubrique, note en petits car. : Cheng du fu Da sheng ci si sha men Zang chuan shu 成 都 府 大 聖 慈 寺 沙 門 藏 川 述. Titre final : Fo shuo shi wang jing yi juan 佛 說 十 王 經 一 卷. Manuscrit orné de 14 peintures, une en frontispice",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotChinois_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot chinois 2003",
+          "PelliotChinois_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot chinois 2006 1",
+      "pressmark": "Pelliot chinois 2006 1",
+      "catalogShortref": "PelliotChinois_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Dunhuang Chinese (BnF Pelliot chinois)",
+      "title": "[Jin gang ban ruo bo luo mi jing 金 剛 般 若 波 羅 蜜 經trad. de Kumārajīva.]",
+      "description": "Rouleau de 8 ff.dont la fin, très mutilée est détachée du rouleau.24,8 à 26,2 × 310 cm; 26 × 30,8 cm Section: Recto [Jin gang ban ruo bo luo mi jing 金 剛 般 若 波 羅 蜜 經trad. de Kumārajīva.] Déb. et fin manquent, sans dhāraṇī finale. : T . 235, vol. 8, pp. 749 b26-752 b 3. Très belle écr., or sur fond noir, dorure oxydée dans lapartie inf. des ff. 2 à 7. 219 col. en tout, 17 car. par col. Marges sup. 2,3 à3,6 cm, inf. 2, 6 ou 2,7 cm. Réglures. 1re partie (2006 1) : 7 ff. dont 6de 41,7 à 47 cm (f. 7 : 37,8 cm). Très beau pap. noir, épais, durci ettrès cassant. Nombreux trous dus à la corrosivité del'encre.",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotChinois_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot chinois 2006 1",
+          "PelliotChinois_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot chinois 2006 2",
+      "pressmark": "Pelliot chinois 2006 2",
+      "catalogShortref": "PelliotChinois_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Dunhuang Chinese (BnF Pelliot chinois)",
+      "title": "[Jin gang bo re bo luo mi jing 金 剛 般 若 波 羅 蜜 經 trad.de Kumārajīva.]",
+      "description": "Rouleau de 8 ff. dont la fin, très mutilée est détachée du rouleau: 24,8 à 26,2 × 310 cm; 26 × 30,8 cm Section: Recto [Jin gang bo re bo luo mi jing 金 剛 般 若 波 羅 蜜 經 trad.de Kumārajīva.] Déb. et fin manquent, sans dhāraṇī finale. : T . 235, vol. 8, pp. 749 b26-752 b 3. Très belle écr., or sur fond noir, dorure oxydée dans lapartie inf. des ff. 2 à 7. 219 col. en tout, 17 car. par col. Marges sup. 2,3 à3,6 cm, inf. 2, 6 ou 2,7 cm. Réglures. 2e partie (2006 2) : fin de la f.7 : 6 cm ; déb. de la f. 8 : 24,8 cm. Très beau pap. noir, épais, durciet très cassant. Nombreux trous dus à la corrosivité del'encre.",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotChinois_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot chinois 2006 2",
+          "PelliotChinois_I"
+        ]
+      }
+    },
+    {
+      "id": "Pelliot chinois 2022",
+      "pressmark": "Pelliot chinois 2022",
+      "catalogShortref": "PelliotChinois_I",
+      "collectionSite": "Dunhuang (BnF Pelliot)",
+      "scriptAndLanguage": "Dunhuang Chinese (BnF Pelliot chinois)",
+      "title": "Jin gang bo re bo luo mi jing 金 剛 般 若 波 羅 蜜 經 [trad. de Kumārajīva].",
+      "description": "Rouleau de 4 ff. dont 3 de 41,5 à 42 cm (f. 4 : 40,8 cm, coins coupésen biais). Bon pap., épais, ocre assez foncé. Taches d'humidité. 24,9 à 25,3 × 166 cm Section: Recto Jin gang bo re bo luo mi jing 金 剛 般 若 波 羅 蜜 經 [trad. de Kumārajīva]. Dernière partie, sans dhāraṇī finale. : T . 235, vol. 8, pp. 751 b 9-752 c 3. Belle écr. call., encre foncée. 27 col. par f., 16 à 18 car. par col. Marges sup. 2,2 à 2,4 cm, inf. 2,3 à 2,9 cm. Réglures. Section: Verso Texte khotanais. Éd. : KT , III, n° 15, pp. 42-44. Au rev. des ff. 1 à 4, 62 lignes. Marge gauche non tracée 0,8 à 3,5 cm.",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=PelliotChinois_I",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Pelliot chinois 2022",
+          "PelliotChinois_I"
+        ]
+      }
+    },
+    {
+      "id": "Or.6392/1",
+      "pressmark": "Or.6392/1",
+      "catalogShortref": "Skjaervø_2013",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī",
+      "title": "ṣaṃga",
+      "description": "Section: 1 17th year of Viśaʾ Vāhaṃ = 779. Hoernle, 1901, pl. vi, no. 1. Cf. SI M52 (year 20), P103.53. transliteration: @ salī 10 7 māśtä skarhvārä haḍā 5 hvaṃnä rruṃdä viśaʾ vāhaṃ ttäña beḍa siʾ pīḍakättye pracaina cū ā [note a: Or: ā[ṃ].] sīḍakä naḍau nāsti kṣīrū [note b: rū very similar to ū, but rū has right diacritical lower than ū, which has it touching the top of the letter.] kīrä vī haṃtsa ūci śaṃdye jsa ci burä nvā sa-lī pyaṃtsāṣṭa kṣīrū hir[ä] pajīde sīḍakī heḍä pharākä bakä caṃdä pajīde u ci va vā-ra maṃgāra ṣaṃga ʾīde ttyāṃ brīyāsi u budarśaṃʾ chīyā yanīdä sīḍakä va gvārä näśtäu vaña brīyāsi ceṃgāṃ js[ā]rä hamayä hauḍä khu vā nau",
+      "diplomaticTransliteration": "@ salī 10 7 māśtä skarhvārä haḍā 5 hvaṃnä rruṃdä viśaʾ vāhaṃ ttäña beḍa siʾ pīḍakättye pracaina cū ā [note a: Or: ā[ṃ].] sīḍakä naḍau nāsti kṣīrū [note b: rū very similar to ū, but rū has right diacritical lower than ū, which has it touching the top of the letter.] kīrä vī haṃtsa ūci śaṃdye jsa ci burä nvā sa-lī pyaṃtsāṣṭa kṣīrū hir[ä] pajīde sīḍakī heḍä pharākä bakä caṃdä pajīde u ci va vā-ra maṃgāra ṣaṃga ʾīde ttyāṃ brīyāsi u budarśaṃʾ chīyā yanīdä sīḍakä va gvārä näśtäu vaña brīyāsi ceṃgāṃ js",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Skjaervø_2013",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.6392/1",
+          "Skjaervø_2013"
+        ]
+      }
+    },
+    {
+      "id": "Or.6392/2",
+      "pressmark": "Or.6392/2",
+      "catalogShortref": "Skjaervø_2013",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī",
+      "title": "tsīṣī",
+      "description": "Section: 1 11th year, i.e., of Viśaʾ Vāhaṃ, year of the tsīṣī s (also Hedin 45) = 773. Hoernle, 1901, p. 37. The scribe was forgetful of his subscripts. transliteration: @ salī 10 1 māś(t)ä cvātaja haḍāʾ haṣṭa tsīṣīyyāṃ salyaṣi pīḍaʾki ttye pracaina cu āṃ puñārrjāṃ ganaṃ nāstähauda kūsa puñargaṃ hīveī [note a: -ī above -e.] ye khaysaṃmaṃji jsa u ttāṃ-jeri māś(t)ä thau heḍiʾ pęʾmīnai śūdasä chā buys(d)e [note b: Cf. Or.11252/37 a4.] udrraiśa chā dva tsuna hvāne [note c: For hvāte, cf. Or.6399/2.6] khu sīḍaki thau byęhī [note d: . Vowel tops neither quite typical of -ai nor like -ę in pęmīnai.] ttāṃ-jeri māśtä u ni b(y)ehī-t-ī paṃ-māśtä śo [not",
+      "diplomaticTransliteration": "@ salī 10 1 māś(t)ä cvātaja haḍāʾ haṣṭa tsīṣīyyāṃ salyaṣi pīḍaʾki ttye pracaina cu āṃ puñārrjāṃ ganaṃ nāstähauda kūsa puñargaṃ hīveī [note a: -ī above -e.] ye khaysaṃmaṃji jsa u ttāṃ-jeri māś(t)ä thau heḍiʾ pęʾmīnai śūdasä chā buys(d)e [note b: Cf. Or.11252/37 a4.] udrraiśa chā dva tsuna hvāne [note c: For hvāte, cf. Or.6399/2.6] khu sīḍaki thau byęhī [note d: . Vowel tops neither quite typical of -ai nor like -ę in pęmīnai.] ttāṃ-jeri māśtä u ni b(y)ehī-t-ī paṃ-māśtä śo [note e: Like śä, but no",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Skjaervø_2013",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.6392/2",
+          "Skjaervø_2013"
+        ]
+      }
+    },
+    {
+      "id": "Or.6393/1",
+      "pressmark": "Or.6393/1",
+      "catalogShortref": "Skjaervø_2013",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī",
+      "title": "spāta",
+      "description": "Section: 1 Report from Vaśäʾrapāña and Arrjāṃ to the spāta Gaudaka. The spāta Sīḍaka, Vaśaʾrapuña, and Gaudaka are mentioned together in Or.6396/2 from (Viśaʾ Vāhaṃ’s) 19th year = 781. Hoernle, 1901, p. 37. PLATE 5c. transliteration: @ aysi vaśäʾrapą̄ñä u arrjāṃ spāta gaudakä śaṃdā haṃbujsai haṣḍi yania ttanvī vī pūri paśāteṃ paṃ-ysārä mūri dvī ysāri mūri ttä dāśeṃ byehiu drrai ysāri ttä ni dāśeṃ byehi kh[u] ttą̄ vaña spāta sīḍaki hīśtä ttä mūrättyena paphūji na-ṃ haḍä hā haur[a] kuṣṭa-ṃ spāta jī ā c- -ye vīra-ṃ haʾcināsāte tta ttanvī gvaṣcą̄ñä himāri mūri haura pīḍakä tta x biysaṃjiu mūri ni haure ttī cäkvakä spātana paphūji ttī ra prąmāṃ hi",
+      "diplomaticTransliteration": "@ aysi vaśäʾrapą̄ñä u arrjāṃ spāta gaudakä śaṃdā haṃbujsai haṣḍi yania ttanvī vī pūri paśāteṃ paṃ-ysārä mūri dvī ysāri mūri ttä dāśeṃ byehiu drrai ysāri ttä ni dāśeṃ byehi kh[u] ttą̄ vaña spāta sīḍaki hīśtä ttä mūrättyena paphūji na-ṃ haḍä hā haur[a] kuṣṭa-ṃ spāta jī ā c- -ye vīra-ṃ haʾcināsāte tta ttanvī gvaṣcą̄ñä himāri mūri haura pīḍakä tta x biysaṃjiu mūri ni haure ttī cäkvakä spātana paphūji ttī ra prąmāṃ himä khu hā [x]haṃguṣṭi viśtä —— || arrjāṃ haṃgu | ṣṭi | | (1) I, Vaśäʾrapuña, and Arr",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Skjaervø_2013",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.6393/1",
+          "Skjaervø_2013"
+        ]
+      }
+    },
+    {
+      "id": "Or.6402B/1.6.6",
+      "pressmark": "Or.6402B/1.6.6",
+      "catalogShortref": "Skjaervø_2013",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī",
+      "title": "dhāraṇī",
+      "description": "Section: 1 transliteration: / x x x x // x x x dārañä // x rma -e jsa dā /x /[...]/ -u x // h- tsa : -e bodhi // dhisatvä [dā]raṇī // p- -i x āsta tti // x ḍī ci v- / translation: “... dhāraṇī ...”“... bodhisattva ...”“... bodhisattva [speaks?] the dhāraṇī ...”“... (who) sat ... they ...” (OS)",
+      "diplomaticTransliteration": "/ x x x x // x x x dārañä // x rma -e jsa dā /x /[...]/ -u x // h- tsa : -e bodhi // dhisatvä [dā]raṇī // p- -i x āsta tti // x ḍī ci v- / translation: “... dhāraṇī ...”“... bodhisattva ...”“... bodhisattva [speaks?] the dhāraṇī ...”“... (who) sat ... they ...” (OS)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Skjaervø_2013",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.6402B/1.6.6",
+          "Skjaervø_2013"
+        ]
+      }
+    },
+    {
+      "id": "Or.6402B/2.1",
+      "pressmark": "Or.6402B/2.1",
+      "catalogShortref": "Skjaervø_2013",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī",
+      "title": "dānapati",
+      "description": "Section: 1 On plate with Or.6402B/2.2 in the middle and Or.6402B/2.3 to the right (name of the dānapati in v1-2). Fol. 9 viśśuddhe vigama x /.................................................../ maṃdṛ : || aum̱ sarvatathāg[a x vi]-pula-yaṣṭi-maṇi-kanaka O na-kara x /.................................................. / rusa-matta-vilokitte-sarasa xpāpaṃ śśaudhani saṃbo O dhani. pra /........................ / -v- j- rucira-mala-viśuddhe hūṃ hūṃ svāha|| ṣi daśä hīvī maṃ O drrä || āum̱ sa /............................... / x la-viśaudhani gandhani lepana-vare.pratisaṃskaratathāgatadhātu dha /................................................ / x sa",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Skjaervø_2013",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.6402B/2.1",
+          "Skjaervø_2013"
+        ]
+      }
+    },
+    {
+      "id": "Or.6402B/2.4",
+      "pressmark": "Or.6402B/2.4",
+      "catalogShortref": "Skjaervø_2013",
+      "collectionSite": "Khotan / Kucha (Hoernle)",
+      "scriptAndLanguage": "Khotanese Brāhmī",
+      "title": "dhāraṇī",
+      "description": "Section: 1 Fol. 10 transliteration: balsä [x x x] ra h[aupari]haudā tcīra vara tvaṃdanä tsuñai. u hauparihaudā jų̄na ṣa [dā]-rañä [u? maṃ]dr[ä] hvañai u hauparihaudā jūṃ ṣa dārañä u maṃdrä paryą̄ñä pīḍi pīrākä surai [hä]-māñä huysinauttä mistäna pajsąmna u śśirye huśūstye mąṇḍalä myą̄ña āna pīrāñä. u pī-rākä haudä-raṃnī dakṣäṇä haurāñä u pīrākä uvārä hvaḍä khaṣṭäna pajsamevą̄ñä. uṣa mī dārañä kalparājä hauparihaudā jų̄na pīrā[ña] u vara myāṃ caittyä viśtą̄ña. ttye mī caittyä pa-jsaṃ tcerä u jehāñä cu mī ttina nijsaḍäna yuḍä yanī[n]d[ä] mara sūtra hvatä ṣṭi. ttye bisīvrrāṣṣei ovā bisīvrrāṣṣaiñi. khvī ṣṣai biśna jsį̄na jya īyä jīye x naraṃdä ī ",
+      "diplomaticTransliteration": "balsä [x x x] ra h[aupari]haudā tcīra vara tvaṃdanä tsuñai. u hauparihaudā jų̄na ṣa [dā]-rañä [u? maṃ]dr[ä] hvañai u hauparihaudā jūṃ ṣa dārañä u maṃdrä paryą̄ñä pīḍi pīrākä surai [hä]-māñä huysinauttä mistäna pajsąmna u śśirye huśūstye mąṇḍalä myą̄ña āna pīrāñä. u pī-rākä haudä-raṃnī dakṣäṇä haurāñä u pīrākä uvārä hvaḍä khaṣṭäna pajsamevą̄ñä. uṣa mī dārañä kalparājä hauparihaudā jų̄na pīrā[ña] u vara myāṃ caittyä viśtą̄ña. ttye mī caittyä pa-jsaṃ tcerä u jehāñä cu mī ttina nijsaḍäna yuḍä yanī[n",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=Skjaervø_2013",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "Or.6402B/2.4",
+          "Skjaervø_2013"
+        ]
+      }
+    },
+    {
+      "id": "SHT 1",
+      "pressmark": "SHT 1",
+      "catalogShortref": "SHT_0001-0099",
+      "collectionSite": "Turfan (Berlin SHT)",
+      "scriptAndLanguage": "North Turkestan / Turfan Brāhmī (Sanskrit)",
+      "title": "Udānavarga",
+      "description": "Section: r/v Udānavarga 27.32-37 Ursprüngliche Blattgröße ca. 6,5 x 25 cm; turkistanischer Gupta-Typ; Fundort: Tumšuq bei Maralbaši, oberer Tempel der Ming-öi; 4. Turfan-Expedition. Bibliography: VOHDX_01: 1 Bernhard_1965: 72",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=SHT_0001-0099",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "SHT 1",
+          "SHT_0001-0099"
+        ]
+      }
+    },
+    {
+      "id": "SHT 2",
+      "pressmark": "SHT 2",
+      "catalogShortref": "SHT_0001-0099",
+      "collectionSite": "Turfan (Berlin SHT)",
+      "scriptAndLanguage": "North Turkestan / Turfan Brāhmī (Sanskrit)",
+      "title": "Prātimokṣasūtra der Mūlasarvāstivādin (?)",
+      "description": "Section: r/v Prātimokṣasūtra der Mūlasarvāstivādin (?) Schlussv.3-10 Nordturkistanische Brāhmī, Typ a (?); Fundort: Tumšuq bei Maralbaši; 4. Turfan-Expedition. Bibliography: VOHDX_01: 1 vonSimson_2000: 151 (Publ.)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=SHT_0001-0099",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "SHT 2",
+          "SHT_0001-0099"
+        ]
+      }
+    },
+    {
+      "id": "SHT 3a",
+      "pressmark": "SHT 3a",
+      "catalogShortref": "SHT_0001-0099",
+      "collectionSite": "Turfan (Berlin SHT)",
+      "scriptAndLanguage": "North Turkestan / Turfan Brāhmī (Sanskrit)",
+      "title": "Saṅgītisūtra",
+      "description": "Section: r/v Saṅgītisūtra Kapitel IV.36-37 Nordturkistanische Brāhmī, Typ a; Fundort: Tumšuq bei Maralbaši, gr. Saal der Ruine auf der östlichen Klippe; 4. Turfan-Expedition. Bibliography: VOHDX_01: 1f. Stache-Rosen_1968: 26f. (Nr 59-60) Waldschmidt_1963: Tafel LXXXIVbc (Faksimile)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=SHT_0001-0099",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "SHT 3a",
+          "SHT_0001-0099"
+        ]
+      }
+    },
+    {
+      "id": "SHT 32/66",
+      "pressmark": "SHT 32/66",
+      "catalogShortref": "SHT_0001-0099",
+      "collectionSite": "Turfan (Berlin SHT)",
+      "scriptAndLanguage": "North Turkestan / Turfan Brāhmī (Sanskrit)",
+      "title": "Prasādanīyasūtra, Antaroddāna, Uddana und Dhāraṇī",
+      "description": "Section: Bl. 183 r/v Prasādanīyasūtra, Antaroddāna, Uddana und Dhāraṇī Bibliography: VOHDX_01: 23-25 VOHDX_04: 6-14; 148f. (Fragm. 66; Lü mm) r.1: VOHDX_07: 232 (Erg.) v.2: VOHDX_08: 161 (Erg.)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=SHT_0001-0099",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "SHT 32/66",
+          "SHT_0001-0099"
+        ]
+      }
+    },
+    {
+      "id": "SHT 62",
+      "pressmark": "SHT 62",
+      "catalogShortref": "SHT_0001-0099",
+      "collectionSite": "Turfan (Berlin SHT)",
+      "scriptAndLanguage": "North Turkestan / Turfan Brāhmī (Sanskrit)",
+      "title": "Sarvadharma-anantanayamukhā Dhāraṇī",
+      "description": "Section: Bl. 105 r/v Sarvadharma-anantanayamukhā Dhāraṇī 1) 3 x 3,5 cm; 2) 3 x 11 cm; frühe turkistanische Brāhmī; Fundort: Qizil, Rotkuppelraum der Ming-öi; 3. Turfan-Expedition. Bibliography: VOHDX_01: 39f. VOHDX_04: 323 (Erg.) VOHDX_01: Tafel 20 (Faksimile)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=SHT_0001-0099",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "SHT 62",
+          "SHT_0001-0099"
+        ]
+      }
+    },
+    {
+      "id": "SHT 63a",
+      "pressmark": "SHT 63a",
+      "catalogShortref": "SHT_0001-0099",
+      "collectionSite": "Turfan (Berlin SHT)",
+      "scriptAndLanguage": "North Turkestan / Turfan Brāhmī (Sanskrit)",
+      "title": "Mahāmāyūrīvidyārājñī",
+      "description": "Section: r/v Mahāmāyūrīvidyārājñī Takubo_1972 [MMVR(T)]: 3.7-11 Ursprüngliche Blattgröße ca. 4,2 x 11,5 cm; frühe turkistanische Brāhmī; Fundort: Qizil; 3. Turfan-Expedition. Bibliography: VOHDX_01: 40 VOHDX_09: 370ff. (Erg.)",
+      "sourceXmlUrl": "http://idp.bbaw.de/database/oo_cat_rss.xml?shortref=SHT_0001-0099",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "SHT 63a",
+          "SHT_0001-0099"
+        ]
+      }
+    }
+  ],
+  "cetomRecords": [
+    {
+      "cetomId": "tht3187",
+      "shelfmark": "THT 3187; Prelim. No. X 1727; SHT 1815; Gö 936",
+      "repository": "Berlin Turfan (THT/SHT)",
+      "findspot": "Kizil",
+      "genreAndSubject": "Dhāraṇī — Literary — Medicine/Magic",
+      "script": "classical; Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a1",
+          "transliteration": "/// – – – [ru] [ṇi] kā ya – /// /// – – ·[ā] ya ma hā [s]· ///"
+        },
+        {
+          "lineNum": "a2",
+          "transliteration": "/// – – – ka ra mu ra mu – /// /// [ru] [ṇ](·) [ka] • ca ra vi ca [r](·) ///"
+        },
+        {
+          "lineNum": "a3",
+          "transliteration": "/// – – ya kā ru ṇi ka – /// /// – [ta] [ka] [ru] [ṅ]i – – ///"
+        },
+        {
+          "lineNum": "a4",
+          "transliteration": "/// ¯m vṛ ṣṭi ve ga gu¯ ¯m – ///"
+        },
+        {
+          "lineNum": "a5",
+          "transliteration": "/// [rw](·) t[s]a tse [m]·e l·e [ā] – – ///"
+        },
+        {
+          "lineNum": "b1",
+          "transliteration": "/// [k](·) ka rka s̝s̝ a l[l]e śa [k] ka [l](·) /// /// [s̝s̝ a ] [ll](·) – – – ///"
+        },
+        {
+          "lineNum": "b2",
+          "transliteration": "/// – [•] [a] [k]ā [tka] [t]ā kaṃ po /// /// ñe – [ke] [ ta ] – – ///"
+        },
+        {
+          "lineNum": "b3",
+          "transliteration": "/// – – [r](·)(·) [s̝s̝ a ] [lle] || blank /// /// blank ///"
+        },
+        {
+          "lineNum": "b4",
+          "transliteration": "blank"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "* – – (kā)ruṇikāya –"
+        },
+        {
+          "lineNum": "parallel_note",
+          "transliteration": "THT 3187 (SHT 1815 / Gö 936) Kizil Brāhmī Nīlakaṇṭha / Avalokiteśvara Dhāraṇī: kāruṇikāya / (kā)ruṇikāya mahāsattva cara vicara (paralleled in BnF Pelliot Sanskrit psbl13..psuv67)"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-tht3187",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "tht3187",
+          "THT 3187; Prelim. No. X 1727; SHT 1815; Gö 936"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl13",
+      "shelfmark": "PS Bl 13; Pelliot Sanskrit numéro bleu 13",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Pravāraṇa-sūtra, Dhvajāgra-sūtra — Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "b2",
+          "transliteration": "– [nd]ri śke (–) l[p]yā re ke¯ ¯[ t ] pyā k ä le śi lne m[e] –"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "b2 n1 n2 (i)ndriśke (ka)lpyāre ket pyākäle śilne me –"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl13",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl13",
+          "PS Bl 13; Pelliot Sanskrit numéro bleu 13"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl17",
+      "shelfmark": "PS Bl 17; Pelliot Sanskrit numéro bleu 17",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Mahāsamājasūtra — Literary — Colophon",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "b1",
+          "transliteration": "ce sū ta ¯ ¯ r śī la bh[ā] dr[e] y· ·[k]· – (–) –"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "b1 n1 ce sūtär śīlabhādre y(āt)k(a) (paiykatsi)"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl17",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl17",
+          "PS Bl 17; Pelliot Sanskrit numéro bleu 17"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl181",
+      "shelfmark": "PS Bl 18.1; Pelliot Sanskrit numéro bleu 18.1",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a2x",
+          "transliteration": "(–) l[l]ā lle"
+        },
+        {
+          "lineNum": "a3x",
+          "transliteration": "·ai tku"
+        },
+        {
+          "lineNum": "a4x",
+          "transliteration": "m[t]s· ts[e] [k]ā y[e]"
+        },
+        {
+          "lineNum": "a4y",
+          "transliteration": "ye [nt]· ·u kā ra ///"
+        },
+        {
+          "lineNum": "b1x",
+          "transliteration": "/// ·ñ· – ¯t s"
+        },
+        {
+          "lineNum": "b1y",
+          "transliteration": "– (–) [s]tsi¯ ¯ ś"
+        },
+        {
+          "lineNum": "b3x",
+          "transliteration": "[p]e l[k]i[¯] [¯]ñ"
+        },
+        {
+          "lineNum": "b3y",
+          "transliteration": "snai [trai] [ko] [ñ]e ttse"
+        },
+        {
+          "lineNum": "b3z",
+          "transliteration": "[a] [yā] [t]o ññe¯ ¯ś s̝ pa"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "a2x n1 n2 (pä)llālle a3x n3 (y)aitku a4x mts·tse kāye a4y n4 yent(e) ·ukārä /// b1x n5 n6 /// ·ñ· – ts b1y n7 n8 (wikä)stsiś b3x n9 pelkiñ b3y n10 n11 snai tr{ai→i}ko{r}ñettse b3z n12 n13 ayātoññeś ṣpä"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl181",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl181",
+          "PS Bl 18.1; Pelliot Sanskrit numéro bleu 18.1"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl184",
+      "shelfmark": "PS Bl 18.4; Pelliot Sanskrit numéro bleu 18.4; PS Bl 81; Pelliot Sanskrit numéro bleu 81",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a3x",
+          "transliteration": "[p]ra tsā kai tso – [¯ r ]"
+        },
+        {
+          "lineNum": "a3y",
+          "transliteration": "kwa snā t ra"
+        },
+        {
+          "lineNum": "a3z",
+          "transliteration": "[t]ri kā lñe ya [n]mā s̝ a ṃ"
+        },
+        {
+          "lineNum": "a4x",
+          "transliteration": "– [t]·"
+        },
+        {
+          "lineNum": "a4y",
+          "transliteration": "sa¯ ¯[ k ] yā [so] wa· [pau] ca s̝ a ¯ ¯ p"
+        },
+        {
+          "lineNum": "a4z",
+          "transliteration": "yā –"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "a3x n1 n2 pratsākai tso(ptä)r a3y n3 kwasnāträ a3z n4 n5 trikālñe yanmāṣäṃ a4x n6 – t· a4y n7 n8 sak yāso wa(r)pauca ṣäp a4z n9 yā(so)"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl184",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl184",
+          "PS Bl 18.4; Pelliot Sanskrit numéro bleu 18.4; PS Bl 81; Pelliot Sanskrit numéro bleu 81"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl185",
+      "shelfmark": "PS Bl 185",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Udānavarga",
+      "script": "Skt.; TB",
+      "diplomaticLines": [],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl185",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl185",
+          "PS Bl 185"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl186",
+      "shelfmark": "PS Bl 18.6; Pelliot Sanskrit numéro bleu 18.6",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "b1x",
+          "transliteration": "/// – ·[o]¯ ¯u ·[k]· – ///"
+        },
+        {
+          "lineNum": "b2x",
+          "transliteration": "·ai [n]·o rmeṃ"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "b1x n1 n2 /// – (s)o u (ś)k(e) – /// b2x n3 (y)ain(m)ormeṃ"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl186",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl186",
+          "PS Bl 18.6; Pelliot Sanskrit numéro bleu 18.6"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl45",
+      "shelfmark": "PS Bl 45; Pelliot Sanskrit numéro bleu 45",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a1x",
+          "transliteration": "snai tu¯ ¯[ṅ k ]ä"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "a1x snai tuṅk"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl45",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl45",
+          "PS Bl 45; Pelliot Sanskrit numéro bleu 45"
+        ]
+      }
+    },
+    {
+      "cetomId": "psbl356",
+      "shelfmark": "PS Bl 356",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Buddhist Sanskrit Dhāraṇī / Stotra (BnF Pelliot Sanskrit)",
+      "script": "TB",
+      "diplomaticLines": [],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psbl356",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psbl356",
+          "PS Bl 356"
+        ]
+      }
+    },
+    {
+      "cetomId": "psrouge101",
+      "shelfmark": "PS rouge 10.1",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "b2",
+          "transliteration": "klu"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "b2 klu"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psrouge101",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psrouge101",
+          "PS rouge 10.1"
+        ]
+      }
+    },
+    {
+      "cetomId": "psrouge102",
+      "shelfmark": "PS rouge 10.2",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Literary — Gloss",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a5",
+          "transliteration": "k wä sa rtse"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "a5 kwäsartse"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psrouge102",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psrouge102",
+          "PS rouge 10.2"
+        ]
+      }
+    },
+    {
+      "cetomId": "psstotrai42",
+      "shelfmark": "PS Stotra I.42",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Śatapañcāśatka (Prasādapratibhodbhava) of Mātṛceṭa — Literary — Colophon",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a1",
+          "transliteration": "/// /// /// [¯]m[ • ] 100 [40] ///"
+        },
+        {
+          "lineNum": "a2",
+          "transliteration": "/// – /// /// – – – – – – – – – ///"
+        },
+        {
+          "lineNum": "a3",
+          "transliteration": "/// : 100 50 [a] /// /// ya ma ///"
+        },
+        {
+          "lineNum": "a4",
+          "transliteration": "/// te gu ·[āṃ] ///"
+        },
+        {
+          "lineNum": "b2",
+          "transliteration": "/// – cā ry[a] ///"
+        },
+        {
+          "lineNum": "b3",
+          "transliteration": "/// yā tka pai [k]· /// /// s· ·[m]· ///"
+        },
+        {
+          "lineNum": "b4",
+          "transliteration": "/// /// /// mp· • so¯ ¯[y]ä ///"
+        },
+        {
+          "lineNum": "b5",
+          "transliteration": "/// /// /// a knā tsa ///"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "a1 /// /// /// m 100-40 /// a2 /// – /// /// – – – – – – – – – /// a3 /// : 100-50 a /// /// yam a /// a4 /// te gu·āṃ /// b2 /// – cārya /// b3 /// yātka paik(atsi) /// /// s· ·m· /// b4 /// /// /// mp· • soy /// b5 /// /// /// aknātsa ///"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psstotrai42",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psstotrai42",
+          "PS Stotra I.42"
+        ]
+      }
+    },
+    {
+      "cetomId": "psuv67",
+      "shelfmark": "PS Uv 67",
+      "repository": "BnF Pelliot Sanskrit (PS)",
+      "findspot": "Kucha / Subashi",
+      "genreAndSubject": "Udānastotra, Udānavarga — Literary — Doctrine",
+      "script": "Skt.; TB",
+      "diplomaticLines": [
+        {
+          "lineNum": "a1",
+          "transliteration": "/// [9] u da ke na ni ja [n]ti n· j· k[ā] i [ṣu] ///"
+        },
+        {
+          "lineNum": "a2",
+          "transliteration": "/// su ga[ṃ] [bh]ī ro v[i] pra saṃ no hya nā vi la [ḥ] e v·(·) ·[ru] ///"
+        },
+        {
+          "lineNum": "a3",
+          "transliteration": "/// va da pra kaṃ pa ya ḥ hra da i va hi [v]i [n]ī ///"
+        },
+        {
+          "lineNum": "a4",
+          "transliteration": "/// u da ka vā¯ ¯rg po e k[ṣ]a l(·)iṃ po – ///"
+        },
+        {
+          "lineNum": "a5",
+          "transliteration": "/// ·[sñ]· ne ·eṃ ṣī ma¯ ¯ r ·[au] ///"
+        },
+        {
+          "lineNum": "a6",
+          "transliteration": "/// [lo] ·[aṃ] ///"
+        },
+        {
+          "lineNum": "b1",
+          "transliteration": "/// [k]· ///"
+        },
+        {
+          "lineNum": "b2",
+          "transliteration": "/// sa mū la (·)tu ni(·) [v]· – ///"
+        },
+        {
+          "lineNum": "b3",
+          "transliteration": "/// [t]· tra [v]ai va tsa kṣī ra pa ka i va [m]· ///"
+        },
+        {
+          "lineNum": "b4",
+          "transliteration": "/// nni rvā ṇaṃ su ga te na d[e] śi ta¯ ¯m • 5 ya [th]· ///"
+        },
+        {
+          "lineNum": "b5",
+          "transliteration": "/// – [th]ā tu ru ci raṃ pu ṣpaṃ va rṇa va tsyā tsu [g]· ///"
+        },
+        {
+          "lineNum": "b6",
+          "transliteration": "/// va he ṭha [ya¯] [¯n • ] [pa] [r]ai – [ra] sa mā dā [ya] ///"
+        },
+        {
+          "lineNum": "transcription",
+          "transliteration": "a1 n1 /// 9 udakena nijanti n·j·kā iṣu /// a2 n2 /// sugaṃbhīro viprasaṃno hy anāvilaḥ ev·· ·ru /// a3 n3 /// vad aprakaṃpayaḥ hrada iva hi vinī /// a4 n4"
+        }
+      ],
+      "sourceUrl": "https://cetom.univie.ac.at/?m-psuv67",
+      "crossRefs": {
+        "idpOrCetomIds": [
+          "psuv67",
+          "PS Uv 67"
+        ]
+      }
+    }
+  ],
+  "cbetaDunhuangRecords": [
+    {
+      "xmlId": "T85n2880",
+      "collection": "T85 (大正藏・古逸部)",
+      "title": "究竟大悲經卷第二．三．四",
+      "manuscriptWitnesses": [
+        "S. 2224",
+        "S. 2499"
+      ],
+      "dharaniExcerptsZh": [
+        "無礙菩薩摩訶薩白佛言。世尊今此大眾蒙 聖覺力皆得惺悟。雖得惺悟於深。法中不能 具解。以不解故不識乳蜜及與毒合。願大悲 尊重為披折。令此會眾及未來世一切諸眾 生具細解了。",
+        "佛告金剛照菩薩摩訶薩曰。別教之中所有 行者。真成專精不造過短。威儀及波羅提 木叉畢竟不犯。雖於深法不能生信究竟消 融。如來出世第二會上神呪名及并名仙人 玉女。何以故。雖於深法而無片分。神器明淨 破封改著入大乘位。",
+        "方便菩薩摩訶薩前白佛言。世尊云何名為 究竟大悲哀戀。"
+      ],
+      "inlineNotes": [
+        "端供二年"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T85/T85n2880.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "T85n2880",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "T85n2898",
+      "collection": "T85 (大正藏・古逸部)",
+      "title": "高王觀世音經",
+      "manuscriptWitnesses": [
+        "S. 3092",
+        "敦煌寫卷"
+      ],
+      "dharaniExcerptsZh": [
+        "離 波離波帝。求訶求訶帝。陀羅尼帝。尼訶羅 帝。毘離尼帝。摩訶迦帝。真靈虔帝。娑婆 訶。"
+      ],
+      "inlineNotes": [
+        "終"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T85/T85n2898.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "T85n2898",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "ZW01n0011",
+      "collection": "ZW (藏外佛教文獻・敦煌/滇密)",
+      "title": "佛說水月光觀音菩薩經",
+      "manuscriptWitnesses": [
+        "伯2055",
+        "P. 2055"
+      ],
+      "dharaniExcerptsZh": [
+        "我大慈大悲聖觀自在菩薩摩訶薩廣大圓滿無礙悲心陀羅尼，願 救法界一切苦，能滿眾生於覺道。",
+        "右件寫經功德，為過往馬氏追福。奉請龍天八部、救苦觀世音 菩薩、地藏菩薩、四大天王、八大金剛以作證盟。一一領受福田，往 生樂處，遇善知識，一心供養。」",
+        "1987年，劉國展、李桂英發表《天津市藝術博物館藏敦煌遺書 目錄》，其中有「《佛說無常經》等四種」一條。根據目錄，該卷原題 簽為《佛說無常經》等七卷，為亡母追福，每齋一卷」，首存尾殘，現 存經四種：《佛說無常經》、《佛說水月光觀音菩薩經》、《佛說咒魅 經》、《佛說天請問經》，每種經後均有題記，如第一部《佛說無常經》 之題記為：",
+        "此處所錄的《水月觀音經》不僅三分不具足，而且從其基本形態 來說，也與一般的佛經有較大的差異，更像是發願功德文。然而竟 以「經」命名，其為中國人所撰偽經，自不待言。這或許說明部分偽 經的產生與功德文有著密切的關係。這是一個值得研究的問題。 從本經內容來看，它顯然是當時普遍流傳的觀世音崇拜的產物。從 南北朝以來，觀世音崇拜成為我國民間佛教（信仰性佛教）的主要形 態之一，流韻深遠，值得引起研究者的注意。本經被翟奉達選為薦 亡追福的經典之一，這對我們研究五代時敦煌的喪葬儀禮也有一定 的價值。"
+      ],
+      "inlineNotes": [],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/ZW/ZW01/ZW01n0011.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "ZW01n0011",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "ZW03n0023",
+      "collection": "ZW (藏外佛教文獻・敦煌/滇密)",
+      "title": "菩薩總持法",
+      "manuscriptWitnesses": [
+        "伯3777",
+        "P. 3777",
+        "北8413"
+      ],
+      "dharaniExcerptsZh": [
+        "《菩薩總持法》，又名《破相論》、《契經論》、《破二乘見》，中國 禪宗僧人所撰典籍，著者不詳，一卷。",
+        "本文獻在內容上與託名菩提達摩所撰的《觀心論》有類似之 處，因此，兩者可能有密切的關係。但在本文獻中對「三時說」及 「參斗陸升乳糜」等譬喻提出獨特的解釋，還出現「見性」、「了了見 性」及「頓悟」等禪宗南宗特有的術語。因此，對本文獻在中國佛 教史及中國思想史上地位，有進一步認真研究之必要。關於這一 點，可參見田中良昭：《〈菩薩總持法〉與〈觀心論〉三》（載《駒澤大 學佛教學部研究紀要》第45卷，1987年）。總之，本文獻與同卷連 寫的《修心要論》，都是研究中國初期禪宗的重要資料。",
+        "根據目前掌握的情況，本文獻在敦煌遺書中共有兩號。一為 伯3777號，該號順序抄有《五辛經》、《菩薩總持法》、《了性句》、《澄 心論》、《除睡咒》、《修心要論》等多種禪宗文獻。其中《菩薩總持 法》首尾完整，有首題。田中良昭先生曾作錄文研究。載《駒澤大 學佛教學部研究紀要》第41卷，1983年。一為北成98號（縮微膠 卷號：北8413），首殘尾存，原卷無題，《敦煌劫餘錄》擬作《釋氏雜 文稿》，近由袁德領鑒定為《菩薩總持法》的另一抄本。",
+        "第一、決了涅槃。第二、決斷生死世界從何緣起。第 三、能知四維上下，邊陲里際。第四、能了身中佛性，緣何 等事與五蔭相纏。第五、能知四大、五蔭敗壞之身，以何 因緣拘繫佛性，令墮五趣。第六、能了世間曉夜之相， 晝現為樂，夜現為苦，年月相催，沒在生老病死苦。 如此之事，名大因緣。第七、能了四生，胎、卵、濕、化異類 之形，發本因緣，從何所生。第八、具諸如來總持之教， 厭捨世間，道業圓備，獲涅槃果。第九、羅漢善種，為度眾 生，代代相傳，紹隆佛性。內秘菩薩之行，外現聲聞。 三界游行，遇不遇也。福德之人，始能親近。第十、若有 眾生，曾於往世已經發露，親近正法，令生人身。既得人 身，得遇菩薩大乘正道，能入涅槃解"
+      ],
+      "inlineNotes": [],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/ZW/ZW03/ZW03n0023.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "ZW03n0023",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "ZW06n0051",
+      "collection": "ZW (藏外佛教文獻・敦煌/滇密)",
+      "title": "楞嚴解冤釋結道場儀",
+      "manuscriptWitnesses": [
+        "滇密阿吒力寫本"
+      ],
+      "dharaniExcerptsZh": [
+        "唵引。薩哩嚩。怛他誐多。鉢囉半左半左。迦嚕 迷。",
+        "唵。商迦迦哩。摩訶三昧曳。盤陀盤陀。薩嚩賀。",
+        "唵。三多囉。佉多。娑婆訶。",
+        "唵。三多羅。佉多。娑婆訶。",
+        "唵。三多羅。佉多。娑婆訶。"
+      ],
+      "inlineNotes": [
+        "某",
+        "舉",
+        "四聲",
+        "舉",
+        "敘意宣疏",
+        "舉",
+        "和經題",
+        "舉",
+        "和",
+        "舉"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/ZW/ZW06/ZW06n0051.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "ZW06n0051",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "ZW06n0055",
+      "collection": "ZW (藏外佛教文獻・敦煌/滇密)",
+      "title": "大黑天神道場儀",
+      "manuscriptWitnesses": [
+        "滇密阿吒力寫本"
+      ],
+      "dharaniExcerptsZh": [],
+      "inlineNotes": [],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/ZW/ZW06/ZW06n0055.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "ZW06n0055",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "ZW11n0091",
+      "collection": "ZW (藏外佛教文獻・敦煌/滇密)",
+      "title": "金剛峻經金剛頂一切如來深妙秘密金剛界大三昧耶修行四十二種壇法經作用威儀法則 大毘盧遮那佛金剛心地法門密法戒壇法儀則",
+      "manuscriptWitnesses": [
+        "伯3913",
+        "P. 3913",
+        "斯2316",
+        "S. 2316",
+        "斯2144",
+        "S. 2144",
+        "伯 3913"
+      ],
+      "dharaniExcerptsZh": [
+        "佛告諸天菩薩：吾今開說《最上大乘深妙秘密 金剛界大三昧耶總持大教王成佛經》。",
+        "《深妙秘密最上大乘金剛界大三昧耶總持大教 王成佛經》，非吾所說，是過去九十九億恒河沙 諸佛遞代相傳，度化人天。乃至過去諸佛盡登金 剛界，得證無上菩提；乃至吾今成佛已來，亦登金 剛界，非但菩薩位時。",
+        "佛告金剛藏菩薩：汝等度化天人，與諸菩薩受此 密法戒時，當結入法戒之壇。闊十二肘，高二肘。 其壇方，四層金剛界。四角安八總持。每門安瓶 三所，劍四口並道具。內八葉蓮上安五佛、八灌頂。 飯十二分，燈十二盞，箭十二隻，安門兩伴並四角。",
+        "佛說入法地深妙秘密金剛界大三昧耶總持大教 王密法戒成佛壇法經部第一"
+      ],
+      "inlineNotes": [
+        "時永平十年也。",
+        "如《智度論》說也。",
+        "於罽賓國行化。",
+        "度無量眾，皆得解脫。時人號為無相好佛。",
+        "略說如此。廣如餘論中說。",
+        "記 去迦涅彌羅也。",
+        "唐言世 友。",
+        "《金剛法廣論》一百 卷者，即彼釋也。",
+        "《龍樹菩薩傳》：其時佛滅度後，經五百年， 龍樹菩薩自住龍宮，得大乘教於閻浮提。於閻浮提廣行流布，造 莊嚴佛道，凡百萬偈。《無畏論》、《大智度論》各十萬偈，見行天竺 也。",
+        "馬 鳴、龍樹是二大士，諸國王等為之立廟供養，喻若佛身。"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/ZW/ZW11/ZW11n0091.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "ZW11n0091",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    },
+    {
+      "xmlId": "ZW11n0092",
+      "collection": "ZW (藏外佛教文獻・敦煌/滇密)",
+      "title": "金剛峻經金剛頂一切如來深妙秘密金剛界大三昧耶修行四十九種壇法經作用威儀法則 大毘盧遮那佛金剛心地法門密法戒壇法儀則",
+      "manuscriptWitnesses": [
+        "伯3913",
+        "P. 3913",
+        "敦煌寫卷"
+      ],
+      "dharaniExcerptsZh": [
+        "佛告諸天菩薩：吾今開說《最上大乘深妙秘 密金剛界大三昧耶總持大教王成佛經》。",
+        "中心安盧舍那佛，身黃色，手執總持之印，頂 戴五佛之冠。",
+        "第五不空成就佛，在北門，身是綠，頂戴五佛 冠。左手安總持，右手施無畏。願一切眾生，速 證無畏法。",
+        "第十六金剛拳菩薩，在北門，身綠色。身 端，二羽安總持，是名總持印。願一切眾生，速證 總持身。"
+      ],
+      "inlineNotes": [],
+      "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/ZW/ZW11/ZW11n0092.xml",
+      "crossRefs": {
+        "taishoIds": [
+          "ZW11n0092",
+          "T85n2880",
+          "T85n2898",
+          "ZW01n0011",
+          "ZW03n0023",
+          "ZW06n0051",
+          "ZW06n0055",
+          "ZW11n0091",
+          "ZW11n0092"
+        ]
+      }
+    }
+  ]
+}
