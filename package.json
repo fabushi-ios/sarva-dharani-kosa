@@ -1,25 +1,26 @@
 {
   "name": "sarva-dharani-kosa",
   "private": true,
-  "version": "2.0.0",
-  "description": "梵音宝典 · Sarva-Dhāraṇī-Kośa — 基于 CBETA XML-P5 / 悉昙字库与德国哥廷根大学 GRETIL 梵文贝叶经库的权威梵文陀罗尼多体总持典与 100% 全覆盖梵音悉昙发声引擎",
+  "version": "3.0.0",
+  "description": "梵音宝典 · Sarva-Dhāraṇī-Kośa — Modular Buddhist Sanskrit Dhāraṇī Canon & Plan 1 + Plan 3 48kHz Neural Phonetics Platform",
   "type": "module",
   "scripts": {
-    "fetch-data": "node scripts/fetch-authoritative-data.mjs",
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 5173",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "lucide-react": "^1.16.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "~5.7.2",
-    "vite": "^6.0.5"
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
   }
 }

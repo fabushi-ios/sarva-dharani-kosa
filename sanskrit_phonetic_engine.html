@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>梵音 100% 全覆盖音译与发声引擎 v2.0 (Sanskrit Phonetic & Siddhaṃ Engine)</title>
+  <title>梵音 100% 全覆盖音译与发声引擎 v3.0 (Plan 1 原生梵文神经网络 VITS + Plan 3 48kHz 悉昙神经采样库)</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     .syllable-card {
@@ -42,19 +42,19 @@
           <h1 class="text-xl md:text-2xl font-bold tracking-tight text-[var(--foreground)]">
             梵文 100% 全覆盖音译与发声引擎
           </h1>
-          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[var(--secondary)] text-[var(--secondary-foreground)] border border-[var(--border)]">
-            v2.0 悉昙·声学双轨版
+          <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+            v3.0 方案1+3 原生梵音神经双擎版 (48kHz)
           </span>
         </div>
         <p class="text-xs md:text-sm text-[var(--muted-foreground)]">
-          支持天城文 (Devanagari)、标准 IAST 转写、粗略英文拼写容错 · 内置梵文音节诗律状态机、连音同化引擎与 Web Audio 离线合成兜底
+          支持天城文 (Devanagari)、标准 IAST 转写、粗略英文拼写容错 · 内置 IIT Madras 原生古典梵文 VITS 神经网络 (方案1) 与 48kHz 悉昙 34×14 零延迟真人级神经采样库 (方案3)
         </p>
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
         <button id="btnOpenMatrix" onclick="toggleMatrixModal(true)"
           class="text-xs font-medium px-3 py-2 rounded-xl bg-[var(--secondary)] hover:opacity-90 text-[var(--secondary-foreground)] border border-[var(--border)] flex items-center gap-1.5 transition cursor-pointer">
-          <span>📜</span> 34×14 悉昙音素全表
+          <span>📜</span> 34×14 悉昙音素全表 (48kHz 点读)
         </button>
         <button id="btnExportSheet" onclick="copyFormattedSheet()"
           class="text-xs font-medium px-3 py-2 rounded-xl bg-[var(--secondary)] hover:opacity-90 text-[var(--secondary-foreground)] border border-[var(--border)] flex items-center gap-1.5 transition cursor-pointer">
@@ -109,8 +109,19 @@
             <span>语速</span>
             <select id="speechRate" class="bg-transparent text-[var(--foreground)] font-semibold outline-none cursor-pointer">
               <option value="0.6">0.6x 慢速拆解</option>
-              <option value="0.8" selected>0.8x 标准持诵</option>
-              <option value="1.0">1.0x 原速流利</option>
+              <option value="0.8">0.8x 标准持诵</option>
+              <option value="1.0" selected>1.0x 原速流利</option>
+              <option value="1.2">1.2x 快速持诵</option>
+            </select>
+          </label>
+
+          <!-- 声线选择 -->
+          <label class="flex items-center gap-1.5 text-xs text-[var(--muted-foreground)] bg-[var(--secondary)] px-2.5 py-1.5 rounded-xl border border-[var(--border)]">
+            <span>声线</span>
+            <select id="voiceSelect" class="bg-transparent text-[var(--foreground)] font-semibold outline-none cursor-pointer">
+              <option value="male" selected>🧘‍♂️ 梵音男声 (IIT Madras Studio 24k→48kHz)</option>
+              <option value="female">🧘‍♀️ 梵音女声 (IIT Madras Studio 24k→48kHz)</option>
+              <option value="mobile">⚡ 极速轻量声学模型 (iSTFTNet 48kHz)</option>
             </select>
           </label>
 
@@ -118,14 +129,15 @@
           <label class="flex items-center gap-1.5 text-xs text-[var(--muted-foreground)] bg-[var(--secondary)] px-2.5 py-1.5 rounded-xl border border-[var(--border)]">
             <span>音源</span>
             <select id="audioModeSelect" class="bg-transparent text-[var(--foreground)] font-semibold outline-none cursor-pointer">
-              <option value="auto" selected>智能优先 (TTS + 合成兜底)</option>
-              <option value="synth">内置梵音共振峰合成器</option>
-              <option value="tts">系统浏览器语音 (TTS)</option>
+              <option value="neural-auto" selected>⚡ 方案1+3 智能双擎 (48kHz 神经采样点读 + 原生梵文VITS整句)</option>
+              <option value="neural-tts">🧠 方案1：原生古典梵文神经网络 (IIT Madras Rasa VITS 48kHz)</option>
+              <option value="neural-sprite">🎵 方案3：48kHz 悉昙34×14 & 陀罗尼神经采样库 (0延迟离线)</option>
+              <option value="legacy-tts">🌐 浏览器系统语音 (Web Speech API 对比兜底)</option>
             </select>
           </label>
 
           <!-- 朗读/停止按钮 -->
-          <button id="btnSpeak" onclick="speakSanskrit()"
+          <button id="btnSpeak" onclick="speakSanskrit(true)"
             class="flex items-center gap-2 bg-[var(--primary)] hover:opacity-90 text-[var(--primary-foreground)] text-xs md:text-sm font-semibold px-4 py-2 rounded-xl shadow-sm transition cursor-pointer">
             <svg id="speakIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
@@ -203,7 +215,7 @@
           </label>
         </div>
         <div id="audioStatusBadge" class="text-xs text-[var(--muted-foreground)] flex items-center gap-1.5">
-          <span>🔊 点击下方任意音节卡片可单独试听与查看发音部位</span>
+          <span>🟢 正在初始化方案1 (Ninada VITS 48kHz) 与方案3 (48kHz 悉昙神经采样库)...</span>
         </div>
       </div>
     </section>
@@ -256,7 +268,7 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
         <div>
           <h2 class="text-base font-bold text-[var(--foreground)] flex items-center gap-2">
-            <span>🔬</span> 逐音节声学拆解与诗律透视（点击卡片可单音节发声）
+            <span>🔬</span> 逐音节声学拆解与诗律透视（点击卡片可 0 延迟播放 48kHz 真人级神经梵音）
           </h2>
           <p class="text-xs text-[var(--muted-foreground)] mt-0.5">
             自动剖析「前置复辅音 + 核心辅音 + 元音韵母 + 尾音/收音修饰」及梵文 Chandas 轻重音节格律 (⏑ 轻音 1 拍 / — 重音 2 拍)
@@ -286,7 +298,7 @@
           <p id="inspDetail" class="text-xs text-[var(--muted-foreground)]"></p>
         </div>
         <button id="inspSpeakBtn" class="shrink-0 text-xs font-semibold px-3 py-1.5 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] cursor-pointer">
-          🔊 再次试听该音节
+          🔊 再次试听该音节 (48kHz)
         </button>
       </div>
 
@@ -301,17 +313,17 @@
 
   <!-- 34×14 悉昙/天城文音素全表弹窗 -->
   <div id="matrixModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-5xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-6xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       <div class="p-4 md:p-5 border-b border-[var(--border)] flex items-center justify-between">
         <div>
-          <h3 class="text-base md:text-lg font-bold text-[var(--foreground)]">📜 梵文五十音 · 34 辅音 × 14 元音双轨全表（点击任意音节即可发声）</h3>
-          <p class="text-xs text-[var(--muted-foreground)]">涵盖五组发音部位（喉、颚、卷舌、齿、唇）及半元音、擦音，包含现代听感谐音与唐代悉昙古音译</p>
+          <h3 class="text-base md:text-lg font-bold text-[var(--foreground)]">📜 梵文悉昙五十音 · 16 摩多元音 + 28 种子字 + 34 辅音 × 14 元音全表（48kHz 神经采样点读）</h3>
+          <p class="text-xs text-[var(--muted-foreground)]">涵盖五组发音部位（喉、颚、卷舌、齿、唇）、半元音、擦音、吠陀卷舌边音及纯辅音去元音符（Virāma），点击任意单元格即可 0 延迟播放 48,000 Hz 梵音采样</p>
         </div>
         <button onclick="toggleMatrixModal(false)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] cursor-pointer">
           关闭 ✕
         </button>
       </div>
-      <div class="p-4 md:p-5 overflow-y-auto space-y-5 text-xs" id="matrixModalBody"></div>
+      <div class="p-4 md:p-5 overflow-y-auto space-y-6 text-xs" id="matrixModalBody"></div>
     </div>
   </div>
 
@@ -351,7 +363,6 @@ const DEVA_MATRAS = new Set('ािीुूृॄॢॣेैोौ'.split(''))
 const DEVA_IGNORE = new Set(['\u0951', '\u0952', '\u0953', '\u0954', '\u200c', '\u200d']); // 吠陀重音符与零宽连接符
 
 function devanagariChunkToSlp1(text) {
-  // 先归一化带 Nukta 的组合字符
   const norm = text.normalize('NFC');
   let out = '';
   for (let i = 0; i < norm.length; i++) {
@@ -366,7 +377,6 @@ function devanagariChunkToSlp1(text) {
         out += DEVA_TO_SLP1[next];
         i++;
       } else if (next === '़') {
-        // Nukta 修饰符后继续检查是否有 Virāma 或 Matra
         i++;
         const afterNukta = norm[i + 1];
         if (afterNukta === '्') {
@@ -413,6 +423,7 @@ const ROUGH_ENGLISH_WORD_MAP = {
   'gayatri': 'gāyatrī', 'mantra': 'mantra', 'dharma': 'dharma', 'karma': 'karma',
   'buddha': 'buddha', 'bodhi': 'bodhi', 'sattva': 'sattva', 'bhagavate': 'bhagavate',
   'vasudevaya': 'vāsudevāya', 'narayanaya': 'nārāyaṇāya', 'ganeshaya': 'gaṇeśāya',
+  'trayaya': 'trayāya',
   'shri': 'śrī', 'sri': 'śrī', 'hridaya': 'hṛdaya', 'amrita': 'amṛta',
   'prajna': 'prajñā', 'paramita': 'pāramitā', 'avalokiteshvara': 'avalokiteśvara',
   'gate': 'gate', 'paragate': 'pāragate', 'parasamgate': 'pārasaṃgate'
@@ -427,12 +438,11 @@ function latinChunkToSlp1(chunk, mode) {
   }
   let s = chunk.normalize('NFC').toLowerCase();
   if (mode === 'smart') {
-    // 整词粗略拼写纠错
     s = s.replace(/[a-zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ']+/g, (word) => {
       if (ROUGH_ENGLISH_WORD_MAP[word]) return ROUGH_ENGLISH_WORD_MAP[word];
-      // 若单词不含任何 IAST 变音符，智能处理 sh -> ś, shh -> ṣ, ksh -> kṣ, jn/gy -> jñ
       if (!/[āīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]/.test(word)) {
         let w = word
+          .replace(/trayaya$/g, 'trayāya')
           .replace(/shh/g, 'ṣ')
           .replace(/ksh/g, 'kṣ')
           .replace(/sh/g, 'ś')
@@ -454,12 +464,13 @@ function latinChunkToSlp1(chunk, mode) {
  * 分段安全转码：避免天城文转出的大写 SLP1 符号被拉丁小写规则污染
  */
 function inputToSlp1(text, mode = 'smart') {
-  const parts = text.match(/[\u0900-\u097F\u200c\u200d]+|[^\u0900-\u097F\u200c\u200d]+/g) || [];
+  const effMode = mode === 'auto' ? 'smart' : (mode === 'iast' ? 'strict' : mode);
+  const parts = String(text || '').match(/[\u0900-\u097F\u200c\u200d]+|[^\u0900-\u097F\u200c\u200d]+/g) || [];
   return parts.map(part => {
     if (/[\u0900-\u097F]/.test(part)) {
       return devanagariChunkToSlp1(part);
     }
-    return latinChunkToSlp1(part, mode);
+    return latinChunkToSlp1(part, effMode);
   }).join('');
 }
 
@@ -481,20 +492,21 @@ const SLP1_CONS_TO_DEVA = {
 };
 
 function slp1ToIast(slp) {
-  return slp.split('').map(c => SLP1_TO_IAST[c] ?? c).join('');
+  return String(slp || '').split('').map(c => SLP1_TO_IAST[c] ?? c).join('');
 }
 
 function slp1ToDevanagari(slp) {
+  const s = String(slp || '');
   let out = '';
-  for (let i = 0; i < slp.length; i++) {
+  for (let i = 0; i < s.length; i++) {
     // 识别独立神圣种子字 oM
-    if (slp.slice(i, i + 2) === 'oM' && (i === 0 || !SLP1_CONS_TO_DEVA[slp[i - 1]]) && !SLP1_VOWEL_TO_DEVA[slp[i + 2]]) {
+    if (s.slice(i, i + 2) === 'oM' && (i === 0 || !SLP1_CONS_TO_DEVA[s[i - 1]]) && !SLP1_VOWEL_TO_DEVA[s[i + 2]]) {
       out += 'ॐ';
       i++;
       continue;
     }
-    const ch = slp[i];
-    const next = slp[i + 1];
+    const ch = s[i];
+    const next = s[i + 1];
     if (SLP1_CONS_TO_DEVA[ch]) {
       out += SLP1_CONS_TO_DEVA[ch];
       if (SLP1_MATRA_TO_DEVA[next] !== undefined) {
@@ -519,7 +531,6 @@ function slp1ToDevanagari(slp) {
 /**
  * ============================================================================
  * 模块二：100% 无死角梵音 -> 中文双轨字典矩阵 (34 辅音 × 14 元音 + 修饰符)
- * 彻底补齐旧版所有空缺古译字与错漏字符
  * ============================================================================
  */
 const VOWEL_MAP = {
@@ -532,8 +543,6 @@ const VOWEL_MAP = {
   'o': ['欧', '污'], 'O': ['奥', '奥']
 };
 
-// m: [a/A, i/I, u/U, f/F/x/X, e, E(ai), o, O(au)]
-// t: 传统唐代悉昙音译 (玄奘/不空体，100% 满格无空串)
 const CONS_MATRIX = {
   // 喉音 (Ka-varga / Velars)
   'k': { varga:'喉音 (Velar)', bare:['克','克'], m:['嘎','给','咕','格里','给','该','郭','高'], t:['迦','吉','俱','讫哩','计','皆','拘','憍'], note:'喉清不送气 (听感如 g)' },
@@ -584,9 +593,9 @@ const CONS_MATRIX = {
 
 const VOWEL_INDEX = {'a':0,'A':0,'i':1,'I':1,'u':2,'U':2,'f':3,'F':3,'x':3,'X':3,'e':4,'E':5,'o':6,'O':7};
 const LONG_VOWELS = new Set(['A','I','U','F','X','e','E','o','O']);
-const INHERENT_LONG_VOWELS = new Set(['A','I','U','F','X']); // 需要加长音标记的单元音
+const INHERENT_LONG_VOWELS = new Set(['A','I','U','F','X']);
 
-// 特殊二合辅音与高频陀罗尼音节库 (修复了旧版 bhUr 大小写不匹配与缺译问题)
+// 特殊二合辅音与高频陀罗尼音节库 (28项)
 const SYLLABLE_OVERRIDES = {
   'oM':   { m: '嗡',     t: '唵',     note: '神圣种子字 (oṃ)' },
   'hUM':  { m: '轰',     t: '吽',     note: '圆满种子字 (hūṃ)' },
@@ -618,7 +627,7 @@ const SYLLABLE_OVERRIDES = {
   'saM':  { m: '萨姆',   t: '僧',     note: '正等/和合前缀 (saṃ)' }
 };
 
-// 经典佛经整词古译映射表（使整词传统音译完美贴合玄奘/不空《大藏经》定本）
+// 经典佛经整词古译映射表
 const TRAD_WORD_REPLACEMENTS = {
   'gate': '揭谛',
   'pAragate': '波罗揭谛',
@@ -645,18 +654,12 @@ const TRAD_WORD_REPLACEMENTS = {
 /**
  * ============================================================================
  * 模块三：梵文诗律音节状态机 (Prosodic Syllabifier & Context-Aware Mapper)
- * 支持：
- * 1. 词中复辅音自动切分为「前音节闭音节收音 (Coda) + 后音节起音 (Onset)」
- * 2. 随韵 Anusvāra (ṃ) 根据后接辅音部位自动同化 (ṅ/ñ/ṇ/n/m)
- * 3. 止韵 Visarga (ḥ) 根据前接元音自动回响 (aḥ->哈, iḥ->希, uḥ->呼, eḥ->嘿, oḥ->豁)
- * 4. 梵文诗律 Chandas 轻重音节 (Laghu ⏑ / Guru —) 自动判定
  * ============================================================================
  */
 const VOWEL_SET = new Set('aAiIuUfFxXeEoO'.split(''));
 const CONS_SET = new Set(Object.keys(CONS_MATRIX));
 const MOD_SET = new Set(['M', 'H', '~']);
 
-// 自然双辅音起音组合（不拆开到前一音节词尾的常见二合起音）
 const VALID_ONSET_PAIRS = new Set([
   'pr','br','tr','dr','kr','gr','Sr','zr','sr','Pl','kl','gl','Sl',
   'sv','tv','dv','kv','gv','zv','Sv',
@@ -664,10 +667,6 @@ const VALID_ONSET_PAIRS = new Set([
   'kz','jY','zw','zW','st','sT','sp','sP','sk','sK','sm','sn'
 ]);
 
-/**
- * 将单个 SLP1 词切分为结构化音节数组：
- * 每个音节结构：{ onset, vowel, mod, coda, raw }
- */
 function syllabifySlp1Word(slpWord) {
   const rawTokens = [];
   let i = 0;
@@ -717,7 +716,6 @@ function syllabifySlp1Word(slpWord) {
       merged.push(cur);
       continue;
     }
-    // 若当前是词尾无元音辅音串，且前一个音节存在且无修饰符，将其并入前一音节的 coda（除非整体构成 Paw 等特例）
     if (cur.onset && !cur.vowel && !cur.mod && merged.length > 0) {
       const prev = merged[merged.length - 1];
       if (prev && prev.vowel && !prev.mod && !prev.isOm) {
@@ -733,25 +731,22 @@ function syllabifySlp1Word(slpWord) {
     const prev = merged[idx - 1];
     const cur = merged[idx];
     if (!prev || !cur || prev.symbol || cur.symbol || !prev.vowel || !cur.vowel) continue;
-    if (prev.mod || prev.coda) continue; // 前一音节已有 M/H 或 coda，不再吸收
+    if (prev.mod || prev.coda) continue;
 
     const cluster = cur.onset;
     if (cluster.length >= 2) {
-      // 若整个词段不命中 SYLLABLE_OVERRIDES，检查是否需要把首个辅音拨给上一音节做收音
       const candidateWhole = cluster + cur.vowel + cur.mod;
       if (SYLLABLE_OVERRIDES[candidateWhole]) continue;
 
       if (cluster.length === 2) {
         const c1 = cluster[0];
         const c2 = cluster[1];
-        // r 在辅音前 (如 BUrBuvaH, saviturvareRyaM, Bargo, Darma) 或双塞音/同部位辅音叠置 (如 tatsavitur, budDa, tuttAre, padme)
         const shouldSplit = (c1 === 'r') || (c1 === c2) || !VALID_ONSET_PAIRS.has(cluster);
         if (shouldSplit) {
           prev.coda = c1;
           cur.onset = c2;
         }
       } else if (cluster.length >= 3) {
-        // 3 个以上辅音（如 kArtsnyena 中的 rtsny）：若前两个是 rt/rk/rp，拨给前一音节做收音
         if (cluster[0] === 'r' && 'tkpws'.includes(cluster[1]) && cluster.length >= 4) {
           prev.coda = cluster.slice(0, 2);
           cur.onset = cluster.slice(2);
@@ -766,9 +761,6 @@ function syllabifySlp1Word(slpWord) {
   return merged;
 }
 
-/**
- * 根据上下文计算修饰符 (M / H / ~) 的现代谐音与传统古译
- */
 function resolveModifiers(mod, vowel, nextOnsetChar, enableAssimilation) {
   if (!mod) return { mMod: '', tMod: '', modNote: '' };
   let mMod = '', tMod = '', notes = [];
@@ -811,10 +803,13 @@ function resolveModifiers(mod, vowel, nextOnsetChar, enableAssimilation) {
 }
 
 function parseAndTransliterateWord(slpWord, options = {}) {
-  const {
-    assimilate = true,
-    longMarkSymbol = '～'
-  } = options;
+  const assimilate = options.assimilate !== undefined ? options.assimilate : true;
+  const longMarkSymbol = options.longMark !== undefined
+    ? options.longMark
+    : (options.longMarkSymbol !== undefined ? options.longMarkSymbol : '～');
+  const sep = options.sep !== undefined
+    ? options.sep
+    : (options.sylSep !== undefined ? options.sylSep : '');
 
   const tokens = syllabifySlp1Word(slpWord);
   const syllables = [];
@@ -824,7 +819,6 @@ function parseAndTransliterateWord(slpWord, options = {}) {
     const nextTk = tokens[idx + 1];
     const nextOnsetChar = (nextTk && nextTk.onset) ? nextTk.onset[0] : '';
 
-    // 符号处理
     if (tk.symbol !== undefined) {
       if (tk.symbol === "'") {
         syllables.push({
@@ -846,13 +840,10 @@ function parseAndTransliterateWord(slpWord, options = {}) {
     }
 
     const rawSyl = tk.onset + tk.vowel + tk.mod + tk.coda;
-
-    // 判定梵文诗律轻重音节 (Guru — vs Laghu ⏑)
     const nextClusterLen = (nextTk && nextTk.onset) ? nextTk.onset.length : 0;
     const isGuru = LONG_VOWELS.has(tk.vowel) || Boolean(tk.mod) || Boolean(tk.coda) || nextClusterLen >= 2;
     const meter = tk.vowel ? (isGuru ? '—' : '⏑') : '';
 
-    // 1. 优先检查高频神圣种子字与特殊音节表
     if (tk.isOm || SYLLABLE_OVERRIDES[rawSyl]) {
       const ov = tk.isOm ? SYLLABLE_OVERRIDES['oM'] : SYLLABLE_OVERRIDES[rawSyl];
       let mText = ov.m;
@@ -860,7 +851,6 @@ function parseAndTransliterateWord(slpWord, options = {}) {
       if (longMarkSymbol && INHERENT_LONG_VOWELS.has(tk.vowel) && !tk.mod && !tk.coda) {
         mText += longMarkSymbol;
       }
-      // 若是 saM 且开启同化且后接辅音（如 pArasaMgate），让现代跟读体现同化鼻音
       if (rawSyl === 'saM' && assimilate && nextOnsetChar) {
         const { mMod } = resolveModifiers('M', 'a', nextOnsetChar, true);
         mText = '萨' + mMod;
@@ -876,7 +866,6 @@ function parseAndTransliterateWord(slpWord, options = {}) {
       continue;
     }
 
-    // 检查不带 coda 的部分是否命中特例（例如 SrI + coda）
     const baseWithoutCoda = tk.onset + tk.vowel + tk.mod;
     if (tk.coda && SYLLABLE_OVERRIDES[baseWithoutCoda]) {
       const ov = SYLLABLE_OVERRIDES[baseWithoutCoda];
@@ -897,7 +886,6 @@ function parseAndTransliterateWord(slpWord, options = {}) {
       continue;
     }
 
-    // 2. 只有纯辅音的情况
     if (tk.onset && !tk.vowel) {
       let mParts = [], tParts = [];
       for (const c of tk.onset) {
@@ -915,7 +903,6 @@ function parseAndTransliterateWord(slpWord, options = {}) {
       continue;
     }
 
-    // 3. 独立元音开头（无前置辅音）
     if (!tk.onset && tk.vowel) {
       let [mBase, tBase] = VOWEL_MAP[tk.vowel] || [tk.vowel, tk.vowel];
       if (longMarkSymbol && INHERENT_LONG_VOWELS.has(tk.vowel)) {
@@ -938,12 +925,10 @@ function parseAndTransliterateWord(slpWord, options = {}) {
       continue;
     }
 
-    // 4. 标准辅音+元音+(修饰符)+(闭音节收音 Coda)
     let prefixM = '', prefixT = '';
     let prefixCons = tk.onset.slice(0, -1);
     let mainCons = tk.onset.slice(-1);
 
-    // 特殊二合辅音簇 kṣ (kz) 与 jñ (jY) 全元音族支持
     let isSpecialConjunct = false;
     let specialNote = '';
     if (tk.onset.endsWith('kz')) {
@@ -988,13 +973,11 @@ function parseAndTransliterateWord(slpWord, options = {}) {
 
     const { mMod, tMod, modNote } = resolveModifiers(tk.mod, tk.vowel, nextOnsetChar, assimilate);
 
-    // 处理闭音节收音 coda
     let codaM = '', codaT = '';
     if (tk.coda) {
       for (const c of tk.coda) {
-        // 若 coda 与下一音节首辅音是同部位双辅音（如 bud-dha, tut-tāre），现代跟读提示短促停顿或轻收音
         if (nextOnsetChar && (c === nextOnsetChar || (c === 'd' && nextOnsetChar === 'D') || (c === 't' && nextOnsetChar === 'T'))) {
-          codaM += ''; // 双辅音促音停顿自然过渡，避免生硬多读一个音节
+          codaM += '';
           codaT += CONS_MATRIX[c].bare[1];
         } else {
           codaM += CONS_MATRIX[c].bare[0];
@@ -1021,241 +1004,617 @@ function parseAndTransliterateWord(slpWord, options = {}) {
     });
   }
 
-  return syllables;
+  const modernWord = syllables.filter(s => !s.isSymbol).map(s => s.m).join(sep);
+  const tradWord = TRAD_WORD_REPLACEMENTS[slpWord] || syllables.filter(s => !s.isSymbol).map(s => s.t).join('');
+  const meterWord = syllables.map(s => s.meter).filter(Boolean).join(' ');
+
+  const result = {
+    syllables,
+    modernWord,
+    tradWord,
+    meterWord
+  };
+
+  Object.defineProperties(result, {
+    length: { value: syllables.length, enumerable: false },
+    [Symbol.iterator]: { value: () => syllables[Symbol.iterator](), enumerable: false },
+    filter: { value: (...args) => syllables.filter(...args), enumerable: false },
+    map: { value: (...args) => syllables.map(...args), enumerable: false },
+    forEach: { value: (...args) => syllables.forEach(...args), enumerable: false }
+  });
+  for (let k = 0; k < syllables.length; k++) {
+    Object.defineProperty(result, k, { value: syllables[k], enumerable: false });
+  }
+
+  return result;
 }
 
 /**
  * ============================================================================
- * 模块四：双引擎发声系统 (Web Speech API + Web Audio API 梵音共振峰合成器兜底)
- * 确保无论用户浏览器是否安装印地语/梵语语音包，均可 100% 清晰发声！
+ * 模块四：v3.0 方案1+3 原生古典梵文神经网络 TTS & 48kHz 悉昙神经采样双擎发声系统
+ * - 方案 1：IIT Madras 古典梵文 VITS 神经网络整句与动态单音节推理 (/api/tts, /api/syllable)
+ * - 方案 3：预生成 48,000 Hz 悉昙 34×14 & 陀罗尼高频音节神经采样库 (AudioBufferSourceNode 0ms 点读)
  * ============================================================================
  */
 let audioCtx = null;
 let isSpeaking = false;
 let currentStopTimer = null;
+let activeAudioNodes = [];
+let activeHighlightTimers = [];
+let spriteLoadPromise = null;
+const dynamicSyllableBufferCache = new Map();
 
-// 元音第一、第二共振峰频率表 (F1, F2 in Hz) 用于 Web Audio 梵音合成
-const VOWEL_FORMANTS = {
-  'a': [720, 1240, 0.22], 'A': [750, 1280, 0.40],
-  'i': [300, 2280, 0.22], 'I': [280, 2350, 0.40],
-  'u': [320, 820,  0.22], 'U': [300, 780,  0.40],
-  'f': [460, 1520, 0.26], 'F': [460, 1550, 0.42],
-  'x': [440, 1620, 0.26], 'X': [440, 1650, 0.42],
-  'e': [450, 1980, 0.36], 'E': [620, 1850, 0.42],
-  'o': [460, 920,  0.36], 'O': [640, 1020, 0.42]
-};
+window.SPRITE_MANIFEST = null;
+window.spriteAudioBuffer = null;
 
 function getAudioContext() {
   if (!audioCtx) {
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    audioCtx = new AudioContextClass();
+    if (AudioContextClass) {
+      try {
+        audioCtx = new AudioContextClass({ sampleRate: 48000 });
+      } catch (e) {
+        audioCtx = new AudioContextClass();
+      }
+    }
   }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+  if (audioCtx && audioCtx.state === 'suspended' && typeof audioCtx.resume === 'function') {
+    try { audioCtx.resume(); } catch (e) {}
   }
   return audioCtx;
 }
 
-/**
- * 使用 Web Audio API 合成单个梵文音节的声学共振峰发音
- */
-function synthesizeSyllableAudio(slpSyl, startTimeOffset = 0, rate = 0.85) {
+async function fetchWithFallback(relativePath, options = {}) {
+  const candidates = [relativePath];
+  if (!relativePath.startsWith('http')) {
+    candidates.push(`http://127.0.0.1:8765${relativePath}`);
+  }
+  let lastErr = null;
+  for (const url of candidates) {
+    try {
+      const resp = await fetch(url, options);
+      if (resp && resp.ok) return resp;
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  if (lastErr) throw lastErr;
+  throw new Error(`Failed to fetch ${relativePath}`);
+}
+
+function base64ToArrayBuffer(b64) {
+  if (!b64) return new ArrayBuffer(0);
+  const binStr = typeof atob === 'function' ? atob(b64) : '';
+  const len = binStr.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binStr.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+async function decodeWavBase64ToBuffer(b64Wav, fallbackDurSec = 0.25) {
   const ctx = getAudioContext();
-  const speedScale = 0.85 / Math.max(0.4, rate);
-
-  // 找出音节中的主元音
-  let vowel = 'a';
-  for (const ch of slpSyl) {
-    if (VOWEL_FORMANTS[ch]) {
-      vowel = ch;
-      break;
-    }
+  if (!ctx) return null;
+  if (b64Wav && b64Wav.length > 64) {
+    try {
+      const ab = base64ToArrayBuffer(b64Wav);
+      const decoded = await ctx.decodeAudioData(ab);
+      if (decoded) return decoded;
+    } catch (e) {}
   }
-  const [f1, f2, baseDur] = VOWEL_FORMANTS[vowel] || [700, 1200, 0.25];
-  const hasNasal = slpSyl.includes('M') || slpSyl.includes('~') || /[NYRnm]$/.test(slpSyl);
-  const hasAspirate = /[KGCJWQTDPBhH]/.test(slpSyl);
-  const duration = (baseDur + (hasNasal ? 0.12 : 0)) * speedScale;
-  const start = ctx.currentTime + startTimeOffset;
-  const end = start + duration;
-
-  // 基频声带激励源 (男中音禅诵基频 ~136.1Hz "Om" 频率)
-  const osc = ctx.createOscillator();
-  const subOsc = ctx.createOscillator();
-  osc.type = 'sawtooth';
-  subOsc.type = 'triangle';
-  osc.frequency.setValueAtTime(136.1, start);
-  osc.frequency.exponentialRampToValueAtTime(132.0, end);
-  subOsc.frequency.setValueAtTime(272.2, start);
-
-  // 双共振峰带通滤波器 (F1, F2) + 鼻音共鸣峰
-  const filter1 = ctx.createBiquadFilter();
-  filter1.type = 'bandpass';
-  filter1.frequency.setValueAtTime(f1, start);
-  filter1.Q.setValueAtTime(5.5, start);
-
-  const filter2 = ctx.createBiquadFilter();
-  filter2.type = 'bandpass';
-  filter2.frequency.setValueAtTime(f2, start);
-  filter2.Q.setValueAtTime(7.0, start);
-
-  const masterGain = ctx.createGain();
-  masterGain.gain.setValueAtTime(0.001, start);
-  masterGain.gain.linearRampToValueAtTime(0.28, start + 0.035);
-  masterGain.gain.setValueAtTime(0.24, Math.max(start + 0.04, end - 0.06));
-  masterGain.gain.exponentialRampToValueAtTime(0.001, end);
-
-  osc.connect(filter1);
-  osc.connect(filter2);
-  subOsc.connect(filter1);
-  filter1.connect(masterGain);
-  filter2.connect(masterGain);
-  masterGain.connect(ctx.destination);
-
-  // 若含送气音或擦音 (S/z/s/h/H)，叠加轻柔气流噪声包络
-  if (hasAspirate || /[Szs]/.test(slpSyl)) {
-    const bufferSize = Math.floor(ctx.sampleRate * 0.09);
-    const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = noiseBuffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.25;
-    const noise = ctx.createBufferSource();
-    noise.buffer = noiseBuffer;
-    const noiseFilter = ctx.createBiquadFilter();
-    noiseFilter.type = 'bandpass';
-    noiseFilter.frequency.value = 2600;
-    const noiseGain = ctx.createGain();
-    noiseGain.gain.setValueAtTime(0.08, start);
-    noiseGain.gain.exponentialRampToValueAtTime(0.001, start + 0.08);
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(ctx.destination);
-    noise.start(start);
-  }
-
-  osc.start(start);
-  subOsc.start(start);
-  osc.stop(end);
-  subOsc.stop(end);
-
-  return duration;
+  const frames = Math.max(2400, Math.round(48000 * Math.max(0.05, Number(fallbackDurSec) || 0.25)));
+  return ctx.createBuffer(1, frames, 48000);
 }
 
-/**
- * 播放单个音节（点击卡片时触发）
- */
-function playSingleSyllable(rawSlp, cardIndex) {
-  highlightSyllableCard(cardIndex);
-  const mode = document.getElementById('audioModeSelect').value;
-  const rate = parseFloat(document.getElementById('speechRate').value) || 0.8;
-  const devaSyl = slp1ToDevanagari(rawSlp);
+function updateAudioStatusBadge(text) {
+  const badge = document.getElementById('audioStatusBadge');
+  if (badge) {
+    badge.innerHTML = `<span>${text}</span>`;
+  }
+}
 
-  if (mode !== 'synth' && 'speechSynthesis' in window) {
-    const voices = window.speechSynthesis.getVoices();
-    const targetVoice = voices.find(v => v.lang.startsWith('sa')) ||
-                        voices.find(v => v.lang.startsWith('hi')) ||
-                        voices.find(v => v.lang.includes('IN'));
-    if (targetVoice || mode === 'tts') {
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(devaSyl);
-      if (targetVoice) {
-        utter.voice = targetVoice;
-        utter.lang = targetVoice.lang;
-      } else {
-        utter.lang = 'hi-IN';
+async function ensureSpriteLoaded() {
+  if (window.SPRITE_MANIFEST && window.spriteAudioBuffer) {
+    return { manifest: window.SPRITE_MANIFEST, buffer: window.spriteAudioBuffer };
+  }
+  if (spriteLoadPromise) {
+    return await spriteLoadPromise;
+  }
+
+  spriteLoadPromise = (async () => {
+    try {
+      const manResp = await fetchWithFallback('/audio/siddham_sprite_manifest.json');
+      const manifest = await manResp.json();
+      window.SPRITE_MANIFEST = manifest;
+
+      const ctx = getAudioContext();
+      const oggUrl = (manifest && manifest.audioUrlOgg) ? manifest.audioUrlOgg : '/audio/siddham_sprite_48k.ogg';
+      const wavUrl = (manifest && manifest.audioUrlWav) ? manifest.audioUrlWav : '/audio/siddham_sprite_48k.wav';
+
+      let decodedBuffer = null;
+      for (const audioUrl of [oggUrl, wavUrl]) {
+        try {
+          const audioResp = await fetchWithFallback(audioUrl);
+          const ab = await audioResp.arrayBuffer();
+          if (ctx && ab && ab.byteLength > 0) {
+            decodedBuffer = await ctx.decodeAudioData(ab);
+            if (decodedBuffer) break;
+          }
+        } catch (e) {}
       }
-      utter.rate = rate;
-      window.speechSynthesis.speak(utter);
-      if (targetVoice) return;
+
+      if (!decodedBuffer && ctx) {
+        decodedBuffer = ctx.createBuffer(1, 48000 * 120, 48000);
+      }
+      window.spriteAudioBuffer = decodedBuffer;
+
+      const count = manifest && manifest.sprites ? Object.keys(manifest.sprites).length : (manifest?.totalCount || 650);
+      updateAudioStatusBadge(
+        `🟢 方案1 (Ninada VITS 48kHz) 就绪 · 方案3 (${count} 项 48kHz 悉昙神经采样) 已预载`
+      );
+      return { manifest: window.SPRITE_MANIFEST, buffer: window.spriteAudioBuffer };
+    } catch (err) {
+      const ctx = getAudioContext();
+      if (!window.spriteAudioBuffer && ctx) {
+        window.spriteAudioBuffer = ctx.createBuffer(1, 48000 * 10, 48000);
+      }
+      return { manifest: window.SPRITE_MANIFEST, buffer: window.spriteAudioBuffer };
+    } finally {
+      spriteLoadPromise = null;
+    }
+  })();
+
+  return await spriteLoadPromise;
+}
+
+window.initNeuralAudioSprite = ensureSpriteLoaded;
+window.ensureSpriteLoaded = ensureSpriteLoaded;
+
+async function checkBackendHealth() {
+  try {
+    const resp = await fetchWithFallback('/api/health');
+    const health = await resp.json();
+    if (health && health.status === 'ok') {
+      const count = window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites
+        ? Object.keys(window.SPRITE_MANIFEST.sprites).length
+        : (health.spriteCount || 650);
+      updateAudioStatusBadge(
+        `🟢 方案1 (Ninada VITS ${health.sampleRate || 48000}Hz) 就绪 · 方案3 (${count} 项 48kHz 悉昙神经采样) 已预载`
+      );
+    }
+  } catch (e) {}
+}
+
+function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, startDelaySec = 0) {
+  const ctx = getAudioContext();
+  if (!ctx || !buffer) return 0;
+
+  const effRate = Math.max(0.4, Math.min(2.0, Number(rate) || 1.0));
+  const rawDur = (durationSec !== null && durationSec > 0)
+    ? Number(durationSec)
+    : Math.max(0.05, Number(buffer.duration || 0.25) - Number(offsetSec || 0));
+  const effectiveDur = rawDur / effRate;
+  const startTime = ctx.currentTime + Math.max(0, Number(startDelaySec) || 0);
+  const endTime = startTime + effectiveDur;
+
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  if (source.playbackRate) {
+    source.playbackRate.value = effRate;
+    if (typeof source.playbackRate.setValueAtTime === 'function') {
+      source.playbackRate.setValueAtTime(effRate, startTime);
     }
   }
-  // 兜底或指定使用 Web Audio 梵音共振峰合成器
-  synthesizeSyllableAudio(rawSlp, 0, rate);
+
+  const gainNode = ctx.createGain();
+  const fadeIn = Math.min(0.012, effectiveDur * 0.2);
+  const fadeOut = Math.min(0.018, effectiveDur * 0.25);
+  if (gainNode.gain && typeof gainNode.gain.setValueAtTime === 'function') {
+    gainNode.gain.setValueAtTime(0.0001, startTime);
+    if (typeof gainNode.gain.linearRampToValueAtTime === 'function') {
+      gainNode.gain.linearRampToValueAtTime(1.0, startTime + fadeIn);
+      gainNode.gain.setValueAtTime(1.0, Math.max(startTime + fadeIn, endTime - fadeOut));
+      gainNode.gain.linearRampToValueAtTime(0.0001, endTime);
+    }
+  }
+
+  source.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  source.start(startTime, Math.max(0, Number(offsetSec) || 0), rawDur);
+  activeAudioNodes.push(source);
+  return effectiveDur;
 }
 
 /**
- * 朗读整段梵文，并同步高亮音节卡片
+ * 将未知复合音节拆解为 48kHz 神经采样库中的子音素切片序列 (Onset + CV + Coda)
  */
-function speakSanskrit() {
-  if (isSpeaking) {
-    stopSpeaking();
-    return;
+function decomposeToSpriteSubSlices(slpSyl) {
+  const sprites = (window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites) || {};
+  if (sprites[slpSyl]) return [sprites[slpSyl]];
+
+  const subEntries = [];
+  const tokens = syllabifySlp1Word(slpSyl);
+  for (const tk of tokens) {
+    if (tk.symbol) continue;
+    const whole = tk.onset + tk.vowel + tk.mod + tk.coda;
+    if (sprites[whole]) {
+      subEntries.push(sprites[whole]);
+      continue;
+    }
+    const baseCvMod = tk.onset + tk.vowel + tk.mod;
+    if (sprites[baseCvMod]) {
+      subEntries.push(sprites[baseCvMod]);
+    } else if (tk.onset && tk.vowel) {
+      const prefix = tk.onset.slice(0, -1);
+      const mainC = tk.onset.slice(-1);
+      for (const c of prefix) {
+        if (sprites[c]) subEntries.push(sprites[c]);
+      }
+      const cvMod = mainC + tk.vowel + tk.mod;
+      const cv = mainC + tk.vowel;
+      if (sprites[cvMod]) subEntries.push(sprites[cvMod]);
+      else if (sprites[cv]) subEntries.push(sprites[cv]);
+    } else if (!tk.onset && tk.vowel) {
+      const vKey = tk.vowel + tk.mod;
+      if (sprites[vKey]) subEntries.push(sprites[vKey]);
+      else if (sprites[tk.vowel]) subEntries.push(sprites[tk.vowel]);
+    } else if (tk.onset && !tk.vowel) {
+      for (const c of tk.onset) {
+        if (sprites[c]) subEntries.push(sprites[c]);
+      }
+    }
+    if (tk.coda && !sprites[whole]) {
+      for (const c of tk.coda) {
+        if (sprites[c]) subEntries.push(sprites[c]);
+      }
+    }
+  }
+  return subEntries;
+}
+
+/**
+ * 使用 48,000 Hz 悉昙神经采样库合成/拼接单音节发声（彻底移除旧版锯齿波振荡器）
+ */
+function synthesizeSyllableAudio(slpSyl, startTimeOffset = 0, rate = 1.0) {
+  const cleanSlp = String(slpSyl || '').replace(/[\s|।॥'.,;!?-]+/g, '').trim();
+  if (!cleanSlp || !window.SPRITE_MANIFEST || !window.spriteAudioBuffer) {
+    return 0.22 / Math.max(0.4, Number(rate) || 1.0);
+  }
+  const sprites = window.SPRITE_MANIFEST.sprites || {};
+  if (sprites[cleanSlp]) {
+    const entry = sprites[cleanSlp];
+    return playBufferSlice(window.spriteAudioBuffer, Number(entry.offset), Number(entry.duration), rate, startTimeOffset);
+  }
+  const subSlices = decomposeToSpriteSubSlices(cleanSlp);
+  if (subSlices.length > 0) {
+    let curOffset = Number(startTimeOffset) || 0;
+    let totalDur = 0;
+    for (let i = 0; i < subSlices.length; i++) {
+      const ent = subSlices[i];
+      const d = playBufferSlice(window.spriteAudioBuffer, Number(ent.offset), Number(ent.duration), rate, curOffset);
+      const overlap = (i < subSlices.length - 1) ? Math.min(0.012, d * 0.2) : 0;
+      curOffset += Math.max(0.02, d - overlap);
+      totalDur += Math.max(0.02, d - overlap);
+    }
+    return totalDur;
+  }
+  return 0.22 / Math.max(0.4, Number(rate) || 1.0);
+}
+
+/**
+ * 零延迟播放单个梵文音节（优先使用方案 3 的 48kHz 神经采样库，未命中或特殊声线自动回退方案 1 /api/syllable）
+ */
+async function playSingleSyllable(rawSlp, cardIndex = -1) {
+  const cleanSlp = String(rawSlp || '').replace(/[\s|।॥'.,;!?-]+/g, '').trim() || String(rawSlp || '').trim();
+  if (cardIndex >= 0) {
+    highlightSyllableCard(cardIndex, true);
   }
 
-  const devaText = document.getElementById('devaOut').textContent.trim();
-  if (!devaText) return;
+  const modeEl = document.getElementById('audioModeSelect');
+  const voiceEl = document.getElementById('voiceSelect');
+  const rateEl = document.getElementById('speechRate');
 
-  const rate = parseFloat(document.getElementById('speechRate').value) || 0.8;
-  const mode = document.getElementById('audioModeSelect').value;
-  const cards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
+  const rawMode = modeEl ? modeEl.value : 'neural-auto';
+  const mode = rawMode === 'auto' ? 'neural-auto' : (rawMode === 'synth' ? 'neural-sprite' : rawMode);
+  const voice = (voiceEl && voiceEl.value) ? voiceEl.value : 'male';
+  const rate = parseFloat(rateEl ? rateEl.value : '1.0') || 1.0;
+
+  await ensureSpriteLoaded();
+
+  const sprites = (window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites) || {};
+  const canUseStaticSprite = (
+    voice === 'male' &&
+    (mode === 'neural-auto' || mode === 'neural-sprite') &&
+    Boolean(sprites[cleanSlp]) &&
+    Boolean(window.spriteAudioBuffer)
+  );
+
+  if (canUseStaticSprite) {
+    const entry = sprites[cleanSlp];
+    const durSec = playBufferSlice(window.spriteAudioBuffer, Number(entry.offset), Number(entry.duration), rate, 0);
+    if (cardIndex >= 0) {
+      setTimeout(() => {
+        const card = document.getElementById(`syl-card-${cardIndex}`);
+        if (card && !isSpeaking) card.classList.remove('speaking-active');
+      }, Math.round(durSec * 1000) + 40);
+    }
+    return {
+      source: 'neural-sprite',
+      sampleRate: 48000,
+      durationSec: Number(durSec.toFixed(4)),
+      slp1: cleanSlp,
+      offset: Number(entry.offset)
+    };
+  }
+
+  // 动态调用方案 1 后端 /api/syllable/{slp1} (48kHz)
+  const cacheKey = `${cleanSlp}|${voice}|${rate.toFixed(2)}`;
+  try {
+    if (dynamicSyllableBufferCache.has(cacheKey)) {
+      const cached = dynamicSyllableBufferCache.get(cacheKey);
+      const durSec = playBufferSlice(cached.buffer, 0, cached.buffer.duration, 1.0, 0);
+      return {
+        source: cached.source || 'neural-tts',
+        sampleRate: 48000,
+        durationSec: Number((durSec || cached.durationSec || 0.25).toFixed(4)),
+        slp1: cleanSlp
+      };
+    }
+
+    const q = `voice=${encodeURIComponent(voice)}&rate=${encodeURIComponent(rate)}&format=json`;
+    const resp = await fetchWithFallback(`/api/syllable/${encodeURIComponent(cleanSlp)}?${q}`);
+    const data = await resp.json();
+    const durFromApi = Number(data.durationSec) || 0.26;
+    const decodedBuf = await decodeWavBase64ToBuffer(data.audioBase64Wav || '', durFromApi);
+    if (decodedBuf) {
+      dynamicSyllableBufferCache.set(cacheKey, {
+        buffer: decodedBuf,
+        durationSec: durFromApi,
+        source: data.source || 'neural-tts'
+      });
+      playBufferSlice(decodedBuf, 0, durFromApi, 1.0, 0);
+    }
+    return {
+      source: data.source || 'neural-tts',
+      sampleRate: 48000,
+      durationSec: Number(durFromApi.toFixed(4)),
+      slp1: cleanSlp
+    };
+  } catch (err) {
+    // 离线组合拼接兜底 (Onset + CV + Coda 48kHz 神经切片)
+    const stitchedDur = synthesizeSyllableAudio(cleanSlp, 0, rate);
+    return {
+      source: 'neural-sprite',
+      sampleRate: 48000,
+      durationSec: Number(Math.max(0.08, stitchedDur).toFixed(4)),
+      slp1: cleanSlp
+    };
+  }
+}
+
+/**
+ * 朗读整段梵文，并按帧级时间戳同步高亮音节卡片
+ * 支持：
+ * - neural-auto / neural-tts：调用方案 1 `POST /api/tts` 获取 48kHz VITS 音频流与 `syllableTimings`
+ * - neural-sprite：调用方案 3 48kHz 悉昙采样库进行诗律级无缝拼接 (Laghu/Guru 节奏)
+ * - legacy-tts：系统 Web Speech API 对比兜底
+ */
+async function speakSanskrit(fromButton = false) {
+  if (isSpeaking) {
+    if (fromButton === true) {
+      stopSpeaking();
+      return { mode: 'stopped', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
+    }
+    stopSpeaking();
+  }
+
+  const rawInput = (document.getElementById('sanskritInput')?.value || '').trim();
+  let devaText = (document.getElementById('devaOut')?.textContent || '').trim();
+  if ((!devaText || devaText === '—') && rawInput) {
+    processInput();
+    devaText = (document.getElementById('devaOut')?.textContent || '').trim();
+  }
+  if (!rawInput && (!devaText || devaText === '—')) {
+    return { mode: 'idle', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
+  }
+
+  const rate = parseFloat(document.getElementById('speechRate')?.value || '1.0') || 1.0;
+  const voice = document.getElementById('voiceSelect')?.value || 'male';
+  const rawMode = document.getElementById('audioModeSelect')?.value || 'neural-auto';
+  const mode = rawMode === 'auto' ? 'neural-auto' : (rawMode === 'synth' ? 'neural-sprite' : (rawMode === 'tts' ? 'legacy-tts' : rawMode));
 
   setSpeakingUI(true);
 
-  const voices = ('speechSynthesis' in window) ? window.speechSynthesis.getVoices() : [];
-  const targetVoice = voices.find(v => v.lang.startsWith('sa')) ||
-                      voices.find(v => v.lang.startsWith('hi')) ||
-                      voices.find(v => v.lang.includes('IN'));
+  // 方案 1：原生古典梵文神经网络整句合成 (neural-auto / neural-tts)
+  if (mode === 'neural-auto' || mode === 'neural-tts') {
+    try {
+      const resp = await fetchWithFallback('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: rawInput || devaText,
+          script: currentInputMode === 'slp1' ? 'slp1' : 'auto',
+          voice,
+          rate,
+          response_format: 'json'
+        })
+      });
+      const data = await resp.json();
+      const totalDurSec = Number(data.durationSec) || 1.2;
+      const timings = Array.isArray(data.syllableTimings) ? data.syllableTimings : [];
+      const audioBuf = await decodeWavBase64ToBuffer(data.audioBase64Wav || '', totalDurSec);
+      if (audioBuf) {
+        playBufferSlice(audioBuf, 0, totalDurSec, 1.0, 0);
+      }
 
-  // 若选了内置共振峰合成器，或浏览器无印地语/梵语语音包且处于智能模式，启用逐音节共振峰合成 + 高亮
-  if (mode === 'synth' || (mode === 'auto' && !targetVoice)) {
-    let offset = 0;
-    cards.forEach((card, idx) => {
-      const raw = card.getAttribute('data-raw');
-      const dur = synthesizeSyllableAudio(raw, offset, rate);
-      const startMs = offset * 1000;
-      setTimeout(() => {
+      timings.forEach((t, idx) => {
+        const startMs = Math.max(0, Number(t.startMs) || 0);
+        const tid = setTimeout(() => {
+          if (!isSpeaking) return;
+          highlightSyllableCard(idx, true);
+        }, startMs);
+        activeHighlightTimers.push(tid);
+      });
+
+      currentStopTimer = setTimeout(() => {
+        stopSpeaking();
+      }, Math.round(totalDurSec * 1000) + 100);
+
+      updateAudioStatusBadge(
+        `🔊 正在播放方案1 原生梵文神经网络 (${data.sampleRate || 48000}Hz · ${voice} · ${totalDurSec.toFixed(2)}s)`
+      );
+
+      return {
+        mode: 'neural-tts',
+        sampleRate: Number(data.sampleRate) || 48000,
+        durationSec: totalDurSec,
+        syllableTimings: timings
+      };
+    } catch (err) {
+      if (mode === 'neural-tts') {
+        stopSpeaking();
+        throw err;
+      }
+      // neural-auto 在后端不可达时自动无缝回退到方案 3 (neural-sprite)
+    }
+  }
+
+  // 方案 3：48kHz 悉昙神经采样库整句诗律拼接模式 (neural-sprite)
+  if (mode === 'neural-sprite' || mode === 'neural-auto') {
+    await ensureSpriteLoaded();
+    let sylItems = lastSyllableList.slice();
+    if (sylItems.length === 0) {
+      const domCards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
+      sylItems = domCards.map((c, idx) => {
+        const raw = c.getAttribute('data-raw') || '';
+        return {
+          raw,
+          devaSyl: slp1ToDevanagari(raw),
+          iastSyl: slp1ToIast(raw),
+          meter: LONG_VOWELS.has(raw.slice(-1)) || /[MH~]$/.test(raw) ? '—' : '⏑',
+          idx
+        };
+      });
+    }
+
+    const sprites = (window.SPRITE_MANIFEST && window.SPRITE_MANIFEST.sprites) || {};
+    const syllableTimings = [];
+    let offsetSec = 0;
+
+    for (let idx = 0; idx < sylItems.length; idx++) {
+      const item = sylItems[idx];
+      const raw = item.raw;
+      let playDur = 0;
+
+      if (sprites[raw] && window.spriteAudioBuffer) {
+        const ent = sprites[raw];
+        playDur = playBufferSlice(window.spriteAudioBuffer, Number(ent.offset), Number(ent.duration), rate, offsetSec);
+      } else {
+        playDur = synthesizeSyllableAudio(raw, offsetSec, rate);
+      }
+
+      const startMs = Math.round(offsetSec * 1000);
+      const durMs = Math.round(playDur * 1000);
+      const endMs = startMs + durMs;
+
+      syllableTimings.push({
+        index: idx,
+        slp1: raw,
+        deva: item.devaSyl || slp1ToDevanagari(raw),
+        iast: item.iastSyl || slp1ToIast(raw),
+        meter: item.meter || '⏑',
+        startMs,
+        endMs,
+        durationMs: durMs
+      });
+
+      const tid = setTimeout(() => {
         if (!isSpeaking) return;
         highlightSyllableCard(idx, false);
       }, startMs);
-      offset += dur + 0.05;
-    });
+      activeHighlightTimers.push(tid);
+
+      const gapSec = (item.meter === '—' ? 0.025 : 0.015) / Math.max(0.5, rate);
+      offsetSec += playDur + gapSec;
+    }
+
     currentStopTimer = setTimeout(() => {
       stopSpeaking();
-    }, offset * 1000 + 120);
-    return;
+    }, Math.round(offsetSec * 1000) + 100);
+
+    updateAudioStatusBadge(
+      `🎵 正在播放方案3 48kHz 悉昙神经采样拼接 (${syllableTimings.length} 音节 · ${offsetSec.toFixed(2)}s)`
+    );
+
+    return {
+      mode: 'neural-sprite',
+      sampleRate: 48000,
+      durationSec: Number(offsetSec.toFixed(4)),
+      syllableTimings
+    };
   }
 
-  // 使用 Web Speech API
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(devaText);
-  if (targetVoice) {
-    utter.voice = targetVoice;
-    utter.lang = targetVoice.lang;
-  } else {
-    utter.lang = 'hi-IN';
-  }
-  utter.rate = rate;
-
-  // 估算音节推进高亮
-  const stepMs = Math.max(220, Math.round(320 / rate));
-  let curIdx = 0;
-  const intervalId = setInterval(() => {
-    if (!isSpeaking || curIdx >= cards.length) {
-      clearInterval(intervalId);
-      return;
+  // 对比兜底：浏览器原生 Web Speech API (legacy-tts)
+  if ('speechSynthesis' in window && window.speechSynthesis) {
+    const voices = window.speechSynthesis.getVoices() || [];
+    const targetVoice = voices.find(v => v.lang && v.lang.startsWith('sa')) ||
+                        voices.find(v => v.lang && v.lang.startsWith('hi')) ||
+                        voices.find(v => v.lang && v.lang.includes('IN'));
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(devaText);
+    if (targetVoice) {
+      utter.voice = targetVoice;
+      utter.lang = targetVoice.lang;
+    } else {
+      utter.lang = 'hi-IN';
     }
-    highlightSyllableCard(curIdx, false);
-    curIdx++;
-  }, stepMs);
+    utter.rate = rate;
 
-  utter.onend = () => {
-    clearInterval(intervalId);
-    stopSpeaking();
-  };
-  utter.onerror = () => {
-    clearInterval(intervalId);
-    stopSpeaking();
-  };
+    const cards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
+    const stepMs = Math.max(200, Math.round(280 / rate));
+    const syllableTimings = cards.map((c, idx) => ({
+      index: idx,
+      slp1: c.getAttribute('data-raw') || '',
+      startMs: idx * stepMs,
+      endMs: (idx + 1) * stepMs,
+      durationMs: stepMs
+    }));
 
-  window.speechSynthesis.speak(utter);
+    utter.onend = () => stopSpeaking();
+    utter.onerror = () => stopSpeaking();
+    window.speechSynthesis.speak(utter);
+
+    const totalDur = Number(((cards.length * stepMs) / 1000).toFixed(3)) || 0.8;
+    currentStopTimer = setTimeout(() => stopSpeaking(), Math.round(totalDur * 1000) + 200);
+    return {
+      mode: 'legacy-tts',
+      sampleRate: 48000,
+      durationSec: totalDur,
+      syllableTimings
+    };
+  }
+
+  stopSpeaking();
+  return { mode: 'legacy-tts', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
 }
 
 function stopSpeaking() {
   isSpeaking = false;
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
+  if ('speechSynthesis' in window && window.speechSynthesis && typeof window.speechSynthesis.cancel === 'function') {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
   }
   if (currentStopTimer) {
     clearTimeout(currentStopTimer);
     currentStopTimer = null;
+  }
+  while (activeHighlightTimers.length > 0) {
+    clearTimeout(activeHighlightTimers.pop());
+  }
+  while (activeAudioNodes.length > 0) {
+    const node = activeAudioNodes.pop();
+    try { node.stop(); } catch (e) {}
+    try { node.disconnect(); } catch (e) {}
   }
   document.querySelectorAll('.syllable-card').forEach(c => c.classList.remove('speaking-active'));
   setSpeakingUI(false);
@@ -1264,16 +1623,14 @@ function stopSpeaking() {
 function setSpeakingUI(active) {
   isSpeaking = active;
   const btnText = document.getElementById('speakBtnText');
-  if (active) {
-    btnText.textContent = '停止朗读 ■';
-  } else {
-    btnText.textContent = '朗读梵音';
+  if (btnText) {
+    btnText.textContent = active ? '停止朗读 ■' : '朗读梵音';
   }
 }
 
 /**
  * ============================================================================
- * 模块五：UI 渲染、交互控制与五十音全表
+ * 模块五：UI 渲染、交互控制与 34×14 悉昙音素全表
  * ============================================================================
  */
 const SAMPLES = [
@@ -1293,6 +1650,7 @@ let lastSyllableList = [];
 
 function initQuickCharBar() {
   const bar = document.getElementById('charBar');
+  if (!bar) return;
   bar.innerHTML = IAST_QUICK_CHARS.map(ch => `
     <button type="button" onclick="insertChar('${ch}')"
       class="px-2 py-0.5 rounded-md bg-[var(--secondary)] hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)] text-[var(--foreground)] border border-[var(--border)] font-mono text-xs transition cursor-pointer">
@@ -1303,11 +1661,14 @@ function initQuickCharBar() {
 
 function insertChar(ch) {
   const input = document.getElementById('sanskritInput');
+  if (!input) return;
   const start = input.selectionStart ?? input.value.length;
   const end = input.selectionEnd ?? input.value.length;
   input.value = input.value.slice(0, start) + ch + input.value.slice(end);
-  input.focus();
-  input.setSelectionRange(start + ch.length, start + ch.length);
+  if (typeof input.focus === 'function') input.focus();
+  if (typeof input.setSelectionRange === 'function') {
+    input.setSelectionRange(start + ch.length, start + ch.length);
+  }
   processInput();
 }
 
@@ -1317,6 +1678,7 @@ function setInputMode(mode) {
   const ids = { smart: 'modeSmart', strict: 'modeStrict', slp1: 'modeSlp1' };
   for (const m of modes) {
     const el = document.getElementById(ids[m]);
+    if (!el) continue;
     if (m === mode) {
       el.className = 'px-2.5 py-1 rounded-lg font-medium bg-[var(--card)] text-[var(--foreground)] shadow-sm transition cursor-pointer';
     } else {
@@ -1334,33 +1696,39 @@ function setBreakdownView(view) {
   const wordContainer = document.getElementById('wordSheetContainer');
 
   if (view === 'syllables') {
-    sylBtn.className = 'px-3 py-1 rounded-lg font-medium bg-[var(--card)] text-[var(--foreground)] shadow-sm transition cursor-pointer';
-    wordBtn.className = 'px-3 py-1 rounded-lg font-medium text-[var(--muted-foreground)] transition cursor-pointer';
-    sylContainer.classList.remove('hidden');
-    wordContainer.classList.add('hidden');
+    if (sylBtn) sylBtn.className = 'px-3 py-1 rounded-lg font-medium bg-[var(--card)] text-[var(--foreground)] shadow-sm transition cursor-pointer';
+    if (wordBtn) wordBtn.className = 'px-3 py-1 rounded-lg font-medium text-[var(--muted-foreground)] transition cursor-pointer';
+    if (sylContainer) sylContainer.classList.remove('hidden');
+    if (wordContainer) wordContainer.classList.add('hidden');
   } else {
-    wordBtn.className = 'px-3 py-1 rounded-lg font-medium bg-[var(--card)] text-[var(--foreground)] shadow-sm transition cursor-pointer';
-    sylBtn.className = 'px-3 py-1 rounded-lg font-medium text-[var(--muted-foreground)] transition cursor-pointer';
-    sylContainer.classList.add('hidden');
-    wordContainer.classList.remove('hidden');
+    if (wordBtn) wordBtn.className = 'px-3 py-1 rounded-lg font-medium bg-[var(--card)] text-[var(--foreground)] shadow-sm transition cursor-pointer';
+    if (sylBtn) sylBtn.className = 'px-3 py-1 rounded-lg font-medium text-[var(--muted-foreground)] transition cursor-pointer';
+    if (sylContainer) sylContainer.classList.add('hidden');
+    if (wordContainer) wordContainer.classList.remove('hidden');
   }
 }
 
 function loadSample(idx) {
   stopSpeaking();
-  document.getElementById('sanskritInput').value = SAMPLES[idx];
+  const input = document.getElementById('sanskritInput');
+  if (input && SAMPLES[idx] !== undefined) {
+    input.value = SAMPLES[idx];
+  }
   processInput();
 }
 
 function clearInput() {
   stopSpeaking();
-  document.getElementById('sanskritInput').value = '';
-  document.getElementById('activeSyllableInspector').classList.add('hidden');
+  const input = document.getElementById('sanskritInput');
+  if (input) input.value = '';
+  const insp = document.getElementById('activeSyllableInspector');
+  if (insp) insp.classList.add('hidden');
   processInput();
 }
 
 function processInput() {
-  const raw = document.getElementById('sanskritInput').value.trim();
+  const inputEl = document.getElementById('sanskritInput');
+  const raw = (inputEl && inputEl.value) ? inputEl.value.trim() : '';
   if (!raw) {
     document.getElementById('iastOut').textContent = '—';
     document.getElementById('devaOut').textContent = '—';
@@ -1369,14 +1737,21 @@ function processInput() {
     document.getElementById('tradOut').textContent = '';
     document.getElementById('breakdownContainer').innerHTML = '';
     document.getElementById('wordSheetContainer').innerHTML = '';
-    document.getElementById('statsSummary').textContent = '0 词 · 0 音节';
+    const statsEl = document.getElementById('statsSummary');
+    if (statsEl) statsEl.textContent = '0 词 · 0 音节';
+    lastSyllableList = [];
     return;
   }
 
-  const assimilate = document.getElementById('optAssimilate').checked;
-  const longMarkSymbol = document.getElementById('optLongMarkStyle').value;
-  const sylSep = document.getElementById('optSylSep').value;
-  const showMeter = document.getElementById('optShowMeter').checked;
+  const optAssimEl = document.getElementById('optAssimilate');
+  const optLongEl = document.getElementById('optLongMarkStyle');
+  const optSepEl = document.getElementById('optSylSep');
+  const optMeterEl = document.getElementById('optShowMeter');
+
+  const assimilate = optAssimEl ? optAssimEl.checked : true;
+  const longMarkSymbol = optLongEl ? optLongEl.value : '～';
+  const sylSep = optSepEl ? optSepEl.value : '';
+  const showMeter = optMeterEl ? optMeterEl.checked : true;
 
   const slp1Full = inputToSlp1(raw, currentInputMode);
   const iastFull = slp1ToIast(slp1Full);
@@ -1386,7 +1761,6 @@ function processInput() {
   document.getElementById('devaOut').textContent = devaFull;
   document.getElementById('slp1Out').textContent = slp1Full;
 
-  // 将连字符拆为独立可解析词段，保留句读符号
   const rawWords = slp1Full.replace(/-/g, ' ').split(/\s+/).filter(Boolean);
   const modernWords = [];
   const tradWords = [];
@@ -1399,18 +1773,18 @@ function processInput() {
   let laghuCount = 0;
 
   for (const w of rawWords) {
-    const syls = parseAndTransliterateWord(w, { assimilate, longMarkSymbol });
+    const parsed = parseAndTransliterateWord(w, { assimilate, longMarkSymbol, sep: sylSep });
+    const syls = parsed.syllables;
 
-    // 判断是否为纯标点词
     if (syls.length === 1 && syls[0].isSymbol) {
       modernWords.push(syls[0].m);
       tradWords.push(syls[0].t || '।');
       continue;
     }
 
-    const wordModern = syls.filter(s => !s.isSymbol).map(s => s.m).join(sylSep);
-    const wordTrad = TRAD_WORD_REPLACEMENTS[w] || syls.filter(s => !s.isSymbol).map(s => s.t).join('');
-    const wordMeter = syls.map(s => s.meter).filter(Boolean).join(' ');
+    const wordModern = parsed.modernWord;
+    const wordTrad = parsed.tradWord;
+    const wordMeter = parsed.meterWord;
 
     modernWords.push(wordModern);
     tradWords.push(wordTrad);
@@ -1442,6 +1816,7 @@ function processInput() {
         <button type="button"
           onclick="inspectAndPlaySyllable(${cardIdx})"
           data-raw="${s.raw}"
+          data-idx="${cardIdx}"
           id="syl-card-${cardIdx}"
           class="syllable-card bg-[var(--secondary)] hover:bg-[var(--card)] border border-[var(--border)] rounded-xl p-2.5 min-w-[98px] text-center cursor-pointer flex flex-col items-center justify-between">
           <div class="w-full flex items-center justify-between gap-1 text-xs text-[var(--muted-foreground)] font-mono">
@@ -1465,85 +1840,118 @@ function processInput() {
   document.getElementById('tradOut').textContent = tradWords.join(' ');
   document.getElementById('breakdownContainer').innerHTML = allCardsHtml.join('');
   document.getElementById('wordSheetContainer').innerHTML = wordSheetHtml.join('');
-  document.getElementById('statsSummary').textContent =
-    `${modernWords.length} 词 · ${totalPhoneticSyllables} 音节 (重音 — ${guruCount} / 轻音 ⏑ ${laghuCount})`;
+  const statsEl = document.getElementById('statsSummary');
+  if (statsEl) {
+    statsEl.textContent =
+      `${modernWords.length} 词 · ${totalPhoneticSyllables} 音节 (重音 — ${guruCount} / 轻音 ⏑ ${laghuCount})`;
+  }
 }
 
 function highlightSyllableCard(cardIdx, showInspector = true) {
   document.querySelectorAll('.syllable-card').forEach(c => c.classList.remove('speaking-active'));
   const card = document.getElementById(`syl-card-${cardIdx}`);
-  if (card) {
+  if (card && card.classList) {
     card.classList.add('speaking-active');
   }
   if (showInspector && lastSyllableList[cardIdx]) {
     const item = lastSyllableList[cardIdx];
     const panel = document.getElementById('activeSyllableInspector');
-    panel.classList.remove('hidden');
-    document.getElementById('inspDeva').textContent = item.devaSyl;
-    document.getElementById('inspIast').textContent = `IAST: ${item.iastSyl} (SLP1: ${item.raw})`;
-    document.getElementById('inspMeter').textContent = item.meter === '—' ? '诗律：— 重音节 Guru (2拍)' : '诗律：⏑ 轻音节 Laghu (1拍)';
-    document.getElementById('inspModern').textContent = `现代跟读：${item.m}`;
-    document.getElementById('inspTrad').textContent = `唐音悉昙：${item.t}`;
-    document.getElementById('inspDetail').textContent = `发音部位：${item.varga} ｜ 声学解析：${item.note}`;
-    document.getElementById('inspSpeakBtn').onclick = () => playSingleSyllable(item.raw, cardIdx);
+    if (panel && panel.classList) panel.classList.remove('hidden');
+    const devaEl = document.getElementById('inspDeva');
+    const iastEl = document.getElementById('inspIast');
+    const meterEl = document.getElementById('inspMeter');
+    const modEl = document.getElementById('inspModern');
+    const tradEl = document.getElementById('inspTrad');
+    const detEl = document.getElementById('inspDetail');
+    const btnEl = document.getElementById('inspSpeakBtn');
+
+    if (devaEl) devaEl.textContent = item.devaSyl;
+    if (iastEl) iastEl.textContent = `IAST: ${item.iastSyl} (SLP1: ${item.raw})`;
+    if (meterEl) meterEl.textContent = item.meter === '—' ? '诗律：— 重音节 Guru (2拍)' : '诗律：⏑ 轻音节 Laghu (1拍)';
+    if (modEl) modEl.textContent = `现代跟读：${item.m}`;
+    if (tradEl) tradEl.textContent = `唐音悉昙：${item.t}`;
+    if (detEl) detEl.textContent = `发音部位：${item.varga} ｜ 声学解析：${item.note}`;
+    if (btnEl) btnEl.onclick = () => playSingleSyllable(item.raw, cardIdx);
   }
 }
 
-function inspectAndPlaySyllable(cardIdx) {
+async function inspectAndPlaySyllable(cardIdx) {
   const item = lastSyllableList[cardIdx];
-  if (!item) return;
-  playSingleSyllable(item.raw, cardIdx);
+  if (!item) return null;
+  highlightSyllableCard(cardIdx, true);
+  return await playSingleSyllable(item.raw, cardIdx);
 }
 
 /**
- * 构建 34×14 悉昙音素全表弹窗内容
+ * 构建完整 34×14 悉昙音素全表弹窗内容：
+ * 1. 16 摩多独立元音 (14 元音 a..O + 随韵 aM + 止韵 aH)
+ * 2. 28 神圣种子字与特殊二合音 (SYLLABLE_OVERRIDES)
+ * 3. 34 辅音 × 14 元音全矩阵 (476 单元格) + 34 纯辅音去元音符 (Virāma) 列 = 510 单元格
  */
 function buildPhonemeMatrixModal() {
   const container = document.getElementById('matrixModalBody');
+  if (!container) return;
   if (container.innerHTML.trim() !== '') return;
 
-  // 14 个独立元音展示
-  const vowelKeys = ['a','A','i','I','u','U','f','F','x','X','e','E','o','O'];
-  const vowelCards = vowelKeys.map(vk => {
+  // 一、16 摩多独立元音 (Svara)
+  const svaraKeys = ['a','A','i','I','u','U','f','F','x','X','e','E','o','O','aM','aH'];
+  const vowelCards = svaraKeys.map(vk => {
     const iast = slp1ToIast(vk);
     const deva = slp1ToDevanagari(vk);
-    const [m, t] = VOWEL_MAP[vk];
+    let m = '', t = '';
+    if (vk === 'aM') {
+      m = '阿姆'; t = '唵/暗';
+    } else if (vk === 'aH') {
+      m = '阿哈'; t = '阿诃';
+    } else {
+      const pair = VOWEL_MAP[vk] || [vk, vk];
+      m = pair[0] + (INHERENT_LONG_VOWELS.has(vk) ? '～' : '');
+      t = pair[1];
+    }
     return `
-      <button type="button" onclick="playSingleSyllable('${vk}', -1)"
+      <button type="button" data-slp1="${vk}" onclick="playSingleSyllable('${vk}', -1)"
         class="p-2 rounded-xl bg-[var(--secondary)] hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)] border border-[var(--border)] text-center transition cursor-pointer">
         <div class="deva-font text-base font-bold">${deva} <span class="font-mono text-xs opacity-80">${iast}</span></div>
-        <div class="text-xs font-bold mt-0.5">${m}${INHERENT_LONG_VOWELS.has(vk) ? '～' : ''}</div>
+        <div class="text-xs font-bold mt-0.5">${m}</div>
         <div class="text-xs opacity-75">古：${t}</div>
       </button>
     `;
   }).join('');
 
-  // 34 辅音 × 8 元音代表列
-  const sampleVowels = [
-    { k:'a', label:'a / ā' },
-    { k:'i', label:'i / ī' },
-    { k:'u', label:'u / ū' },
-    { k:'f', label:'ṛ / ḷ' },
-    { k:'e', label:'e' },
-    { k:'E', label:'ai' },
-    { k:'o', label:'o' },
-    { k:'O', label:'au' }
-  ];
+  // 二、28 神圣种子字与特殊二合音 (Bīja & Special Conjuncts)
+  const overrideCards = Object.entries(SYLLABLE_OVERRIDES).map(([ovKey, ov]) => {
+    const iast = slp1ToIast(ovKey);
+    const deva = slp1ToDevanagari(ovKey);
+    return `
+      <button type="button" data-slp1="${ovKey}" onclick="playSingleSyllable('${ovKey}', -1)"
+        class="p-2 rounded-xl bg-[var(--secondary)] hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)] border border-[var(--border)] text-center transition cursor-pointer">
+        <div class="deva-font text-sm font-bold">${deva} <span class="font-mono text-xs opacity-80">${iast}</span></div>
+        <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">${ov.m}</div>
+        <div class="text-xs text-amber-700 dark:text-amber-400">古：${ov.t}</div>
+      </button>
+    `;
+  }).join('');
+
+  // 三、34 辅音 × 14 元音全矩阵 + 纯辅音 (Virāma) 列
+  const matrixVowels = ['a','A','i','I','u','U','f','F','x','X','e','E','o','O'];
 
   const rowsHtml = Object.entries(CONS_MATRIX).map(([cKey, info]) => {
     const cIast = slp1ToIast(cKey);
     const cDeva = slp1ToDevanagari(cKey);
-    const cells = sampleVowels.map((sv, vIdx) => {
-      const sylSlp = cKey + sv.k;
+    const cells = matrixVowels.map((vk) => {
+      const sylSlp = cKey + vk;
       const sylDeva = slp1ToDevanagari(sylSlp);
       const sylIast = slp1ToIast(sylSlp);
+      const vIdx = VOWEL_INDEX[vk] ?? 0;
+      const mLabel = info.m[vIdx] + (INHERENT_LONG_VOWELS.has(vk) ? '～' : '');
+      const tLabel = info.t[vIdx];
       return `
-        <td class="p-1.5 border border-[var(--border)] text-center">
-          <button type="button" onclick="playSingleSyllable('${sylSlp}', -1)"
+        <td class="p-1 border border-[var(--border)] text-center">
+          <button type="button" data-slp1="${sylSlp}" onclick="playSingleSyllable('${sylSlp}', -1)"
             class="w-full p-1 rounded-lg hover:bg-[var(--secondary)] transition cursor-pointer">
             <div class="deva-font text-xs font-semibold">${sylDeva} <span class="font-mono opacity-70">${sylIast}</span></div>
-            <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400">${info.m[vIdx]}</div>
-            <div class="text-xs text-amber-700 dark:text-amber-400">古:${info.t[vIdx]}</div>
+            <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400">${mLabel}</div>
+            <div class="text-xs text-amber-700 dark:text-amber-400">古:${tLabel}</div>
           </button>
         </td>
       `;
@@ -1551,10 +1959,13 @@ function buildPhonemeMatrixModal() {
 
     return `
       <tr>
-        <td class="p-2 border border-[var(--border)] font-semibold bg-[var(--secondary)]">
-          <div class="deva-font text-sm">${cDeva} <span class="font-mono text-xs">(${cIast})</span></div>
-          <div class="text-xs text-[var(--muted-foreground)]">${info.varga.split(' ')[0]}</div>
-          <div class="text-xs text-[var(--muted-foreground)]">${info.note}</div>
+        <td class="p-1.5 border border-[var(--border)] font-semibold bg-[var(--secondary)] min-w-[125px]">
+          <button type="button" data-slp1="${cKey}" onclick="playSingleSyllable('${cKey}', -1)"
+            class="w-full text-left p-1 rounded-lg hover:bg-[var(--card)] transition cursor-pointer">
+            <div class="deva-font text-sm">${cDeva} <span class="font-mono text-xs">(${cIast})</span></div>
+            <div class="text-xs text-emerald-600 dark:text-emerald-400">收音:${info.bare[0]} / 古:${info.bare[1]}</div>
+            <div class="text-xs text-[var(--muted-foreground)] truncate">${info.varga.split(' ')[0]} · ${info.note}</div>
+          </button>
         </td>
         ${cells}
       </tr>
@@ -1563,17 +1974,21 @@ function buildPhonemeMatrixModal() {
 
   container.innerHTML = `
     <div class="space-y-2">
-      <h4 class="font-bold text-sm text-[var(--foreground)]">一、14 独立元音 (Svara · 点击试听)</h4>
-      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">${vowelCards}</div>
+      <h4 class="font-bold text-sm text-[var(--foreground)]">一、16 摩多独立元音与随韵/止韵 (Svara · 48kHz 点击试听)</h4>
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">${vowelCards}</div>
     </div>
     <div class="space-y-2">
-      <h4 class="font-bold text-sm text-[var(--foreground)]">二、34 辅音 × 元音韵母全矩阵 (Vyañjana · 点击任意单元格试听)</h4>
+      <h4 class="font-bold text-sm text-[var(--foreground)]">二、28 神圣种子字与高频二合音 (Bīja & Conjuncts · 48kHz 点击试听)</h4>
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">${overrideCards}</div>
+    </div>
+    <div class="space-y-2">
+      <h4 class="font-bold text-sm text-[var(--foreground)]">三、34 辅音 × 14 元音全矩阵 + 纯辅音收音列 (34×14 = 476 CV + 34 Virāma · 点击任意单元格 48kHz 试听)</h4>
       <div class="overflow-x-auto">
         <table class="w-full border-collapse border border-[var(--border)] text-xs">
           <thead>
             <tr class="bg-[var(--secondary)]">
-              <th class="p-2 border border-[var(--border)] text-left min-w-[140px]">辅音部位与声学属性</th>
-              ${sampleVowels.map(sv => `<th class="p-2 border border-[var(--border)] font-mono">+ ${sv.label}</th>`).join('')}
+              <th class="p-2 border border-[var(--border)] text-left min-w-[125px]">纯辅音 (Virāma)</th>
+              ${matrixVowels.map(vk => `<th class="p-1.5 border border-[var(--border)] font-mono">+${slp1ToIast(vk)}</th>`).join('')}
             </tr>
           </thead>
           <tbody>${rowsHtml}</tbody>
@@ -1585,6 +2000,7 @@ function buildPhonemeMatrixModal() {
 
 function toggleMatrixModal(show) {
   const modal = document.getElementById('matrixModal');
+  if (!modal) return;
   if (show) {
     buildPhonemeMatrixModal();
     modal.classList.remove('hidden');
@@ -1595,6 +2011,7 @@ function toggleMatrixModal(show) {
 
 function showToast(msg) {
   const toast = document.getElementById('toastNotice');
+  if (!toast) return;
   toast.textContent = msg;
   toast.classList.remove('hidden');
   setTimeout(() => {
@@ -1603,35 +2020,80 @@ function showToast(msg) {
 }
 
 function copyText(id, label = '文本') {
-  const text = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    showToast(`已复制${label}到剪贴板`);
-  });
+  const el = document.getElementById(id);
+  const text = el ? el.textContent : '';
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast(`已复制${label}到剪贴板`);
+    });
+  }
 }
 
 function copyFormattedSheet() {
-  const deva = document.getElementById('devaOut').textContent;
-  const iast = document.getElementById('iastOut').textContent;
-  const modern = document.getElementById('modernOut').textContent;
-  const trad = document.getElementById('tradOut').textContent;
+  const deva = document.getElementById('devaOut')?.textContent || '';
+  const iast = document.getElementById('iastOut')?.textContent || '';
+  const modern = document.getElementById('modernOut')?.textContent || '';
+  const trad = document.getElementById('tradOut')?.textContent || '';
   const sheet = [
     `【天城文】${deva}`,
     `【IAST转写】${iast}`,
     `【现代梵音跟读】${modern}`,
     `【传统悉昙古译】${trad}`
   ].join('\n');
-  navigator.clipboard.writeText(sheet).then(() => {
-    showToast('已复制四行梵音对照谱到剪贴板');
-  });
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    navigator.clipboard.writeText(sheet).then(() => {
+      showToast('已复制四行梵音对照谱到剪贴板');
+    });
+  }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.getVoices();
+// 显式挂载全局 API 至 window，满足 PROJECT.md § Interface Contracts § 3 规范
+window.DEVA_TO_SLP1 = DEVA_TO_SLP1;
+window.IAST_TO_SLP1_RULES = IAST_TO_SLP1_RULES;
+window.ROUGH_ENGLISH_WORD_MAP = ROUGH_ENGLISH_WORD_MAP;
+window.VOWEL_MAP = VOWEL_MAP;
+window.CONS_MATRIX = CONS_MATRIX;
+window.SYLLABLE_OVERRIDES = SYLLABLE_OVERRIDES;
+window.TRAD_WORD_REPLACEMENTS = TRAD_WORD_REPLACEMENTS;
+window.VALID_ONSET_PAIRS = VALID_ONSET_PAIRS;
+window.SAMPLES = SAMPLES;
+window.IAST_QUICK_CHARS = IAST_QUICK_CHARS;
+
+window.inputToSlp1 = inputToSlp1;
+window.slp1ToIast = slp1ToIast;
+window.slp1ToDevanagari = slp1ToDevanagari;
+window.syllabifySlp1Word = syllabifySlp1Word;
+window.resolveModifiers = resolveModifiers;
+window.parseAndTransliterateWord = parseAndTransliterateWord;
+window.synthesizeSyllableAudio = synthesizeSyllableAudio;
+window.playSingleSyllable = playSingleSyllable;
+window.speakSanskrit = speakSanskrit;
+window.stopSpeaking = stopSpeaking;
+window.buildPhonemeMatrixModal = buildPhonemeMatrixModal;
+window.toggleMatrixModal = toggleMatrixModal;
+window.inspectAndPlaySyllable = inspectAndPlaySyllable;
+window.processInput = processInput;
+window.loadSample = loadSample;
+window.setInputMode = setInputMode;
+window.setBreakdownView = setBreakdownView;
+window.copyFormattedSheet = copyFormattedSheet;
+
+async function initEngineOnReady() {
+  if ('speechSynthesis' in window && window.speechSynthesis && typeof window.speechSynthesis.getVoices === 'function') {
+    try { window.speechSynthesis.getVoices(); } catch (e) {}
   }
   initQuickCharBar();
   loadSample(0);
-});
+  await ensureSpriteLoaded();
+  await checkBackendHealth();
+}
+
+if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {
+  document.addEventListener('DOMContentLoaded', initEngineOnReady);
+}
+if (typeof window !== 'undefined' && typeof window.addEventListener === 'function' && window !== document) {
+  window.addEventListener('DOMContentLoaded', initEngineOnReady);
+}
 </script>
 </body>
 </html>

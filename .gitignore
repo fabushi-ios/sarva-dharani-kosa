@@ -12,3 +12,8 @@ tsconfig.tsbuildinfo
 .local/
 .config/
 upload/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+public/audio/cache/
+.agents/

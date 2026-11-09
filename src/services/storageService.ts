@@ -1,56 +1,60 @@
 /**
- * 本地持久化存储服务 (src/services/storageService.ts)
- * 管理：收藏夹、显示层级开关配置、用户通过四体编译器创建的自定义陀罗尼条目
+ * Persistent Local Storage Service (`src/services/storageService.ts`)
+ * Manages user-configured 10-layer display toggles, bookmarked Dhāraṇīs,
+ * and custom compiled Sanskrit mantras.
  */
 
-import { DharaniEntry, DisplayLayerSettings } from '../types/dharani';
+import { DharaniEntry, DisplayLayerConfig } from '../types/dharani';
 
-const FAVORITES_KEY = 'sarva_dharani_kosa_favorites_v2';
-const LAYERS_KEY = 'sarva_dharani_kosa_layers_v2';
-const CUSTOM_DHARANIS_KEY = 'sarva_dharani_kosa_custom_entries_v2';
+const LAYER_CONFIG_KEY = 'sarva_dharani_kosa_layers_v3';
+const BOOKMARKS_KEY = 'sarva_dharani_kosa_bookmarks_v3';
+const CUSTOM_DHARANIS_KEY = 'sarva_dharani_kosa_custom_entries_v3';
 
-export const DEFAULT_DISPLAY_LAYERS: DisplayLayerSettings = {
-  showSiddham: true,
-  showDevanagari: true,
-  showIast: true,
-  showIpa: true,
-  showTangTranslit: true,
-  showModernPhonetic: true,
-  showMeaningZh: true,
-  showMeaningEn: true,
-  showWordGloss: true,
-  showProsodyMeter: true
+export const DEFAULT_DISPLAY_LAYERS: DisplayLayerConfig = {
+  siddham: true,
+  devanagari: true,
+  iast: true,
+  slp1: true,
+  ipa: true,
+  modernChinese: true,
+  tangSiddham: true,
+  chandasMeter: true,
+  wordGloss: true,
+  chineseMeaning: true,
 };
 
-export function loadFavorites(): string[] {
+export function loadDisplayLayerConfig(): DisplayLayerConfig {
   try {
-    const raw = localStorage.getItem(FAVORITES_KEY);
-    return raw ? JSON.parse(raw) : ['usnisa-vijaya', 'nilakantha', 'prajnaparamita-hrdaya'];
+    const raw = window.localStorage.getItem(LAYER_CONFIG_KEY);
+    if (!raw) return { ...DEFAULT_DISPLAY_LAYERS };
+    return { ...DEFAULT_DISPLAY_LAYERS, ...JSON.parse(raw) };
   } catch {
-    return ['usnisa-vijaya', 'nilakantha', 'prajnaparamita-hrdaya'];
+    return { ...DEFAULT_DISPLAY_LAYERS };
   }
 }
 
-export function saveFavorites(ids: string[]): void {
+export function saveDisplayLayerConfig(config: DisplayLayerConfig): void {
   try {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(ids));
+    window.localStorage.setItem(LAYER_CONFIG_KEY, JSON.stringify(config));
   } catch {
-    // ignore storage errors
+    // ignore storage quota errors
   }
 }
 
-export function loadDisplayLayers(): DisplayLayerSettings {
+export function loadBookmarkedIds(): string[] {
   try {
-    const raw = localStorage.getItem(LAYERS_KEY);
-    return raw ? { ...DEFAULT_DISPLAY_LAYERS, ...JSON.parse(raw) } : DEFAULT_DISPLAY_LAYERS;
+    const raw = window.localStorage.getItem(BOOKMARKS_KEY);
+    if (!raw) return ['heart-sutra-mantra', 'mahakaruna-dharani', 'usnisavijaya-dharani'];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return DEFAULT_DISPLAY_LAYERS;
+    return ['heart-sutra-mantra', 'mahakaruna-dharani', 'usnisavijaya-dharani'];
   }
 }
 
-export function saveDisplayLayers(layers: DisplayLayerSettings): void {
+export function saveBookmarkedIds(ids: string[]): void {
   try {
-    localStorage.setItem(LAYERS_KEY, JSON.stringify(layers));
+    window.localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(ids));
   } catch {
     // ignore
   }
@@ -58,8 +62,10 @@ export function saveDisplayLayers(layers: DisplayLayerSettings): void {
 
 export function loadCustomDharanis(): DharaniEntry[] {
   try {
-    const raw = localStorage.getItem(CUSTOM_DHARANIS_KEY);
-    return raw ? JSON.parse(raw) : [];
+    const raw = window.localStorage.getItem(CUSTOM_DHARANIS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
@@ -67,7 +73,7 @@ export function loadCustomDharanis(): DharaniEntry[] {
 
 export function saveCustomDharanis(entries: DharaniEntry[]): void {
   try {
-    localStorage.setItem(CUSTOM_DHARANIS_KEY, JSON.stringify(entries));
+    window.localStorage.setItem(CUSTOM_DHARANIS_KEY, JSON.stringify(entries));
   } catch {
     // ignore
   }

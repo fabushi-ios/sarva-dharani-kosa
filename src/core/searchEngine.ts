@@ -1,57 +1,76 @@
 /**
- * 跨文种去重音符模糊检索引擎 (src/core/searchEngine.ts)
- * 支持：汉文经名、大正藏经号 (如 T19n0974B)、IAST 梵文、无变音符罗马拼音 (如 om mani padme hum)、天城体、悉昙体、本尊名号检索
+ * Cross-Script Diacritic-Insensitive Search Engine (`src/core/searchEngine.ts`)
+ * Supports searching across IAST, Devanāgarī, Siddhaṃ, SLP1, Chinese titles,
+ * Tang phonetic transcriptions, and Taishō / GRETIL IDs.
  */
 
-import { DharaniEntry, DharaniCategoryId } from '../types/dharani';
+import { DharaniCategory, DharaniEntry } from '../types/dharani';
+import { inputToSlp1 } from './transliterator';
 
-export function normalizeSanskritSearchQuery(str: string): string {
-  return str
+export function normalizeSearchQuery(raw: string): string {
+  return raw
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
 }
 
-export function filterDharanis(
+export function filterDharaniCorpus(
   entries: DharaniEntry[],
-  category: DharaniCategoryId,
-  query: string
+  category: DharaniCategory,
+  query: string,
+  bookmarkedIds?: Set<string>,
+  onlyBookmarks = false
 ): DharaniEntry[] {
-  const byCategory =
-    category === 'all' ? entries : entries.filter(e => e.category === category);
+  const normQuery = normalizeSearchQuery(query);
+  const querySlp1 = query.trim() ? inputToSlp1(query.trim(), 'smart').toLowerCase() : '';
 
-  const q = query.trim();
-  if (!q) return byCategory;
+  return entries.filter((entry) => {
+    if (category !== 'all' && entry.category !== category) {
+      return false;
+    }
+    if (onlyBookmarks && bookmarkedIds && !bookmarkedIds.has(entry.id)) {
+      return false;
+    }
+    if (!normQuery) {
+      return true;
+    }
 
-  const qNorm = normalizeSanskritSearchQuery(q);
-
-  return byCategory.filter(entry => {
     const searchableFields = [
+      entry.id,
       entry.titleZh,
-      entry.titleSaIast,
-      entry.titleSaDeva,
-      entry.titleEn,
-      entry.deityFocus,
-      entry.seedSyllableIast,
-      entry.seedSyllableZh,
+      entry.titleSanskrit,
+      entry.titleDevanagari,
+      entry.titleSiddham,
+      entry.deityOrSubject,
       entry.summaryZh,
-      entry.sourceMeta.cbetaXmlId,
-      entry.sourceMeta.gretilId || '',
-      entry.sourceMeta.ancientTranslator,
-      ...entry.verses.flatMap(v => [
+      entry.benefitsZh,
+      entry.sourceMetadata.taishoId,
+      entry.sourceMetadata.cbetaXmlId,
+      entry.sourceMetadata.gretilId || '',
+      entry.sourceMetadata.translator,
+      ...entry.verses.flatMap((v) => [
         v.iast,
+        v.devanagari || '',
         v.tangTranslit,
         v.meaningZh,
-        v.meaningEn,
-        v.modernPhonetic || ''
-      ])
+        v.meaningEn || '',
+      ]),
     ];
 
-    return searchableFields.some(field => {
-      if (!field) return false;
-      if (field.toLowerCase().includes(q.toLowerCase())) return true;
-      return normalizeSanskritSearchQuery(field).includes(qNorm);
-    });
+    for (const field of searchableFields) {
+      if (!field) continue;
+      if (field.toLowerCase().includes(query.trim().toLowerCase())) {
+        return true;
+      }
+      if (normalizeSearchQuery(field).includes(normQuery)) {
+        return true;
+      }
+      if (querySlp1 && inputToSlp1(field, 'smart').toLowerCase().includes(querySlp1)) {
+        return true;
+      }
+    }
+
+    return false;
   });
 }
