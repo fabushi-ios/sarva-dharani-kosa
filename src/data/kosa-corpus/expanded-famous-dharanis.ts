@@ -17,7 +17,7 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
     meritsAndSummaryZh:
       '释迦牟尼佛临涅槃时，螺髻梵王以鄙秽不净物障难大众，佛自左心化出不坏金刚（秽迹金刚），立往梵天化诸不净为大宝地。此四十二字神咒能除一切瘟疫、鬼魅、蛊毒、邪法，不拣净秽，持诵圆满感得杵出光焰、水涌沸腾之验相。',
     recitationTipsZh:
-      '唐阿质达霰译音「嗡 咈SocialMedia 啒㗚 摩诃般啰恨那...」对应梵文以「oṃ bhihau guru mahāprāṇa...」起首，末尾「guṇa maṇi svāhā」祈请乌枢沙摩金刚威德如意圆成。',
+      '唐阿质达霰译音「嗡 咈啒啒㗚 摩诃般啰恨那...」对应梵文以「oṃ bhihau guru mahāprāṇa...」起首，末尾「guṇa maṇi svāhā」祈请乌枢沙摩金刚威德如意圆成。',
     provenance: {
       sourceType: 'CBETA-XML-P5',
       cbetaId: 'T21n1228',
@@ -92,18 +92,34 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
       {
         id: 'mahacakra-v1',
         index: 1,
-        iast: 'namaḥ strīyadhvikānāṃ sarvatathāgatānām | āṃ viraji viraji mahācakravajri | sata sata sārate sārate trayī trayī vidhamani | saṃbhañjani tramati siddhāgrya tvaṃ svāhā ||',
+        iast: 'namaḥ strīyadhvikānāṃ sarvatathāgatānām | āṃ viraji viraji mahācakravajri ||',
         classicalTranslitZh:
-          '南无 司得哩牙 提维嘎难 萨嚩怛他蘖多喃 | 唵 维啰尔 维啰尔 摩诃斫羯啰嚩日哩 | 萨多 萨多 娑啰帝 娑啰帝 怛啰曳 怛啰曳 毗陀摩你 | 三槃若你 怛啰摩底 细驮搿哩牙 怛呁 娑嚩诃 ||',
+          '南无 司得哩牙 提维嘎难 萨嚩怛他蘖多喃 | 唵 维啰尔 维啰尔 摩诃斫羯啰嚩日哩 ||',
         modernPhoneticZh:
-          '拿玛哈 斯特哩呀-德维嘎南 萨尔瓦-达他嘎达南 | 昂 维啦吉 维啦吉 玛哈-恰克啦-瓦吉哩 | 萨达 萨达 萨啦帝 萨啦帝 特啦衣 特啦衣 维达玛尼 | 桑班佳尼 特啦玛帝 悉达-格哩呀 特万 斯瓦哈 ||',
+          '拿玛哈 斯特哩呀-德维嘎南 萨尔瓦-达他嘎达南 | 昂 维啦吉 维啦吉 玛哈-恰克啦-瓦吉哩 ||',
         meaningZh:
-          '归命三世一切诸佛如来！嗡！离垢清净、离垢清净，大轮金刚尊啊！真实坚固、真实流转、救护三界、摧破无明、粉碎结缚、度脱三有，汝即最上悉地成就，圆满吉祥！',
+          '归命三世一切诸佛如来！嗡！离垢清净、离垢清净，大轮金刚明王尊啊！',
         meaningEn:
-          'Homage to all Tathāgatas of the Three Times! Āṃ! O Stainless One, O Great Wheel Vajra! True, true, flowing, rescuing the three worlds, shattering all fetters, You are the supreme Siddhi, Svāhā!',
+          'Homage to all Tathāgatas of the Three Times! Āṃ! O Stainless One, O Great Wheel Vajra!',
         words: [
           { iast: 'strīyadhvikānāṃ', stem: 'tryadhvika', grammar: 'Gen. pl. m.', transliterationZh: '司得哩牙提维嘎难', meaningZh: '三世（过去现在未来）之', meaningEn: 'of the three times' },
           { iast: 'mahācakravajri', stem: 'mahā-cakra-vajrin', grammar: 'Voc. sg.', transliterationZh: '摩诃斫羯啰嚩日哩', meaningZh: '大轮金刚尊啊', meaningEn: 'O Great Wheel Vajra' },
+        ],
+      },
+      {
+        id: 'mahacakra-v2',
+        index: 2,
+        iast: 'sata sata sārate sārate trayī trayī vidhamani | saṃbhañjani tramati siddhāgrya tvaṃ svāhā ||',
+        classicalTranslitZh:
+          '萨多 萨多 娑啰帝 娑啰帝 怛啰曳 怛啰曳 毗陀摩你 | 三槃若你 怛啰摩底 细驮搿哩牙 怛呁 娑嚩诃 ||',
+        modernPhoneticZh:
+          '萨达 萨达 萨啦帝 萨啦帝 特啦衣 特啦衣 维达玛尼 | 桑班佳尼 特啦玛帝 悉达-格哩呀 特万 斯瓦哈 ||',
+        meaningZh:
+          '真实坚固、真实流转、救护三界、摧破无明、粉碎结缚、度脱三有，汝即最上悉地坛法成就，圆满吉祥！',
+        meaningEn:
+          'True, true, flowing, rescuing the three worlds, shattering all fetters, You are the supreme Siddhi, Svāhā!',
+        words: [
+          { iast: 'vidhamani', stem: 'vi-√dham', grammar: 'Voc. sg.', transliterationZh: '毗陀摩你', meaningZh: '吹散摧灭一切业障者', meaningEn: 'O Disperser of obstacles' },
           { iast: 'saṃbhañjani', stem: 'sam-√bhañj', grammar: 'Voc. sg.', transliterationZh: '三槃若你', meaningZh: '彻底摧碎（烦恼魔障）者', meaningEn: 'O Crusher of obstacles' },
         ],
       },
@@ -203,18 +219,32 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
       {
         id: 'manjusri8-v1',
         index: 1,
-        iast: 'oṃ āḥ vī ra hūṃ kha ca raḥ ||',
-        classicalTranslitZh: '唵 阿 味 啰 吽 佉 左 洛 ||',
-        modernPhoneticZh: '嗡 啊哈 维— 啦 吽 卡 佳 啦哈 ||',
+        iast: 'namaḥ sarvabuddhānām | oṃ āḥ vī ra hūṃ kha ca raḥ ||',
+        classicalTranslitZh: '曩莫 萨嚩没驮喃 | 唵 阿 味 啰 吽 佉 左 洛 ||',
+        modernPhoneticZh: '拿玛哈 萨尔瓦布达南 | 嗡 啊哈 维— 啦 吽 卡 佳 啦哈 ||',
         meaningZh:
-          '嗡！阿（无生法界门）、味（大勇猛定力）、啰（离尘清净）、吽（摧破一切魔怨災障）、佉左洛（自在游行于大空法界之文殊大士）！',
+          '归命一切诸佛！嗡！阿（无生法界门）、味（大勇猛定力）、啰（离尘清净）、吽（摧破一切魔怨灾障）、佉左洛（自在游行于大空法界之文殊大士）！',
         meaningEn:
-          'Oṃ! Āḥ (Primordial Unborn), Vīra (Heroic Valor), Hūṃ (Vajra Mind), Khacaraḥ (Sky-Farer moving freely through the expanse of emptiness)!',
+          'Homage to all Buddhas! Oṃ! Āḥ (Primordial Unborn), Vīra (Heroic Valor), Hūṃ (Vajra Mind), Khacaraḥ (Sky-Farer moving freely through the expanse of emptiness)!',
         words: [
           { iast: 'āḥ', stem: 'āḥ', grammar: 'Bīja', transliterationZh: '阿', meaningZh: '一切法本不生、语金刚种子字', meaningEn: 'seed syllable of unborn speech' },
           { iast: 'vīra', stem: 'vīra', grammar: 'Voc. sg. m.', transliterationZh: '味啰', meaningZh: '大勇猛无畏尊', meaningEn: 'O Heroic One' },
           { iast: 'hūṃ', stem: 'hūṃ', grammar: 'Bīja', transliterationZh: '吽', meaningZh: '圆满菩提、摧伏灾障', meaningEn: 'Vajra heart syllable' },
           { iast: 'khacaraḥ', stem: 'kha-cara', grammar: 'Nom. sg. m.', transliterationZh: '佉左洛', meaningZh: '游行虚空无碍者（文殊菩萨密号）', meaningEn: 'Sky-Walker / Courser in Emptiness' },
+        ],
+      },
+      {
+        id: 'manjusri8-v2',
+        index: 2,
+        iast: 'oṃ vākyedaṃ namaḥ | oṃ a ra pa ca na dhīḥ ||',
+        classicalTranslitZh: '唵 嚩鸡淡 曩莫（文殊六字心咒）| 唵 阿 啰 跛 左 曩 渧（文殊五字真言）||',
+        modernPhoneticZh: '嗡 瓦aki耶当 拿玛哈 | 嗡 阿 啦 巴 佳 拿 蒂希 ||',
+        meaningZh:
+          '【文殊语王六字真言与五字慧剑心咒】嗡！向语自在王文殊师利致敬！嗡！阿啰跛左曩渧，开启一切般若文字总持门！',
+        meaningEn:
+          '[Mañjuśrī Lord of Speech & Five-Syllable Wisdom Mantras] Oṃ! Homage to the Lord of Speech! Oṃ A Ra Pa Ca Na Dhīḥ!',
+        words: [
+          { iast: 'vākyedaṃ', stem: 'vākya-idam', grammar: 'Nom./Acc. sg.', transliterationZh: '嚩鸡淡', meaningZh: '胜义法语自在尊', meaningEn: 'supreme speech of wisdom' },
         ],
       },
     ],
@@ -261,6 +291,20 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
           { iast: 'kamali mauli', stem: 'kamalin-maulin', grammar: 'Voc. sg.', transliterationZh: '迦摩哩 摩利', meaningZh: '戴莲华与摩尼宝冠之圣尊', meaningEn: 'O Lotus-Crowned One' },
         ],
       },
+      {
+        id: 'akasa-v2',
+        index: 2,
+        iast: 'oṃ vajraratna oṃ trāṃ svāhā ||',
+        classicalTranslitZh: '唵 嚩日啰啰怛曩 唵 怛囕 娑嚩诃（虚空藏菩萨宝部心真言）||',
+        modernPhoneticZh: '嗡 瓦吉啦-啦特拿 嗡 特朗 斯瓦哈 ||',
+        meaningZh:
+          '【虚空藏菩萨如意宝珠心咒】嗡！金刚摩尼宝，虚空宝藏根本种子字（怛囕 trāṃ），圆满所求福智资粮，娑嚩诃！',
+        meaningEn:
+          '[Ākāśagarbha Wish-Fulfilling Gem Mantra] Oṃ Vajraratna Oṃ Trāṃ Svāhā!',
+        words: [
+          { iast: 'trāṃ', stem: 'trāṃ', grammar: 'Ratna-kula Bīja', transliterationZh: '怛囕', meaningZh: '宝部与虚空藏菩萨根本种子字', meaningEn: 'seed syllable of the Ratna family and Ākāśagarbha' },
+        ],
+      },
     ],
   },
 
@@ -305,6 +349,22 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
         words: [
           { iast: 'jñānāvabhāse', stem: 'jñāna-avabhāsā', grammar: 'Voc. sg.', transliterationZh: '枳娘曩嚩婆细', meaningZh: '智慧光明遍照尊啊', meaningEn: 'O Illumination of Wisdom' },
           { iast: 'dhiri dhiri', stem: '√dhṛ', grammar: 'Impv.', transliterationZh: '地哩 地哩', meaningZh: '摄持、救拔令安住', meaningEn: 'sustain, uphold' },
+        ],
+      },
+      {
+        id: 'jnanolka-v2',
+        index: 2,
+        iast: 'tadyathā — jñāne jñāne mahājñāne jñānāvabhāse | bhedaya bhedaya sarvanarakān vidhvaṃsaya viśodhaya hūṃ phaṭ svāhā ||',
+        classicalTranslitZh:
+          '怛侄他 — 若泥 若泥 摩诃若泥 若那嚩婆细 | 陛陀耶 陛陀耶 萨嚩捺啰干 尾特呁萨耶 尾戌陀耶 吽 泮吒 娑嚩诃 ||',
+        modernPhoneticZh:
+          '达地呀他 — 佳内 佳内 玛哈-佳内 佳拿-瓦巴塞 | 贝达呀 贝达呀 萨尔瓦-拿啦干 维德万萨呀 维硕达呀 吽 帕特 斯瓦哈 ||',
+        meaningZh:
+          '即说咒曰：圣智、大圣智、智慧炬光明遍照尊！劈破、劈破一切地狱铁围，彻底粉碎三途苦轮、彻底清净罪障，吽、泮吒，圆满吉祥！',
+        meaningEn:
+          'Namely: O Wisdom, Great Wisdom, Illumination of Wisdom! Split open, shatter all hells, utterly demolish and purify all karmic bonds, Hūṃ Phaṭ Svāhā!',
+        words: [
+          { iast: 'bhedaya sarvanarakān', stem: '√bhid + sarva-naraka', grammar: 'Impv. + Acc. pl.', transliterationZh: '陛陀耶 萨嚩捺啰干', meaningZh: '破开一切地狱恶趣之门', meaningEn: 'shatter open all hell realms' },
         ],
       },
     ],
@@ -461,6 +521,22 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
       {
         id: 'parnasavari-v1',
         index: 1,
+        iast: 'namo ratnatrayāya | namo āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | namo mahāparṇaśavaryai ||',
+        classicalTranslitZh:
+          '曩谟 啰怛曩怛啰夜耶 | 曩谟 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 曩谟 摩诃钵兰拏赊嚩哩曳 ||',
+        modernPhoneticZh:
+          '拿摩 啦特拿-特啦呀呀 | 拿摩 阿哩呀-瓦洛给帝什瓦啦呀 博迪萨特瓦呀 玛哈萨特瓦呀 玛哈嘎鲁尼嘎呀 | 拿摩 玛哈-巴尔拿-夏瓦哩耶 ||',
+        meaningZh:
+          '归命三宝！归命圣观自在菩萨摩诃萨、大悲世尊！归命大叶衣观自在母！',
+        meaningEn:
+          'Homage to the Three Jewels! Homage to Noble Avalokiteśvara Bodhisattva Mahāsattva, the Greatly Compassionate One! Homage to Great Parṇaśavarī!',
+        words: [
+          { iast: 'mahāparṇaśavaryai', stem: 'mahā-parṇa-śavarī', grammar: 'Dat. sg. f.', transliterationZh: '摩诃钵兰拏赊嚩哩曳', meaningZh: '向大叶衣观自在菩萨致敬', meaningEn: 'to Great Leaf-Clad Parṇaśavarī' },
+        ],
+      },
+      {
+        id: 'parnasavari-v2',
+        index: 2,
         iast: 'oṃ piśāci parṇaśavari sarvamārīpraśamani hūṃ phaṭ svāhā ||',
         classicalTranslitZh:
           '唵 毕舍质 钵兰拏赊嚩哩 萨嚩摩哩钵啰舍摩你 吽 泮吒 娑嚩诃 ||',
@@ -661,7 +737,7 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
       {
         id: 'deva-v3',
         index: 3,
-        iast: 'oṃ mahākālāya svāhā | oṃ ಮಿcikiri mahākāla hūṃ phaṭ ||',
+        iast: 'oṃ mahākālāya svāhā | oṃ micikiri mahākāla hūṃ phaṭ ||',
         classicalTranslitZh: '【摩诃迦罗大黑天神真言】唵 摩诃迦罗耶 娑嚩诃 | 唵 密止密止 舍婆隶 多啰羯帝 娑嚩诃 ||',
         modernPhoneticZh: '嗡 玛哈-嘎啦呀 斯瓦哈 | 嗡 咪奇-吉哩 玛哈-嘎啦 吽 帕特 ||',
         meaningZh: '【大黑天真言】嗡！归命大黑天神（摩诃迦罗大自在护法），除一切贫匮灾难，护持三宝，圆满吉祥！',

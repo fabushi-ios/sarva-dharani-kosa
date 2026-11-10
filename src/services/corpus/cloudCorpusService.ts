@@ -32,7 +32,7 @@ import {
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v1';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v2';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -48,7 +48,7 @@ let currentEntries: DharaniEntry[] = FIRST_SCREEN_CORPUS;
 let currentStatus: CloudCorpusStatus = {
   phase: 'first-screen',
   loadedCount: FIRST_SCREEN_CORPUS.length,
-  totalCount: 2051,
+  totalCount: 2247,
   searchIndexReady: false,
   source: 'memory',
 };
@@ -63,11 +63,17 @@ function notifyListeners() {
   }
 }
 
+let didPurgeLegacyCache = false;
+
 async function openCorpusCache(): Promise<Cache | null> {
   if (typeof window === 'undefined' || !('caches' in window)) {
     return null;
   }
   try {
+    if (!didPurgeLegacyCache) {
+      didPurgeLegacyCache = true;
+      window.caches.delete('sarva-dharani-corpus-v1').catch(() => {});
+    }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {
     return null;

@@ -184,6 +184,7 @@ export interface TaishoAncientDharaniRecord {
   dharaniTitle: string;
   juan: number;
   dharaniTextZh: string;
+  reconstructedIast?: string;
   ttAlignments?: CbetaTtAlignment[];
   fanqieNotes?: string[];       // <cb:fan> in T09n0262
   sanskritOrigNotes?: string[]; // <note type="orig"> in T16n0665 & T09n0262

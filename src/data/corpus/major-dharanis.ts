@@ -179,11 +179,11 @@ export const MAJOR_DHARANIS: DharaniItem[] = [
     verses: [
       makeVerse(
         1,
-        '第一會・五部如來與諸大菩薩歸命文 (Pañcakula Namaskāra)',
-        'namaḥ sarva-buddha-bodhisattvebhyaḥ | namo saptānāṃ samyaksaṃbuddha-koṭīnāṃ sa-śrāvaka-saṃghānām | namo loke arhatāṃ | namo srotāpannānāṃ | namo sakṛdāgāmināṃ | namo anāgāminām |',
-        '南無薩怛他蘇伽多耶。阿囉訶帝。三藐三菩陀寫。薩怛他佛陀俱胝瑟尼釤。南無薩婆勃陀勃地薩蕀鞞弊。南無薩多南。三藐三勃陀俱知喃。娑舍囉婆迦僧伽喃。南無盧雞阿羅漢哆喃。南無蘇盧多波那喃。',
-        '歸命一切諸佛菩薩！歸命七俱胝正等正覺暨聲聞僧伽！歸命世間諸阿羅漢、須陀洹、斯陀含、阿那含！',
-        'Homage to all Buddhas and Bodhisattvas! Homage to the seven koṭis of Perfectly Awakened Buddhas together with the Saṃgha of Śrāvakas! Homage to the Arhats, Stream-enterers, Once-returners, and Non-returners in the world!',
+        '第一會・毘盧真法會（五部如來與諸聖眾歸命）',
+        'namaḥ sarva-buddha-bodhisattvebhyaḥ | namo saptānāṃ samyaksaṃbuddha-koṭīnāṃ sa-śrāvaka-saṃghānām | namo loke arhatāṃ | namo srotāpannānāṃ | namo sakṛdāgāmināṃ | namo anāgāminām | namo bhagavate tathāgata-kulāya | namo padma-kulāya | namo vajra-kulāya | namo maṇi-kulāya | namo gaja-kulāya |',
+        '南無薩怛他蘇伽多耶。阿囉訶帝。三藐三菩陀寫。薩怛他佛陀俱胝瑟尼釤。南無薩婆勃陀勃地薩蕀鞞弊。南無薩多南。三藐三勃陀俱知喃。娑舍囉婆迦僧伽喃。南無盧雞阿羅漢哆喃。南無蘇盧多波那喃。南無婆伽婆帝多他伽跢俱囉耶。南無般頭摩俱囉耶。南無跋闍羅俱囉耶。南無摩尼俱囉耶。南無伽闍俱囉耶。',
+        '歸命一切諸佛菩薩！歸命七俱胝正等正覺暨聲聞僧伽！歸命世間諸阿羅漢、須陀洹、斯陀含、阿那含！歸命佛部、蓮華部、金剛部、寶部、羯磨部五部聖眾！',
+        'Homage to all Buddhas and Bodhisattvas! Homage to the seven koṭis of Perfectly Awakened Buddhas together with the Saṃgha of Śrāvakas! Homage to the Arhats, Stream-enterers, Once-returners, Non-returners, and the Five Families (Tathāgata, Padma, Vajra, Maṇi, Gaja)!',
         ['二合', '引'],
         [
           makeWord('namaḥ', '南無', '歸命、頂禮', 'Homage to', 'namas-', 'Indecl.'),
@@ -194,11 +194,65 @@ export const MAJOR_DHARANIS: DharaniItem[] = [
       ),
       makeVerse(
         2,
-        '第五會・大佛頂首楞嚴王根本咒心 (Śūraṅgama Hṛdaya Mantra)',
-        'tadyathā oṃ anale anale viśade viśade vīra vajradhare bandha bandhani vajrapāṇi phaṭ hūṃ trūṃ phaṭ svāhā |',
-        '怛姪他。唵。阿那隸。毘舍提。鞞囉跋闍囉陀。槃陀槃陀你。跋闍囉謗尼泮。虎信都嚧甕泮。莎訶。',
-        '即說咒心曰：唵！光明熾盛、光明熾盛，清淨無垢、清淨無垢，大勇猛持金剛者，結縛、結縛彼魔障，金剛手摧破！吽！敕嚕姆！泮！圓滿成就！',
-        'Namely: Oṃ! O Fiery Radiance, O Pure Clarity, O Heroic Holder of the Vajra! Bind, bind! O Vajrapāṇi, shatter (phaṭ)! Hūṃ! Trūṃ! Phaṭ! Svāhā!',
+        '第一會・五大心咒與大白傘蓋無能勝總持 (Pañca-Hṛdaya & Sitātapatrā)',
+        'ebhyo namaskṛtvā imāṃ bhagavataḥ sarva-tathāgatoṣṇīṣaṃ sitātapatraṃ nāma aparājitāṃ pratyaṅgirāṃ | sarva-bhūta-graha-nigraha-karāṇīṃ | para-vidyā-chedanīṃ | akāla-mṛtyu-paritrāṇa-karīṃ | sarva-bandhana-mokṣaṇīṃ | sarva-duṣṭa-duḥsvapna-nivāraṇīṃ | caturaśītīnāṃ graha-sahasrāṇāṃ vidhvaṃsana-karīṃ |',
+        '帝瓢南無薩羯唎多。翳曇婆伽婆多。薩怛他伽都瑟尼釤。薩怛多般怛㘕。南無阿婆囉視耽。般囉帝揚岐囉。薩囉婆部多揭囉訶。尼羯囉訶揭迦囉訶尼。跋囉毖地耶叱陀儞。阿迦囉蜜唎柱。般唎怛囉耶儜揭唎。薩囉婆槃陀那目叉尼。薩囉婆突瑟吒。突悉乏般那儞伐囉尼。赭都囉失帝南。羯囉訶娑訶薩囉若闍。毘多崩娑那羯唎。',
+        '頂禮如上諸聖已，宣說世尊一切如來佛頂大白傘蓋無能勝大迴遮母：能降伏一切部多鬼神、斷除一切外道惡咒（叱陀你）、救護非時橫死（阿迦囉蜜唎柱般唎怛囉耶儜揭唎）、解脫一切繫縛、摧壞八萬四千星曜魔障！',
+        'Having bowed to these, I proclaim the Invincible Pratyaṅgirā called the White Parasol of the Uṣṇīṣa of All Tathāgatas: subduing all spirits, severing hostile spells (chedanī), rescuing from untimely death (akālamṛtyu-paritrāṇakarī), releasing all bonds, and crushing 84,000 planetary demons!',
+        ['五大心咒', '二合'],
+        [
+          makeWord('sitātapatraṃ', '薩怛多般怛㘕', '大白傘蓋佛頂', 'White Parasol', 'sitātapatrā-', 'Acc. Sg. Fem.'),
+          makeWord('para-vidyā-chedanīṃ', '跋囉毖地耶叱陀儞', '斷除他方惡咒者（五大心咒首句）', 'Severer of hostile spells', 'para-vidyā-chedanī-', 'Acc. Sg. Fem.'),
+          makeWord('akāla-mṛtyu-paritrāṇa-karīṃ', '阿迦囉蜜唎柱般唎怛囉耶儜揭唎', '救護非時橫死者（五大心咒核心）', 'Rescuer from untimely death', 'akāla-mṛtyu-paritrāṇa-karī-', 'Acc. Sg. Fem.')
+        ]
+      ),
+      makeVerse(
+        3,
+        '第二會・釋尊應化會（虎𤙖都嚧雍摧伏群魔心咒）',
+        'oṃ ṛṣi-gaṇa-praśaste sarva-tathāgatoṣṇīṣa-sitātapatre hūṃ ṭrūṃ jambhana-karī | hūṃ ṭrūṃ stambhana-karī | hūṃ ṭrūṃ para-vidyā-saṃbhakṣaṇa-karī | hūṃ ṭrūṃ sarva-yakṣa-rākṣasa-grahāṇāṃ vidhvaṃsana-karī | hūṃ ṭrūṃ rakṣa rakṣa māṃ |',
+        '烏𤙖。唎瑟揭拏。般剌舍悉多。薩怛他伽都瑟尼釤。虎𤙖都嚧雍。瞻婆那。虎𤙖都嚧雍。悉耽婆那。虎𤙖都嚧雍。波羅瑟地耶三般叉拏羯囉。虎𤙖都嚧雍。薩婆藥叉喝囉剎娑。揭囉訶若闍。毘騰崩薩那羯囉。虎𤙖都嚧雍。囉叉。',
+        '唵！眾仙讚歎之一切如來佛頂大白傘蓋尊！吽、都嚧雍，鎮伏！吽、都嚧雍，制止！吽、都嚧雍，吞啖一切外道惡咒！吽、都嚧雍，摧壞一切藥叉羅剎鬼神！吽、都嚧雍，護持於我！',
+        'Oṃ! O White Parasol of the Uṣṇīṣa of All Tathāgatas, praised by the sages! Hūṃ ṭrūṃ, Crusher! Hūṃ ṭrūṃ, Immobilizer! Hūṃ ṭrūṃ, Devourer of hostile spells! Hūṃ ṭrūṃ, Destroyer of all Yakṣas and Rākṣasas! Hūṃ ṭrūṃ, protect me!',
+        ['二合', '三合'],
+        [
+          makeWord('hūṃ ṭrūṃ', '虎𤙖都嚧雍', '金剛佛頂摧破結界種子字', 'Vajra-Uṣṇīṣa seed syllables', 'hūṃ ṭrūṃ', 'Bīja'),
+          makeWord('jambhana-karī', '瞻婆那', '能作鎮伏摧破者', 'Crusher of obstacles', 'jambhana-karī-', 'Nom. Sg. Fem.'),
+          makeWord('stambhana-karī', '悉耽婆那', '能作制止結縛者', 'Immobilizer of hostile forces', 'stambhana-karī-', 'Nom. Sg. Fem.')
+        ]
+      ),
+      makeVerse(
+        4,
+        '第三會・觀音合同會（金剛劍橛斬除一切咒咀）',
+        'ye kecit mama ahiṭaiṣiṇaḥ pāpa-cittāḥ | teṣāṃ sarveṣāṃ sitātapatrā mahā-vajroṣṇīṣa-mahā-pratyaṅgirā vidyāṃ chindayāmy asinā kīlayāmi vajreṇa parivrajaka-kṛtāṃ vidyāṃ chindayāmi kīlayāmi |',
+        '婆伽梵。薩怛他伽都瑟尼釤。波囉點闍吉唎。摩訶娑訶薩囉勃樹。娑訶薩囉室唎沙。俱知娑訶薩泥帝㘑。阿弊提視婆唎多。吒吒甖迦。摩訶跋闍嚧陀囉。帝唎菩婆那曼茶囉。烏𤙖。莎悉帝薄婆都。麼麼。印兔那麼麼寫。鉢囉毘陀耶。叱陀你。阿迦囉蜜唎柱。般唎怛囉耶儜揭唎。',
+        '世尊大白傘蓋千臂千頭百千億眼大迴遮母！若有於我生惡心造作厭禱咒詛者，我今以智慧利劍斬斷其惡咒（chindayāmy asinā），以金剛橛釘住其邪術（kīlayāmi vajreṇa）！',
+        'Whosoever bears malice toward me and casts spells, by the power of Sitātapatrā Mahāpratyaṅgirā I sever their spell with the wisdom-sword (chindayāmy asinā) and pin it down with the Vajra-peg (kīlayāmi vajreṇa)!',
+        ['二合', '引'],
+        [
+          makeWord('vidyāṃ chindayāmy asinā', '毘陀耶叱陀你阿悉那', '以智慧劍斬斷彼惡咒', 'I sever the spell with a sword', 'vidyā- + √chid- + asi-', '1st Sg. Pres. + Inst. Sg.'),
+          makeWord('kīlayāmi vajreṇa', '枳攞野弭嚩日禮拏', '以金剛橛釘伏', 'I nail down with a vajra-peg', '√kīl- + vajra-', '1st Sg. Pres. + Inst. Sg.')
+        ]
+      ),
+      makeVerse(
+        5,
+        '第四會・金剛藏折攝會（五部金剛光焰護身印）',
+        'namo bhagavate sarva-tathāgatoṣṇīṣa-sitātapatre | jvala jvala dhaka dhaka vidhaka vidhaka dara dara vidara vidara chinda chinda bhinda bhinda hūṃ hūṃ phaṭ phaṭ svāhā |',
+        '南無婆伽婆帝。薩怛他伽都瑟尼釤。薩怛多般怛囉。入婆囉入婆囉。陀迦陀迦。毘陀迦毘陀迦。陀囉陀囉。毘陀囉毘陀囉。嗔陀嗔陀。頻陀頻陀。虎𤙖虎𤙖。泮吒泮吒。娑訶。',
+        '歸命世尊一切如來佛頂大白傘蓋尊！熾然放光、焚燒魔障、劈裂邪網、斬斷無明、粉碎結縛！吽、吽！泮吒、泮吒！娑訶！',
+        'Homage to Bhagavatī Sitātapatrā! Blaze, blaze! Burn, burn! Split, cleave, cut, shatter! Hūṃ hūṃ phaṭ phaṭ svāhā!',
+        ['二合', '破障音'],
+        [
+          makeWord('jvala jvala', '入婆囉入婆囉', '熾然放光', 'Blaze, blaze!', '√jval-', '2nd Sg. Imperative'),
+          makeWord('chinda chinda bhinda bhinda', '嗔陀嗔陀頻陀頻陀', '斬斷、劈碎一切魔網', 'Cut, cut! Split, split!', '√chid- / √bhid-', '2nd Sg. Imperative')
+        ]
+      ),
+      makeVerse(
+        6,
+        '第五會・文殊弘傳會（十二由旬結界與大佛頂根本咒心）',
+        'dvādaśayojanābhyantareṇa dig-bandhaṃ karomi | tadyathā oṃ anale anale viśade viśade vīra vajradhare bandha bandhani vajrapāṇi phaṭ hūṃ trūṃ phaṭ svāhā |',
+        '農俱囉俱囉。羯囉俱囉。十二由旬內結界護持。怛姪他。唵。阿那隸。毘舍提。鞞囉跋闍囉陀。槃陀槃陀你。跋闍囉謗尼泮。虎信都嚧甕泮。莎訶。',
+        '於十二由旬內結金剛界，一切諸惡鬼神不得侵入！即說咒心曰：唵！光明熾盛、光明熾盛，清淨無垢、清淨無垢，大勇猛持金剛者，結縛、結縛彼魔障，金剛手摧破！吽！敕嚕姆！泮！圓滿成就！',
+        'Within twelve yojanas I establish the directional boundary! Namely: Oṃ! O Fiery Radiance, O Pure Clarity, O Heroic Holder of the Vajra! Bind, bind! O Vajrapāṇi, shatter (phaṭ)! Hūṃ! Trūṃ! Phaṭ! Svāhā!',
         ['二合', '引', '破障音'],
         [
           makeWord('tadyathā', '怛姪他', '即說咒曰', 'namely, thus', 'tad-yathā', 'Indecl.'),
@@ -330,7 +384,20 @@ export const MAJOR_DHARANIS: DharaniItem[] = [
     verses: [
       makeVerse(
         1,
-        '大白傘蓋堅甲根本心咒 (Sitātapatrā Kavaca & Hṛdaya)',
+        '初段・大白傘蓋無能勝佛母歸敬與迴遮本誓 (Sitātapatrā Namaskāra)',
+        'namaḥ sarva-buddha-bodhisattvebhyaḥ | oṃ namaḥ sarva-tathāgatoṣṇīṣa-sitātapatrāparājitā-pratyaṅgirāyai | sarva-bhūta-graha-nigraha-karāṇīṃ para-vidyā-chedanīṃ akāla-mṛtyu-paritrāṇa-karīṃ sarva-bandhana-mokṣaṇīṃ svāhā |',
+        '曩莫薩嚩沒馱冒地薩怛吠毘藥。唵。曩莫薩嚩怛他蘗都瑟尼沙。悉怛多鉢怛囉。阿婆囉視多。鉢囉底揚岐囉曳。薩嚩部多揭囉訶。尼囉訶迦囉抳。鉢囉尾你也叱陀儞。阿迦囉蜜慄柱。鉢哩怛囉拏迦哩。薩嚩槃陀那目叉抳。娑嚩訶。',
+        '歸命一切諸佛菩薩！唵！頂禮一切如來佛頂大白傘蓋無能勝大迴遮母！能降伏一切部多鬼神、斷除一切外道惡咒、救護一切非時橫死、解脫一切繫縛枷鎖，娑嚩訶！',
+        'Homage to all Buddhas and Bodhisattvas! Oṃ! Homage to the Invincible Pratyaṅgirā, the White Parasol of the Uṣṇīṣa of All Tathāgatas, who subdues all spirits, severs hostile spells, rescues from untimely death, and releases from all bonds, svāhā!',
+        ['二合', '引'],
+        [
+          makeWord('sitātapatrāparājitā', '悉怛多鉢怛囉阿婆囉視多', '大白傘蓋無能勝佛母', 'Invincible White Parasol', 'sitātapatrā-aparājitā-', 'Voc./Stem Fem.'),
+          makeWord('para-vidyā-chedanīṃ', '鉢囉尾你也叱陀儞', '斷除他方惡咒者', 'Severer of hostile spells', 'para-vidyā-chedanī-', 'Acc. Sg. Fem.')
+        ]
+      ),
+      makeVerse(
+        2,
+        '二段・大白傘蓋堅甲根本心咒 (Sitātapatrā Kavaca & Hṛdaya)',
         'oṃ sarva-tathāgatoṣṇīṣa-sitātapatre hūṃ druṃ hrīḥ ṣṭauṃ | jambhanī-karīṃ stambhanī-karīṃ mohanī-karīṃ para-vidyā-saṃbhakṣaṇa-karīṃ sarva-duṣṭānāṃ stambhana-karīṃ svāhā | hūṃ mama hūṃ ni svāhā |',
         '唵。薩嚩怛他蘖多烏瑟尼沙。悉怛多鉢怛隸。吽。都嚧雍。紇哩。瑟吒。瞻婆那迦哩。悉耽婆那迦哩。謨訶那迦哩。鉢囉尾你也吞啖迦哩。娑嚩訶。吽。摩摩。吽。尼。娑嚩訶。',
         '唵！一切如來佛頂大白傘蓋尊！吽！都嚧雍！紇哩！瑟吒！能作鎮伏、能作制止、能令迷悶、能吞啖一切外道惡咒、能制伏一切惡暴有情者，娑嚩訶！吽！護我（mama）！吽！尼！娑嚩訶！',
@@ -341,6 +408,19 @@ export const MAJOR_DHARANIS: DharaniItem[] = [
           makeWord('jambhanī-karīṃ', '瞻婆那迦哩', '能作摧伏者', 'Maker of crushing/subduing', 'jambhanī-karī-', 'Acc. Sg. Fem.'),
           makeWord('stambhanī-karīṃ', '悉耽婆那迦哩', '能作制止結縛者', 'Maker of immobilization', 'stambhanī-karī-', 'Acc. Sg. Fem.', '二合'),
           makeWord('mama', '摩摩', '於我、護我（行者自稱）', 'of me / for me', 'mad-', 'Gen./Dat. Sg. (第六/四格)')
+        ]
+      ),
+      makeVerse(
+        3,
+        '三段・千輻金輪護身結界隨心真言 (Upahṛdaya Rakṣā)',
+        'tadyathā oṃ anale anale khasame khasame vaire vaire saumye saumye sarva-buddhādhiṣṭhānādhiṣṭhite sarva-tathāgatoṣṇīṣa-sitātapatre sarva-duṣṭa-cittānāṃ hūṃ phaṭ svāhā |',
+        '怛你也他。唵。阿那隸阿那隸。佉娑謎佉娑謎。吠隸吠隸。蘇謎蘇謎。薩嚩沒馱地瑟姹那地瑟恥帝。薩嚩怛他蘗都瑟尼沙悉怛多鉢怛隸。薩嚩訥瑟吒質多喃。吽。泮吒。娑嚩訶。',
+        '即說咒曰：唵！智火熾盛、等虛空界、勇猛無畏、寂靜調柔、一切諸佛加持所加持之一切如來佛頂大白傘蓋尊！摧破一切惡心怨害者，吽！泮吒！娑嚩訶！',
+        'Namely: Oṃ! O Fiery One, Equal to the Sky, Heroic, Gentle, blessed with the empowerment of all Buddhas, O Sitātapatrā, shatter all wicked-minded ones, hūṃ phaṭ svāhā!',
+        ['二合', '破障音'],
+        [
+          makeWord('khasame', '佉娑謎', '等虛空無礙尊', 'O One Equal to Space', 'khasamā-', 'Voc. Sg. Fem.'),
+          makeWord('sarva-buddhādhiṣṭhānādhiṣṭhite', '薩嚩沒馱地瑟姹那地瑟恥帝', '一切諸佛加持所加持尊', 'O One empowered by the blessing of all Buddhas', 'sarva-buddha-adhiṣṭhāna-adhiṣṭhitā-', 'Voc. Sg. Fem.')
         ]
       )
     ],
@@ -464,7 +544,7 @@ export const MAJOR_DHARANIS: DharaniItem[] = [
         1,
         '初段・三世如來歸命與法輪莊嚴句 (Tryadhvika-Tathāgata Homage)',
         'namas tryadhvikānāṃ sarva-tathāgatānām | oṃ bhuvi bhavanavare vacanavare | caṭa caṭa culu culu | dhara dhara sarva-tathāgata-dhātu-dhare padmaṃ bhavati jaya-vare mudri smara tathāgata-dharmacakra-pravartana vajra-bodhi-maṇḍālaṃkāra-ālaṃkṛte sarva-tathāgatādhiṣṭhite bodhaya bodhaya bodhi bodhi budhya budhya saṃbodhani saṃbodhaya |',
-        '那莫悉怛哩野地尾迦南。薩嚩怛他蘗多南。唵。部尾婆嚩娜嚩隸。嚩左娜嚩隸。左吒左吒。祖嚕祖嚕。馱囉馱囉。薩嚩怛他蘗多馱睹馱隸。鉢納𤚥婆嚩底。惹也嚩隸。畝捺隸。娑摩囉。怛他蘗多達磨斫迦囉鉢囉嚩栗多娜。嚩日囉冒地曼拏楞迦囉楞訖慄帝。薩嚩怛他蘗多地瑟恥帝。冒馱也冒馱也。冒地冒地。沒ദ്ധ沒ദ്ധ。參冒馱儞參冒馱也。',
+        '那莫悉怛哩野地尾迦南。薩嚩怛他蘗多南。唵。部尾婆嚩娜嚩隸。嚩左娜嚩隸。左吒左吒。祖嚕祖嚕。馱囉馱囉。薩嚩怛他蘗多馱睹馱隸。鉢納𤚥婆嚩底。惹也嚩隸。畝捺隸。娑摩囉。怛他蘗多達磨斫迦囉鉢囉嚩栗多娜。嚩日囉冒地曼拏楞迦囉楞訖慄帝。薩嚩怛他蘗多地瑟恥帝。冒馱也冒馱也。冒地冒地。沒馱沒馱。參冒馱儞參冒馱也。',
         '歸命三世一切如來！唵！於大地勝妙宮殿中、勝妙言教中，震動顯現，總持一切如來舍利法界者！蓮花開敷、最勝法印，憶念如來轉妙法輪，金剛菩提道場嚴飾莊嚴，一切如來威神加持，令覺悟、令開敷正覺！',
         'Homage to all Tathāgatas of the three times! Oṃ! In the supreme abode on earth, in supreme speech, dhara dhara, O Holder of the relics of all Tathāgatas! Remember the turning of the Dharma-wheel of the Tathāgatas, adorned with the ornaments of the vajra bodhimaṇḍa, blessed by all Tathāgatas: awaken, awaken, enlighten, enlighten!',
         ['二合', '三合', '引'],
@@ -479,7 +559,7 @@ export const MAJOR_DHARANIS: DharaniItem[] = [
         2,
         '末段・大印總持結願句 (Mahāmudrā Siddhi)',
         'budhya budhya siddhya siddhya bodhaya bodhaya vibodhaya vibodhaya mocaya mocaya vimocaya vimocaya śodhaya śodhaya viśodhaya viśodhaya samantān mocaya samanta-raśmi-pariśuddhe sarva-tathāgata-hṛdayādhiṣṭhānādhiṣṭhite mudre mudre mahāmudre mahā-mantra-padāni svāhā |',
-        '沒ദ്ധ沒ദ്ധ。悉ദ്ധ悉ദ്ധ。冒馱也冒馱也。尾冒馱也尾冒馱也。謨左也謨左也。尾謨左也尾謨左也。戌馱也戌馱也。尾戌馱也尾戌馱也。三曼多謨左也。三曼多囉濕彌鉢哩第。薩嚩怛他蘗多紇慄乃野地瑟姹娜地瑟恥帝。畝捺隸畝捺隸。摩訶畝捺隸。摩訶曼怛囉跛娜儞。娑嚩訶。',
+        '沒馱沒馱。悉馱悉馱。冒馱也冒馱也。尾冒馱也尾冒馱也。謨左也謨左也。尾謨左也尾謨左也。戌馱也戌馱也。尾戌馱也尾戌馱也。三曼多謨左也。三曼多囉濕彌鉢哩第。薩嚩怛他蘗多紇慄乃野地瑟姹娜地瑟恥帝。畝捺隸畝捺隸。摩訶畝捺隸。摩訶曼怛囉跛娜儞。娑嚩訶。',
         '覺悟、成就、開悟、普遍開悟、解脫、究竟解脫、清淨、究竟清淨！普遍解脫一切，普放光明遍淨無垢者，一切如來心加持所加持者，印、印、大契印，大真言句義，圓滿成就，娑嚩訶！',
         'Awaken, accomplish, enlighten, fully enlighten, liberate, fully liberate, purify, thoroughly purify! Liberate universally, O One completely pure with universal rays, blessed with the heart-blessing of all Tathāgatas! O Seal, Seal, Great Seal, Great Mantra-words, svāhā!',
         ['二合', '引'],

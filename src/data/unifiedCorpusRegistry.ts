@@ -179,7 +179,7 @@ const CORE_QUADRILINGUAL_ENTRIES: TrilingualGlossaryEntry[] = [
     sanskritIast: 'adhiṣṭhāna (अधिष्ठान)',
     tibetanWylie: 'byin gyis brlabs / byin rlabs',
     tibetanUnicode: 'བྱིན་གྱིས་བརླབས།',
-    chinese: '加持 / 攝持 / 阿ធិ瑟姹那',
+    chinese: '加持 / 攝持 / 阿地瑟姹那',
     siddhamUnicode: '𑖀𑖠𑖰𑖬𑖿𑖙𑖯𑖡',
     english: 'blessing; empowerment; sacred sustaining power',
     definition:

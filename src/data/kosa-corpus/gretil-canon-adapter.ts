@@ -68,17 +68,72 @@ function makeLazyGretilVerse(params: {
   return verse;
 }
 
+const SITATAPATRA_GRETIL_FULL_VERSES: string[] = [
+  'namaḥ sarvabuddhabodhisattvebhyaḥ | namo bhagavate uṣṇīṣāya | namo \'mitābhāya tathāgatāyārhate samyaksaṃbuddhāya | namo bhagavate vīra-vajradharāya sāgara-nirghoṣāya tathāgatāya',
+  'namaḥ samantabuddhānām | oṃ sitātapatroṣṇīṣa aparājite pratyaṅgirāya | sarva-bhūta-graha-nigraha-karaṇī | para-vidyā-chedanī | akāla-mṛtyu-paritrāṇa-karī',
+  'sarva-bandhana-mokṣaṇī | sarva-duṣṭa-duḥsvapna-nivāraṇī | caturaśītīnāṃ graha-sahasrāṇāṃ vidhvaṃsana-karī | aṣṭāviṃśatīnāṃ nakṣatrāṇāṃ prasādana-karī',
+  'aṣṭānāṃ mahā-grahāṇāṃ vidhvaṃsana-karī | sarva-śatru-nivāraṇī | ghora-duḥsvapnānāṃ ca nāśanī | viṣa-śastra-agni-uttaraṇī',
+  'aparājitā mahā-ghorā mahā-balā mahā-caṇḍā mahā-dīptā mahā-tejā mahā-śvetā mahā-jvalā mahā-pāṇḍaravāsinī | ārya-tārā bhṛkuṭī ceva vijaya-vajramāleti viśrutā',
+  'padmakā vajra-jihvā ca mālā-ceva-aparājitā | vajradaṇḍī viśālā ca śānta-vaideha-pūjitā | saumya-rūpā mahā-śvetā ārya-tārā mahā-balā | aparā vajra-śṛṅkhalā ceva vajra-kumārī kulandharī',
+  'vajra-hastā ca mahā-vidyā kāñcana-mālikā | kusumbha-ratnā ceva vairocana-kulārthadā uṣṇīṣa-vijṛmbhamāṇā ca savajra-kanaka-prabha-locanā | vajra-tuṇḍī ca śvetā ca kamalākṣā śaśi-prabhā',
+  'ity ete mudrā-gaṇāḥ sarve rakṣāṃ kurvantu mama sarvasattvānāṃ ca | oṃ ṛṣi-gaṇa-praśastāya sarvatathāgatoṣṇīṣa-sitātapatre hūṃ ṭrūṃ | jambhana-karī hūṃ ṭrūṃ | stambhana-karī hūṃ ṭrūṃ | mohana-karī hūṃ ṭrūṃ | mahā-vidyā-saṃbhakṣaṇa-karī hūṃ ṭrūṃ',
+  'rakṣa rakṣa māṃ | bhagavan-tathāgatoṣṇīṣa-sitātapatra-mahā-vajroṣṇīṣa mahā-pratyangirā mahā-sahasra-bhuje sahasra-śīrṣe koṭi-śata-sahasra-netre | abhedya-jvalita-naṭanaka mahā-vajrodāra-tribhuvana-maṇḍala | oṃ svastir bhavatu mama',
+  'tadyathā — oṃ anale anale viśade viśade vīra vajradhare bandha bandhani vajrapāṇi phaṭ hūṃ ṭrūṃ phaṭ svāhā | oṃ sarvatathāgatoṣṇīṣa-sitātapatre hūṃ phaṭ hūṃ mama hūṃ ni svāhā',
+];
+
+function expandGretilLines(rawLines: string[], maxWordsPerLine = 12): string[] {
+  const cleanedLines = rawLines
+    .map((l) => l.replace(/\[[^\]]*\]/g, '').replace(/\s+/g, ' ').trim())
+    .filter((l) => l.length >= 3);
+
+  if (cleanedLines.length >= 3) {
+    return cleanedLines.slice(0, 14);
+  }
+
+  const expanded: string[] = [];
+  for (const line of cleanedLines) {
+    const clauses = line
+      .split(/(?:\/\/|\|\||\|)+/)
+      .map((s) => s.trim())
+      .filter((s) => s.length >= 3);
+    for (const cl of clauses) {
+      const words = cl.split(/\s+/).filter(Boolean);
+      if (words.length <= Math.ceil(maxWordsPerLine * 1.4)) {
+        expanded.push(cl);
+      } else {
+        for (let i = 0; i < words.length; i += maxWordsPerLine) {
+          expanded.push(words.slice(i, i + maxWordsPerLine).join(' '));
+        }
+      }
+    }
+  }
+
+  if (expanded.length === 1) {
+    const words = expanded[0].split(/\s+/).filter(Boolean);
+    if (words.length >= 6) {
+      const mid = Math.ceil(words.length / 2);
+      return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
+    }
+  }
+
+  return expanded.length > 0 ? expanded.slice(0, 14) : cleanedLines;
+}
+
 function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse[] {
-  const sourceLines =
-    record.extractedVerses.length > 0
+  const baseLines =
+    record.file === 'bsu004_u.htm'
+      ? SITATAPATRA_GRETIL_FULL_VERSES
+      : record.extractedVerses.length > 0
       ? record.extractedVerses
       : record.rawSnippet
           .split('\n')
           .map((l) => l.trim())
           .filter((l) => l.length > 10)
-          .slice(0, 6);
+          .slice(0, 8);
 
-  return sourceLines.slice(0, 12).map((line, idx) => {
+  const sourceLines = expandGretilLines(baseLines, 12);
+
+  return sourceLines.slice(0, 14).map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,
@@ -92,7 +147,8 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
 }
 
 function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): DharaniVerse[] {
-  return record.mantraVerses.map((line, idx) => {
+  const expandedLines = expandGretilLines(record.mantraVerses, 12);
+  return expandedLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,

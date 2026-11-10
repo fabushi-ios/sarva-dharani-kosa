@@ -1886,7 +1886,7 @@
           "unitId": "asvaghosa-buddhacarita_1",
           "chapterOrSection": "Buddhacarita (sa-Latn)",
           "unitType": "paragraph",
-          "cleanSanskritIast": "evaṃ* jarāṃ* rūpa+vināśayitrīṃ* |",
+          "cleanSanskritIast": "evaṃ jarāṃ rūpavināśayitrīṃ |",
           "manuscriptLoci": [],
           "criticalApparatus": []
         },
@@ -1894,7 +1894,7 @@
           "unitId": "asvaghosa-buddhacarita_2",
           "chapterOrSection": "Buddhacarita (sa-Latn)",
           "unitType": "paragraph",
-          "cleanSanskritIast": "jānāti ca*eva*icchati (ca*eva Cca*eṣa* )lokaḥ ||3.33|",
+          "cleanSanskritIast": "jānāti caevaicchati (caeva Ccaeṣa )lokaḥ ||3.33|",
           "manuscriptLoci": [],
           "criticalApparatus": []
         },
@@ -1902,7 +1902,7 @@
           "unitId": "asvaghosa-buddhacarita_3",
           "chapterOrSection": "Buddhacarita (sa-Latn)",
           "unitType": "paragraph",
-          "cleanSanskritIast": "tataḥ sa* pūrva+āśaya+śuddha+buddhir |",
+          "cleanSanskritIast": "tataḥ sa pūrvaāśayaśuddhabuddhir |",
           "manuscriptLoci": [],
           "criticalApparatus": []
         }

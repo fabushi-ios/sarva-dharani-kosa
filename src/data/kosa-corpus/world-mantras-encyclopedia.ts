@@ -72,39 +72,55 @@ const WORLD_MANTRA_SEEDS: CompactMantraSeed[] = [
   // ==================== 1. 楞严咒五大心咒与显密核心大咒 ====================
   {
     id: 'surangama-five-heart-mantra',
-    titleZh: '楞严咒心 · 五大心咒与大白伞盖坚甲咒',
-    aliasesZh: '楞严咒心,五大心咒,叱陀你,阿迦罗,蜜唎柱,般唎怛罗耶,儜揭唎,楞严经心咒',
+    titleZh: '楞严咒五会核心 · 五大心咒与大白伞盖坚甲咒',
+    aliasesZh: '楞严咒心,五大心咒,叱陀你,阿迦罗,蜜唎柱,般唎怛罗耶,儜揭唎,楞严经心咒,大佛顶首楞严咒心',
     titleSanskritIast: 'Śūraṅgama-Pañca-Hṛdaya-Mantra',
-    titleEnglish: 'Five Heart Mantras of the Śūraṅgama Dhāraṇī',
+    titleEnglish: 'Five Assemblies Essence & Five Heart Mantras of the Śūraṅgama Dhāraṇī',
     categoryId: 'supreme-mantras',
     taishoNo: 'T19n0945 (卷七)',
     translatorZh: '唐·般剌密帝 译 / 不空三藏 对音',
     sutraSourceZh: '《大佛顶如来密因修证了义诸菩萨万行首楞严经》卷七',
     deityZh: '大佛顶如来 · 大白伞盖佛母',
     meritsAndSummaryZh:
-      '楞严咒第五会核心精髓，含「五大心咒」（破魔心咒）与全咒最后心咒（跢侄他 唵 阿那隶 毗舍提...），宣化上人等历代祖师开示此五大心咒专破天魔外道一切邪术蛊毒。',
+      '统摄《大佛顶首楞严咒》五会核心精髓，含第一会三宝与大白伞盖归命赞、第二至第四会降魔金刚结界心印、第五会「五大心咒」（破魔心咒）与全咒最后根本心咒（跢侄他 唵 阿那隶 毗舍提...），宣化上人等历代祖师开示此五大心咒专破天魔外道一切邪术蛊毒。',
     verses: [
+      {
+        iast: 'namaḥ sarvabuddhabodhisattvebhyaḥ | namo bhagavate uṣṇīṣāya | sitātapatre aparājite pratyangirāya',
+        classicalTranslitZh: '南无萨羯唎多 翳昙婆伽婆多 萨怛他伽都瑟尼沙 萨怛多般怛啰 阿波啰视多 般啰帝扬岐啰',
+        modernPhoneticZh: '那玛赫 萨尔瓦布达博迪萨特威比亚赫 | 那摩 巴嘎瓦得 乌什尼沙雅 | 悉达达巴德类 阿巴拉吉得 巴拉底扬吉拉雅',
+        meaningZh: '【第一会核心·毗卢真法会】顶礼一切诸佛菩萨！归命世尊无见顶相、大白伞盖无能胜大回遮母！',
+        meaningEn: 'First Assembly Essence: Homage to all Buddhas and Bodhisattvas! Homage to the Bhagavan’s Uṣṇīṣa, the Invincible White Parasol Sitātapatrā Pratyangirā!',
+        tangNoteZh: '楞严咒第一会归命大佛顶大白伞盖总印',
+      },
+      {
+        iast: 'hūṃ ṭrūṃ bandha bandha | vidyāṃ chindayāmy asinā kīlayāmi vajreṇa | jvala mahābalāya hūṃ phaṭ',
+        classicalTranslitZh: '虎㖀都嚧雍 婆陀婆陀 | 毗陀夜 嗔陀夜弥 阿悉那 鸡罗夜弥 跋阇啰拏 | 入嚩啰 摩诃婆啰耶 吽 泮吒',
+        modernPhoneticZh: '吽 德隆 班达 班达 | 维迪央 钦达雅米 阿悉那 给拉雅米 瓦吉雷那 | 吉瓦拉 玛哈巴拉雅 吽 啪特',
+        meaningZh: '【第二至第四会核心·释尊应化/观音合同/金刚藏折摄会】吽、德隆，结界护持！以智慧宝剑斩断恶咒，以金刚宝橛钉伏魔怨，大威神光焰摧破一切业障！',
+        meaningEn: 'Second to Fourth Assemblies Essence: Hūṃ Ṭrūṃ bind! With the sword I sever evil spells, with the vajra peg I pin down obstacles; blaze with great power, Hūṃ Phaṭ!',
+        tangNoteZh: '楞严咒中段斩魔结界与金刚橛核心章句',
+      },
       {
         iast: 'chedani akāla mṛtyu paritrāyaṇa karī',
         classicalTranslitZh: '叱陀你 阿迦罗 蜜唎柱 般唎怛罗耶 儜揭唎',
         modernPhoneticZh: '切达尼 阿嘎拉 姆哩丢 巴哩德拉雅那 嘎哩',
-        meaningZh: '斩断一切非时横死与灾障，圆满救护度脱一切众生！（楞严五大心咒）',
-        meaningEn: 'O cutter of untimely death, she who grants complete protection and deliverance!',
+        meaningZh: '【第五会核心·五大心咒】斩断一切非时横死与天魔邪术灾障，圆满救护度脱一切众生！',
+        meaningEn: 'Five Great Heart Mantras: O cutter of untimely death, she who grants complete protection and deliverance!',
         tangNoteZh: '楞严咒第五会核心「五大心咒」',
       },
       {
         iast: 'tadyathā oṃ anale viśade vīra vajradhare bandha bandhani vajrapāṇi phaṭ hūṃ trūṃ phaṭ svāhā',
         classicalTranslitZh: '跢侄他 唵 阿那隶 毗舍提 鞞啰 跋阇啰陀唎 盘陀盘陀你 跋阇啰谤尼泮 虎信都嚧瓮泮 莎婆诃',
         modernPhoneticZh: '达德雅他 嗡 阿那类 维沙得 维拉 瓦吉拉达类 班达 班达尼 瓦吉拉巴尼 啪特 吽 德隆 啪特 斯瓦哈',
-        meaningZh: '即说咒曰：嗡！猛火清净遍照、勇猛执持金刚杵者！结界缚魔、执金刚手摧破一切魔障，吽、德隆、啪特，圆满成就！',
-        meaningEn: 'Namely: Oṃ! O fiery, pure, heroic holder of the vajra! Bind, O binder, Vajra-in-hand, phaṭ hūṃ trūṃ phaṭ svāhā!',
+        meaningZh: '【全咒最末根本心咒】即说咒曰：嗡！猛火清净遍照、勇猛执持金刚杵者！结界缚魔、执金刚手摧破一切魔障，吽、德隆、啪特，圆满成就！',
+        meaningEn: 'Ultimate Heart Mantra: Namely: Oṃ! O fiery, pure, heroic holder of the vajra! Bind, O binder, Vajra-in-hand, phaṭ hūṃ trūṃ phaṭ svāhā!',
         tangNoteZh: '楞严咒最末根本心咒（常诵108遍）',
       },
       {
         iast: 'hūṃ mama hūṃ ni svāhā',
         classicalTranslitZh: '吽 妈妈 吽 呢 梭哈',
         modernPhoneticZh: '吽 玛玛 吽 尼 斯瓦哈',
-        meaningZh: '大白伞盖佛母坚甲心咒：吽！护佑于我，摧灭诸恶，圆满吉祥！',
+        meaningZh: '【大白伞盖佛母坚甲心咒】吽！护佑于我，摧灭诸恶，圆满吉祥！',
         meaningEn: 'Armor Heart Mantra of Sitātapatrā: Hūṃ! Protect me, hūṃ ni svāhā!',
       },
     ],
@@ -252,7 +268,7 @@ const WORLD_MANTRA_SEEDS: CompactMantraSeed[] = [
       },
       {
         iast: 'oṃ oṃ oṃ sarva buddha ḍākinīye vajra varṇanīye vajra vairocanīye hūṃ hūṃ hūṃ phaṭ phaṭ phaṭ svāhā',
-        classicalTranslitZh: '唵 唵 唵 萨嚩 没驮 किनीये 嚩日啰 嚩啰拏尼耶 嚩日啰 吠嚧遮尼耶 吽吽吽 发吒发吒发吒 娑嚩贺',
+        classicalTranslitZh: '唵 唵 唵 萨嚩 没驮 荼吉尼耶 嚩日啰 嚩啰拏尼耶 嚩日啰 吠嚧遮尼耶 吽吽吽 发吒发吒发吒 娑嚩贺',
         modernPhoneticZh: '嗡 嗡 嗡 萨尔瓦 布达 达给尼耶 瓦吉拉 瓦尔那尼耶 瓦吉拉 外罗佳尼耶 吽 吽 吽 啪特 啪特 啪特 斯瓦哈',
         meaningZh: '【金刚瑜伽母 / 金刚亥母三嗡咒】祈请诸佛空行母、金刚妙色母、金刚遍照母赐予乐空双运大成就！',
         meaningEn: 'Vajrayoginī / Vajravārāhī Three-Oṃ Mantra.',
@@ -342,7 +358,7 @@ const WORLD_MANTRA_SEEDS: CompactMantraSeed[] = [
     verses: [
       {
         iast: 'oṃ haṃ kṣa ma la va ra yaṃ svāhā',
-        classicalTranslitZh: '唵 唅 乞洒 摩 攞 嚩 啰 ं 娑嚩贺（十相自在时轮心咒）',
+        classicalTranslitZh: '唵 唅 乞洒 摩 攞 嚩 啰 演 娑嚩贺（十相自在时轮心咒）',
         modernPhoneticZh: '嗡 罕 克夏 玛 拉 瓦 拉 央 斯瓦哈',
         meaningZh: '【时轮金刚（十相自在）根本心咒】转外内别三时轮为清净无上菩提，镇宅辟邪、汇聚十方吉祥。',
         meaningEn: 'Kālacakra Tenfold Powerful Syllables Mantra.',
@@ -400,11 +416,18 @@ const WORLD_MANTRA_SEEDS: CompactMantraSeed[] = [
       '净除五无间罪、破戒重罪、堕恶趣障之极具威德陀罗尼。书此真言于亡者身或持诵回向，立拔三涂之苦，往生东方妙喜净土。',
     verses: [
       {
+        iast: 'namo bhagavate akṣobhyāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā',
+        classicalTranslitZh: '曩谟 婆誐嚩帝 阿閦鞞耶 怛他孽多夜啰诃帝 三藐三没驮耶 | 怛你也他',
+        modernPhoneticZh: '那摩 巴嘎瓦得 阿克硕比亚雅 达他嘎达雅尔哈得 萨姆亚克桑布达雅 | 达德雅他',
+        meaningZh: '归命世尊东方不动（阿閦）如来、应供、正等正觉！即说真言曰：',
+        meaningEn: 'Homage to the Blessed One Akṣobhya Tathāgata, the Arhat, the Perfectly Awakened Buddha! Namely:',
+      },
+      {
         iast: 'namo ratnatrayāya oṃ kaṃkani kaṃkani rocani rocani troṭani troṭani trāsani trāsani pratihana pratihana sarva karma paraṃparāṇi me sarva sattvānāṃ ca svāhā',
         classicalTranslitZh: '那谟 啰怛那怛啰夜耶 唵 羯伽尼 羯伽尼 嚧遮尼 嚧遮尼 咄嚧咤尼 咄嚧咤尼 怛逻萨尼 怛逻萨尼 般底喝那 般底喝那 萨嚩 羯磨 般滥般啰尼 谜 萨嚩 萨埵喃 遮 娑嚩贺',
         modernPhoneticZh: '那摩 拉德那德拉雅雅 嗡 刚嘎尼 刚嘎尼 罗佳尼 罗佳尼 德罗达尼 德罗达尼 德拉萨尼 德拉萨尼 巴拉底哈那 巴拉底哈那 萨尔瓦 嘎尔玛 巴朗巴拉尼 美 萨尔瓦 萨德瓦南 佳 斯瓦哈',
         meaningZh: '敬礼三宝！嗡！金刚杵净治者、大光明照耀者、断碎烦恼者、震慑诸魔者、摧破业障者！请彻底击碎我与一切众生累世相续之恶业障，圆满吉祥！',
-        meaningEn: 'Homage to the Three Jewels! Oṃ! Purify, illuminate, shatter, terrify, and destroy all连续 streams of karmic obscurations of mine and all beings, svāhā!',
+        meaningEn: 'Homage to the Three Jewels! Oṃ! Purify, illuminate, shatter, terrify, and destroy all continuous streams of karmic obscurations of mine and all beings, svāhā!',
       },
     ],
   },
@@ -688,7 +711,7 @@ const WORLD_MANTRA_SEEDS: CompactMantraSeed[] = [
       '汇集显教三大根本经典（法华、华严、楞伽）中之梵文原典陀罗尼：法华经药王菩萨护法神咒、华严经善财童子四十二字门般若总持门、入楞伽经百八句陀罗尼首章，以及格鲁派宗喀巴大师祈请颂（密集嘛）梵音真言。',
     verses: [
       {
-        iast: 'anye manye mane mamane citte carite śame śamitāvi śānte mukte muktatame same aviṣame samasame jaye kṣaye akṣīṇe śānte samite dhāraṇi ālokabhāṣe pratyavekṣaṇi nidhiru abhyantaraniviṣṭe abhyantarapāriśuddhi mutkule araḍe paraḍe sukāṅkṣi asamasame बुद्धविलोकिते dharmaparīkṣite saṃghanirghoṣaṇi nirghoṣaṇi bhayābhayaviśodhani mantre mantrākṣayate rute rutakauśalye akṣaye akṣayavanatāye vakkule valoḍa amanyanatāye svāhā',
+        iast: 'anye manye mane mamane citte carite śame śamitāvi śānte mukte muktatame same aviṣame samasame jaye kṣaye akṣīṇe śānte samite dhāraṇi ālokabhāṣe pratyavekṣaṇi nidhiru abhyantaraniviṣṭe abhyantarapāriśuddhi mutkule araḍe paraḍe sukāṅkṣi asamasame buddhavilokite dharmaparīkṣite saṃghanirghoṣaṇi nirghoṣaṇi bhayābhayaviśodhani mantre mantrākṣayate rute rutakauśalye akṣaye akṣayavanatāye vakkule valoḍa amanyanatāye svāhā',
         classicalTranslitZh: '安尔 曼尔 摩祢 摩摩祢 旨隶 遮梨第 赊咩 赊履多玮 帝 目帝 目多履 娑履 阿玮娑履 桑履 娑履 叉裔 阿叉裔 帝 奢蜜帝 陀罗尼 阿卢伽婆娑 簸蔗毗叉腻 祢毗剃 阿便哆逻祢履剃... 娑婆诃',
         modernPhoneticZh: '阿涅 玛涅 玛内 玛玛内 吉得 佳哩得 夏美 夏米达维 珊得 穆克得 穆克达达美 萨美 阿维夏美 萨玛萨美 佳耶 克夏耶 阿克希内 珊得 萨米得 达拉尼... 斯瓦哈',
         meaningZh: '【妙法莲华经·陀罗尼品·药王菩萨咒】六十二亿恒河沙诸佛同宣，护持受持《法华经》法师不受一切恶魔鬼神侵扰。',

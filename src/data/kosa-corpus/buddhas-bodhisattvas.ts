@@ -120,6 +120,26 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
           },
         ],
       },
+      {
+        id: 'sadaksari-v2',
+        index: 2,
+        iast: 'namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | oṃ maṇipadme hūṃ hrīḥ ||',
+        classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 曩莫 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 唵 摩抳钵讷铭 吽 纥哩 ||',
+        modernPhoneticZh: '那摩 拉特那特拉呀呀 | 那摩 阿里呀 瓦洛基帝什瓦拉呀 博迪萨特瓦呀 玛哈萨特瓦呀 玛哈卡鲁尼卡呀 | 嗡 玛尼 帕德美 吽 赫里希 ||',
+        meaningZh: '【庄严宝王经归敬与七字连种子心印】归命三宝！归命圣观自在菩萨摩诃萨、大慈大悲尊！嗡！摩尼莲华尊，吽、纥哩（阿弥陀佛与观音共同莲华部心印）！',
+        meaningEn:
+          'Homage to the Three Jewels! Homage to Noble Avalokiteśvara, Bodhisattva Mahāsattva, the Greatly Compassionate One! Oṃ Maṇipadme Hūṃ Hrīḥ!',
+        words: [
+          {
+            iast: 'hrīḥ',
+            stem: 'hrīḥ',
+            grammar: 'Padma-kula Bīja',
+            transliterationZh: '纥哩',
+            meaningZh: '莲华部阿弥陀佛与观自在菩萨根本种子字',
+            meaningEn: 'Lotus-family seed syllable of Avalokiteśvara and Amitābha',
+          },
+        ],
+      },
     ],
   },
   {
@@ -431,7 +451,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         id: 'manjusri-v2',
         index: 2,
         iast: 'oṃ sarvadharmābhāvasvabhāvaviśuddhavajra a ā aṃ aḥ | prakṛtipariśuddhāḥ sarvadharmā yaduta sarvatathāgatajñānakāyamañjuśrīpariśuddhitām upādāyeti | a āḥ sarvatathāgata-hṛdaya hara hara | oṃ hūṃ hrīḥ bhagavan jñānamūrte vāgīśvara mahāpaca sarvadharmagaganāmalasupariśuddhadharmadhātujñānagarbha āḥ ||',
-        classicalTranslitZh: '唵 萨嚩达磨婆嚩娑嚩婆嚩尾戍驮嚩日啰 阿 阿 暗 恶 | 钵啰讫ฤ底钵哩戍驮 萨嚩达磨 也努多 萨嚩怛他孽多枳娘曩迦耶曼殊室哩钵哩戍地多目波那曳底 | 阿 恶 萨嚩怛他孽多纥ฤ那耶 诃啰 诃啰 | 唵 吽 纥哩 婆孽鑁 枳娘曩母哩帝 嚩拟湿嚩啰 摩诃跛者 萨嚩达磨孽孽曩摩啰苏钵哩戍驮达磨驮睹枳娘曩孽婆 恶 ||',
+        classicalTranslitZh: '唵 萨嚩达磨婆嚩娑嚩婆嚩尾戍驮嚩日啰 阿 阿 暗 恶 | 钵啰讫哩底钵哩戍驮 萨嚩达磨 也努多 萨嚩怛他孽多枳娘曩迦耶曼殊室哩钵哩戍地多目波那曳底 | 阿 恶 萨嚩怛他孽多纥哩那耶 诃啰 诃啰 | 唵 吽 纥哩 婆孽鑁 枳娘曩母哩帝 嚩拟湿嚩啰 摩诃跛者 萨嚩达磨孽孽曩摩啰苏钵哩戍驮达磨驮睹枳娘曩孽婆 恶 ||',
         modernPhoneticZh: '嗡 萨尔瓦达尔玛巴瓦斯瓦巴瓦维ィ舒达瓦吉拉 阿 阿 昂 啊哈 | 普拉克里蒂帕里舒达哈 萨尔瓦达尔玛 呀度塔 萨尔瓦塔他嘎塔佳那卡呀曼殊室利帕里舒迪塔姆 乌帕达耶蒂 | 阿 啊哈 萨尔瓦塔他嘎塔赫里达呀 哈拉 哈拉 | 嗡 吽 赫里希 巴嘎万 佳那穆尔帝 瓦吉什瓦拉 玛哈帕恰 萨尔瓦达尔玛嘎嘎那玛拉苏帕里舒达达尔玛达图佳那嘎尔巴 啊哈 ||',
         meaningZh: '嗡！一切诸法无性自性清净金刚！阿、阿、暗、恶！一切诸法自性清净，所谓由一切如来智身妙吉祥清净性故。阿、恶！一切如来心，摄持、摄持！嗡、吽、纥哩！世尊、智慧身尊、语自在王、大成熟者、一切法如虚空无垢极清净法界智藏啊！恶！',
         meaningEn:
@@ -543,6 +563,26 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
             transliterationZh: '娑嚩诃',
             meaningZh: '愿吉祥扎根成就',
             meaningEn: 'hail, so be it',
+          },
+        ],
+      },
+      {
+        id: 'tara-v2',
+        index: 2,
+        iast: 'namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | tadyathā — oṃ tāre tuttāre ture sarvaduṣṭapraduṣṭān māṃ mocaya svāhā ||',
+        classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 曩莫 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 怛你也他 — 唵 多隶 咄多隶 都隶 萨嚩訥瑟吒钵啰訥瑟吒 𤚥 谟左耶 娑嚩诃 ||',
+        modernPhoneticZh: '那摩 拉特那特拉呀呀 | 那摩 阿里呀 瓦洛基帝什瓦拉呀 博迪萨特瓦呀 玛哈萨特瓦呀 玛哈卡鲁尼卡呀 | 塔德呀他 — 嗡 塔蕾 图塔蕾 图蕾 萨尔瓦杜什塔 普拉杜什塔 芒 摩恰呀 斯瓦哈 ||',
+        meaningZh: '【圣多罗菩萨根本长咒】归命三宝！归命圣观自在菩萨摩诃萨、具大慈悲者！即说咒曰：嗡！度母、救苦度母、疾速度母啊！请令我从一切恶毒、暴恶灾障中悉得解脱，圆满成就！',
+        meaningEn:
+          '[Fundamental Long Dhāraṇī of Ārya Tārā] Homage to the Three Jewels and Noble Avalokiteśvara! Namely: Oṃ Tāre Tuttāre Ture, liberate me from all wicked and hostile forces, Svāhā!',
+        words: [
+          {
+            iast: 'mocaya',
+            stem: '√muc (caus.)',
+            grammar: 'Impv. 2nd sg.',
+            transliterationZh: '谟左耶',
+            meaningZh: '请令解脱、度脱',
+            meaningEn: 'liberate, set free',
           },
         ],
       },
@@ -856,11 +896,38 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
       {
         id: 'mayuri-v1',
         index: 1,
-        iast: 'oṃ mayūrakrānte svāhā ||',
-        classicalTranslitZh: '唵 摩愉啰讫兰帝 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 玛尤拉克兰帝 斯瓦哈 ||',
-        meaningZh: '嗡！乘御金翅孔雀王遨游法界之大明王母啊！圆满成就！',
-        meaningEn: 'Oṃ! O She who rides/steps upon the Peacock (Mayūrakrānte)! Svāhā!',
+        iast: 'namo buddhāya | namo dharmāya | namaḥ saṃghāya | namo suvarṇāvabhāsasya mayūrarājño | namo mahāmāyūryai vidyārājñyai ||',
+        classicalTranslitZh: '曩谟 没驮耶 | 曩谟 达磨耶 | 曩谟 僧伽耶 | 曩谟 苏嚩啰拏嚩婆萨写 摩愉啰啰惹 | 曩谟 摩诃摩愉哩曳 尾你也啰惹曳 ||',
+        modernPhoneticZh: '那摩 布达呀 | 那摩 达尔玛呀 | 那玛哈 桑嘎呀 | 那摩 苏瓦尔那瓦巴萨斯呀 玛尤拉拉吉诺 | 那摩 玛哈玛尤里耶 维迪呀拉吉涅 ||',
+        meaningZh: '归命佛！归命法！归命僧！归命放金色光焰之孔雀王！归命佛母大孔雀明王尊！',
+        meaningEn: 'Homage to the Buddha, Dharma, and Saṃgha! Homage to the Golden-Radiant Peacock King! Homage to Mahāmāyūrī Vidyārājñī!',
+        words: [
+          {
+            iast: 'suvarṇāvabhāsasya mayūrarājño',
+            stem: 'suvarṇa-avabhāsa mayūra-rājan',
+            grammar: 'Gen./Dat. sg. m.',
+            transliterationZh: '苏嚩啰拏嚩婆萨写 摩愉啰啰惹',
+            meaningZh: '金色光耀之孔雀王（释迦佛前生瑞相）',
+            meaningEn: 'of the Golden-Radiant Peacock King',
+          },
+          {
+            iast: 'mahāmāyūryai vidyārājñyai',
+            stem: 'mahā-māyūrī vidyā-rājñī',
+            grammar: 'Dat. sg. f.',
+            transliterationZh: '摩诃摩愉哩曳 尾你也啰惹曳',
+            meaningZh: '向大孔雀佛母明王尊致敬',
+            meaningEn: 'to Mahāmāyūrī, Queen of Vidyās',
+          },
+        ],
+      },
+      {
+        id: 'mayuri-v2',
+        index: 2,
+        iast: 'tadyathā — siddhe susiddhe mocani mokṣaṇi mukte vimukte amale vimale nirmale maṅgalye hiraṇyagarbhe ratnagarbhe bhadre subhadre samantabhadre sarvārthasādhani | oṃ mayūrakrānte svāhā ||',
+        classicalTranslitZh: '怛侄他 — 悉第 苏悉第 谟左你 谟刹你 目帝 尾目帝 阿摩隶 尾摩隶 涅摩隶 瞢誐隶 呬啰尼耶蘖陛 啰怛曩蘖陛 跋捺隶 苏跋捺隶 三曼多跋捺隶 萨嚩啰他娑陀你 | 唵 摩愉啰讫兰帝 娑嚩诃 ||',
+        modernPhoneticZh: '塔德呀他 — 悉得黑 苏悉得黑 摩恰尼 摩克沙尼 穆克帝 维穆克帝 阿玛蕾 维玛蕾 尼尔玛蕾 芒嘎尔耶 希拉尼亚嘎尔贝 拉特那嘎尔贝 巴德蕾 苏巴德蕾 萨曼塔巴德蕾 萨尔瓦尔他萨达尼 | 嗡 玛尤拉克兰帝 斯瓦哈 ||',
+        meaningZh: '即说咒曰：成就母、善成就母、解脱母、无垢离染母、吉祥金胎宝藏母、普贤善母、满一切义利母！嗡！乘御金翅孔雀王遨游法界之大明王母啊，息除诸毒，圆满成就！',
+        meaningEn: 'Namely: O Accomplished One, Liberator, Stainless One, Golden-Womb, Jewel-Womb, All-Good One, Fulfiller of all aims! Oṃ! O She who mounts the Peacock (Mayūrakrānte), Svāhā!',
         words: [
           {
             iast: 'mayūrakrānte',
@@ -1100,12 +1167,12 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
       {
         id: 'vasudhara-v1',
         index: 1,
-        iast: 'namo ratnatrayāya | oṃ vasudhariṇi mahāvasuvṛṣṭinipātini svāhā | oṃ śrīvasumukhi svāhā | oṃ vasudhe svāhā ||',
-        classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 唵 嚩苏驮哩抳 摩诃嚩苏వృ瑟置你波底你 娑嚩诃 | 唵 室哩嚩苏穆企 娑嚩诃 | 唵 嚩苏第 娑嚩诃 ||',
-        modernPhoneticZh: '那摩 拉特那特拉呀呀 | 嗡 瓦苏达里尼 玛哈瓦苏维里什蒂尼帕蒂尼 斯瓦哈 | 嗡 室利瓦苏穆奇 斯瓦哈 | 嗡 瓦苏德黑 斯瓦哈 ||',
-        meaningZh: '归命三宝！嗡！持世宝藏母、降下大宝雨之圣母啊，圆满成就！嗡！吉祥宝相面门母，圆满成就！嗡！持世圣母啊，圆满成就！',
+        iast: 'namo ratnatrayāya | oṃ vasudhariṇi mahāvasuvṛṣṭinipātini svāhā ||',
+        classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 唵 嚩苏驮哩抳 摩诃嚩苏尾哩瑟置你波底你 娑嚩诃 ||',
+        modernPhoneticZh: '那摩 拉特那特拉呀呀 | 嗡 瓦苏达里尼 玛哈瓦苏维里什蒂尼帕蒂尼 斯瓦哈 ||',
+        meaningZh: '归命三宝！嗡！持世宝藏母、降下大宝雨之圣母啊，圆满成就！',
         meaningEn:
-          'Homage to the Three Jewels! Oṃ! O Holder of Treasure, O She who showers down a great rain of wealth and merit, Svāhā! Oṃ O Glorious Treasure-Faced One, Svāhā! Oṃ O Vasudhā, Svāhā!',
+          'Homage to the Three Jewels! Oṃ! O Holder of Treasure, O She who showers down a great rain of wealth and merit, Svāhā!',
         words: [
           {
             iast: 'vasudhariṇi',
@@ -1119,9 +1186,37 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
             iast: 'mahāvasuvṛṣṭinipātini',
             stem: 'mahā-vasu-vṛṣṭi-nipātinī',
             grammar: 'Voc. sg. f.',
-            transliterationZh: '摩诃嚩苏వృ瑟置你波底你',
+            transliterationZh: '摩诃嚩苏尾哩瑟置你波底你',
             meaningZh: '普降大财宝甘露雨之天母啊',
             meaningEn: 'O She who causes a great rain of treasure to fall',
+          },
+        ],
+      },
+      {
+        id: 'vasudhara-v2',
+        index: 2,
+        iast: 'oṃ śrīvasudhārāratnanidhānakṣetri svāhā | oṃ śrīvasumukhi svāhā | oṃ vasudhe svāhā ||',
+        classicalTranslitZh: '唵 室哩嚩苏驮啰啰怛曩你驮曩乞晒怛哩 娑嚩诃 | 唵 室哩嚩苏穆企 娑嚩诃 | 唵 嚩苏第 娑嚩诃 ||',
+        modernPhoneticZh: '嗡 室利瓦苏达拉拉特那尼达那克谢特里 斯瓦哈 | 嗡 室利瓦苏穆奇 斯瓦哈 | 嗡 瓦苏德黑 斯瓦哈 ||',
+        meaningZh: '嗡！吉祥持世宝藏刹土圣母，圆满成就！嗡！吉祥宝相面门母，圆满成就！嗡！持世圣母啊，圆满成就！',
+        meaningEn:
+          'Oṃ! O Sacred Field of the Jewel-Treasury of Glorious Vasudhārā, Svāhā! Oṃ O Glorious Treasure-Faced One, Svāhā! Oṃ O Vasudhā, Svāhā!',
+        words: [
+          {
+            iast: 'śrīvasumukhi',
+            stem: 'śrī-vasu-mukhī',
+            grammar: 'Voc. sg. f.',
+            transliterationZh: '室哩嚩苏穆企',
+            meaningZh: '吉祥宝藏面门圣母啊',
+            meaningEn: 'O Glorious Treasure-Faced One',
+          },
+          {
+            iast: 'vasudhe',
+            stem: 'vasudhā',
+            grammar: 'Voc. sg. f.',
+            transliterationZh: '嚩苏第',
+            meaningZh: '持世财源天母啊',
+            meaningEn: 'O Vasudhā',
           },
         ],
       },
@@ -1376,12 +1471,12 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
       {
         id: 'liturgy-v1',
         index: 1,
-        iast: 'oṃ raṃ svāhā | oṃ samayas tvaṃ | oṃ hūru hūru jaya mukhe svāhā ||',
-        classicalTranslitZh: '唵 囕 娑嚩诃（净法界）| 唵 三昧耶 萨怛鑁（三昧耶戒）| 唵 呼嚧 呼嚧 社曳 穆契 娑嚩诃（补阙真言）||',
-        modernPhoneticZh: '嗡 朗 斯瓦哈 | 嗡 萨玛呀斯 特万 | 嗡 呼鲁 呼鲁 佳呀 穆凯 斯瓦哈 ||',
-        meaningZh: '【净法界】嗡！法界智火清净（囕）！【三昧耶戒】嗡！汝即诸佛平等本誓（三昧耶）！【补阙真言】嗡！速疾速疾，于最胜解脱法门中圆满无缺，吉祥成就！',
+        iast: 'oṃ raṃ svāhā | oṃ svabhāvaśuddhāḥ sarvadharmāḥ svabhāvaśuddho \'ham ||',
+        classicalTranslitZh: '唵 囕 娑嚩诃（净法界真言）| 唵 娑嚩婆嚩秫驮 萨嚩达磨 娑嚩婆嚩秫度憾（净三业观空真言）||',
+        modernPhoneticZh: '嗡 朗 斯瓦哈 | 嗡 斯瓦巴瓦舒达哈 萨尔瓦达尔玛哈 斯瓦巴瓦舒多 罕 ||',
+        meaningZh: '【净法界与净三业真言】嗡！法界智火清净一切尘垢（囕）！一切诸法自性清净，我亦自性本来清净！',
         meaningEn:
-          '[Purification] Oṃ Raṃ Svāhā! [Samaya Precept] Oṃ! You are the Samaya! [Completion] Oṃ! Swiftly, swiftly, in the gateway of victory, may all recitations be complete, Svāhā!',
+          '[Dharmadhātu & Threefold Purity Mantra] Oṃ Raṃ Svāhā! Oṃ! Naturally pure are all dharmas; naturally pure am I!',
         words: [
           {
             iast: 'raṃ',
@@ -1392,6 +1487,26 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
             meaningEn: 'seed syllable of purifying wisdom fire',
           },
           {
+            iast: 'svabhāvaśuddhāḥ sarvadharmāḥ',
+            stem: 'svabhāva-śuddha sarva-dharma',
+            grammar: 'Nom. pl. m.',
+            transliterationZh: '娑嚩婆嚩秫驮 萨嚩达磨',
+            meaningZh: '一切诸法本来性净',
+            meaningEn: 'all dharmas are intrinsically pure',
+          },
+        ],
+      },
+      {
+        id: 'liturgy-v2',
+        index: 2,
+        iast: 'oṃ samayas tvaṃ | oṃ samaya stvaṃ | oṃ vajrasamaya hūṃ ||',
+        classicalTranslitZh: '唵 三昧耶 萨怛鑁（三昧耶戒真言）| 唵 嚩日啰三昧耶 吽 ||',
+        modernPhoneticZh: '嗡 萨玛呀斯 特万 | 嗡 瓦吉拉萨玛呀 吽 ||',
+        meaningZh: '【三昧耶戒真言】嗡！汝即诸佛平等本誓（三昧耶），身心与诸佛三密无二无别！',
+        meaningEn:
+          '[Samaya Precept Mantra] Oṃ! You are the Samaya (sacred bond of equality with the Buddhas)! Oṃ Vajrasamaya Hūṃ!',
+        words: [
+          {
             iast: 'samayas tvaṃ',
             stem: 'samaya + tvam',
             grammar: 'Nom. sg. m. + 2nd sg. pron.',
@@ -1399,6 +1514,18 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
             meaningZh: '汝即是三昧耶（佛我一如之本誓）',
             meaningEn: 'You are the Samaya (sacred bond/equality)',
           },
+        ],
+      },
+      {
+        id: 'liturgy-v3',
+        index: 3,
+        iast: 'oṃ hūru hūru jaya mukhe svāhā | oṃ dhuru dhuru jaya mukhe svāhā ||',
+        classicalTranslitZh: '唵 呼嚧 呼嚧 社曳 穆契 娑嚩诃（补阙真言）| 唵 度噜 度噜 阇耶 穆契 娑嚩诃（补阙圆满真言）||',
+        modernPhoneticZh: '嗡 呼鲁 呼鲁 佳呀 穆凯 斯瓦哈 | 嗡 度鲁 度鲁 佳呀 穆凯 斯瓦哈 ||',
+        meaningZh: '【补阙圆满真言】嗡！速疾速疾，于最胜解脱法门中令所诵真言圆满无缺，功德增长百千万倍，吉祥成就！',
+        meaningEn:
+          '[Completion & Rectification Mantra] Oṃ! Swiftly, swiftly, in the gateway of victory, may all recitations be completely fulfilled, Svāhā!',
+        words: [
           {
             iast: 'jaya mukhe',
             stem: 'jaya-mukha',

@@ -277,7 +277,7 @@ export const CONCORDANCE_CLUSTERS: CanonicalConcordanceCluster[] = [
         recordId: 'Toh 662',
         label: '84000 Open TEI Toh 662 & Toh 959 (Āryavasudhārānāmadhāraṇī)',
         script: 'IAST',
-        sampleMantraOrIncipit: 'tadyathā oṃ surūpe bhadre bhadravati maṅgale acale capale ughātani udbhedini sasyavati ಧnyavati dhanavati śrīmati prabhāvati amale vimale rucire surucire',
+        sampleMantraOrIncipit: 'tadyathā oṃ surūpe bhadre bhadravati maṅgale acale capale ughātani udbhedini sasyavati dhānyavati dhanavati śrīmati prabhāvati amale vimale rucire surucire',
         url: 'https://read.84000.co/translation/toh662.html',
       },
     ],

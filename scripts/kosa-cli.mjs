@@ -65,7 +65,10 @@ function parseCliArgs(argv) {
 }
 
 function outputJson(payload, exitCode = 0) {
-  const text = `${JSON.stringify(payload, null, 2)}\n`;
+  let text = `${JSON.stringify(payload, null, 2)}\n`;
+  if (Buffer.byteLength(text, 'utf8') > 700 * 1024) {
+    text = `${JSON.stringify(payload)}\n`;
+  }
   process.exitCode = exitCode;
   process.stdout.write(text, () => {
     process.exit(exitCode);
@@ -163,6 +166,18 @@ async function main() {
         return;
       }
 
+      if (!recordId && Array.isArray(result.records) && result.records.length > (limit || 120)) {
+        outputJson(
+          {
+            ...result,
+            totalRecordsInCorpus: result.records.length,
+            records: result.records.slice(0, limit || 120),
+          },
+          0
+        );
+        return;
+      }
+
       outputJson(result, 0);
       break;
     }
@@ -196,7 +211,7 @@ async function main() {
 
       const searchResult = searchMod.searchUnifiedCorpus(query, {
         dbId: dbFilter || undefined,
-        limit,
+        limit: limit || 100,
       });
 
       if (searchResult.results.length === 0) {

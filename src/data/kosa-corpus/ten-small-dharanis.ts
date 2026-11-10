@@ -104,19 +104,35 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'jvalosnisa-1',
         index: 1,
-        iast: 'namaḥ samantabuddhānām apratihataśāsanānāṃ | tadyathā | oṃ khāhi khāhi khūṃ khūṃ jvala jvala prajvala prajvala | tiṣṭha tiṣṭha ṣṭri ṣṭri sphoṭa sphoṭa śāntika śrīye svāhā ||',
+        iast: 'namaḥ samantabuddhānām apratihataśāsanānāṃ | tadyathā | oṃ khāhi khāhi khūṃ khūṃ jvala jvala prajvala prajvala |',
         classicalTranslitZh:
-          '曩谟三满多母驮喃 阿钵啰(二合)底贺多舍娑曩喃 | 怛侄他 | 唵 佉佉 佉呬佉呬 吽吽 入嚩(二合)攞入嚩攞 钵啰(二合)入嚩攞钵啰入嚩攞 | 底瑟姹(二合)底瑟姹 瑟致(二合)哩瑟致哩 娑癹(二合)吒娑癹吒 扇底迦 室哩(二合)曳 娑嚩(二合)诃 ||',
+          '曩谟三满多母驮喃 阿钵啰(二合)底贺多舍娑曩喃 | 怛侄他 | 唵 佉佉 佉呬佉呬 吽吽 入嚩(二合)攞入嚩攞 钵啰(二合)入嚩攞钵啰入嚩攞 |',
         modernPhoneticZh:
-          '拿玛赫 萨曼达-布达囊 阿普啦帝哈达-沙萨拿囊 | 达地呀他 | 嗡 卡呬 卡呬 吽 吽 吉瓦啦 吉瓦啦 普啦吉瓦啦 普啦吉瓦啦 | 帝什他 帝什他 什特里 什特里 斯坡达 斯坡达 善帝嘎 什里耶 斯瓦哈',
+          '拿玛赫 萨曼达-布达囊 阿普啦帝哈达-沙萨拿囊 | 达地呀他 | 嗡 卡呬 卡呬 吽 吽 吉瓦啦 吉瓦啦 普啦吉瓦啦 普啦吉瓦啦',
         meaningZh:
-          '顶礼普遍十方一切诸佛、具无能障碍教敕者！即说咒曰：嗡！吞啖（一切灾障）、吞啖！吽吽！放光炽盛、极炽盛放光！安住、安住！坚固不坏！摧裂（一切恶星灾厄）！愿息灾寂静、吉祥圆满，娑婆诃！',
+          '【初段·归敬与炽盛光焰印】顶礼普遍十方一切诸佛、具无能障碍教敕者！即说咒曰：嗡！吞啖（一切灾障）、吞啖！吽吽！放光炽盛、极炽盛放光！',
         meaningEn:
-          'Homage to all Buddhas everywhere, whose teachings and command are unobstructed! Namely: Oṃ! Devour, devour all calamities! Hūṃ Hūṃ! Blaze forth, blaze brightly! Stand firm, shatter all obstacles! For pacification (Śāntika) and auspicious glory (Śrī), Svāhā!',
+          'Homage to all Buddhas everywhere, whose teachings and command are unobstructed! Namely: Oṃ! Devour, devour all calamities! Hūṃ Hūṃ! Blaze forth, blaze brightly!',
         words: [
           { iast: 'samantabuddhānām', stem: 'samanta-buddha', grammar: 'Gen.Pl.', transliterationZh: '三满多母驮喃', meaningZh: '遍法界一切诸佛', meaningEn: 'of all universal Buddhas' },
           { iast: 'apratihataśāsanānāṃ', stem: 'apratihata-śāsana', grammar: 'Gen.Pl.', transliterationZh: '阿钵啰底贺多舍娑曩喃', meaningZh: '教令威神无有障碍者', meaningEn: 'whose teachings/command cannot be obstructed' },
           { iast: 'jvala prajvala', stem: '√jval / pra-√jval', grammar: 'Impv.2.Sg.', transliterationZh: '入嚩攞钵啰入嚩攞', meaningZh: '炽然放光、大放威德光明', meaningEn: 'blaze, blaze brilliantly!' },
+        ],
+      },
+      {
+        id: 'jvalosnisa-2',
+        index: 2,
+        iast: 'tiṣṭha tiṣṭha ṣṭri ṣṭri sphoṭa sphoṭa śāntika śrīye svāhā ||',
+        classicalTranslitZh:
+          '底瑟姹(二合)底瑟姹 瑟致(二合)哩瑟致哩 娑癹(二合)吒娑癹吒 扇底迦 室哩(二合)曳 娑嚩(二合)诃 ||',
+        modernPhoneticZh:
+          '帝什他 帝什他 什特里 什特里 斯坡达 斯坡达 善帝嘎 什里耶 斯瓦哈',
+        meaningZh:
+          '【末段·摧破星厄息灾吉祥】安住、安住！坚固不坏！摧裂、粉碎（一切恶星灾厄）！愿息灾寂静（扇底迦）、大吉祥圆满（室哩曳），娑婆诃！',
+        meaningEn:
+          'Stand firm, stand firm! Shatter, burst asunder all obstacles! For pacification (Śāntika) and auspicious glory (Śrīye), Svāhā!',
+        words: [
+          { iast: 'tiṣṭha tiṣṭha', stem: '√sthā', grammar: 'Impv.2.Sg.', transliterationZh: '底瑟姹底瑟姹', meaningZh: '坚固安住不动', meaningEn: 'stand firm, abide!' },
           { iast: 'sphoṭa', stem: '√sphuṭ', grammar: 'Impv.2.Sg.', transliterationZh: '娑癹吒', meaningZh: '摧破、迸裂一切灾厄', meaningEn: 'burst, shatter all calamities' },
           { iast: 'śāntika śrīye', stem: 'śāntika + śrī', grammar: 'Voc./Dat.Sg.', transliterationZh: '扇底迦室哩曳', meaningZh: '成就息灾法与大吉祥德', meaningEn: 'for pacification and auspicious prosperity' },
         ],
@@ -146,15 +162,31 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'gunaratna-1',
         index: 1,
-        iast: 'namo buddhāya | namo dharmāya | namaḥ saṃghāya | oṃ siddhe huru huru siddhūru | kṛpā kṛpa siddhāni puruṇi svāhā ||',
+        iast: 'namo buddhāya | namo dharmāya | namaḥ saṃghāya |',
         classicalTranslitZh:
-          '南无佛驮耶 南无达摩耶 南无僧伽耶 | 唵 悉帝护嚧噜 悉都噜 只利波 吉利婆 悉达哩 布嚧哩 娑嚩诃 ||',
+          '南无佛驮耶 南无达摩耶 南无僧伽耶 |',
         modernPhoneticZh:
-          '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀 | 嗡 悉dei 呼鲁 呼鲁 悉图鲁 | 克里帕 克里帕 悉达尼 布鲁尼 斯瓦哈',
+          '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀',
         meaningZh:
-          '归命佛、法、僧三宝！嗡！成就妙尊，速疾作法、妙善成就！大悲垂悯、慈悲摄受，令一切悉地功德皆得圆满具足，娑婆诃！',
+          '【初段·三宝归敬】归命佛陀无上觉！归命正法清净海！归命贤圣大僧伽！',
         meaningEn:
-          'Homage to the Buddha, Dharma, and Saṃgha! Oṃ! O Accomplished One, hasten, accomplish well! Out of great compassion (Kṛpā), fulfill all spiritual accomplishments completely, Svāhā!',
+          'Homage to the Buddha! Homage to the Dharma! Homage to the Saṃgha!',
+        words: [
+          { iast: 'buddhāya / dharmāya / saṃghāya', stem: 'tri-ratna', grammar: 'Dat.Sg.', transliterationZh: '佛驮耶 / 达摩耶 / 僧伽耶', meaningZh: '归命佛、法、僧三宝', meaningEn: 'to the Three Jewels' },
+        ],
+      },
+      {
+        id: 'gunaratna-2',
+        index: 2,
+        iast: 'oṃ siddhe huru huru siddhūru | kṛpā kṛpa siddhāni puruṇi svāhā ||',
+        classicalTranslitZh:
+          '唵 悉帝护嚧噜 悉都噜 只利波 吉利婆 悉达哩 布嚧哩 娑嚩诃 ||',
+        modernPhoneticZh:
+          '嗡 悉dei 呼鲁 呼鲁 悉图鲁 | 克里帕 克里帕 悉达尼 布鲁尼 斯瓦哈',
+        meaningZh:
+          '【末段·大悲圆成功德宝山】嗡！成就妙尊，速疾作法、妙善成就！大悲垂悯、慈悲摄受，令一切悉地功德皆得圆满具足，娑婆诃！',
+        meaningEn:
+          'Oṃ! O Accomplished One, hasten, accomplish well! Out of great compassion (Kṛpā), fulfill all spiritual accomplishments completely, Svāhā!',
         words: [
           { iast: 'siddhe / siddhūru', stem: 'siddhi / siddha-uru', grammar: 'Voc.Sg.', transliterationZh: '悉帝 / 悉都噜', meaningZh: '广大悉地成就尊', meaningEn: 'O Vast Accomplishment' },
           { iast: 'kṛpā kṛpa', stem: 'kṛpā', grammar: 'Voc./Inst.', transliterationZh: '只利波吉利婆', meaningZh: '以大悲心哀愍摄受', meaningEn: 'through boundless compassion' },
@@ -198,7 +230,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '稽首皈依苏悉帝 头面顶礼七俱胝 我今称赞大准提 唯愿慈悲垂加护 | 南无飒哆喃 三藐三勃陀 俱胝喃 | 怛侄他 | 唵 折戾 主戾 准提 娑婆诃 ||',
         modernPhoneticZh:
-          '拿玛赫 萨普达囊 萨姆呀克-桑布达-โก帝囊 | 达地呀他 | 嗡 佳咧 主咧 准dei 斯瓦哈',
+          '拿玛赫 萨普达囊 萨姆呀克-桑布达-俱帝囊 | 达地呀他 | 嗡 佳咧 主咧 准dei 斯瓦哈',
         meaningZh:
           '顶礼七俱胝（七千万）正遍知诸佛！即说咒曰：嗡！游行起用尊（折戾）、升起觉树尊（主戾）、清净最胜佛母尊（准提），吉祥圆满成就，娑婆诃！',
         meaningEn:
@@ -210,6 +242,22 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
           { iast: 'cale', stem: 'calā', grammar: 'Voc.Sg.Fem.', transliterationZh: '折戾', meaningZh: '起行大用、游行法界尊', meaningEn: 'O Moving, Active One' },
           { iast: 'cule', stem: 'culā / cūḍā', grammar: 'Voc.Sg.Fem.', transliterationZh: '主戾', meaningZh: '顶髻尊、涌现尊', meaningEn: 'O Crest-Jewel / Rising One' },
           { iast: 'cunde', stem: 'cundā / cundī', grammar: 'Voc.Sg.Fem.', transliterationZh: '准提', meaningZh: '清净尊、赞叹护念尊（准提佛母）', meaningEn: 'O Pure Mother Cundī' },
+        ],
+      },
+      {
+        id: 'cundi-2',
+        index: 2,
+        iast: 'oṃ bhrūṃ ||',
+        classicalTranslitZh:
+          '【显密圆通准提合诵一字大轮咒】唵 部林 ||',
+        modernPhoneticZh:
+          '嗡 布隆— (bhrūṃ)',
+        meaningZh:
+          '【大轮一字明王咒（准提圆满护持真言）】嗡！一字金轮佛顶最胜种子字（部林 bhrūṃ），令所诵准提真言速得圆满成就！',
+        meaningEn:
+          '[One-Syllable Golden Wheel Seal recited with Cundī Mantra] Oṃ Bhrūṃ!',
+        words: [
+          { iast: 'bhrūṃ', stem: 'bhrūṃ', grammar: 'Uṣṇīṣacakra Bīja', transliterationZh: '部林', meaningZh: '一字金轮佛顶圆满护持种子字', meaningEn: 'Supreme Uṣṇīṣacakra seed syllable' },
         ],
       },
     ],
@@ -245,19 +293,34 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'aparimita-1',
         index: 1,
-        iast: 'namo bhagavate aparimitāyurjñānasuviniścitatejorājāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā | oṃ sarvasaṃskārapariśuddha dharmate gaganasamudgate svabhāvaviśuddhe mahānayaparivāre svāhā ||',
+        iast: 'namo bhagavate aparimitāyurjñānasuviniścitatejorājāya tathāgatāyārhate samyaksaṃbuddhāya |',
         classicalTranslitZh:
-          '唵 捺摩巴葛瓦帝 阿巴啰密沓 阿优哩阿纳 苏必你实执沓 牒左啰宰也 怛塔哿达也 阿啰诃帝 三药三不达也 | 怛你也塔 | 唵 萨哩巴 桑斯葛哩 叭哩述沓 达哩马帝 哿哿捺 萨穆得哿帝 莎巴瓦 比述帝 马喝捺也 叭哩瓦哩 娑喝 ||',
+          '唵 捺摩巴葛瓦帝 阿巴啰密沓 阿优哩阿纳 苏必你实执沓 牒左啰宰也 怛塔哿达也 阿啰诃帝 三药三不达也 |',
         modernPhoneticZh:
-          '拿摩 帕嘎瓦帝 阿帕里米达-尤尔-吉尼亚拿-苏维尼什吉达-帝久-啦佳呀 达他嘎达呀 阿尔哈帝 萨姆呀克-桑布达呀 | 达地呀他 | 嗡 萨尔瓦-桑斯嘎啦-帕里舒达 达尔玛帝 嘎嘎拿-萨穆德嘎帝 斯瓦帕瓦-维舒dei 玛哈-拿呀-帕里瓦咧 斯瓦哈',
+          '拿摩 帕嘎瓦帝 阿帕里米达-尤尔-吉尼亚拿-苏维尼什吉达-帝久-啦佳呀 达他嘎达呀 阿尔哈帝 萨姆呀克-桑布达呀',
         meaningZh:
-          '归命世尊、无量寿智决定光明王如来、应供、正遍知！即说咒曰：嗡！一切诸行究竟清净之法性尊、如虚空般超越出生尊、自性无垢清净尊、大乘妙理圆满眷属围绕尊，圆满成就，娑婆诃！',
+          '【初段·无量寿智如来归命文】归命世尊、无量寿智决定光明王如来、应供、正遍知！',
         meaningEn:
-          'Homage to the Blessed One, King of Boundless Life, Wisdom, and Well-Ascertained Radiance, the Tathāgata, Arhat, Perfectly Awakened Buddha! Namely: Oṃ! O Dharma-Nature pure of all conditioned formations, arisen like the sky, pure in intrinsic nature, encompassed by the Great Vehicle retinue, Svāhā!',
+          'Homage to the Blessed One, King of Boundless Life, Wisdom, and Well-Ascertained Radiance, the Tathāgata, Arhat, Perfectly Awakened Buddha!',
         tangNoteZh: '直接提取自 GRETIL `bsu003_u.htm` 第 15–19 行梵文贝叶经原文。',
         words: [
           { iast: 'aparimitāyurjñāna', stem: 'aparimita-āyus-jñāna', grammar: 'Compound', transliterationZh: '阿巴啰密沓阿优哩阿纳', meaningZh: '无量寿命与无量智慧', meaningEn: 'boundless life and boundless wisdom' },
           { iast: 'suviniścitatejorājāya', stem: 'suviniścita-tejas-rāja', grammar: 'Dat.Sg.', transliterationZh: '苏必你实执沓牒左啰宰也', meaningZh: '向善决定威光王如来', meaningEn: 'to the King of Well-Determined Radiance' },
+        ],
+      },
+      {
+        id: 'aparimita-2',
+        index: 2,
+        iast: 'tadyathā | oṃ sarvasaṃskārapariśuddha dharmate gaganasamudgate svabhāvaviśuddhe mahānayaparivāre svāhā ||',
+        classicalTranslitZh:
+          '怛你也塔 | 唵 萨哩巴 桑斯葛哩 叭哩述沓 达哩马帝 哿哿捺 萨穆得哿帝 莎巴瓦 比述帝 马喝捺也 叭哩瓦哩 娑喝 ||',
+        modernPhoneticZh:
+          '达地呀他 | 嗡 萨尔瓦-桑斯嘎啦-帕里舒达 达尔玛帝 嘎嘎拿-萨穆德嘎帝 斯瓦帕瓦-维舒dei 玛哈-拿呀-帕里瓦咧 斯瓦哈',
+        meaningZh:
+          '【末段·法界清净延寿咒心】即说咒曰：嗡！一切诸行究竟清净之法性尊、如虚空般超越出生尊、自性无垢清净尊、大乘妙理圆满眷属围绕尊，圆满成就，娑婆诃！',
+        meaningEn:
+          'Namely: Oṃ! O Dharma-Nature pure of all conditioned formations, arisen like the sky, pure in intrinsic nature, encompassed by the Great Vehicle retinue, Svāhā!',
+        words: [
           { iast: 'sarvasaṃskārapariśuddha', stem: 'sarva-saṃskāra-pariśuddha', grammar: 'Voc.Sg.', transliterationZh: '萨哩巴桑斯葛哩叭哩述沓', meaningZh: '一切有为诸行皆清净者', meaningEn: 'pure of all conditioned formations' },
           { iast: 'dharmate gaganasamudgate', stem: 'dharmatā + gagana-samudgata', grammar: 'Voc.Sg.Fem.', transliterationZh: '达哩马帝哿哿捺萨穆得哿帝', meaningZh: '如虚空般广大显现之法性真如', meaningEn: 'O Dharma-nature arisen like the sky' },
           { iast: 'mahānayaparivāre', stem: 'mahā-naya-parivāra', grammar: 'Voc.Sg.Fem.', transliterationZh: '马喝捺也叭哩瓦哩', meaningZh: '大乘法门妙眷属周匝围绕尊', meaningEn: 'surrounded by the retinue of the Great Way' },
@@ -295,19 +358,34 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'bhaisajya-1',
         index: 1,
-        iast: 'namo bhagavate bhaiṣajyaguru-vaiḍūryaprabhārājāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā | oṃ bhaiṣajye bhaiṣajye mahābhaiṣajye bhaiṣajyasamudgate svāhā ||',
+        iast: 'namo bhagavate bhaiṣajyaguru-vaiḍūryaprabhārājāya tathāgatāyārhate samyaksaṃbuddhāya |',
         classicalTranslitZh:
-          '南谟薄伽伐帝 鞞杀社窭噜 薛琉璃 钵喇婆 喝啰阇也 怛他揭多也 阿啰喝帝 三藐三勃陀也 | 怛侄他 | 唵 鞞杀逝 鞞杀逝 鞞杀社 三没揭帝 莎诃 ||',
+          '南谟薄伽伐帝 鞞杀社窭噜 薛琉璃 钵喇婆 喝啰阇也 怛他揭多也 阿啰喝帝 三藐三勃陀也 |',
         modernPhoneticZh:
-          '拿摩 帕嘎瓦帝 排沙吉呀-古鲁 歪杜里呀-普啦帕-啦佳呀 达他嘎达呀 阿尔哈帝 萨姆呀克-桑布达呀 | 达地呀他 | 嗡 排沙杰 排沙杰 玛哈-排沙杰 排沙吉呀-萨穆德嘎帝 斯瓦哈',
+          '拿摩 帕嘎瓦帝 排沙吉呀-古鲁 歪杜里呀-普啦帕-啦佳呀 达他嘎达呀 阿尔哈帝 萨姆呀克-桑布达呀',
         meaningZh:
-          '归命世尊、药师琉璃光王如来、应供、正遍知！即说咒曰：嗡！妙药、妙药、无上大法药！由无上医王法药普度升起尊，圆满成就，娑婆诃！',
+          '【初段·药师琉璃光王佛归敬】归命世尊、药师琉璃光王如来、应供、正遍知！',
         meaningEn:
-          'Homage to the Blessed One, Medicine Master and King of Lapis Lazuli Light, the Tathāgata, Arhat, Perfectly Awakened Buddha! Namely: Oṃ! Healing medicine, healing medicine, supreme healing medicine! Risen forth to heal all beings, Svāhā!',
+          'Homage to the Blessed One, Medicine Master and King of Lapis Lazuli Light, the Tathāgata, Arhat, Perfectly Awakened Buddha!',
         tangNoteZh: '直接提取自 GRETIL `bsu012_u.htm` (Gilgit 梵本 P.L. Vaidya 校勘本) 原文。',
         words: [
           { iast: 'bhaiṣajyaguru', stem: 'bhaiṣajya-guru', grammar: 'Compound', transliterationZh: '鞞杀社窭噜', meaningZh: '医药大师、大医王', meaningEn: 'Master of Healing Medicine' },
           { iast: 'vaiḍūryaprabhārājāya', stem: 'vaiḍūrya-prabhā-rāja', grammar: 'Dat.Sg.', transliterationZh: '薛琉璃钵喇婆喝啰阇也', meaningZh: '向净琉璃光明王尊', meaningEn: 'to the King of Lapis Lazuli Light' },
+        ],
+      },
+      {
+        id: 'bhaisajya-2',
+        index: 2,
+        iast: 'tadyathā | oṃ bhaiṣajye bhaiṣajye mahābhaiṣajye bhaiṣajyasamudgate svāhā ||',
+        classicalTranslitZh:
+          '怛侄他 | 唵 鞞杀逝 鞞杀逝 鞞杀社 三没揭帝 莎诃 ||',
+        modernPhoneticZh:
+          '达地呀他 | 嗡 排沙杰 排沙杰 玛哈-排沙杰 排沙吉呀-萨穆德嘎帝 斯瓦哈',
+        meaningZh:
+          '【末段·药师心咒】即说咒曰：嗡！妙药、妙药、无上大法药！由无上医王法药普度升起尊，圆满成就，娑婆诃！',
+        meaningEn:
+          'Namely: Oṃ! Healing medicine, healing medicine, supreme healing medicine! Risen forth to heal all beings, Svāhā!',
+        words: [
           { iast: 'bhaiṣajye', stem: 'bhaiṣajya', grammar: 'Voc./Loc.Sg.', transliterationZh: '鞞杀逝', meaningZh: '疗愈身心惑业苦之无上法药', meaningEn: 'curative spiritual medicine' },
           { iast: 'samudgate', stem: 'sam-ud-√gam', grammar: 'Voc.Sg.', transliterationZh: '三没揭帝', meaningZh: '普皆度脱、升起圆满者', meaningEn: 'risen forth, transcendent' },
         ],
@@ -337,19 +415,34 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'guanyin-insp-1',
         index: 1,
-        iast: 'oṃ maṇi padme hūṃ | mahājñāna cittotpāda cittaśayana vitarka sarvārtha bhūri siddha kāma nāgapūraṇa | bhūri bhūri uttama | namo lokeśvarāya svāhā ||',
+        iast: 'oṃ maṇi padme hūṃ | mahājñāna cittotpāda cittaśayana vitarka |',
         classicalTranslitZh:
-          '唵 嘛呢叭咪吽 | 麻曷倪牙纳 积都特巴达 积特些纳 微达哩葛 萨而斡而塔 卜哩悉塔葛 纳补啰纳 | 纳卜哩 丢忒班纳 | 捺麻嚧吉 说啰耶 娑诃 ||',
+          '唵 嘛呢叭咪吽 | 麻曷倪牙纳 积都特巴达 积特些纳 微达哩葛 |',
         modernPhoneticZh:
-          '嗡 玛尼 帕德美 吽 | 玛哈-吉尼亚拿 吉多特帕达 吉达-沙呀拿 维达尔嘎 萨尔瓦尔他 菩里 悉达 嘎玛 拿嘎-布啦拿 | 菩里 菩里 乌达玛 | 拿摩 洛给湿瓦啦呀 斯瓦哈',
+          '嗡 玛尼 帕德美 吽 | 玛哈-吉尼亚拿 吉多特帕达 吉达-沙呀拿 维达尔嘎',
         meaningZh:
-          '嗡！莲华摩尼宝珠，吽！大智慧尊、发起无上菩提心、令心寂静安住、超离分别寻伺、成就一切广大义利、圆满龙天所求善愿！广大复广大、无上最胜！归命世间自在王（观世音菩萨），娑婆诃！',
+          '【初段·六字大明与发菩提心印】嗡！莲华摩尼宝珠，吽！大智慧尊、发起无上菩提心、令心寂静安住、超离分别寻伺！',
         meaningEn:
-          'Oṃ Maṇi Padme Hūṃ! Great Wisdom (Mahājñāna), Generation of Bodhicitta (Cittotpāda), Serenity of Mind, Transcending Discursive Thought, Accomplishing All Aims, Fulfilling All Wishes! Vast, Supreme! Homage to Lokeśvara (Lord of the World), Svāhā!',
+          'Oṃ Maṇi Padme Hūṃ! Great Wisdom (Mahājñāna), Generation of Bodhicitta (Cittotpāda), Serenity of Mind, Transcending Discursive Thought!',
         words: [
           { iast: 'oṃ maṇi padme hūṃ', stem: 'Ṣaḍakṣarī-mahāvidyā', grammar: 'Sacred Mantra', transliterationZh: '唵嘛呢叭咪吽', meaningZh: '观自在菩萨六字大明心咒（如意宝莲华尊）', meaningEn: 'O Jewel in the Lotus, Hūṃ' },
           { iast: 'mahājñāna', stem: 'mahā-jñāna', grammar: 'Voc./Nom.', transliterationZh: '麻曷倪牙纳', meaningZh: '大圆镜智、无上般若大智', meaningEn: 'Great Wisdom' },
           { iast: 'cittotpāda', stem: 'citta-utpāda', grammar: 'Nom./Voc.', transliterationZh: '积都特巴达', meaningZh: '发起阿耨多罗三藐三菩提心', meaningEn: 'Generation of Bodhicitta (Awakening Mind)' },
+        ],
+      },
+      {
+        id: 'guanyin-insp-2',
+        index: 2,
+        iast: 'sarvārtha bhūri siddha kāma nāgapūraṇa | bhūri bhūri uttama | namo lokeśvarāya svāhā ||',
+        classicalTranslitZh:
+          '萨而斡而塔 卜哩悉塔葛 纳补啰纳 | 纳卜哩 丢忒班纳 | 捺麻嚧吉 说啰耶 娑诃 ||',
+        modernPhoneticZh:
+          '萨尔瓦尔他 菩里 悉达 嘎玛 拿嘎-布啦拿 | 菩里 菩里 乌达玛 | 拿摩 洛给湿瓦啦呀 斯瓦哈',
+        meaningZh:
+          '【末段·满愿救苦归命世自在王】成就一切广大义利、圆满龙天所求善愿！广大复广大、无上最胜！归命世间自在王（观世音菩萨），娑婆诃！',
+        meaningEn:
+          'Accomplishing All Aims, Fulfilling All Wishes! Vast, Supreme! Homage to Lokeśvara (Lord of the World), Svāhā!',
+        words: [
           { iast: 'sarvārtha', stem: 'sarva-artha', grammar: 'Compound', transliterationZh: '萨而斡而塔', meaningZh: '一切自利利他胜义', meaningEn: 'all aims and benefits' },
           { iast: 'namo lokeśvarāya', stem: 'loka-īśvara', grammar: 'Dat.Sg.', transliterationZh: '捺麻嚧吉说啰耶', meaningZh: '顶礼世间自在尊（观世音）', meaningEn: 'homage to the Lord of the World' },
         ],
@@ -381,18 +474,33 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'sapta-buddha-1',
         index: 1,
-        iast: 'lipā lipate | kuha kuhate | traṭi traṭite | nirghārate | vimalate mahāgatye | śāntiṅgare svāhā ||',
+        iast: 'lipā lipate | kuha kuhate | traṭi traṭite | nirghārate |',
         classicalTranslitZh:
-          '离婆离婆帝 求诃求诃帝 陀罗尼帝 尼诃啰帝 毗黎你帝 摩诃伽帝 真陵乾帝 莎婆诃 ||',
+          '离婆离婆帝 求诃求诃帝 陀罗尼帝 尼诃啰帝 |',
         modernPhoneticZh:
-          '利帕 利帕帝 | 古哈 古哈帝 | 特啦帝 特啦帝帝 | 尼尔嘎啦帝 | 维玛啦帝 玛哈-嘎地耶 | 善顶嘎咧 斯瓦哈',
+          '利帕 利帕帝 | 古哈 古哈帝 | 特啦帝 特啦帝帝 | 尼尔嘎啦帝',
         meaningZh:
-          '涂香清净、离诸染污尊！深密窟藏、破除覆藏尊！总持护念、坚固任持尊！拔除一切罪根尊！无垢清净光明、趣向大乘正道尊！作大寂静安隐尊，圆满成就，娑婆诃！',
+          '【初段·涤垢拔罪】涂香清净、离诸染污尊！深密窟藏、破除覆藏尊！总持护念、坚固任持尊！拔除一切罪根尊！',
         meaningEn:
-          'O One freed from stain and defilement! O Secret Cavern of Refuge! O Upholder of Dhāraṇī! O Remover of Obstructions! O Stainless One on the Great Path! O Peacemaker (Śāntiṅkare), Svāhā!',
+          'O One freed from stain and defilement! O Secret Cavern of Refuge! O Upholder of Dhāraṇī! O Remover of Obstructions!',
         words: [
           { iast: 'lipā lipate', stem: '√lip / nir-lipa', grammar: 'Voc.Sg.', transliterationZh: '离婆离婆帝', meaningZh: '远离一切罪垢染着者', meaningEn: 'untainted, free from defilement' },
           { iast: 'nirghārate', stem: 'nir-√hṛ', grammar: 'Voc.Sg.', transliterationZh: '尼诃啰帝', meaningZh: '拔除一切恶业根本者', meaningEn: 'remover of karmic roots' },
+        ],
+      },
+      {
+        id: 'sapta-buddha-2',
+        index: 2,
+        iast: 'vimalate mahāgatye | śāntiṅgare svāhā ||',
+        classicalTranslitZh:
+          '毗黎你帝 摩诃伽帝 真陵乾帝 莎婆诃 ||',
+        modernPhoneticZh:
+          '维玛啦帝 玛哈-嘎地耶 | 善顶嘎咧 斯瓦哈',
+        meaningZh:
+          '【末段·清净寂灭】无垢清净光明、趣向大乘正道尊！作大寂静安隐尊，圆满成就，娑婆诃！',
+        meaningEn:
+          'O Stainless One on the Great Path! O Peacemaker (Śāntiṅkare), Svāhā!',
+        words: [
           { iast: 'mahāgatye', stem: 'mahā-gati', grammar: 'Voc.Sg.', transliterationZh: '摩诃伽帝', meaningZh: '趣向无上大菩提道者', meaningEn: 'O Supreme Path / Great Destiny' },
           { iast: 'śāntiṅgare', stem: 'śāntiṃ-kara', grammar: 'Voc.Sg.', transliterationZh: '真陵乾帝', meaningZh: '令身心寂静息灾者', meaningEn: 'O Bestower of Peace and Tranquility' },
         ],
@@ -428,19 +536,34 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
       {
         id: 'sukhavati-1',
         index: 1,
-        iast: 'namo amitābhāya tathāgatāya | tadyathā | oṃ amṛtodbbhave amṛtasiddhaṃbhave amṛtavikrānte amṛtavikrāntagāmini gagana kīrtikare svāhā ||',
+        iast: 'namo amitābhāya tathāgatāya | tadyathā | oṃ amṛtodbbhave amṛtasiddhaṃbhave |',
         classicalTranslitZh:
-          '南无阿弥多婆夜 哆他伽多夜 哆地夜他 | 阿弥利都婆毗 阿弥利哆 悉耽婆毗 阿弥唎哆 毗迦兰帝 阿弥唎哆 毗迦兰多 伽弥腻 伽伽那 枳多迦利 娑婆诃 ||',
+          '南无阿弥多婆夜 哆他伽多夜 哆地夜他 | 阿弥利都婆毗 阿弥利哆 悉耽婆毗 |',
         modernPhoneticZh:
-          '拿摩 阿弥达帕呀 达他嘎达呀 | 达地呀他 | 嗡 阿姆里多德帕威 阿姆里达-悉当帕威 阿姆里达-维克啦帝 阿姆里达-维克啦达-嘎米尼 嘎嘎拿 给尔帝-嘎咧 斯瓦哈',
+          '拿摩 阿弥达帕呀 达他嘎达呀 | 达地呀他 | 嗡 阿姆里多德帕威 阿姆里达-悉当帕威',
         meaningZh:
-          '归命无量光如来！即说咒曰：嗡！不死甘露出生尊、甘露圆满成就尊、甘露神通大力超越尊、以甘露大力周遍游行救度尊！令赞叹名声遍满虚空者，圆满成就，娑婆诃！',
+          '【初段·归命无量光佛与甘露出生】归命无量光如来！即说咒曰：嗡！不死甘露出生尊、甘露圆满成就尊！',
         meaningEn:
-          'Homage to Amitābha Tathāgata! Namely: Oṃ! O Fountainhead of Ambrosia (Amṛta), Accomplisher of Ambrosia, Transcendent in Ambrosial Power, Pervading Everywhere with Ambrosial Might, Filling the Sky with Glorious Renown, Svāhā!',
+          'Homage to Amitābha Tathāgata! Namely: Oṃ! O Fountainhead of Ambrosia (Amṛta), Accomplisher of Ambrosia!',
         words: [
           { iast: 'amitābhāya', stem: 'amita-ābha', grammar: 'Dat.Sg.', transliterationZh: '阿弥多婆夜', meaningZh: '向无量光如来', meaningEn: 'to Amitābha (Infinite Light)' },
           { iast: 'amṛtodbbhave', stem: 'amṛta-udbhava', grammar: 'Voc.Sg.', transliterationZh: '阿弥利都婆毗', meaningZh: '无死甘露法水出生尊', meaningEn: 'O Source of Immortal Nectar' },
           { iast: 'amṛtasiddhaṃbhave', stem: 'amṛta-siddha-bhava', grammar: 'Voc.Sg.', transliterationZh: '阿弥利哆悉耽婆毗', meaningZh: '成就甘露法味尊', meaningEn: 'O Accomplisher of Ambrosia' },
+        ],
+      },
+      {
+        id: 'sukhavati-2',
+        index: 2,
+        iast: 'amṛtavikrānte amṛtavikrāntagāmini gagana kīrtikare svāhā ||',
+        classicalTranslitZh:
+          '阿弥唎哆 毗迦兰帝 阿弥唎哆 毗迦兰多 伽弥腻 伽伽那 枳多迦利 娑婆诃 ||',
+        modernPhoneticZh:
+          '阿姆里达-维克啦帝 阿姆里达-维克啦达-嘎米尼 嘎嘎拿 给尔帝-嘎咧 斯瓦哈',
+        meaningZh:
+          '【末段·甘露神通遍满虚空往生净土】甘露神通大力超越尊、以甘露大力周遍游行救度尊！令赞叹名声遍满虚空者，圆满成就，娑婆诃！',
+        meaningEn:
+          'Transcendent in Ambrosial Power, Pervading Everywhere with Ambrosial Might, Filling the Sky with Glorious Renown, Svāhā!',
+        words: [
           { iast: 'amṛtavikrāntagāmini', stem: 'amṛta-vikrānta-gāmin', grammar: 'Voc.Sg.Fem.', transliterationZh: '阿弥唎哆毗迦兰多伽弥腻', meaningZh: '以甘露无碍神通遍行十方度生尊', meaningEn: 'O One striding forth with ambrosial valor' },
           { iast: 'gagana kīrtikare', stem: 'gagana + kīrti-kara', grammar: 'Voc.Sg.', transliterationZh: '伽伽那枳多迦利', meaningZh: '功德名闻遍满虚空法界尊', meaningEn: 'filling the sky with glorious renown' },
         ],
