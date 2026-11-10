@@ -126,7 +126,7 @@ print(f"✅ 成功部署至 https://huggingface.co/spaces/{space_id}")
 EOF
 
 echo "=== [4/4] 使用 Cloudflare Wrangler CLI 部署至 Cloudflare Pages ==="
-if [ -z "${CLOUDFLARE_API_TOKEN:-}" ] && ! npx --yes wrangler whoami >/dev/null 2>&1; then
+if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
   echo "⚠️ 未检测到 CLOUDFLARE_API_TOKEN，跳过 Cloudflare Pages 推送（Hugging Face Space 已上线：${HF_STATIC_URL}）。"
   exit 0
 fi
