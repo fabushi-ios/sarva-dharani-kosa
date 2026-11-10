@@ -273,6 +273,30 @@ export default defineConfig({
   build: {
     sourcemap: false,
     chunkSizeWarningLimit: 2500,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+          if (id.includes('tier1Databases')) {
+            return 'corpus-tier1';
+          }
+          if (id.includes('tier23Databases')) {
+            return 'corpus-tier23';
+          }
+          if (id.includes('cbetaAuthRecords')) {
+            return 'corpus-cbeta';
+          }
+          if (id.includes('gretilAllMantras') || id.includes('gretilAuthRecords')) {
+            return 'corpus-gretil';
+          }
+          if (id.includes('taishoMikkyoIndex')) {
+            return 'corpus-taisho';
+          }
+        },
+      },
+    },
   },
   server: {
     host: '0.0.0.0',

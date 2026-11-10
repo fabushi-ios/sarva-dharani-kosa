@@ -12,12 +12,62 @@ import {
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
 
-/**
- * 将从德国哥廷根大学 GRETIL (Göttingen Register of Electronic Texts in Indian Languages)
- * 与尼泊尔数字化梵文佛典库 (DSBC) 下载的全部 200 部含陀罗尼梵文原典记录转化为标准 DharaniEntry，
- * 并通过 phoneticMapper 为每一句原典自动生成唐宋古汉语音译（classicalTranslitZh）
- * 与现代梵音拼读参考（modernPhoneticZh）。
- */
+function makeLazyGretilVerse(params: {
+  id: string;
+  index: number;
+  iast: string;
+  meaningZh: string;
+  meaningEn: string;
+  tangNoteZh: string;
+}): DharaniVerse {
+  let cachedPhonetics: { classicalTranslitZh: string; modernPhoneticZh: string } | null = null;
+  let cachedWords: DharaniVerse['words'] | null = null;
+  const getPhon = () => {
+    if (!cachedPhonetics) {
+      cachedPhonetics = generateVerseChinesePhonetics(params.iast);
+    }
+    return cachedPhonetics;
+  };
+
+  const verse = {
+    id: params.id,
+    index: params.index,
+    iast: params.iast,
+    meaningZh: params.meaningZh,
+    meaningEn: params.meaningEn,
+    tangNoteZh: params.tangNoteZh,
+  } as DharaniVerse;
+
+  Object.defineProperties(verse, {
+    classicalTranslitZh: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        return getPhon().classicalTranslitZh;
+      },
+    },
+    modernPhoneticZh: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        return getPhon().modernPhoneticZh;
+      },
+    },
+    words: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        if (!cachedWords) {
+          cachedWords = buildWordGlossesFromIast(params.iast);
+        }
+        return cachedWords;
+      },
+    },
+  });
+
+  return verse;
+}
+
 function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse[] {
   const sourceLines =
     record.extractedVerses.length > 0
@@ -30,38 +80,28 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
 
   return sourceLines.slice(0, 12).map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
-    const phonetics = generateVerseChinesePhonetics(cleanLine);
-
-    return {
+    return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
-      classicalTranslitZh: phonetics.classicalTranslitZh,
-      modernPhoneticZh: phonetics.modernPhoneticZh,
       meaningZh: `出自《${record.titleZh}》梵文贝叶校勘本（${record.file} 第 ${idx + 1} 颂/句），本尊：${record.deityZh}。上方已逐词对齐唐宋古汉语音译与现代梵音拼读。`,
       meaningEn: `Extracted directly from the authoritative GRETIL/DSBC Sanskrit edition (${record.file}) of ${record.titleSanskrit}.`,
       tangNoteZh: `GRETIL 梵本档案：${record.file}（原典总行数：${record.totalLinesInSource} 行 · 对勘大正藏 ${record.taishoNo}）`,
-      words: buildWordGlossesFromIast(cleanLine),
-    };
+    });
   });
 }
 
 function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): DharaniVerse[] {
   return record.mantraVerses.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
-    const phonetics = generateVerseChinesePhonetics(cleanLine);
-
-    return {
+    return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
-      classicalTranslitZh: phonetics.classicalTranslitZh,
-      modernPhoneticZh: phonetics.modernPhoneticZh,
       meaningZh: `出自哥廷根大学 GRETIL 梵文原典《${record.titleZh}》（档案：${record.file} 第 ${idx + 1} 段真言/礼赞），已自动对齐唐宋古汉语音译与现代梵音拼读参考。`,
       meaningEn: `Sanskrit mantra/verse extracted from GRETIL Buddhist Sanskrit manuscript ${record.file} (${record.titleSanskrit}).`,
       tangNoteZh: `GRETIL 梵文佛典库档案：${record.file}（全书共 ${record.totalLines} 行）`,
-      words: buildWordGlossesFromIast(cleanLine),
-    };
+    });
   });
 }
 

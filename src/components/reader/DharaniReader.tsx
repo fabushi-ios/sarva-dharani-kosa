@@ -500,6 +500,8 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           <FullDharaniSummaryCard
             entry={entry}
             config={scriptConfig}
+            activeVerseIndex={playbackState.isPlaying ? playbackState.currentVerseIndex : null}
+            onPlayVerse={onPlaySingleVerse}
             onToggleBracketIast={() =>
               onScriptConfigChange({
                 ...scriptConfig,
@@ -516,6 +518,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               isVersePlaying={
                 playbackState.isPlaying && playbackState.currentVerseIndex === verse.index
               }
+              isLoadingAudio={Boolean(playbackState.isLoadingAudio)}
               activeSyllableIndex={playbackState.currentSyllableIndex}
               verseProgress={
                 playbackState.isPlaying && playbackState.currentVerseIndex === verse.index

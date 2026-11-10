@@ -197,6 +197,8 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
             {TWELVE_DB_CHIPS.map((chip) => (
               <button
                 key={chip.id}
+                id={`db-subfilter-${chip.id}`}
+                data-db-id={chip.id}
                 type="button"
                 className={`source-chip-btn ${selectedDbSubFilter === chip.id ? 'active' : ''}`}
                 style={{ fontSize: '0.68rem', padding: '0.18rem 0.42rem', flex: 'none' }}
@@ -214,8 +216,23 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
 
       <div className="dharani-catalog-list">
         {dbFilteredEntries.length === 0 ? (
-          <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.86rem' }}>
-            未找到匹配的梵文陀罗尼条目，请尝试切换部类或清空搜索词。
+          <div style={{ padding: '1.75rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.84rem' }}>
+            <div>当前筛选条件下未找到匹配条目。</div>
+            {(selectedCategory !== 'all' || sourceFilter !== 'all' || selectedDbSubFilter !== 'all' || onlyBookmarked) && (
+              <button
+                type="button"
+                className="source-chip-btn active"
+                style={{ marginTop: '0.65rem', padding: '0.35rem 0.75rem', fontSize: '0.78rem' }}
+                onClick={() => {
+                  setSelectedDbSubFilter('all');
+                  onSelectCategory('all');
+                  onSourceFilterChange('all');
+                  if (onlyBookmarked) onToggleOnlyBookmarked();
+                }}
+              >
+                🔓 解除部类/子库限制，在全部 {totalCorpusCount} 部原典中搜索
+              </button>
+            )}
           </div>
         ) : (
           <>

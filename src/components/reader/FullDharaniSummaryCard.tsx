@@ -14,12 +14,16 @@ import {
 interface FullDharaniSummaryCardProps {
   entry: DharaniEntry;
   config: ScriptVisibilityConfig;
+  activeVerseIndex?: number | null;
+  onPlayVerse?: (verseArrayIdx: number) => void;
   onToggleBracketIast: () => void;
 }
 
 export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
   entry,
   config,
+  activeVerseIndex = null,
+  onPlayVerse,
   onToggleBracketIast,
 }) => {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -63,6 +67,12 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
     }
 
     return {
+      siddhamList,
+      modernPhoneticList,
+      devanagariList,
+      iastList,
+      classicalZhList,
+      ipaList,
       siddhamFull: siddhamList.join('  '),
       modernPhoneticFull: modernPhoneticList.join(' ｜ '),
       devanagariFull: devanagariList.join(' । '),
@@ -94,6 +104,31 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
   if (!config.showFullCombinedSummary) {
     return null;
   }
+
+  const renderSegmentedRow = (items: string[], separator: string) =>
+    items.map((text, idx) => {
+      const v = entry.verses[idx];
+      const isPlayingThis = activeVerseIndex !== null && v && v.index === activeVerseIndex;
+      return (
+        <React.Fragment key={v?.id || idx}>
+          <span
+            className={isPlayingThis ? 'inline-syl-token active-spoken' : ''}
+            style={
+              isPlayingThis
+                ? { padding: '0.1rem 0.42rem', borderRadius: '5px', display: 'inline' }
+                : onPlayVerse
+                ? { cursor: 'pointer' }
+                : undefined
+            }
+            onClick={() => onPlayVerse?.(idx)}
+            title={v ? `点击定位并讽诵第 ${v.index} 句` : undefined}
+          >
+            {text}
+          </span>
+          {idx < items.length - 1 ? <span>{separator}</span> : null}
+        </React.Fragment>
+      );
+    });
 
   return (
     <section
@@ -164,7 +199,9 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             </button>
           </span>
           <div className="script-content-siddham" style={{ lineHeight: 1.85 }}>
-            {combined.siddhamFull}
+            {activeVerseIndex !== null
+              ? renderSegmentedRow(combined.siddhamList, '  ')
+              : combined.siddhamFull}
           </div>
         </div>
       )}
@@ -192,7 +229,9 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             </button>
           </span>
           <div className="script-content-phonetic-zh" style={{ lineHeight: 1.75 }}>
-            {combined.modernPhoneticFull}
+            {activeVerseIndex !== null
+              ? renderSegmentedRow(combined.modernPhoneticList, ' ｜ ')
+              : combined.modernPhoneticFull}
           </div>
         </div>
       )}
@@ -220,7 +259,9 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             </button>
           </span>
           <div className="script-content-devanagari" style={{ lineHeight: 1.75 }}>
-            {combined.devanagariFull}
+            {activeVerseIndex !== null
+              ? renderSegmentedRow(combined.devanagariList, ' । ')
+              : combined.devanagariFull}
           </div>
         </div>
       )}
@@ -248,7 +289,9 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             </button>
           </span>
           <div className="script-content-iast" style={{ lineHeight: 1.65 }}>
-            {combined.iastFull}
+            {activeVerseIndex !== null
+              ? renderSegmentedRow(combined.iastList, ' | ')
+              : combined.iastFull}
           </div>
         </div>
       )}
@@ -276,7 +319,9 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             </button>
           </span>
           <div className="script-content-classical-zh" style={{ lineHeight: 1.75 }}>
-            {combined.classicalZhFull}
+            {activeVerseIndex !== null
+              ? renderSegmentedRow(combined.classicalZhList, ' ｜ ')
+              : combined.classicalZhFull}
           </div>
         </div>
       )}

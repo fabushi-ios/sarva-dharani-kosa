@@ -1,5 +1,6 @@
 import type { ActiveWorkspaceTab, DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
 import { stripDiacritics } from '../sanskrit/transliterator';
+import { devanagariToSlp1, siddhamUnicodeToSlp1, slp1ToIast } from '../transliterator';
 import { TAISHO_MIKKYO_FILE_INDEX } from '../../data/kosa-generated/taishoMikkyoIndex';
 import { searchAllDatabases } from '../searchEngine';
 
@@ -41,7 +42,33 @@ const TRAD_TO_SIMP_SEARCH_MAP: Record<string, string> = {
   眾: '众', 衆: '众', 離: '离', 惡: '恶', 獄: '狱', 幢: '幢', 瓔: '璎',
   翻譯: '翻译', 辭: '辞', 劍: '剑', 橋: '桥', 奧: '奥', 陸: '陆', 維: '维',
   納: '纳', 德: '德', 格: '格', 總: '总', 持: '持', 護: '护', 國: '国',
+  發: '发', 開: '开', 壇: '坛', 懺: '忏', 佛: '佛', 尊: '尊', 藏: '藏',
 };
+
+const COLLOQUIAL_ALIAS_MAP: Array<{ pattern: RegExp; expansion: string }> = [
+  { pattern: /嗡嘛呢呗美吽|嗡嘛呢叭咪吽|六字大明/g, expansion: 'mani padme 观自在 六字' },
+  { pattern: /揭谛揭谛|波罗揭谛|心经咒/g, expansion: 'gate paragate prajnaparamita 般若心经' },
+  { pattern: /绿度母|度母心咒|二十一度母/g, expansion: 'tarauttare 圣救度佛母 多罗' },
+  { pattern: /白度母/g, expansion: 'tara 如意轮 救度' },
+  { pattern: /往生咒|拔一切业障/g, expansion: 'sukhavati 阿弥陀 拔一切业障根本得生净土' },
+  { pattern: /大悲咒|千手千眼/g, expansion: 'nilakantha 千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼' },
+  { pattern: /楞严咒|首楞严/g, expansion: 'surangama sitatapatra 大佛顶首楞严' },
+  { pattern: /尊胜咒|佛顶尊胜/g, expansion: 'usnisavijaya 佛顶尊胜陀罗尼' },
+  { pattern: /宝箧印|一切如来心秘密/g, expansion: 'sarvatathagata 一切如来心秘密全身舍利宝箧印陀罗尼' },
+  { pattern: /大随求|随求即得/g, expansion: 'mahapratisara 普遍光明清净炽盛如意宝印心无能胜大明王大随求' },
+  { pattern: /准提咒|准提神咒/g, expansion: 'cundi 七俱胝佛母准提大明陀罗尼' },
+  { pattern: /药师咒|药师灌顶/g, expansion: 'bhaisajya 药师琉璃光如来' },
+  { pattern: /秽迹金刚|乌枢沙摩/g, expansion: 'ucchusma 秽迹金刚禁百变法' },
+  { pattern: /孔雀明王/g, expansion: 'mahamayuri 佛母大孔雀明王' },
+  { pattern: /光明真言|大灌顶光/g, expansion: 'amogha vairocana 不空罥索毗卢遮那佛大灌顶光真言' },
+  { pattern: /黄财神|财宝天王|瞻巴拉/g, expansion: 'jambhala 宝藏神 财源' },
+  { pattern: /白伞盖/g, expansion: 'sitatapatra 大白伞盖' },
+  { pattern: /文殊心咒|五字真言/g, expansion: 'arahapacana manjusri 文殊师利' },
+  { pattern: /不动明王/g, expansion: 'acala 不动尊' },
+  { pattern: /摩利支天/g, expansion: 'marici 摩利支' },
+  { pattern: /娑婆诃|梭哈|娑诃/g, expansion: 'svaha' },
+  { pattern: /南无|那摩|曩谟/g, expansion: 'namo namah' },
+];
 
 const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }> = {
   db1_fangshan: { labelZh: 'DB1 · 房山石经与释教最上乘陀罗尼集', tab: 'interlinear' },
@@ -59,19 +86,129 @@ const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }>
 };
 
 export function normalizeSearchText(input: string): string {
-  const base = stripDiacritics(input);
+  let raw = input || '';
+  if (/[\u0900-\u097F]/.test(raw)) {
+    try {
+      raw += ' ' + slp1ToIast(devanagariToSlp1(raw));
+    } catch {
+      // keep raw
+    }
+  }
+  if (/[\u{11580}-\u{115FF}]/u.test(raw)) {
+    try {
+      raw += ' ' + slp1ToIast(siddhamUnicodeToSlp1(raw));
+    } catch {
+      // keep raw
+    }
+  }
+  const base = stripDiacritics(raw);
   let out = '';
   for (const ch of base) {
     out += TRAD_TO_SIMP_SEARCH_MAP[ch] || ch;
   }
+  out = out
+    .replace(/\bswaha\b/g, 'svaha')
+    .replace(/\bnamaha\b/g, 'namah')
+    .replace(/\baum\b/g, 'om')
+    .replace(/\bhreem\b/g, 'hrim')
+    .replace(/\bkleem\b/g, 'klim')
+    .replace(/\bshree\b/g, 'sri')
+    .replace(/\bshri\b/g, 'sri');
   return out;
+}
+
+interface IndexedEntryDoc {
+  normTitle: string;
+  normDbAndNo: string;
+  normDeity: string;
+  normHeader: string;
+  normVerses: string[];
+  normFull: string;
+}
+
+const ENTRY_INDEX_CACHE = new WeakMap<DharaniEntry, IndexedEntryDoc>();
+
+function getIndexedEntryDoc(entry: DharaniEntry): IndexedEntryDoc {
+  const cached = ENTRY_INDEX_CACHE.get(entry);
+  if (cached) return cached;
+
+  const normTitle = normalizeSearchText(
+    `${entry.titleZh} ${entry.titleSanskritIast} ${entry.titleEnglish}`
+  );
+  const normDbAndNo = normalizeSearchText(
+    `${entry.taishoNo} ${entry.provenance.cbetaId || ''} ${entry.provenance.gretilFile || ''} ${entry.provenance.databaseId || ''} ${entry.provenance.databaseBadgeZh || ''}`
+  );
+  const normDeity = normalizeSearchText(
+    `${entry.deityZh} ${entry.translatorZh} ${entry.sutraSourceZh} ${entry.meritsAndSummaryZh} ${entry.provenance.editionCitation || ''} ${entry.provenance.manuscriptNotesZh || ''} ${entry.provenance.rawSnippet || ''}`
+  );
+  const normHeader = `${normTitle} ${normDbAndNo} ${normDeity}`;
+  const normVerses = entry.verses.map((v) => {
+    const wordsDesc = Object.getOwnPropertyDescriptor(v, 'words');
+    const eagerWords = wordsDesc && 'value' in wordsDesc && Array.isArray(wordsDesc.value) ? wordsDesc.value : [];
+    const wordsStr = eagerWords
+      .map((w: { iast: string; transliterationZh: string; meaningZh: string }) => `${w.iast} ${w.transliterationZh} ${w.meaningZh}`)
+      .join(' ');
+    const classicalDesc = Object.getOwnPropertyDescriptor(v, 'classicalTranslitZh');
+    const classicalStr = classicalDesc && 'value' in classicalDesc ? String(classicalDesc.value || '') : '';
+    const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
+    const modernStr = modernDesc && 'value' in modernDesc ? String(modernDesc.value || '') : '';
+    return normalizeSearchText(
+      `${v.iast} ${classicalStr} ${modernStr} ${v.meaningZh} ${v.meaningEn} ${wordsStr}`
+    );
+  });
+  const normFull = `${normHeader} ${normVerses.join(' ')}`;
+
+  const doc: IndexedEntryDoc = {
+    normTitle,
+    normDbAndNo,
+    normDeity,
+    normHeader,
+    normVerses,
+    normFull,
+  };
+  ENTRY_INDEX_CACHE.set(entry, doc);
+  return doc;
+}
+
+function buildQueryVariantsAndTokens(rawQuery: string): {
+  normQuery: string;
+  tokens: string[];
+  aliasTerms: string[];
+} {
+  const normQuery = normalizeSearchText(rawQuery.trim());
+  const tokens = normQuery.split(/\s+/).filter(Boolean);
+  const aliasTerms: string[] = [];
+  for (const rule of COLLOQUIAL_ALIAS_MAP) {
+    if (rule.pattern.test(normQuery)) {
+      aliasTerms.push(...normalizeSearchText(rule.expansion).split(/\s+/).filter(Boolean));
+    }
+    rule.pattern.lastIndex = 0;
+  }
+  return { normQuery, tokens, aliasTerms };
+}
+
+function matchesDoc(
+  doc: IndexedEntryDoc,
+  normQuery: string,
+  tokens: string[],
+  aliasTerms: string[]
+): boolean {
+  if (!normQuery) return true;
+  if (doc.normFull.includes(normQuery)) return true;
+  if (tokens.length > 1 && tokens.every((tk) => doc.normFull.includes(tk))) {
+    return true;
+  }
+  if (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normFull.includes(term))) {
+    return true;
+  }
+  return false;
 }
 
 export function filterDharanis(
   entries: DharaniEntry[],
   options: SearchFilterOptions
 ): DharaniEntry[] {
-  const normalizedQuery = normalizeSearchText(options.query.trim());
+  const { normQuery, tokens, aliasTerms } = buildQueryVariantsAndTokens(options.query);
 
   return entries.filter((entry) => {
     if (options.categoryId !== 'all' && entry.categoryId !== options.categoryId) {
@@ -99,44 +236,12 @@ export function filterDharanis(
       if (!entry.provenance.gretilFile) return false;
     }
 
-    if (!normalizedQuery) {
+    if (!normQuery) {
       return true;
     }
 
-    const searchableHeader = normalizeSearchText(
-      [
-        entry.titleZh,
-        entry.titleSanskritIast,
-        entry.titleEnglish,
-        entry.taishoNo,
-        entry.deityZh,
-        entry.translatorZh,
-        entry.sutraSourceZh,
-        entry.meritsAndSummaryZh,
-        entry.provenance.gretilFile || '',
-        entry.provenance.cbetaId || '',
-        entry.provenance.databaseId || '',
-        entry.provenance.databaseBadgeZh || '',
-        entry.provenance.editionCitation || '',
-        entry.provenance.manuscriptNotesZh || '',
-      ].join(' ')
-    );
-
-    if (searchableHeader.includes(normalizedQuery)) {
-      return true;
-    }
-
-    return entry.verses.some((v) => {
-      const verseText = normalizeSearchText(
-        `${v.iast} ${v.classicalTranslitZh} ${v.modernPhoneticZh} ${v.meaningZh} ${v.meaningEn}`
-      );
-      if (verseText.includes(normalizedQuery)) return true;
-      return v.words.some((w) =>
-        normalizeSearchText(`${w.iast} ${w.transliterationZh} ${w.meaningZh}`).includes(
-          normalizedQuery
-        )
-      );
-    });
+    const doc = getIndexedEntryDoc(entry);
+    return matchesDoc(doc, normQuery, tokens, aliasTerms);
   });
 }
 
@@ -177,7 +282,7 @@ export function getSearchSuggestions(
   rawQuery: string,
   limit = 20
 ): SearchSuggestionItem[] {
-  const q = normalizeSearchText(rawQuery.trim());
+  const { normQuery: q, tokens, aliasTerms } = buildQueryVariantsAndTokens(rawQuery);
 
   if (!q) {
     // Show 6 classic flagship Dhāraṇīs + 10 representative entries across DB1–DB12
@@ -204,64 +309,63 @@ export function getSearchSuggestions(
   const scoredCanon: Array<{ score: number; is12Db: boolean; item: SearchSuggestionItem }> = [];
 
   for (const entry of entries) {
+    const doc = getIndexedEntryDoc(entry);
+    if (!matchesDoc(doc, q, tokens, aliasTerms)) {
+      continue;
+    }
+
     const is12Db = Boolean(
       entry.provenance.databaseId || entry.provenance.sourceType === 'GLOBAL-12DB'
     );
-    const normTitle = normalizeSearchText(
-      `${entry.titleZh} ${entry.titleSanskritIast} ${entry.titleEnglish}`
-    );
-    const normDbAndNo = normalizeSearchText(
-      `${entry.taishoNo} ${entry.provenance.cbetaId || ''} ${entry.provenance.gretilFile || ''} ${entry.provenance.databaseId || ''} ${entry.provenance.databaseBadgeZh || ''}`
-    );
-    const normDeity = normalizeSearchText(
-      `${entry.deityZh} ${entry.translatorZh} ${entry.meritsAndSummaryZh}`
-    );
 
-    const titleMatch = normTitle.includes(q);
-    const dbOrNoMatch = normDbAndNo.includes(q);
-    const deityMatch = normDeity.includes(q);
+    const titleMatch =
+      doc.normTitle.includes(q) ||
+      (tokens.length > 1 && tokens.every((tk) => doc.normTitle.includes(tk))) ||
+      (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normTitle.includes(term)));
+    const dbOrNoMatch =
+      doc.normDbAndNo.includes(q) ||
+      (tokens.length > 1 && tokens.every((tk) => doc.normDbAndNo.includes(tk)));
+    const deityMatch =
+      doc.normDeity.includes(q) ||
+      (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normDeity.includes(term)));
 
     let matchedVerse: DharaniEntry['verses'][number] | undefined;
     if (!titleMatch && !dbOrNoMatch) {
-      matchedVerse = entry.verses.find((v) => {
-        const vStr = normalizeSearchText(
-          `${v.iast} ${v.classicalTranslitZh} ${v.modernPhoneticZh} ${v.meaningZh} ${v.meaningEn}`
-        );
-        if (vStr.includes(q)) return true;
-        return v.words.some((w) =>
-          normalizeSearchText(`${w.iast} ${w.transliterationZh} ${w.meaningZh}`).includes(q)
-        );
-      });
+      const vIdx = doc.normVerses.findIndex(
+        (vStr) =>
+          vStr.includes(q) ||
+          (tokens.length > 1 && tokens.every((tk) => vStr.includes(tk))) ||
+          (aliasTerms.length > 0 && aliasTerms.some((term) => vStr.includes(term)))
+      );
+      matchedVerse = vIdx >= 0 ? entry.verses[vIdx] : entry.verses[0];
     } else {
       matchedVerse = entry.verses[0];
     }
 
-    if (titleMatch || dbOrNoMatch || deityMatch || matchedVerse) {
-      let score = 0;
-      if (normTitle.startsWith(q)) score += 120;
-      else if (titleMatch) score += 90;
-      if (dbOrNoMatch) score += 85;
-      if (deityMatch) score += 55;
-      if (matchedVerse) score += 35;
-      if (is12Db && dbOrNoMatch) score += 30;
+    let score = 20;
+    if (doc.normTitle.startsWith(q)) score += 120;
+    else if (titleMatch) score += 90;
+    if (dbOrNoMatch) score += 85;
+    if (deityMatch) score += 55;
+    if (matchedVerse) score += 35;
+    if (is12Db && dbOrNoMatch) score += 30;
 
-      let matchTypeLabel = is12Db ? '全球12大梵典专集' : '四体梵音精校库';
-      if (entry.categoryId === 'gretil-canonical') {
-        matchTypeLabel = `GRETIL 梵文贝叶经 (${entry.provenance.gretilFile || ''})`;
-      } else if (dbOrNoMatch && !titleMatch) {
-        matchTypeLabel = `经号/数据库匹配 (${entry.taishoNo})`;
-      } else if (deityMatch && !titleMatch) {
-        matchTypeLabel = `本尊/译者匹配 (${entry.deityZh.slice(0, 14)})`;
-      } else if (matchedVerse && !titleMatch) {
-        matchTypeLabel = `匹配第 ${matchedVerse.index} 句梵音/古汉语`;
-      }
-
-      scoredCanon.push({
-        score,
-        is12Db,
-        item: toCanonSuggestionItem(entry, matchTypeLabel, matchedVerse),
-      });
+    let matchTypeLabel = is12Db ? '全球12大梵典专集' : '四体梵音精校库';
+    if (entry.categoryId === 'gretil-canonical') {
+      matchTypeLabel = `GRETIL 梵文贝叶经 (${entry.provenance.gretilFile || ''})`;
+    } else if (dbOrNoMatch && !titleMatch) {
+      matchTypeLabel = `经号/数据库匹配 (${entry.taishoNo})`;
+    } else if (deityMatch && !titleMatch) {
+      matchTypeLabel = `本尊/译者匹配 (${entry.deityZh.slice(0, 14)})`;
+    } else if (matchedVerse && !titleMatch) {
+      matchTypeLabel = `匹配第 ${matchedVerse.index} 句梵音/古汉语`;
     }
+
+    scoredCanon.push({
+      score,
+      is12Db,
+      item: toCanonSuggestionItem(entry, matchTypeLabel, matchedVerse),
+    });
   }
 
   scoredCanon.sort((a, b) => b.score - a.score);

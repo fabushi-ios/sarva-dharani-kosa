@@ -29,9 +29,22 @@ import { Header } from './components/layout/Header';
 import { SidebarFilter } from './components/layout/SidebarFilter';
 import { DharaniReader } from './components/reader/DharaniReader';
 import { AudioPlayerBar } from './components/audio/AudioPlayerBar';
-import { TaishoCanonExplorer } from './components/catalog/TaishoCanonExplorer';
-import { SanskritPhoneticsAcademy } from './components/guide/SanskritPhoneticsAcademy';
-import { CustomDharaniCompiler } from './components/extensibility/CustomDharaniCompiler';
+
+const TaishoCanonExplorer = lazy(() =>
+  import('./components/catalog/TaishoCanonExplorer').then((m) => ({
+    default: m.TaishoCanonExplorer,
+  }))
+);
+const SanskritPhoneticsAcademy = lazy(() =>
+  import('./components/guide/SanskritPhoneticsAcademy').then((m) => ({
+    default: m.SanskritPhoneticsAcademy,
+  }))
+);
+const CustomDharaniCompiler = lazy(() =>
+  import('./components/extensibility/CustomDharaniCompiler').then((m) => ({
+    default: m.CustomDharaniCompiler,
+  }))
+);
 
 const FangshanTaishoInterlinearStudio = lazy(() =>
   import('./components/FangshanTaishoInterlinearStudio').then((m) => ({
@@ -387,72 +400,76 @@ export const App: React.FC = () => {
         )}
 
         {activeTab === 'taisho-explorer' && (
-          <TaishoCanonExplorer
-            initialScriptureId={selectedTaishoScriptureId}
-            allEntries={allEntries}
-            scriptConfig={scriptConfig}
-            onScriptConfigChange={handleScriptConfigChange}
-            bookmarkedIds={bookmarkedIds}
-            onToggleBookmark={handleToggleBookmark}
-            playbackState={playbackState}
-            onNavigateTab={handleTabChange}
-          />
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载大正藏密教部 614 经与 14,485 段真言总览...</div>}>
+            <TaishoCanonExplorer
+              initialScriptureId={selectedTaishoScriptureId}
+              allEntries={allEntries}
+              scriptConfig={scriptConfig}
+              onScriptConfigChange={handleScriptConfigChange}
+              bookmarkedIds={bookmarkedIds}
+              onToggleBookmark={handleToggleBookmark}
+              playbackState={playbackState}
+              onNavigateTab={handleTabChange}
+            />
+          </Suspense>
         )}
 
         {activeTab === 'phonetics-academy' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载悉昙十八章与牛津 OCHS 种子字辞典...</div>}>
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载悉昙十八章与牛津 OCHS 种子字辞典...</div>}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
               <SiddhamBijaAcademy />
-            </Suspense>
-            <SanskritPhoneticsAcademy
-              onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-            />
-          </div>
+              <SanskritPhoneticsAcademy
+                onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+              />
+            </div>
+          </Suspense>
         )}
 
         {activeTab === 'custom-compiler' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-            <section className="dharani-hero-card">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-                <div>
-                  <h2 className="hero-title-zh" style={{ fontSize: '1.25rem' }}>
-                    梵语悉昙四行谱发音引擎与 34×14 摩多矩阵工作台 v3.0 (48,000 Hz Neural VITS)
-                  </h2>
-                  <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-                    集成 IIT Madras Rasa 古典梵语男/女声 ONNX VITS (48kHz) + 612音节 Siddhaṃ Audio Sprite + 136.1Hz 共振峰合成器 + 四行对位总谱与 34×14 摩多矩阵点读。
-                  </p>
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载四行谱发音引擎与梵文编译器...</div>}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+              <section className="dharani-hero-card">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+                  <div>
+                    <h2 className="hero-title-zh" style={{ fontSize: '1.25rem' }}>
+                      梵语悉昙四行谱发音引擎与 34×14 摩多矩阵工作台 v3.0 (48,000 Hz Neural VITS)
+                    </h2>
+                    <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+                      集成 IIT Madras Rasa 古典梵语男/女声 ONNX VITS (48kHz) + 612音节 Siddhaṃ Audio Sprite + 136.1Hz 共振峰合成器 + 四行对位总谱与 34×14 摩多矩阵点读。
+                    </p>
+                  </div>
+                  <a
+                    href="/sanskrit_phonetic_engine.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-scholarly primary"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <span>新窗口全屏打开独立版发音引擎 v3.0 ↗</span>
+                  </a>
                 </div>
-                <a
-                  href="/sanskrit_phonetic_engine.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-scholarly primary"
-                  style={{ textDecoration: 'none' }}
-                >
-                  <span>新窗口全屏打开独立版发音引擎 v3.0 ↗</span>
-                </a>
-              </div>
-              <iframe
-                src="/sanskrit_phonetic_engine.html"
-                title="梵语悉昙四行谱发音引擎 v3.0"
-                style={{
-                  width: '100%',
-                  height: '760px',
-                  border: '1px solid var(--border-subtle)',
-                  borderRadius: 'var(--radius-sm)',
-                  background: '#0f1420',
-                }}
-              />
-            </section>
+                <iframe
+                  src="/sanskrit_phonetic_engine.html"
+                  title="梵语悉昙四行谱发音引擎 v3.0"
+                  style={{
+                    width: '100%',
+                    height: '760px',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-sm)',
+                    background: '#0f1420',
+                  }}
+                />
+              </section>
 
-            <CustomDharaniCompiler
-              customEntries={customEntries}
-              onAddCustomEntry={handleAddCustomEntry}
-              onDeleteCustomEntry={handleDeleteCustomEntry}
-              onSelectEntryInReader={(id) => handleSelectEntry(id)}
-              onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-            />
-          </div>
+              <CustomDharaniCompiler
+                customEntries={customEntries}
+                onAddCustomEntry={handleAddCustomEntry}
+                onDeleteCustomEntry={handleDeleteCustomEntry}
+                onSelectEntryInReader={(id) => handleSelectEntry(id)}
+                onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+              />
+            </div>
+          </Suspense>
         )}
       </div>
 

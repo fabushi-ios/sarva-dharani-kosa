@@ -273,10 +273,18 @@ class SanskritAudioEngine {
     return this.loadingPromise;
   }
 
+  private getApiBaseUrl(): string {
+    return (
+      (typeof import.meta !== 'undefined' &&
+        (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_TTS_API_BASE_URL) ||
+      ''
+    ).replace(/\/+$/, '');
+  }
+
   private async performInit(): Promise<void> {
     if (typeof window === 'undefined' || typeof fetch === 'undefined') return;
     try {
-      const healthRes = await fetch('/api/health');
+      const healthRes = await fetch(`${this.getApiBaseUrl()}/api/health`);
       if (healthRes.ok) {
         const data = await healthRes.json();
         this.healthStatus = {
@@ -483,7 +491,9 @@ class SanskritAudioEngine {
             rate: String(rate),
             format: 'wav',
           });
-          const res = await fetch(`/api/syllable/${encodeURIComponent(cleanKey)}?${q.toString()}`);
+          const res = await fetch(
+            `${this.getApiBaseUrl()}/api/syllable/${encodeURIComponent(cleanKey)}?${q.toString()}`
+          );
           if (res.ok) {
             this.healthStatus.backendOnline = true;
             const wavBuf = await res.arrayBuffer();
@@ -551,7 +561,7 @@ class SanskritAudioEngine {
       typeof fetch !== 'undefined'
     ) {
       try {
-        const response = await fetch('/api/tts', {
+        const response = await fetch(`${this.getApiBaseUrl()}/api/tts`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

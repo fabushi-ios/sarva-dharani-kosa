@@ -44,6 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(0);
   const searchWrapRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const suggestions = useMemo(
     () => getSearchSuggestions(allEntries, searchQuery, 20),
@@ -54,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
     setHighlightIndex(0);
   }, [searchQuery]);
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside & support global Ctrl+K / Cmd+K / '/' shortcut
   useEffect(() => {
     const handleClickOutside = (ev: MouseEvent) => {
       if (
@@ -64,8 +65,32 @@ export const Header: React.FC<HeaderProps> = ({
         setDropdownOpen(false);
       }
     };
+
+    const handleGlobalShortcut = (ev: KeyboardEvent) => {
+      const target = ev.target as HTMLElement | null;
+      const isTypingInInput =
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable);
+
+      if ((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 'k') {
+        ev.preventDefault();
+        searchInputRef.current?.focus();
+        setDropdownOpen(true);
+      } else if (!isTypingInInput && ev.key === '/') {
+        ev.preventDefault();
+        searchInputRef.current?.focus();
+        setDropdownOpen(true);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleGlobalShortcut);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleGlobalShortcut);
+    };
   }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -122,11 +147,12 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="header-search-wrap" ref={searchWrapRef}>
             <Search size={16} className="header-search-icon" />
             <input
+              ref={searchInputRef}
               id="global-dharani-search-input"
               type="search"
               autoComplete="off"
               className="header-search-input"
-              placeholder="搜12大数据库(房山/84000/剑桥CUDL/奥斯陆/牛津OCHS/德格rKTs)、咒名(尊胜/大悲/秽迹)、经号(F28/TOH/T19)..."
+              placeholder="按 ⌘K 或 / 速查：搜咒名/俗称(大悲/楞严/绿度母/嗡嘛呢呗美吽)、12大库(房山/CUDL)、梵文或空格组合词..."
               value={searchQuery}
               onFocus={() => setDropdownOpen(true)}
               onKeyDown={handleKeyDown}
@@ -170,7 +196,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </span>
                 </div>
 
-                {/* Quick 12-DB Search Filter Chips inside Dropdown */}
+                {/* Quick 12-DB & Popular Mantra Search Filter Chips inside Dropdown */}
                 <div
                   style={{
                     display: 'flex',
@@ -182,6 +208,15 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                 >
                   {[
+                    { label: '🔥 大悲咒', q: '大悲咒' },
+                    { label: '🔥 楞严咒', q: '楞严咒' },
+                    { label: '🔥 尊胜陀罗尼', q: '尊胜' },
+                    { label: '🔥 心经咒', q: '心经' },
+                    { label: '✨ 六字大明咒', q: '嗡嘛呢呗美吽' },
+                    { label: '✨ 绿度母', q: '绿度母' },
+                    { label: '✨ 药师咒', q: '药师' },
+                    { label: '✨ 准提咒', q: '准提' },
+                    { label: '✨ 秽迹金刚', q: '秽迹' },
                     { label: '🌐 DB1 房山石经', q: '房山' },
                     { label: '🌐 DB2 T54悉昙字书', q: 'T54' },
                     { label: '🌐 DB3 尼泊尔DSBC', q: 'DSBC' },

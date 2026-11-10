@@ -17,6 +17,7 @@ interface VerseBlockProps {
   verse: DharaniVerse;
   config: ScriptVisibilityConfig;
   isVersePlaying: boolean;
+  isLoadingAudio?: boolean;
   activeSyllableIndex: number | null;
   verseProgress: number;
   autoScroll: boolean;
@@ -28,6 +29,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
   verse,
   config,
   isVersePlaying,
+  isLoadingAudio = false,
   activeSyllableIndex,
   verseProgress,
   autoScroll,
@@ -79,19 +81,77 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
     [syllables]
   );
 
-  const activePillRef = useRef<HTMLButtonElement | null>(null);
-  const cardRef = useRef<HTMLElement | null>(null);
+  const effectiveActiveSylIndex = isVersePlaying
+    ? (activeSyllableIndex ?? enrichedSyllables[0]?.index ?? 1)
+    : null;
 
-  // Smoothly scroll active verse & active syllable pill into view during chanting
+  const activeSyl = useMemo(
+    () =>
+      effectiveActiveSylIndex !== null
+        ? enrichedSyllables.find((s) => s.index === effectiveActiveSylIndex) ||
+          enrichedSyllables[0] ||
+          null
+        : null,
+    [enrichedSyllables, effectiveActiveSylIndex]
+  );
+
+  const activePillRef = useRef<HTMLButtonElement | null>(null);
+  const activeInlineIastRef = useRef<HTMLSpanElement | null>(null);
+  const cardRef = useRef<HTMLElement | null>(null);
+  const lastScrollTimeRef = useRef<number>(0);
+  const wasPlayingRef = useRef<boolean>(false);
+
+  // Strictly vertical (left: 0) smooth centering controller:
+  // Keeps the active verse and active reading line in the vertical center of the screen
+  // with ZERO horizontal swaying (left: 0) and ZERO high-frequency jitter.
   useEffect(() => {
-    if (isVersePlaying && autoScroll && activePillRef.current) {
-      activePillRef.current.scrollIntoView({
+    if (!isVersePlaying) {
+      wasPlayingRef.current = false;
+      return;
+    }
+    if (!autoScroll || typeof window === 'undefined') {
+      return;
+    }
+
+    const justStartedVerse = !wasPlayingRef.current;
+    wasPlayingRef.current = true;
+
+    const now = performance.now();
+    // Optical vertical center of reading viewport (between 68px sticky header and 88px sticky player bar)
+    const viewportCenterY = Math.round((window.innerHeight - 88 + 68) * 0.45);
+
+    if (justStartedVerse && cardRef.current) {
+      const cardRect = cardRef.current.getBoundingClientRect();
+      const focusOffsetInCard = Math.min(180, cardRect.height * 0.35);
+      const currentFocusY = cardRect.top + focusOffsetInCard;
+      const deltaY = currentFocusY - viewportCenterY;
+      if (Math.abs(deltaY) > 20) {
+        lastScrollTimeRef.current = now;
+        window.scrollTo({
+          top: Math.max(0, window.scrollY + deltaY),
+          left: 0,
+          behavior: 'smooth',
+        });
+      }
+      return;
+    }
+
+    const targetEl = activeInlineIastRef.current || activePillRef.current || cardRef.current;
+    if (!targetEl) return;
+
+    const rect = targetEl.getBoundingClientRect();
+    const elCenterY = rect.top + rect.height / 2;
+    const deltaY = elCenterY - viewportCenterY;
+
+    if (Math.abs(deltaY) > 58 && now - lastScrollTimeRef.current > 360) {
+      lastScrollTimeRef.current = now;
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + deltaY),
+        left: 0,
         behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
       });
     }
-  }, [isVersePlaying, activeSyllableIndex, autoScroll]);
+  }, [isVersePlaying, effectiveActiveSylIndex, autoScroll]);
 
   return (
     <article
@@ -117,61 +177,197 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           title="连续合成梵音讽诵本句（硬件时钟60fps同步跟读）"
         >
           <Volume2 size={14} />
-          <span>{isVersePlaying ? '正在同步讽诵本句...' : '梵音讽诵本句'}</span>
+          <span>
+            {isVersePlaying
+              ? isLoadingAudio
+                ? '正在合成 48kHz 神经梵音...'
+                : '正在同步讽诵本句...'
+              : '梵音讽诵本句'}
+          </span>
         </button>
       </div>
 
-      {/* Live Verse Progress Bar when chanting */}
+      {/* Live Verse Progress Bar & Real-Time Syllable Spotlight Banner when chanting */}
       {isVersePlaying && (
-        <div
-          style={{
-            height: '4px',
-            width: '100%',
-            background: 'var(--bg-subtle)',
-            borderRadius: '999px',
-            overflow: 'hidden',
-          }}
-        >
+        <>
           <div
             style={{
-              height: '100%',
-              width: `${Math.round(verseProgress * 100)}%`,
-              background: 'var(--accent-vermilion)',
-              transition: 'width 0.08s linear',
+              height: '5px',
+              width: '100%',
+              background: 'var(--bg-subtle)',
+              borderRadius: '999px',
+              overflow: 'hidden',
             }}
-          />
-        </div>
+          >
+            <div
+              style={{
+                height: '100%',
+                width: `${Math.max(4, Math.round(verseProgress * 100))}%`,
+                background: 'linear-gradient(90deg, #b91c1c 0%, #d97706 100%)',
+                transition: 'width 0.06s linear',
+              }}
+            />
+          </div>
+
+          {activeSyl && (
+            <div className="live-reading-spotlight" role="status" aria-live="polite">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', flexWrap: 'wrap' }}>
+                <span className="spotlight-badge-now">
+                  ● {isLoadingAudio ? '准备发音' : `正在跟读 (${activeSyl.index}/${enrichedSyllables.length})`}
+                </span>
+                <div className="spotlight-syllable-focus">
+                  <span className="spotlight-token-chip">
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>梵音</span>
+                    <strong style={{ fontFamily: 'var(--font-iast)', fontSize: '1.12rem', color: 'var(--accent-vermilion)' }}>
+                      {activeSyl.iast}
+                    </strong>
+                  </span>
+                  <span className="spotlight-token-chip">
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>拼读</span>
+                    <strong style={{ fontSize: '1.05rem', color: 'var(--accent-jade)' }}>
+                      {activeSyl.modernZh}
+                    </strong>
+                  </span>
+                  <span className="spotlight-token-chip">
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>古音</span>
+                    <strong style={{ fontSize: '1.05rem', color: 'var(--accent-vermilion)' }}>
+                      {activeSyl.classicalZh}
+                    </strong>
+                  </span>
+                  <span className="spotlight-token-chip">
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>天城</span>
+                    <strong style={{ fontFamily: 'var(--font-devanagari)', fontSize: '1.08rem' }}>
+                      {activeSyl.devanagari}
+                    </strong>
+                  </span>
+                  <span className="spotlight-token-chip">
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>悉昙</span>
+                    <strong style={{ fontFamily: 'var(--font-siddham)', fontSize: '1.18rem', color: 'var(--accent-vermilion)' }}>
+                      {activeSyl.siddham}
+                    </strong>
+                  </span>
+                </div>
+              </div>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-gold)' }}>
+                {activeSyl.weight === 'guru' ? '— Guru 重音 (2拍)' : '⌣ Laghu 轻音 (1拍)'}
+              </span>
+            </div>
+          )}
+        </>
       )}
 
       {/* Parallel Multi-Script & Chinese Phonetic / Classical Transliteration Alignment */}
       {config.showSiddham && (
         <div className="script-row">
           <span className="script-label">悉昙梵字</span>
-          <div className="script-content-siddham">{siddhamText}</div>
+          {isVersePlaying && enrichedSyllables.length > 0 ? (
+            <div className="script-content-siddham inline-syl-strip">
+              {enrichedSyllables.map((syl) => {
+                const isSpoken = effectiveActiveSylIndex === syl.index;
+                const isPast =
+                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                return (
+                  <span
+                    key={`${verse.id}-sid-${syl.index}`}
+                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    onClick={() => onPlaySyllable(syl.iast)}
+                    title={`点击发音: ${syl.iast} (${syl.modernZh})`}
+                  >
+                    {syl.siddham || iastToSiddham(syl.iast)}
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="script-content-siddham">{siddhamText}</div>
+          )}
         </div>
       )}
 
       {config.showDevanagari && (
         <div className="script-row">
           <span className="script-label">天城梵文</span>
-          <div className="script-content-devanagari">{devanagariText}</div>
+          {isVersePlaying && enrichedSyllables.length > 0 ? (
+            <div className="script-content-devanagari inline-syl-strip">
+              {enrichedSyllables.map((syl) => {
+                const isSpoken = effectiveActiveSylIndex === syl.index;
+                const isPast =
+                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                return (
+                  <span
+                    key={`${verse.id}-deva-${syl.index}`}
+                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    onClick={() => onPlaySyllable(syl.iast)}
+                    title={`点击发音: ${syl.iast} (${syl.modernZh})`}
+                  >
+                    {syl.devanagari}
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="script-content-devanagari">{devanagariText}</div>
+          )}
         </div>
       )}
 
       {config.showIast && (
         <div className="script-row">
           <span className="script-label">梵文 IAST</span>
-          <div className="script-content-iast">{verse.iast}</div>
+          {isVersePlaying && enrichedSyllables.length > 0 ? (
+            <div className="script-content-iast inline-syl-strip">
+              {enrichedSyllables.map((syl) => {
+                const isSpoken = effectiveActiveSylIndex === syl.index;
+                const isPast =
+                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                return (
+                  <span
+                    key={`${verse.id}-iast-${syl.index}`}
+                    ref={isSpoken ? activeInlineIastRef : null}
+                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    onClick={() => onPlaySyllable(syl.iast)}
+                    title={`点击发音: ${syl.iast} (${syl.modernZh})`}
+                  >
+                    {syl.iast}
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="script-content-iast">{verse.iast}</div>
+          )}
         </div>
       )}
 
-      {/* 直接在梵文下方平行对齐展示「梵音拼读参考」与「古汉语音译」，一目了然对照 */}
+      {/* 直接在梵文下方平行对齐展示「梵音拼读参考」与「古汉语音译」，跟读时逐音节同步高亮 */}
       {config.showModernPhoneticZh && (
         <div className="script-row">
           <span className="script-label" style={{ color: 'var(--accent-jade)' }}>
             梵音拼读参考
           </span>
-          <div className="script-content-phonetic-zh">{effectiveModernPhoneticZh}</div>
+          {isVersePlaying && enrichedSyllables.length > 0 ? (
+            <div className="script-content-phonetic-zh inline-syl-strip">
+              {enrichedSyllables.map((syl) => {
+                const isSpoken = effectiveActiveSylIndex === syl.index;
+                const isPast =
+                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                return (
+                  <span
+                    key={`${verse.id}-mod-${syl.index}`}
+                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    onClick={() => onPlaySyllable(syl.iast)}
+                    title={`梵音: ${syl.iast} · 现代拼读: ${syl.modernZh}`}
+                  >
+                    {config.showPhoneticIastBracket
+                      ? `${syl.modernZh}(${syl.iast})`
+                      : syl.modernZh}
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="script-content-phonetic-zh">{effectiveModernPhoneticZh}</div>
+          )}
         </div>
       )}
 
@@ -180,7 +376,27 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
             古汉语音译
           </span>
-          <div className="script-content-classical-zh">{effectiveClassicalZh}</div>
+          {isVersePlaying && enrichedSyllables.length > 0 ? (
+            <div className="script-content-classical-zh inline-syl-strip">
+              {enrichedSyllables.map((syl) => {
+                const isSpoken = effectiveActiveSylIndex === syl.index;
+                const isPast =
+                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                return (
+                  <span
+                    key={`${verse.id}-cls-${syl.index}`}
+                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    onClick={() => onPlaySyllable(syl.iast)}
+                    title={`梵音: ${syl.iast} · 古汉语: ${syl.classicalZh}`}
+                  >
+                    {syl.classicalZh}
+                  </span>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="script-content-classical-zh">{effectiveClassicalZh}</div>
+          )}
         </div>
       )}
 
@@ -217,13 +433,17 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           </div>
           <div className="prosody-syllables-strip">
             {enrichedSyllables.map((syl) => {
-              const isSpoken = isVersePlaying && activeSyllableIndex === syl.index;
+              const isSpoken = isVersePlaying && effectiveActiveSylIndex === syl.index;
+              const isPast =
+                isVersePlaying &&
+                effectiveActiveSylIndex !== null &&
+                syl.index < effectiveActiveSylIndex;
               return (
                 <button
                   key={`${verse.id}-syl-${syl.index}`}
                   ref={isSpoken ? activePillRef : null}
                   type="button"
-                  className={`syllable-pill ${syl.weight} ${isSpoken ? 'active-spoken' : ''}`}
+                  className={`syllable-pill ${syl.weight} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
                   onClick={() => onPlaySyllable(syl.iast)}
                   title={`梵音: ${syl.iast} [${syl.ipa}] | 梵音拼读: ${syl.modernZh} | 古汉语: ${syl.classicalZh} | ${
                     syl.weight === 'guru' ? 'Guru 重音 (2摩多)' : 'Laghu 轻音 (1摩多)'

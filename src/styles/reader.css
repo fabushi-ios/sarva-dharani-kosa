@@ -220,8 +220,94 @@
 }
 
 .verse-card.playing {
-  border-color: var(--accent-vermilion);
-  box-shadow: 0 0 0 2px var(--accent-vermilion-soft), var(--shadow-md);
+  border: 2.5px solid var(--accent-vermilion);
+  background: linear-gradient(180deg, var(--accent-vermilion-soft) 0%, var(--bg-surface) 28%);
+  box-shadow: 0 0 0 4px rgba(185, 28, 28, 0.16), var(--shadow-lg);
+}
+
+/* Live Reading Spotlight Banner inside Active Verse */
+.live-reading-spotlight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 0.62rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, rgba(185, 28, 28, 0.14) 0%, rgba(217, 119, 6, 0.14) 100%);
+  border: 1.5px solid var(--accent-vermilion);
+  box-shadow: 0 2px 10px rgba(185, 28, 28, 0.12);
+}
+
+.spotlight-badge-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-vermilion);
+  color: #fff8ee;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.spotlight-syllable-focus {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.spotlight-token-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.18rem 0.58rem;
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-gold-border);
+  font-size: 0.85rem;
+}
+
+/* Synchronized Inline Syllable Highlighting for Multi-Script Rows */
+.inline-syl-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.28rem 0.36rem;
+  flex: 1;
+}
+
+.inline-syl-token {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.08rem 0.36rem;
+  border-radius: 5px;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.08s ease, color 0.08s ease, border-color 0.08s ease, box-shadow 0.08s ease;
+}
+
+.inline-syl-token:hover {
+  border-color: var(--accent-gold);
+  background: var(--accent-gold-soft);
+}
+
+.inline-syl-token.past-spoken {
+  color: var(--accent-vermilion);
+  background: rgba(185, 28, 28, 0.09);
+  border-bottom: 2px solid rgba(185, 28, 28, 0.35);
+}
+
+.inline-syl-token.active-spoken {
+  background: linear-gradient(135deg, #b91c1c 0%, #d97706 100%) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border-color: #fbbf24 !important;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.45), 0 4px 12px rgba(185, 28, 28, 0.38);
+  text-decoration: none;
+  z-index: 2;
 }
 
 .verse-card-header {
@@ -275,6 +361,7 @@
   color: var(--accent-vermilion);
   line-height: 1.55;
   word-spacing: 0.25rem;
+  flex: 1;
 }
 
 .script-content-devanagari {
@@ -282,6 +369,7 @@
   font-size: 1.32rem;
   color: var(--text-primary);
   line-height: 1.55;
+  flex: 1;
 }
 
 .script-content-iast {
@@ -290,6 +378,7 @@
   font-weight: 600;
   color: var(--accent-lapis);
   line-height: 1.5;
+  flex: 1;
 }
 
 .script-content-phonetic-zh {
@@ -346,11 +435,10 @@
   background: var(--bg-surface);
   min-width: 56px;
   gap: 0.1rem;
-  transition: transform 0.1s ease, border-color 0.12s ease, background-color 0.12s ease;
+  transition: border-color 0.1s ease, background-color 0.1s ease, box-shadow 0.1s ease;
 }
 
 .syllable-pill:hover {
-  transform: translateY(-2px);
   border-color: var(--accent-vermilion);
 }
 
@@ -362,19 +450,25 @@
   border-bottom: 3px solid var(--accent-jade);
 }
 
+.syllable-pill.past-spoken {
+  background: rgba(185, 28, 28, 0.08);
+  border-color: rgba(185, 28, 28, 0.35);
+}
+
 .syllable-pill.active-spoken {
-  background: var(--accent-vermilion);
-  color: #fff8ee;
-  border-color: var(--accent-vermilion);
-  transform: scale(1.08);
-  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, #b91c1c 0%, #d97706 100%);
+  color: #ffffff;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.4), 0 6px 16px rgba(185, 28, 28, 0.38);
+  z-index: 3;
 }
 
 .syllable-pill.active-spoken .syl-meter,
+.syllable-pill.active-spoken .syl-iast,
 .syllable-pill.active-spoken .syl-ipa,
 .syllable-pill.active-spoken .syl-modern-zh,
 .syllable-pill.active-spoken .syl-tang-zh {
-  color: #fff8ee;
+  color: #ffffff !important;
 }
 
 .syl-meter {
