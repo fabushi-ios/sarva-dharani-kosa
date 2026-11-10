@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
 import type {
   ActiveWorkspaceTab,
   DharaniCategoryId,
@@ -32,10 +32,27 @@ import { AudioPlayerBar } from './components/audio/AudioPlayerBar';
 import { TaishoCanonExplorer } from './components/catalog/TaishoCanonExplorer';
 import { SanskritPhoneticsAcademy } from './components/guide/SanskritPhoneticsAcademy';
 import { CustomDharaniCompiler } from './components/extensibility/CustomDharaniCompiler';
-import { FangshanTaishoInterlinearStudio } from './components/FangshanTaishoInterlinearStudio';
-import { DatabaseHubExplorer } from './components/DatabaseHubExplorer';
-import { ConcordanceParallelStudio } from './components/ConcordanceParallelStudio';
-import { CudlPalmLeafViewer } from './components/CudlPalmLeafViewer';
+
+const FangshanTaishoInterlinearStudio = lazy(() =>
+  import('./components/FangshanTaishoInterlinearStudio').then((m) => ({
+    default: m.FangshanTaishoInterlinearStudio,
+  }))
+);
+const DatabaseHubExplorer = lazy(() =>
+  import('./components/DatabaseHubExplorer').then((m) => ({
+    default: m.DatabaseHubExplorer,
+  }))
+);
+const ConcordanceParallelStudio = lazy(() =>
+  import('./components/ConcordanceParallelStudio').then((m) => ({
+    default: m.ConcordanceParallelStudio,
+  }))
+);
+const CudlPalmLeafViewer = lazy(() =>
+  import('./components/CudlPalmLeafViewer').then((m) => ({
+    default: m.CudlPalmLeafViewer,
+  }))
+);
 
 export const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => loadTheme());
@@ -237,14 +254,20 @@ export const App: React.FC = () => {
           />
         )}
 
-        {activeTab === 'interlinear' && <FangshanTaishoInterlinearStudio />}
+        {activeTab === 'interlinear' && (
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载房山石经与 T54 对音语料库...</div>}>
+            <FangshanTaishoInterlinearStudio />
+          </Suspense>
+        )}
 
         {activeTab === 'hub' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-            <DatabaseHubExplorer />
-            <ConcordanceParallelStudio />
-            <CudlPalmLeafViewer />
-          </div>
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载全球 12 大梵典数据库模块...</div>}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+              <DatabaseHubExplorer />
+              <ConcordanceParallelStudio />
+              <CudlPalmLeafViewer />
+            </div>
+          </Suspense>
         )}
       </div>
 

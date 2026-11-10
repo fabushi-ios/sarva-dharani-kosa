@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import type { ActiveWorkspaceTab, DharaniEntry } from '../../types/kosaTypes';
 import { CORPUS_AUTHORITATIVE_STATS } from '../../data';
-import { UNIFIED_12_DATABASES } from '../../data/unifiedCorpusRegistry';
 import {
   getSearchSuggestions,
   type SearchSuggestionItem,
@@ -269,7 +268,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => onTabChange('hub')}
             >
               <Globe size={15} />
-              <span>全球12大数据库 ({UNIFIED_12_DATABASES.length})</span>
+              <span>全球12大数据库 (12)</span>
             </button>
           </nav>
 
@@ -315,8 +314,8 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="prov-stat-item">
               GRETIL 梵文贝叶本 <strong>{CORPUS_AUTHORITATIVE_STATS.gretilDownloadedManuscriptsCount}</strong> 部
             </span>
-            <span className="prov-stat-item" title={UNIFIED_12_DATABASES.map((d) => d.id).join(' · ')}>
-              12大国际梵典库 (<strong>{UNIFIED_12_DATABASES[0]?.id}</strong> … <strong>{UNIFIED_12_DATABASES[UNIFIED_12_DATABASES.length - 1]?.id}</strong>)
+            <span className="prov-stat-item">
+              12大国际梵典库 (<strong>db1_fangshan</strong> … <strong>db12_muktabodha_ochs</strong>)
             </span>
           </div>
           <div>
