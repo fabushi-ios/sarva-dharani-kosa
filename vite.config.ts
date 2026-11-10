@@ -53,22 +53,36 @@ function proxyToPythonTtsBackend(
   onFallback: () => void,
   retryCount = 0
 ) {
+  ensurePythonTtsServerRunning();
+  const cleanHeaders: Record<string, string> = {
+    host: `127.0.0.1:${PYTHON_TTS_PORT}`,
+    accept: String(req.headers['accept'] || 'application/json'),
+  };
+  if (req.headers['content-type']) {
+    cleanHeaders['content-type'] = String(req.headers['content-type']);
+  }
+  if (bodyBuf) {
+    cleanHeaders['content-length'] = String(bodyBuf.length);
+  }
+
   const proxyReq = http.request(
     {
       hostname: '127.0.0.1',
       port: PYTHON_TTS_PORT,
       path: req.url || '/',
       method: req.method || 'GET',
-      headers: {
-        ...req.headers,
-        host: `127.0.0.1:${PYTHON_TTS_PORT}`,
-        ...(bodyBuf ? { 'content-length': String(bodyBuf.length) } : {}),
-      },
-      timeout: 15000,
+      headers: cleanHeaders,
+      timeout: 30000,
     },
     (proxyRes) => {
       if ((proxyRes.statusCode || 500) >= 500) {
         proxyRes.resume();
+        if (retryCount < 6) {
+          setTimeout(() => {
+            proxyToPythonTtsBackend(req, res, bodyBuf, onFallback, retryCount + 1);
+          }, 500);
+          return;
+        }
         onFallback();
         return;
       }
@@ -84,10 +98,10 @@ function proxyToPythonTtsBackend(
 
   proxyReq.on('error', () => {
     ensurePythonTtsServerRunning();
-    if (retryCount < 3) {
+    if (retryCount < 24) {
       setTimeout(() => {
         proxyToPythonTtsBackend(req, res, bodyBuf, onFallback, retryCount + 1);
-      }, 650);
+      }, 500);
       return;
     }
     onFallback();
@@ -103,117 +117,6 @@ function proxyToPythonTtsBackend(
   proxyReq.end();
 }
 
-function synthesizeSanskrit48kWav(
-  text: string,
-  voice: string = 'male',
-  rate: number = 1.0
-): {
-  wavBuffer: Buffer;
-  durationSec: number;
-  syllableTimings: Array<{
-    index: number;
-    slp1: string;
-    deva: string;
-    iast: string;
-    meter: 'L' | 'G';
-    startMs: number;
-    endMs: number;
-    durationMs: number;
-  }>;
-} {
-  const clean = (text || 'oṃ').trim();
-  const tokens = clean
-    .split(/[\s\-|॥।,.;]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const syllables = tokens.length > 0 ? tokens : ['oṃ'];
-  const effRate = Math.max(0.5, Math.min(2.0, Number(rate) || 1.0));
-  const isFemale = String(voice).toLowerCase().includes('female');
-
-  const timings: Array<{
-    index: number;
-    slp1: string;
-    deva: string;
-    iast: string;
-    meter: 'L' | 'G';
-    startMs: number;
-    endMs: number;
-    durationMs: number;
-  }> = [];
-
-  let cursorSec = 0.04;
-  for (let i = 0; i < syllables.length; i++) {
-    const syl = syllables[i];
-    const isGuru = /[āīūṝḹeaiouṃṁḥAIUFXEO]|([bcdfghjklmnpqrstvwxyz]{2,})/i.test(syl);
-    const dur = (isGuru ? 0.48 : 0.3) / effRate;
-    const startMs = Math.round(cursorSec * 1000);
-    const endMs = Math.round((cursorSec + dur) * 1000);
-    timings.push({
-      index: i,
-      slp1: syl,
-      deva: syl,
-      iast: syl,
-      meter: isGuru ? 'G' : 'L',
-      startMs,
-      endMs,
-      durationMs: endMs - startMs,
-    });
-    cursorSec += dur + 0.025 / effRate;
-  }
-
-  const totalDurationSec = cursorSec + 0.06;
-  const numFrames = Math.max(1024, Math.ceil(totalDurationSec * TARGET_SAMPLE_RATE));
-  const pcm = new Float32Array(numFrames);
-
-  for (const t of timings) {
-    const startFrame = Math.floor((t.startMs / 1000) * TARGET_SAMPLE_RATE);
-    const endFrame = Math.min(numFrames - 1, Math.floor((t.endMs / 1000) * TARGET_SAMPLE_RATE));
-    const durSec = Math.max(0.05, (t.endMs - t.startMs) / 1000);
-    const f0Base = isFemale ? (t.meter === 'G' ? 228 : 214) : t.meter === 'G' ? 146 : 136.1;
-
-    for (let n = startFrame; n <= endFrame; n++) {
-      const localT = (n - startFrame) / TARGET_SAMPLE_RATE;
-      const attack = Math.min(1, localT / 0.022);
-      const release = Math.min(1, Math.max(0, (durSec - localT) / 0.038));
-      const env = attack * release * 0.65;
-      const f0 = f0Base - (localT / durSec) * (isFemale ? 10 : 6);
-      const sig =
-        0.55 * Math.sin(2 * Math.PI * f0 * localT) +
-        0.28 * Math.sin(2 * Math.PI * f0 * 2 * localT) +
-        0.12 * Math.sin(2 * Math.PI * f0 * 3 * localT) +
-        0.05 * Math.sin(2 * Math.PI * 680 * localT);
-      pcm[n] = Math.max(-0.92, Math.min(0.92, pcm[n] + env * sig));
-    }
-  }
-
-  const dataSize = numFrames * 2;
-  const wav = Buffer.alloc(44 + dataSize);
-  wav.write('RIFF', 0);
-  wav.writeUInt32LE(36 + dataSize, 4);
-  wav.write('WAVE', 8);
-  wav.write('fmt ', 12);
-  wav.writeUInt32LE(16, 16);
-  wav.writeUInt16LE(1, 20); // PCM
-  wav.writeUInt16LE(1, 22); // Mono 48kHz
-  wav.writeUInt32LE(TARGET_SAMPLE_RATE, 24);
-  wav.writeUInt32LE(TARGET_SAMPLE_RATE * 2, 28);
-  wav.writeUInt16LE(2, 32);
-  wav.writeUInt16LE(16, 34);
-  wav.write('data', 36);
-  wav.writeUInt32LE(dataSize, 40);
-
-  for (let i = 0; i < numFrames; i++) {
-    const s = Math.max(-1, Math.min(1, pcm[i]));
-    wav.writeInt16LE(s < 0 ? Math.round(s * 32768) : Math.round(s * 32767), 44 + i * 2);
-  }
-
-  return {
-    wavBuffer: wav,
-    durationSec: Number(totalDurationSec.toFixed(3)),
-    syllableTimings: timings,
-  };
-}
-
 export default defineConfig({
   plugins: [
     react(),
@@ -221,6 +124,9 @@ export default defineConfig({
       name: 'sanskrit-48khz-vits-api-and-gzip',
       configureServer(server) {
         ensurePythonTtsServerRunning();
+        const watchdog = setInterval(ensurePythonTtsServerRunning, 5000);
+        watchdog.unref?.();
+
         server.middlewares.use((req, res, next) => {
           const rawUrl = req.url || '';
           const parsedUrl = new URL(rawUrl, 'http://localhost:5173');
@@ -228,7 +134,7 @@ export default defineConfig({
           if (parsedUrl.pathname === '/api/health') {
             proxyToPythonTtsBackend(req, res, null, () => {
               const payload = JSON.stringify({
-                status: 'ok',
+                status: 'starting',
                 engine: 'ninada-vits-sanskrit-48khz',
                 sampleRate: TARGET_SAMPLE_RATE,
                 spriteReady: true,
@@ -268,134 +174,39 @@ export default defineConfig({
               res.end(fs.readFileSync(localManifest));
               return;
             }
-            const fallbackManifest = JSON.stringify({
-              sampleRate: TARGET_SAMPLE_RATE,
-              format: 'ogg',
-              totalSyllables: 612,
-              entries: {
-                oM: { startMs: 0, endMs: 580, durationMs: 580, iast: 'oṃ', deva: 'ॐ' },
-                hUM: { startMs: 600, endMs: 1180, durationMs: 580, iast: 'hūṃ', deva: 'हूं' },
-                hrIH: { startMs: 1200, endMs: 1780, durationMs: 580, iast: 'hrīḥ', deva: 'ह्रीः' },
-                svAhA: { startMs: 1800, endMs: 2450, durationMs: 650, iast: 'svāhā', deva: 'स्वाहा' },
-              },
-            });
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json; charset=utf-8');
-            res.end(fallbackManifest);
+            res.statusCode = 404;
+            res.end('Not found');
             return;
           }
 
           if (parsedUrl.pathname.startsWith('/api/syllable/')) {
             proxyToPythonTtsBackend(req, res, null, () => {
-              const key = decodeURIComponent(parsedUrl.pathname.slice('/api/syllable/'.length)) || 'oṃ';
-              const voice = parsedUrl.searchParams.get('voice') || 'male';
-              const rate = Number(parsedUrl.searchParams.get('rate') || '1.0');
-              const fmt = (
-                parsedUrl.searchParams.get('format') ||
-                parsedUrl.searchParams.get('response_format') ||
-                'wav'
-              ).toLowerCase();
-
-              const synth = synthesizeSanskrit48kWav(key, voice, rate);
-              res.setHeader('X-Sample-Rate', String(TARGET_SAMPLE_RATE));
-              res.setHeader('X-Audio-Source', 'neural-tts');
-              res.setHeader('X-Syllable-Timings', JSON.stringify(synth.syllableTimings));
-              res.setHeader(
-                'Access-Control-Expose-Headers',
-                'X-Syllable-Timings, X-Sample-Rate, X-Audio-Source'
-              );
-
-              if (fmt === 'json') {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'application/json; charset=utf-8');
-                res.end(
-                  JSON.stringify({
-                    slp1: key,
-                    iast: key,
-                    deva: key,
-                    meter: synth.syllableTimings[0]?.meter || 'G',
-                    sampleRate: TARGET_SAMPLE_RATE,
-                    durationSec: synth.durationSec,
-                    voice,
-                    model: voice === 'female' ? 'sa_studio_female' : 'sa_studio_male',
-                    source: 'neural-tts',
-                    audioBase64Wav: synth.wavBuffer.toString('base64'),
-                    syllableTimings: synth.syllableTimings,
-                  })
-                );
-                return;
-              }
-
-              res.statusCode = 200;
-              res.setHeader('Content-Type', 'audio/wav');
-              res.end(synth.wavBuffer);
+              res.statusCode = 503;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ error: 'Neural VITS backend warming up' }));
             });
             return;
           }
 
           if (parsedUrl.pathname === '/api/tts') {
-            const handleTtsFallback = (text: string, voice: string, rate: number, fmt: string) => {
-              const synth = synthesizeSanskrit48kWav(text || 'oṃ', voice, rate);
-              res.setHeader('X-Sample-Rate', String(TARGET_SAMPLE_RATE));
-              res.setHeader('X-Syllable-Timings', JSON.stringify(synth.syllableTimings));
-              res.setHeader('Access-Control-Expose-Headers', 'X-Syllable-Timings, X-Sample-Rate');
-              if (fmt === 'wav') {
-                res.statusCode = 200;
-                res.setHeader('Content-Type', 'audio/wav');
-                res.end(synth.wavBuffer);
-                return;
-              }
-              res.statusCode = 200;
-              res.setHeader('Content-Type', 'application/json; charset=utf-8');
-              res.end(
-                JSON.stringify({
-                  text,
-                  normalizedDeva: text,
-                  slp1: text,
-                  iast: text,
-                  sampleRate: TARGET_SAMPLE_RATE,
-                  durationSec: synth.durationSec,
-                  voice,
-                  model: voice === 'female' ? 'sa_studio_female' : 'sa_studio_male',
-                  audioBase64Wav: synth.wavBuffer.toString('base64'),
-                  syllableTimings: synth.syllableTimings,
-                })
-              );
-            };
-
             if (req.method === 'POST') {
               const bodyChunks: Buffer[] = [];
               req.on('data', (c) => bodyChunks.push(Buffer.from(c)));
               req.on('end', () => {
                 const rawBody = Buffer.concat(bodyChunks);
                 proxyToPythonTtsBackend(req, res, rawBody, () => {
-                  try {
-                    const body = JSON.parse(rawBody.toString('utf8') || '{}');
-                    const fmt = (
-                      body.response_format ||
-                      body.format ||
-                      parsedUrl.searchParams.get('format') ||
-                      'json'
-                    ).toLowerCase();
-                    handleTtsFallback(body.text || 'oṃ', body.voice || 'male', Number(body.rate || 1.0), fmt);
-                  } catch {
-                    handleTtsFallback('oṃ', 'male', 1.0, 'json');
-                  }
+                  res.statusCode = 503;
+                  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+                  res.end(JSON.stringify({ error: 'Neural VITS backend warming up' }));
                 });
               });
               return;
             }
 
             proxyToPythonTtsBackend(req, res, null, () => {
-              const text = parsedUrl.searchParams.get('text') || 'oṃ';
-              const voice = parsedUrl.searchParams.get('voice') || 'male';
-              const rate = Number(parsedUrl.searchParams.get('rate') || '1.0');
-              const fmt = (
-                parsedUrl.searchParams.get('response_format') ||
-                parsedUrl.searchParams.get('format') ||
-                'json'
-              ).toLowerCase();
-              handleTtsFallback(text, voice, rate, fmt);
+              res.statusCode = 503;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify({ error: 'Neural VITS backend warming up' }));
             });
             return;
           }

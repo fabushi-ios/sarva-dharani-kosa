@@ -53,7 +53,6 @@ export function SiddhamBijaAcademy() {
   );
 
   const handlePlaySyllable = (slp1: string) => {
-    playSingleSyllable(slp1, { mode: 'synth' });
     void sanskritAudioEngine.playSyllable(slp1);
   };
 

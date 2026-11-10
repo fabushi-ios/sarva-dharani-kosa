@@ -70,13 +70,15 @@ def _normalize_slp1_key(raw_key: str) -> str:
         return ""
     if decoded in STANDALONE_SVARAS or decoded in SYLLABLE_OVERRIDES:
         return decoded
+    # If input contains Devanagari, IAST diacritics, or lowercase IAST aspirated/diphthong digraphs, convert via input_to_slp1
+    if re.search(r"[\u0900-\u097Fāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]", decoded) or re.search(
+        r"(kh|gh|ch|jh|th|dh|ph|bh|sh|ai|au)", decoded
+    ):
+        return input_to_slp1(decoded, mode="smart").strip()
     valid_slp_chars = CONS_SET | VOWEL_SET | MOD_SET
     if all(ch in valid_slp_chars for ch in decoded):
         return decoded
-    # Convert Devanagari or IAST syllable into SLP1
-    if re.search(r"[\u0900-\u097Fāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]", decoded):
-        return input_to_slp1(decoded, mode="smart").strip()
-    return decoded
+    return input_to_slp1(decoded, mode="smart").strip()
 
 
 def _convert_wav_to_ogg_bytes(wav_path: Path, ogg_path: Path) -> bytes:
@@ -220,11 +222,13 @@ def api_health() -> dict[str, Any]:
 
 def _format_tts_response(entry: dict[str, Any], fmt: str) -> Response:
     timings_header = json.dumps(entry["syllableTimings"], ensure_ascii=True)
-    headers = {
-        "X-Syllable-Timings": timings_header,
+    headers: dict[str, str] = {
         "X-Sample-Rate": str(TARGET_SAMPLE_RATE),
-        "Access-Control-Expose-Headers": "X-Syllable-Timings, X-Sample-Rate",
+        "X-Audio-Source": "neural-tts",
+        "Access-Control-Expose-Headers": "X-Syllable-Timings, X-Sample-Rate, X-Audio-Source",
     }
+    if len(timings_header) < 8000:
+        headers["X-Syllable-Timings"] = timings_header
     if fmt == "wav":
         return Response(
             content=entry["wavBytes"],
@@ -248,6 +252,7 @@ def _format_tts_response(entry: dict[str, Any], fmt: str) -> Response:
         "durationSec": entry["durationSec"],
         "voice": entry["voice"],
         "model": entry["model"],
+        "source": "neural-tts",
         "audioBase64Wav": base64.b64encode(entry["wavBytes"]).decode("ascii"),
         "audioUrl": entry["audioUrl"],
         "syllableTimings": entry["syllableTimings"],

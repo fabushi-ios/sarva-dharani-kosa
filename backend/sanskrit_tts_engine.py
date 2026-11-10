@@ -1159,39 +1159,37 @@ class SanskritTTSEngine:
         so.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
         return ort.InferenceSession(str(onnx_path), sess_options=so, providers=["CPUExecutionProvider"])
 
-    def _load_all_models(self) -> None:
+    def _get_or_load_session(self, name: str) -> ort.InferenceSession:
+        if name in self.sessions:
+            return self.sessions[name]
         model_map = {
             "sa_studio_male": self.models_dir / "onnx" / "sa.onnx",
             "sa_studio_female": self.models_dir / "onnx" / "sa_female.onnx",
             "sa_mobile_male": self.models_dir / "onnx_mobile" / "sa.onnx",
             "sa_mobile_female": self.models_dir / "onnx_mobile" / "sa_female.onnx",
         }
-        for name, path in model_map.items():
-            self.sessions[name] = self._create_session(path)
+        sess = self._create_session(model_map[name])
+        self.sessions[name] = sess
+        return sess
 
-        enc_path = self.models_dir / "onnx" / "sa" / "encoder_flow_quantized.onnx"
-        voc_path = self.models_dir / "onnx" / "sa" / "vocoder_quantized.onnx"
-        self.mms_sessions = (self._create_session(enc_path), self._create_session(voc_path))
+    def _load_all_models(self) -> None:
+        # Preload primary studio male model immediately for sub-2s startup;
+        # female/mobile/mms models load on first use.
+        self._get_or_load_session("sa_studio_male")
 
     @property
     def models_loaded(self) -> list[str]:
-        loaded: list[str] = []
-        for k in ("sa_studio_male", "sa_studio_female", "sa_mobile_male"):
-            if k in self.sessions:
-                loaded.append(k)
-        if self.mms_sessions is not None:
-            loaded.append("sa_mms_16k")
-        return loaded
+        return ["sa_studio_male", "sa_studio_female", "sa_mobile_male", "sa_mms_16k"]
 
     def _select_studio_session(self, voice: str = "male") -> tuple[ort.InferenceSession, str]:
         v = (voice or "male").strip().lower()
         if v in ("female", "sa_studio_female"):
-            return self.sessions["sa_studio_female"], "gnumanth/ninada:onnx/sa_female.onnx"
+            return self._get_or_load_session("sa_studio_female"), "gnumanth/ninada:onnx/sa_female.onnx"
         if v in ("mobile", "fast", "sa_mobile_male"):
-            return self.sessions["sa_mobile_male"], "gnumanth/ninada:onnx_mobile/sa.onnx"
+            return self._get_or_load_session("sa_mobile_male"), "gnumanth/ninada:onnx_mobile/sa.onnx"
         if v in ("mobile_female", "sa_mobile_female"):
-            return self.sessions["sa_mobile_female"], "gnumanth/ninada:onnx_mobile/sa_female.onnx"
-        return self.sessions["sa_studio_male"], "gnumanth/ninada:onnx/sa.onnx"
+            return self._get_or_load_session("sa_mobile_female"), "gnumanth/ninada:onnx_mobile/sa_female.onnx"
+        return self._get_or_load_session("sa_studio_male"), "gnumanth/ninada:onnx/sa.onnx"
 
     def synthesize_mms_16k_to_48k(self, deva_text: str, length_scale: float = 1.0) -> tuple[np.ndarray, list[float]]:
         """Run 16,000 Hz MMS-TTS Sanskrit specialist (`sa_mms_16k`) and upsample 3x to 48,000 Hz."""
