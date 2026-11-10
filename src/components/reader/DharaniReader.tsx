@@ -81,7 +81,9 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     url: string;
     durationSec: number;
     fileName: string;
+    model?: string;
   } | null>(null);
+  const [isGeneratingWav, setIsGeneratingWav] = useState(false);
 
   const interlinearTokens = entry.provenance.cbetaInterlinearTokens || [];
   const hasSiddhamInterlinear = interlinearTokens.length > 0;
@@ -116,19 +118,26 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     });
   }, [entry.id]);
 
-  const handleGenerateWavAudio = () => {
-    const res = sanskritAudioEngine.renderVersesToWavBlob(
-      entry.verses,
-      playbackState.rate
-    );
-    setGeneratedWav((prev) => {
-      if (prev?.url) URL.revokeObjectURL(prev.url);
-      return {
-        url: res.url,
-        durationSec: res.durationSec,
-        fileName: `${entry.id}-sanskrit-48k-chant.wav`,
-      };
-    });
+  const handleGenerateWavAudio = async () => {
+    if (isGeneratingWav) return;
+    setIsGeneratingWav(true);
+    try {
+      const res = await sanskritAudioEngine.renderVersesToNeuralWavBlob(
+        entry.verses,
+        playbackState.rate
+      );
+      setGeneratedWav((prev) => {
+        if (prev?.url) URL.revokeObjectURL(prev.url);
+        return {
+          url: res.url,
+          durationSec: res.durationSec,
+          fileName: `${entry.id}-sanskrit-48k-vits.wav`,
+          model: res.model,
+        };
+      });
+    } finally {
+      setIsGeneratingWav(false);
+    }
   };
 
   return (
@@ -315,6 +324,21 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               {playbackState.omDroneActive ? '🔔 136.1Hz Om 共振中' : '🔕 开启 136.1Hz Om 共振场'}
             </button>
 
+            <span
+              style={{
+                fontSize: '0.72rem',
+                padding: '0.2rem 0.55rem',
+                borderRadius: '999px',
+                background: 'rgba(16, 185, 129, 0.14)',
+                border: '1px solid rgba(16, 185, 129, 0.35)',
+                color: '#059669',
+                fontWeight: 700,
+              }}
+              title="当前诵读模式实时激活的后端/前端发音模型"
+            >
+              ● 已连接：{playbackState.activeModel || 'gnumanth/ninada:onnx/sa.onnx'} (48,000 Hz)
+            </span>
+
             <a
               href="/sanskrit_phonetic_engine.html"
               target="_blank"
@@ -418,7 +442,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
               <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--accent-vermilion)' }}>
-                已生成本咒 48,000 Hz 连续人声 ({playbackState.voice === 'female' ? '女声 sa_female' : '男声 sa_male'}) + 寺院引磬 .WAV 音频（总时长 {generatedWav.durationSec.toFixed(1)} 秒）
+                已生成本咒 48,000 Hz 神经人声 ({generatedWav.model || 'gnumanth/ninada:onnx/sa.onnx'}) .WAV 音频（总时长 {generatedWav.durationSec.toFixed(1)} 秒）
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                 可直接用下方原生音频条任意拖动进度播放，或点击右侧按钮下载 <code>.wav</code> 文件发送至手机/微信/本地音乐软件收听。

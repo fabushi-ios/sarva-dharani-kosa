@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
   const searchWrapRef = useRef<HTMLDivElement>(null);
 
   const suggestions = useMemo(
-    () => getSearchSuggestions(allEntries, searchQuery, 16),
+    () => getSearchSuggestions(allEntries, searchQuery, 20),
     [allEntries, searchQuery]
   );
 
@@ -111,10 +111,10 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="brand-titles">
               <div className="brand-title-zh">
                 <span>梵音宝典 · Sarva-Dhāraṇī-Kośa</span>
-                <span className="brand-badge-auth">CBETA 14,485段真言 + GRETIL 权威双源</span>
+                <span className="brand-badge-auth">12大国际梵典库 + CBETA 14,485段真言 + 48kHz VITS</span>
               </div>
               <div className="brand-subtitle">
-                Corpus of World Sanskrit Dhāraṇīs · Siddhaṃ, Devanāgarī, IAST, Śikṣā Prosody &amp; Tang Transliteration
+                Corpus of World Sanskrit Dhāraṇīs · 12 Global Databases (DB1–DB12), Siddhaṃ, Devanāgarī, IAST &amp; 48kHz Neural VITS
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="search"
               autoComplete="off"
               className="header-search-input"
-              placeholder="搜全库咒名(秽迹/雨宝/叶衣/大黑天/法华)、藏经号(T19n0974B)、梵文或古音译..."
+              placeholder="搜12大数据库(房山/84000/剑桥CUDL/奥斯陆/牛津OCHS/德格rKTs)、咒名(尊胜/大悲/秽迹)、经号(F28/TOH/T19)..."
               value={searchQuery}
               onFocus={() => setDropdownOpen(true)}
               onKeyDown={handleKeyDown}
@@ -161,13 +161,62 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="search-dropdown-header">
                   <span>
                     {searchQuery.trim()
-                      ? `全库检索「${searchQuery}」：匹配到 ${suggestions.length} 条结果（涵盖四体精校库与大正藏 614 部密教原典）`
-                      : '核心陀罗尼快速直达（可搜：大悲/尊胜/秽迹/雨宝/大轮/叶衣/爱染/法华/施食/文殊/度母/财神...）'}
+                      ? `全库检索「${searchQuery}」：已连入 12 大国际数据库 (DB1–DB12) 与 1,419 部梵本，匹配 ${suggestions.length} 条`
+                      : '已接入全球 12 大梵典数据库 (DB1 房山石经 · DB3 DSBC · DB4 84000 · DB7 剑桥CUDL · DB8 奥斯陆 · DB12 牛津OCHS)'}
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     <CornerDownLeft size={12} />
                     <span>点击直达</span>
                   </span>
+                </div>
+
+                {/* Quick 12-DB Search Filter Chips inside Dropdown */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '0.35rem',
+                    padding: '0.45rem 0.75rem',
+                    borderBottom: '1px solid var(--border-subtle)',
+                    background: 'var(--bg-elevated)',
+                  }}
+                >
+                  {[
+                    { label: '🌐 DB1 房山石经', q: '房山' },
+                    { label: '🌐 DB2 T54悉昙字书', q: 'T54' },
+                    { label: '🌐 DB3 尼泊尔DSBC', q: 'DSBC' },
+                    { label: '🌐 DB4 84000藏密', q: 'TOH' },
+                    { label: '🌐 DB7 剑桥CUDL贝叶经', q: 'CUDL' },
+                    { label: '🌐 DB8 奥斯陆心经', q: '奥斯陆' },
+                    { label: '🌐 DB9 德格rKTs', q: 'rKTs' },
+                    { label: '🌐 DB11 西域丝路', q: '丝路' },
+                    { label: '🌐 DB12 牛津OCHS种子字', q: 'OCHS' },
+                  ].map((chip) => (
+                    <button
+                      key={chip.q}
+                      type="button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        onSearchChange(chip.q);
+                        setDropdownOpen(true);
+                      }}
+                      style={{
+                        fontSize: '0.72rem',
+                        padding: '0.18rem 0.5rem',
+                        borderRadius: '999px',
+                        border: '1px solid rgba(139, 92, 246, 0.35)',
+                        background:
+                          searchQuery === chip.q
+                            ? 'rgba(139, 92, 246, 0.22)'
+                            : 'rgba(139, 92, 246, 0.08)',
+                        color: 'var(--text-primary)',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {chip.label}
+                    </button>
+                  ))}
                 </div>
 
                 {suggestions.length === 0 ? (
@@ -179,7 +228,7 @@ export const Header: React.FC<HeaderProps> = ({
                       fontSize: '0.84rem',
                     }}
                   >
-                    未找到包含「{searchQuery}」的经咒，请尝试搜索咒名关键词（如「尊胜」「孔雀」「欢喜天」「焰口」「oṃ」「svāhā」）。
+                    未找到包含「{searchQuery}」的经咒，请尝试搜索 12 大数据库关键词（如「房山」「TOH」「CUDL」「OCHS」「rKTs」「尊胜」「孔雀」「oṃ」）。
                   </div>
                 ) : (
                   suggestions.map((item, idx) => (

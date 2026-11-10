@@ -48,6 +48,7 @@ export interface PlaybackSyllableTiming {
 
 export interface PlaybackState {
   isPlaying: boolean;
+  isLoadingAudio?: boolean;
   currentVerseIndex: number | null;
   currentSyllableIndex: number | null;
   currentSyllableInfo: SyllableAnalysis | null;
@@ -63,6 +64,7 @@ export interface PlaybackState {
   omDroneActive: boolean;
   backendOnline: boolean;
   spriteCount: number;
+  activeModel?: string;
 }
 
 type StateListener = (state: PlaybackState) => void;
@@ -77,6 +79,13 @@ export const AUDIO_API_ENDPOINTS = {
   spriteOgg: '/audio/siddham_sprite_48k.ogg',
 } as const;
 
+interface CachedNeuralVerse {
+  audioBuffer: AudioBuffer;
+  timings: PlaybackSyllableTiming[];
+  totalDurationSec: number;
+  model: string;
+}
+
 class SanskritAudioEngine {
   private audioCtx: AudioContext | null = null;
   private activeSourceNode: AudioBufferSourceNode | null = null;
@@ -84,6 +93,8 @@ class SanskritAudioEngine {
   private abortController: AbortController | null = null;
   private droneGainNode: GainNode | null = null;
   private droneOscillators: OscillatorNode[] = [];
+  private neuralVerseCache: Map<string, CachedNeuralVerse> = new Map();
+  private neuralInflightRequests: Map<string, Promise<CachedNeuralVerse>> = new Map();
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -94,6 +105,7 @@ class SanskritAudioEngine {
 
   private state: PlaybackState = {
     isPlaying: false,
+    isLoadingAudio: false,
     currentVerseIndex: null,
     currentSyllableIndex: null,
     currentSyllableInfo: null,
@@ -109,6 +121,7 @@ class SanskritAudioEngine {
     omDroneActive: false,
     backendOnline: true,
     spriteCount: 612,
+    activeModel: 'gnumanth/ninada:onnx/sa.onnx',
   };
 
   private listeners: Set<StateListener> = new Set();
@@ -173,11 +186,29 @@ class SanskritAudioEngine {
   public setMode(mode: AudioEngineMode) {
     this.stop();
     this.state.mode = mode;
+    if (mode === 'neural-vits-48k') {
+      this.state.activeModel =
+        this.state.voice === 'female'
+          ? 'gnumanth/ninada:onnx/sa_female.onnx'
+          : 'gnumanth/ninada:onnx/sa.onnx';
+    } else if (mode === 'studio-vocal-chant') {
+      this.state.activeModel = 'Rosenberg 136.1Hz Formant + 612-Syllable Sprite';
+    } else if (mode === 'mandarin-phonetic-guide') {
+      this.state.activeModel = 'WebSpeech zh-CN 现代梵音拼读';
+    } else {
+      this.state.activeModel = 'WebSpeech sa-IN / hi-IN 天城文';
+    }
     this.notify();
   }
 
   public setVoice(voice: SanskritVoiceGender) {
     this.state.voice = voice;
+    if (this.state.mode === 'neural-vits-48k') {
+      this.state.activeModel =
+        voice === 'female'
+          ? 'gnumanth/ninada:onnx/sa_female.onnx'
+          : 'gnumanth/ninada:onnx/sa.onnx';
+    }
     this.notify();
   }
 
@@ -283,6 +314,7 @@ class SanskritAudioEngine {
       window.speechSynthesis.cancel();
     }
     this.state.isPlaying = false;
+    this.state.isLoadingAudio = false;
     this.state.currentVerseIndex = null;
     this.state.currentSyllableIndex = null;
     this.state.currentSyllableInfo = null;
@@ -374,10 +406,31 @@ class SanskritAudioEngine {
         this.state.verseProgress = 0;
         this.notify();
 
+        // Prefetch the next verse in the background when in 48kHz Neural VITS mode
+        if (
+          this.state.mode === 'neural-vits-48k' &&
+          !singleVerseOnly &&
+          idx + 1 < verses.length
+        ) {
+          const nextVerse = verses[idx + 1];
+          const nextSyls = analyzeSanskritProsody(nextVerse.iast);
+          if (nextSyls.length > 0) {
+            void this.fetchNeuralVitsVerseBuffer(
+              this.getAudioContext(),
+              nextVerse.iast,
+              nextSyls
+            ).catch(() => {
+              // ignore prefetch errors
+            });
+          }
+        }
+
         if (this.state.mode === 'mandarin-phonetic-guide') {
           await this.playVerseSpeechSynced(verse, 'zh-CN', controller.signal);
         } else if (this.state.mode === 'indic-devanagari-tts') {
           await this.playVerseSpeechSynced(verse, 'hi-IN', controller.signal);
+        } else if (this.state.mode === 'neural-vits-48k') {
+          await this.playVerseNeuralVitsBuffer(verse, controller.signal);
         } else {
           await this.playVerseHardwareBuffer(verse, controller.signal);
         }
@@ -391,7 +444,7 @@ class SanskritAudioEngine {
         if (singleVerseOnly) {
           break;
         }
-        await this.sleep(260, controller.signal);
+        await this.sleep(220, controller.signal);
         idx++;
       }
     } catch {
@@ -403,30 +456,251 @@ class SanskritAudioEngine {
     }
   }
 
+  private base64ToArrayBuffer(b64: string): ArrayBuffer {
+    const binary = window.atob(b64);
+    const len = binary.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+
   /**
-   * Pre-renders the verse into a single continuous AudioBuffer and plays it
-   * using hardware clock (`ctx.currentTime`) + `requestAnimationFrame` for 60fps zero-lag sync.
+   * Fetches and decodes 48,000 Hz Native Classical Sanskrit Neural VITS audio (`sa.onnx` / `sa_female.onnx`)
+   * from `/api/tts` with exact acoustic syllable timings.
    */
-  private playVerseHardwareBuffer(verse: DharaniVerse, signal: AbortSignal): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (signal.aborted) {
-        reject(new Error('Aborted'));
-        return;
+  private async fetchNeuralVitsVerseBuffer(
+    ctx: AudioContext,
+    iastText: string,
+    syllables: SyllableAnalysis[],
+    signal?: AbortSignal
+  ): Promise<CachedNeuralVerse> {
+    const voice = this.state.voice;
+    const rate = this.state.rate;
+    const cacheKey = `${iastText.trim()}|${voice}|${rate.toFixed(2)}`;
+
+    const cached = this.neuralVerseCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const inflight = this.neuralInflightRequests.get(cacheKey);
+    if (inflight) {
+      return inflight;
+    }
+
+    const promise = (async (): Promise<CachedNeuralVerse> => {
+      const res = await fetch(AUDIO_API_ENDPOINTS.tts, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: iastText,
+          script: 'auto',
+          voice,
+          rate,
+          response_format: 'json',
+        }),
+        signal,
+      });
+
+      if (!res.ok) {
+        throw new Error(`TTS HTTP ${res.status}`);
       }
 
-      const syllables = analyzeSanskritProsody(verse.iast);
-      if (syllables.length === 0) {
-        resolve();
-        return;
+      const data = await res.json();
+      const b64: string = data.audioBase64Wav || '';
+      if (!b64) {
+        throw new Error('Missing audioBase64Wav in /api/tts response');
       }
 
-      const ctx = this.getAudioContext();
-      const { audioBuffer, timings, totalDurationSec } = this.synthesizeContinuousVerseBuffer(
+      const wavArrayBuffer = this.base64ToArrayBuffer(b64);
+      const audioBuffer = await ctx.decodeAudioData(wavArrayBuffer.slice(0));
+      const totalDurationSec = audioBuffer.duration || Number(data.durationSec) || 1.0;
+
+      const serverTimings: Array<{
+        index: number;
+        startMs: number;
+        endMs: number;
+      }> = Array.isArray(data.syllableTimings) ? data.syllableTimings : [];
+
+      const timings: PlaybackSyllableTiming[] = [];
+
+      if (serverTimings.length === syllables.length && syllables.length > 0) {
+        for (let i = 0; i < syllables.length; i++) {
+          const syl = syllables[i];
+          const st = serverTimings[i];
+          const mapped = mapSyllableToChinesePhonetics(syl.iast);
+          timings.push({
+            syl,
+            classicalZh: mapped.classicalZh,
+            modernZh: mapped.modernZh,
+            startSec: Math.max(0, (st.startMs || 0) / 1000),
+            endSec: Math.min(totalDurationSec, Math.max(0.04, (st.endMs || 100) / 1000)),
+          });
+        }
+      } else if (serverTimings.length > 0 && syllables.length > 0) {
+        // Map syllables proportionally onto the neural acoustic span
+        const firstStartSec = Math.max(0, (serverTimings[0].startMs || 0) / 1000);
+        const lastEndSec = Math.min(
+          totalDurationSec,
+          Math.max(firstStartSec + 0.1, (serverTimings[serverTimings.length - 1].endMs || totalDurationSec * 1000) / 1000)
+        );
+        const activeSpanSec = Math.max(0.15, lastEndSec - firstStartSec);
+        const totalMatras = syllables.reduce((acc, s) => acc + (s.weight === 'guru' ? 1.85 : 1.0), 0);
+
+        let cursor = firstStartSec;
+        for (let i = 0; i < syllables.length; i++) {
+          const syl = syllables[i];
+          const w = syl.weight === 'guru' ? 1.85 : 1.0;
+          const dur = (w / totalMatras) * activeSpanSec;
+          const mapped = mapSyllableToChinesePhonetics(syl.iast);
+          timings.push({
+            syl,
+            classicalZh: mapped.classicalZh,
+            modernZh: mapped.modernZh,
+            startSec: cursor,
+            endSec: cursor + dur,
+          });
+          cursor += dur;
+        }
+      } else {
+        const totalMatras = syllables.reduce((acc, s) => acc + (s.weight === 'guru' ? 1.85 : 1.0), 0) || 1;
+        let cursor = 0;
+        for (const syl of syllables) {
+          const w = syl.weight === 'guru' ? 1.85 : 1.0;
+          const dur = (w / totalMatras) * totalDurationSec;
+          const mapped = mapSyllableToChinesePhonetics(syl.iast);
+          timings.push({
+            syl,
+            classicalZh: mapped.classicalZh,
+            modernZh: mapped.modernZh,
+            startSec: cursor,
+            endSec: cursor + dur,
+          });
+          cursor += dur;
+        }
+      }
+
+      const entry: CachedNeuralVerse = {
+        audioBuffer,
+        timings,
+        totalDurationSec,
+        model:
+          data.model ||
+          (voice === 'female'
+            ? 'gnumanth/ninada:onnx/sa_female.onnx'
+            : 'gnumanth/ninada:onnx/sa.onnx'),
+      };
+
+      if (this.neuralVerseCache.size >= 120) {
+        const oldestKey = this.neuralVerseCache.keys().next().value;
+        if (oldestKey) this.neuralVerseCache.delete(oldestKey);
+      }
+      this.neuralVerseCache.set(cacheKey, entry);
+      return entry;
+    })();
+
+    this.neuralInflightRequests.set(cacheKey, promise);
+    try {
+      return await promise;
+    } finally {
+      this.neuralInflightRequests.delete(cacheKey);
+    }
+  }
+
+  /**
+   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine (`/api/tts`)
+   * with 60fps hardware-clock syllable synchronization.
+   */
+  private async playVerseNeuralVitsBuffer(
+    verse: DharaniVerse,
+    signal: AbortSignal
+  ): Promise<void> {
+    if (signal.aborted) {
+      throw new Error('Aborted');
+    }
+
+    const syllables = analyzeSanskritProsody(verse.iast);
+    if (syllables.length === 0) {
+      return;
+    }
+
+    const ctx = this.getAudioContext();
+    let audioBuffer: AudioBuffer;
+    let timings: PlaybackSyllableTiming[];
+    let totalDurationSec: number;
+
+    try {
+      this.state.isLoadingAudio = true;
+      this.notify();
+      const neural = await this.fetchNeuralVitsVerseBuffer(ctx, verse.iast, syllables, signal);
+      audioBuffer = neural.audioBuffer;
+      timings = neural.timings;
+      totalDurationSec = neural.totalDurationSec;
+      this.state.activeModel = neural.model;
+      this.state.backendOnline = true;
+    } catch (err) {
+      if (signal.aborted) throw err;
+      // Fallback to local 48kHz formant synthesis only if backend unreachable
+      const fallback = this.synthesizeContinuousVerseBuffer(
         ctx,
         syllables,
         this.state.rate,
         true
       );
+      audioBuffer = fallback.audioBuffer;
+      timings = fallback.timings;
+      totalDurationSec = fallback.totalDurationSec;
+    } finally {
+      this.state.isLoadingAudio = false;
+      this.notify();
+    }
+
+    if (signal.aborted) {
+      throw new Error('Aborted');
+    }
+
+    return this.playDecodedBufferWithSync(ctx, audioBuffer, timings, totalDurationSec, signal);
+  }
+
+  /**
+   * Pre-renders the verse into a single continuous AudioBuffer and plays it
+   * using hardware clock (`ctx.currentTime`) + `requestAnimationFrame` for 60fps zero-lag sync.
+   */
+  private playVerseHardwareBuffer(verse: DharaniVerse, signal: AbortSignal): Promise<void> {
+    if (signal.aborted) {
+      return Promise.reject(new Error('Aborted'));
+    }
+
+    const syllables = analyzeSanskritProsody(verse.iast);
+    if (syllables.length === 0) {
+      return Promise.resolve();
+    }
+
+    const ctx = this.getAudioContext();
+    const { audioBuffer, timings, totalDurationSec } = this.synthesizeContinuousVerseBuffer(
+      ctx,
+      syllables,
+      this.state.rate,
+      true
+    );
+
+    return this.playDecodedBufferWithSync(ctx, audioBuffer, timings, totalDurationSec, signal);
+  }
+
+  private playDecodedBufferWithSync(
+    ctx: AudioContext,
+    audioBuffer: AudioBuffer,
+    timings: PlaybackSyllableTiming[],
+    totalDurationSec: number,
+    signal: AbortSignal
+  ): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (signal.aborted) {
+        reject(new Error('Aborted'));
+        return;
+      }
 
       const source = ctx.createBufferSource();
       source.buffer = audioBuffer;
@@ -452,7 +726,7 @@ class SanskritAudioEngine {
         }
 
         if (activeTiming) {
-          const sylDur = Math.max(0.05, activeTiming.endSec - activeTiming.startSec);
+          const sylDur = Math.max(0.04, activeTiming.endSec - activeTiming.startSec);
           const sylProg = Math.min(1, Math.max(0, (elapsed - activeTiming.startSec) / sylDur));
           const changedSyl = this.state.currentSyllableIndex !== activeTiming.syl.index;
 
@@ -715,6 +989,63 @@ class SanskritAudioEngine {
     const blob = new Blob([wavBuffer], { type: 'audio/wav' });
     const url = URL.createObjectURL(blob);
     return { blob, url, durationSec: totalDurationSec };
+  }
+
+  /**
+   * Synthesize an entire Dhāraṇī into a downloadable 48,000 Hz 16-bit `.wav` Blob
+   * using the real ONNX Neural VITS engine (`POST /api/tts`) when `mode === 'neural-vits-48k'`.
+   */
+  public async renderVersesToNeuralWavBlob(
+    verses: DharaniVerse[],
+    rate = 1.0
+  ): Promise<{
+    blob: Blob;
+    url: string;
+    durationSec: number;
+    model: string;
+  }> {
+    if (this.state.mode === 'neural-vits-48k') {
+      try {
+        const joinedIast = verses.map((v) => v.iast).join(' । ');
+        const res = await fetch(AUDIO_API_ENDPOINTS.tts, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: joinedIast,
+            script: 'auto',
+            voice: this.state.voice,
+            rate,
+            response_format: 'json',
+          }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.audioBase64Wav) {
+            const wavArr = this.base64ToArrayBuffer(data.audioBase64Wav);
+            const blob = new Blob([wavArr], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            return {
+              blob,
+              url,
+              durationSec: Number(data.durationSec) || 1.0,
+              model:
+                data.model ||
+                (this.state.voice === 'female'
+                  ? 'gnumanth/ninada:onnx/sa_female.onnx'
+                  : 'gnumanth/ninada:onnx/sa.onnx'),
+            };
+          }
+        }
+      } catch {
+        // Fallback to local 48kHz synthesis if unreachable
+      }
+    }
+
+    const fallback = this.renderVersesToWavBlob(verses, rate);
+    return {
+      ...fallback,
+      model: 'Rosenberg 136.1Hz Formant 48kHz',
+    };
   }
 
   private encodeAudioBufferToWav(buffer: AudioBuffer): ArrayBuffer {

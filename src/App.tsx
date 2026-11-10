@@ -195,6 +195,11 @@ export const App: React.FC = () => {
     }
     if (item.entry) {
       handleSelectEntry(item.entry.id, item.matchedVerseId);
+      return;
+    }
+    if (item.kind === 'global-12db-hit' && item.targetTab) {
+      sanskritAudioEngine.stop();
+      setActiveTab(item.targetTab);
     }
   };
 

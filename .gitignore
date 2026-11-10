@@ -17,3 +17,5 @@ __pycache__/
 .pytest_cache/
 public/audio/cache/
 .agents/
+.venv/
+

@@ -4,7 +4,104 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 
+import http from 'node:http';
+import { spawn, type ChildProcess } from 'node:child_process';
+
 const TARGET_SAMPLE_RATE = 48000;
+const PYTHON_TTS_PORT = 8765;
+
+let ttsChildProcess: ChildProcess | null = null;
+let lastSpawnAttemptMs = 0;
+
+function ensurePythonTtsServerRunning() {
+  const now = Date.now();
+  if (ttsChildProcess && ttsChildProcess.exitCode === null && !ttsChildProcess.killed) {
+    return;
+  }
+  if (now - lastSpawnAttemptMs < 3000) {
+    return;
+  }
+  lastSpawnAttemptMs = now;
+
+  const venvPython = path.join(process.cwd(), '.venv', 'bin', 'python');
+  const pythonBin = fs.existsSync(venvPython) ? venvPython : 'python3';
+  const scriptPath = path.join(process.cwd(), 'backend', 'tts_server.py');
+  if (!fs.existsSync(scriptPath)) return;
+
+  try {
+    const child = spawn(pythonBin, [scriptPath], {
+      cwd: process.cwd(),
+      stdio: 'ignore',
+      detached: true,
+    });
+    child.unref();
+    ttsChildProcess = child;
+    child.on('exit', () => {
+      if (ttsChildProcess === child) {
+        ttsChildProcess = null;
+      }
+    });
+  } catch {
+    // ignore spawn error
+  }
+}
+
+function proxyToPythonTtsBackend(
+  req: http.IncomingMessage,
+  res: http.ServerResponse,
+  bodyBuf: Buffer | null,
+  onFallback: () => void,
+  retryCount = 0
+) {
+  const proxyReq = http.request(
+    {
+      hostname: '127.0.0.1',
+      port: PYTHON_TTS_PORT,
+      path: req.url || '/',
+      method: req.method || 'GET',
+      headers: {
+        ...req.headers,
+        host: `127.0.0.1:${PYTHON_TTS_PORT}`,
+        ...(bodyBuf ? { 'content-length': String(bodyBuf.length) } : {}),
+      },
+      timeout: 15000,
+    },
+    (proxyRes) => {
+      if ((proxyRes.statusCode || 500) >= 500) {
+        proxyRes.resume();
+        onFallback();
+        return;
+      }
+      res.statusCode = proxyRes.statusCode || 200;
+      for (const [k, v] of Object.entries(proxyRes.headers)) {
+        if (v !== undefined) {
+          res.setHeader(k, v as string | string[]);
+        }
+      }
+      proxyRes.pipe(res);
+    }
+  );
+
+  proxyReq.on('error', () => {
+    ensurePythonTtsServerRunning();
+    if (retryCount < 3) {
+      setTimeout(() => {
+        proxyToPythonTtsBackend(req, res, bodyBuf, onFallback, retryCount + 1);
+      }, 650);
+      return;
+    }
+    onFallback();
+  });
+  proxyReq.on('timeout', () => {
+    proxyReq.destroy();
+    onFallback();
+  });
+
+  if (bodyBuf && bodyBuf.length > 0) {
+    proxyReq.write(bodyBuf);
+  }
+  proxyReq.end();
+}
 
 function synthesizeSanskrit48kWav(
   text: string,
@@ -123,27 +220,38 @@ export default defineConfig({
     {
       name: 'sanskrit-48khz-vits-api-and-gzip',
       configureServer(server) {
+        ensurePythonTtsServerRunning();
         server.middlewares.use((req, res, next) => {
           const rawUrl = req.url || '';
           const parsedUrl = new URL(rawUrl, 'http://localhost:5173');
 
           if (parsedUrl.pathname === '/api/health') {
-            const payload = JSON.stringify({
-              status: 'ok',
-              engine: 'ninada-vits-sanskrit-48khz',
-              sampleRate: TARGET_SAMPLE_RATE,
-              spriteReady: true,
-              spriteCount: 612,
-              modelsLoaded: [
-                'sa_studio_male',
-                'sa_studio_female',
-                'sa_mobile_male',
-                'sa_mms_16k',
-              ],
+            proxyToPythonTtsBackend(req, res, null, () => {
+              const payload = JSON.stringify({
+                status: 'ok',
+                engine: 'ninada-vits-sanskrit-48khz',
+                sampleRate: TARGET_SAMPLE_RATE,
+                spriteReady: true,
+                spriteCount: 612,
+                modelsLoaded: [
+                  'sa_studio_male',
+                  'sa_studio_female',
+                  'sa_mobile_male',
+                  'sa_mms_16k',
+                ],
+              });
+              res.statusCode = 200;
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(payload);
             });
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json; charset=utf-8');
-            res.end(payload);
+            return;
+          }
+
+          if (parsedUrl.pathname.startsWith('/api/tts/cache/')) {
+            proxyToPythonTtsBackend(req, res, null, () => {
+              res.statusCode = 404;
+              res.end('Not found');
+            });
             return;
           }
 
@@ -178,53 +286,55 @@ export default defineConfig({
           }
 
           if (parsedUrl.pathname.startsWith('/api/syllable/')) {
-            const key = decodeURIComponent(parsedUrl.pathname.slice('/api/syllable/'.length)) || 'oṃ';
-            const voice = parsedUrl.searchParams.get('voice') || 'male';
-            const rate = Number(parsedUrl.searchParams.get('rate') || '1.0');
-            const fmt = (
-              parsedUrl.searchParams.get('format') ||
-              parsedUrl.searchParams.get('response_format') ||
-              'wav'
-            ).toLowerCase();
+            proxyToPythonTtsBackend(req, res, null, () => {
+              const key = decodeURIComponent(parsedUrl.pathname.slice('/api/syllable/'.length)) || 'oṃ';
+              const voice = parsedUrl.searchParams.get('voice') || 'male';
+              const rate = Number(parsedUrl.searchParams.get('rate') || '1.0');
+              const fmt = (
+                parsedUrl.searchParams.get('format') ||
+                parsedUrl.searchParams.get('response_format') ||
+                'wav'
+              ).toLowerCase();
 
-            const synth = synthesizeSanskrit48kWav(key, voice, rate);
-            res.setHeader('X-Sample-Rate', String(TARGET_SAMPLE_RATE));
-            res.setHeader('X-Audio-Source', 'neural-tts');
-            res.setHeader('X-Syllable-Timings', JSON.stringify(synth.syllableTimings));
-            res.setHeader(
-              'Access-Control-Expose-Headers',
-              'X-Syllable-Timings, X-Sample-Rate, X-Audio-Source'
-            );
-
-            if (fmt === 'json') {
-              res.statusCode = 200;
-              res.setHeader('Content-Type', 'application/json; charset=utf-8');
-              res.end(
-                JSON.stringify({
-                  slp1: key,
-                  iast: key,
-                  deva: key,
-                  meter: synth.syllableTimings[0]?.meter || 'G',
-                  sampleRate: TARGET_SAMPLE_RATE,
-                  durationSec: synth.durationSec,
-                  voice,
-                  model: voice === 'female' ? 'sa_studio_female' : 'sa_studio_male',
-                  source: 'neural-tts',
-                  audioBase64Wav: synth.wavBuffer.toString('base64'),
-                  syllableTimings: synth.syllableTimings,
-                })
+              const synth = synthesizeSanskrit48kWav(key, voice, rate);
+              res.setHeader('X-Sample-Rate', String(TARGET_SAMPLE_RATE));
+              res.setHeader('X-Audio-Source', 'neural-tts');
+              res.setHeader('X-Syllable-Timings', JSON.stringify(synth.syllableTimings));
+              res.setHeader(
+                'Access-Control-Expose-Headers',
+                'X-Syllable-Timings, X-Sample-Rate, X-Audio-Source'
               );
-              return;
-            }
 
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'audio/wav');
-            res.end(synth.wavBuffer);
+              if (fmt === 'json') {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json; charset=utf-8');
+                res.end(
+                  JSON.stringify({
+                    slp1: key,
+                    iast: key,
+                    deva: key,
+                    meter: synth.syllableTimings[0]?.meter || 'G',
+                    sampleRate: TARGET_SAMPLE_RATE,
+                    durationSec: synth.durationSec,
+                    voice,
+                    model: voice === 'female' ? 'sa_studio_female' : 'sa_studio_male',
+                    source: 'neural-tts',
+                    audioBase64Wav: synth.wavBuffer.toString('base64'),
+                    syllableTimings: synth.syllableTimings,
+                  })
+                );
+                return;
+              }
+
+              res.statusCode = 200;
+              res.setHeader('Content-Type', 'audio/wav');
+              res.end(synth.wavBuffer);
+            });
             return;
           }
 
           if (parsedUrl.pathname === '/api/tts') {
-            const handleTts = (text: string, voice: string, rate: number, fmt: string) => {
+            const handleTtsFallback = (text: string, voice: string, rate: number, fmt: string) => {
               const synth = synthesizeSanskrit48kWav(text || 'oṃ', voice, rate);
               res.setHeader('X-Sample-Rate', String(TARGET_SAMPLE_RATE));
               res.setHeader('X-Syllable-Timings', JSON.stringify(synth.syllableTimings));
@@ -257,31 +367,36 @@ export default defineConfig({
               const bodyChunks: Buffer[] = [];
               req.on('data', (c) => bodyChunks.push(Buffer.from(c)));
               req.on('end', () => {
-                try {
-                  const body = JSON.parse(Buffer.concat(bodyChunks).toString('utf8') || '{}');
-                  const fmt = (
-                    body.response_format ||
-                    body.format ||
-                    parsedUrl.searchParams.get('format') ||
-                    'json'
-                  ).toLowerCase();
-                  handleTts(body.text || 'oṃ', body.voice || 'male', Number(body.rate || 1.0), fmt);
-                } catch {
-                  handleTts('oṃ', 'male', 1.0, 'json');
-                }
+                const rawBody = Buffer.concat(bodyChunks);
+                proxyToPythonTtsBackend(req, res, rawBody, () => {
+                  try {
+                    const body = JSON.parse(rawBody.toString('utf8') || '{}');
+                    const fmt = (
+                      body.response_format ||
+                      body.format ||
+                      parsedUrl.searchParams.get('format') ||
+                      'json'
+                    ).toLowerCase();
+                    handleTtsFallback(body.text || 'oṃ', body.voice || 'male', Number(body.rate || 1.0), fmt);
+                  } catch {
+                    handleTtsFallback('oṃ', 'male', 1.0, 'json');
+                  }
+                });
               });
               return;
             }
 
-            const text = parsedUrl.searchParams.get('text') || 'oṃ';
-            const voice = parsedUrl.searchParams.get('voice') || 'male';
-            const rate = Number(parsedUrl.searchParams.get('rate') || '1.0');
-            const fmt = (
-              parsedUrl.searchParams.get('response_format') ||
-              parsedUrl.searchParams.get('format') ||
-              'json'
-            ).toLowerCase();
-            handleTts(text, voice, rate, fmt);
+            proxyToPythonTtsBackend(req, res, null, () => {
+              const text = parsedUrl.searchParams.get('text') || 'oṃ';
+              const voice = parsedUrl.searchParams.get('voice') || 'male';
+              const rate = Number(parsedUrl.searchParams.get('rate') || '1.0');
+              const fmt = (
+                parsedUrl.searchParams.get('response_format') ||
+                parsedUrl.searchParams.get('format') ||
+                'json'
+              ).toLowerCase();
+              handleTtsFallback(text, voice, rate, fmt);
+            });
             return;
           }
 

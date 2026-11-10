@@ -1,6 +1,7 @@
-import type { DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
+import type { ActiveWorkspaceTab, DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
 import { stripDiacritics } from '../sanskrit/transliterator';
 import { TAISHO_MIKKYO_FILE_INDEX } from '../../data/kosa-generated/taishoMikkyoIndex';
+import { searchAllDatabases } from '../searchEngine';
 
 export interface SearchFilterOptions {
   query: string;
@@ -11,9 +12,10 @@ export interface SearchFilterOptions {
 }
 
 export interface SearchSuggestionItem {
-  kind: 'canon-entry' | 'taisho-scripture';
+  kind: 'canon-entry' | 'taisho-scripture' | 'global-12db-hit';
   entry?: DharaniEntry;
   taishoScriptureId?: string;
+  targetTab?: ActiveWorkspaceTab;
   titleZh: string;
   taishoNo: string;
   matchTypeLabel: string;
@@ -37,6 +39,23 @@ const TRAD_TO_SIMP_SEARCH_MAP: Record<string, string> = {
   釋: '释', 鉢: '钵', 囉: '啰', 謨: '谟', 馱: '驮', 滿: '满', 願: '愿',
   莊: '庄', 嚴: '严', 傘: '伞', 蓋: '盖', 迴: '回', 壞: '坏', 諸: '诸',
   眾: '众', 衆: '众', 離: '离', 惡: '恶', 獄: '狱', 幢: '幢', 瓔: '璎',
+  翻譯: '翻译', 辭: '辞', 劍: '剑', 橋: '桥', 奧: '奥', 陸: '陆', 維: '维',
+  納: '纳', 德: '德', 格: '格', 總: '总', 持: '持', 護: '护', 國: '国',
+};
+
+const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }> = {
+  db1_fangshan: { labelZh: 'DB1 · 房山石经与释教最上乘陀罗尼集', tab: 'interlinear' },
+  db2_taisho_ext: { labelZh: 'DB2 · 大正藏T54悉昙字书与续藏', tab: 'interlinear' },
+  db3_dsbc_gretil: { labelZh: 'DB3 · 尼泊尔DSBC百品陀罗尼集', tab: 'hub' },
+  db4_84000: { labelZh: 'DB4 · 84000藏文大藏经陀罗尼集', tab: 'hub' },
+  db5_buddhanexus: { labelZh: 'DB5 · BuddhaNexus梵汉藏巴四语平行库', tab: 'concordance' },
+  db6_sarit: { labelZh: 'DB6 · SARIT密续与金刚幕续梵本', tab: 'hub' },
+  db7_cudl_hidas: { labelZh: 'DB7 · 剑桥CUDL贝叶经与Hidas校勘本', tab: 'cudl' },
+  db8_polyglotta: { labelZh: 'DB8 · 奥斯陆16本心经与多语对勘库', tab: 'concordance' },
+  db9_rkts: { labelZh: 'DB9 · 维也纳rKTs德格版陀罗尼集(Zungdu)', tab: 'hub' },
+  db10_all_nibs: { labelZh: 'DB10 · ALL-NIBS尼瓦尔梵本写本库', tab: 'hub' },
+  db11_idp_cetom: { labelZh: 'DB11 · 大英图书馆IDP/CEToM西域丝路梵本', tab: 'hub' },
+  db12_ochs_muktabodha: { labelZh: 'DB12 · 牛津OCHS种子字辞典与金刚顶经', tab: 'phonetics-academy' },
 };
 
 export function normalizeSearchText(input: string): string {
@@ -98,6 +117,8 @@ export function filterDharanis(
         entry.provenance.cbetaId || '',
         entry.provenance.databaseId || '',
         entry.provenance.databaseBadgeZh || '',
+        entry.provenance.editionCitation || '',
+        entry.provenance.manuscriptNotesZh || '',
       ].join(' ')
     );
 
@@ -119,93 +140,196 @@ export function filterDharanis(
   });
 }
 
+function toCanonSuggestionItem(
+  entry: DharaniEntry,
+  matchTypeLabel: string,
+  matchedVerse?: DharaniEntry['verses'][number]
+): SearchSuggestionItem {
+  const v = matchedVerse || entry.verses[0];
+  const badgePrefix = entry.provenance.databaseBadgeZh
+    ? `🌐 ${entry.provenance.databaseBadgeZh} · `
+    : '';
+  return {
+    kind: 'canon-entry',
+    entry,
+    titleZh: entry.titleZh,
+    taishoNo: entry.taishoNo,
+    matchTypeLabel: `${badgePrefix}${matchTypeLabel}`,
+    matchedVerseId: v?.id,
+    matchedVerseIndex: v?.index,
+    snippetPrimary: v
+      ? `梵音：${v.iast.slice(0, 72)}`
+      : entry.titleSanskritIast,
+    snippetSecondary: v
+      ? `古汉语：${v.classicalTranslitZh.slice(0, 42)} · 梵音拼读：${v.modernPhoneticZh.slice(0, 42)}`
+      : entry.deityZh,
+  };
+}
+
 /**
  * Generates instant selectable autocomplete results below the header search input,
- * searching across all 250+ authentic Sanskrit entries (Curated Multi-Script + World Mantras Encyclopedia +
- * 200 GRETIL Sanskrit Manuscripts) + 614 Taishō Esoteric Canon Scriptures.
+ * searching across all 1,419+ authentic Sanskrit entries (including all 12 International Databases DB1–DB12,
+ * Curated Multi-Script, World Mantras Encyclopedia, 200 GRETIL Sanskrit Manuscripts) +
+ * Unified 12-Database Specialized Lexicons/Catalogs + 614 Taishō Esoteric Canon Scriptures.
  */
 export function getSearchSuggestions(
   entries: DharaniEntry[],
   rawQuery: string,
-  limit = 16
+  limit = 20
 ): SearchSuggestionItem[] {
   const q = normalizeSearchText(rawQuery.trim());
 
   if (!q) {
-    return entries.slice(0, 12).map((entry) => {
-      const firstVerse = entry.verses[0];
-      return {
-        kind: 'canon-entry',
-        entry,
-        titleZh: entry.titleZh,
-        taishoNo: entry.taishoNo,
-        matchTypeLabel: '热门核心经咒',
-        matchedVerseId: firstVerse?.id,
-        matchedVerseIndex: firstVerse?.index,
-        snippetPrimary: firstVerse
-          ? `梵音：${firstVerse.iast.slice(0, 65)}`
-          : entry.titleSanskritIast,
-        snippetSecondary: firstVerse
-          ? `古汉语：${firstVerse.classicalTranslitZh.slice(0, 42)} · 拼读：${firstVerse.modernPhoneticZh.slice(0, 42)}`
-          : entry.deityZh,
-      };
-    });
+    // Show 6 classic flagship Dhāraṇīs + 10 representative entries across DB1–DB12
+    const classicPicks = entries
+      .filter((e) => !e.provenance.databaseId)
+      .slice(0, 6)
+      .map((entry) => toCanonSuggestionItem(entry, '核心经典陀罗尼'));
+
+    const dbSeen = new Set<string>();
+    const dbPicks: SearchSuggestionItem[] = [];
+    for (const entry of entries) {
+      const dbId = entry.provenance.databaseId;
+      if (dbId && !dbSeen.has(dbId)) {
+        dbSeen.add(dbId);
+        dbPicks.push(toCanonSuggestionItem(entry, '12大国际权威梵典库'));
+        if (dbPicks.length >= 10) break;
+      }
+    }
+
+    return [...classicPicks, ...dbPicks].slice(0, limit);
   }
 
-  const results: SearchSuggestionItem[] = [];
+  // Score all matching entries across the entire 1,419-entry corpus so DB1–DB12 are never starved
+  const scoredCanon: Array<{ score: number; is12Db: boolean; item: SearchSuggestionItem }> = [];
 
   for (const entry of entries) {
-    if (results.length >= limit) break;
-
-    const titleMatch = normalizeSearchText(
+    const is12Db = Boolean(
+      entry.provenance.databaseId || entry.provenance.sourceType === 'GLOBAL-12DB'
+    );
+    const normTitle = normalizeSearchText(
       `${entry.titleZh} ${entry.titleSanskritIast} ${entry.titleEnglish}`
-    ).includes(q);
-    const taishoMatch = normalizeSearchText(
-      `${entry.taishoNo} ${entry.provenance.cbetaId || ''} ${entry.provenance.gretilFile || ''}`
-    ).includes(q);
-    const deityMatch = normalizeSearchText(
+    );
+    const normDbAndNo = normalizeSearchText(
+      `${entry.taishoNo} ${entry.provenance.cbetaId || ''} ${entry.provenance.gretilFile || ''} ${entry.provenance.databaseId || ''} ${entry.provenance.databaseBadgeZh || ''}`
+    );
+    const normDeity = normalizeSearchText(
       `${entry.deityZh} ${entry.translatorZh} ${entry.meritsAndSummaryZh}`
-    ).includes(q);
+    );
 
-    const matchedVerse = entry.verses.find((v) => {
-      const vStr = normalizeSearchText(
-        `${v.iast} ${v.classicalTranslitZh} ${v.modernPhoneticZh} ${v.meaningZh} ${v.meaningEn}`
-      );
-      if (vStr.includes(q)) return true;
-      return v.words.some((w) =>
-        normalizeSearchText(`${w.iast} ${w.transliterationZh} ${w.meaningZh}`).includes(q)
-      );
-    });
+    const titleMatch = normTitle.includes(q);
+    const dbOrNoMatch = normDbAndNo.includes(q);
+    const deityMatch = normDeity.includes(q);
 
-    if (titleMatch || taishoMatch || deityMatch || matchedVerse) {
-      const v = matchedVerse || entry.verses[0];
-      let matchTypeLabel = '四体梵音对照库';
+    let matchedVerse: DharaniEntry['verses'][number] | undefined;
+    if (!titleMatch && !dbOrNoMatch) {
+      matchedVerse = entry.verses.find((v) => {
+        const vStr = normalizeSearchText(
+          `${v.iast} ${v.classicalTranslitZh} ${v.modernPhoneticZh} ${v.meaningZh} ${v.meaningEn}`
+        );
+        if (vStr.includes(q)) return true;
+        return v.words.some((w) =>
+          normalizeSearchText(`${w.iast} ${w.transliterationZh} ${w.meaningZh}`).includes(q)
+        );
+      });
+    } else {
+      matchedVerse = entry.verses[0];
+    }
+
+    if (titleMatch || dbOrNoMatch || deityMatch || matchedVerse) {
+      let score = 0;
+      if (normTitle.startsWith(q)) score += 120;
+      else if (titleMatch) score += 90;
+      if (dbOrNoMatch) score += 85;
+      if (deityMatch) score += 55;
+      if (matchedVerse) score += 35;
+      if (is12Db && dbOrNoMatch) score += 30;
+
+      let matchTypeLabel = is12Db ? '全球12大梵典专集' : '四体梵音精校库';
       if (entry.categoryId === 'gretil-canonical') {
         matchTypeLabel = `GRETIL 梵文贝叶经 (${entry.provenance.gretilFile || ''})`;
-      } else if (taishoMatch && !titleMatch) {
-        matchTypeLabel = `藏经号 (${entry.taishoNo})`;
+      } else if (dbOrNoMatch && !titleMatch) {
+        matchTypeLabel = `经号/数据库匹配 (${entry.taishoNo})`;
       } else if (deityMatch && !titleMatch) {
-        matchTypeLabel = `本尊/别名匹配 (${entry.deityZh.slice(0, 14)})`;
+        matchTypeLabel = `本尊/译者匹配 (${entry.deityZh.slice(0, 14)})`;
       } else if (matchedVerse && !titleMatch) {
         matchTypeLabel = `匹配第 ${matchedVerse.index} 句梵音/古汉语`;
       }
 
-      results.push({
-        kind: 'canon-entry',
-        entry,
-        titleZh: entry.titleZh,
-        taishoNo: entry.taishoNo,
-        matchTypeLabel,
-        matchedVerseId: v?.id,
-        matchedVerseIndex: v?.index,
-        snippetPrimary: v ? `梵文：${v.iast.slice(0, 72)}` : entry.titleSanskritIast,
-        snippetSecondary: v
-          ? `古汉语：${v.classicalTranslitZh.slice(0, 40)} | 梵音拼读：${v.modernPhoneticZh.slice(0, 40)}`
-          : entry.meritsAndSummaryZh.slice(0, 60),
+      scoredCanon.push({
+        score,
+        is12Db,
+        item: toCanonSuggestionItem(entry, matchTypeLabel, matchedVerse),
       });
     }
   }
 
+  scoredCanon.sort((a, b) => b.score - a.score);
+
+  // Interleave top curated & top 12-DB canon entries so both appear prominently in dropdown
+  const classicResults = scoredCanon.filter((x) => !x.is12Db).map((x) => x.item);
+  const db12CanonResults = scoredCanon.filter((x) => x.is12Db).map((x) => x.item);
+
+  const results: SearchSuggestionItem[] = [];
+  let cIdx = 0;
+  let dIdx = 0;
+  const maxCanonSlots = Math.max(10, limit - 6);
+
+  while (
+    results.length < maxCanonSlots &&
+    (cIdx < classicResults.length || dIdx < db12CanonResults.length)
+  ) {
+    if (cIdx < classicResults.length) {
+      results.push(classicResults[cIdx++]);
+    }
+    if (results.length < maxCanonSlots && dIdx < db12CanonResults.length) {
+      results.push(db12CanonResults[dIdx++]);
+    }
+  }
+
+  // Also query the Unified 12-Database Engine (`searchAllDatabases`) for specialized lexicon/glossary/manuscript hits
+  try {
+    const unifiedHits = searchAllDatabases(rawQuery.trim(), { limit: 6 });
+    const existingTitles = new Set(results.map((r) => normalizeSearchText(r.titleZh)));
+
+    for (const hit of unifiedHits) {
+      if (results.length >= limit) break;
+      if (hit.dbId === 'baseline') continue;
+      const normHitTitle = normalizeSearchText(hit.title);
+      if (existingTitles.has(normHitTitle)) continue;
+      existingTitles.add(normHitTitle);
+
+      const dbMeta = DB_BADGE_MAP[hit.dbId] || {
+        labelZh: `DB${hit.databaseNumber} · 国际梵典数据库`,
+        tab: 'hub' as ActiveWorkspaceTab,
+      };
+
+      // Try to link to a matching DharaniEntry if one exists for this hit
+      const linkedEntry = entries.find(
+        (e) =>
+          e.id.includes(hit.id) ||
+          (hit.canonicalRefs &&
+            hit.canonicalRefs.some((ref) => e.taishoNo.includes(ref)))
+      );
+
+      results.push({
+        kind: linkedEntry ? 'canon-entry' : 'global-12db-hit',
+        entry: linkedEntry,
+        targetTab: dbMeta.tab,
+        titleZh: hit.title,
+        taishoNo: (hit.canonicalRefs && hit.canonicalRefs[0]) || hit.id,
+        matchTypeLabel: `🌐 ${dbMeta.labelZh}`,
+        snippetPrimary: hit.sanskritIast
+          ? `梵音/转写：${hit.sanskritIast.slice(0, 76)}`
+          : hit.snippet.slice(0, 76),
+        snippetSecondary: `${hit.subtitle} · ${hit.chineseText || hit.tibetanText || hit.snippet.slice(0, 48)}`,
+      });
+    }
+  } catch {
+    // Ignore if unified search encounters edge case
+  }
+
+  // Also include Taishō Esoteric Canon XML Scripture matches
   for (const ts of TAISHO_MIKKYO_FILE_INDEX) {
     if (results.length >= limit) break;
     const hay = normalizeSearchText(
