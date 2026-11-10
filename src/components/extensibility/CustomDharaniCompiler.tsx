@@ -1,420 +1,353 @@
 import React, { useState, useMemo } from 'react';
-import { analyzeSanskritLine } from '../../core/prosody';
+import { Code2, PlusCircle, Volume2, Download, Trash2, Sparkles } from 'lucide-react';
+import type { DharaniEntry } from '../../types/kosaTypes';
 import {
-  iastToSlp1,
-  slp1ToDevanagari,
-  slp1ToSiddhamUnicode,
-  iastToIpa
-} from '../../core/transliterator';
-import type { DharaniItem, DharaniVerse } from '../../types/dharani';
+  iastToDevanagari,
+  iastToIpa,
+  iastToSiddham,
+} from '../../core/sanskrit/transliterator';
+import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
-  sanskritAudioEngine,
-  playSingleSyllable,
-  stopSanskritSpeech
-} from '../../services/sanskritAudioEngine';
+  generateVerseChinesePhonetics,
+  mapSyllableToChinesePhonetics,
+} from '../../core/sanskrit/phoneticMapper';
 
 interface CustomDharaniCompilerProps {
-  customEntries: DharaniItem[];
-  onSaveCustomDharani: (entry: DharaniItem) => void;
-  onSelectCompiledEntry: (id: string) => void;
+  customEntries: DharaniEntry[];
+  onAddCustomEntry: (entry: DharaniEntry) => void;
+  onDeleteCustomEntry: (id: string) => void;
+  onSelectEntryInReader: (id: string) => void;
+  onPlaySyllable: (iast: string) => void;
 }
 
-const SAMPLE_INPUTS = [
+const PRESET_TEMPLATES = [
   {
     label: '文殊八字大威德真言',
-    titleZh: '文殊八字大威德陀罗尼 (T1184)',
-    deity: '八字文殊菩萨',
-    text: 'oṃ āḥ vī ra hūṃ kha ca raḥ'
+    titleZh: '一切佛心大无畏八字真言（文殊八字咒）',
+    deityZh: '八字文殊菩萨',
+    iast: 'oṃ āḥ vī ra hūṃ kha ca raḥ ||',
+    translitZh: '唵 阿 味 啰 吽 佉 左 洛 ||',
+    meaningZh: '嗡！阿、味、啰、吽、佉、左、洛（一切如来大威德总持心印）！',
   },
   {
-    label: '大随求根本心中心真言',
-    titleZh: '普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼心咒 (T1153)',
-    deity: '大随求菩萨 (Mahāpratisarā)',
-    text: 'oṃ bhara bhara saṃbhara saṃbhara indriya viśodhani hūṃ hūṃ ruru cale svāhā'
+    label: '毗卢遮那佛大灌顶光真言',
+    titleZh: '不空羂索毗卢遮那佛大灌顶光真言',
+    deityZh: '大日如来 (Vairocana)',
+    iast: 'oṃ amogha vairocana mahāmudrā maṇi padma jvāla pravartaya hūṃ ||',
+    translitZh: '唵 阿谟伽 尾嚧左曩 摩诃母捺啰 摩抳 钵纳摩 入嚩攞 钵啰靺多野 吽 ||',
+    meaningZh: '嗡！不空遍照如来大印，摩尼宝与莲华光明炽盛流转，吽！',
   },
   {
-    label: '毗卢遮那大灌顶光真言',
-    titleZh: '不空羂索毗卢遮那佛大灌顶光真言 (T1002)',
-    deity: '毗卢遮那如来 (Vairocana)',
-    text: 'oṃ amogha vairocana mahāmudrā maṇi padma jvāla pravartaya hūṃ'
+    label: '绿度母增福慧随心咒',
+    titleZh: '圣救度佛母增福慧随心真言',
+    deityZh: '圣救度佛母 (Ārya-Tārā)',
+    iast: 'oṃ tāre tuttāre ture mama āyuḥpuṇyajñānapuṣṭiṃ kuru svāhā ||',
+    translitZh: '唵 多隶 咄多隶 都隶 摩摩 阿瑜布尼耶枳娘曩补瑟徴 俱噜 娑嚩诃 ||',
+    meaningZh: '嗡！度母、救苦度母、疾速母！请令我之寿命、福德、智慧皆得增长广大，圆满成就！',
   },
-  {
-    label: '宝箧印陀罗尼根本心咒',
-    titleZh: '一切如来心秘密全身舍利宝箧印陀罗尼根本咒 (T1022B)',
-    deity: '十方三世一切如来',
-    text: 'namaḥ sarva tathāgatānām | oṃ vipula garbhe maṇi prabhe tathāgata nidarśane maṇi maṇi suprabhe vimale sāgara gambhīre hūṃ hūṃ jvala jvala बुद्ध vilokite guhya adhiṣṭhita garbhe svāhā'
-  }
 ];
 
 export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
   customEntries,
-  onSaveCustomDharani,
-  onSelectCompiledEntry
+  onAddCustomEntry,
+  onDeleteCustomEntry,
+  onSelectEntryInReader,
+  onPlaySyllable,
 }) => {
-  const [titleZh, setTitleZh] = useState('不空羂索毗卢遮那佛大灌顶光真言');
-  const [titleSa, setTitleSa] = useState('Amogha-vairocana-mahāmudrā-dhāraṇī');
-  const [deityFocus, setDeityFocus] = useState('毗卢遮那如来 (Vairocana)');
-  const [taishoRef, setTaishoRef] = useState('T19n1002');
-  const [rawInput, setRawInput] = useState(
-    'oṃ amogha vairocana mahāmudrā maṇi padma jvāla pravartaya hūṃ'
+  const [titleZh, setTitleZh] = useState('自定梵文陀罗尼章句');
+  const [deityZh, setDeityZh] = useState('本尊总持');
+  const [iastInput, setIastInput] = useState(
+    'oṃ tāre tuttāre ture mama āyuḥpuṇyajñānapuṣṭiṃ kuru svāhā ||'
   );
-  const [inputMode, setInputMode] = useState<'smart' | 'strict' | 'slp1'>('smart');
-  const [activeSylIdx, setActiveSylIdx] = useState<number>(-1);
-  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+  const [translitZh, setTranslitZh] = useState('');
+  const [meaningZh, setMeaningZh] = useState(
+    '嗡！圣救度母啊！祈请令我寿命、福德与般若智慧皆悉圆满增长，吉祥成就！'
+  );
+  const [showBracketIast, setShowBracketIast] = useState(false);
 
-  // 实时按句号/换行/竖线切分并编译每一节
-  const compiledLines = useMemo(() => {
-    const rawSegments = rawInput
-      .split(/\n+|\|\||\|/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-    return rawSegments.map((seg) =>
-      analyzeSanskritLine(seg, { mode: inputMode, longMarkSymbol: '～' })
-    );
-  }, [rawInput, inputMode]);
+  const siddhamOut = useMemo(() => iastToSiddham(iastInput), [iastInput]);
+  const devanagariOut = useMemo(() => iastToDevanagari(iastInput), [iastInput]);
+  const ipaOut = useMemo(() => iastToIpa(iastInput), [iastInput]);
+  const prosodyOut = useMemo(() => analyzeSanskritProsody(iastInput), [iastInput]);
+  const autoPhonetics = useMemo(
+    () => generateVerseChinesePhonetics(iastInput, showBracketIast),
+    [iastInput, showBracketIast]
+  );
 
-  const handlePlayPreviewLine = async (iastText: string) => {
-    if (isSpeaking) {
-      stopSanskritSpeech();
-      setIsSpeaking(false);
-      setActiveSylIdx(-1);
-      return;
-    }
-    setIsSpeaking(true);
-    await sanskritAudioEngine.speakText(iastText, {
-      onSyllableHighlight: (idx) => setActiveSylIdx(idx),
-      onComplete: () => {
-        setIsSpeaking(false);
-        setActiveSylIdx(-1);
-      }
-    });
-  };
+  const effectiveClassicalZh = translitZh.trim() || autoPhonetics.classicalTranslitZh;
 
-  const handleSaveToCorpus = () => {
-    if (compiledLines.length === 0) return;
+  const handleSaveToCorpus = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!iastInput.trim()) return;
 
-    const id = `custom-${Date.now()}`;
-    const verses: DharaniVerse[] = compiledLines.map((line, idx) => {
-      const modernApprox = line.words.map((w) => w.wordModernPhonetic).join(' ');
-      const tangChinese = line.words.map((w) => w.wordTangReconstruction).join(' ');
-      return {
-        verseNumber: idx + 1,
-        sectionTitle: `自定义编译第 ${idx + 1} 节`,
-        iast: line.normalizedIast,
-        devanagari: line.devanagari,
-        siddham: line.siddhamUnicode,
-        ipa: iastToIpa(line.normalizedIast),
-        tangChinese,
-        modernApprox,
-        meaningZh:
-          '（由 100% 梵音编译器自动生成之四体文字、三十四字母唐音矩阵与轻重格律解析）',
-        meaningEn:
-          '(Auto-compiled quad-script transliteration, Tang Siddhaṃ phonetics & Chandas prosody)',
-        tangPhoneticNotes: ['编译器生成'],
-        words: line.words.map((w) => ({
-          sanskrit: w.wordIast,
-          devanagari: w.wordDevanagari,
-          siddham: w.wordSiddham,
-          rootOrStem: w.syllables.map((s) => s.rawIast).join('·'),
-          grammar: w.syllables
-            .map((s) => `${s.varga || '音节'}(${s.weight === 'Guru' ? '重—' : '轻⏑'})`)
-            .join(' / '),
-          tangPhonetic: w.wordTangReconstruction || '',
-          meaningZh: w.syllables.map((s) => s.acousticNote || '').filter(Boolean).join('；'),
-          meaningEn: `Phonetic: ${w.wordModernPhonetic || w.wordIast}`
-        }))
-      };
-    });
-
-    const slpTitle = iastToSlp1(titleSa || titleZh, 'smart');
-    const newEntry: DharaniItem = {
-      id,
-      titleZh: titleZh.trim() || '自定义编译梵文陀罗尼',
-      shortTitleZh: (titleZh.trim() || '自定义梵咒').slice(0, 8),
-      titleSanskrit: titleSa.trim() || compiledLines[0].normalizedIast,
-      titleDevanagari: slp1ToDevanagari(slpTitle),
-      titleSiddham: slp1ToSiddhamUnicode(slpTitle),
-      titleEn: titleSa.trim() || 'Custom Compiled Sanskrit Dhāraṇī',
-      category: 'custom',
-      deity: deityFocus.trim() || '十方三世一切诸佛菩萨',
-      taishoId: taishoRef.trim() || 'Custom',
-      translator: '梵音宝典 100% 全覆盖四体声学编译器',
-      period: '当代数字化校勘',
-      summaryZh:
-        '通过梵音宝典「100% 全覆盖四体声学编译器」实时编译生成，完整支持悉昙、天城、IAST、IPA、唐宋玄奘/不空体音译、现代梵音助读与 48kHz VITS / 136.1Hz 共振峰发声。',
-      ritualBenefits: '正音持诵，字字分明，契合悉昙声明学轻重格律。',
-      verses,
-      authoritativeSource: {
-        cbetaXmlId: taishoRef.trim() || 'Custom',
-        cbetaRawUrl: 'https://github.com/cbeta-org/xml-p5',
-        taishoLocation: `Ref: ${taishoRef}`,
-        sanskritEditionCitation:
-          'Compiled via Sarva-Dhāraṇī-Kośa 34×14 Akṣara Phonetic Matrix',
-        tangPhoneticNotes: [
-          '采用三遍式梵文音节切分器 (3-Pass Akṣara Syllabifier)',
-          '支持随韵 Anusvāra (ṃ) 五类鼻音同化与止息 Visarga (ḥ) 元音回响'
-        ],
-        rawExcerpt: rawInput,
-        crossRefs: {}
-      }
+    const newEntry: DharaniEntry = {
+      id: `custom-${Date.now()}`,
+      titleZh: titleZh.trim() || '自定义梵文陀罗尼',
+      titleSanskritIast: iastInput.trim().slice(0, 60),
+      titleEnglish: 'User Compiled Sanskrit Dhāraṇī Module',
+      categoryId: 'custom',
+      taishoNo: 'CUSTOM-MODULE',
+      translatorZh: '梵咒实时编译器生成',
+      sutraSourceZh: '用户模块化扩展语料',
+      deityZh: deityZh.trim() || '诸佛菩萨总持',
+      meritsAndSummaryZh: meaningZh.trim(),
+      recitationTipsZh: '由系统自动根据 IAST 元音长短与复辅音规则计算摩多轻重律。',
+      provenance: {
+        sourceType: 'Academic-Critical-Edition',
+        editionCitation: 'Compiled via Sarva-Dhāraṇī-Kośa Live Sanskrit Phonetic Compiler',
+        manuscriptNotesZh: '用户本地持久化模块，可随时导出为标准 JSON。',
+      },
+      verses: [
+        {
+          id: `custom-v-${Date.now()}`,
+          index: 1,
+          iast: iastInput.trim(),
+          classicalTranslitZh: effectiveClassicalZh,
+          modernPhoneticZh: autoPhonetics.modernPhoneticZh,
+          meaningZh: meaningZh.trim(),
+          meaningEn: 'Custom compiled Sanskrit mantra verse.',
+          words: [],
+        },
+      ],
     };
 
-    onSaveCustomDharani(newEntry);
-    onSelectCompiledEntry(id);
+    onAddCustomEntry(newEntry);
+    onSelectEntryInReader(newEntry.id);
   };
 
   const handleExportJson = () => {
-    const dataStr = JSON.stringify(compiledLines, null, 2);
-    const blob = new Blob([dataStr], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(customEntries, null, 2)], {
+      type: 'application/json',
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${titleSa.replace(/\s+/g, '_') || 'custom_dharani'}_compiled.json`;
+    a.download = 'sarva-dharani-custom-modules.json';
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="sdk-compiler">
-      <div className="sdk-compiler-banner">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-          <div>
-            <h2 className="sdk-compiler-title">
-              ⚡ 梵文陀罗尼 100% 全覆盖四体转换与声学编译器 (Universal Dhāraṇī Compiler)
-            </h2>
-            <p className="sdk-compiler-desc">
-              输入大藏经或梵文贝叶经中的<strong>任意</strong>梵文陀罗尼（支持天城体 Devanāgarī、标准 IAST、粗略英文拼写如{' '}
-              <code>om mani padme hum</code> 或哈佛-京都 SLP1），引擎将瞬间完成：
-              <strong>① 悉昙/天城/IAST/IPA 四体转写</strong> ·{' '}
-              <strong>② 三遍式梵文音节切分与轻重格律 (Guru/Laghu) 判定</strong> ·{' '}
-              <strong>③ 唐代玄奘/不空三十四字母双轨对音</strong> ·{' '}
-              <strong>④ 48kHz 原生梵文神经网络 VITS 模型与 136.1Hz 共振峰发声</strong>。
-            </p>
-          </div>
-          <a
-            href="/sanskrit_phonetic_engine.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="sdk-btn-source"
-            style={{ textDecoration: 'none', whiteSpace: 'nowrap' }}
-          >
-            🚀 打开独立版发音引擎 v3.0 (四线谱 + 34×14矩阵) ↗
-          </a>
-        </div>
+    <div className="section-panel">
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.85rem' }}>
+        <h2 style={{ fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Code2 size={20} color="var(--accent-vermilion)" />
+          <span>梵文陀罗尼实时六体转写编译器与模块化语料扩展台</span>
+        </h2>
+        <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+          输入任意罗马转写梵文（IAST），系统即时编译为唐代悉昙梵字、梵音拼读参考、天城体、古汉语音译、国际音标（IPA）与摩多轻重律（Guru/Laghu）。
+        </p>
       </div>
 
-      <div className="sdk-compiler-grid">
-        {/* 左侧：输入与元数据配置 */}
-        <div className="sdk-compiler-input-panel">
-          <div className="sdk-Preset-bar">
-            <span className="sdk-preset-label">快速载入经典范例：</span>
-            {SAMPLE_INPUTS.map((s) => (
-              <button
-                key={s.label}
-                type="button"
-                className="sdk-preset-chip"
-                onClick={() => {
-                  setTitleZh(s.titleZh);
-                  setDeityFocus(s.deity);
-                  setRawInput(s.text);
-                }}
-              >
-                {s.label}
-              </button>
-            ))}
-          </div>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>快速载入范例模板：</span>
+        {PRESET_TEMPLATES.map((tpl) => (
+          <button
+            key={tpl.label}
+            type="button"
+            className="btn-scholarly"
+            onClick={() => {
+              setTitleZh(tpl.titleZh);
+              setDeityZh(tpl.deityZh);
+              setIastInput(tpl.iast);
+              setTranslitZh(tpl.translitZh);
+              setMeaningZh(tpl.meaningZh);
+            }}
+          >
+            {tpl.label}
+          </button>
+        ))}
+      </div>
 
-          <div className="sdk-form-row">
-            <div className="sdk-form-field">
-              <label>中文经咒名称：</label>
-              <input
-                type="text"
-                value={titleZh}
-                onChange={(e) => setTitleZh(e.target.value)}
-                placeholder="例如：不空羂索毗卢遮那佛大灌顶光真言"
-              />
-            </div>
-            <div className="sdk-form-field">
-              <label>梵文标题 (IAST)：</label>
-              <input
-                type="text"
-                value={titleSa}
-                onChange={(e) => setTitleSa(e.target.value)}
-                placeholder="例如：Amogha-vairocana-mahāmudrā"
-              />
-            </div>
-          </div>
-
-          <div className="sdk-form-row">
-            <div className="sdk-form-field">
-              <label>修持本尊：</label>
-              <input
-                type="text"
-                value={deityFocus}
-                onChange={(e) => setDeityFocus(e.target.value)}
-              />
-            </div>
-            <div className="sdk-form-field">
-              <label>大正藏 / 文献出处编号：</label>
-              <input
-                type="text"
-                value={taishoRef}
-                onChange={(e) => setTaishoRef(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="sdk-form-field">
-            <div className="sdk-textarea-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.35rem' }}>
-              <label>输入任意梵文咒语（支持天城体 / IAST / 粗略拉丁拼写，用 | 或换行分段）：</label>
-              <div className="sdk-mode-radios" style={{ display: 'flex', gap: '0.75rem', fontSize: '0.78rem' }}>
-                {(['smart', 'strict', 'slp1'] as const).map((m) => (
-                  <label key={m} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', cursor: 'pointer' }}>
-                    <input
-                      type="radio"
-                      name="inputMode"
-                      checked={inputMode === m}
-                      onChange={() => setInputMode(m)}
-                    />
-                    {m === 'smart' ? '智能纠错 (Smart)' : m === 'strict' ? '严格 IAST' : 'SLP1 编码'}
-                  </label>
-                ))}
-              </div>
-            </div>
-            <textarea
-              rows={5}
-              className="sdk-compiler-textarea"
-              value={rawInput}
-              onChange={(e) => setRawInput(e.target.value)}
-              placeholder="在此粘贴任意梵文陀罗尼..."
+      <form onSubmit={handleSaveToCorpus} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.2rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div>
+            <label htmlFor="compiler-title-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+              陀罗尼汉文名号：
+            </label>
+            <input
+              id="compiler-title-input"
+              type="text"
+              className="header-search-input"
+              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              value={titleZh}
+              onChange={(e) => setTitleZh(e.target.value)}
             />
           </div>
 
-          <div className="sdk-compiler-actions">
+          <div>
+            <label htmlFor="compiler-iast-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+              梵文 IAST 原文（支持 ā ī ū ṛ ṃ ḥ ś ṣ ṇ ṭ ḍ ñ）：
+            </label>
+            <textarea
+              id="compiler-iast-input"
+              rows={3}
+              className="header-search-input iast-text"
+              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem', fontSize: '1rem' }}
+              value={iastInput}
+              onChange={(e) => setIastInput(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="compiler-translit-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+              自定义唐宋古汉语音译（留空则由系统自动对音）：
+            </label>
+            <input
+              id="compiler-translit-input"
+              type="text"
+              placeholder={autoPhonetics.classicalTranslitZh}
+              className="header-search-input"
+              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              value={translitZh}
+              onChange={(e) => setTranslitZh(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="compiler-meaning-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+              汉文意译与功德说明：
+            </label>
+            <textarea
+              id="compiler-meaning-input"
+              rows={2}
+              className="header-search-input"
+              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              value={meaningZh}
+              onChange={(e) => setMeaningZh(e.target.value)}
+            />
+          </div>
+
+          <button id="compiler-save-btn" type="submit" className="btn-scholarly primary" style={{ justifyContent: 'center', padding: '0.6rem' }}>
+            <PlusCircle size={16} />
+            <span>编译并收录入梵音宝典词库</span>
+          </button>
+        </div>
+
+        {/* Live Multi-Script & Prosody Preview */}
+        <div className="verse-card">
+          <div className="verse-card-header">
+            <span className="verse-index-badge">实时六体编译预览 (Live 6-Script Output)</span>
             <button
               type="button"
-              className="sdk-btn-primary-gold"
-              onClick={handleSaveToCorpus}
+              className={`btn-scholarly ${showBracketIast ? 'gold' : ''}`}
+              onClick={() => setShowBracketIast((b) => !b)}
             >
-              💾 保存至宝典总持库并进入十维精读视图
-            </button>
-            <button
-              type="button"
-              className="sdk-btn-secondary"
-              onClick={handleExportJson}
-            >
-              📥 导出结构化 JSON 数据包
+              <Sparkles size={13} />
+              <span>拼读括号(IAST)：{showBracketIast ? '已开启' : '已关闭'}</span>
             </button>
           </div>
 
-          {customEntries.length > 0 && (
-            <div className="sdk-saved-custom-list" style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-subtle)' }}>
-              <h4 style={{ marginBottom: '0.5rem' }}>已保存在本地的自定义编译陀罗尼 ({customEntries.length} 部)：</h4>
-              <div className="sdk-saved-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {customEntries.map((ce) => (
-                  <button
-                    key={ce.id}
-                    type="button"
-                    className="sdk-preset-chip"
-                    onClick={() => onSelectCompiledEntry(ce.id)}
-                  >
-                    📜 {ce.titleZh}
-                  </button>
-                ))}
-              </div>
+          <div className="script-row">
+            <span className="script-label">悉昙梵字</span>
+            <div className="script-content-siddham">{siddhamOut}</div>
+          </div>
+
+          <div className="script-row">
+            <span className="script-label" style={{ color: 'var(--accent-jade)' }}>
+              梵音拼读参考
+            </span>
+            <div className="script-content-phonetic-zh">{autoPhonetics.modernPhoneticZh}</div>
+          </div>
+
+          <div className="script-row">
+            <span className="script-label">天城梵文</span>
+            <div className="script-content-devanagari">{devanagariOut}</div>
+          </div>
+
+          <div className="script-row">
+            <span className="script-label">梵文 IAST</span>
+            <div className="script-content-iast">{iastInput}</div>
+          </div>
+
+          <div className="script-row">
+            <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
+              古汉语音译
+            </span>
+            <div className="script-content-classical-zh">{effectiveClassicalZh}</div>
+          </div>
+
+          <div className="script-row">
+            <span className="script-label">国际音标</span>
+            <div className="script-content-ipa">/{ipaOut}/</div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginBottom: '0.3rem' }}>
+              实时摩多轻重音律切分（点击任意音节试听合成梵音）：
             </div>
-          )}
-        </div>
-
-        {/* 右侧：实时十维编译预览与交互发声 */}
-        <div className="sdk-compiler-preview-panel">
-          <div className="sdk-preview-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', paddingBottom: '0.6rem', borderBottom: '1px solid var(--border-subtle)' }}>
-            <h3>✨ 实时四体文字、唐音矩阵与声学编译结果 ({compiledLines.length} 节)</h3>
-          </div>
-
-          {compiledLines.map((line, lIdx) => {
-            const allSyls = line.words.flatMap((w) => w.syllables);
-            const tradFull = line.words.map((w) => w.wordTangReconstruction).join(' ');
-            const modernFull = line.words.map((w) => w.wordModernPhonetic).join(' ');
-            return (
-              <div key={lIdx} className="sdk-compiled-card" style={{ background: '#fffdf9', border: '1px solid var(--border-gold)', borderRadius: '10px', padding: '1rem', marginBottom: '1rem' }}>
-                <div className="sdk-compiled-card-top" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span className="sdk-verse-num">编译分节 #{lIdx + 1}</span>
+            <div className="prosody-syllables-strip">
+              {prosodyOut.map((syl) => {
+                const mapped = mapSyllableToChinesePhonetics(syl.iast);
+                return (
                   <button
+                    key={`comp-syl-${syl.index}`}
                     type="button"
-                    className="sdk-verse-play-btn"
-                    onClick={() => handlePlayPreviewLine(line.normalizedIast)}
+                    className={`syllable-pill ${syl.weight}`}
+                    onClick={() => onPlaySyllable(syl.iast)}
                   >
-                    {isSpeaking ? '⏹ 停止试听' : '▶ 48kHz VITS 连续吟诵本节'}
+                    <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
+                    <span className="syl-iast">{syl.iast}</span>
+                    <span className="syl-modern-zh">{mapped.modernZh}</span>
+                    <span className="syl-tang-zh">{mapped.classicalZh}</span>
+                    <span className="syl-ipa">[{syl.ipa}]</span>
                   </button>
-                </div>
-
-                <div className="sdk-layer-row">
-                  <span className="sdk-layer-label">悉昙梵字</span>
-                  <div className="sdk-siddham-line" lang="sa-Sidd">
-                    {line.siddhamUnicode}
-                  </div>
-                </div>
-                <div className="sdk-layer-row">
-                  <span className="sdk-layer-label">天城体梵文</span>
-                  <div className="sdk-devanagari-line" lang="sa-Deva">
-                    {line.devanagari}
-                  </div>
-                </div>
-                <div className="sdk-layer-row">
-                  <span className="sdk-layer-label">标准 IAST</span>
-                  <div className="sdk-iast-line">{line.normalizedIast}</div>
-                </div>
-                <div className="sdk-layer-row">
-                  <span className="sdk-layer-label">IPA 音标</span>
-                  <div className="sdk-ipa-line">/{iastToIpa(line.normalizedIast)}/</div>
-                </div>
-                <div className="sdk-layer-row">
-                  <span className="sdk-layer-label">玄奘/不空体</span>
-                  <div className="sdk-tang-line">{tradFull}</div>
-                </div>
-                <div className="sdk-layer-row">
-                  <span className="sdk-layer-label">现代梵音助读</span>
-                  <div className="sdk-modern-phonetic-line">{modernFull}</div>
-                </div>
-
-                <div className="sdk-syllable-matrix-wrap">
-                  <div className="sdk-syllable-matrix-title">
-                    逐音节轻重格律与声学解剖（点击任意音节试听 48kHz VITS / 136.1Hz 梵音）：
-                  </div>
-                  <div className="sdk-syllable-strip">
-                    {allSyls.map((s, sIdx) => (
-                      <button
-                        key={sIdx}
-                        type="button"
-                        className={`sdk-syl-chip ${activeSylIdx === sIdx ? 'active' : ''} ${
-                          s.weight === 'Guru' ? 'guru' : 'laghu'
-                        }`}
-                        onClick={() => void playSingleSyllable(s)}
-                        title={s.acousticNote || ''}
-                      >
-                        <span className="syl-meter-tag">
-                          {s.meterSymbol || (s.weight === 'Guru' ? '—' : '⏑')}{' '}
-                          {s.weight === 'Guru' ? '重(2拍)' : '轻(1拍)'}
-                        </span>
-                        <span className="syl-siddham" lang="sa-Sidd">
-                          {s.siddhamUnicode}
-                        </span>
-                        <span className="syl-deva" lang="sa-Deva">
-                          {s.devanagari}
-                        </span>
-                        <span className="syl-iast">{s.rawIast}</span>
-                        <span className="syl-ipa">[{s.ipa}]</span>
-                        <span className="syl-tang">{s.tangReconstruction}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
+
+      {customEntries.length > 0 && (
+        <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+            <h3 style={{ fontSize: '0.95rem' }}>已扩展收录之自定义梵咒模块 ({customEntries.length})</h3>
+            <button type="button" className="btn-scholarly" onClick={handleExportJson}>
+              <Download size={14} />
+              <span>导出 JSON 模块文件</span>
+            </button>
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            {customEntries.map((ce) => (
+              <div
+                key={ce.id}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.4rem 0.7rem',
+                  background: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-xs)',
+                }}
+              >
+                <button
+                  type="button"
+                  style={{ fontWeight: 600, fontSize: '0.84rem' }}
+                  onClick={() => onSelectEntryInReader(ce.id)}
+                >
+                  {ce.titleZh}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onPlaySyllable(ce.verses[0]?.iast || '')}
+                  title="试听"
+                >
+                  <Volume2 size={14} color="var(--accent-vermilion)" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onDeleteCustomEntry(ce.id)}
+                  title="删除"
+                >
+                  <Trash2 size={14} color="var(--text-muted)" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

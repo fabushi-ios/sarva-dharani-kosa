@@ -1,0 +1,694 @@
+import type { DharaniEntry } from '../../types/kosaTypes';
+import { AUTHORITATIVE_CBETA_RECORDS } from '../kosa-generated/cbetaAuthRecords';
+import { AUTHORITATIVE_GRETIL_RECORDS } from '../kosa-generated/gretilAuthRecords';
+
+const cbetaT19n0974B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n0974B');
+const cbetaT20n1113B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1113B');
+const cbetaT20n1064 = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1064');
+const cbetaT19n1022A = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n1022A');
+const cbetaT19n1002 = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n1002');
+const gretilSitatapatra = AUTHORITATIVE_GRETIL_RECORDS.find((r) => r.id === 'gretil-sitatapatra');
+
+export const MAJOR_DHARANIS: DharaniEntry[] = [
+  {
+    id: 'nilakantha-mahakaruna-dharani',
+    titleZh: '千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼（大悲咒全本）',
+    titleSanskritIast: 'Nīlakaṇṭha-mahākāruṇika-hṛdaya-dhāraṇī',
+    titleEnglish: 'Great Compassion Dhāraṇī of Ārya Avalokiteśvara (Nīlakaṇṭha)',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T20n1060 / T20n1064 / T20n1113B',
+    translatorZh: '唐·西天竺沙门伽梵达磨 译 / 唐·不空三藏 译对音本',
+    sutraSourceZh: '《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》(T20n1060) 暨《大悲心陀罗尼修行念诵略仪》(T20n1113B)',
+    deityZh: '千手千眼圣观自在菩萨 (Sahasrabhuja-sahasranetra Āryāvalokiteśvara / Nīlakaṇṭha)',
+    meritsAndSummaryZh:
+      '汉传与唐密最为核心的根本大咒（通行本共84句）。本词条直接接入下载自 CBETA 官方库之《T20n1113B》334个悉昙梵字与汉字逐字对音数据，以及《T20n1064》唐代不空三藏译本之八十四句本尊化身夹注，全咒由初段归敬文、观音胜号、根本心咒、大自在天/那罗延天化身赞及吉祥祈愿结文组成。',
+    recitationTipsZh:
+      '持诵时注意 r 音（如 ratna, trayāya, kāruṇikāya）需舌尖轻弹上颚（唐代注「转舌呼」）；长元音 ā, ī, ū, e, o 均属重音（Guru，2拍），短元音 a, i, u 属轻音（Laghu，1拍），轻重分明则梵音自然庄严流畅。',
+    provenance: {
+      sourceType: 'CBETA+GRETIL',
+      cbetaId: 'T20n1113B',
+      cbetaRawXmlUrl: cbetaT20n1113B?.cbetaRawUrl || 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T20/T20n1113B.xml',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1113B',
+      editionCitation:
+        'CBETA XML-P5 T20n1060 (伽梵达磨译) / T20n1064 & T20n1113B (唐·不空三藏译，含 334 个 #SD-* 悉昙梵字逐字对音与八十四句本尊夹注)；梵文重构参校 Sylvain Lévi & Lokesh Chandra 校勘梵本。',
+      manuscriptNotesZh:
+        '已从 github.com/cbeta-org/xml-p5 下载 T20n1060.xml、T20n1064.xml 与 T20n1113B.xml 原典并提取 334 个悉昙-汉文对音字元。',
+      rawSnippet: cbetaT20n1064?.dharaniParagraphs.slice(0, 6).map((p) => p.text).join('\n'),
+      cbetaInterlinearTokens: cbetaT20n1113B?.interlinearTokens || [],
+    },
+    verses: [
+      {
+        id: 'nilakantha-1',
+        index: 1,
+        iast: 'namo ratnatrayāya | namo āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya |',
+        classicalTranslitZh:
+          '南无喝啰怛那哆啰夜耶（一）南无阿唎耶（二）婆卢羯帝烁钵啰耶（三）菩提萨跢婆耶（四）摩诃萨跢婆耶（五）摩诃迦卢昵迦耶（六）',
+        modernPhoneticZh:
+          '拿摩 啦特拿-特啦呀呀 | 拿摩 阿利亚-瓦洛给帝-湿瓦啦呀 博地萨特瓦呀 玛哈萨特瓦呀 玛哈嘎鲁尼嘎呀',
+        meaningZh: '归命三宝！归命圣观自在菩萨摩诃萨（大勇猛有情）、具大悲心者！',
+        meaningEn:
+          'Homage to the Three Jewels! Homage to Noble Avalokiteśvara, the Bodhisattva, the Great Being, the Greatly Compassionate One!',
+        tangNoteZh: '唐·不空《T20n1064》夹注：第一至六句为慈悲观音及如意轮、转钵、不空羂索、马鸣菩萨本身，统摄三宝与观音本尊总归敬门。',
+        words: [
+          { iast: 'namo', stem: 'namas', grammar: 'Ind. (连音变体)', transliterationZh: '南无', meaningZh: '归命、顶礼、敬礼', meaningEn: 'homage, salutation' },
+          { iast: 'ratnatrayāya', stem: 'ratna-traya', grammar: 'Dat.Sg. (为格单数)', transliterationZh: '喝啰怛那哆啰夜耶', meaningZh: '向佛法僧三宝', meaningEn: 'to the Three Jewels' },
+          { iast: 'āryāvalokiteśvarāya', stem: 'ārya-avalokita-īśvara', grammar: 'Dat.Sg.', transliterationZh: '阿唎耶婆卢羯帝烁钵啰耶', meaningZh: '向圣观自在尊', meaningEn: 'to Noble Lord Avalokiteśvara' },
+          { iast: 'bodhisattvāya', stem: 'bodhisattva', grammar: 'Dat.Sg.', transliterationZh: '菩提萨跢婆耶', meaningZh: '向觉有情（菩萨）', meaningEn: 'to the Awakening Being' },
+          { iast: 'mahāsattvāya', stem: 'mahāsattva', grammar: 'Dat.Sg.', transliterationZh: '摩诃萨跢婆耶', meaningZh: '向大有情（摩诃萨）', meaningEn: 'to the Great Being' },
+          { iast: 'mahākāruṇikāya', stem: 'mahākāruṇika', grammar: 'Dat.Sg.', transliterationZh: '摩诃迦卢昵迦耶', meaningZh: '向大悲心者', meaningEn: 'to the Greatly Compassionate One' },
+        ],
+      },
+      {
+        id: 'nilakantha-2',
+        index: 2,
+        iast: 'oṃ sarvarabhaye sudhanadasya namaskṛtvā imam āryāvalokiteśvaravaṃdavaṃ nīlakaṇṭha nāma hṛdayaṃ |',
+        classicalTranslitZh:
+          '唵（七）萨皤啰罚曳（八）数怛那怛写（九）南无悉吉㗚埵伊蒙阿唎耶（十）婆卢吉帝室佛啰楞驮婆（十一）南无那啰谨墀（十二）醯利摩诃皤哆沙咩（十三）',
+        modernPhoneticZh:
+          '嗡 萨尔瓦-啦帕耶 苏达拿-达斯呀 拿玛斯-克里特瓦 伊芒 阿利亚-瓦洛给帝-湿瓦啦-兰达旺 尼啦干他 拿玛 赫里达央',
+        meaningZh:
+          '嗡！于一切畏惧中善施安稳者！顶礼彼圣观自在尊已，我今宣说此名为「青颈（Nīlakaṇṭha）」之广大圆满心咒：',
+        meaningEn:
+          'Oṃ! Having bowed to Him who bestows safety amidst all fears, I now proclaim this glorious heart-dhāraṇī of Noble Avalokiteśvara called Nīlakaṇṭha (Blue-Necked One):',
+        tangNoteZh: '唐·不空夹注：「唵」是诸神合掌听诵，「萨皤啰罚曳」是四天大王降魔，「那啰谨墀」是青颈观音贤爱慈悲心体。',
+        words: [
+          { iast: 'oṃ', stem: 'oṃ (praṇava)', grammar: 'Sacred Bīja', transliterationZh: '唵', meaningZh: '三身总持神圣种子字', meaningEn: 'sacred primordial syllable' },
+          { iast: 'sarvarabhaye', stem: 'sarva-bhaya', grammar: 'Loc.Sg.', transliterationZh: '萨皤啰罚曳', meaningZh: '于一切怖畏灾难中 / 一切自在尊', meaningEn: 'in all fears / to all lords' },
+          { iast: 'sudhanadasya', stem: 'sudhana-da', grammar: 'Gen.Sg.', transliterationZh: '数怛那怛写', meaningZh: '善施妙财法宝者之（教敕）', meaningEn: 'of the bestower of good wealth/grace' },
+          { iast: 'namaskṛtvā', stem: 'namas-√kṛ', grammar: 'Absolutive (连续体)', transliterationZh: '南无悉吉㗚埵', meaningZh: '至心顶礼已', meaningEn: 'having paid homage' },
+          { iast: 'imam', stem: 'idam', grammar: 'Acc.Sg.', transliterationZh: '伊蒙', meaningZh: '此（心咒）', meaningEn: 'this' },
+          { iast: 'nīlakaṇṭha', stem: 'nīla-kaṇṭha', grammar: 'Voc./Nom.', transliterationZh: '那啰谨墀', meaningZh: '青颈尊（代众生吞咽苦毒现青颈相）', meaningEn: 'Blue-Necked One (Nīlakaṇṭha)' },
+          { iast: 'hṛdayaṃ', stem: 'hṛdaya', grammar: 'Acc.Sg.Neut.', transliterationZh: '醯利摩诃皤哆沙咩', meaningZh: '心中心、真实心陀罗尼（我将宣说 avartayiṣyāmi）', meaningEn: 'heart essence' },
+        ],
+      },
+      {
+        id: 'nilakantha-3',
+        index: 3,
+        iast: 'sarvārthasādhanaṃ śubham ajeyaṃ sarvabhūtānāṃ bhavamārgaviśodhakaṃ | tadyathā | oṃ ālokaprabhā lokātikrānta |',
+        classicalTranslitZh:
+          '萨婆阿他豆输朋（十四）阿逝孕（十五）萨婆萨哆那摩婆萨哆那摩婆伽（十六）摩罚特豆（十七）怛侄他（十八）唵阿婆卢醯（十九）卢迦帝（二十）迦罗帝（二十一）',
+        modernPhoneticZh:
+          '萨尔瓦尔他-萨达囊 舒旁 阿杰央 萨尔瓦-菩达囊 帕瓦-玛尔嘎-维硕达刚 | 达地呀他 | 嗡 阿洛嘎-普啦帕 洛嘎-帝克啦达',
+        meaningZh:
+          '能成就一切义利、纯善吉祥、无能胜伏，能彻底清净一切众生之生死轮回道！即说咒曰：嗡！光明遍照尊、超越世间者！',
+        meaningEn:
+          'Accomplishing all aims, auspicious, invincible, purifying the path of existence for all beings! Namely: Oṃ! Effulgent Light, Transcender of the World!',
+        tangNoteZh: '唐·不空夹注：第十八句「怛侄他」为正入心咒，「阿婆卢醯卢迦帝」为大梵天王与帝释诸天侍从观音放光济世。',
+        words: [
+          { iast: 'sarvārthasādhanaṃ', stem: 'sarva-artha-sādhana', grammar: 'Acc.Sg.', transliterationZh: '萨婆阿他豆', meaningZh: '成就一切所求义利', meaningEn: 'accomplishing all aims' },
+          { iast: 'śubham', stem: 'śubha', grammar: 'Acc.Sg.', transliterationZh: '输朋', meaningZh: '清净微妙吉祥', meaningEn: 'auspicious, pure' },
+          { iast: 'ajeyaṃ', stem: 'a-jeya', grammar: 'Acc.Sg.', transliterationZh: '阿逝孕', meaningZh: '无比、无能胜者', meaningEn: 'invincible, unconquerable' },
+          { iast: 'bhavamārgaviśodhakaṃ', stem: 'bhava-mārga-viśodhaka', grammar: 'Acc.Sg.', transliterationZh: '摩婆伽摩罚特豆', meaningZh: '清净三有生死轮回之道', meaningEn: 'purifier of the path of samsaric existence' },
+          { iast: 'tadyathā', stem: 'tad-yathā', grammar: 'Ind.', transliterationZh: '怛侄他', meaningZh: '所谓、即说咒曰', meaningEn: 'namely, thus' },
+          { iast: 'ālokaprabhā', stem: 'āloka-prabhā', grammar: 'Voc.Sg.', transliterationZh: '阿婆卢醯', meaningZh: '智慧光明遍照者', meaningEn: 'O Effulgent Wisdom Light' },
+          { iast: 'lokātikrānta', stem: 'loka-atikrānta', grammar: 'Voc.Sg.', transliterationZh: '卢迦帝迦罗帝', meaningZh: '超越世间三界者', meaningEn: 'O Transcender of the World' },
+        ],
+      },
+      {
+        id: 'nilakantha-4',
+        index: 4,
+        iast: 'ehi hare mahābodhisattva sarpa sarpa smara smara mama hṛdayaṃ | kuru kuru karma | dhuru dhuru vijayate mahāvijayate |',
+        classicalTranslitZh:
+          '夷醯唎（二十二）摩诃菩提萨埵（二十三）萨婆萨婆（二十四）摩啰摩啰（二十五）摩醯摩醯唎驮孕（二十六）俱卢俱卢羯蒙（二十七）度卢度卢罚阇耶帝（二十八）摩诃罚阇耶帝（二十九）',
+        modernPhoneticZh:
+          '诶嘿 哈咧 玛哈-博地萨特瓦 萨尔帕 萨尔帕 斯玛啦 斯玛啦 玛玛 赫里达央 | 古鲁 古鲁 嘎尔玛 | 杜鲁 杜鲁 维佳呀帝 玛哈-维佳呀帝',
+        meaningZh:
+          '善来，狮子王大菩萨！速疾降临、忆念我之本心！成就一切圣业！任持、任持最胜尊、大最胜尊！',
+        meaningEn:
+          'Come, O Lion (Hari), Great Bodhisattva! Glide forth, remember my heart-essence! Perform the sacred action! Uphold the Victorious One, the Greatly Victorious One!',
+        tangNoteZh: '唐·不空夹注：第二十二句「夷醯唎」为三十三天魔醯首罗天主领天兵护持，「俱卢俱卢羯蒙」为空身菩萨，「度卢度卢」为严峻菩萨。',
+        words: [
+          { iast: 'ehi', stem: 'ā-√i', grammar: 'Impv.2.Sg. (命令式)', transliterationZh: '夷醯', meaningZh: '善来、请降临', meaningEn: 'come hither' },
+          { iast: 'hare', stem: 'hari', grammar: 'Voc.Sg.', transliterationZh: '唎', meaningZh: '狮子王尊、金色尊（观音异名）', meaningEn: 'O Hari (Lion / Golden Lord)' },
+          { iast: 'mahābodhisattva', stem: 'mahā-bodhisattva', grammar: 'Voc.Sg.', transliterationZh: '摩诃菩提萨埵', meaningZh: '大菩萨！', meaningEn: 'O Great Bodhisattva!' },
+          { iast: 'smara', stem: '√smṛ', grammar: 'Impv.2.Sg.', transliterationZh: '摩啰', meaningZh: '请忆念、勿忘失', meaningEn: 'remember, bear in mind' },
+          { iast: 'hṛdayaṃ', stem: 'hṛdaya', grammar: 'Acc.Sg.', transliterationZh: '醯唎驮孕', meaningZh: '本誓心要', meaningEn: 'the heart-mantra' },
+          { iast: 'kuru karma', stem: '√kṛ + karman', grammar: 'Impv.2.Sg. + Acc.Sg.', transliterationZh: '俱卢俱卢羯蒙', meaningZh: '成办一切秘密事业', meaningEn: 'accomplish the sacred work' },
+          { iast: 'vijayate mahāvijayate', stem: 'vijayat / mahāvijayat', grammar: 'Dat./Voc.', transliterationZh: '罚阇耶帝摩诃罚阇耶帝', meaningZh: '胜伏尊、大胜伏尊', meaningEn: 'O Victorious and Greatly Victorious One' },
+        ],
+      },
+      {
+        id: 'nilakantha-5',
+        index: 5,
+        iast: 'dhara dhara dharaṇīrāja | cala cala mama vimalamūrte re | ehy ehi kṛṣṇasarpavīta-yajñopavīta | viṣa viṣaṃ praṇāśaya |',
+        classicalTranslitZh:
+          '陀啰陀啰（三十）地唎尼（三十一）室佛啰耶（三十二）遮啰遮啰（三十三）摩摩罚摩啰（三十四）穆帝隶（三十五）伊醯伊醯（三十六）室那室那（三十七）阿啰嘇佛啰舍利（三十八）罚沙罚嘇（三十九）佛啰舍耶（四十）',
+        modernPhoneticZh:
+          '达啦 达啦 达啦尼-啦佳 | 佳啦 佳啦 玛玛 维玛啦-穆尔帝 咧 | 诶嘿 诶嘿 克里什拿-萨尔帕-维达 呀佳诺帕维达 | 维沙 维尚 普啦拿沙呀',
+        meaningZh:
+          '受持、受持，总持自在王！行动、行动，令我显发无垢清净法身！善来善来，以黑蛇缠身作梵线者，请彻底摧灭一切贪瞋痴毒害！',
+        meaningEn:
+          'Hold fast, O Sovereign of Dhāraṇīs! Move forth, O Spotless Form of mine! Come, come, O One wearing the black serpent as sacred thread, destroy all poison!',
+        tangNoteZh: '唐·不空夹注：第三十至四十句为观音大丈夫身、狮子王兵、霹雳菩萨、摧碎菩萨把金轮降伏三毒魔障。',
+        words: [
+          { iast: 'dhara', stem: '√dhṛ', grammar: 'Impv.2.Sg.', transliterationZh: '陀啰', meaningZh: '执持、护持', meaningEn: 'hold, sustain' },
+          { iast: 'dharaṇīrāja', stem: 'dharaṇī-rāja', grammar: 'Voc.Sg.', transliterationZh: '地唎尼室佛啰耶', meaningZh: '大地自在王 / 总持之王', meaningEn: 'O King of the Earth / Lord of Dhāraṇīs' },
+          { iast: 'cala', stem: '√cal', grammar: 'Impv.2.Sg.', transliterationZh: '遮啰', meaningZh: '震动、起行', meaningEn: 'move, stir into action' },
+          { iast: 'vimalamūrte', stem: 'vimala-mūrti', grammar: 'Voc.Sg.', transliterationZh: '罚摩啰穆帝隶', meaningZh: '无垢清净解脱身者', meaningEn: 'O One of Stainless Embodiment' },
+          { iast: 'ehi ehi', stem: 'ā-√i', grammar: 'Impv.2.Sg.', transliterationZh: '伊醯伊醯', meaningZh: '速来、速来', meaningEn: 'come, come' },
+          { iast: 'viṣa viṣaṃ praṇāśaya', stem: 'viṣa + pra-√naś', grammar: 'Caus.Impv.2.Sg.', transliterationZh: '罚沙罚嘇佛啰舍耶', meaningZh: '彻底消灭一切内外毒害', meaningEn: 'utterly destroy all poison' },
+        ],
+      },
+      {
+        id: 'nilakantha-6',
+        index: 6,
+        iast: 'hulu hulu malla | hulu hulu hare | sara sara siri siri suru suru | bodhiya bodhiya bodhaya bodhaya |',
+        classicalTranslitZh:
+          '呼嚧呼嚧摩啰（四十一）呼嚧呼嚧醯利（四十二）娑啰娑啰（四十三）悉唎悉唎（四十四）苏嚧苏嚧（四十五）菩提夜菩提夜（四十六）菩驮夜菩驮夜（四十七）',
+        modernPhoneticZh:
+          '呼卢 呼卢 玛啦 | 呼卢 呼卢 哈咧 | 萨啦 萨啦 悉里 悉里 苏鲁 苏鲁 | 博地呀 博地呀 博达呀 博达呀',
+        meaningZh:
+          '速疾作法，大勇力士！速疾作法，金色狮子尊！流注甘露、吉祥流注、妙音流注！愿速觉悟、愿令一切众生究竟觉悟！',
+        meaningEn:
+          'Hasten, O Mighty Hero! Hasten, O Lion Lord! Flow forth in grace and nectar! Awaken, awaken! Cause all beings to awaken to enlightenment!',
+        tangNoteZh: '唐·不空夹注：第四十一至四十七句为八部鬼神王护持、甘露遍洒五浊恶世、观音菩萨结缘度化众生。',
+        words: [
+          { iast: 'hulu hulu', stem: 'hulu (BHS)', grammar: 'Impv.Interj.', transliterationZh: '呼嚧呼嚧', meaningZh: '速疾成就、急急护持', meaningEn: 'act swiftly, hasten' },
+          { iast: 'malla', stem: 'malla', grammar: 'Voc.Sg.', transliterationZh: '摩啰', meaningZh: '大勇力士、降魔无畏者', meaningEn: 'O Mighty Hero / Wrestler' },
+          { iast: 'sara siri suru', stem: '√sṛ / śrī / su-ru', grammar: 'Impv.Onom.', transliterationZh: '娑啰悉唎苏嚧', meaningZh: '甘露遍流、吉祥现前、善妙出生', meaningEn: 'flow forth with grace and auspiciousness' },
+          { iast: 'bodhiya', stem: '√budh', grammar: 'Pass./Intrans.Impv.', transliterationZh: '菩提夜', meaningZh: '自觉觉悟', meaningEn: 'awaken!' },
+          { iast: 'bodhaya', stem: '√budh (Caus.)', grammar: 'Caus.Impv.2.Sg.', transliterationZh: '菩驮夜', meaningZh: '令他觉悟、开示正觉', meaningEn: 'enlighten others!' },
+        ],
+      },
+      {
+        id: 'nilakantha-7',
+        index: 7,
+        iast: 'maitriya nīlakaṇṭha darśanena prahlādaya manaḥ svāhā | siddhāya svāhā | mahāsiddhāya svāhā | siddhayogeśvarāya svāhā |',
+        classicalTranslitZh:
+          '弥帝唎夜（四十八）那啰谨墀（四十九）地利瑟尼那（五十）波夜摩那（五十一）娑婆诃（五十二）悉陀夜（五十三）娑婆诃（五十四）摩诃悉陀夜（五十五）娑婆诃（五十六）悉陀喻艺（五十七）室皤啰耶（五十八）娑婆诃（五十九）',
+        modernPhoneticZh:
+          '麦特里呀 尼啦干他 达尔沙内拿 普啦赫啦达呀 玛拿赫 斯瓦哈 | 悉达呀 斯瓦哈 | 玛哈-悉达呀 斯瓦哈 | 悉达-优给湿瓦啦呀 斯瓦哈',
+        meaningZh:
+          '慈氏慈心青颈尊！愿以尊容妙见令我心生大欢喜，圆满成就！礼敬成就者，圆满成就！礼敬大成就者，圆满成就！礼敬成就瑜伽自在王，圆满成就！',
+        meaningEn:
+          'O Benevolent Nīlakaṇṭha, gladden our minds by Your sacred vision, Svāhā! To the Accomplished One, Svāhā! To the Great Siddha, Svāhā! To the Lord of Siddha-Yoga, Svāhā!',
+        tangNoteZh: '唐·不空夹注：第四十八至五十九句进入十一「娑婆诃（去声）」成就赞叹门，达一切悉地瑜伽法门。',
+        words: [
+          { iast: 'maitriya', stem: 'maitrīya', grammar: 'Voc.Sg.', transliterationZh: '弥帝唎夜', meaningZh: '具大慈心者', meaningEn: 'O Loving and Benevolent One' },
+          { iast: 'darśanena', stem: 'darśana', grammar: 'Inst.Sg. (具格单数)', transliterationZh: '地利瑟尼那', meaningZh: '借由亲见尊颜 / 智慧观察', meaningEn: 'by the sacred vision / sight' },
+          { iast: 'prahlādaya manaḥ', stem: 'pra-√hlād + manas', grammar: 'Caus.Impv. + Acc.', transliterationZh: '波夜摩那', meaningZh: '令心清凉喜悦', meaningEn: 'gladden and refresh the mind' },
+          { iast: 'svāhā', stem: 'svāhā', grammar: 'Ind.Sacred', transliterationZh: '娑婆诃', meaningZh: '吉祥圆满、善说成就', meaningEn: 'hail! may blessing and accomplishment be!' },
+          { iast: 'siddhāya / mahāsiddhāya', stem: 'siddha / mahāsiddha', grammar: 'Dat.Sg.', transliterationZh: '悉陀夜 / 摩诃悉陀夜', meaningZh: '向成就尊、向大成就尊', meaningEn: 'to the Siddha, to the Great Siddha' },
+          { iast: 'siddhayogeśvarāya', stem: 'siddha-yoga-īśvara', grammar: 'Dat.Sg.', transliterationZh: '悉陀喻艺室皤啰耶', meaningZh: '向成就瑜伽自在尊', meaningEn: 'to the Sovereign Lord of Siddha-Yoga' },
+        ],
+      },
+      {
+        id: 'nilakantha-8',
+        index: 8,
+        iast: 'nīlakaṇṭhāya svāhā | varāhamukhāya svāhā | narasiṃhamukhāya svāhā | padmahastāya svāhā | cakrayudhāya svāhā | śaṅkhaśabdanibodhanāya svāhā |',
+        classicalTranslitZh:
+          '那啰谨墀（六十）娑婆诃（六十一）摩啰那啰（六十二）娑婆诃（六十三）悉啰僧阿穆佉耶（六十四）娑婆诃（六十五）娑婆摩诃阿悉陀夜（六十六）娑婆诃（六十七）者吉啰阿悉陀夜（六十八）娑婆诃（六十九）波陀摩羯悉哆夜（七十）娑婆诃（七十一）',
+        modernPhoneticZh:
+          '尼啦干他呀 斯瓦哈 | 瓦啦哈-穆卡呀 斯瓦哈 | 拿啦辛哈-穆卡呀 斯瓦哈 | 帕德玛-哈斯达呀 斯瓦哈 | 佳克啦-尤达呀 斯瓦哈 | 商卡-沙布达-尼博达拿呀 斯瓦哈',
+        meaningZh:
+          '向青颈尊，娑婆诃！向金猪面化身尊，娑婆诃！向人狮面化身尊，娑婆诃！向大受持成就尊，娑婆诃！向持法轮仗尊，娑婆诃！向执红莲华手尊，娑婆诃！',
+        meaningEn:
+          'To Nīlakaṇṭha, Svāhā! To the Boar-Faced Manifestation, Svāhā! To the Man-Lion-Faced Manifestation, Svāhā! To the Lotus-Handed One, Svāhā! To the Wheel-Wielding One, Svāhā!',
+        tangNoteZh: '唐·不空夹注：第六十至七十一句为山海慧菩萨、宝印王菩萨、药王菩萨、药上菩萨等执持金剑、法轮、红莲行疗诸病。',
+        words: [
+          { iast: 'nīlakaṇṭhāya', stem: 'nīlakaṇṭha', grammar: 'Dat.Sg.', transliterationZh: '那啰谨墀', meaningZh: '向青颈观音尊', meaningEn: 'to Nīlakaṇṭha' },
+          { iast: 'narasiṃhamukhāya', stem: 'nara-siṃha-mukha', grammar: 'Dat.Sg.', transliterationZh: '悉啰僧阿穆佉耶', meaningZh: '向狮子面相无畏化身尊', meaningEn: 'to the Lion-Faced One' },
+          { iast: 'cakrayudhāya', stem: 'cakra-āyudha / hasta', grammar: 'Dat.Sg.', transliterationZh: '者吉啰阿悉陀夜', meaningZh: '向手持金轮破障尊', meaningEn: 'to the Holder of the Dharma-Wheel' },
+          { iast: 'padmahastāya', stem: 'padma-hasta', grammar: 'Dat.Sg.', transliterationZh: '波陀摩羯悉哆夜', meaningZh: '向手持清净红莲华尊', meaningEn: 'to the Lotus-in-Hand One' },
+        ],
+      },
+      {
+        id: 'nilakantha-9',
+        index: 9,
+        iast: 'nīlakaṇṭhavyāghrāya svāhā | mahābaliśaṅkarāya svāhā | namo ratnatrayāya | namo āryāvalokiteśvarāya svāhā | oṃ siddhyantu mantrapadāya svāhā ||',
+        classicalTranslitZh:
+          '那啰谨墀皤伽啰耶（七十二）娑婆诃（七十三）摩婆利胜羯啰夜（七十四）娑婆诃（七十五）南无喝啰怛那哆啰夜耶（七十六）南无阿唎耶（七十七）婆嚧吉帝（七十八）烁皤啰夜（七十九）娑婆诃（八十）唵悉殿都（八十一）漫多啰（八十二）跋陀耶（八十三）娑婆诃（八十四）',
+        modernPhoneticZh:
+          '尼啦干他-维呀格啦呀 斯瓦哈 | 玛哈-巴利-商嘎啦呀 斯瓦哈 | 拿摩 啦特拿-特啦呀呀 | 拿摩 阿利亚-瓦洛给帝-湿瓦啦呀 斯瓦哈 | 嗡 悉地呀图 曼特啦-帕达呀 斯瓦哈',
+        meaningZh:
+          '向青颈威猛虎威尊，娑婆诃！向大勇力吉祥作善尊，娑婆诃！归命三宝！归命圣观自在尊，娑婆诃！嗡！愿此真言章句一切所求悉皆圆满成就，娑婆诃！',
+        meaningEn:
+          'To Fierce Nīlakaṇṭha, Svāhā! To the Mighty Beneficent Śaṅkara, Svāhā! Homage to the Three Jewels! Homage to Noble Avalokiteśvara, Svāhā! Oṃ, may the mantra-words be fully accomplished, Svāhā!',
+        tangNoteZh: '唐·不空夹注：第七十六至八十四句重申三宝与观音归敬，并以「悉殿都漫多啰跋陀耶娑婆诃」总结一切真言章句决定成就。',
+        words: [
+          { iast: 'mahābaliśaṅkarāya', stem: 'mahā-balin-śaṅkara', grammar: 'Dat.Sg.', transliterationZh: '摩婆利胜羯啰夜', meaningZh: '向大威神力作吉祥尊', meaningEn: 'to the Mighty Beneficent One' },
+          { iast: 'siddhyantu', stem: '√sidh', grammar: 'Impv.3.Pl. (第三人称复数祈愿式)', transliterationZh: '悉殿都', meaningZh: '愿其悉皆成就！', meaningEn: 'may they be accomplished!' },
+          { iast: 'mantrapadāya', stem: 'mantra-pada', grammar: 'Dat.Sg. / Nom.Pl. (-āni)', transliterationZh: '漫多啰跋陀耶', meaningZh: '真言章句、陀罗尼法句', meaningEn: 'the mantra-syllables and phrases' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'usnisavijaya-dharani',
+    titleZh: '佛顶尊胜陀罗尼（唐·不空译 470字悉昙梵汉逐字对音注义全本）',
+    titleSanskritIast: 'Sarvadurgatipariśodhana-uṣṇīṣavijaya-dhāraṇī',
+    titleEnglish: 'Uṣṇīṣavijaya Dhāraṇī (Purifier of All Evil Destinies)',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T19n0967 / T19n0974B / T19n0974E',
+    translatorZh: '唐·罽宾沙门佛陀波利 译 / 唐·不空三藏 译悉昙对音注义本',
+    sutraSourceZh: '《佛顶尊胜陀罗尼经》(T19n0967) 暨《佛顶尊胜陀罗尼注义》(T19n0974B)',
+    deityZh: '尊胜佛顶如来 / 佛顶尊胜佛母 (Uṣṇīṣavijayā)',
+    meritsAndSummaryZh:
+      '唐密与汉传最具代表性的净除一切恶道、增寿吉祥大陀罗尼，历代经幢（尊胜陀罗尼石幢）遍布天下。本词条直接接入从 CBETA 官方库下载之《T19n0974B》全部 470 个悉昙梵字与汉字逐字对音字元、唐代原典「二合」「引」「上/去」声调注音，以及《T19n0974E》所附《学念梵音法》。',
+    recitationTipsZh:
+      '依据《T19n0974E·学念梵音法》原典训示：「夫诵陀罗尼，务存梵音。所有口边字者（如㗚、㘑、㘕），皆须弹舌而言之。侧注引者，长引其声（即梵文重长音 Guru）；所注二合者，两字相和，一时急呼（即梵文复辅音结合字）。」',
+    provenance: {
+      sourceType: 'CBETA+GRETIL',
+      cbetaId: 'T19n0974B',
+      cbetaRawXmlUrl: cbetaT19n0974B?.cbetaRawUrl || 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T19/T19n0974B.xml',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n0974B',
+      editionCitation:
+        'CBETA XML-P5 T19n0974B《佛顶尊胜陀罗尼》(唐·不空译，含 470 个 #SD-* 悉昙梵字对音与唐代原典逐句释义夹注) & T19n0974E《加字具足本暨学念梵音法》；参校日本法隆寺藏梵文贝叶经写本。',
+      manuscriptNotesZh:
+        '已从 github.com/cbeta-org/xml-p5 下载 T19n0974B.xml、T19n0974E.xml 与 T19n0967.xml，完整提取 470 个悉昙梵字-汉字-唐代注音-唐代意译四维对音单元。',
+      rawSnippet: cbetaT19n0974B?.dharaniParagraphs.map((p) => p.text).join('\n'),
+      cbetaInterlinearTokens: cbetaT19n0974B?.interlinearTokens || [],
+    },
+    verses: [
+      {
+        id: 'usnisa-1',
+        index: 1,
+        iast: 'namo bhagavate trailokyaprativiśiṣṭāya buddhāya bhagavate | tadyathā | oṃ viśodhaya viśodhaya asama-sama samantāvabhāsa-spharaṇa-gati-gahana-svabhāva-viśuddhe |',
+        classicalTranslitZh:
+          '曩谟(引)婆誐缚帝(归命世尊) 怛్రై(二合引)路枳也(二合·三界)钵罗(二合)底尾始瑟吒(二合引)野(最殊胜) 没驮野(大觉)婆誐缚帝(世尊) 怛儞也(二合)他(所谓) 唵 尾戍(引)驮野(净除)尾戍驮野 娑么娑么 三满多缚婆(去)娑 萨叵(二合)啰拏 揭底誐诃曩 娑嚩(二合)婆(去)嚩尾戍提',
+        modernPhoneticZh:
+          '拿摩 帕嘎瓦帝 特来洛ki呀-普啦帝-维希什达呀 布达呀 帕嘎瓦帝 | 达地呀他 | 嗡 维硕达呀 维硕达呀 阿萨玛-萨玛 萨曼达-瓦帕萨-斯帕啦拿-嘎帝-嘎哈拿-斯瓦帕瓦-维舒dei',
+        meaningZh:
+          '归命世尊、三界中最极殊胜之大觉世尊！即说咒曰：嗡！请净除、净除！无等伦且普遍平等、周遍照耀舒展于六道稠林而自性清净无染者！',
+        meaningEn:
+          'Homage to the Blessed One, the Awakened One supreme throughout the three worlds! Namely: Oṃ! Purify, purify! O One of pure intrinsic nature pervading the dense paths of existence with unequalled all-illuminating radiance!',
+        tangNoteZh: '唐·不空《T19n0974B》原典夹注：「曩谟婆誐缚帝」归命世尊；「怛్రై路枳也」三世亦云三界；「钵罗底尾始瑟吒野」最殊胜也；「没驮野」大觉。',
+        words: [
+          { iast: 'bhagavate', stem: 'bhagavat', grammar: 'Dat.Sg.', transliterationZh: '婆誐缚帝', meaningZh: '向世尊、薄伽梵', meaningEn: 'to the Blessed Lord' },
+          { iast: 'trailokyaprativiśiṣṭāya', stem: 'trailokya-prativiśiṣṭa', grammar: 'Dat.Sg.', transliterationZh: '怛్రై路枳也钵罗底尾始瑟吒野', meaningZh: '向三界中最极殊胜者', meaningEn: 'to the One pre-eminent in the three worlds' },
+          { iast: 'viśodhaya', stem: 'vi-√śudh', grammar: 'Caus.Impv.2.Sg.', transliterationZh: '尾戍驮野', meaningZh: '请彻底净除（罪障）', meaningEn: 'purify completely!' },
+          { iast: 'asama-sama', stem: 'asama-sama', grammar: 'Voc.Sg.', transliterationZh: '阿娑么娑么', meaningZh: '无等等、与无等者相等', meaningEn: 'unequalled and equal to the unequalled' },
+          { iast: 'svabhāvaviśuddhe', stem: 'svabhāva-viśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '娑嚩婆嚩尾戍提', meaningZh: '自性本净尊！', meaningEn: 'O One Pure in Intrinsic Nature!' },
+        ],
+      },
+      {
+        id: 'usnisa-2',
+        index: 2,
+        iast: 'abhiṣiñcatu māṃ sugatavaravacana amṛtābhiṣekair mahāmantrapadaiḥ | āhara āhara āyuḥsaṃdhāraṇi | śodhaya śodhaya gaganaviśuddhe |',
+        classicalTranslitZh:
+          '阿鼻詵者睹𤚥(牟含反·灌我顶) 素蘖多(善逝)嚩啰嚩左曩(妙言教) 阿蜜栗(二合)多(甘露)鼻晒罽(灌顶) 摩诃曼怛啰(二合)跛代(大真言句) 阿诃啰阿诃啰(摄持) 阿庾散驮啰抳(持寿者) 戍驮野戍驮野 誐誐曩尾戍提(如虚空清净)',
+        modernPhoneticZh:
+          '阿毗新佳图 芒 苏嘎达-瓦啦-瓦佳拿 阿姆里达-毗晒该尔 玛哈-曼特啦-帕代赫 | 阿哈啦 阿哈啦 阿尤赫-桑达啦尼 | 硕达呀 硕达呀 嘎嘎拿-维舒dei',
+        meaningZh:
+          '愿以善逝最胜妙言、不死甘露灌顶及大真言章句为我灌顶！请摄持、摄持，持寿命尊！请清净、清净，犹如虚空般纤尘不染之清净尊！',
+        meaningEn:
+          'Consecrate me with the supreme words of the Sugata, with ambrosial consecrations and great mantra-phrases! Sustain, sustain, O Holder of Life-Span! Purify, purify, O One pure as the sky!',
+        tangNoteZh: '唐·不空《T19n0974B》原典夹注：「阿鼻詵者睹𤚥」灌顶于我；「素蘖多」善逝；「阿蜜栗多」甘露；「誐誐曩尾戍提」虚空清净。',
+        words: [
+          { iast: 'abhiṣiñcatu māṃ', stem: 'abhi-√ṣic + mad', grammar: 'Impv.3.Sg. + Acc.Sg.', transliterationZh: '阿鼻詵者睹𤚥', meaningZh: '愿为我施予灌顶', meaningEn: 'may It consecrate/anoint me' },
+          { iast: 'sugatavaravacana', stem: 'sugata-vara-vacana', grammar: 'Voc./Inst.', transliterationZh: '素蘖多嚩啰嚩左曩', meaningZh: '善逝如来最胜言教', meaningEn: 'supreme speech of the Sugata' },
+          { iast: 'amṛtābhiṣekaiḥ', stem: 'amṛta-abhiṣeka', grammar: 'Inst.Pl.', transliterationZh: '阿蜜栗多鼻晒罽', meaningZh: '以不死甘露法水灌顶', meaningEn: 'with ambrosial consecrations' },
+          { iast: 'āyuḥsaṃdhāraṇi', stem: 'āyus-saṃdhāraṇī', grammar: 'Voc.Sg.Fem.', transliterationZh: '阿庾散驮啰抳', meaningZh: '任持寿命不失尊！', meaningEn: 'O Sustainer of Life-Force!' },
+          { iast: 'gaganaviśuddhe', stem: 'gagana-viśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '誐誐曩尾戍提', meaningZh: '虚空清净尊！', meaningEn: 'O Sky-Pure One!' },
+        ],
+      },
+      {
+        id: 'usnisa-3',
+        index: 3,
+        iast: 'uṣṇīṣavijayaviśuddhe sahasraraśmisaṃcodite | sarvatathāgatāvalokani ṣaṭpāramitāparipūraṇi | sarvatathāgatāhṛdayādhiṣṭhānādhiṣṭhite mahāmudre |',
+        classicalTranslitZh:
+          '坞瑟腻(二合)沙尾惹野尾戍提(佛顶尊胜清净) 娑诃萨啰(二合)啰湿铭(二合)散祖儞帝(千光明警觉) 萨嚩怛他(引)蘖多嚩路迦儞(一切如来所观) 杀播(二合)啰蜜多跛哩布啰抳(六波罗蜜圆满) 萨嚩怛他蘖多纥哩(二合)娜野地瑟姹(二合)曩地瑟耻(二合)帝(一切如来心加持所持) 摩诃母捺哩(二合·大印)',
+        modernPhoneticZh:
+          '乌什尼沙-维佳呀-维舒dei 萨哈斯啦-啦什米-桑久迪帝 | 萨尔瓦-达他嘎达-瓦洛嘎尼 沙特-帕啦米达-帕里布啦尼 | 萨尔瓦-达他嘎达-赫里达呀-地什他拿-地什提帝 玛哈-穆德咧',
+        meaningZh:
+          '佛顶尊胜清净尊、千光明遍照警觉尊！一切如来慈眼瞻视者、圆满六波罗蜜多者！获一切如来心秘密加持所摄持之大印尊！',
+        meaningEn:
+          'O Pure Victorious Uṣṇīṣa, aroused by a thousand rays of light! O One beheld by all Tathāgatas, fulfiller of the Six Perfections! O Great Seal empowered by the heart-blessing of all Tathāgatas!',
+        tangNoteZh: '唐·不空夹注：「坞瑟腻沙尾惹野」佛顶尊胜；「娑诃萨啰啰湿铭」千光明激发；「杀播啰蜜多」六度圆满；「摩诃母捺哩」大契印。',
+        words: [
+          { iast: 'uṣṇīṣavijayaviśuddhe', stem: 'uṣṇīṣa-vijaya-viśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '坞瑟腻沙尾惹野尾戍提', meaningZh: '佛顶尊胜清净母！', meaningEn: 'O Pure Victorious Crown-Protuberance!' },
+          { iast: 'sahasraraśmisaṃcodite', stem: 'sahasra-raśmi-saṃcodita', grammar: 'Voc.Sg.Fem.', transliterationZh: '娑诃萨啰啰湿铭散祖儞帝', meaningZh: '千道光明所劝发警觉者', meaningEn: 'impelled by a thousand rays of light' },
+          { iast: 'ṣaṭpāramitāparipūraṇi', stem: 'ṣaṭ-pāramitā-paripūraṇī', grammar: 'Voc.Sg.Fem.', transliterationZh: '杀播啰蜜多跛哩布啰抳', meaningZh: '令六度波罗蜜圆满者', meaningEn: 'fulfiller of the Six Perfections' },
+          { iast: 'mahāmudre', stem: 'mahā-mudrā', grammar: 'Voc.Sg.Fem.', transliterationZh: '摩诃母捺哩', meaningZh: '大金刚契印尊！', meaningEn: 'O Great Mudrā (Seal)!' },
+        ],
+      },
+      {
+        id: 'usnisa-4',
+        index: 4,
+        iast: 'vajrakāyasaṃhatana-viśuddhe sarvāvaraṇāpāyadurgatipariśuddhe | pratinivartaya āyuḥśuddhe | samayādhiṣṭhite maṇi maṇi mahāmaṇi |',
+        classicalTranslitZh:
+          '嚩日啰(二合)迦野僧贺多曩尾戍提(金刚身钩锁清净) 萨嚩嚩啰拏播野讷蘖底跛哩尾戍提(一切障及恶趣极清净) 钵啰(二合)底儞多野阿庾戍提(令寿命增延清净) 三摩野地瑟耻帝(本誓加持) 摩抳摩抳摩诃摩抳(宝、宝、大摩尼宝)',
+        modernPhoneticZh:
+          '瓦吉啦-嘎呀-桑哈达拿-维舒dei 萨尔瓦-瓦啦拿-帕呀-杜尔嘎帝-帕里舒dei | 普啦帝-尼瓦尔达呀 阿尤赫-舒dei | 萨玛呀-地什提帝 玛尼 玛尼 玛哈-玛尼',
+        meaningZh:
+          '金刚坚固身钩锁清净尊！净除一切业障、三恶道苦趣之极清净尊！请回转延展清净寿命！三昧耶本誓所加持者！摩尼宝、摩尼宝、大摩尼如意宝珠！',
+        meaningEn:
+          'O One pure as an adamantine Vajra-body! Purifier of all karmic obstructions and evil rebirths! Turn back death and purify our life-span! Empowered by the Samaya vow: Jewel, Jewel, Great如意 Jewel!',
+        tangNoteZh: '唐·不空夹注：「嚩日啰迦野」金刚身；「萨嚩嚩啰拏」一切业障消融；「三摩野」本誓不越。',
+        words: [
+          { iast: 'vajrakāyasaṃhatanaviśuddhe', stem: 'vajra-kāya-saṃhatana-viśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '嚩日啰迦野僧贺多曩尾戍提', meaningZh: '金刚身凝结坚固清净尊', meaningEn: 'O One Pure with an Adamantine Compact Body' },
+          { iast: 'sarvāvaraṇāpāyadurgatipariśuddhe', stem: 'sarva-āvaraṇa-apāya-durgati-pariśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨嚩嚩啰拏播野讷蘖底跛哩尾戍提', meaningZh: '净除一切障难与恶趣者', meaningEn: 'purifier of all obscurations and evil destinies' },
+          { iast: 'pratinivartaya', stem: 'prati-ni-√vṛt', grammar: 'Caus.Impv.2.Sg.', transliterationZh: '钵啰底儞多野', meaningZh: '请令回转、恢复增长', meaningEn: 'turn back, restore!' },
+          { iast: 'samayādhiṣṭhite', stem: 'samaya-adhiṣṭhita', grammar: 'Voc.Sg.Fem.', transliterationZh: '三摩野地瑟耻帝', meaningZh: '三昧耶本誓加持尊', meaningEn: 'empowered by the sacred Samaya pledge' },
+        ],
+      },
+      {
+        id: 'usnisa-5',
+        index: 5,
+        iast: 'tathatābhūtakoṭipariśuddhe visphuṭabuddhiśuddhe | jaya jaya vijaya vijaya | smara smara sarvabuddhādhiṣṭhitaśuddhe | vajri vajragarbhe vajraṃ bhavatu mama śarīraṃ sarvasattvānāṃ ca kāyapariśuddhiḥ |',
+        classicalTranslitZh:
+          '怛他多部多俱胝跛哩戍提(真如实际清净) 尾萨普(二合)吒没地戍提(显发觉智清净) 惹野惹野尾惹野尾惹野(胜、胜、最胜、最胜) 萨么(二合)啰萨么啰(忆念) 萨嚩没驮地瑟耻多戍提 嚩日哩(二合)嚩日啰蘖陛(金刚藏) 嚩日𘕕婆嚩睹么么(某甲)舍哩𘕕 萨嚩萨埵难(引)者迦野跛哩尾戍提',
+        modernPhoneticZh:
+          '达他达-菩达-โก帝-帕里舒dei 维斯普达-布地-舒dei | 佳呀 佳呀 维佳呀 维佳呀 | 斯玛啦 斯玛啦 萨尔瓦-布达-地什提达-舒dei | 瓦吉里 瓦吉啦-嘎尔佩 瓦吉朗 帕瓦图 玛玛 沙里朗 萨尔瓦-萨特瓦囊 佳 嘎呀-帕里舒地赫',
+        meaningZh:
+          '真如实际究竟清净尊、洞然开显觉智清净尊！胜哉、最胜哉！请忆念一切诸佛加持之清净！金刚尊、金刚藏尊！愿令我身与一切众生之身悉成金刚坚固、究竟清净！',
+        meaningEn:
+          'O One pure as Suchness and the Reality-Limit, pure in blossoming awakened intelligence! Conquer, triumph! Remember the purity blessed by all Buddhas! O Vajra-Holder, Vajra-Womb, may my body and the bodies of all beings become like a Vajra and utterly pure!',
+        tangNoteZh: '唐·不空夹注：诵至「么么」处可称诵受持者或所祈福者名字，祈愿身心坚固如金刚藏。',
+        words: [
+          { iast: 'tathatābhūtakoṭipariśuddhe', stem: 'tathatā-bhūtakoṭi-pariśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '怛他多部多俱胝跛哩戍提', meaningZh: '真如与实际本际清净尊', meaningEn: 'pure as Suchness and the apex of reality' },
+          { iast: 'visphuṭabuddhiśuddhe', stem: 'visphuṭa-buddhi-śuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '尾萨普吒没地戍提', meaningZh: '豁然开显大觉智清净尊', meaningEn: 'pure in radiantly unfolded enlightenment' },
+          { iast: 'vajragarbhe', stem: 'vajra-garbha', grammar: 'Voc.Sg.Fem.', transliterationZh: '嚩日啰蘖陛', meaningZh: '金刚胎藏尊！', meaningEn: 'O Adamantine Vajra-Matrix!' },
+          { iast: 'vajraṃ bhavatu mama śarīraṃ', stem: 'vajra + √bhū + śarīra', grammar: 'Impv.3.Sg.', transliterationZh: '嚩日𘕕婆嚩睹么么舍哩𘕕', meaningZh: '愿我之身躯化为不坏金刚！', meaningEn: 'may my body become an indestructible Vajra!' },
+        ],
+      },
+      {
+        id: 'usnisa-6',
+        index: 6,
+        iast: 'sarvagatipariśuddhe sarvatathāgatāśvāsayantu māṃ | budhya budhya bodhaya bodhaya samantapariśuddhe sarvatathāgatāhṛdayādhiṣṭhānādhiṣṭhite mahāmudre svāhā ||',
+        classicalTranslitZh:
+          '萨嚩蘖底跛哩戍提(一切趣清净) 萨嚩怛他蘖多室嚩(二合)娑演睹𤚥(一切如来安慰于我) 没地野(二合)没地野(自觉) 冒驮野冒驮野(觉他) 三满多跛哩戍提(普遍清净) 萨嚩怛他蘖多纥哩娜野地瑟姹曩地瑟耻帝 摩诃母捺哩(大印) 娑嚩(二合引)诃(引) ||',
+        modernPhoneticZh:
+          '萨尔瓦-嘎帝-帕里舒dei 萨尔瓦-达他嘎达-什瓦萨呀图 芒 | 布地呀 布地呀 博达呀 博达呀 萨曼达-帕里舒dei 萨尔瓦-达他嘎达-赫里达呀-地什他拿-地什提帝 玛哈-穆德咧 斯瓦哈',
+        meaningZh:
+          '一切六道受生皆得清净尊！愿一切如来安慰护念于我！自觉、自觉，觉他、觉他！周遍法界清净尊、获一切如来心加持所摄持之大印尊，圆满成就，娑婆诃！',
+        meaningEn:
+          'O Purifier of all rebirth destinies, may all Tathāgatas console and reassure me! Awaken, awaken! Enlighten, enlighten! O All-Pervading Pure One, Great Seal empowered by the heart of all Tathāgatas, Svāhā!',
+        tangNoteZh: '唐·不空夹注：末句结归一切如来心秘密加持大印（摩诃母捺哩），另附心真言：「唵 阿密㗚都妒婆鞞 娑婆诃（oṃ amṛtodbhave svāhā）」。',
+        words: [
+          { iast: 'sarvagatipariśuddhe', stem: 'sarva-gati-pariśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨嚩蘖底跛哩戍提', meaningZh: '令一切六道去处皆清净者', meaningEn: 'purifier of all paths of rebirth' },
+          { iast: 'āśvāsayantu', stem: 'ā-√śvas', grammar: 'Caus.Impv.3.Pl.', transliterationZh: '室嚩娑演睹', meaningZh: '愿皆慈悲安慰、授记摄受', meaningEn: 'may They console and inspire confidence' },
+          { iast: 'samantapariśuddhe', stem: 'samanta-pariśuddha', grammar: 'Voc.Sg.Fem.', transliterationZh: '三满多跛哩戍提', meaningZh: '普皆圆满清净尊', meaningEn: 'O Universally Pure One' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'karandamudra-dharani',
+    titleZh: '一切如来心秘密全身舍利宝箧印陀罗尼',
+    titleSanskritIast: 'Sarvatathāgatādhiṣṭhāna-hṛdaya-guhya-dhātu-karaṇḍamudrā-dhāraṇī',
+    titleEnglish: 'Secret Relic-Casket Seal Dhāraṇī of the Heart of All Tathāgatas',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T19n1022A / T19n1022B',
+    translatorZh: '唐·特进试鸿胪卿大兴善寺三藏沙门大广智不空 奉诏译',
+    sutraSourceZh: '《一切如来心秘密全身舍利宝箧印陀罗尼经》(T19n1022A)',
+    deityZh: '十方三世一切如来全身舍利宝塔',
+    meritsAndSummaryZh:
+      '三大咒塔核心陀罗尼之一。经云若书写此经置塔中，即为一切如来金刚藏窣堵波，十方诸佛常来加持。杭州雷峰塔（吴越王钱俶造八万四千铜塔）出土原刻本即为此咒。本词条直接关联下载自 CBETA 官方库之《T19n1022A.xml》原典。',
+    recitationTipsZh:
+      '本咒多次出现 trailokya（三界）、vajra（金刚）、dhātu（法界/舍利）、mudrā（印契）等复合词，持诵时节奏宜庄重沉稳，每遇 svāhā 皆作长音收摄。',
+    provenance: {
+      sourceType: 'CBETA-XML-P5',
+      cbetaId: 'T19n1022A',
+      cbetaRawXmlUrl: cbetaT19n1022A?.cbetaRawUrl || 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T19/T19n1022A.xml',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n1022A',
+      editionCitation:
+        'CBETA XML-P5 T19n1022A《一切如来心秘密全身舍利宝箧印陀罗尼经》(唐·不空三藏译) 暨雷峰塔五代刻经本、日本高山寺悉昙梵本。',
+      manuscriptNotesZh:
+        '已从 github.com/cbeta-org/xml-p5 下载 T19n1022A.xml 原典并提取全部陀罗尼音注段落。',
+      rawSnippet: cbetaT19n1022A?.dharaniParagraphs.map((p) => p.text).join('\n\n'),
+    },
+    verses: [
+      {
+        id: 'karanda-1',
+        index: 1,
+        iast: 'namas tryadhvikānāṃ sarvatathāgatānāṃ | oṃ bhuvibhavanavare vacanavacaṭi | suru suru dhara dhara |',
+        classicalTranslitZh:
+          '那莫悉怛哩野(四合)地尾(二合)迦(引)南(一) 萨婆怛他(引)蘖多(引)喃(二) 唵(三) 部尾婆嚩娜嚩𠼝(四) 嚩者娜嚩뜝(五) 噜噜(六) 驮啰驮啰(七)',
+        modernPhoneticZh:
+          '拿玛斯 特里呀德维嘎囊 萨尔瓦-达他嘎达囊 | 嗡 菩维-帕瓦拿-瓦咧 瓦佳拿-瓦佳帝 | 苏鲁 苏鲁 达啦 达啦',
+        meaningZh:
+          '顶礼过去、现在、未来三世一切诸如来！嗡！周遍三有世间最胜尊、妙音宣演尊！甘露遍流、坚固总持！',
+        meaningEn:
+          'Homage to all Tathāgatas of the three times (past, present, future)! Oṃ! O Supreme One in all realms of existence, Eloquence of Speech! Flow forth, hold fast!',
+        words: [
+          { iast: 'tryadhvikānāṃ', stem: 'tri-adhvika', grammar: 'Gen.Pl. (属格复数)', transliterationZh: '悉怛哩野地尾迦南', meaningZh: '属于三世（过去现在未来）之', meaningEn: 'of the three times' },
+          { iast: 'sarvatathāgatānāṃ', stem: 'sarva-tathāgata', grammar: 'Gen.Pl.', transliterationZh: '萨婆怛他蘖多喃', meaningZh: '一切如来之', meaningEn: 'of all Tathāgatas' },
+          { iast: 'bhuvibhavanavare', stem: 'bhū-vibhavana-vara', grammar: 'Voc.Sg.', transliterationZh: '部尾婆嚩娜嚩𠼝', meaningZh: '世间显发最胜尊', meaningEn: 'O Supreme Manifestation in the World' },
+        ],
+      },
+      {
+        id: 'karanda-2',
+        index: 2,
+        iast: 'sarvatathāgatadhātudhare padmambhave jayavare mudri smara | tathāgatadharmacakrapravartanavajre bodhimaṇḍālaṃkārālaṃkṛte |',
+        classicalTranslitZh:
+          '萨嚩怛他蘖多驮(引)睹驮𠼝(八) 钵娜𤚥(二合)婆吠(九) 惹也嚩𠼝(十) 母捺哩(二合)萨么(二合)啰(十一) 怛他蘖多达磨斫迦啰(二合)钵啰(二合)嚩栗多(二合)娜嚩日𠼝(二合十二) 冒地曼拏(上)楞迦(引)啰(引)楞讫哩(二合)帝(十三)',
+        modernPhoneticZh:
+          '萨尔瓦-达他嘎达-达图-达咧 帕德芒-帕威 佳呀-瓦咧 穆德里 斯玛啦 | 达他嘎达-达尔玛-佳克啦-普啦瓦尔达拿-瓦吉咧 博地-曼达啦-郎嘎啦-郎克里帝',
+        meaningZh:
+          '总持一切如来全身舍利法界藏者、红莲化生尊、最胜契印尊，请忆念！转如来正法轮之金刚尊、以菩提道场严饰而庄严者！',
+        meaningEn:
+          'O Holder of the Relic-Realm of all Tathāgatas, Lotus-Born, Supreme Victory Seal, remember! O Vajra turning the Dharma-Wheel of the Tathāgatas, adorned with the ornaments of the Bodhimaṇḍa!',
+        words: [
+          { iast: 'sarvatathāgatadhātudhare', stem: 'sarva-tathāgata-dhātu-dhara', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨嚩怛他蘖多驮睹驮𠼝', meaningZh: '总持一切如来舍利与法界性者', meaningEn: 'O Holder of the Relics/Realm of all Tathāgatas' },
+          { iast: 'padmambhave', stem: 'padma-bhava', grammar: 'Voc.Sg.Fem.', transliterationZh: '钵娜𤚥婆吠', meaningZh: '清净莲华出生者', meaningEn: 'O Lotus-Born One' },
+          { iast: 'dharmacakrapravartanavajre', stem: 'dharma-cakra-pravartana-vajra', grammar: 'Voc.Sg.Fem.', transliterationZh: '达磨斫迦啰钵啰嚩栗多娜嚩日𠼝', meaningZh: '常转无上法轮之金刚尊', meaningEn: 'O Vajra Turning the Wheel of Dharma' },
+          { iast: 'bodhimaṇḍālaṃkārālaṃkṛte', stem: 'bodhimaṇḍa-alaṃkāra-alaṃkṛta', grammar: 'Voc.Sg.Fem.', transliterationZh: '冒地曼拏楞迦啰楞讫哩帝', meaningZh: '以菩提道场无量功德庄严者', meaningEn: 'adorned with the ornaments of the Seat of Awakening' },
+        ],
+      },
+      {
+        id: 'karanda-3',
+        index: 3,
+        iast: 'sarvatathāgatādhiṣṭhite bodhaya bodhaya bodhi bodhi budhya budhya | saṃbodhani saṃbodhaya | cala cala calantu sarvāvaraṇāni |',
+        classicalTranslitZh:
+          '萨嚩怛他(引)蘖多(引)地瑟耻(二合)帝(十四) 冒驮野冒驮野(十五) 冒地冒地(十六) 没地野(二合)没地野(十七) 参冒驮儞参冒驮野(十八) 者攞者攞(十九) 者懒都(二十) 萨嚩(引)嚩啰拏(引)儞(二十一)',
+        modernPhoneticZh:
+          '萨尔瓦-达他嘎达-地什提帝 博达呀 博达呀 博地 博地 布地呀 布地呀 | 桑博达尼 桑博达呀 | 佳啦 佳啦 佳兰图 萨尔瓦-瓦啦拿尼',
+        meaningZh:
+          '一切如来所加持尊！请开觉、开觉，菩提、菩提，自觉、自觉！圆觉尊、令得圆满正觉！震动、摇动，令一切业障烦恼悉皆动摇崩落！',
+        meaningEn:
+          'Empowered by all Tathāgatas: enlighten, enlighten! Awakening, awakening! Awaken, awaken! O Complete Enlightenment, bring about full awakening! Shake, stir, let all karmic obscurations be shaken off!',
+        words: [
+          { iast: 'sarvatathāgatādhiṣṭhite', stem: 'sarva-tathāgata-adhiṣṭhita', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨嚩怛他蘖多地瑟耻帝', meaningZh: '获一切如来神力加持者', meaningEn: 'empowered by all Tathāgatas' },
+          { iast: 'saṃbodhani saṃbodhaya', stem: 'saṃbodhanī + sam-√budh', grammar: 'Voc.Sg. + Caus.Impv.', transliterationZh: '参冒驮儞参冒驮野', meaningZh: '正遍觉母，请令证得无上正等正觉', meaningEn: 'O Supreme Awakening, cause complete enlightenment' },
+          { iast: 'calantu sarvāvaraṇāni', stem: '√cal + sarva-āvaraṇa', grammar: 'Impv.3.Pl. + Nom.Pl.', transliterationZh: '者懒都萨嚩嚩啰拏儞', meaningZh: '愿一切罪障悉皆摇动销散', meaningEn: 'may all obstructions be shaken and dispelled' },
+        ],
+      },
+      {
+        id: 'karanda-4',
+        index: 4,
+        iast: 'sarvapāpavigate hulu hulu sarvaśokavigate | sarvatathāgatahṛdayavajriṇi saṃbhara saṃbhara | sarvatathāgataguhyadhāraṇīmudre |',
+        classicalTranslitZh:
+          '萨嚩播(引)跛尾蘖帝(二十二) 户噜户噜(二十三) 萨嚩戍迦尾蘖帝(二十四) 萨嚩怛他蘖多纥哩(二合)娜野嚩日哩(二合)抳(二十五) 三婆啰三婆啰(二十六) 萨嚩怛他蘖多虞(上)呬耶(二合)驮啰抳母捺哩(二合二十七)',
+        modernPhoneticZh:
+          '萨尔瓦-帕帕-维嘎帝 呼卢 呼卢 萨尔瓦-硕嘎-维嘎帝 | 萨尔瓦-达他嘎达-赫里达呀-瓦吉里尼 桑帕啦 桑帕啦 | 萨尔瓦-达他嘎达-古嘿呀-达啦尼-穆德咧',
+        meaningZh:
+          '远离一切恶业尊！速疾作法，远离一切忧恼尊！一切如来心金刚母，请积集资粮、摄受护持！一切如来秘密总持契印尊！',
+        meaningEn:
+          'O One free from all evil, hasten! O One free from all sorrow! O Vajra-Holder of the Heart of all Tathāgatas, gather and sustain! O Secret Dhāraṇī-Seal of all Tathāgatas!',
+        words: [
+          { iast: 'sarvapāpavigate', stem: 'sarva-pāpa-vigata', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨嚩播跛尾蘖帝', meaningZh: '永离一切罪障恶业者', meaningEn: 'departed from all sins/evil' },
+          { iast: 'sarvaśokavigate', stem: 'sarva-śoka-vigata', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨嚩戍迦尾蘖帝', meaningZh: '永离一切忧悲苦恼者', meaningEn: 'freed from all grief and sorrow' },
+          { iast: 'saṃbhara', stem: 'sam-√bhṛ', grammar: 'Impv.2.Sg.', transliterationZh: '三婆啰', meaningZh: '圆满积集（福智二资粮）', meaningEn: 'accumulate, bring together' },
+          { iast: 'guhyadhāraṇīmudre', stem: 'guhya-dhāraṇī-mudrā', grammar: 'Voc.Sg.Fem.', transliterationZh: '虞呬耶驮啰抳母捺哩', meaningZh: '秘密总持宝箧印尊！', meaningEn: 'O Secret Dhāraṇī Seal!' },
+        ],
+      },
+      {
+        id: 'karanda-5',
+        index: 5,
+        iast: 'buddhe subuddhe sarvatathāgatādhiṣṭhitadhātugarbhe svāhā | samayādhiṣṭhite svāhā | sarvatathāgatahṛdayadhātumudre svāhā | supratiṣṭhitastūpe tathāgatādhiṣṭhite huru huru hūṃ hūṃ svāhā | oṃ sarvatathāgatoṣṇīṣadhātumudrāṇi sarvatathāgatasadhātuvibhūṣitādhiṣṭhite hūṃ hūṃ svāhā ||',
+        classicalTranslitZh:
+          '没悌苏没悌(二十八) 萨嚩怛他蘖多(引)地瑟耻(二合)多驮睹蘖陛(二十九) 娑嚩(二合)诃(三十) 三摩耶(引)地瑟耻(二合)帝(三十一) 娑嚩(二合)诃(三十二) 萨嚩怛他(引)蘖多纥哩(二合)娜野驮睹母捺哩(二合三十三) 娑嚩(二合)诃(三十四) 苏钵啰(二合)底瑟耻(二合)多萨睹(二合)闭(三十五) 怛他(引)蘖多地瑟耻(二合)帝(三十六) 户噜户噜(三十七) 吽吽(三十八) 娑嚩(二合)诃(三十九) 唵 萨嚩怛他蘖都瑟腻(二合)沙驮睹母捺啰(二合)尼 萨嚩怛他蘖多萨驮睹尾部使多地瑟耻(二合)帝 吽吽 娑嚩(二合)诃(四十)',
+        modernPhoneticZh:
+          '布dei 苏布dei 萨尔瓦-达他嘎达-地什提达-达图-嘎尔佩 斯瓦哈 | 萨玛呀-地什提帝 斯瓦哈 | 萨尔瓦-达他嘎达-赫里达呀-达图-穆德咧 斯瓦哈 | 苏普啦帝什提达-斯图佩 达他嘎达-地什提帝 呼鲁 呼鲁 吽 吽 斯瓦哈 | 嗡 萨尔瓦-达他嘎多什尼沙-达图-穆德啦尼 萨尔瓦-达他嘎达-萨达图-维菩希达-地什提帝 吽 吽 斯瓦哈',
+        meaningZh:
+          '觉者、妙觉者！一切如来加持之舍利法界藏，娑婆诃！本誓加持尊，娑婆诃！一切如来心全身舍利宝印，娑婆诃！善安住宝塔、如来加持尊，速疾成就，吽吽，娑婆诃！嗡！一切如来佛顶舍利宝印、以一切如来法界舍利庄严加持尊，吽吽，圆满成就！',
+        meaningEn:
+          'O Awakened, Well-Awakened One! Relic-Womb empowered by all Tathāgatas, Svāhā! Samaya-empowered, Svāhā! Heart-Relic Seal of all Tathāgatas, Svāhā! Well-established Stūpa blessed by Tathāgatas, Huru Huru Hūṃ Hūṃ Svāhā! Oṃ, Crown-Relic Seals of all Tathāgatas, adorned and blessed with the true relics of all Tathāgatas, Hūṃ Hūṃ Svāhā!',
+        words: [
+          { iast: 'dhātugarbhe', stem: 'dhātu-garbha', grammar: 'Voc.Sg.Fem.', transliterationZh: '驮睹蘖陛', meaningZh: '全身舍利法界胎藏尊', meaningEn: 'O Relic-Realm Matrix' },
+          { iast: 'supratiṣṭhitastūpe', stem: 'su-pratiṣṭhita-stūpa', grammar: 'Voc.Sg.Fem.', transliterationZh: '苏钵啰底瑟耻多萨睹闭', meaningZh: '妙善安立之宝塔（窣堵波）', meaningEn: 'O Well-Established Stūpa' },
+          { iast: 'uṣṇīṣadhātumudrāṇi', stem: 'uṣṇīṣa-dhātu-mudrā', grammar: 'Voc.Pl.Neut.', transliterationZh: '都瑟腻沙驮睹母捺啰尼', meaningZh: '佛顶舍利秘密宝印', meaningEn: 'Crown-Relic Seals' },
+          { iast: 'sadhātuvibhūṣitādhiṣṭhite', stem: 'sa-dhātu-vibhūṣita-adhiṣṭhita', grammar: 'Voc.Sg.Fem.', transliterationZh: '萨驮睹尾部使多地瑟耻帝', meaningZh: '具足真身舍利庄严加持尊', meaningEn: 'adorned and empowered with true relics' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'shurangama-sitatapatra-hrdaya',
+    titleZh: '大佛顶首楞严陀罗尼（五大心咒暨大白伞盖坚甲咒心）',
+    titleSanskritIast: 'Tathāgatoṣṇīṣa-sitātapatrā-aparājitā-mahāpratyaṅgirā-hṛdaya',
+    titleEnglish: 'Śūraṅgama / Uṣṇīṣa-Sitātapatrā Invincible Sovereign Heart Mantra',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T19n0945 / T19n0976',
+    translatorZh: '唐·中天竺沙门般剌蜜帝 译 / 唐·不空 译《大白伞盖陀罗尼经》',
+    sutraSourceZh: '《大佛顶如来密因修证了义诸菩萨万行首楞严经》卷七 (T19n0945) 暨 GRETIL 梵本《Sitātapatrā》(bsu004_u.htm)',
+    deityZh: '释迦牟尼佛顶化佛 / 大白伞盖佛母 (Uṣṇīṣa-Sitātapatrā)',
+    meritsAndSummaryZh:
+      '「咒中之王」首楞严神咒之核心五大心咒与五会末咒心（第419–427句）。佛顶放百宝无畏光明，光中化佛宣说此咒，能破魔障、成就有情道业。本词条直接关联下载自德国哥廷根大学 GRETIL / DSBC 梵文贝叶经原典《bsu004_u.htm (Sitātapatrā)》。',
+    recitationTipsZh:
+      '咒心「tadyathā oṃ anale anale viśade viśade vīra vajradhare bandha bandhani vajrapāṇi phaṭ hūṃ trūṃ phaṭ svāhā」中，phaṭ 尾音 ṭ 为卷舌塞音不爆破，hūṃ trūṃ 为深沉重长音（Guru）。',
+    provenance: {
+      sourceType: 'CBETA+GRETIL',
+      cbetaId: 'T19n0945',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n0945_007',
+      gretilFile: 'bsu004_u.htm',
+      gretilRawUrl: gretilSitatapatra?.gretilRawUrl || 'https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu004_u.htm',
+      editionCitation:
+        'Digital Sanskrit Buddhist Canon (DSBC Sutra No. 4) / GRETIL bsu004_u.htm (Sitātapatrā) & CBETA T19n0945《首楞严经》卷七。',
+      manuscriptNotesZh:
+        '已从 INDOLOGY/GRETIL-mirror 下载 bsu004_u.htm 梵文原典，并与《首楞严经》五大心咒暨咒心完成梵汉对齐。',
+      rawSnippet: gretilSitatapatra?.rawSnippet,
+    },
+    verses: [
+      {
+        id: 'shurangama-1',
+        index: 1,
+        iast: 'chedaṇī akāla-mṛtyu-pari-trāṇa-kārī | śatru-bandhanī | sarva-bhaya-trāsa-vināśanī |',
+        classicalTranslitZh:
+          '叱陀你 阿迦罗密唎柱 般唎怛罗耶儜揭唎 | 萨hatru-般陀你 | 萨婆怖畏毗那舍你（五大心咒枢要）',
+        modernPhoneticZh:
+          '切达尼 阿嘎啦-姆里丢-帕里-特啦拿-嘎里 | 沙特鲁-班达尼 | 萨尔瓦-帕呀-特啦萨-维拿沙尼',
+        meaningZh:
+          '能断除一切恶咒钩召、救护一切非时横死！能系缚降伏一切怨敌魔障！能摧毁一切怖畏惊恐！',
+        meaningEn:
+          'She who severs all dark spells and rescues from untimely death! She who binds all inner and outer foes! She who destroys all fear and terror!',
+        words: [
+          { iast: 'chedaṇī', stem: 'chedana / chedanī', grammar: 'Nom.Sg.Fem.', transliterationZh: '叱陀你', meaningZh: '断除一切恶业邪术者', meaningEn: 'cutter, severer of bonds' },
+          { iast: 'akālamṛtyu', stem: 'a-kāla-mṛtyu', grammar: 'Compound', transliterationZh: '阿迦罗密唎柱', meaningZh: '非时夭折、横死中夭', meaningEn: 'untimely death' },
+          { iast: 'paritrāṇakārī', stem: 'paritrāṇa-kārin', grammar: 'Nom.Sg.Fem.', transliterationZh: '般唎怛罗耶儜揭唎', meaningZh: '普作救护度脱者', meaningEn: 'protector, rescuer' },
+        ],
+      },
+      {
+        id: 'shurangama-2',
+        index: 2,
+        iast: 'tadyathā | oṃ anale anale viśade viśade vīra vajradhare | bandha bandhani vajrapāṇi phaṭ | hūṃ trūṃ phaṭ svāhā ||',
+        classicalTranslitZh:
+          '跢侄他 | 唵 阿那隶 阿那隶 毗舍提 毗舍提 鞞啰跋阇啰陀唎 | 盘陀盘陀你 跋阇啰谤尼泮 | 虎信都嚧瓮泮 莎婆诃 ||',
+        modernPhoneticZh:
+          '达地呀他 | 嗡 阿拿咧 阿拿咧 维沙dei 维沙dei 维啦 瓦吉啦-达咧 | 班达 班达尼 瓦吉啦-帕尼 帕特 | 吽 特隆 帕特 斯瓦哈',
+        meaningZh:
+          '即说咒曰：嗡！智慧猛火尊、智慧猛火尊！最极清净无垢尊、最极清净无垢尊！大勇猛执持金刚者！结界系缚、结缚母！手执金刚杵之金刚手菩萨，摧破魔障（泮）！吽、特隆、泮，圆满成就，娑婆诃！',
+        meaningEn:
+          'Namely: Oṃ! O Blazing Fire of Wisdom, O Pure and Stainless One, Heroic Wielder of the Vajra! Bind, O Binder! Vajra-in-Hand (Vajrapāṇi), Phaṭ! Hūṃ Trūṃ Phaṭ Svāhā!',
+        words: [
+          { iast: 'anale', stem: 'anala', grammar: 'Voc.Sg.', transliterationZh: '阿那隶', meaningZh: '智慧猛火（烧尽无明烦恼）', meaningEn: 'O Sacred Fire of Wisdom' },
+          { iast: 'viśade', stem: 'viśada', grammar: 'Voc.Sg.', transliterationZh: '毗舍提', meaningZh: '皎洁清净、明白无碍', meaningEn: 'O Clear, Spotless One' },
+          { iast: 'vīra vajradhare', stem: 'vīra + vajradhara', grammar: 'Voc.Sg.', transliterationZh: '鞞啰跋阇啰陀唎', meaningZh: '大勇猛执金刚尊', meaningEn: 'O Heroic Vajra-Holder' },
+          { iast: 'bandha bandhani', stem: '√bandh + bandhanī', grammar: 'Impv.2.Sg. + Voc.Sg.', transliterationZh: '盘陀盘陀你', meaningZh: '结界禁缚一切魔怨', meaningEn: 'bind, O Binder of obstacles' },
+          { iast: 'vajrapāṇi phaṭ', stem: 'vajra-pāṇi + phaṭ', grammar: 'Voc.Sg. + Astra-bīja', transliterationZh: '跋阇啰谤尼泮', meaningZh: '金刚手尊，立断烦恼魔军！', meaningEn: 'O Vajrapāṇi, shatter!' },
+          { iast: 'hūṃ trūṃ phaṭ svāhā', stem: 'Bīja-mantra', grammar: 'Sacred Bījas', transliterationZh: '虎信都嚧瓮泮莎婆诃', meaningZh: '大日金轮佛顶种子字（trūṃ）与金刚破障种子字，速疾成就', meaningEn: 'Sacred Crown & Vajra Seed-Syllables, Svāhā' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'amoghapasa-vairocana-mahamudra',
+    titleZh: '不空羂索毗卢遮那佛大灌顶光真言（光明真言 · 23字悉昙原典对音本）',
+    titleSanskritIast: 'Amoghapāśa-vairocana-mahābhiṣeka-prabhāsa-mantra',
+    titleEnglish: 'Mantra of Unfailing Light of Mahāvairocana (Komyo Shingon)',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T19n1002',
+    translatorZh: '唐·大兴善寺三藏沙门大广智不空 奉诏译',
+    sutraSourceZh: '《不空羂索毗卢遮那佛大灌顶光真言》(T19n1002)',
+    deityZh: '毗卢遮那如来（大日如来）暨不空羂索观音',
+    meritsAndSummaryZh:
+      '东密与唐密最尊崇之超度、灭罪、放光加持真言，全文共 23 个悉昙梵字。经云若有众生造十恶五逆四重诸罪，闻此大灌顶光真言二三七遍，或以土沙加持散亡者尸骸墓上，立得光明及身，除诸罪报，莲华化生西方极乐世界。本词条直接接入从 CBETA 官方库下载之《T19n1002.xml》全部 23 个原典悉昙梵字与汉文逐字对音数据！',
+    recitationTipsZh:
+      '全咒 23 个悉昙字由五佛智光与不空成就祈愿构成，末尾 hūṃ phaṭ svāhā 三字分别为菩提心、破无明障、吉祥大涅槃，发音浑厚有力。',
+    provenance: {
+      sourceType: 'CBETA-XML-P5',
+      cbetaId: 'T19n1002',
+      cbetaRawXmlUrl: cbetaT19n1002?.cbetaRawUrl || 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T19/T19n1002.xml',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n1002',
+      editionCitation:
+        'CBETA XML-P5 T19n1002《不空羂索毗卢遮那佛大灌顶光真言》(唐·不空三藏译，含全部 23 个 #SD-* 悉昙梵字与汉文逐字对音)。',
+      manuscriptNotesZh:
+        '已从 github.com/cbeta-org/xml-p5 下载 T19n1002.xml 原典并完整解析 23 个悉昙字对音单元。',
+      rawSnippet: cbetaT19n1002?.dharaniParagraphs.map((p) => p.text).join('\n'),
+      cbetaInterlinearTokens: cbetaT19n1002?.interlinearTokens || [],
+    },
+    verses: [
+      {
+        id: 'komyo-1',
+        index: 1,
+        iast: 'oṃ amogha vairocana mahāmudrā maṇi padma jvāla pravartaya hūṃ ||',
+        classicalTranslitZh:
+          '唵 阿谟伽 尾嚧左曩 摩贺母捺啰(二合) 么抳 钵纳么(二合) 入嚩(二合)攞 钵啰(二合)韈哆野 吽 ||',
+        modernPhoneticZh:
+          '嗡 阿摩嘎 歪洛佳拿 玛哈-穆德啦 玛尼 帕德玛 吉瓦啦 普啦瓦尔达呀 吽',
+        meaningZh:
+          '嗡！真实不空（不空成就佛）、光明遍照（毗卢遮那大日如来）、大金刚法印（阿閦佛）、如意摩尼宝珠（宝生佛）、清净红莲华（阿弥陀佛）！请放无量智慧火焰、转大法轮，吽！',
+        meaningEn:
+          'Oṃ! Unfailing (Amoghasiddhi), Illuminator (Vairocana), Great Seal (Mahāmudrā / Akṣobhya), Wish-Fulfilling Jewel (Ratnasambhava), Lotus (Amitābha): send forth and revolve the blazing light of wisdom, Hūṃ!',
+        tangNoteZh: 'CBETA《T19n1002》23字悉昙原典对音全本，一咒统摄金刚界与胎藏界五方五佛全体大用。',
+        words: [
+          { iast: 'amogha', stem: 'a-mogha', grammar: 'Voc.Sg.', transliterationZh: '阿谟伽', meaningZh: '真实不空（北方不空成就如来成所作智）', meaningEn: 'Unfailing, Infallible' },
+          { iast: 'vairocana', stem: 'vairocana', grammar: 'Voc.Sg.', transliterationZh: '尾嚧左曩', meaningZh: '光明遍照（中央毗卢遮那如来法界体性智）', meaningEn: 'Great Illuminator (Vairocana)' },
+          { iast: 'mahāmudrā', stem: 'mahā-mudrā', grammar: 'Voc.Sg.Fem.', transliterationZh: '摩贺母捺啰', meaningZh: '大金刚印（东方阿閦如来大圆镜智）', meaningEn: 'Great Seal' },
+          { iast: 'maṇi', stem: 'maṇi', grammar: 'Voc.Sg.', transliterationZh: '么抳', meaningZh: '摩尼如意宝珠（南方宝生如来平等性智）', meaningEn: 'Wish-Fulfilling Gem' },
+          { iast: 'padma', stem: 'padma', grammar: 'Voc.Sg.', transliterationZh: '钵纳么', meaningZh: '清净莲华（西方阿弥陀如来妙观察智）', meaningEn: 'Sacred Lotus' },
+          { iast: 'jvāla pravartaya', stem: 'jvālā + pra-√vṛt', grammar: 'Acc. + Caus.Impv.2.Sg.', transliterationZh: '入嚩攞钵啰韈哆野', meaningZh: '转起大光明火焰度脱群生', meaningEn: 'revolve and radiate blazing light' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'vajrasattva-100-syllable',
+    titleZh: '金刚萨埵百字明（一切如来真实摄大教王百字真言）',
+    titleSanskritIast: 'Vajrasattva-śatākṣara-dhāraṇī',
+    titleEnglish: 'Hundred-Syllable Purification Mantra of Vajrasattva',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T18n0865 / T18n0874',
+    translatorZh: '唐·不空三藏 译《金刚顶一切如来真实摄大乘现证大教王经》',
+    sutraSourceZh: '《金刚顶经》暨 GRETIL 梵本《Sarvatathāgatatattvasaṃgraha》(sarvttsu.htm)',
+    deityZh: '金刚萨埵 / 普贤金刚手菩萨 (Vajrasattva)',
+    meritsAndSummaryZh:
+      '密乘忏悔业障、补阙三昧耶戒、净除身口意无始罪垢之最胜总持，共一百个梵文音节（Śatākṣara）。诵持此咒能得一切如来五智灌顶，纵有失念违犯亦蒙金刚萨埵坚固摄持。',
+    recitationTipsZh:
+      '百字明句法整饬对称（dṛḍho me bhava / sutoṣyo me bhava / supoṣyo me bhava / anurakto me bhava），诵时观想心月轮上白色 Hūṃ 字放光净除一切罪障。',
+    provenance: {
+      sourceType: 'CBETA+GRETIL',
+      cbetaId: 'T18n0865',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T18n0865',
+      gretilFile: 'sarvttsu.htm',
+      gretilRawUrl: 'https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/sarvttsu.htm',
+      editionCitation:
+        'GRETIL sarvttsu.htm (Sarvatathāgatatattvasaṃgraha, ed. Isshi Yamada & Kanjin Horiuchi) & CBETA T18n0865《金刚顶经》。',
+      manuscriptNotesZh:
+        '依据梵本《一切如来真实摄经》与藏汉传承梵音校勘百字明标准 100 音节本。',
+    },
+    verses: [
+      {
+        id: 'vajrasattva-1',
+        index: 1,
+        iast: 'oṃ vajrasattva samayam anupālaya | vajrasattvatvenopatiṣṭha | dṛḍho me bhava | sutoṣyo me bhava | supoṣyo me bhava | anurakto me bhava |',
+        classicalTranslitZh:
+          '唵 嚩日啰(二合)萨埵 三摩耶 么努播(引)攞耶 | 嚩日啰萨埵底尾(二合)诺跛底瑟姹(二合) | 你哩(二合)荼(引)弥婆嚩 | 素睹使瑜(二合)弥婆嚩 | 素报使瑜(二合)弥婆嚩 | 阿努啰讫睹(二合)弥婆嚩 |',
+        modernPhoneticZh:
+          '嗡 瓦吉啦-萨特瓦 萨玛央 阿努帕啦呀 | 瓦吉啦-萨特瓦-特威诺-帕帝什他 | 德里陀 美 帕瓦 | 苏多什优 美 帕瓦 | 苏波什优 美 帕瓦 | 阿努啦克多 美 帕瓦',
+        meaningZh:
+          '嗡！金刚萨埵尊，请守护三昧耶本誓！请以金刚萨埵自性亲临安住于我！愿为我作坚固依怙！愿对我深生欢喜！愿令我福慧增长！愿对我慈悲摄受爱念！',
+        meaningEn:
+          'Oṃ! O Vajrasattva, protect the Samaya pledge! Stand close to me in the nature of Vajrasattva! Be firm for me! Be well-pleased with me! Nourish me well! Be lovingly attached to me!',
+        words: [
+          { iast: 'samayam anupālaya', stem: 'samaya + anu-√pāl', grammar: 'Acc.Sg. + Impv.2.Sg.', transliterationZh: '三摩耶么努播攞耶', meaningZh: '守护本誓三昧耶戒', meaningEn: 'guard and maintain the sacred pledge' },
+          { iast: 'vajrasattvatvenopatiṣṭha', stem: 'vajrasattva-tva + upa-√sthā', grammar: 'Inst.Sg. + Impv.2.Sg.', transliterationZh: '嚩日啰萨埵底尾诺跛底瑟姹', meaningZh: '以金刚萨埵体性亲临加持', meaningEn: 'abide near me as Vajrasattva' },
+          { iast: 'dṛḍho me bhava', stem: 'dṛḍha + mad + √bhū', grammar: 'Nom.Sg. + Dat. + Impv.', transliterationZh: '你哩荼弥婆嚩', meaningZh: '愿为我作坚固不坏之体', meaningEn: 'be steadfast for me' },
+          { iast: 'sutoṣyo me bhava', stem: 'su-toṣya', grammar: 'Nom.Sg.', transliterationZh: '素睹使瑜弥婆嚩', meaningZh: '愿于我心生善妙欢喜', meaningEn: 'be well-satisfied with me' },
+          { iast: 'anurakto me bhava', stem: 'anu-rakta', grammar: 'Nom.Sg.', transliterationZh: '阿努啰讫睹弥婆嚩', meaningZh: '愿于我慈悲怜悯不舍', meaningEn: 'be compassionate and devoted to me' },
+        ],
+      },
+      {
+        id: 'vajrasattva-2',
+        index: 2,
+        iast: 'sarvasiddhiṃ me prayaccha | sarvakarmasu ca me cittaṃ śreyaḥ kuru hūṃ | ha ha ha ha hoḥ bhagavan sarvatathāgatavajra mā me muñca | vajrī bhava mahāsamayasattva āḥ ||',
+        classicalTranslitZh:
+          '萨嚩悉地孕(二合)弥钵啰(二合)也瑳 | 萨嚩羯磨素者弥 质多室哩(二合)药俱噜 吽 | 诃诃诃诃斛 婆誐梵 萨嚩怛他蘖多嚩日啰(二合) 么(引)弥闷左 | 嚩日哩(二合)婆嚩 摩诃三摩耶萨埵 阿(引) ||',
+        modernPhoneticZh:
+          '萨尔瓦-悉顶 美 普啦呀佳 | 萨尔瓦-嘎尔玛苏 佳 美 吉当 什咧呀赫 古鲁 吽 | 哈 哈 哈 哈 吼赫 帕嘎万 萨尔瓦-达他嘎达-瓦吉啦 玛 美 穆佳 | 瓦吉里 帕瓦 玛哈-萨玛呀-萨特瓦 阿赫',
+        meaningZh:
+          '请赐予我一切悉地成就！于一切事业中令我心常住殊胜善妙，吽！哈哈哈哈斛（五佛五智欢喜声）！世尊、一切如来金刚尊，切勿舍弃于我！愿令我成就金刚自性，大三昧耶萨埵，阿（本不生际法身种子字）！',
+        meaningEn:
+          'Grant me all spiritual accomplishments (Siddhis)! In all actions make my mind virtuous and supreme, Hūṃ! Ha Ha Ha Ha Hoḥ! O Blessed One, Vajra of all Tathāgatas, do not abandon me! Make me a Vajra-holder, O Great Samaya-Being, Āḥ!',
+        words: [
+          { iast: 'sarvasiddhiṃ me prayaccha', stem: 'sarva-siddhi + pra-√yam', grammar: 'Acc.Sg. + Impv.2.Sg.', transliterationZh: '萨嚩悉地孕弥钵啰也瑳', meaningZh: '赐予我世出世间一切成就', meaningEn: 'bestow all Siddhis upon me' },
+          { iast: 'cittaṃ śreyaḥ kuru', stem: 'citta + śreyas + √kṛ', grammar: 'Acc. + Impv.2.Sg.', transliterationZh: '质多室哩药俱噜', meaningZh: '令我心转成最胜吉祥善妙', meaningEn: 'make my mind supremely auspicious' },
+          { iast: 'ha ha ha ha hoḥ', stem: 'Pañca-jñāna-bīja', grammar: 'Sacred Interj.', transliterationZh: '诃诃诃诃斛', meaningZh: '五方佛五智圆明大欢喜种子音', meaningEn: 'Five Wisdoms joyous exclamation' },
+          { iast: 'mā me muñca', stem: 'mā + √muc', grammar: 'Prohibitive Impv.', transliterationZh: '么弥闷左', meaningZh: '切勿舍离于我！', meaningEn: 'do not forsake/abandon me!' },
+          { iast: 'mahāsamayasattva āḥ', stem: 'mahā-samaya-sattva', grammar: 'Voc.Sg. + Bīja', transliterationZh: '摩诃三摩耶萨埵阿', meaningZh: '大本誓有情尊，融归本初不生空性（Āḥ）', meaningEn: 'O Great Samaya-Being, Āḥ!' },
+        ],
+      },
+    ],
+  },
+];

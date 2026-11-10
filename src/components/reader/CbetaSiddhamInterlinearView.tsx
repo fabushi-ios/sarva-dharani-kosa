@@ -1,102 +1,73 @@
-import React, { useState } from 'react';
-import type { CbetaAuthRecord, CbetaTtAlignment } from '../../types/dharani';
-import { analyzeSanskritLine } from '../../core/prosody';
-import { playSingleSyllable } from '../../services/sanskritAudioEngine';
+import React from 'react';
+import { Sparkles, Volume2 } from 'lucide-react';
+import type { CbetaInterlinearToken } from '../../data/kosa-generated/cbetaAuthRecords';
 
 interface CbetaSiddhamInterlinearViewProps {
-  record: CbetaAuthRecord;
+  cbetaId?: string;
+  titleZh: string;
+  tokens: CbetaInterlinearToken[];
+  onPlaySyllable: (iast: string) => void;
 }
 
 export const CbetaSiddhamInterlinearView: React.FC<CbetaSiddhamInterlinearViewProps> = ({
-  record
+  cbetaId,
+  titleZh,
+  tokens,
+  onPlaySyllable,
 }) => {
-  const [selectedPairIdx, setSelectedPairIdx] = useState<number | null>(null);
-  const [filterText, setFilterText] = useState('');
-
-  const filteredPairs = record.ttAlignments.filter((p) => {
-    if (!filterText.trim()) return true;
-    const q = filterText.trim().toLowerCase();
-    return (
-      p.chineseZi.toLowerCase().includes(q) ||
-      p.iast.toLowerCase().includes(q) ||
-      p.siddhamRef.toLowerCase().includes(q) ||
-      p.yinNotes.join(' ').toLowerCase().includes(q) ||
-      (p.inlineCommentary && p.inlineCommentary.toLowerCase().includes(q))
-    );
-  });
-
-  const handleClickPair = (pair: CbetaTtAlignment, idx: number) => {
-    setSelectedPairIdx(idx);
-    if (pair.iast) {
-      const analyzed = analyzeSanskritLine(pair.iast, { mode: 'smart' });
-      const firstSyl = analyzed.words[0]?.syllables[0];
-      if (firstSyl) {
-        void playSingleSyllable(firstSyl);
-      }
-    }
-  };
-
   return (
-    <section className="sdk-cbeta-tt-panel">
-      <div className="sdk-cbeta-tt-header">
+    <section className="cbeta-interlinear-panel" aria-label="CBETA 悉昙梵汉逐字对音矩阵">
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+          borderBottom: '1px solid var(--border-subtle)',
+          paddingBottom: '0.8rem',
+        }}
+      >
         <div>
-          <h3 className="sdk-cbeta-tt-title">
-            📜 CBETA TEI-P5 原典《{record.title}》({record.xmlId}) 悉昙梵汉逐字对音矩阵
+          <h3 style={{ fontSize: '1.08rem', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <Sparkles size={17} color="var(--accent-vermilion)" />
+            <span>
+              CBETA 权威原典《{cbetaId} · {titleZh}》悉昙梵字与汉文逐字对音矩阵（共 {tokens.length} 字元）
+            </span>
           </h3>
-          <p className="sdk-cbeta-tt-desc">
-            以下 <strong>{record.ttAlignmentsCount}</strong> 组梵汉对音直接提取自 CBETA XML-P5 原典{' '}
-            <code>&lt;cb:tt&gt;</code> 标签，并通过官方 <code>cbeta_sanskrit.json</code> (2,240 字表)
-            将悉昙字码（如 <code>#SD-A5E5</code>）解析为标准 Unicode 悉昙梵字与 IAST 罗马转写。点击任意字卡可试听
-            48kHz 神经 VITS / 136.1Hz 梵音。
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+            直接解析自 <code>cbeta-org/xml-p5</code> 原典中的 <code>&lt;cb:tt&gt;</code> 梵汉对音标签与{' '}
+            <code>cbeta_sanskrit.json</code> 官方悉昙字库（#SD-*），完整保留唐代三藏法师注音（二合、引、转舌）与原典夹注。点击任一字格可发声。
           </p>
-        </div>
-
-        <div className="sdk-cbeta-tt-controls">
-          <input
-            type="text"
-            className="sdk-tt-filter-input"
-            placeholder="筛选汉字、IAST、悉昙码或音注(如 二合/引)..."
-            value={filterText}
-            onChange={(e) => setFilterText(e.target.value)}
-          />
-          <a
-            href={record.rawXmlUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="sdk-link-pill"
-          >
-            🔗 查看 CBETA GitHub 原典 XML
-          </a>
         </div>
       </div>
 
-      {/* 逐字对音网格 */}
-      <div className="sdk-tt-grid">
-        {filteredPairs.map((pair, idx) => {
-          const isSelected = selectedPairIdx === idx;
-          const yinNoteStr = pair.yinNotes.join('·');
-          return (
-            <button
-              key={`${pair.siddhamRef}-${idx}`}
-              type="button"
-              className={`sdk-tt-card ${isSelected ? 'active' : ''}`}
-              onClick={() => handleClickPair(pair, idx)}
-              title={`CBETA 码: ${pair.siddhamRef} | 点击发声`}
-            >
-              <span className="sdk-tt-index">#{pair.index}</span>
-              <span className="sdk-tt-siddham" lang="sa-Sidd">
-                {pair.siddhamUnicode || '𑖀'}
+      <div className="interlinear-tokens-grid">
+        {tokens.map((tok, idx) => (
+          <button
+            key={`${cbetaId}-tt-${idx}`}
+            type="button"
+            className="interlinear-token-card"
+            onClick={() => tok.iast && onPlaySyllable(tok.iast)}
+            title={`CBETA 字码: ${tok.sdRefs.join(', ')} | 点击听取 ${tok.iast || tok.zh} 发音`}
+          >
+            <span className="it-index">#{idx + 1} · {tok.sdRefs[0] || 'SD'}</span>
+            <span className="it-siddham">{tok.siddham || '𑖀'}</span>
+            <span className="it-iast">{tok.iast || '—'}</span>
+            <span className="it-zh">{tok.zh || '（梵符）'}</span>
+            {tok.tangPronunciationNote && (
+              <span className="it-note">唐注：{tok.tangPronunciationNote}</span>
+            )}
+            {tok.tangMeaningGloss && (
+              <span className="it-gloss">{tok.tangMeaningGloss}</span>
+            )}
+            {tok.iast && (
+              <span style={{ fontSize: '0.62rem', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '2px' }}>
+                <Volume2 size={10} /> 发音
               </span>
-              <span className="sdk-tt-iast">{pair.iast || '—'}</span>
-              <span className="sdk-tt-zh">{pair.chineseZi}</span>
-              {yinNoteStr && <span className="sdk-tt-yinnote">{yinNoteStr}</span>}
-              {pair.inlineCommentary && (
-                <span className="sdk-tt-gloss">{pair.inlineCommentary}</span>
-              )}
-              <span className="sdk-tt-sdcode">{pair.siddhamRef}</span>
-            </button>
-          );
-        })}
+            )}
+          </button>
+        ))}
       </div>
     </section>
   );

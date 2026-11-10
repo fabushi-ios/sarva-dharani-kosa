@@ -1,20 +1,34 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { BASELINE_CURATED_DHARANIS } from './data/corpus';
-import { GRETIL_CANON_DHARANIS } from './data/corpus/gretil-canon-adapter';
-import { UNIFIED_12_DATABASES } from './data/unifiedCorpusRegistry';
-import type { DharaniItem } from './types/dharani';
+import React, { useState, useEffect, useMemo } from 'react';
+import type {
+  ActiveWorkspaceTab,
+  DharaniCategoryId,
+  DharaniEntry,
+  ScriptVisibilityConfig,
+} from './types/kosaTypes';
+import { BUILTIN_DHARANI_CORPUS } from './data';
 import {
-  loadFavorites,
-  saveFavorites,
-  loadDisplayLayers,
-  saveDisplayLayers,
+  filterDharanis,
+  type SearchSuggestionItem,
+} from './core/search/searchEngine';
+import {
+  sanskritAudioEngine,
+  type AudioEngineMode,
+  type PlaybackState,
+} from './services/audio/sanskritAudioEngine';
+import {
+  loadBookmarks,
+  saveBookmarks,
   loadCustomDharanis,
   saveCustomDharanis,
-  type DisplayLayerSettings
-} from './services/storageService';
-import { Header, type ActiveViewTab } from './components/layout/Header';
-import { SidebarFilter, type FilterCategory } from './components/layout/SidebarFilter';
+  loadScriptConfig,
+  saveScriptConfig,
+  loadTheme,
+  saveTheme,
+} from './services/storage/storageService';
+import { Header } from './components/layout/Header';
+import { SidebarFilter } from './components/layout/SidebarFilter';
 import { DharaniReader } from './components/reader/DharaniReader';
+import { AudioPlayerBar } from './components/audio/AudioPlayerBar';
 import { TaishoCanonExplorer } from './components/catalog/TaishoCanonExplorer';
 import { SanskritPhoneticsAcademy } from './components/guide/SanskritPhoneticsAcademy';
 import { CustomDharaniCompiler } from './components/extensibility/CustomDharaniCompiler';
@@ -22,200 +36,232 @@ import { FangshanTaishoInterlinearStudio } from './components/FangshanTaishoInte
 import { DatabaseHubExplorer } from './components/DatabaseHubExplorer';
 import { ConcordanceParallelStudio } from './components/ConcordanceParallelStudio';
 import { CudlPalmLeafViewer } from './components/CudlPalmLeafViewer';
-import { AudioPlayerBar } from './components/AudioPlayerBar';
-
-function matchesEntrySearch(entry: DharaniItem, query: string): boolean {
-  const q = query.trim().toLowerCase();
-  if (!q) return true;
-  if (
-    entry.titleZh.toLowerCase().includes(q) ||
-    entry.shortTitleZh.toLowerCase().includes(q) ||
-    entry.titleSanskrit.toLowerCase().includes(q) ||
-    entry.titleDevanagari.toLowerCase().includes(q) ||
-    entry.titleSiddham.toLowerCase().includes(q) ||
-    entry.titleEn.toLowerCase().includes(q) ||
-    entry.deity.toLowerCase().includes(q) ||
-    entry.taishoId.toLowerCase().includes(q) ||
-    entry.translator.toLowerCase().includes(q) ||
-    entry.summaryZh.toLowerCase().includes(q) ||
-    entry.ritualBenefits.toLowerCase().includes(q) ||
-    entry.authoritativeSource.cbetaXmlId.toLowerCase().includes(q)
-  ) {
-    return true;
-  }
-  return entry.verses.some(
-    (v) =>
-      v.iast.toLowerCase().includes(q) ||
-      v.devanagari.toLowerCase().includes(q) ||
-      v.tangChinese.toLowerCase().includes(q) ||
-      v.meaningZh.toLowerCase().includes(q)
-  );
-}
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<ActiveViewTab>('reader');
-  const [customEntries, setCustomEntries] = useState<DharaniItem[]>(() => loadCustomDharanis());
-  const [favorites, setFavorites] = useState<string[]>(() => loadFavorites());
-  const [layers, setLayers] = useState<DisplayLayerSettings>(() => loadDisplayLayers());
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => loadTheme());
+  const [activeTab, setActiveTab] = useState<ActiveWorkspaceTab>('canon-reader');
 
-  const [selectedCategory, setSelectedCategory] = useState<FilterCategory>('all');
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedId, setSelectedId] = useState<string>('usnisavijaya-dharani');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'cbeta-siddham' | 'gretil-sanskrit'>('all');
+  const [onlyBookmarked, setOnlyBookmarked] = useState(false);
 
-  // 合并权威典藏 (28部核心陀罗尼 + 25部哥廷根 GRETIL 梵本) 与用户自定义编译的陀罗尼
+  const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(() => loadBookmarks());
+  const [customEntries, setCustomEntries] = useState<DharaniEntry[]>(() => loadCustomDharanis());
+  const [scriptConfig, setScriptConfig] = useState<ScriptVisibilityConfig>(() => loadScriptConfig());
+  const [selectedTaishoScriptureId, setSelectedTaishoScriptureId] = useState<string | null>(null);
+
   const allEntries = useMemo(
-    () => [...BASELINE_CURATED_DHARANIS, ...GRETIL_CANON_DHARANIS, ...customEntries],
+    () => [...customEntries, ...BUILTIN_DHARANI_CORPUS],
     [customEntries]
   );
 
-  // 计算各分类条目数
-  const countsByCategory = useMemo<Record<FilterCategory, number>>(() => {
-    const counts: Record<FilterCategory, number> = {
-      all: allEntries.length,
-      'major-dharanis': 0,
-      'ten-small-dharanis': 0,
-      'buddhas-bodhisattvas': 0,
-      'gretil-editions': 0,
-      custom: 0
-    };
-    for (const e of allEntries) {
-      if (counts[e.category] !== undefined) {
-        counts[e.category] += 1;
-      }
-      if (favorites.includes(e.id) && e.category !== 'custom') {
-        counts.custom += 1;
-      }
-    }
-    return counts;
-  }, [allEntries, favorites]);
+  const filteredEntries = useMemo(
+    () =>
+      filterDharanis(allEntries, {
+        query: searchQuery,
+        categoryId: selectedCategory,
+        onlyBookmarked,
+        bookmarkedIds,
+        sourceFilter,
+      }),
+    [allEntries, searchQuery, selectedCategory, onlyBookmarked, bookmarkedIds, sourceFilter]
+  );
 
-  // 过滤与多维检索
-  const filteredEntries = useMemo(() => {
-    return allEntries.filter((entry) => {
-      if (selectedCategory === 'custom') {
-        const isFavOrCustom = entry.category === 'custom' || favorites.includes(entry.id);
-        if (!isFavOrCustom) return false;
-      } else if (selectedCategory !== 'all' && entry.category !== selectedCategory) {
-        return false;
+  const [selectedEntryId, setSelectedEntryId] = useState<string>(
+    BUILTIN_DHARANI_CORPUS[0]?.id || ''
+  );
+
+  const activeEntry = useMemo(() => {
+    const foundInAll = allEntries.find((e) => e.id === selectedEntryId);
+    if (foundInAll) return foundInAll;
+    return filteredEntries[0] || allEntries[0];
+  }, [allEntries, filteredEntries, selectedEntryId]);
+
+  const [playbackState, setPlaybackState] = useState<PlaybackState>({
+    isPlaying: false,
+    currentVerseIndex: null,
+    currentSyllableIndex: null,
+    currentSyllableInfo: null,
+    currentSyllableClassicalZh: '',
+    currentSyllableModernZh: '',
+    syllableProgress: 0,
+    verseProgress: 0,
+    rate: 1.0,
+    loopVerse: false,
+    autoScroll: true,
+    mode: 'studio-vocal-chant',
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    saveTheme(theme);
+  }, [theme]);
+
+  useEffect(() => {
+    return sanskritAudioEngine.subscribe(setPlaybackState);
+  }, []);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleScriptConfigChange = (updated: ScriptVisibilityConfig) => {
+    setScriptConfig(updated);
+    saveScriptConfig(updated);
+  };
+
+  const handleToggleBookmark = (id: string) => {
+    setBookmarkedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
       }
-      return matchesEntrySearch(entry, searchQuery);
+      saveBookmarks(next);
+      return next;
     });
-  }, [allEntries, selectedCategory, searchQuery, favorites]);
-
-  const currentEntry = useMemo(() => {
-    return (
-      allEntries.find((e) => e.id === selectedId) ||
-      filteredEntries[0] ||
-      allEntries[0]
-    );
-  }, [allEntries, filteredEntries, selectedId]);
-
-  useEffect(() => {
-    saveFavorites(favorites);
-  }, [favorites]);
-
-  useEffect(() => {
-    saveDisplayLayers(layers);
-  }, [layers]);
-
-  const handleToggleFavorite = (id: string) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
   };
 
-  const handleSaveCustomDharani = (newEntry: DharaniItem) => {
-    const updated = [newEntry, ...customEntries];
-    setCustomEntries(updated);
-    saveCustomDharanis(updated);
+  const handleAddCustomEntry = (entry: DharaniEntry) => {
+    setCustomEntries((prev) => {
+      const next = [entry, ...prev];
+      saveCustomDharanis(next);
+      return next;
+    });
   };
 
-  const handleSelectCompiledEntry = (id: string) => {
-    setSelectedId(id);
-    setActiveTab('reader');
+  const handleDeleteCustomEntry = (id: string) => {
+    setCustomEntries((prev) => {
+      const next = prev.filter((item) => item.id !== id);
+      saveCustomDharanis(next);
+      return next;
+    });
+  };
+
+  const handleSelectEntry = (id: string, matchedVerseId?: string) => {
+    sanskritAudioEngine.stop();
+    setSelectedCategory('all');
+    setSourceFilter('all');
+    setOnlyBookmarked(false);
+    setSelectedEntryId(id);
+    setActiveTab('canon-reader');
+
+    if (matchedVerseId) {
+      setTimeout(() => {
+        const el = document.getElementById(`verse-card-${matchedVerseId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 120);
+    }
+  };
+
+  const handleSelectSuggestion = (item: SearchSuggestionItem) => {
+    if (item.kind === 'taisho-scripture' && item.taishoScriptureId) {
+      sanskritAudioEngine.stop();
+      setSelectedTaishoScriptureId(item.taishoScriptureId);
+      setActiveTab('taisho-explorer');
+      return;
+    }
+    if (item.entry) {
+      handleSelectEntry(item.entry.id, item.matchedVerseId);
+    }
   };
 
   return (
-    <div className="sdk-app">
+    <div className="app-shell">
       <Header
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        allEntries={allEntries}
+        onSelectSuggestion={handleSelectSuggestion}
         activeTab={activeTab}
-        onSelectTab={setActiveTab}
-        totalCount={allEntries.length}
-        favoritesCount={favorites.length}
-        customCount={customEntries.length}
+        onTabChange={setActiveTab}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
-      <main className="sdk-main-container">
-        {activeTab === 'reader' && (
-          <div className="sdk-workspace-layout">
+      <div className="workspace-container">
+        {activeTab === 'canon-reader' && activeEntry && (
+          <div className="canon-reader-grid">
             <SidebarFilter
               entries={filteredEntries}
-              selectedId={currentEntry.id}
-              onSelectEntry={setSelectedId}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
+              totalCorpusCount={allEntries.length}
+              selectedId={activeEntry.id}
+              onSelectEntry={(id) => handleSelectEntry(id)}
               selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              favorites={favorites}
-              onToggleFavorite={handleToggleFavorite}
-              countsByCategory={countsByCategory}
+              onSelectCategory={setSelectedCategory}
+              sourceFilter={sourceFilter}
+              onSourceFilterChange={setSourceFilter}
+              onlyBookmarked={onlyBookmarked}
+              onToggleOnlyBookmarked={() => setOnlyBookmarked((b) => !b)}
+              bookmarkedIds={bookmarkedIds}
             />
+
             <DharaniReader
-              entry={currentEntry}
-              layers={layers}
-              onUpdateLayers={setLayers}
+              entry={activeEntry}
+              scriptConfig={scriptConfig}
+              onScriptConfigChange={handleScriptConfigChange}
+              isBookmarked={bookmarkedIds.has(activeEntry.id)}
+              onToggleBookmark={() => handleToggleBookmark(activeEntry.id)}
+              playbackState={playbackState}
+              onPlayAllVerses={() => sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)}
+              onStopPlayback={() => sanskritAudioEngine.stop()}
+              onPlaySingleVerse={(verseIdx) =>
+                sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
+              }
+              onPlaySingleSyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
             />
           </div>
         )}
 
-        {activeTab === 'taisho-explorer' && <TaishoCanonExplorer />}
+        {activeTab === 'taisho-explorer' && (
+          <TaishoCanonExplorer initialScriptureId={selectedTaishoScriptureId} />
+        )}
 
-        {activeTab === 'phonetics-academy' && <SanskritPhoneticsAcademy />}
+        {activeTab === 'phonetics-academy' && (
+          <SanskritPhoneticsAcademy
+            onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+          />
+        )}
 
         {activeTab === 'custom-compiler' && (
           <CustomDharaniCompiler
             customEntries={customEntries}
-            onSaveCustomDharani={handleSaveCustomDharani}
-            onSelectCompiledEntry={handleSelectCompiledEntry}
+            onAddCustomEntry={handleAddCustomEntry}
+            onDeleteCustomEntry={handleDeleteCustomEntry}
+            onSelectEntryInReader={(id) => handleSelectEntry(id)}
+            onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
           />
         )}
 
         {activeTab === 'interlinear' && <FangshanTaishoInterlinearStudio />}
 
         {activeTab === 'hub' && (
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
             <DatabaseHubExplorer />
-            <div style={{ marginTop: '1.5rem' }}>
-              <ConcordanceParallelStudio />
-            </div>
-            <div style={{ marginTop: '1.5rem' }}>
-              <CudlPalmLeafViewer />
-            </div>
+            <ConcordanceParallelStudio />
+            <CudlPalmLeafViewer />
           </div>
         )}
-      </main>
+      </div>
 
-      <AudioPlayerBar />
-
-      <footer className="sdk-footer">
-        <div className="sdk-footer-inner">
-          <div>
-            <strong>梵音宝典 · Sarva-Dhāraṇī-Kośa</strong> — 汉传与梵传密教陀罗尼多体文字对勘、悉昙声明学与 48kHz 原生梵文神经网络 VITS 声学合成系统
-          </div>
-          <div className="sdk-footer-links">
-            <span>权威数据源：CBETA XML-P5 (T18–T21 密教部 614部)</span>
-            <span>·</span>
-            <span>Göttingen GRETIL 梵文佛典库 (25部写本)</span>
-            <span>·</span>
-            <span>cbeta_sanskrit.json (2,240 悉昙字码映射)</span>
-            <span>·</span>
-            <span>136.1Hz 宇宙音 Om 声学共振引擎</span>
-          </div>
-          <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginTop: '0.35rem' }}>
-            全球12大权威数据库索引：{UNIFIED_12_DATABASES.map((db) => db.id).join(' · ')}
-          </div>
-        </div>
-      </footer>
+      {activeEntry && (
+        <AudioPlayerBar
+          dharaniTitleZh={activeEntry.titleZh}
+          playbackState={playbackState}
+          onPlayAll={() => sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)}
+          onStop={() => sanskritAudioEngine.stop()}
+          onToggleLoop={() => sanskritAudioEngine.setLoopVerse(!playbackState.loopVerse)}
+          onToggleAutoScroll={() =>
+            sanskritAudioEngine.setAutoScroll(!playbackState.autoScroll)
+          }
+          onChangeRate={(r) => sanskritAudioEngine.setRate(r)}
+          onChangeMode={(m: AudioEngineMode) => sanskritAudioEngine.setMode(m)}
+        />
+      )}
     </div>
   );
 };

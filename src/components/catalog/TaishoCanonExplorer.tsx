@@ -1,337 +1,359 @@
-import React, { useState, useMemo } from 'react';
-import { TAISHO_MIKKYO_INDEX } from '../../data/generated/taishoMikkyoIndex';
-import { CBETA_AUTH_RECORDS } from '../../data/generated/cbetaAuthRecords';
-import type { TaishoMikkyoEntry, CbetaTtAlignment } from '../../types/dharani';
-import { analyzeSanskritLine } from '../../core/prosody';
-import { playSingleSyllable } from '../../services/sanskritAudioEngine';
+import React, { useState, useMemo, useEffect } from 'react';
+import {
+  Library,
+  Search,
+  ExternalLink,
+  FileCode,
+  Sparkles,
+  Loader2,
+} from 'lucide-react';
+import {
+  TAISHO_MIKKYO_FILE_INDEX,
+  TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS,
+  type TaishoMikkyoFileEntry,
+} from '../../data/kosa-generated/taishoMikkyoIndex';
+import {
+  fetchAndParseCbetaXmlLive,
+  type LiveParsedCbetaSutra,
+} from '../../services/cbeta/cbetaLiveService';
 
-interface LiveScripturePreview {
-  xmlId: string;
-  vol: string;
-  title: string;
-  translator: string;
-  xmlUrl: string;
-  dharaniParagraphs: string[];
-  ttPairs: CbetaTtAlignment[];
-  rawXmlPreview: string;
-  fetchedFromCache: boolean;
+interface TaishoCanonExplorerProps {
+  initialScriptureId?: string | null;
 }
 
-export const TaishoCanonExplorer: React.FC = () => {
+export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
+  initialScriptureId,
+}) => {
   const [selectedVol, setSelectedVol] = useState<'ALL' | 'T18' | 'T19' | 'T20' | 'T21'>('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [onlyPrebundled, setOnlyPrebundled] = useState(false);
-  const [selectedEntry, setSelectedEntry] = useState<TaishoMikkyoEntry>(
-    TAISHO_MIKKYO_INDEX.find((e) => e.xmlId === 'T19n0974B') || TAISHO_MIKKYO_INDEX[0]
-  );
-  const [liveData, setLiveData] = useState<LiveScripturePreview | null>(() => {
-    const pre = CBETA_AUTH_RECORDS.find((r) => r.xmlId === 'T19n0974B') || CBETA_AUTH_RECORDS[0];
-    if (!pre) return null;
-    return {
-      xmlId: pre.xmlId,
-      vol: pre.vol,
-      title: pre.title,
-      translator: pre.translator,
-      xmlUrl: pre.rawXmlUrl,
-      dharaniParagraphs: pre.dharaniTextBlocks,
-      ttPairs: pre.ttAlignments,
-      rawXmlPreview: pre.rawXmlExcerpt,
-      fetchedFromCache: true
-    };
-  });
-  const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  const prebundledIds = useMemo(
-    () => new Set(CBETA_AUTH_RECORDS.map((r) => r.xmlId)),
-    []
-  );
-
-  const filteredList = useMemo(() => {
-    return TAISHO_MIKKYO_INDEX.filter((item) => {
-      if (selectedVol !== 'ALL' && item.vol !== selectedVol) return false;
-      if (onlyPrebundled && !prebundledIds.has(item.xmlId)) return false;
-      if (searchQuery.trim()) {
-        const q = searchQuery.trim().toLowerCase();
-        return (
-          item.xmlId.toLowerCase().includes(q) ||
-          item.taishoNo.toLowerCase().includes(q) ||
-          item.title.toLowerCase().includes(q) ||
-          item.translator.toLowerCase().includes(q)
-        );
-      }
-      return true;
-    });
-  }, [selectedVol, onlyPrebundled, searchQuery, prebundledIds]);
-
-  const handleSelectScripture = async (item: TaishoMikkyoEntry) => {
-    setSelectedEntry(item);
-    setErrorMsg(null);
-
-    const prebuilt = CBETA_AUTH_RECORDS.find(
-      (r) => r.xmlId === item.xmlId || r.taishoNo === item.taishoNo
+  const [query, setQuery] = useState('');
+  const [selectedFile, setSelectedFile] = useState<TaishoMikkyoFileEntry>(() => {
+    if (initialScriptureId) {
+      const found = TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === initialScriptureId);
+      if (found) return found;
+    }
+    return (
+      TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === 'T19n0974B') ||
+      TAISHO_MIKKYO_FILE_INDEX[0]
     );
-    if (prebuilt) {
-      setLiveData({
-        xmlId: prebuilt.xmlId,
-        vol: prebuilt.vol,
-        title: prebuilt.title,
-        translator: prebuilt.translator,
-        xmlUrl: prebuilt.rawXmlUrl,
-        dharaniParagraphs: prebuilt.dharaniTextBlocks,
-        ttPairs: prebuilt.ttAlignments,
-        rawXmlPreview: prebuilt.rawXmlExcerpt,
-        fetchedFromCache: true
-      });
-      return;
-    }
+  });
+  const [liveSutra, setLiveSutra] = useState<LiveParsedCbetaSutra | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    setLoading(true);
-    try {
-      const resp = await fetch(item.rawXmlUrl);
-      if (!resp.ok) {
-        throw new Error(`HTTP ${resp.status} — 无法从 CBETA GitHub 拉取 ${item.xmlId}.xml`);
+  useEffect(() => {
+    if (initialScriptureId) {
+      const found = TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === initialScriptureId);
+      if (found) {
+        setSelectedFile(found);
       }
-      const xmlText = await resp.text();
-      const dharaniParagraphs: string[] = [];
-      const pRegex = /<p[^>]*cb:type="dharani"[^>]*>([\s\S]*?)<\/p>/g;
-      let m: RegExpExecArray | null;
-      while ((m = pRegex.exec(xmlText)) !== null) {
-        const cleaned = m[1]
-          .replace(/<note[^>]*>([\s\S]*?)<\/note>/g, '（$1）')
-          .replace(/<[^>]+>/g, '')
-          .replace(/\s+/g, ' ')
-          .trim();
-        if (cleaned.length > 2) {
-          dharaniParagraphs.push(cleaned);
-        }
-      }
-      const snippet =
-        xmlText.match(/<p[^>]*cb:type="dharani"[\s\S]{1,1200}/)?.[0] ||
-        xmlText.slice(0, 1200);
-      setLiveData({
-        xmlId: item.xmlId,
-        vol: item.vol,
-        title: item.title,
-        translator: item.translator,
-        xmlUrl: item.rawXmlUrl,
-        dharaniParagraphs,
-        ttPairs: [],
-        rawXmlPreview: snippet.trim(),
-        fetchedFromCache: false
-      });
-    } catch (err) {
-      setErrorMsg(err instanceof Error ? err.message : String(err));
-      setLiveData(null);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [initialScriptureId]);
+
+  const filteredFiles = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return TAISHO_MIKKYO_FILE_INDEX.filter((item) => {
+      if (selectedVol !== 'ALL' && item.vol !== selectedVol) return false;
+      if (!q) return true;
+      const hay = `${item.id} ${item.titleZh} ${item.titleTrad} ${item.translator} ${item.sampleDharanis.join(' ')}`.toLowerCase();
+      return hay.includes(q);
+    });
+  }, [selectedVol, query]);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    fetchAndParseCbetaXmlLive(selectedFile.id, selectedFile.vol, selectedFile.rawXmlUrl)
+      .then((res) => {
+        if (!cancelled) {
+          setLiveSutra(res);
+          setLoading(false);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : '解析 CBETA XML 失败');
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedFile]);
 
   return (
-    <div className="sdk-canon-explorer">
-      {/* 顶部说明横幅 */}
-      <div className="sdk-canon-banner">
-        <div>
-          <h2 className="sdk-canon-title">
-            🏛️ 《大正新修大藏经》密教部 (T18–T21 · No.0848–No.1420) 全景原典浏览器
-          </h2>
-          <p className="sdk-canon-desc">
-            完整索引 CBETA XML-P5 密教部四册共 <strong>{TAISHO_MIKKYO_INDEX.length}</strong>{' '}
-            部原典经轨（含预编译高精悉昙对音经典 <strong>{CBETA_AUTH_RECORDS.length}</strong> 部、
-            <strong>916</strong> 组 <code>&lt;cb:tt&gt;</code> 悉昙字码对音）。点击任意经号可直接审阅本地预编译或实时从{' '}
-            <code>cbeta-org/xml-p5</code> 拉取原典中的 <code>&lt;p cb:type=&quot;dharani&quot;&gt;</code> 陀罗尼段落。
-          </p>
-        </div>
+    <div className="section-panel">
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.9rem' }}>
+        <h2 style={{ fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Library size={20} color="var(--accent-vermilion)" />
+          <span>
+            大正新修大藏经·密教部全集（T18–T21 共 {TAISHO_MIKKYO_FILE_INDEX.length} 部经轨 · 累计{' '}
+            {TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS.toLocaleString()} 段真言）实时原典库
+          </span>
+        </h2>
+        <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+          本模块已全量抓取并索引 <code>github.com/cbeta-org/xml-p5</code> 密教部全部 614 部经典之汉文经题、译者及{' '}
+          <strong>14,485 段</strong> <code>&lt;p cb:type="dharani"&gt;</code> 真言！您可在左侧按经名（如「孔雀」「秽迹」「欢喜天」「摩利支」「雨宝」「焰口」「北斗」）、译者或咒句检索，点击即刻展示原典全文真言。
+        </p>
       </div>
 
-      <div className="sdk-canon-layout">
-        {/* 左侧目录栏 */}
-        <aside className="sdk-canon-sidebar">
-          <div className="sdk-canon-filters">
-            <input
-              type="text"
-              className="sdk-search-input"
-              placeholder="检索经号 (如 T0848 / T1060) 或经名..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-
-            <div className="sdk-vol-tabs">
-              {(['ALL', 'T18', 'T19', 'T20', 'T21'] as const).map((v) => (
+      <div className="taisho-explorer-layout">
+        {/* Left List of 614 Scriptures with Full Chinese Titles & Dharani Counts */}
+        <div
+          style={{
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-sm)',
+            background: 'var(--bg-elevated)',
+            display: 'flex',
+            flexDirection: 'column',
+            maxHeight: '720px',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              padding: '0.75rem',
+              borderBottom: '1px solid var(--border-subtle)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.55rem',
+            }}
+          >
+            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+              {(['ALL', 'T18', 'T19', 'T20', 'T21'] as const).map((vol) => (
                 <button
-                  key={v}
+                  key={vol}
+                  id={`taisho-vol-btn-${vol}`}
                   type="button"
-                  className={`sdk-vol-btn ${selectedVol === v ? 'active' : ''}`}
-                  onClick={() => setSelectedVol(v)}
+                  className={`source-chip-btn ${selectedVol === vol ? 'active' : ''}`}
+                  onClick={() => setSelectedVol(vol)}
                 >
-                  {v === 'ALL' ? '全部四册' : `${v}册`}
+                  {vol === 'ALL' ? `全部 (${filteredFiles.length})` : `${vol} 册`}
                 </button>
               ))}
             </div>
-
-            <label className="sdk-checkbox-row" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginTop: '0.55rem', fontSize: '0.8rem', cursor: 'pointer' }}>
-              <input
-                type="checkbox"
-                checked={onlyPrebundled}
-                onChange={(e) => setOnlyPrebundled(e.target.checked)}
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <Search
+                size={14}
+                style={{ position: 'absolute', left: '0.65rem', color: 'var(--text-muted)' }}
               />
-              <span>仅显示含离线预编译悉昙对音的经典 ({CBETA_AUTH_RECORDS.length} 部)</span>
-            </label>
+              <input
+                id="taisho-index-search-input"
+                type="search"
+                className="header-search-input"
+                style={{ paddingLeft: '2rem', fontSize: '0.8rem' }}
+                placeholder="搜经名/咒句/译者，如：秽迹、大黑天、雨宝、不空..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
           </div>
 
-          <div className="sdk-canon-list">
-            {filteredList.map((item) => {
-              const isPrebuilt = prebundledIds.has(item.xmlId);
-              const isSelected = selectedEntry?.xmlId === item.xmlId;
+          <div style={{ overflowY: 'auto', flex: 1 }}>
+            {filteredFiles.map((item) => {
+              const active = item.id === selectedFile.id;
               return (
-                <div
-                  key={item.xmlId}
-                  className={`sdk-canon-item ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleSelectScripture(item)}
+                <button
+                  key={item.id}
+                  id={`taisho-file-item-${item.id}`}
+                  type="button"
+                  className={`catalog-entry-item ${active ? 'selected' : ''}`}
+                  onClick={() => setSelectedFile(item)}
                 >
-                  <div className="sdk-canon-item-top">
-                    <span className="sdk-canon-id">{item.xmlId}</span>
-                    <span className="sdk-canon-vol">{item.vol} · {item.juans}卷</span>
-                    {isPrebuilt && (
-                      <span className="sdk-prebuilt-badge" style={{ fontSize: '0.68rem', background: '#fdf0ef', color: '#9e2a2b', padding: '0.1rem 0.4rem', borderRadius: '4px', border: '1px solid #e6b8b8' }}>
-                        ⚡ 离线预编译
+                  <div className="catalog-item-top">
+                    <span className="catalog-taisho-tag">{item.id}</span>
+                    {item.dharaniBlockCount > 0 && (
+                      <span className="badge-siddham-tt">
+                        真言 {item.dharaniBlockCount} 段
                       </span>
                     )}
                   </div>
-                  <div className="sdk-canon-item-title">{item.title}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
-                    {item.translator} · {item.categoryLabel}
+                  <div className="catalog-item-title-zh">{item.titleZh}</div>
+                  <div
+                    style={{
+                      fontSize: '0.74rem',
+                      color: 'var(--text-muted)',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {item.translator}
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
-        </aside>
+        </div>
 
-        {/* 右侧原典详情与实时解析面板 */}
-        <section className="sdk-canon-detail">
+        {/* Right Live Parsed CBETA Sutra Display */}
+        <div
+          style={{
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-sm)',
+            background: 'var(--bg-surface)',
+            padding: '1.25rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}
+        >
           {loading && (
-            <div className="sdk-loading-panel" style={{ padding: '2rem', textAlign: 'center' }}>
-              <div className="sdk-spinner" />
-              <p>
-                正在从 CBETA GitHub 仓库 (<code>cbeta-org/xml-p5</code>) 拉取并解析{' '}
-                <strong>{selectedEntry.xmlId}</strong> 原典 XML...
-              </p>
+            <div
+              style={{
+                padding: '3rem 1rem',
+                textAlign: 'center',
+                color: 'var(--text-secondary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+              }}
+            >
+              <Loader2 size={18} />
+              <span>
+                正在从 CBETA 官方库实时拉取并解析《{selectedFile.id} · {selectedFile.titleZh}》...
+              </span>
             </div>
           )}
 
-          {errorMsg && (
-            <div className="sdk-error-panel" style={{ padding: '1.5rem', background: '#fff5f5', border: '1px solid #e6b8b8', borderRadius: '8px' }}>
-              <h3>⚠️ 在线拉取提示</h3>
-              <p>{errorMsg}</p>
-              <a
-                href={selectedEntry.rawXmlUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="sdk-ext-link"
+          {error && (
+            <div className="meta-box" style={{ borderLeftColor: 'var(--accent-vermilion)' }}>
+              <div className="meta-box-label">实时拉取提示</div>
+              <div>{error}</div>
+            </div>
+          )}
+
+          {!loading && liveSutra && (
+            <>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  flexWrap: 'wrap',
+                  gap: '0.75rem',
+                  borderBottom: '1px solid var(--border-subtle)',
+                  paddingBottom: '0.85rem',
+                }}
               >
-                尝试在浏览器直接访问：{selectedEntry.rawXmlUrl} ↗
-              </a>
-            </div>
-          )}
-
-          {!loading && liveData && (
-            <div className="sdk-live-result">
-              <div className="sdk-live-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap', paddingBottom: '1rem', borderBottom: '1px solid var(--border-subtle)', marginBottom: '1.25rem' }}>
                 <div>
-                  <div className="sdk-live-badges" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-                    <span className="sdk-badge-taisho">
-                      {liveData.vol} · {liveData.xmlId}
-                    </span>
-                    <span className="sdk-badge-tradition">译者：{liveData.translator}</span>
-                    <span className="sdk-badge-provenance">
-                      {liveData.fetchedFromCache
-                        ? '⚡ 本地预编译权威缓存'
-                        : '🌐 CBETA GitHub 实时拉取解析'}
-                    </span>
-                  </div>
-                  <h3 className="sdk-live-title" style={{ fontSize: '1.35rem', color: 'var(--accent-cinnabar)', fontFamily: 'var(--font-serif-zh)' }}>
-                    {liveData.title}
+                  <span className="taisho-pill">{liveSutra.id}</span>
+                  <h3
+                    style={{
+                      fontSize: '1.35rem',
+                      marginTop: '0.4rem',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    {selectedFile.titleZh}（{liveSutra.titleZh}）
                   </h3>
-                </div>
-                <a
-                  href={liveData.xmlUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="sdk-link-pill"
-                >
-                  🔗 查看完整 TEI-P5 XML 源文件 ↗
-                </a>
-              </div>
-
-              {/* 1. 提取到的 <p cb:type="dharani"> 陀罗尼段落 */}
-              <div className="sdk-live-section" style={{ marginBottom: '1.5rem' }}>
-                <h4 className="sdk-live-sec-title" style={{ marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
-                  📿 原典 <code>&lt;p cb:type=&quot;dharani&quot;&gt;</code> 陀罗尼咒文段落 ({liveData.dharaniParagraphs.length} 段)
-                </h4>
-                {liveData.dharaniParagraphs.length === 0 ? (
-                  <p className="sdk-empty-note" style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
-                    本经以仪轨或悉昙字门解说为主，未单独标记 <code>cb:type=&quot;dharani&quot;</code> 段落，请查看下方悉昙对音或原始 XML 切片。
-                  </p>
-                ) : (
-                  <div className="sdk-dharani-para-list" style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-                    {liveData.dharaniParagraphs.map((p, idx) => (
-                      <div key={idx} className="sdk-dharani-para-card" style={{ background: 'var(--bg-parchment)', border: '1px solid var(--border-gold)', borderRadius: '8px', padding: '0.85rem 1rem', lineHeight: 1.75 }}>
-                        <span className="sdk-para-num" style={{ fontWeight: 700, color: 'var(--accent-cinnabar)', marginRight: '0.6rem' }}>
-                          [咒段 {idx + 1}]
-                        </span>
-                        <span className="sdk-para-text">{p}</span>
-                      </div>
-                    ))}
+                  <div
+                    style={{
+                      fontSize: '0.84rem',
+                      color: 'var(--text-secondary)',
+                      marginTop: '0.15rem',
+                    }}
+                  >
+                    译者/撰者：{selectedFile.translator} · 提取到{' '}
+                    <code>cb:type="dharani"</code> 独立真言段落：
+                    <strong style={{ color: 'var(--accent-vermilion)', marginLeft: '4px' }}>
+                      {liveSutra.dharaniBlocks.length} 段
+                    </strong>
                   </div>
-                )}
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <a
+                    href={liveSutra.cbetaOnlineUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-scholarly primary"
+                  >
+                    <ExternalLink size={14} />
+                    <span>CBETA Online 阅藏</span>
+                  </a>
+                  <a
+                    href={liveSutra.rawXmlUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-scholarly"
+                  >
+                    <FileCode size={14} />
+                    <span>查看原始 XML</span>
+                  </a>
+                </div>
               </div>
 
-              {/* 2. 提取到的 <cb:tt> 悉昙梵汉逐字对音 */}
-              {liveData.ttPairs.length > 0 && (
-                <div className="sdk-live-section" style={{ marginBottom: '1.5rem' }}>
-                  <h4 className="sdk-live-sec-title" style={{ marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
-                    𑖀 原典 <code>&lt;cb:tt&gt;</code> 悉昙梵汉逐字对音 ({liveData.ttPairs.length} 字 · 点击发声)
-                  </h4>
-                  <div className="sdk-tt-grid">
-                    {liveData.ttPairs.slice(0, 120).map((pair, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className="sdk-tt-card"
-                        onClick={() => {
-                          if (pair.iast) {
-                            const syl = analyzeSanskritLine(pair.iast, { mode: 'smart' }).words[0]
-                              ?.syllables[0];
-                            if (syl) void playSingleSyllable(syl);
-                          }
+              {liveSutra.dharaniBlocks.length > 0 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <div
+                    style={{
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      color: 'var(--accent-vermilion)',
+                    }}
+                  >
+                    本经提取之陀罗尼真言原文段落（共 {liveSutra.dharaniBlocks.length} 段，已自动还原 CBETA 罕见音译字）：
+                  </div>
+                  {liveSutra.dharaniBlocks.map((blk) => (
+                    <div key={`${liveSutra.id}-blk-${blk.index}`} className="verse-card">
+                      <div className="verse-card-header">
+                        <span className="verse-index-badge">真言段 #{blk.index}</span>
+                        {blk.tangNotes.length > 0 && (
+                          <span className="tang-note-tag">
+                            <Sparkles size={11} style={{ marginRight: '4px' }} />
+                            含原典夹注 {blk.tangNotes.length} 处
+                          </span>
+                        )}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: '1.04rem',
+                          lineHeight: 1.75,
+                          color: 'var(--text-primary)',
                         }}
                       >
-                        <span className="sdk-tt-siddham" lang="sa-Sidd">
-                          {pair.siddhamUnicode || '𑖀'}
-                        </span>
-                        <span className="sdk-tt-iast">{pair.iast || pair.siddhamRef}</span>
-                        <span className="sdk-tt-zh">{pair.chineseZi}</span>
-                        {pair.yinNotes.length > 0 && (
-                          <span className="sdk-tt-yinnote">{pair.yinNotes.join('·')}</span>
-                        )}
-                      </button>
-                    ))}
+                        {blk.text}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="meta-box">
+                  <div className="meta-box-label">经文结构说明</div>
+                  <div>
+                    本经中的真言嵌于经文正文中（未使用独立 <code>cb:type="dharani"</code>{' '}
+                    标记），以下展示经文正文摘要：
                   </div>
                 </div>
               )}
 
-              {/* 3. 原始 XML 代码预览 */}
-              <div className="sdk-live-section">
-                <h4 className="sdk-live-sec-title" style={{ marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
-                  📄 CBETA TEI-P5 原始 XML 结构切片
-                </h4>
-                <pre className="sdk-raw-code-box">{liveData.rawXmlPreview}</pre>
+              <div>
+                <div
+                  style={{
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                    marginBottom: '0.35rem',
+                  }}
+                >
+                  经文正文前段预览：
+                </div>
+                <div
+                  className="raw-code-block"
+                  style={{
+                    fontFamily: 'var(--font-zh-serif)',
+                    fontSize: '0.92rem',
+                    lineHeight: 1.7,
+                  }}
+                >
+                  {liveSutra.bodyPreviewText}
+                </div>
               </div>
-            </div>
+            </>
           )}
-        </section>
+        </div>
       </div>
     </div>
   );

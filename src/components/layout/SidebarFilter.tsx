@@ -1,166 +1,195 @@
-import React from 'react';
-import type { DharaniCategory, DharaniItem } from '../../types/dharani';
-import { CURATED_SEED_SYLLABLES } from '../../data/corpus';
-
-export type FilterCategory = 'all' | DharaniCategory;
+import React, { useState, useMemo } from 'react';
+import { Bookmark, ChevronDown } from 'lucide-react';
+import type { DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
+import { DHARANI_CATEGORIES } from '../../data/categories';
 
 interface SidebarFilterProps {
-  entries: DharaniItem[];
+  entries: DharaniEntry[];
+  totalCorpusCount: number;
   selectedId: string;
   onSelectEntry: (id: string) => void;
-  searchQuery: string;
-  onSearchChange: (q: string) => void;
-  selectedCategory: FilterCategory;
-  onCategoryChange: (cat: FilterCategory) => void;
-  favorites: string[];
-  onToggleFavorite: (id: string) => void;
-  countsByCategory: Record<FilterCategory, number>;
-}
-
-const CATEGORY_LABELS: { id: FilterCategory; label: string }[] = [
-  { id: 'all', label: '全部典藏' },
-  { id: 'major-dharanis', label: '四大咒与根本长咒' },
-  { id: 'ten-small-dharanis', label: '十小咒全集' },
-  { id: 'buddhas-bodhisattvas', label: '诸佛菩萨与五护陀罗尼' },
-  { id: 'gretil-editions', label: 'GRETIL 梵文校勘本' },
-  { id: 'custom', label: '自定义与收藏' }
-];
-
-function getSeedForEntry(entry: DharaniItem) {
-  const deityStr = (entry.deity + ' ' + entry.titleZh).toLowerCase();
-  for (const seed of CURATED_SEED_SYLLABLES) {
-    if (deityStr.includes('觀音') || deityStr.includes('観音') || deityStr.includes('avalokite')) {
-      return CURATED_SEED_SYLLABLES.find((s) => s.id === 'bija-hrih') || seed;
-    }
-    if (deityStr.includes('文殊') || deityStr.includes('mañjuśrī')) {
-      return CURATED_SEED_SYLLABLES.find((s) => s.id === 'bija-dhih') || seed;
-    }
-    if (deityStr.includes('尊勝') || deityStr.includes('佛頂') || deityStr.includes('uṣṇīṣa')) {
-      return CURATED_SEED_SYLLABLES.find((s) => s.id === 'bija-bhrum') || seed;
-    }
-    if (deityStr.includes('金剛') || deityStr.includes('明王') || deityStr.includes('vajra')) {
-      return CURATED_SEED_SYLLABLES.find((s) => s.id === 'bija-hum') || seed;
-    }
-  }
-  return CURATED_SEED_SYLLABLES[0];
+  selectedCategory: DharaniCategoryId | 'all';
+  onSelectCategory: (cat: DharaniCategoryId | 'all') => void;
+  sourceFilter: 'all' | 'cbeta-siddham' | 'gretil-sanskrit';
+  onSourceFilterChange: (f: 'all' | 'cbeta-siddham' | 'gretil-sanskrit') => void;
+  onlyBookmarked: boolean;
+  onToggleOnlyBookmarked: () => void;
+  bookmarkedIds: Set<string>;
 }
 
 export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   entries,
+  totalCorpusCount,
   selectedId,
   onSelectEntry,
-  searchQuery,
-  onSearchChange,
   selectedCategory,
-  onCategoryChange,
-  favorites,
-  onToggleFavorite,
-  countsByCategory
+  onSelectCategory,
+  sourceFilter,
+  onSourceFilterChange,
+  onlyBookmarked,
+  onToggleOnlyBookmarked,
+  bookmarkedIds,
 }) => {
+  const [visibleCount, setVisibleCount] = useState<number>(80);
+
+  const displayedEntries = useMemo(() => {
+    const sliced = entries.slice(0, visibleCount);
+    if (selectedId && !sliced.some((e) => e.id === selectedId)) {
+      const selectedItem = entries.find((e) => e.id === selectedId);
+      if (selectedItem) {
+        return [selectedItem, ...sliced];
+      }
+    }
+    return sliced;
+  }, [entries, visibleCount, selectedId]);
+
   return (
-    <aside className="sdk-sidebar">
-      {/* 搜索框：支持八维检索 */}
-      <div className="sdk-search-box">
-        <div className="sdk-search-input-wrap">
-          <span className="sdk-search-icon">🔍</span>
-          <input
-            type="text"
-            className="sdk-search-input"
-            placeholder="检索经题、大正藏号(T0974B)、天城体、IAST、古音译或功德..."
-            value={searchQuery}
-            onChange={(e) => onSearchChange(e.target.value)}
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              className="sdk-search-clear"
-              onClick={() => onSearchChange('')}
-              title="清空搜索"
-            >
-              ✕
-            </button>
-          )}
-        </div>
-        <div className="sdk-search-hint">
-          支持：中文经名 · 悉昙 · 天城文 · IAST · 唐代音译 · 梵文字根 · 大正藏编号
-        </div>
-      </div>
-
-      {/* 分类标签页 */}
-      <div className="sdk-cat-tabs">
-        {CATEGORY_LABELS.map((cat) => (
+    <aside className="sidebar-panel" aria-label="梵文陀罗尼分类目录">
+      <div className="sidebar-top-controls">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            总持部类检索 ({entries.length} / {totalCorpusCount} 部)
+          </span>
           <button
-            key={cat.id}
+            id="filter-bookmarks-toggle"
             type="button"
-            className={`sdk-cat-btn ${selectedCategory === cat.id ? 'active' : ''}`}
-            onClick={() => onCategoryChange(cat.id)}
+            className={`source-chip-btn ${onlyBookmarked ? 'active' : ''}`}
+            style={{ flex: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}
+            onClick={onToggleOnlyBookmarked}
           >
-            <span>{cat.label}</span>
-            <span className="sdk-cat-count">{countsByCategory[cat.id] ?? 0}</span>
+            <Bookmark size={12} />
+            <span>已藏 ({bookmarkedIds.size})</span>
           </button>
-        ))}
+        </div>
+
+        <div className="category-pills-grid">
+          <button
+            id="cat-pill-all"
+            type="button"
+            className={`category-pill-btn ${selectedCategory === 'all' ? 'active' : ''}`}
+            onClick={() => {
+              setVisibleCount(80);
+              onSelectCategory('all');
+            }}
+          >
+            <span>全部法门总揽 ({totalCorpusCount})</span>
+            <span className="category-pill-bija">𑖌𑖼</span>
+          </button>
+          {DHARANI_CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              id={`cat-pill-${cat.id}`}
+              type="button"
+              className={`category-pill-btn ${selectedCategory === cat.id ? 'active' : ''}`}
+              onClick={() => {
+                setVisibleCount(80);
+                onSelectCategory(cat.id);
+              }}
+              title={cat.descriptionZh}
+            >
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {cat.nameZh}
+              </span>
+              <span className="category-pill-bija">{cat.bijaSiddham}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="source-filter-row" role="group" aria-label="权威数据源筛选">
+          <button
+            id="source-filter-all"
+            type="button"
+            className={`source-chip-btn ${sourceFilter === 'all' ? 'active' : ''}`}
+            onClick={() => onSourceFilterChange('all')}
+          >
+            全部原典 ({totalCorpusCount})
+          </button>
+          <button
+            id="source-filter-cbeta"
+            type="button"
+            className={`source-chip-btn ${sourceFilter === 'cbeta-siddham' ? 'active' : ''}`}
+            onClick={() => onSourceFilterChange('cbeta-siddham')}
+          >
+            CBETA 大藏经 (650+)
+          </button>
+          <button
+            id="source-filter-gretil"
+            type="button"
+            className={`source-chip-btn ${sourceFilter === 'gretil-sanskrit' ? 'active' : ''}`}
+            onClick={() => onSourceFilterChange('gretil-sanskrit')}
+          >
+            GRETIL 梵本 (200)
+          </button>
+        </div>
       </div>
 
-      {/* 经典列表 */}
-      <div className="sdk-entry-list">
+      <div className="dharani-catalog-list">
         {entries.length === 0 ? (
-          <div className="sdk-empty-list">
-            <p>未找到匹配的陀罗尼真言条目。</p>
-            <p className="sdk-empty-sub">
-              您可切换至「梵音100%全覆盖编译器」输入任意梵文咒语自动生成四体对照与发音。
-            </p>
+          <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.86rem' }}>
+            未找到匹配的梵文陀罗尼条目，请尝试切换部类或清空搜索词。
           </div>
         ) : (
-          entries.map((entry) => {
-            const isSelected = entry.id === selectedId;
-            const isFav = favorites.includes(entry.id);
-            const seed = getSeedForEntry(entry);
-            return (
-              <div
-                key={entry.id}
-                className={`sdk-entry-card ${isSelected ? 'selected' : ''}`}
-                onClick={() => onSelectEntry(entry.id)}
-              >
-                <div className="sdk-entry-card-top">
-                  <span className="sdk-seed-badge" title={`种子字 ${seed?.iast || 'oṃ'}`}>
-                    {seed?.siddham || '𑖼'}
-                  </span>
-                  <div className="sdk-entry-titles">
-                    <h3 className="sdk-entry-zh">{entry.titleZh}</h3>
-                    <p className="sdk-entry-sa">{entry.titleSanskrit}</p>
-                  </div>
-                  <button
-                    type="button"
-                    className={`sdk-fav-btn ${isFav ? 'active' : ''}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onToggleFavorite(entry.id);
-                    }}
-                    title={isFav ? '取消收藏' : '加入常用功课收藏'}
-                  >
-                    {isFav ? '★' : '☆'}
-                  </button>
-                </div>
+          <>
+            {displayedEntries.map((entry) => {
+              const hasSiddhamTokens =
+                entry.provenance.cbetaInterlinearTokens &&
+                entry.provenance.cbetaInterlinearTokens.length > 0;
+              const hasGretil = Boolean(entry.provenance.gretilFile);
+              const isSelected = entry.id === selectedId;
 
-                <div className="sdk-entry-meta">
-                  <span className="sdk-taisho-tag">
-                    {entry.authoritativeSource.cbetaXmlId || entry.taishoId}
-                  </span>
-                  <span className="sdk-deity-tag">{entry.deity.split('(')[0].trim()}</span>
-                  {entry.authoritativeSource.gretilId && (
-                    <span className="sdk-provenance-mini-tag" title="GRETIL 梵文底本对勘">
-                      GRETIL
-                    </span>
-                  )}
-                  {entry.cbetaInterlinearXmlId && (
-                    <span className="sdk-provenance-mini-tag" title="含 CBETA <cb:tt> 悉昙梵汉逐字对音">
-                      悉昙对音
-                    </span>
-                  )}
-                </div>
+              return (
+                <button
+                  key={entry.id}
+                  id={`catalog-item-${entry.id}`}
+                  type="button"
+                  className={`catalog-entry-item ${isSelected ? 'selected' : ''}`}
+                  onClick={() => onSelectEntry(entry.id)}
+                >
+                  <div className="catalog-item-top">
+                    <span className="catalog-taisho-tag">{entry.taishoNo}</span>
+                    <div className="catalog-source-badges">
+                      {hasSiddhamTokens && (
+                        <span className="badge-siddham-tt" title="含 CBETA 官方 #SD-* 悉昙梵字逐字对音数据">
+                          悉昙对音 {entry.provenance.cbetaInterlinearTokens?.length}字
+                        </span>
+                      )}
+                      {hasGretil && (
+                        <span className="badge-gretil-ms" title={`含 GRETIL 梵文原典 (${entry.provenance.gretilFile})`}>
+                          GRETIL梵本
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="catalog-item-title-zh">{entry.titleZh}</div>
+                  <div className="catalog-item-title-skt">{entry.titleSanskritIast}</div>
+                </button>
+              );
+            })}
+
+            {entries.length > visibleCount && (
+              <div style={{ padding: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+                <button
+                  id="btn-load-more-catalog"
+                  type="button"
+                  className="btn-secondary-gold"
+                  style={{ flex: 1, justifyContent: 'center', fontSize: '0.78rem' }}
+                  onClick={() => setVisibleCount((prev) => prev + 150)}
+                >
+                  <ChevronDown size={14} />
+                  <span>继续加载 (+150 部 · 剩余 {entries.length - visibleCount} 部)</span>
+                </button>
+                <button
+                  id="btn-load-all-catalog"
+                  type="button"
+                  className="btn-secondary-gold"
+                  style={{ fontSize: '0.78rem' }}
+                  onClick={() => setVisibleCount(entries.length)}
+                >
+                  展开全部 ({entries.length})
+                </button>
               </div>
-            );
-          })
+            )}
+          </>
         )}
       </div>
     </aside>

@@ -1,0 +1,512 @@
+/* ==========================================================================
+   App Shell & Top Navigation Header
+   ========================================================================== */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 84px; /* Space for sticky audio player bar */
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+  max-width: 1640px;
+  margin: 0 auto;
+  padding: 0.7rem 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-seal {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-vermilion);
+  color: #fff8ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.55rem;
+  box-shadow: inset 0 0 0 2px rgba(255, 248, 238, 0.28);
+  flex-shrink: 0;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title-zh {
+  font-size: 1.18rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand-badge-auth {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.12rem 0.48rem;
+  border-radius: 999px;
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold-border);
+  font-family: var(--font-zh-sans);
+}
+
+.brand-subtitle {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-family: var(--font-iast);
+}
+
+/* Search Bar in Header */
+.header-search-wrap {
+  flex: 1;
+  max-width: 460px;
+  min-width: 240px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header-search-icon {
+  position: absolute;
+  left: 0.78rem;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.header-search-input {
+  width: 100%;
+  padding: 0.5rem 2.2rem 0.5rem 2.35rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.header-search-input:focus {
+  outline: none;
+  border-color: var(--accent-vermilion);
+  box-shadow: 0 0 0 3px var(--accent-vermilion-soft);
+}
+
+.header-search-clear {
+  position: absolute;
+  right: 0.6rem;
+  color: var(--text-muted);
+  padding: 0.2rem;
+  border-radius: 4px;
+}
+
+.header-search-clear:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+/* Instant Search Autocomplete Dropdown */
+.header-search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  min-width: 440px;
+  max-height: 460px;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-top: 3px solid var(--accent-vermilion);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-dropdown-header {
+  padding: 0.45rem 0.85rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-suggestion-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.65rem 0.88rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+  transition: background-color 0.12s ease;
+}
+
+.search-suggestion-item:hover,
+.search-suggestion-item.highlighted {
+  background: var(--accent-vermilion-soft);
+}
+
+.search-suggestion-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.search-suggestion-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.search-suggestion-match-tag {
+  font-size: 0.66rem;
+  padding: 0.08rem 0.4rem;
+  border-radius: 3px;
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold-border);
+  white-space: nowrap;
+}
+
+.search-suggestion-primary {
+  font-family: var(--font-iast);
+  font-size: 0.78rem;
+  color: var(--accent-lapis);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-suggestion-secondary {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Workspace Navigation Tabs */
+.header-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--bg-elevated);
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.nav-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.42rem 0.78rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-tab-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-subtle);
+}
+
+.nav-tab-btn.active {
+  background: var(--bg-surface);
+  color: var(--accent-vermilion);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.42rem 0.72rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+/* ==========================================================================
+   Provenance Banner Strip
+   ========================================================================== */
+.provenance-ribbon {
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.38rem 1.4rem;
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+}
+
+.provenance-ribbon-inner {
+  max-width: 1640px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.provenance-stats-list {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  flex-wrap: wrap;
+}
+
+.prov-stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.prov-stat-item strong {
+  color: var(--accent-vermilion);
+  font-family: var(--font-mono);
+}
+
+/* ==========================================================================
+   Main Two-Column Reader Workspace
+   ========================================================================== */
+.workspace-container {
+  max-width: 1640px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1.4rem;
+  flex: 1;
+}
+
+.canon-reader-grid {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Left Sidebar Catalog & Filter */
+.sidebar-panel {
+  position: sticky;
+  top: 76px;
+  max-height: calc(100vh - 170px);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.sidebar-top-controls {
+  padding: 0.9rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.category-pills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.38rem;
+}
+
+.category-pill-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  padding: 0.38rem 0.55rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  text-align: left;
+  transition: all 0.14s ease;
+}
+
+.category-pill-btn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.category-pill-btn.active {
+  background: var(--accent-vermilion);
+  color: #fff8ee;
+  border-color: var(--accent-vermilion);
+  font-weight: 600;
+}
+
+.category-pill-bija {
+  font-family: var(--font-siddham);
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.source-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+.source-chip-btn {
+  flex: 1;
+  padding: 0.28rem 0.45rem;
+  border-radius: var(--radius-xs);
+  font-size: 0.72rem;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.source-chip-btn.active {
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  border-color: var(--accent-gold-border);
+  font-weight: 600;
+}
+
+/* Dharani Catalog List */
+.dharani-catalog-list {
+  overflow-y: auto;
+  flex: 1;
+  divide-y: 1px solid var(--border-subtle);
+}
+
+.catalog-entry-item {
+  width: 100%;
+  text-align: left;
+  padding: 0.8rem 0.95rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.26rem;
+  transition: background-color 0.14s ease;
+}
+
+.catalog-entry-item:hover {
+  background: var(--bg-elevated);
+}
+
+.catalog-entry-item.selected {
+  background: var(--accent-vermilion-soft);
+  border-left: 3px solid var(--accent-vermilion);
+}
+
+.catalog-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.catalog-taisho-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.08rem 0.38rem;
+  border-radius: 3px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+}
+
+.catalog-source-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.badge-siddham-tt {
+  font-size: 0.65rem;
+  padding: 0.06rem 0.35rem;
+  border-radius: 3px;
+  background: var(--accent-vermilion-soft);
+  color: var(--accent-vermilion);
+  border: 1px solid var(--accent-vermilion-border);
+  font-weight: 600;
+}
+
+.badge-gretil-ms {
+  font-size: 0.65rem;
+  padding: 0.06rem 0.35rem;
+  border-radius: 3px;
+  background: var(--accent-lapis-soft);
+  color: var(--accent-lapis);
+  border: 1px solid var(--accent-lapis-border);
+  font-weight: 600;
+}
+
+.catalog-item-title-zh {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.38;
+}
+
+.catalog-item-title-skt {
+  font-family: var(--font-iast);
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1100px) {
+  .canon-reader-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar-panel {
+    position: static;
+    max-height: 360px;
+  }
+}

@@ -1,0 +1,88 @@
+:root,
+[data-theme='light'] {
+  /* 宣纸与敦煌写卷浅色主题 (Xuan Paper & Vermilion Seal) */
+  --bg-canvas: #f8f4ec;
+  --bg-surface: #fdfbf7;
+  --bg-elevated: #f2ebe0;
+  --bg-subtle: #ede4d4;
+  --bg-glass: rgba(253, 251, 247, 0.92);
+
+  --text-primary: #1f1a16;
+  --text-secondary: #54473c;
+  --text-muted: #7d6d5f;
+  --text-on-accent: #fffcf7;
+
+  /* 朱砂印泥、泥金与青金石点缀 */
+  --accent-vermilion: #9e2a2b;
+  --accent-vermilion-soft: rgba(158, 42, 43, 0.1);
+  --accent-vermilion-border: rgba(158, 42, 43, 0.28);
+
+  --accent-gold: #8c6218;
+  --accent-gold-soft: rgba(180, 130, 42, 0.13);
+  --accent-gold-border: rgba(180, 130, 42, 0.32);
+
+  --accent-lapis: #1e4d6b;
+  --accent-lapis-soft: rgba(30, 77, 107, 0.1);
+  --accent-lapis-border: rgba(30, 77, 107, 0.26);
+
+  --accent-jade: #266041;
+  --accent-jade-soft: rgba(38, 96, 65, 0.1);
+
+  --border-subtle: #e3d7c3;
+  --border-strong: #cbb89d;
+
+  --shadow-sm: 0 1px 3px rgba(45, 32, 18, 0.06);
+  --shadow-md: 0 6px 20px rgba(45, 32, 18, 0.08);
+  --shadow-lg: 0 16px 40px rgba(31, 22, 12, 0.14);
+}
+
+[data-theme='dark'] {
+  /* 紫金写经深色主题 (Indigo-Black Sūtra & Gold Ink) */
+  --bg-canvas: #12100e;
+  --bg-surface: #1b1714;
+  --bg-elevated: #241f1a;
+  --bg-subtle: #2d2620;
+  --bg-glass: rgba(27, 23, 20, 0.92);
+
+  --text-primary: #f1e9dc;
+  --text-secondary: #c5b6a2;
+  --text-muted: #8e7f6d;
+  --text-on-accent: #18130e;
+
+  --accent-vermilion: #df5a53;
+  --accent-vermilion-soft: rgba(223, 90, 83, 0.15);
+  --accent-vermilion-border: rgba(223, 90, 83, 0.38);
+
+  --accent-gold: #deb059;
+  --accent-gold-soft: rgba(222, 176, 89, 0.14);
+  --accent-gold-border: rgba(222, 176, 89, 0.36);
+
+  --accent-lapis: #67a7d4;
+  --accent-lapis-soft: rgba(103, 167, 212, 0.14);
+  --accent-lapis-border: rgba(103, 167, 212, 0.34);
+
+  --accent-jade: #5cb88a;
+  --accent-jade-soft: rgba(92, 184, 138, 0.14);
+
+  --border-subtle: #332b23;
+  --border-strong: #4a3e32;
+
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+:root {
+  /* 学术多文种字体栈 */
+  --font-zh-serif: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', serif;
+  --font-zh-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Siddhanta', serif;
+  --font-siddham: 'Noto Sans Siddham', 'Noto Serif Devanagari', serif;
+  --font-iast: 'Gentium Plus', 'Charis SIL', 'Cambria', Georgia, serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
