@@ -5,7 +5,12 @@ import type {
   DharaniEntry,
   ScriptVisibilityConfig,
 } from './types/kosaTypes';
-import { BUILTIN_DHARANI_CORPUS } from './data';
+import { FIRST_SCREEN_CORPUS } from './data/firstScreenCorpus';
+import {
+  getCloudCorpusSnapshot,
+  loadFullCloudCorpus,
+  subscribeCloudCorpus,
+} from './services/corpus/cloudCorpusService';
 import {
   filterDharanis,
   type SearchSuggestionItem,
@@ -88,10 +93,21 @@ export const App: React.FC = () => {
   const [customEntries, setCustomEntries] = useState<DharaniEntry[]>(() => loadCustomDharanis());
   const [scriptConfig, setScriptConfig] = useState<ScriptVisibilityConfig>(() => loadScriptConfig());
   const [selectedTaishoScriptureId, setSelectedTaishoScriptureId] = useState<string | null>(null);
+  const [cloudCorpusEntries, setCloudCorpusEntries] = useState<DharaniEntry[]>(
+    () => getCloudCorpusSnapshot().entries
+  );
+
+  useEffect(() => {
+    const unsub = subscribeCloudCorpus((entries) => {
+      setCloudCorpusEntries(entries);
+    });
+    void loadFullCloudCorpus();
+    return unsub;
+  }, []);
 
   const allEntries = useMemo(
-    () => [...customEntries, ...BUILTIN_DHARANI_CORPUS],
-    [customEntries]
+    () => [...customEntries, ...cloudCorpusEntries],
+    [customEntries, cloudCorpusEntries]
   );
 
   const filteredEntries = useMemo(() => {
@@ -117,7 +133,7 @@ export const App: React.FC = () => {
   ]);
 
   const [selectedEntryId, setSelectedEntryId] = useState<string>(
-    BUILTIN_DHARANI_CORPUS[0]?.id || ''
+    FIRST_SCREEN_CORPUS[0]?.id || ''
   );
 
   const activeEntry = useMemo(() => {
@@ -320,7 +336,7 @@ export const App: React.FC = () => {
           <div className="canon-reader-grid">
             <SidebarFilter
               entries={filteredEntries}
-              totalCorpusCount={allEntries.length}
+              totalCorpusCount={Math.max(allEntries.length, 2051 + customEntries.length)}
               selectedId={activeEntry.id}
               onSelectEntry={(id) => handleSelectEntry(id)}
               selectedCategory={selectedCategory}

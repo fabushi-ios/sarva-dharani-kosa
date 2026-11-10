@@ -14,7 +14,7 @@ import {
   CornerDownLeft,
 } from 'lucide-react';
 import type { ActiveWorkspaceTab, DharaniEntry } from '../../types/kosaTypes';
-import { CORPUS_AUTHORITATIVE_STATS } from '../../data';
+import { CORPUS_AUTHORITATIVE_STATS } from '../../data/corpusStats';
 import {
   getSearchSuggestions,
   type SearchSuggestionItem,

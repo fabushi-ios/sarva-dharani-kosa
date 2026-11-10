@@ -1,8 +1,7 @@
 import type { ActiveWorkspaceTab, DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
+import type { TaishoMikkyoFileEntry } from '../../data/kosa-generated/taishoMikkyoIndex';
 import { stripDiacritics } from '../sanskrit/transliterator';
 import { devanagariToSlp1, siddhamUnicodeToSlp1, slp1ToIast } from '../transliterator';
-import { TAISHO_MIKKYO_FILE_INDEX } from '../../data/kosa-generated/taishoMikkyoIndex';
-import { searchAllDatabases } from '../searchEngine';
 
 export interface SearchFilterOptions {
   query: string;
@@ -127,10 +126,76 @@ interface IndexedEntryDoc {
 }
 
 const ENTRY_INDEX_CACHE = new WeakMap<DharaniEntry, IndexedEntryDoc>();
+const PREBUILT_ENTRY_INDEX_BY_ID = new Map<string, IndexedEntryDoc>();
+
+export interface PrebuiltEntrySearchRecord {
+  id: string;
+  t: string;
+  d: string;
+  m: string;
+  v: string[];
+}
+
+export interface Specialized12DbSearchRecord {
+  id: string;
+  dbId: string;
+  databaseNumber: number;
+  title: string;
+  subtitle: string;
+  sanskritIast?: string;
+  chineseText?: string;
+  tibetanText?: string;
+  snippet: string;
+  canonicalRefs?: string[];
+  normHay: string;
+}
+
+export interface CloudSearchIndexPayload {
+  version?: string;
+  entries?: PrebuiltEntrySearchRecord[];
+  specialized12DbRecords?: Specialized12DbSearchRecord[];
+}
+
+let loadedTaishoIndex: Array<TaishoMikkyoFileEntry & { normHay?: string }> = [];
+let loadedSpecialized12DbRecords: Specialized12DbSearchRecord[] = [];
+
+export function hydrateCloudSearchIndex(payload: CloudSearchIndexPayload): void {
+  if (Array.isArray(payload.entries)) {
+    for (const item of payload.entries) {
+      const normHeader = `${item.t} ${item.d} ${item.m}`;
+      const normFull = `${normHeader} ${item.v.join(' ')}`;
+      PREBUILT_ENTRY_INDEX_BY_ID.set(item.id, {
+        normTitle: item.t,
+        normDbAndNo: item.d,
+        normDeity: item.m,
+        normHeader,
+        normVerses: item.v,
+        normFull,
+      });
+    }
+  }
+  if (Array.isArray(payload.specialized12DbRecords)) {
+    loadedSpecialized12DbRecords = payload.specialized12DbRecords;
+  }
+}
+
+export function hydrateTaishoSearchIndex(
+  items: Array<TaishoMikkyoFileEntry & { normHay?: string }>
+): void {
+  if (Array.isArray(items)) {
+    loadedTaishoIndex = items;
+  }
+}
 
 function getIndexedEntryDoc(entry: DharaniEntry): IndexedEntryDoc {
   const cached = ENTRY_INDEX_CACHE.get(entry);
   if (cached) return cached;
+
+  const prebuilt = PREBUILT_ENTRY_INDEX_BY_ID.get(entry.id);
+  if (prebuilt) {
+    ENTRY_INDEX_CACHE.set(entry, prebuilt);
+    return prebuilt;
+  }
 
   const normTitle = normalizeSearchText(
     `${entry.titleZh} ${entry.titleSanskritIast} ${entry.titleEnglish}`
@@ -305,9 +370,14 @@ export function getSearchSuggestions(
     return [...classicPicks, ...dbPicks].slice(0, limit);
   }
 
-  // Score all matching entries across the entire 1,419-entry corpus so DB1–DB12 are never starved
-  const scoredCanon: Array<{ score: number; is12Db: boolean; item: SearchSuggestionItem }> = [];
-  const hasCjk = /[\u4e00-\u9fff]/.test(q);
+  // Score all matching entries across the entire 2,051-entry corpus so DB1–DB12 are never starved
+  const scoredCanon: Array<{
+    score: number;
+    is12Db: boolean;
+    entry: DharaniEntry;
+    matchTypeLabel: string;
+    matchedVerse?: DharaniEntry['verses'][number];
+  }> = [];
 
   for (const entry of entries) {
     const doc = getIndexedEntryDoc(entry);
@@ -365,15 +435,17 @@ export function getSearchSuggestions(
     scoredCanon.push({
       score,
       is12Db,
-      item: toCanonSuggestionItem(entry, matchTypeLabel, matchedVerse),
+      entry,
+      matchTypeLabel,
+      matchedVerse,
     });
   }
 
   scoredCanon.sort((a, b) => b.score - a.score);
 
   // Interleave top curated & top 12-DB canon entries so both appear prominently in dropdown
-  const classicResults = scoredCanon.filter((x) => !x.is12Db).map((x) => x.item);
-  const db12CanonResults = scoredCanon.filter((x) => x.is12Db).map((x) => x.item);
+  const classicResults = scoredCanon.filter((x) => !x.is12Db);
+  const db12CanonResults = scoredCanon.filter((x) => x.is12Db);
 
   const results: SearchSuggestionItem[] = [];
   let cIdx = 0;
@@ -385,21 +457,29 @@ export function getSearchSuggestions(
     (cIdx < classicResults.length || dIdx < db12CanonResults.length)
   ) {
     if (cIdx < classicResults.length) {
-      results.push(classicResults[cIdx++]);
+      const hit = classicResults[cIdx++];
+      results.push(toCanonSuggestionItem(hit.entry, hit.matchTypeLabel, hit.matchedVerse));
     }
     if (results.length < maxCanonSlots && dIdx < db12CanonResults.length) {
-      results.push(db12CanonResults[dIdx++]);
+      const hit = db12CanonResults[dIdx++];
+      results.push(toCanonSuggestionItem(hit.entry, hit.matchTypeLabel, hit.matchedVerse));
     }
   }
 
-  // Also query the Unified 12-Database Engine (`searchAllDatabases`) for specialized lexicon/glossary/manuscript hits
+  // Also query the Cloud-Hydrated Unified 12-Database Records for specialized lexicon/glossary/manuscript hits
   try {
-    const unifiedHits = searchAllDatabases(rawQuery.trim(), { limit: 6 });
     const existingTitles = new Set(results.map((r) => normalizeSearchText(r.titleZh)));
+    let added12Db = 0;
 
-    for (const hit of unifiedHits) {
-      if (results.length >= limit) break;
+    for (const hit of loadedSpecialized12DbRecords) {
+      if (results.length >= limit || added12Db >= 6) break;
       if (hit.dbId === 'baseline') continue;
+      const matchesHit =
+        hit.normHay.includes(q) ||
+        (tokens.length > 1 && tokens.every((tk) => hit.normHay.includes(tk))) ||
+        (aliasTerms.length > 0 && aliasTerms.some((term) => hit.normHay.includes(term)));
+      if (!matchesHit) continue;
+
       const normHitTitle = normalizeSearchText(hit.title);
       if (existingTitles.has(normHitTitle)) continue;
       existingTitles.add(normHitTitle);
@@ -409,7 +489,6 @@ export function getSearchSuggestions(
         tab: 'hub' as ActiveWorkspaceTab,
       };
 
-      // Try to link to a matching DharaniEntry if one exists for this hit
       const linkedEntry = entries.find(
         (e) =>
           e.id.includes(hit.id) ||
@@ -429,17 +508,20 @@ export function getSearchSuggestions(
           : hit.snippet.slice(0, 76),
         snippetSecondary: `${hit.subtitle} · ${hit.chineseText || hit.tibetanText || hit.snippet.slice(0, 48)}`,
       });
+      added12Db++;
     }
   } catch {
     // Ignore if unified search encounters edge case
   }
 
   // Also include Taishō Esoteric Canon XML Scripture matches
-  for (const ts of TAISHO_MIKKYO_FILE_INDEX) {
+  for (const ts of loadedTaishoIndex) {
     if (results.length >= limit) break;
-    const hay = normalizeSearchText(
-      `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${ts.sampleDharanis.join(' ')}`
-    );
+    const hay =
+      ts.normHay ||
+      normalizeSearchText(
+        `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${ts.sampleDharanis.join(' ')}`
+      );
     if (hay.includes(q)) {
       results.push({
         kind: 'taisho-scripture',

@@ -410,6 +410,118 @@ def get_syllable(
     return Response(content=res["wavBytes"], media_type="audio/wav", headers=headers)
 
 
+PUBLIC_CORPUS_DIR = PROJECT_ROOT / "public" / "corpus"
+PUBLIC_CORPUS_DIR.mkdir(parents=True, exist_ok=True)
+_CORPUS_INDEX_CACHE: dict[str, Any] | None = None
+
+
+def _get_corpus_index_cache() -> dict[str, Any]:
+    global _CORPUS_INDEX_CACHE
+    if _CORPUS_INDEX_CACHE is not None:
+        return _CORPUS_INDEX_CACHE
+
+    idx_path = PUBLIC_CORPUS_DIR / "search-index-v1.json"
+    curated_path = PUBLIC_CORPUS_DIR / "shard-curated.json"
+    db12_path = PUBLIC_CORPUS_DIR / "shard-12db.json"
+    gretil_path = PUBLIC_CORPUS_DIR / "shard-gretil.json"
+    taisho_path = PUBLIC_CORPUS_DIR / "shard-taisho-index.json"
+
+    search_idx = json.loads(idx_path.read_text(encoding="utf-8")) if idx_path.exists() else {}
+    entries_by_id: dict[str, dict[str, Any]] = {}
+    for p in (curated_path, db12_path, gretil_path):
+        if p.exists():
+            for item in json.loads(p.read_text(encoding="utf-8")):
+                entries_by_id[item["id"]] = item
+
+    taisho_list = json.loads(taisho_path.read_text(encoding="utf-8")) if taisho_path.exists() else []
+    _CORPUS_INDEX_CACHE = {
+        "search_idx": search_idx,
+        "entries_by_id": entries_by_id,
+        "taisho_list": taisho_list,
+    }
+    return _CORPUS_INDEX_CACHE
+
+
+@app.get("/api/corpus/{filename}")
+def get_corpus_shard(filename: str) -> Response:
+    safe_name = Path(filename).name
+    target = PUBLIC_CORPUS_DIR / safe_name
+    if not target.exists():
+        raise HTTPException(status_code=404, detail=f"Corpus shard not found: {safe_name}")
+    media_type = "application/gzip" if safe_name.endswith(".gz") else "application/json; charset=utf-8"
+    return FileResponse(
+        str(target),
+        media_type=media_type,
+        headers={
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": "*",
+        },
+    )
+
+
+@app.get("/api/search")
+def search_corpus_api(
+    q: str = Query(default="", description="Search query across 2,051 Dhāraṇīs, 12 Databases, and 614 Taishō scriptures"),
+    limit: int = Query(default=20, ge=1, le=100),
+) -> JSONResponse:
+    cache = _get_corpus_index_cache()
+    search_idx = cache["search_idx"]
+    entries_by_id = cache["entries_by_id"]
+    taisho_list = cache["taisho_list"]
+
+    norm_q = (q or "").strip().lower()
+    tokens = [tk for tk in norm_q.split() if tk]
+    results: list[dict[str, Any]] = []
+    matched_ids: list[str] = []
+
+    for rec in search_idx.get("entries", []):
+        full_hay = f"{rec.get('t', '')} {rec.get('d', '')} {rec.get('m', '')} {' '.join(rec.get('v', []))}"
+        if not norm_q or norm_q in full_hay or (len(tokens) > 1 and all(tk in full_hay for tk in tokens)):
+            eid = rec["id"]
+            matched_ids.append(eid)
+            if len(results) < limit and eid in entries_by_id:
+                entry = entries_by_id[eid]
+                v0 = (entry.get("verses") or [{}])[0]
+                results.append(
+                    {
+                        "kind": "canon-entry",
+                        "id": eid,
+                        "titleZh": entry.get("titleZh", ""),
+                        "taishoNo": entry.get("taishoNo", ""),
+                        "matchTypeLabel": entry.get("provenance", {}).get("databaseBadgeZh") or "四体梵音精校库",
+                        "snippetPrimary": f"梵音：{str(v0.get('iast', ''))[:72]}",
+                        "snippetSecondary": entry.get("deityZh", ""),
+                    }
+                )
+
+    if norm_q and len(results) < limit:
+        for ts in taisho_list:
+            if len(results) >= limit:
+                break
+            if norm_q in ts.get("normHay", ""):
+                results.append(
+                    {
+                        "kind": "taisho-scripture",
+                        "taishoScriptureId": ts.get("id"),
+                        "titleZh": f"【大正藏原典】{ts.get('titleZh', '')}",
+                        "taishoNo": f"{ts.get('id')} ({ts.get('vol')})",
+                        "matchTypeLabel": f"大正藏密教部原典 · 含真言 {ts.get('dharaniBlockCount', 0)} 段",
+                        "snippetPrimary": f"译者：{ts.get('translator', '')}",
+                        "snippetSecondary": (ts.get("sampleDharanis") or [""])[0][:72],
+                    }
+                )
+
+    return JSONResponse(
+        content={
+            "query": q,
+            "totalMatched": len(matched_ids),
+            "matchedEntryIds": matched_ids[:limit],
+            "results": results,
+            "engine": "sarva-dharani-cloud-search-v1",
+        }
+    )
+
+
 @app.get("/sanskrit_phonetic_engine.html")
 def get_phonetic_engine_html() -> Response:
     root_html = PROJECT_ROOT / "sanskrit_phonetic_engine.html"
@@ -422,6 +534,7 @@ def get_phonetic_engine_html() -> Response:
 
 
 app.mount("/audio", StaticFiles(directory=str(PUBLIC_AUDIO_DIR)), name="audio")
+app.mount("/corpus", StaticFiles(directory=str(PUBLIC_CORPUS_DIR)), name="corpus")
 
 DIST_DIR = PROJECT_ROOT / "dist"
 if DIST_DIR.exists() and (DIST_DIR / "index.html").exists():

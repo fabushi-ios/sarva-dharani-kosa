@@ -182,6 +182,41 @@ function attachApiMiddleware(middlewares: {
       return;
     }
 
+    if (parsedUrl.pathname.startsWith('/api/corpus/')) {
+      const shardName = path.basename(parsedUrl.pathname.slice('/api/corpus/'.length));
+      const localShard = path.join(process.cwd(), 'public', 'corpus', shardName);
+      if (fs.existsSync(localShard)) {
+        res.statusCode = 200;
+        res.setHeader(
+          'Content-Type',
+          shardName.endsWith('.gz') ? 'application/gzip' : 'application/json; charset=utf-8'
+        );
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        res.end(fs.readFileSync(localShard));
+        return;
+      }
+      res.statusCode = 404;
+      res.end('Not found');
+      return;
+    }
+
+    if (parsedUrl.pathname === '/api/search') {
+      proxyToPythonTtsBackend(req, res, null, () => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(
+          JSON.stringify({
+            query: parsedUrl.searchParams.get('q') || '',
+            totalMatched: 0,
+            matchedEntryIds: [],
+            results: [],
+            engine: 'sarva-dharani-cloud-search-v1',
+          })
+        );
+      });
+      return;
+    }
+
     if (parsedUrl.pathname.startsWith('/api/syllable/')) {
       proxyToPythonTtsBackend(req, res, null, () => {
         res.statusCode = 503;

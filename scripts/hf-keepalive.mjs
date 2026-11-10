@@ -55,9 +55,15 @@ async function checkAndWakeSpace() {
     authHeaders
   );
 
-  // 2. Warm up 48kHz Sanskrit Neural VITS ONNX Model CDN endpoints
+  // 2. Warm up 48kHz Sanskrit Neural VITS ONNX Model + Cloud Corpus Search Index CDN endpoints
   const modelBase = `https://huggingface.co/${MODEL_ID}/resolve/main`;
   await pingEndpoint('TTS Vocab JSON', `${modelBase}/vocabs.json`, 'GET');
+  await pingEndpoint('Cloud Corpus Manifest', `${modelBase}/corpus/manifest.json`, 'GET');
+  await pingEndpoint(
+    'Cloud Search Index Gzip Shard',
+    `${modelBase}/corpus/search-index-v1.json.gz`,
+    'HEAD'
+  );
   await pingEndpoint(
     'TTS Male ONNX Model (Range 0-1023)',
     `${modelBase}/onnx_mobile/sa.onnx`,

@@ -51,27 +51,39 @@ echo "🧠 48kHz ONNX 模型仓库: https://huggingface.co/${MODEL_ID}"
 echo "🚀 目标 Hugging Face Space: https://huggingface.co/spaces/${SPACE_ID}"
 echo "🌐 独立直连访问地址: ${HF_STATIC_URL}"
 
-echo "=== [2/4] 同步 48kHz 梵文神经 VITS ONNX 模型至 Hugging Face Model Hub ==="
+echo "=== [2/4] 编译全量 2,051 部陀罗尼云端分片与检索索引，并同步至 Hugging Face Hub CDN ==="
+if [ ! -d "node_modules" ]; then
+  npm ci
+fi
+npx tsx scripts/build_cloud_corpus_shards.ts
+
 python3 - "${MODEL_ID}" <<'EOF'
 import os, sys
+from pathlib import Path
 from huggingface_hub import HfApi
 
 model_id = sys.argv[1]
 api = HfApi(token=os.environ.get("HF_TOKEN") or None)
 api.create_repo(repo_id=model_id, repo_type="model", exist_ok=True, private=False)
+ninada_dir = Path("models/ninada")
+if ninada_dir.is_dir() and any(ninada_dir.glob("*.onnx")):
+    api.upload_folder(
+        folder_path="models/ninada",
+        repo_id=model_id,
+        repo_type="model",
+        commit_message="Upload 48kHz Classical Sanskrit Neural VITS ONNX models (sa.onnx, sa_female.onnx, vocabs.json)",
+    )
 api.upload_folder(
-    folder_path="models/ninada",
+    folder_path="public/corpus",
+    path_in_repo="corpus",
     repo_id=model_id,
     repo_type="model",
-    commit_message="Upload 48kHz Classical Sanskrit Neural VITS ONNX models (sa.onnx, sa_female.onnx, vocabs.json)",
+    commit_message="Upload Cloud Corpus Shards & Pre-computed Search Index (2,051 Dharanis + 12 Global DBs + 614 Taisho Scriptures)",
 )
-print(f"✅ 模型已同步至 https://huggingface.co/{model_id}")
+print(f"✅ 模型与云端语料检索分片已同步至 https://huggingface.co/{model_id}")
 EOF
 
 echo "=== [3/4] 构建生产环境前端包 (dist/) 并部署至 Hugging Face Space ==="
-if [ ! -d "node_modules" ]; then
-  npm ci
-fi
 VITE_HF_MODEL_BASE_URL="${HF_MODEL_CDN}" npm run build
 
 python3 - "${SPACE_ID}" <<'EOF'
