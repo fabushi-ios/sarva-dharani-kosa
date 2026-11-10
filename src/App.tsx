@@ -53,6 +53,11 @@ const CudlPalmLeafViewer = lazy(() =>
     default: m.CudlPalmLeafViewer,
   }))
 );
+const SiddhamBijaAcademy = lazy(() =>
+  import('./components/SiddhamBijaAcademy').then((m) => ({
+    default: m.SiddhamBijaAcademy,
+  }))
+);
 
 export const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => loadTheme());
@@ -60,7 +65,9 @@ export const App: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
-  const [sourceFilter, setSourceFilter] = useState<'all' | 'cbeta-siddham' | 'gretil-sanskrit'>('all');
+  const [sourceFilter, setSourceFilter] = useState<
+    'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit'
+  >('all');
   const [onlyBookmarked, setOnlyBookmarked] = useState(false);
 
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(() => loadBookmarks());
@@ -107,7 +114,11 @@ export const App: React.FC = () => {
     rate: 1.0,
     loopVerse: false,
     autoScroll: true,
-    mode: 'studio-vocal-chant',
+    mode: 'neural-vits-48k',
+    voice: 'male',
+    omDroneActive: false,
+    backendOnline: true,
+    spriteCount: 612,
   });
 
   useEffect(() => {
@@ -230,6 +241,7 @@ export const App: React.FC = () => {
                 sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
               }
               onPlaySingleSyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+              onNavigateTab={setActiveTab}
             />
           </div>
         )}
@@ -239,24 +251,76 @@ export const App: React.FC = () => {
         )}
 
         {activeTab === 'phonetics-academy' && (
-          <SanskritPhoneticsAcademy
-            onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-          />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载悉昙十八章与牛津 OCHS 种子字辞典...</div>}>
+              <SiddhamBijaAcademy />
+            </Suspense>
+            <SanskritPhoneticsAcademy
+              onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+            />
+          </div>
         )}
 
         {activeTab === 'custom-compiler' && (
-          <CustomDharaniCompiler
-            customEntries={customEntries}
-            onAddCustomEntry={handleAddCustomEntry}
-            onDeleteCustomEntry={handleDeleteCustomEntry}
-            onSelectEntryInReader={(id) => handleSelectEntry(id)}
-            onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-          />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+            <section className="dharani-hero-card">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+                <div>
+                  <h2 className="hero-title-zh" style={{ fontSize: '1.25rem' }}>
+                    梵语悉昙四行谱发音引擎与 34×14 摩多矩阵工作台 v3.0 (48,000 Hz Neural VITS)
+                  </h2>
+                  <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+                    集成 IIT Madras Rasa 古典梵语男/女声 ONNX VITS (48kHz) + 612音节 Siddhaṃ Audio Sprite + 136.1Hz 共振峰合成器 + 四行对位总谱与 34×14 摩多矩阵点读。
+                  </p>
+                </div>
+                <a
+                  href="/sanskrit_phonetic_engine.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-scholarly primary"
+                  style={{ textDecoration: 'none' }}
+                >
+                  <span>新窗口全屏打开独立版发音引擎 v3.0 ↗</span>
+                </a>
+              </div>
+              <iframe
+                src="/sanskrit_phonetic_engine.html"
+                title="梵语悉昙四行谱发音引擎 v3.0"
+                style={{
+                  width: '100%',
+                  height: '760px',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-sm)',
+                  background: '#0f1420',
+                }}
+              />
+            </section>
+
+            <CustomDharaniCompiler
+              customEntries={customEntries}
+              onAddCustomEntry={handleAddCustomEntry}
+              onDeleteCustomEntry={handleDeleteCustomEntry}
+              onSelectEntryInReader={(id) => handleSelectEntry(id)}
+              onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+            />
+          </div>
         )}
 
         {activeTab === 'interlinear' && (
           <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载房山石经与 T54 对音语料库...</div>}>
             <FangshanTaishoInterlinearStudio />
+          </Suspense>
+        )}
+
+        {activeTab === 'concordance' && (
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载奥斯陆 16 本心经与多本同源对勘台...</div>}>
+            <ConcordanceParallelStudio />
+          </Suspense>
+        )}
+
+        {activeTab === 'cudl' && (
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载剑桥大学 CUDL 梵文贝叶经写本馆...</div>}>
+            <CudlPalmLeafViewer />
           </Suspense>
         )}
 

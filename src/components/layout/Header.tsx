@@ -222,44 +222,8 @@ export const Header: React.FC<HeaderProps> = ({
               className={`nav-tab-btn ${activeTab === 'canon-reader' ? 'active' : ''}`}
               onClick={() => onTabChange('canon-reader')}
             >
-              <BookOpen size={15} />
-              <span>陀罗尼多体总持典 ({allEntries.length})</span>
-            </button>
-            <button
-              id="nav-tab-taisho-explorer"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'taisho-explorer' ? 'active' : ''}`}
-              onClick={() => onTabChange('taisho-explorer')}
-            >
-              <Library size={15} />
-              <span>大正藏密教部 (614经·14,485咒)</span>
-            </button>
-            <button
-              id="nav-tab-phonetics-academy"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'phonetics-academy' ? 'active' : ''}`}
-              onClick={() => onTabChange('phonetics-academy')}
-            >
-              <GraduationCap size={15} />
-              <span>悉昙五十字母与声明学</span>
-            </button>
-            <button
-              id="nav-tab-custom-compiler"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'custom-compiler' ? 'active' : ''}`}
-              onClick={() => onTabChange('custom-compiler')}
-            >
-              <Code2 size={15} />
-              <span>梵咒实时编译器</span>
-            </button>
-            <button
-              id="nav-tab-interlinear"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'interlinear' ? 'active' : ''}`}
-              onClick={() => onTabChange('interlinear')}
-            >
-              <ScrollText size={15} />
-              <span>房山石经与T54对音</span>
+              <BookOpen size={14} />
+              <span>陀罗尼总持典 ({allEntries.length})</span>
             </button>
             <button
               id="nav-tab-hub"
@@ -267,8 +231,62 @@ export const Header: React.FC<HeaderProps> = ({
               className={`nav-tab-btn ${activeTab === 'hub' ? 'active' : ''}`}
               onClick={() => onTabChange('hub')}
             >
-              <Globe size={15} />
-              <span>全球12大数据库 (12)</span>
+              <Globe size={14} />
+              <span>全球12大数据库 (DB1–12)</span>
+            </button>
+            <button
+              id="nav-tab-interlinear"
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'interlinear' ? 'active' : ''}`}
+              onClick={() => onTabChange('interlinear')}
+            >
+              <ScrollText size={14} />
+              <span>房山石经与T54对音 (741部)</span>
+            </button>
+            <button
+              id="nav-tab-concordance"
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'concordance' ? 'active' : ''}`}
+              onClick={() => onTabChange('concordance')}
+            >
+              <Globe size={14} />
+              <span>多本同源对勘 (16本心经)</span>
+            </button>
+            <button
+              id="nav-tab-cudl"
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'cudl' ? 'active' : ''}`}
+              onClick={() => onTabChange('cudl')}
+            >
+              <BookOpen size={14} />
+              <span>剑桥CUDL贝叶经 (69部)</span>
+            </button>
+            <button
+              id="nav-tab-phonetics-academy"
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'phonetics-academy' ? 'active' : ''}`}
+              onClick={() => onTabChange('phonetics-academy')}
+            >
+              <GraduationCap size={14} />
+              <span>悉昙十八章与OCHS种子字</span>
+            </button>
+            <button
+              id="nav-tab-taisho-explorer"
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'taisho-explorer' ? 'active' : ''}`}
+              onClick={() => onTabChange('taisho-explorer')}
+            >
+              <Library size={14} />
+              <span>大正藏密教部 (614经)</span>
+            </button>
+            <button
+              id="nav-tab-custom-compiler"
+              type="button"
+              className={`nav-tab-btn ${activeTab === 'custom-compiler' ? 'active' : ''}`}
+              onClick={() => onTabChange('custom-compiler')}
+            >
+              <Code2 size={14} />
+              <span>四行谱发音引擎v3.0与编译器</span>
             </button>
           </nav>
 
@@ -302,24 +320,33 @@ export const Header: React.FC<HeaderProps> = ({
               <span>权威馆藏规模：</span>
             </span>
             <span className="prov-stat-item">
-              四体精校经咒专集 <strong>{allEntries.length}</strong> 部（含逾百首核心真言）
+              多体精校与12库梵本专集 <strong>{allEntries.length}</strong> 部
             </span>
             <span className="prov-stat-item">
-              大正藏密教部全集 <strong>{CORPUS_AUTHORITATIVE_STATS.taishoMikkyoIndexedScripturesCount}</strong> 部经轨 ·{' '}
+              全球12大权威数据库 (<strong>DB1 房山石经</strong> · <strong>DB3 DSBC</strong> · <strong>DB4 84000</strong> · <strong>DB7 剑桥CUDL</strong> · <strong>DB8 奥斯陆16本</strong> · <strong>DB12 牛津OCHS</strong>)
+            </span>
+            <span className="prov-stat-item">
+              大正藏密教部 <strong>{CORPUS_AUTHORITATIVE_STATS.taishoMikkyoIndexedScripturesCount}</strong> 经 ·{' '}
               <strong>{CORPUS_AUTHORITATIVE_STATS.taishoMikkyoTotalDharaniBlocks.toLocaleString()}</strong> 段真言
             </span>
             <span className="prov-stat-item">
-              CBETA 悉昙字库 <strong>{CORPUS_AUTHORITATIVE_STATS.cbetaSiddhamGaijiTotalMapped}</strong> 字元
-            </span>
-            <span className="prov-stat-item">
-              GRETIL 梵文贝叶本 <strong>{CORPUS_AUTHORITATIVE_STATS.gretilDownloadedManuscriptsCount}</strong> 部
-            </span>
-            <span className="prov-stat-item">
-              12大国际梵典库 (<strong>db1_fangshan</strong> … <strong>db12_muktabodha_ochs</strong>)
+              语音方案：<strong>48,000 Hz 神经VITS (sa.onnx 男/女声)</strong> + <strong>612音节Sprite</strong> + <strong>136.1Hz Om共振场</strong>
             </span>
           </div>
-          <div>
-            <span>每句配备「梵音拼读参考 + 唐宋古汉语音译」平行对照 · 全咒六体合一汇总 · 一键导出 .WAV</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span>六体全咒汇总 · 梵音拼读附(IAST)开关 · 种子字破译 · 48kHz .WAV 导出</span>
+            <a
+              href="/sanskrit_phonetic_engine.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'var(--accent-vermilion)',
+                fontWeight: 700,
+                textDecoration: 'none',
+              }}
+            >
+              独立版发音引擎 v3.0 ↗
+            </a>
           </div>
         </div>
       </div>

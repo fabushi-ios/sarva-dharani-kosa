@@ -47,6 +47,15 @@ export const DHARANI_CATEGORIES: CategoryMeta[] = [
       '收录《般若波罗蜜多心经》梵本真言、《圣佛母小字般若经》真言、《帝释般若心经》真言、《广大宝楼阁善住秘密陀罗尼》及法界/三昧耶/补阙总持门。',
   },
   {
+    id: 'global-12db-canon',
+    nameZh: '全球12大权威数据库梵本专集 (DB1–DB12)',
+    nameSanskrit: 'Viśva-Dvādaśa-Kośa-Dhāraṇī',
+    bijaSiddham: '𑖤𑖿𑖨𑖳𑖼',
+    bijaIast: 'bhrūṃ',
+    descriptionZh:
+      '全量整合全球 12 大权威梵文陀罗尼数据库：房山石经 F28n1071、大正藏悉昙/字书、尼泊尔 DSBC 百品陀罗尼集、84000 藏密真言、BuddhaNexus、SARIT 密续、剑桥 CUDL 贝叶经与 Hidas 校勘本、奥斯陆 Polyglotta 16本对勘、维也纳 rKTs 德格版陀罗尼集、ALL-NIBS 尼瓦尔梵本、IDP/CEToM 丝路西域梵本、牛津 OCHS 种子字辞典与《金刚顶经》校勘本。',
+  },
+  {
     id: 'gretil-canonical',
     nameZh: 'GRETIL 梵文贝叶经 (200部)',
     nameSanskrit: 'GRETIL-Nepāla-Ratna-Kośa',

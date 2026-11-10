@@ -7,9 +7,10 @@ import {
   Volume2,
   Navigation,
 } from 'lucide-react';
-import type {
-  AudioEngineMode,
-  PlaybackState,
+import {
+  sanskritAudioEngine,
+  type AudioEngineMode,
+  type PlaybackState,
 } from '../../services/audio/sanskritAudioEngine';
 
 interface AudioPlayerBarProps {
@@ -82,6 +83,30 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             <Navigation size={14} />
             <span>{playbackState.autoScroll ? '自动追字：开' : '自动追字'}</span>
           </button>
+
+          <button
+            id="audio-bar-voice-btn"
+            type="button"
+            className="audio-icon-btn"
+            onClick={() =>
+              sanskritAudioEngine.setVoice(
+                playbackState.voice === 'male' ? 'female' : 'male'
+              )
+            }
+            title="切换 48kHz 古典梵语男声 (sa_studio_male) / 女声 (sa_studio_female)"
+          >
+            <span>{playbackState.voice === 'female' ? '👩 女声' : '🧔 男声'}</span>
+          </button>
+
+          <button
+            id="audio-bar-drone-btn"
+            type="button"
+            className={`audio-icon-btn ${playbackState.omDroneActive ? 'active' : ''}`}
+            onClick={() => sanskritAudioEngine.toggleOmDrone()}
+            title="开启或关闭 136.1Hz Sadja (Om) 持续共振背景场"
+          >
+            <span>{playbackState.omDroneActive ? '🔔 136.1Hz Om' : '🔕 Om共振'}</span>
+          </button>
         </div>
 
         <div className="audio-live-readout">
@@ -140,7 +165,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             </div>
           ) : (
             <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              当前待诵：<strong>{dharaniTitleZh}</strong>（预渲染 44.1kHz 连续人声声道 · 硬件时钟零延迟同步跟读）
+              当前待诵：<strong>{dharaniTitleZh}</strong>（48,000 Hz 神经VITS + 612音节Sprite + 136.1Hz 共振峰 · 硬件时钟零延迟跟读）
             </div>
           )}
         </div>
@@ -165,8 +190,11 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             value={playbackState.mode}
             onChange={(e) => onChangeMode(e.target.value as AudioEngineMode)}
           >
+            <option value="neural-vits-48k">
+              48,000 Hz 古典梵语神经VITS (sa.onnx / sa_female.onnx)
+            </option>
             <option value="studio-vocal-chant">
-              预渲染连续梵音唱诵 + 寺院引磬 (44.1kHz 零延迟跟读)
+              136.1Hz 连续共振峰梵音唱诵 + 寺院引磬 (零延迟跟读)
             </option>
             <option value="mandarin-phonetic-guide">
               现代梵音拼读普通话领诵 (逐字慢速教念)

@@ -5,6 +5,7 @@ import { TEN_SMALL_DHARANIS } from './kosa-corpus/ten-small-dharanis';
 import { BUDDHAS_AND_PROTECTORS_DHARANIS } from './kosa-corpus/buddhas-bodhisattvas';
 import { EXPANDED_FAMOUS_DHARANIS } from './kosa-corpus/expanded-famous-dharanis';
 import { WORLD_ENCYCLOPEDIA_DHARANIS } from './kosa-corpus/world-mantras-encyclopedia';
+import { TWELVE_DATABASES_ADAPTED_DHARANIS } from './kosa-corpus/twelve-databases-adapter';
 import { GRETIL_CANONICAL_DHARANIS } from './kosa-corpus/gretil-canon-adapter';
 import { AUTHORITATIVE_CBETA_RECORDS } from './kosa-generated/cbetaAuthRecords';
 import { ALL_GRETIL_MANTRA_RECORDS } from './kosa-generated/gretilAllMantras';
@@ -21,6 +22,7 @@ export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
   ...BUDDHAS_AND_PROTECTORS_DHARANIS,
   ...EXPANDED_FAMOUS_DHARANIS,
   ...WORLD_ENCYCLOPEDIA_DHARANIS,
+  ...TWELVE_DATABASES_ADAPTED_DHARANIS,
   ...GRETIL_CANONICAL_DHARANIS,
 ];
 

@@ -3,6 +3,24 @@ import { Bookmark, ChevronDown } from 'lucide-react';
 import type { DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
 import { DHARANI_CATEGORIES } from '../../data/categories';
 
+export type SourceFilterType = 'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit';
+
+const TWELVE_DB_CHIPS: Array<{ id: string; label: string }> = [
+  { id: 'all', label: '全部12库' },
+  { id: 'db1_fangshan', label: 'DB1 房山石经' },
+  { id: 'db2_taisho_ext', label: 'DB2 大正悉昙/字书' },
+  { id: 'db3_dsbc_gretil', label: 'DB3 尼泊尔DSBC' },
+  { id: 'db4_84000', label: 'DB4 84000藏密' },
+  { id: 'db5_buddhanexus', label: 'DB5 BuddhaNexus' },
+  { id: 'db6_sarit', label: 'DB6 SARIT密续' },
+  { id: 'db7_cudl_hidas', label: 'DB7 剑桥CUDL' },
+  { id: 'db8_polyglotta', label: 'DB8 奥斯陆对勘' },
+  { id: 'db9_rkts', label: 'DB9 维也纳rKTs' },
+  { id: 'db10_all_nibs', label: 'DB10 ALL-NIBS' },
+  { id: 'db11_idp_dunhuang', label: 'DB11 西域丝路' },
+  { id: 'db12_muktabodha_ochs', label: 'DB12 牛津OCHS' },
+];
+
 interface SidebarFilterProps {
   entries: DharaniEntry[];
   totalCorpusCount: number;
@@ -10,8 +28,8 @@ interface SidebarFilterProps {
   onSelectEntry: (id: string) => void;
   selectedCategory: DharaniCategoryId | 'all';
   onSelectCategory: (cat: DharaniCategoryId | 'all') => void;
-  sourceFilter: 'all' | 'cbeta-siddham' | 'gretil-sanskrit';
-  onSourceFilterChange: (f: 'all' | 'cbeta-siddham' | 'gretil-sanskrit') => void;
+  sourceFilter: SourceFilterType;
+  onSourceFilterChange: (f: SourceFilterType) => void;
   onlyBookmarked: boolean;
   onToggleOnlyBookmarked: () => void;
   bookmarkedIds: Set<string>;
@@ -31,24 +49,33 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   bookmarkedIds,
 }) => {
   const [visibleCount, setVisibleCount] = useState<number>(80);
+  const [selectedDbSubFilter, setSelectedDbSubFilter] = useState<string>('all');
+
+  const dbFilteredEntries = useMemo(() => {
+    if (selectedDbSubFilter === 'all') return entries;
+    return entries.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
+  }, [entries, selectedDbSubFilter]);
 
   const displayedEntries = useMemo(() => {
-    const sliced = entries.slice(0, visibleCount);
+    const sliced = dbFilteredEntries.slice(0, visibleCount);
     if (selectedId && !sliced.some((e) => e.id === selectedId)) {
-      const selectedItem = entries.find((e) => e.id === selectedId);
+      const selectedItem = dbFilteredEntries.find((e) => e.id === selectedId);
       if (selectedItem) {
         return [selectedItem, ...sliced];
       }
     }
     return sliced;
-  }, [entries, visibleCount, selectedId]);
+  }, [dbFilteredEntries, visibleCount, selectedId]);
+
+  const show12DbSubBar =
+    sourceFilter === 'global-12db' || selectedCategory === 'global-12db-canon' || selectedDbSubFilter !== 'all';
 
   return (
     <aside className="sidebar-panel" aria-label="梵文陀罗尼分类目录">
       <div className="sidebar-top-controls">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-            总持部类检索 ({entries.length} / {totalCorpusCount} 部)
+            总持部类检索 ({dbFilteredEntries.length} / {totalCorpusCount} 部)
           </span>
           <button
             id="filter-bookmarks-toggle"
@@ -69,6 +96,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
             className={`category-pill-btn ${selectedCategory === 'all' ? 'active' : ''}`}
             onClick={() => {
               setVisibleCount(80);
+              setSelectedDbSubFilter('all');
               onSelectCategory('all');
             }}
           >
@@ -83,6 +111,9 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               className={`category-pill-btn ${selectedCategory === cat.id ? 'active' : ''}`}
               onClick={() => {
                 setVisibleCount(80);
+                if (cat.id !== 'global-12db-canon') {
+                  setSelectedDbSubFilter('all');
+                }
                 onSelectCategory(cat.id);
               }}
               title={cat.descriptionZh}
@@ -100,31 +131,77 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
             id="source-filter-all"
             type="button"
             className={`source-chip-btn ${sourceFilter === 'all' ? 'active' : ''}`}
-            onClick={() => onSourceFilterChange('all')}
+            onClick={() => {
+              setSelectedDbSubFilter('all');
+              onSourceFilterChange('all');
+            }}
           >
             全部原典 ({totalCorpusCount})
+          </button>
+          <button
+            id="source-filter-12db"
+            type="button"
+            className={`source-chip-btn ${sourceFilter === 'global-12db' ? 'active' : ''}`}
+            onClick={() => onSourceFilterChange('global-12db')}
+          >
+            全球12库(DB1-12)
           </button>
           <button
             id="source-filter-cbeta"
             type="button"
             className={`source-chip-btn ${sourceFilter === 'cbeta-siddham' ? 'active' : ''}`}
-            onClick={() => onSourceFilterChange('cbeta-siddham')}
+            onClick={() => {
+              setSelectedDbSubFilter('all');
+              onSourceFilterChange('cbeta-siddham');
+            }}
           >
-            CBETA 大藏经 (650+)
+            CBETA对音
           </button>
           <button
             id="source-filter-gretil"
             type="button"
             className={`source-chip-btn ${sourceFilter === 'gretil-sanskrit' ? 'active' : ''}`}
-            onClick={() => onSourceFilterChange('gretil-sanskrit')}
+            onClick={() => {
+              setSelectedDbSubFilter('all');
+              onSourceFilterChange('gretil-sanskrit');
+            }}
           >
-            GRETIL 梵本 (200)
+            GRETIL(200)
           </button>
         </div>
+
+        {show12DbSubBar && (
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '0.28rem',
+              paddingTop: '0.35rem',
+              borderTop: '1px dashed var(--border-subtle)',
+            }}
+            role="group"
+            aria-label="全球12大权威数据库子筛选"
+          >
+            {TWELVE_DB_CHIPS.map((chip) => (
+              <button
+                key={chip.id}
+                type="button"
+                className={`source-chip-btn ${selectedDbSubFilter === chip.id ? 'active' : ''}`}
+                style={{ fontSize: '0.68rem', padding: '0.18rem 0.42rem', flex: 'none' }}
+                onClick={() => {
+                  setVisibleCount(80);
+                  setSelectedDbSubFilter(chip.id);
+                }}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="dharani-catalog-list">
-        {entries.length === 0 ? (
+        {dbFilteredEntries.length === 0 ? (
           <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.86rem' }}>
             未找到匹配的梵文陀罗尼条目，请尝试切换部类或清空搜索词。
           </div>
@@ -135,6 +212,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 entry.provenance.cbetaInterlinearTokens &&
                 entry.provenance.cbetaInterlinearTokens.length > 0;
               const hasGretil = Boolean(entry.provenance.gretilFile);
+              const dbBadge = entry.provenance.databaseBadgeZh;
               const isSelected = entry.id === selectedId;
 
               return (
@@ -148,12 +226,25 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   <div className="catalog-item-top">
                     <span className="catalog-taisho-tag">{entry.taishoNo}</span>
                     <div className="catalog-source-badges">
+                      {dbBadge && (
+                        <span
+                          className="badge-siddham-tt"
+                          style={{
+                            background: 'rgba(139, 92, 246, 0.14)',
+                            color: '#6d28d9',
+                            borderColor: 'rgba(139, 92, 246, 0.32)',
+                          }}
+                          title={`全球12大权威数据库来源：${dbBadge}`}
+                        >
+                          {dbBadge}
+                        </span>
+                      )}
                       {hasSiddhamTokens && (
                         <span className="badge-siddham-tt" title="含 CBETA 官方 #SD-* 悉昙梵字逐字对音数据">
                           悉昙对音 {entry.provenance.cbetaInterlinearTokens?.length}字
                         </span>
                       )}
-                      {hasGretil && (
+                      {hasGretil && !dbBadge && (
                         <span className="badge-gretil-ms" title={`含 GRETIL 梵文原典 (${entry.provenance.gretilFile})`}>
                           GRETIL梵本
                         </span>
@@ -166,7 +257,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               );
             })}
 
-            {entries.length > visibleCount && (
+            {dbFilteredEntries.length > visibleCount && (
               <div style={{ padding: '0.75rem', display: 'flex', gap: '0.5rem' }}>
                 <button
                   id="btn-load-more-catalog"
@@ -176,16 +267,16 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   onClick={() => setVisibleCount((prev) => prev + 150)}
                 >
                   <ChevronDown size={14} />
-                  <span>继续加载 (+150 部 · 剩余 {entries.length - visibleCount} 部)</span>
+                  <span>继续加载 (+150 部 · 剩余 {dbFilteredEntries.length - visibleCount} 部)</span>
                 </button>
                 <button
                   id="btn-load-all-catalog"
                   type="button"
                   className="btn-secondary-gold"
                   style={{ fontSize: '0.78rem' }}
-                  onClick={() => setVisibleCount(entries.length)}
+                  onClick={() => setVisibleCount(dbFilteredEntries.length)}
                 >
-                  展开全部 ({entries.length})
+                  展开全部 ({dbFilteredEntries.length})
                 </button>
               </div>
             )}
@@ -195,3 +286,4 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     </aside>
   );
 };
+

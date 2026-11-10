@@ -31,9 +31,12 @@ import { mapSyllableToChinesePhonetics } from '../../core/sanskrit/phoneticMappe
 import type { DharaniVerse } from '../../types/kosaTypes';
 
 export type AudioEngineMode =
+  | 'neural-vits-48k'
   | 'studio-vocal-chant'
   | 'mandarin-phonetic-guide'
   | 'indic-devanagari-tts';
+
+export type SanskritVoiceGender = 'male' | 'female';
 
 export interface PlaybackSyllableTiming {
   syl: SyllableAnalysis;
@@ -56,6 +59,10 @@ export interface PlaybackState {
   loopVerse: boolean;
   autoScroll: boolean;
   mode: AudioEngineMode;
+  voice: SanskritVoiceGender;
+  omDroneActive: boolean;
+  backendOnline: boolean;
+  spriteCount: number;
 }
 
 type StateListener = (state: PlaybackState) => void;
@@ -75,10 +82,13 @@ class SanskritAudioEngine {
   private activeSourceNode: AudioBufferSourceNode | null = null;
   private rafId: number | null = null;
   private abortController: AbortController | null = null;
+  private droneGainNode: GainNode | null = null;
+  private droneOscillators: OscillatorNode[] = [];
 
   constructor() {
     if (typeof window !== 'undefined') {
       (window as unknown as Record<string, unknown>).sarvaAudioEngine = this;
+      this.probeBackendHealth();
     }
   }
 
@@ -94,10 +104,30 @@ class SanskritAudioEngine {
     rate: 1.0,
     loopVerse: false,
     autoScroll: true,
-    mode: 'studio-vocal-chant',
+    mode: 'neural-vits-48k',
+    voice: 'male',
+    omDroneActive: false,
+    backendOnline: true,
+    spriteCount: 612,
   };
 
   private listeners: Set<StateListener> = new Set();
+
+  private async probeBackendHealth() {
+    try {
+      const res = await fetch(AUDIO_API_ENDPOINTS.health);
+      if (res.ok) {
+        const data = await res.json();
+        this.state.backendOnline = data?.status === 'ok';
+        if (typeof data?.spriteCount === 'number') {
+          this.state.spriteCount = data.spriteCount;
+        }
+        this.notify();
+      }
+    } catch {
+      // Keep default fallback
+    }
+  }
 
   public subscribe(listener: StateListener): () => void {
     this.listeners.add(listener);
@@ -146,6 +176,91 @@ class SanskritAudioEngine {
     this.notify();
   }
 
+  public setVoice(voice: SanskritVoiceGender) {
+    this.state.voice = voice;
+    this.notify();
+  }
+
+  public getVoice(): SanskritVoiceGender {
+    return this.state.voice;
+  }
+
+  public isOmDroneActive(): boolean {
+    return this.state.omDroneActive;
+  }
+
+  /**
+   * Toggle continuous 136.1Hz Sadja (Om) + 204.15Hz Pa + 272.2Hz Sa' background resonance field
+   */
+  public toggleOmDrone(): boolean {
+    if (this.state.omDroneActive) {
+      this.stopOmDrone();
+      return false;
+    }
+    const ctx = this.getAudioContext();
+    const masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
+    masterGain.gain.exponentialRampToValueAtTime(0.055, ctx.currentTime + 0.8);
+    masterGain.connect(ctx.destination);
+
+    const freqs = [
+      { hz: SA_FUNDAMENTAL_HZ, gain: 0.55, type: 'sine' as OscillatorType },
+      { hz: SA_FUNDAMENTAL_HZ * 1.5, gain: 0.28, type: 'sine' as OscillatorType }, // 204.15 Hz Pa
+      { hz: SA_FUNDAMENTAL_HZ * 2.0, gain: 0.17, type: 'triangle' as OscillatorType }, // 272.2 Hz Sa'
+    ];
+
+    const oscs: OscillatorNode[] = [];
+    for (const f of freqs) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = f.type;
+      osc.frequency.setValueAtTime(f.hz, ctx.currentTime);
+      g.gain.setValueAtTime(f.gain, ctx.currentTime);
+      osc.connect(g);
+      g.connect(masterGain);
+      osc.start();
+      oscs.push(osc);
+    }
+
+    this.droneGainNode = masterGain;
+    this.droneOscillators = oscs;
+    this.state.omDroneActive = true;
+    this.notify();
+    return true;
+  }
+
+  public stopOmDrone() {
+    if (this.droneGainNode && this.audioCtx) {
+      try {
+        this.droneGainNode.gain.setValueAtTime(
+          Math.max(0.001, this.droneGainNode.gain.value),
+          this.audioCtx.currentTime
+        );
+        this.droneGainNode.gain.exponentialRampToValueAtTime(
+          0.0001,
+          this.audioCtx.currentTime + 0.25
+        );
+      } catch {
+        // ignore
+      }
+    }
+    const oscsToStop = [...this.droneOscillators];
+    setTimeout(() => {
+      for (const osc of oscsToStop) {
+        try {
+          osc.stop();
+          osc.disconnect();
+        } catch {
+          // ignore
+        }
+      }
+    }, 260);
+    this.droneOscillators = [];
+    this.droneGainNode = null;
+    this.state.omDroneActive = false;
+    this.notify();
+  }
+
   public stop() {
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
@@ -179,7 +294,7 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Play a single Sanskrit syllable with instant pre-rendered vocal buffer
+   * Play a single Sanskrit syllable with 48,000 Hz Neural VITS API or instant pre-rendered vocal buffer
    */
   public async playSingleSyllable(iastSyllable: string) {
     const prosody = analyzeSanskritProsody(iastSyllable);
@@ -210,6 +325,26 @@ class SanskritAudioEngine {
     }
 
     const ctx = this.getAudioContext();
+
+    if (this.state.mode === 'neural-vits-48k') {
+      try {
+        const res = await fetch(
+          `${AUDIO_API_ENDPOINTS.syllable}${encodeURIComponent(syl.iast)}?voice=${this.state.voice}&rate=${this.state.rate}&format=wav`
+        );
+        if (res.ok) {
+          const arrBuf = await res.arrayBuffer();
+          const decoded = await ctx.decodeAudioData(arrBuf);
+          const src = ctx.createBufferSource();
+          src.buffer = decoded;
+          src.connect(ctx.destination);
+          src.start();
+          return;
+        }
+      } catch {
+        // Fallback to local 48kHz formant synthesis
+      }
+    }
+
     const { audioBuffer } = this.synthesizeContinuousVerseBuffer(ctx, [syl], 1.0, false);
     const src = ctx.createBufferSource();
     src.buffer = audioBuffer;
@@ -441,13 +576,28 @@ class SanskritAudioEngine {
       const hasNasal = /[ṃṁmnṇñṅ]/.test(syl.iast);
 
       // Vedic chanting pitch contour:
-      // Guru syllables have Udātta (elevated sacred pitch 146 Hz -> 138 Hz), Laghu stays near Sa
-      const f0Start = syl.weight === 'guru' ? 148.0 : SA_FUNDAMENTAL_HZ;
-      const f0End = syl.weight === 'guru' ? 137.5 : 134.5;
+      // Male: Guru 148 Hz -> 137.5 Hz, Laghu 136.1 Hz -> 134.5 Hz
+      // Female: Guru 232 Hz -> 216 Hz, Laghu 216 Hz -> 208 Hz
+      const isFemale = this.state.voice === 'female';
+      const f0Start = isFemale
+        ? syl.weight === 'guru'
+          ? 232.0
+          : 216.0
+        : syl.weight === 'guru'
+        ? 148.0
+        : SA_FUNDAMENTAL_HZ;
+      const f0End = isFemale
+        ? syl.weight === 'guru'
+          ? 216.0
+          : 208.0
+        : syl.weight === 'guru'
+        ? 137.5
+        : 134.5;
 
-      const f1 = syl.formantHz.f1;
-      const f2 = syl.formantHz.f2;
-      const f3 = 2650;
+      const formantScale = isFemale ? 1.14 : 1.0;
+      const f1 = syl.formantHz.f1 * formantScale;
+      const f2 = syl.formantHz.f2 * formantScale;
+      const f3 = 2650 * formantScale;
 
       // Biquad resonator state variables
       let y1_1 = 0, y1_2 = 0;

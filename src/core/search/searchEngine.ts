@@ -7,7 +7,7 @@ export interface SearchFilterOptions {
   categoryId: DharaniCategoryId | 'all';
   onlyBookmarked: boolean;
   bookmarkedIds: Set<string>;
-  sourceFilter: 'all' | 'cbeta-siddham' | 'gretil-sanskrit';
+  sourceFilter: 'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit';
 }
 
 export interface SearchSuggestionItem {
@@ -63,7 +63,14 @@ export function filterDharanis(
       return false;
     }
 
-    if (options.sourceFilter === 'cbeta-siddham') {
+    if (options.sourceFilter === 'global-12db') {
+      if (
+        entry.provenance.sourceType !== 'GLOBAL-12DB' &&
+        !entry.provenance.databaseId
+      ) {
+        return false;
+      }
+    } else if (options.sourceFilter === 'cbeta-siddham') {
       const hasSiddham =
         (entry.provenance.cbetaInterlinearTokens &&
           entry.provenance.cbetaInterlinearTokens.length > 0) ||
@@ -89,6 +96,8 @@ export function filterDharanis(
         entry.meritsAndSummaryZh,
         entry.provenance.gretilFile || '',
         entry.provenance.cbetaId || '',
+        entry.provenance.databaseId || '',
+        entry.provenance.databaseBadgeZh || '',
       ].join(' ')
     );
 

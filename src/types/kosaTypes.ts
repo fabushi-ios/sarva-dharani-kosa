@@ -6,6 +6,7 @@ export type DharaniCategoryId =
   | 'buddhas-bodhisattvas'  // 诸佛菩萨心咒与本尊真言
   | 'vidyarajas-protectors' // 五大明王、五护陀罗尼与护法天部
   | 'prajna-sutra-hrdaya'   // 般若与经典总持门
+  | 'global-12db-canon'     // 全球12大权威数据库梵本专集 (DB1–DB12)
   | 'gretil-canonical'      // GRETIL/DSBC 现存梵文贝叶经原典专集 (200部)
   | 'custom';               // 用户导入/实时编译模块
 
@@ -40,7 +41,14 @@ export interface DharaniVerse {
 }
 
 export interface AuthoritativeProvenance {
-  sourceType: 'CBETA+GRETIL' | 'GRETIL/DSBC' | 'CBETA-XML-P5' | 'Academic-Critical-Edition';
+  sourceType:
+    | 'CBETA+GRETIL'
+    | 'GRETIL/DSBC'
+    | 'CBETA-XML-P5'
+    | 'Academic-Critical-Edition'
+    | 'GLOBAL-12DB';
+  databaseId?: string;          // e.g. 'db1_fangshan' .. 'db12_muktabodha_ochs'
+  databaseBadgeZh?: string;     // e.g. 'DB1 · 房山石经 F28n1071'
   cbetaId?: string;
   cbetaRawXmlUrl?: string;
   cbetaOnlineUrl?: string;
@@ -62,6 +70,7 @@ export interface DharaniEntry {
   translatorZh: string;
   sutraSourceZh: string;
   deityZh: string;
+  bijaIast?: string;
   meritsAndSummaryZh: string;
   recitationTipsZh: string;
   externalAudioUrl?: string;
@@ -85,10 +94,13 @@ export interface ScriptVisibilityConfig {
 }
 
 export type ActiveWorkspaceTab =
-  | 'canon-reader'       // 核心陀罗尼四体对照与发音解析工作台
+  | 'canon-reader'       // 核心陀罗尼多体对照与发音解析工作台
+  | 'hub'                // 全球 12 大梵典数据库总览与跨库检索中心 (DB1–DB12)
+  | 'interlinear'        // 房山石经 F28n1071 与 T54 悉昙逐字对音工作台
+  | 'concordance'        // 多本同源逐句对勘工作台 (16本心经/大悲/尊胜/八大陀罗尼)
+  | 'cudl'               // 剑桥大学 CUDL 梵文贝叶经写本与 Hidas 校勘本馆 (69部)
+  | 'phonetics-academy'  // 悉昙十八章、声明学 (Śikṣā) 与牛津 OCHS 种子字辞典
   | 'taisho-explorer'    // 大正藏密教部 (T18-T21, 614部) 实时原典解析器
-  | 'phonetics-academy'  // 梵文声明学 (Śikṣā) 与悉昙五十字母发音教室
-  | 'custom-compiler'    // 梵文陀罗尼实时编译器与 JSON 模块扩展
-  | 'interlinear'        // 房山石经与 T54 悉昙逐字对音工作台
-  | 'hub';               // 全球 12 大梵典数据库与多本同源对勘中心
+  | 'custom-compiler';   // 四行谱发音引擎 v3.0 与梵文陀罗尼实时编译器
+
 
