@@ -1,0 +1,10 @@
+node_modules
+dist
+.venv
+.git
+.gemini
+.agents
+__pycache__
+*.pyc
+.pytest_cache
+public/audio/cache/*

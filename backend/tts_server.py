@@ -423,13 +423,21 @@ def get_phonetic_engine_html() -> Response:
 
 app.mount("/audio", StaticFiles(directory=str(PUBLIC_AUDIO_DIR)), name="audio")
 
+DIST_DIR = PROJECT_ROOT / "dist"
+if DIST_DIR.exists() and (DIST_DIR / "index.html").exists():
+    app.mount("/", StaticFiles(directory=str(DIST_DIR), html=True), name="frontend")
+
 
 if __name__ == "__main__":
+    import os
     import uvicorn
 
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", "8765"))
     uvicorn.run(
         app,
-        host="127.0.0.1",
-        port=8765,
+        host=host,
+        port=port,
         log_level="info",
     )
+

@@ -26,13 +26,67 @@ from typing import Any
 import numpy as np
 import onnxruntime as ort
 import scipy.signal
-from ninada.g2p import text_to_ids as ninada_mms_text_to_ids
-from ninada.studio_g2p import STUDIO_HOP_LENGTH, STUDIO_SAMPLE_RATE, STUDIO_VOCABS, studio_text_to_ids
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODELS_DIR = PROJECT_ROOT / "models" / "ninada"
 TARGET_SAMPLE_RATE = 48000
 PEAK_TARGET_LINEAR = 0.8912509381337456  # -1.0 dBFS
+
+try:
+    from ninada.g2p import text_to_ids as ninada_mms_text_to_ids
+    from ninada.studio_g2p import (
+        STUDIO_HOP_LENGTH,
+        STUDIO_SAMPLE_RATE,
+        STUDIO_VOCABS,
+        studio_text_to_ids,
+    )
+except ImportError:
+    _STUDIO_SPEC = json.loads((MODELS_DIR / "vocabs.json").read_text(encoding="utf-8"))
+    STUDIO_SAMPLE_RATE: int = int(_STUDIO_SPEC.get("sample_rate", 24000))
+    STUDIO_HOP_LENGTH: int = int(_STUDIO_SPEC.get("hop_length", 256))
+    STUDIO_VOCABS: dict[str, Any] = _STUDIO_SPEC["languages"]
+    _MMS_SPEC = json.loads((MODELS_DIR / "onnx" / "sa" / "vocab.json").read_text(encoding="utf-8"))
+    _MMS_CHAR_TO_ID: dict[str, int] = {
+        tok: idx for idx, tok in enumerate(_MMS_SPEC.get("vocab_tokens", []))
+    }
+    _MMS_BLANK_ID: int = _MMS_CHAR_TO_ID.get("_", 0)
+
+    def studio_text_to_ids(text: str, lang: str | None = "sa") -> tuple[list[int], str, str]:
+        lc = lang if (lang and lang in STUDIO_VOCABS) else "sa"
+        spec = STUDIO_VOCABS[lc]
+        c2i: dict[str, int] = spec["char_to_id"]
+        blank_id = int(spec["blank_id"])
+        t = unicodedata.normalize("NFC", str(text or "")).strip()
+        t = re.sub(r"[\u0951-\u0954\u1cd0-\u1cff\u200c\u200d\ufeff]", "", t)
+        t = re.sub(r"\s*ऽ+", "ऽ", t).replace("||", "॥").replace("|", "।")
+        cleaned = re.sub(r"\s+", " ", t.lower()).strip()
+        raw_ids = [int(c2i[ch]) for ch in cleaned if ch in c2i]
+        if not raw_ids:
+            raw_ids = [int(c2i.get(" ", spec.get("pad_id", 0)))]
+        interleaved: list[int] = [blank_id]
+        for cid in raw_ids:
+            interleaved.append(cid)
+            interleaved.append(blank_id)
+        return interleaved, lc, cleaned
+
+    def ninada_mms_text_to_ids(text: str, lang: str | None = "sa") -> dict[str, Any]:
+        cleaned = unicodedata.normalize("NFC", str(text or "")).strip()
+        raw_ids = [_MMS_CHAR_TO_ID[ch] for ch in cleaned if ch in _MMS_CHAR_TO_ID]
+        if not raw_ids:
+            raw_ids = [_MMS_CHAR_TO_ID.get("अ", 0)]
+        sp_id = _MMS_CHAR_TO_ID.get(" ")
+        if sp_id is not None and raw_ids[-1] != sp_id:
+            raw_ids.append(sp_id)
+        interleaved: list[int] = [_MMS_BLANK_ID]
+        for tid in raw_ids:
+            interleaved.append(tid)
+            interleaved.append(_MMS_BLANK_ID)
+        while len(interleaved) < 8:
+            interleaved.append(_MMS_BLANK_ID)
+        return {
+            "input_ids": interleaved,
+            "attention_mask": [1] * len(interleaved),
+        }
 
 # ============================================================================
 # Module 1: Multi-Script Input -> SLP1 Phonemic Encoding Engine

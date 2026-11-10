@@ -1,3 +1,13 @@
+---
+title: 梵音宝典 · Sarva-Dhāraṇī-Kośa (48kHz Sanskrit Neural VITS)
+emoji: 🪷
+colorFrom: amber
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 梵音宝典 · Sarva-Dhāraṇī-Kośa & 梵音 100% 全覆盖音译与发声引擎 v3.0 (48kHz 原生梵文神经网络版)
 
 本项目汇集并完整实现了两大梵文陀罗尼工程，并全面集成了 **方案 1（原生古典梵文神经网络 VITS 模型引擎）** 与 **方案 3（预生成 48,000 Hz 悉昙 34×14 矩阵及陀罗尼高频音节真人级神经采样库）**：
