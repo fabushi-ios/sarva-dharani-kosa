@@ -307,6 +307,7 @@ export function getSearchSuggestions(
 
   // Score all matching entries across the entire 1,419-entry corpus so DB1–DB12 are never starved
   const scoredCanon: Array<{ score: number; is12Db: boolean; item: SearchSuggestionItem }> = [];
+  const hasCjk = /[\u4e00-\u9fff]/.test(q);
 
   for (const entry of entries) {
     const doc = getIndexedEntryDoc(entry);
