@@ -30,6 +30,8 @@ interface SidebarFilterProps {
   onSelectCategory: (cat: DharaniCategoryId | 'all') => void;
   sourceFilter: SourceFilterType;
   onSourceFilterChange: (f: SourceFilterType) => void;
+  selectedDbSubFilter?: string;
+  onSelectDbSubFilter?: (dbId: string) => void;
   onlyBookmarked: boolean;
   onToggleOnlyBookmarked: () => void;
   bookmarkedIds: Set<string>;
@@ -44,12 +46,23 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   onSelectCategory,
   sourceFilter,
   onSourceFilterChange,
+  selectedDbSubFilter: controlledDbSubFilter,
+  onSelectDbSubFilter,
   onlyBookmarked,
   onToggleOnlyBookmarked,
   bookmarkedIds,
 }) => {
   const [visibleCount, setVisibleCount] = useState<number>(80);
-  const [selectedDbSubFilter, setSelectedDbSubFilter] = useState<string>('all');
+  const [internalDbSubFilter, setInternalDbSubFilter] = useState<string>('all');
+
+  const selectedDbSubFilter = controlledDbSubFilter ?? internalDbSubFilter;
+  const setSelectedDbSubFilter = (dbId: string) => {
+    if (onSelectDbSubFilter) {
+      onSelectDbSubFilter(dbId);
+    } else {
+      setInternalDbSubFilter(dbId);
+    }
+  };
 
   const dbFilteredEntries = useMemo(() => {
     if (selectedDbSubFilter === 'all') return entries;
@@ -67,8 +80,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     return sliced;
   }, [dbFilteredEntries, visibleCount, selectedId]);
 
-  const show12DbSubBar =
-    sourceFilter === 'global-12db' || selectedCategory === 'global-12db-canon' || selectedDbSubFilter !== 'all';
+  const show12DbSubBar = true;
 
   return (
     <aside className="sidebar-panel" aria-label="梵文陀罗尼分类目录">

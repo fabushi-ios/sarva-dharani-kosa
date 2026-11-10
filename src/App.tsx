@@ -68,6 +68,7 @@ export const App: React.FC = () => {
   const [sourceFilter, setSourceFilter] = useState<
     'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit'
   >('all');
+  const [selectedDbSubFilter, setSelectedDbSubFilter] = useState<string>('all');
   const [onlyBookmarked, setOnlyBookmarked] = useState(false);
 
   const [bookmarkedIds, setBookmarkedIds] = useState<Set<string>>(() => loadBookmarks());
@@ -80,26 +81,38 @@ export const App: React.FC = () => {
     [customEntries]
   );
 
-  const filteredEntries = useMemo(
-    () =>
-      filterDharanis(allEntries, {
-        query: searchQuery,
-        categoryId: selectedCategory,
-        onlyBookmarked,
-        bookmarkedIds,
-        sourceFilter,
-      }),
-    [allEntries, searchQuery, selectedCategory, onlyBookmarked, bookmarkedIds, sourceFilter]
-  );
+  const filteredEntries = useMemo(() => {
+    const base = filterDharanis(allEntries, {
+      query: searchQuery,
+      categoryId: selectedCategory,
+      onlyBookmarked,
+      bookmarkedIds,
+      sourceFilter,
+    });
+    if (sourceFilter === 'global-12db' && selectedDbSubFilter !== 'all') {
+      return base.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
+    }
+    return base;
+  }, [
+    allEntries,
+    searchQuery,
+    selectedCategory,
+    onlyBookmarked,
+    bookmarkedIds,
+    sourceFilter,
+    selectedDbSubFilter,
+  ]);
 
   const [selectedEntryId, setSelectedEntryId] = useState<string>(
     BUILTIN_DHARANI_CORPUS[0]?.id || ''
   );
 
   const activeEntry = useMemo(() => {
+    const foundInFiltered = filteredEntries.find((e) => e.id === selectedEntryId);
+    if (foundInFiltered) return foundInFiltered;
+    if (filteredEntries.length > 0) return filteredEntries[0];
     const foundInAll = allEntries.find((e) => e.id === selectedEntryId);
-    if (foundInAll) return foundInAll;
-    return filteredEntries[0] || allEntries[0];
+    return foundInAll || allEntries[0];
   }, [allEntries, filteredEntries, selectedEntryId]);
 
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
@@ -168,13 +181,56 @@ export const App: React.FC = () => {
     });
   };
 
-  const handleSelectEntry = (id: string, matchedVerseId?: string) => {
+  const handleSelectAdapterDbId = (dbId: string) => {
     sanskritAudioEngine.stop();
     setSelectedCategory('all');
-    setSourceFilter('all');
     setOnlyBookmarked(false);
+    setSourceFilter('global-12db');
+    setSelectedDbSubFilter(dbId);
+    const firstMatch = allEntries.find((e) =>
+      dbId === 'all' ? Boolean(e.provenance.databaseId) : e.provenance.databaseId === dbId
+    );
+    if (firstMatch) {
+      setSelectedEntryId(firstMatch.id);
+    }
+  };
+
+  const handleTabChange = (tab: ActiveWorkspaceTab) => {
+    sanskritAudioEngine.stop();
+    setActiveTab(tab);
+
+    if (tab === 'hub') {
+      setSourceFilter('global-12db');
+      const firstMatch = allEntries.find((e) =>
+        selectedDbSubFilter === 'all'
+          ? Boolean(e.provenance.databaseId)
+          : e.provenance.databaseId === selectedDbSubFilter
+      );
+      if (firstMatch) setSelectedEntryId(firstMatch.id);
+    } else if (tab === 'interlinear') {
+      handleSelectAdapterDbId('db1_fangshan');
+    } else if (tab === 'concordance') {
+      handleSelectAdapterDbId('db8_polyglotta');
+    } else if (tab === 'cudl') {
+      handleSelectAdapterDbId('db7_cudl_hidas');
+    } else if (tab === 'canon-reader') {
+      setSourceFilter('all');
+      setSelectedDbSubFilter('all');
+    }
+  };
+
+  const handleSelectEntry = (id: string, matchedVerseId?: string) => {
+    sanskritAudioEngine.stop();
     setSelectedEntryId(id);
-    setActiveTab('canon-reader');
+    if (
+      activeTab !== 'canon-reader' &&
+      activeTab !== 'hub' &&
+      activeTab !== 'interlinear' &&
+      activeTab !== 'concordance' &&
+      activeTab !== 'cudl'
+    ) {
+      setActiveTab('canon-reader');
+    }
 
     if (matchedVerseId) {
       setTimeout(() => {
@@ -194,14 +250,33 @@ export const App: React.FC = () => {
       return;
     }
     if (item.entry) {
-      handleSelectEntry(item.entry.id, item.matchedVerseId);
+      setSelectedCategory('all');
+      setSourceFilter('all');
+      setSelectedDbSubFilter('all');
+      setOnlyBookmarked(false);
+      setSelectedEntryId(item.entry.id);
+      setActiveTab('canon-reader');
+      if (item.matchedVerseId) {
+        setTimeout(() => {
+          const el = document.getElementById(`verse-card-${item.matchedVerseId}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 120);
+      }
       return;
     }
     if (item.kind === 'global-12db-hit' && item.targetTab) {
-      sanskritAudioEngine.stop();
-      setActiveTab(item.targetTab);
+      handleTabChange(item.targetTab);
     }
   };
+
+  const isUnifiedReaderTab =
+    activeTab === 'canon-reader' ||
+    activeTab === 'hub' ||
+    activeTab === 'interlinear' ||
+    activeTab === 'concordance' ||
+    activeTab === 'cudl';
 
   return (
     <div className="app-shell">
@@ -211,13 +286,24 @@ export const App: React.FC = () => {
         allEntries={allEntries}
         onSelectSuggestion={handleSelectSuggestion}
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
         theme={theme}
         onToggleTheme={handleToggleTheme}
       />
 
       <div className="workspace-container">
-        {activeTab === 'canon-reader' && activeEntry && (
+        {activeTab === 'hub' && (
+          <Suspense fallback={<div style={{ padding: '1rem', textAlign: 'center' }}>正在加载全球 12 大梵典数据库导航...</div>}>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <DatabaseHubExplorer
+                activeAdapterDbId={selectedDbSubFilter}
+                onSelectAdapterDbId={handleSelectAdapterDbId}
+              />
+            </div>
+          </Suspense>
+        )}
+
+        {isUnifiedReaderTab && activeEntry && (
           <div className="canon-reader-grid">
             <SidebarFilter
               entries={filteredEntries}
@@ -227,7 +313,14 @@ export const App: React.FC = () => {
               selectedCategory={selectedCategory}
               onSelectCategory={setSelectedCategory}
               sourceFilter={sourceFilter}
-              onSourceFilterChange={setSourceFilter}
+              onSourceFilterChange={(sf) => {
+                setSourceFilter(sf);
+                if (sf !== 'global-12db') {
+                  setSelectedDbSubFilter('all');
+                }
+              }}
+              selectedDbSubFilter={selectedDbSubFilter}
+              onSelectDbSubFilter={handleSelectAdapterDbId}
               onlyBookmarked={onlyBookmarked}
               onToggleOnlyBookmarked={() => setOnlyBookmarked((b) => !b)}
               bookmarkedIds={bookmarkedIds}
@@ -246,13 +339,64 @@ export const App: React.FC = () => {
                 sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
               }
               onPlaySingleSyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-              onNavigateTab={setActiveTab}
+              onNavigateTab={handleTabChange}
             />
           </div>
         )}
 
+        {activeTab === 'interlinear' && (
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载房山石经与 T54 对音语料库...</div>}>
+            <details style={{ marginTop: '1.5rem' }}>
+              <summary
+                className="btn-scholarly"
+                style={{ cursor: 'pointer', display: 'inline-flex', marginBottom: '0.75rem' }}
+              >
+                展开 / 收起：房山石经与 T54《悉昙字记》声母摩多对勘附表
+              </summary>
+              <FangshanTaishoInterlinearStudio />
+            </details>
+          </Suspense>
+        )}
+
+        {activeTab === 'concordance' && (
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载奥斯陆 16 本心经与多本同源对勘台...</div>}>
+            <details style={{ marginTop: '1.5rem' }}>
+              <summary
+                className="btn-scholarly"
+                style={{ cursor: 'pointer', display: 'inline-flex', marginBottom: '0.75rem' }}
+              >
+                展开 / 收起：多译本平行分栏对勘总表
+              </summary>
+              <ConcordanceParallelStudio />
+            </details>
+          </Suspense>
+        )}
+
+        {activeTab === 'cudl' && (
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载剑桥大学 CUDL 梵文贝叶经写本馆...</div>}>
+            <details style={{ marginTop: '1.5rem' }}>
+              <summary
+                className="btn-scholarly"
+                style={{ cursor: 'pointer', display: 'inline-flex', marginBottom: '0.75rem' }}
+              >
+                展开 / 收起：剑桥大学图书馆 CUDL 高清贝叶经 IIIF 图版检视器
+              </summary>
+              <CudlPalmLeafViewer />
+            </details>
+          </Suspense>
+        )}
+
         {activeTab === 'taisho-explorer' && (
-          <TaishoCanonExplorer initialScriptureId={selectedTaishoScriptureId} />
+          <TaishoCanonExplorer
+            initialScriptureId={selectedTaishoScriptureId}
+            allEntries={allEntries}
+            scriptConfig={scriptConfig}
+            onScriptConfigChange={handleScriptConfigChange}
+            bookmarkedIds={bookmarkedIds}
+            onToggleBookmark={handleToggleBookmark}
+            playbackState={playbackState}
+            onNavigateTab={handleTabChange}
+          />
         )}
 
         {activeTab === 'phonetics-academy' && (
@@ -309,34 +453,6 @@ export const App: React.FC = () => {
               onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
             />
           </div>
-        )}
-
-        {activeTab === 'interlinear' && (
-          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载房山石经与 T54 对音语料库...</div>}>
-            <FangshanTaishoInterlinearStudio />
-          </Suspense>
-        )}
-
-        {activeTab === 'concordance' && (
-          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载奥斯陆 16 本心经与多本同源对勘台...</div>}>
-            <ConcordanceParallelStudio />
-          </Suspense>
-        )}
-
-        {activeTab === 'cudl' && (
-          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载剑桥大学 CUDL 梵文贝叶经写本馆...</div>}>
-            <CudlPalmLeafViewer />
-          </Suspense>
-        )}
-
-        {activeTab === 'hub' && (
-          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载全球 12 大梵典数据库模块...</div>}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-              <DatabaseHubExplorer />
-              <ConcordanceParallelStudio />
-              <CudlPalmLeafViewer />
-            </div>
-          </Suspense>
         )}
       </div>
 

@@ -1,246 +1,203 @@
 import React, { useState, useMemo } from 'react';
-import type { DatabaseId } from '../types/corpus';
 import {
   CANONICAL_DATABASE_IDS,
   UNIFIED_12_DATABASES,
-  inspectDatabaseRecords,
   verifyAllDatabasesIntegrity,
 } from '../data/unifiedCorpusRegistry';
-import { searchAllDatabases } from '../core/searchEngine';
 
-export function DatabaseHubExplorer() {
+const CANON_TO_ADAPTER_DB_ID: Record<string, string> = {
+  db1_fangshan: 'db1_fangshan',
+  db2_taisho_ext: 'db2_taisho_ext',
+  db3_dsbc_gretil: 'db3_dsbc_gretil',
+  db4_84000: 'db4_84000',
+  db5_buddhanexus: 'db5_buddhanexus',
+  db6_sarit: 'db6_sarit',
+  db7_cudl_hidas: 'db7_cudl_hidas',
+  db8_polyglotta: 'db8_polyglotta',
+  db9_rkts: 'db9_rkts',
+  db10_all_nibs: 'db10_all_nibs',
+  db11_idp_cetom: 'db11_idp_dunhuang',
+  db12_ochs_muktabodha: 'db12_muktabodha_ochs',
+};
+
+interface DatabaseHubExplorerProps {
+  activeAdapterDbId?: string;
+  onSelectAdapterDbId?: (adapterDbId: string) => void;
+}
+
+export function DatabaseHubExplorer({
+  activeAdapterDbId = 'all',
+  onSelectAdapterDbId,
+}: DatabaseHubExplorerProps) {
   const [selectedTier, setSelectedTier] = useState<'all' | 1 | 2 | 3>('all');
-  const [selectedDbId, setSelectedDbId] = useState<DatabaseId>('db1_fangshan');
-  const [recordQuery, setRecordQuery] = useState<string>('');
-  const [searchQuery, setSearchQuery] = useState<string>('Avalokiteśvara');
-  const [searchDbFilter, setSearchDbFilter] = useState<string>('');
+  const [cardsCollapsed, setCardsCollapsed] = useState(false);
 
   const filteredDatabases = useMemo(() => {
     if (selectedTier === 'all') return UNIFIED_12_DATABASES;
     return UNIFIED_12_DATABASES.filter((db) => db.priorityTier === selectedTier);
   }, [selectedTier]);
 
-  const selectedDbSummary = useMemo(
-    () => UNIFIED_12_DATABASES.find((d) => d.id === selectedDbId) || UNIFIED_12_DATABASES[0],
-    [selectedDbId]
-  );
-
-  const inspectedPayload = useMemo(
-    () => inspectDatabaseRecords(selectedDbId, recordQuery.trim() || undefined),
-    [selectedDbId, recordQuery]
-  );
-
-  const searchHits = useMemo(
-    () =>
-      searchAllDatabases(searchQuery, {
-        dbId: searchDbFilter ? (searchDbFilter as DatabaseId) : undefined,
-        limit: 24,
-      }),
-    [searchQuery, searchDbFilter]
-  );
-
   const integrityReport = useMemo(() => verifyAllDatabasesIntegrity(), []);
 
   return (
-    <div className="workbench-container">
-      <div className="workbench-card">
-        <div className="workbench-header-row">
-          <div>
-            <h2 className="workbench-title">
-              十二大國際佛典與梵文陀羅尼數據庫總覽 (12-Database Hub Explorer)
-            </h2>
-            <p className="workbench-subtitle">
-              整合三大優先級 (`Priority Tier 1–3`) 共 {UNIFIED_12_DATABASES.length} 座權威梵藏漢多語語料庫 ·
-              全庫完整性驗證狀態: <strong>{integrityReport.status}</strong> ({CANONICAL_DATABASE_IDS.length}/12)
-            </p>
-          </div>
-          <div className="pill-group">
-            <button
-              type="button"
-              className={`pill-btn ${selectedTier === 'all' ? 'active' : ''}`}
-              onClick={() => setSelectedTier('all')}
-            >
-              全部 (12 DBs)
-            </button>
-            <button
-              type="button"
-              className={`pill-btn ${selectedTier === 1 ? 'active' : ''}`}
-              onClick={() => setSelectedTier(1)}
-            >
-              第一級 Tier 1 (#1–#6)
-            </button>
-            <button
-              type="button"
-              className={`pill-btn ${selectedTier === 2 ? 'active' : ''}`}
-              onClick={() => setSelectedTier(2)}
-            >
-              第二級 Tier 2 (#7–#9)
-            </button>
-            <button
-              type="button"
-              className={`pill-btn ${selectedTier === 3 ? 'active' : ''}`}
-              onClick={() => setSelectedTier(3)}
-            >
-              第三級 Tier 3 (#10–#12)
-            </button>
-          </div>
+    <section
+      className="dharani-hero-card"
+      style={{ marginBottom: '0.75rem', padding: '0.9rem 1.15rem' }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '0.75rem',
+        }}
+      >
+        <div>
+          <h2 className="hero-title-zh" style={{ fontSize: '1.22rem', margin: 0 }}>
+            全球 12 大国际佛典与梵文陀罗尼数据库总览（与「陀罗尼总持典」统一六体对照与 48kHz VITS 跟诵格式）
+          </h2>
+          <p
+            style={{
+              fontSize: '0.82rem',
+              color: 'var(--text-secondary)',
+              marginTop: '0.2rem',
+              marginBottom: 0,
+            }}
+          >
+            点击下方任一数据库卡片（DB1 房山石经 ～ DB12 牛津OCHS），下方阅读器即刻按「陀罗尼总持典」统一标准展示该库全部经咒（含六体全咒汇总、现代梵音拼读附IAST、古汉语音译、逐词解析与 48kHz 神经VITS跟诵） · 全库校验：
+            <strong> {integrityReport.status}</strong> ({CANONICAL_DATABASE_IDS.length}/12)
+          </p>
         </div>
 
-        <div className="db-grid">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+          <button
+            type="button"
+            className={`script-toggle-chip ${activeAdapterDbId === 'all' && selectedTier === 'all' ? 'active' : ''}`}
+            onClick={() => {
+              setSelectedTier('all');
+              onSelectAdapterDbId?.('all');
+            }}
+          >
+            全部 12 库
+          </button>
+          <button
+            type="button"
+            className={`script-toggle-chip ${selectedTier === 1 ? 'active' : ''}`}
+            onClick={() => setSelectedTier(1)}
+          >
+            Tier 1 (DB1–DB6)
+          </button>
+          <button
+            type="button"
+            className={`script-toggle-chip ${selectedTier === 2 ? 'active' : ''}`}
+            onClick={() => setSelectedTier(2)}
+          >
+            Tier 2 (DB7–DB9)
+          </button>
+          <button
+            type="button"
+            className={`script-toggle-chip ${selectedTier === 3 ? 'active' : ''}`}
+            onClick={() => setSelectedTier(3)}
+          >
+            Tier 3 (DB10–DB12)
+          </button>
+          <button
+            type="button"
+            className="btn-scholarly"
+            onClick={() => setCardsCollapsed((c) => !c)}
+          >
+            {cardsCollapsed ? '展开 12 库详情卡片 ▼' : '收起卡片专注阅读 ▲'}
+          </button>
+        </div>
+      </div>
+
+      {!cardsCollapsed && (
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(255px, 1fr))',
+            gap: '0.65rem',
+            marginTop: '0.75rem',
+          }}
+        >
           {filteredDatabases.map((db) => {
-            const isSelected = db.id === selectedDbId;
+            const adapterId = CANON_TO_ADAPTER_DB_ID[db.id] || db.id;
+            const isSelected = activeAdapterDbId === adapterId;
             return (
-              <div
+              <button
                 key={db.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                  setSelectedDbId(db.id);
-                  setRecordQuery('');
+                type="button"
+                onClick={() => onSelectAdapterDbId?.(adapterId)}
+                style={{
+                  textAlign: 'left',
+                  padding: '0.7rem 0.85rem',
+                  borderRadius: 'var(--radius-sm)',
+                  border: isSelected
+                    ? '2px solid var(--accent-vermilion)'
+                    : '1px solid var(--border-subtle)',
+                  background: isSelected ? 'var(--accent-vermilion-soft)' : 'var(--bg-elevated)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.28rem',
+                  transition: 'all 0.15s ease',
                 }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    setSelectedDbId(db.id);
-                    setRecordQuery('');
-                  }
-                }}
-                className={`db-card ${isSelected ? 'selected' : ''}`}
               >
-                <div className="db-card-top">
-                  <span className="db-badge">
-                    #{db.number} · Tier {db.priorityTier} · {db.id}
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 700,
+                      padding: '0.12rem 0.45rem',
+                      borderRadius: '999px',
+                      background: 'rgba(139, 92, 246, 0.15)',
+                      color: '#6d28d9',
+                    }}
+                  >
+                    DB{db.number} · Tier {db.priorityTier}
                   </span>
-                  <span className="db-count">
-                    {db.totalRecordsCount.toLocaleString()} 條紀錄
+                  <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-gold)' }}>
+                    {db.totalRecordsCount.toLocaleString()} 条原典
                   </span>
                 </div>
-                <h3 className="db-card-title">{db.nameZh}</h3>
-                <div className="db-card-en">{db.nameEn}</div>
-                <div className="db-card-inst">{db.institution}</div>
-                <div className="script-tags">
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                  {db.nameZh}
+                </div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                  {db.institution}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '0.15rem' }}>
                   {db.scriptsAvailable.map((sc) => (
-                    <span key={sc} className="script-tag">
+                    <span
+                      key={sc}
+                      style={{
+                        fontSize: '0.66rem',
+                        padding: '0.08rem 0.35rem',
+                        borderRadius: '4px',
+                        background: 'var(--bg-surface)',
+                        border: '1px solid var(--border-subtle)',
+                        color: 'var(--text-secondary)',
+                      }}
+                    >
                       {sc}
                     </span>
                   ))}
                 </div>
-                <ul className="db-highlights">
-                  {db.highlights.slice(0, 2).map((h, i) => (
-                    <li key={i}>{h}</li>
-                  ))}
-                </ul>
-              </div>
+              </button>
             );
           })}
         </div>
-      </div>
-
-      <div className="two-col-grid">
-        <div className="workbench-card">
-          <h3 className="section-heading">
-            跨庫多文字檢索 (Unified Multi-Script 12-Database Search)
-          </h3>
-          <div className="search-controls">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="輸入梵文 IAST / 天城體 / 悉曇 / 藏文 Wylie / 漢文 / 經號 (如 Avalokiteśvara, Uṣṇīṣavijayā, prajñā, प्रज्ञा, 般若, shes rab)..."
-              className="text-input"
-            />
-            <select
-              value={searchDbFilter}
-              onChange={(e) => setSearchDbFilter(e.target.value)}
-              className="select-input"
-            >
-              <option value="">全部 12 庫 + 基準庫 (All Databases)</option>
-              {UNIFIED_12_DATABASES.map((d) => (
-                <option key={d.id} value={d.id}>
-                  #{d.number} {d.id} — {d.nameZh}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="preset-chips">
-            {[
-              'Avalokiteśvara',
-              'Uṣṇīṣavijayā',
-              'Prajñāpāramitāhṛdaya',
-              'prajñā',
-              'प्रज्ञा',
-              '般若',
-              'shes rab',
-              'dhāraṇī',
-              'svāhā',
-              'vajrajāpa',
-              'MS-ADD-01326',
-              'SA00019.001',
-              'M00247',
-            ].map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                className="chip-btn"
-                onClick={() => setSearchQuery(preset)}
-              >
-                {preset}
-              </button>
-            ))}
-          </div>
-
-          <div className="search-results-list">
-            {searchHits.map((hit) => (
-              <div key={`${hit.dbId}-${hit.id}`} className="search-hit-item">
-                <div className="search-hit-header">
-                  <span className="db-badge">{hit.dbId}</span>
-                  <strong className="hit-title">{hit.title}</strong>
-                </div>
-                {hit.subtitle && <div className="hit-subtitle">{hit.subtitle}</div>}
-                <div className="hit-snippet">{hit.snippet}</div>
-                {hit.siddhamUnicode && (
-                  <div className="siddham-script" style={{ fontSize: '1.2rem' }}>
-                    {hit.siddhamUnicode}
-                  </div>
-                )}
-                <div className="hit-refs">
-                  參照: {hit.canonicalRefs.join(' · ')} |{' '}
-                  <a href={hit.sourceUrl} target="_blank" rel="noreferrer">
-                    原始出處
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="workbench-card">
-          <h3 className="section-heading">
-            單庫深度檢視器 (Database Record Inspector): #{selectedDbSummary.number}{' '}
-            {selectedDbSummary.id}
-          </h3>
-          <p className="workbench-subtitle">{selectedDbSummary.nameZh}</p>
-          <div className="search-controls">
-            <input
-              type="text"
-              value={recordQuery}
-              onChange={(e) => setRecordQuery(e.target.value)}
-              placeholder={`篩選 ${selectedDbSummary.id} 內部紀錄 ID (如 F28n1071, MS-ADD-01326, 1175, toh507, K12n2949u)...`}
-              className="text-input"
-            />
-          </div>
-          <div className="inspector-highlights">
-            {selectedDbSummary.highlights.map((hl, idx) => (
-              <div key={idx} className="highlight-bullet">
-                • {hl}
-              </div>
-            ))}
-          </div>
-          <pre className="json-preview">
-            {JSON.stringify(inspectedPayload, null, 2).slice(0, 3200)}
-          </pre>
-        </div>
-      </div>
-    </div>
+      )}
+    </section>
   );
 }
 export default DatabaseHubExplorer;
+

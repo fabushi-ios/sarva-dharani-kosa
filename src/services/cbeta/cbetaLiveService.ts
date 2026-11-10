@@ -18,6 +18,8 @@ export interface LiveParsedCbetaSutra {
     index: number;
     text: string;
     tangNotes: string[];
+    siddhamText?: string;
+    iastText?: string;
   }[];
   bodyPreviewText: string;
   rawXmlSnippet: string;
@@ -55,7 +57,13 @@ export async function fetchAndParseCbetaXmlLive(
     cbCharMap[cbId] = uniMatch ? String.fromCodePoint(parseInt(uniMatch[1], 16)) : comp;
   }
 
-  const dharaniBlocks: { index: number; text: string; tangNotes: string[] }[] = [];
+  const dharaniBlocks: {
+    index: number;
+    text: string;
+    tangNotes: string[];
+    siddhamText?: string;
+    iastText?: string;
+  }[] = [];
   const pRegex = /<p[^>]*cb:type="dharani"[^>]*>([\s\S]*?)<\/p>/g;
   let pm: RegExpExecArray | null;
   let idx = 1;
@@ -65,8 +73,16 @@ export async function fetchAndParseCbetaXmlLive(
       .map((m) => m[1].replace(/<[^>]+>/g, '').trim())
       .filter(Boolean);
 
+    const siddhamMatches = [...rawP.matchAll(/<cb:t[^>]*xml:lang="sa-Sidd"[^>]*>([\s\S]*?)<\/cb:t>/g)]
+      .map((m) => m[1].replace(/<[^>]+>/g, '').trim())
+      .filter(Boolean);
+    const iastMatches = [...rawP.matchAll(/<cb:t[^>]*xml:lang="sa-Latn"[^>]*>([\s\S]*?)<\/cb:t>/g)]
+      .map((m) => m[1].replace(/<[^>]+>/g, '').trim())
+      .filter(Boolean);
+
     const cleanText = rawP
       .replace(/<cb:t xml:lang="sa-Sidd">[\s\S]*?<\/cb:t>/g, '')
+      .replace(/<cb:t xml:lang="sa-Latn">[\s\S]*?<\/cb:t>/g, '')
       .replace(/<cb:sg>([^<]+)<\/cb:sg>/g, '($1)')
       .replace(/<note place="inline">([^<]*)<\/note>/g, ' [$1] ')
       .replace(/<g ref="#(CB\d+)"[^>]*>.*?<\/g>/g, (_, cid) => cbCharMap[cid] || '')
@@ -79,6 +95,8 @@ export async function fetchAndParseCbetaXmlLive(
         index: idx++,
         text: cleanText,
         tangNotes,
+        siddhamText: siddhamMatches.length > 0 ? siddhamMatches.join(' ') : undefined,
+        iastText: iastMatches.length > 0 ? iastMatches.join(' ') : undefined,
       });
     }
   }

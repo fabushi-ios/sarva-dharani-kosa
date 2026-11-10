@@ -7,7 +7,10 @@ import {
   ALL_GRETIL_MANTRA_RECORDS,
   type GretilExpandedMantraRecord,
 } from '../kosa-generated/gretilAllMantras';
-import { generateVerseChinesePhonetics } from '../../core/sanskrit/phoneticMapper';
+import {
+  generateVerseChinesePhonetics,
+  buildWordGlossesFromIast,
+} from '../../core/sanskrit/phoneticMapper';
 
 /**
  * 将从德国哥廷根大学 GRETIL (Göttingen Register of Electronic Texts in Indian Languages)
@@ -38,7 +41,7 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
       meaningZh: `出自《${record.titleZh}》梵文贝叶校勘本（${record.file} 第 ${idx + 1} 颂/句），本尊：${record.deityZh}。上方已逐词对齐唐宋古汉语音译与现代梵音拼读。`,
       meaningEn: `Extracted directly from the authoritative GRETIL/DSBC Sanskrit edition (${record.file}) of ${record.titleSanskrit}.`,
       tangNoteZh: `GRETIL 梵本档案：${record.file}（原典总行数：${record.totalLinesInSource} 行 · 对勘大正藏 ${record.taishoNo}）`,
-      words: [],
+      words: buildWordGlossesFromIast(cleanLine),
     };
   });
 }
@@ -57,7 +60,7 @@ function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): Dhar
       meaningZh: `出自哥廷根大学 GRETIL 梵文原典《${record.titleZh}》（档案：${record.file} 第 ${idx + 1} 段真言/礼赞），已自动对齐唐宋古汉语音译与现代梵音拼读参考。`,
       meaningEn: `Sanskrit mantra/verse extracted from GRETIL Buddhist Sanskrit manuscript ${record.file} (${record.titleSanskrit}).`,
       tangNoteZh: `GRETIL 梵文佛典库档案：${record.file}（全书共 ${record.totalLines} 行）`,
-      words: [],
+      words: buildWordGlossesFromIast(cleanLine),
     };
   });
 }

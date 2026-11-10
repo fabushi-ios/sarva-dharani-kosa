@@ -14,9 +14,11 @@ import {
   TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS,
 } from './kosa-generated/taishoMikkyoIndex';
 
+import { buildWordGlossesFromIast } from '../core/sanskrit/phoneticMapper';
+
 export { DHARANI_CATEGORIES };
 
-export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
+const RAW_BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
   ...MAJOR_DHARANIS,
   ...TEN_SMALL_DHARANIS,
   ...BUDDHAS_AND_PROTECTORS_DHARANIS,
@@ -25,6 +27,20 @@ export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
   ...TWELVE_DATABASES_ADAPTED_DHARANIS,
   ...GRETIL_CANONICAL_DHARANIS,
 ];
+
+export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = RAW_BUILTIN_DHARANI_CORPUS.map(
+  (entry) => ({
+    ...entry,
+    verses: entry.verses.map((v) =>
+      v.words && v.words.length > 0
+        ? v
+        : {
+            ...v,
+            words: buildWordGlossesFromIast(v.iast),
+          }
+    ),
+  })
+);
 
 export const CORPUS_AUTHORITATIVE_STATS = {
   totalCuratedAndCanonicalEntries: BUILTIN_DHARANI_CORPUS.length,

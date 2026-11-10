@@ -16,7 +16,10 @@ import {
   DB11_IDP_DUNHUANG_CORPUS,
   DB12_MUKTABODHA_OCHS_CORPUS,
 } from '../generated/tier23Databases';
-import { generateVerseChinesePhonetics } from '../../core/sanskrit/phoneticMapper';
+import {
+  generateVerseChinesePhonetics,
+  buildWordGlossesFromIast,
+} from '../../core/sanskrit/phoneticMapper';
 
 function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 10): string[] {
   const cleaned = (rawIast || '')
@@ -67,7 +70,7 @@ function buildStandardVerses(
       meaningZh: `${meaningPrefixZh}（第 ${idx + 1} 句）`,
       meaningEn: `${meaningPrefixEn} (Verse ${idx + 1})`,
       tangNoteZh,
-      words: [],
+      words: buildWordGlossesFromIast(cleanLine),
     };
   });
 }
@@ -76,8 +79,7 @@ function buildStandardVerses(
 // DB1: CBETA《房山石经》陀罗尼专集 (F28n1071 30卷 & 辽宋密咒)
 // ============================================================================
 const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records
-  .filter((r) => (r.reconstructedIast && r.reconstructedIast.trim().length >= 8) || r.ttCount >= 3)
-  .slice(0, 45)
+  .filter((r) => (r.reconstructedIast && r.reconstructedIast.trim().length >= 5) || r.ttCount >= 1)
   .map((rec): DharaniEntry => {
     const iastText =
       rec.reconstructedIast && rec.reconstructedIast.trim().length >= 5
@@ -193,7 +195,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
       ),
     };
   }),
-  ...DB2_TAISHO_EXT_CORPUS.siddhamTreatises.slice(0, 4).map((tr): DharaniEntry => {
+  ...DB2_TAISHO_EXT_CORPUS.siddhamTreatises.map((tr): DharaniEntry => {
     const iastSample =
       'a ā i ī u ū ṛ ṝ ḷ ḹ e ai o au aṃ aḥ | ka kha ga gha ṅa | ca cha ja jha ña | ṭa ṭha ḍa ḍha ṇa | ta tha da dha na | pa pha ba bha ma | ya ra la va śa ṣa sa ha kṣa';
     return {
@@ -233,7 +235,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
 // DB3: 尼泊尔数字化梵文佛典库 (DSBC)《陀罗尼集 (Dhāraṇī Saṃgraha)》100品与15部专书
 // ============================================================================
 const DB3_ENTRIES: DharaniEntry[] = [
-  ...DB3_DSBC_GRETIL_CORPUS.dharaniSamgrahaSections.slice(0, 40).map((sec): DharaniEntry => {
+  ...DB3_DSBC_GRETIL_CORPUS.dharaniSamgrahaSections.map((sec): DharaniEntry => {
     const mantras =
       sec.extractedMantras && sec.extractedMantras.length > 0
         ? sec.extractedMantras
@@ -270,7 +272,7 @@ const DB3_ENTRIES: DharaniEntry[] = [
       ),
     };
   }),
-  ...DB3_DSBC_GRETIL_CORPUS.dsbcBooks.slice(0, 15).map((bk): DharaniEntry => {
+  ...DB3_DSBC_GRETIL_CORPUS.dsbcBooks.map((bk): DharaniEntry => {
     const rawMantra =
       bk.extractedMantras && bk.extractedMantras.length > 0
         ? bk.extractedMantras.join(' ')
@@ -312,7 +314,6 @@ const DB3_ENTRIES: DharaniEntry[] = [
 // ============================================================================
 const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
   .filter((r) => r.mantras && r.mantras.length > 0)
-  .slice(0, 40)
   .map((rec): DharaniEntry => {
     const tohLabel = rec.tohokuIds.join(' / ').toUpperCase();
     const verses: DharaniVerse[] = rec.mantras.slice(0, 8).map((m, idx) => {
@@ -334,7 +335,7 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
           m.criticalNotes && m.criticalNotes.length > 0
             ? `84000 校勘注：${m.criticalNotes[0]}`
             : `德格版甘珠尔 ${rec.biblScopes[0]?.scope || tohLabel} · 藏文名：${rec.titles.boUnicode}`,
-        words: [],
+        words: buildWordGlossesFromIast(cleanLine),
       };
     });
 
@@ -450,7 +451,7 @@ const DB6_ENTRIES: DharaniEntry[] = DB6_SARIT_CORPUS.records.map((rec): DharaniE
           u.criticalApparatus.length > 0
             ? `SARIT 异文校勘记：${u.criticalApparatus[0]}`
             : `SARIT 单元：${u.unitId}`,
-        words: [],
+        words: buildWordGlossesFromIast(cleanLine),
       };
     }),
   };
@@ -496,7 +497,7 @@ const DB7_ENTRIES: DharaniEntry[] = [
       ),
     };
   }),
-  ...DB7_CUDL_HIDAS_CORPUS.manuscripts.slice(0, 6).map((ms): DharaniEntry => {
+  ...DB7_CUDL_HIDAS_CORPUS.manuscripts.map((ms): DharaniEntry => {
     const excerptIast =
       ms.transcribedRubricsAndExcerpts.join(' ') ||
       'oṃ namaḥ sarvabuddhabodhisatvebhyaḥ';
@@ -562,7 +563,7 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
         ? `${enCell.witnessLabel}: ${enCell.text}`
         : `Bibliotheca Polyglotta (vid=${vol.vid}) parallel alignment row ${row.rowIndex}.`,
       tangNoteZh: `参校证本 (${vol.witnesses.length} 本)：${row.cells.map((c) => c.witnessLabel).slice(0, 4).join(' · ')}`,
-      words: [],
+      words: buildWordGlossesFromIast(iastLine),
     };
   });
 
@@ -860,12 +861,12 @@ const DB12_ENTRIES: DharaniEntry[] = [
           meaningZh: `出自牛津大学 OCHS #${ochs.ochsNumber}《${ochs.titleSanskrit}》第 ${v.verseNumber} 颂，所释种子字：${v.targetBijaSyllables.join('、') || 'Bīja'}。`,
           meaningEn: `From Oxford OCHS #${ochs.ochsNumber} ${ochs.titleSanskrit} Verse ${v.verseNumber} (Target Bījas: ${v.targetBijaSyllables.join(', ')}).`,
           tangNoteZh: `牛津 OCHS 种子字密码辞书 (${v.chapterOrSection || `Verse ${v.verseNumber}`})`,
-          words: [],
+          words: buildWordGlossesFromIast(cleanLine),
         };
       }),
     };
   }),
-  ...DB12_MUKTABODHA_OCHS_CORPUS.muktabodhaTexts.slice(0, 8).map((mb): DharaniEntry => {
+  ...DB12_MUKTABODHA_OCHS_CORPUS.muktabodhaTexts.map((mb): DharaniEntry => {
     const iastLines = splitIastIntoVerseLines(
       mb.extractedSeedDefinitions?.join(' ') || mb.textExcerptIast,
       11

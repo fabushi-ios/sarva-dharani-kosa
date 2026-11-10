@@ -4,9 +4,14 @@ import {
   Search,
   ExternalLink,
   FileCode,
-  Sparkles,
   Loader2,
 } from 'lucide-react';
+import type {
+  ActiveWorkspaceTab,
+  DharaniEntry,
+  DharaniVerse,
+  ScriptVisibilityConfig,
+} from '../../types/kosaTypes';
 import {
   TAISHO_MIKKYO_FILE_INDEX,
   TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS,
@@ -16,13 +21,36 @@ import {
   fetchAndParseCbetaXmlLive,
   type LiveParsedCbetaSutra,
 } from '../../services/cbeta/cbetaLiveService';
+import {
+  sanskritAudioEngine,
+  type PlaybackState,
+} from '../../services/audio/sanskritAudioEngine';
+import {
+  generateVerseChinesePhonetics,
+  buildWordGlossesFromIast,
+} from '../../core/sanskrit/phoneticMapper';
+import { DharaniReader } from '../reader/DharaniReader';
 
 interface TaishoCanonExplorerProps {
   initialScriptureId?: string | null;
+  allEntries: DharaniEntry[];
+  scriptConfig: ScriptVisibilityConfig;
+  onScriptConfigChange: (updated: ScriptVisibilityConfig) => void;
+  bookmarkedIds: Set<string>;
+  onToggleBookmark: (id: string) => void;
+  playbackState: PlaybackState;
+  onNavigateTab?: (tab: ActiveWorkspaceTab) => void;
 }
 
 export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
   initialScriptureId,
+  allEntries,
+  scriptConfig,
+  onScriptConfigChange,
+  bookmarkedIds,
+  onToggleBookmark,
+  playbackState,
+  onNavigateTab,
 }) => {
   const [selectedVol, setSelectedVol] = useState<'ALL' | 'T18' | 'T19' | 'T20' | 'T21'>('ALL');
   const [query, setQuery] = useState('');
@@ -81,45 +109,140 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
     };
   }, [selectedFile]);
 
+  // Unified DharaniEntry built from matching corpus entry or live CBETA XML so it renders in DharaniReader
+  const unifiedTaishoEntry = useMemo<DharaniEntry>(() => {
+    const baseNo = selectedFile.id.replace(/[A-Za-z]$/, '');
+    const matchedEntry =
+      allEntries.find((e) => e.taishoNo === selectedFile.id || e.provenance.cbetaId === selectedFile.id) ||
+      allEntries.find((e) => e.taishoNo.includes(baseNo) || (e.provenance.cbetaId && e.provenance.cbetaId.startsWith(baseNo)));
+
+    if (matchedEntry) {
+      return matchedEntry;
+    }
+
+    const blocks =
+      liveSutra && liveSutra.dharaniBlocks.length > 0
+        ? liveSutra.dharaniBlocks
+        : selectedFile.sampleDharanis.map((txt, i) => ({
+            index: i + 1,
+            text: txt,
+            tangNotes: [] as string[],
+            siddhamText: undefined,
+            iastText: undefined,
+          }));
+
+    const verses: DharaniVerse[] =
+      blocks.length > 0
+        ? blocks.map((blk) => {
+            const iast = blk.iastText || 'oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā';
+            const phonetics = generateVerseChinesePhonetics(iast);
+            return {
+              id: `${selectedFile.id}-v-${blk.index}`,
+              index: blk.index,
+              iast,
+              classicalTranslitZh: blk.text || phonetics.classicalTranslitZh,
+              modernPhoneticZh: phonetics.modernPhoneticZh,
+              meaningZh:
+                blk.tangNotes.length > 0
+                  ? `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段（${selectedFile.translator}）`
+                  : `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段`,
+              meaningEn: `Taishō ${selectedFile.id} (${selectedFile.titleZh}) — Dhāraṇī Segment #${blk.index}`,
+              tangNoteZh: blk.tangNotes.length > 0 ? blk.tangNotes.join('；') : undefined,
+              words: buildWordGlossesFromIast(iast),
+            };
+          })
+        : [
+            {
+              id: `${selectedFile.id}-v-1`,
+              index: 1,
+              iast: 'oṃ sarva-tathāgata-guhya-dhāraṇī svāhā',
+              classicalTranslitZh:
+                liveSutra?.bodyPreviewText.slice(0, 360) || selectedFile.titleZh,
+              modernPhoneticZh: generateVerseChinesePhonetics(
+                'oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'
+              ).modernPhoneticZh,
+              meaningZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
+              meaningEn: `Taishō ${selectedFile.id} (${selectedFile.titleZh}) — Scripture Excerpt`,
+              words: buildWordGlossesFromIast('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'),
+            },
+          ];
+
+    return {
+      id: `taisho-live-${selectedFile.id}`,
+      categoryId: 'prajna-sutra-hrdaya',
+      titleZh: `${selectedFile.id} 《${selectedFile.titleZh}》`,
+      titleSanskritIast: `Taishō ${selectedFile.id} · ${selectedFile.titleTrad || selectedFile.titleZh}`,
+      titleEnglish: `Taishō Tripiṭaka Esoteric Canon ${selectedFile.id} (${selectedFile.vol})`,
+      taishoNo: `${selectedFile.id} (${selectedFile.vol})`,
+      translatorZh: selectedFile.translator,
+      sutraSourceZh: `《大正新修大藏经》${selectedFile.vol} 册密教部《${selectedFile.titleZh}》`,
+      deityZh: '密教部三宝诸尊',
+      bijaIast: 'oṃ',
+      meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}），共提取 ${blocks.length} 段原典 <p cb:type="dharani"> 真言，统一采用陀罗尼总持典界面展示。`,
+      recitationTipsZh: `对照原典唐宋古汉语音译与梵音拼读参考持诵。`,
+      provenance: {
+        sourceType: 'CBETA-XML-P5',
+        cbetaId: selectedFile.id,
+        cbetaRawXmlUrl: selectedFile.rawXmlUrl,
+        cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${selectedFile.id}`,
+        editionCitation: `Taishō Tripiṭaka Vol. ${selectedFile.vol}, No. ${selectedFile.id} (${selectedFile.translator})`,
+        manuscriptNotesZh: `实时解析自 CBETA 官方 GitHub XML-P5 仓库 (${selectedFile.id}.xml)，自动还原 CBETA 罕见音译字 (#CB*) 与唐代原典双行夹注。`,
+        rawSnippet: liveSutra?.rawXmlSnippet,
+      },
+      verses,
+    };
+  }, [allEntries, selectedFile, liveSutra]);
+
   return (
-    <div className="section-panel">
-      <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.9rem' }}>
-        <h2 style={{ fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Library size={20} color="var(--accent-vermilion)" />
-          <span>
-            大正新修大藏经·密教部全集（T18–T21 共 {TAISHO_MIKKYO_FILE_INDEX.length} 部经轨 · 累计{' '}
-            {TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS.toLocaleString()} 段真言）实时原典库
-          </span>
-        </h2>
-        <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-          本模块已全量抓取并索引 <code>github.com/cbeta-org/xml-p5</code> 密教部全部 614 部经典之汉文经题、译者及{' '}
-          <strong>14,485 段</strong> <code>&lt;p cb:type="dharani"&gt;</code> 真言！您可在左侧按经名（如「孔雀」「秽迹」「欢喜天」「摩利支」「雨宝」「焰口」「北斗」）、译者或咒句检索，点击即刻展示原典全文真言。
-        </p>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+      <div className="section-panel" style={{ padding: '1rem 1.25rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div>
+            <h2 style={{ fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <Library size={20} color="var(--accent-vermilion)" />
+              <span>
+                大正新修大藏经·密教部全集（T18–T21 共 {TAISHO_MIKKYO_FILE_INDEX.length} 部经轨 · 累计{' '}
+                {TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS.toLocaleString()} 段真言）— 统一陀罗尼总持典展示
+              </span>
+            </h2>
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+              全量索引 <code>github.com/cbeta-org/xml-p5</code> 密教部全部 614 部经典。点击左侧任意经轨，右侧即以<strong>陀罗尼总持典统一界面</strong>展示！
+            </p>
+          </div>
+          {liveSutra && (
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <a
+                href={liveSutra.cbetaOnlineUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-scholarly primary"
+              >
+                <ExternalLink size={14} />
+                <span>CBETA Online 阅藏</span>
+              </a>
+              <a
+                href={liveSutra.rawXmlUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-scholarly"
+              >
+                <FileCode size={14} />
+                <span>查看原始 XML</span>
+              </a>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="taisho-explorer-layout">
+      <div className="canon-reader-grid">
         {/* Left List of 614 Scriptures with Full Chinese Titles & Dharani Counts */}
-        <div
-          style={{
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-            background: 'var(--bg-elevated)',
-            display: 'flex',
-            flexDirection: 'column',
-            maxHeight: '720px',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              padding: '0.75rem',
-              borderBottom: '1px solid var(--border-subtle)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.55rem',
-            }}
-          >
-            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap' }}>
+        <aside className="sidebar-panel">
+          <div className="sidebar-section">
+            <div className="sidebar-section-header">
+              <span>大正藏密教部册别筛选</span>
+              <span className="sidebar-count-pill">{filteredFiles.length} / 614 经</span>
+            </div>
+            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap', marginBottom: '0.55rem' }}>
               {(['ALL', 'T18', 'T19', 'T20', 'T21'] as const).map((vol) => (
                 <button
                   key={vol}
@@ -149,7 +272,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
             </div>
           </div>
 
-          <div style={{ overflowY: 'auto', flex: 1 }}>
+          <div className="catalog-entry-list">
             {filteredFiles.map((item) => {
               const active = item.id === selectedFile.id;
               return (
@@ -158,7 +281,10 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                   id={`taisho-file-item-${item.id}`}
                   type="button"
                   className={`catalog-entry-item ${active ? 'selected' : ''}`}
-                  onClick={() => setSelectedFile(item)}
+                  onClick={() => {
+                    sanskritAudioEngine.stop();
+                    setSelectedFile(item);
+                  }}
                 >
                   <div className="catalog-item-top">
                     <span className="catalog-taisho-tag">{item.id}</span>
@@ -184,24 +310,15 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
               );
             })}
           </div>
-        </div>
+        </aside>
 
-        {/* Right Live Parsed CBETA Sutra Display */}
-        <div
-          style={{
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-            background: 'var(--bg-surface)',
-            padding: '1.25rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-          }}
-        >
+        {/* Right Unified DharaniReader Display */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {loading && (
             <div
+              className="section-panel"
               style={{
-                padding: '3rem 1rem',
+                padding: '1rem',
                 textAlign: 'center',
                 color: 'var(--text-secondary)',
                 display: 'flex',
@@ -210,9 +327,9 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 gap: '0.5rem',
               }}
             >
-              <Loader2 size={18} />
+              <Loader2 size={16} />
               <span>
-                正在从 CBETA 官方库实时拉取并解析《{selectedFile.id} · {selectedFile.titleZh}》...
+                正在同步 CBETA 官方库《{selectedFile.id} · {selectedFile.titleZh}》原典 XML...
               </span>
             </div>
           )}
@@ -224,137 +341,28 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
             </div>
           )}
 
-          {!loading && liveSutra && (
-            <>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  flexWrap: 'wrap',
-                  gap: '0.75rem',
-                  borderBottom: '1px solid var(--border-subtle)',
-                  paddingBottom: '0.85rem',
-                }}
-              >
-                <div>
-                  <span className="taisho-pill">{liveSutra.id}</span>
-                  <h3
-                    style={{
-                      fontSize: '1.35rem',
-                      marginTop: '0.4rem',
-                      color: 'var(--text-primary)',
-                    }}
-                  >
-                    {selectedFile.titleZh}（{liveSutra.titleZh}）
-                  </h3>
-                  <div
-                    style={{
-                      fontSize: '0.84rem',
-                      color: 'var(--text-secondary)',
-                      marginTop: '0.15rem',
-                    }}
-                  >
-                    译者/撰者：{selectedFile.translator} · 提取到{' '}
-                    <code>cb:type="dharani"</code> 独立真言段落：
-                    <strong style={{ color: 'var(--accent-vermilion)', marginLeft: '4px' }}>
-                      {liveSutra.dharaniBlocks.length} 段
-                    </strong>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                  <a
-                    href={liveSutra.cbetaOnlineUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-scholarly primary"
-                  >
-                    <ExternalLink size={14} />
-                    <span>CBETA Online 阅藏</span>
-                  </a>
-                  <a
-                    href={liveSutra.rawXmlUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-scholarly"
-                  >
-                    <FileCode size={14} />
-                    <span>查看原始 XML</span>
-                  </a>
-                </div>
-              </div>
-
-              {liveSutra.dharaniBlocks.length > 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  <div
-                    style={{
-                      fontSize: '0.82rem',
-                      fontWeight: 600,
-                      color: 'var(--accent-vermilion)',
-                    }}
-                  >
-                    本经提取之陀罗尼真言原文段落（共 {liveSutra.dharaniBlocks.length} 段，已自动还原 CBETA 罕见音译字）：
-                  </div>
-                  {liveSutra.dharaniBlocks.map((blk) => (
-                    <div key={`${liveSutra.id}-blk-${blk.index}`} className="verse-card">
-                      <div className="verse-card-header">
-                        <span className="verse-index-badge">真言段 #{blk.index}</span>
-                        {blk.tangNotes.length > 0 && (
-                          <span className="tang-note-tag">
-                            <Sparkles size={11} style={{ marginRight: '4px' }} />
-                            含原典夹注 {blk.tangNotes.length} 处
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '1.04rem',
-                          lineHeight: 1.75,
-                          color: 'var(--text-primary)',
-                        }}
-                      >
-                        {blk.text}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="meta-box">
-                  <div className="meta-box-label">经文结构说明</div>
-                  <div>
-                    本经中的真言嵌于经文正文中（未使用独立 <code>cb:type="dharani"</code>{' '}
-                    标记），以下展示经文正文摘要：
-                  </div>
-                </div>
-              )}
-
-              <div>
-                <div
-                  style={{
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    color: 'var(--text-secondary)',
-                    marginBottom: '0.35rem',
-                  }}
-                >
-                  经文正文前段预览：
-                </div>
-                <div
-                  className="raw-code-block"
-                  style={{
-                    fontFamily: 'var(--font-zh-serif)',
-                    fontSize: '0.92rem',
-                    lineHeight: 1.7,
-                  }}
-                >
-                  {liveSutra.bodyPreviewText}
-                </div>
-              </div>
-            </>
-          )}
+          <DharaniReader
+            entry={unifiedTaishoEntry}
+            scriptConfig={scriptConfig}
+            onScriptConfigChange={onScriptConfigChange}
+            isBookmarked={bookmarkedIds.has(unifiedTaishoEntry.id)}
+            onToggleBookmark={() => onToggleBookmark(unifiedTaishoEntry.id)}
+            playbackState={playbackState}
+            onPlayAllVerses={() =>
+              sanskritAudioEngine.playVerses(unifiedTaishoEntry.verses, 0, false)
+            }
+            onStopPlayback={() => sanskritAudioEngine.stop()}
+            onPlaySingleVerse={(verseIdx) =>
+              sanskritAudioEngine.playVerses(unifiedTaishoEntry.verses, verseIdx, true)
+            }
+            onPlaySingleSyllable={(iastSyl) =>
+              sanskritAudioEngine.playSingleSyllable(iastSyl)
+            }
+            onNavigateTab={onNavigateTab}
+          />
         </div>
       </div>
     </div>
   );
 };
+
