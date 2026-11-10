@@ -51,16 +51,19 @@ export interface SpeakOptions {
 export interface PlaySyllableOptions {
   voice?: NeuralVoice;
   rate?: number;
+  speed?: number;
   mode?: AudioEngineMode;
 }
 
 export interface SpeakTextOptions {
   voice?: NeuralVoice;
   rate?: number;
+  speed?: number;
   mode?: AudioEngineMode;
   title?: string;
   onSyllableHighlight?: (index: number, timing: SyllableTimingItem | null) => void;
   onPlaybackEnd?: () => void;
+  onComplete?: () => void;
 }
 
 export interface SpeakTextResult {
@@ -322,6 +325,68 @@ class SanskritAudioEngine {
     this.notify();
   }
 
+  public getSpeed(): number {
+    return this.currentRate;
+  }
+
+  public setSpeed(speed: number): void {
+    this.setRate(speed);
+  }
+
+  private droneOsc: OscillatorNode | null = null;
+  private droneSubOsc: OscillatorNode | null = null;
+  private droneGain: GainNode | null = null;
+  private droneActive = false;
+
+  public toggleOmDrone(enable?: boolean): boolean {
+    const nextState = enable !== undefined ? enable : !this.droneActive;
+    if (!nextState) {
+      if (this.droneOsc) {
+        try {
+          this.droneOsc.stop();
+          this.droneOsc.disconnect();
+        } catch {}
+        this.droneOsc = null;
+      }
+      if (this.droneSubOsc) {
+        try {
+          this.droneSubOsc.stop();
+          this.droneSubOsc.disconnect();
+        } catch {}
+        this.droneSubOsc = null;
+      }
+      this.droneActive = false;
+      this.notify();
+      return false;
+    }
+
+    const ctx = getBrowserAudioContext();
+    if (!ctx) {
+      this.droneActive = false;
+      return false;
+    }
+    this.toggleOmDrone(false);
+    const osc = ctx.createOscillator();
+    const sub = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    sub.type = 'triangle';
+    osc.frequency.setValueAtTime(136.1, ctx.currentTime);
+    sub.frequency.setValueAtTime(68.05, ctx.currentTime);
+    gain.gain.setValueAtTime(0.06, ctx.currentTime);
+    osc.connect(gain);
+    sub.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    sub.start();
+    this.droneOsc = osc;
+    this.droneSubOsc = sub;
+    this.droneGain = gain;
+    this.droneActive = true;
+    this.notify();
+    return true;
+  }
+
   public isPlaying(): boolean {
     return this.isPlayingState;
   }
@@ -470,7 +535,11 @@ class SanskritAudioEngine {
 
     const mode = options.mode || this.currentMode;
     const voice = options.voice || this.currentVoice;
-    const rate = options.rate || this.currentRate;
+    const rate = options.rate || options.speed || this.currentRate;
+    const onDone = () => {
+      options.onPlaybackEnd?.();
+      options.onComplete?.();
+    };
     this.lastSpokenTitle = options.title || cleanText.slice(0, 42);
     this.isPlayingState = true;
     this.notify();
@@ -531,7 +600,7 @@ class SanskritAudioEngine {
               this.activeSyllableIndex = -1;
               this.notify();
               options.onSyllableHighlight?.(-1, null);
-              options.onPlaybackEnd?.();
+              onDone();
             }, Math.ceil(audioBuffer.duration * 1000) + 60);
             this.highlightTimers.push(endTimerId);
 
@@ -608,7 +677,7 @@ class SanskritAudioEngine {
         this.activeSyllableIndex = -1;
         this.notify();
         options.onSyllableHighlight?.(-1, null);
-        options.onPlaybackEnd?.();
+        onDone();
       }, Math.ceil(offset * 1000) + 80);
       this.highlightTimers.push(endTimerId);
     } else {
@@ -632,17 +701,28 @@ export default sanskritAudioEngine;
  * Web Speech TTS, or the 136.1 Hz Web Audio Formant Synth.
  */
 export function playSingleSyllable(
-  rawSlpOrIast: string,
-  options: { mode?: 'auto' | 'synth' | 'tts' | 'neural-tts'; voice?: NeuralVoice; rate?: number } = {}
+  rawSlpOrIastOrObj: string | { slp1?: string; rawIast?: string; iast?: string },
+  options: {
+    mode?: 'auto' | 'synth' | 'tts' | 'neural-tts' | 'neural-auto' | 'legacy-tts';
+    voice?: NeuralVoice;
+    rate?: number;
+    speed?: number;
+  } = {}
 ): number {
-  const { mode = 'auto', rate = 0.85 } = options;
-  const slpSyl = inputToSlp1(rawSlpOrIast, 'smart');
+  const { mode = 'auto' } = options;
+  const rate = options.rate || options.speed || 0.85;
+  const rawStr =
+    typeof rawSlpOrIastOrObj === 'string'
+      ? rawSlpOrIastOrObj
+      : rawSlpOrIastOrObj.slp1 || rawSlpOrIastOrObj.rawIast || rawSlpOrIastOrObj.iast || 'oM';
+  const slpSyl = inputToSlp1(rawStr, 'smart');
   const devaSyl = slp1ToDevanagari(slpSyl);
 
   // If running in browser and user requests neural-tts (or auto when neural backend is active)
   if (
     typeof window !== 'undefined' &&
     (mode === 'neural-tts' ||
+      mode === 'neural-auto' ||
       (mode === 'auto' &&
         (sanskritAudioEngine.getMode() === 'neural-tts' ||
           sanskritAudioEngine.getMode() === 'neural-auto') &&
@@ -663,7 +743,7 @@ export function playSingleSyllable(
       voices.find((v) => v.lang.startsWith('sa')) ||
       voices.find((v) => v.lang.startsWith('hi')) ||
       voices.find((v) => v.lang.includes('IN'));
-    if (targetVoice || mode === 'tts') {
+    if (targetVoice || mode === 'tts' || mode === 'legacy-tts') {
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(devaSyl);
       if (targetVoice) {
@@ -684,6 +764,10 @@ export function playSingleSyllable(
 }
 
 export function stopSpeaking(): void {
+  sanskritAudioEngine.stop();
+}
+
+export function stopSanskritSpeech(): void {
   sanskritAudioEngine.stop();
 }
 
