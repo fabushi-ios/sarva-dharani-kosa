@@ -49,6 +49,45 @@ function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 10): string[
   return lines;
 }
 
+function createLazyVerse(params: {
+  id: string;
+  index: number;
+  iast: string;
+  meaningZh: string;
+  meaningEn: string;
+  tangNoteZh?: string;
+  customClassicalZh?: string;
+}): DharaniVerse {
+  let cachedPhonetics: { classicalTranslitZh: string; modernPhoneticZh: string } | null = null;
+  let cachedWords: ReturnType<typeof buildWordGlossesFromIast> | null = null;
+  const getPhonetics = () => {
+    if (!cachedPhonetics) {
+      cachedPhonetics = generateVerseChinesePhonetics(params.iast);
+    }
+    return cachedPhonetics;
+  };
+  return {
+    id: params.id,
+    index: params.index,
+    iast: params.iast,
+    get classicalTranslitZh() {
+      return params.customClassicalZh || getPhonetics().classicalTranslitZh;
+    },
+    get modernPhoneticZh() {
+      return getPhonetics().modernPhoneticZh;
+    },
+    meaningZh: params.meaningZh,
+    meaningEn: params.meaningEn,
+    tangNoteZh: params.tangNoteZh,
+    get words() {
+      if (!cachedWords) {
+        cachedWords = buildWordGlossesFromIast(params.iast);
+      }
+      return cachedWords;
+    },
+  };
+}
+
 function buildStandardVerses(
   entryId: string,
   iastLines: string[],
@@ -59,19 +98,16 @@ function buildStandardVerses(
 ): DharaniVerse[] {
   return iastLines.slice(0, 8).map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
-    const phonetics = generateVerseChinesePhonetics(cleanLine);
     const customZh = customChineseLines?.[idx]?.trim();
-    return {
+    return createLazyVerse({
       id: `${entryId}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
-      classicalTranslitZh: customZh || phonetics.classicalTranslitZh,
-      modernPhoneticZh: phonetics.modernPhoneticZh,
+      customClassicalZh: customZh,
       meaningZh: `${meaningPrefixZh}（第 ${idx + 1} 句）`,
       meaningEn: `${meaningPrefixEn} (Verse ${idx + 1})`,
       tangNoteZh,
-      words: buildWordGlossesFromIast(cleanLine),
-    };
+    });
   });
 }
 
@@ -318,13 +354,10 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
     const tohLabel = rec.tohokuIds.join(' / ').toUpperCase();
     const verses: DharaniVerse[] = rec.mantras.slice(0, 8).map((m, idx) => {
       const cleanLine = m.sanskritIast.replace(/\u00AD/g, '').replace(/\s+/g, ' ').trim();
-      const phonetics = generateVerseChinesePhonetics(cleanLine);
-      return {
+      return createLazyVerse({
         id: `db4-84000-${rec.utId}-v${idx + 1}`,
         index: idx + 1,
         iast: cleanLine,
-        classicalTranslitZh: phonetics.classicalTranslitZh,
-        modernPhoneticZh: phonetics.modernPhoneticZh,
         meaningZh: m.englishTranslation
           ? `【84000 权威咒义对译】${m.englishTranslation}（藏文大藏经 ${tohLabel}《${rec.titles.en}》）`
           : `出自藏文大藏经德格版甘珠尔 ${tohLabel}《${rec.titles.saLtn}》（${rec.titles.boUnicode}）第 ${idx + 1} 段陀罗尼真言。`,
@@ -335,8 +368,7 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
           m.criticalNotes && m.criticalNotes.length > 0
             ? `84000 校勘注：${m.criticalNotes[0]}`
             : `德格版甘珠尔 ${rec.biblScopes[0]?.scope || tohLabel} · 藏文名：${rec.titles.boUnicode}`,
-        words: buildWordGlossesFromIast(cleanLine),
-      };
+      });
     });
 
     return {
@@ -438,21 +470,17 @@ const DB6_ENTRIES: DharaniEntry[] = DB6_SARIT_CORPUS.records.map((rec): DharaniE
     },
     verses: rec.featuredUnits.slice(0, 6).map((u, idx) => {
       const cleanLine = u.cleanSanskritIast.replace(/\s+/g, ' ').trim();
-      const phonetics = generateVerseChinesePhonetics(cleanLine);
-      return {
+      return createLazyVerse({
         id: `db6-sarit-${rec.xmlId}-v${idx + 1}`,
         index: idx + 1,
         iast: cleanLine,
-        classicalTranslitZh: phonetics.classicalTranslitZh,
-        modernPhoneticZh: phonetics.modernPhoneticZh,
         meaningZh: `出自《${rec.titleSanskrit}》(${u.chapterOrSection} · ${u.unitId})，写本叶码：${u.manuscriptLoci.join(' ') || '校勘底本'}。`,
         meaningEn: `From SARIT ${rec.titleSanskrit} (${u.chapterOrSection}, unit ${u.unitId}).`,
         tangNoteZh:
           u.criticalApparatus.length > 0
             ? `SARIT 异文校勘记：${u.criticalApparatus[0]}`
             : `SARIT 单元：${u.unitId}`,
-        words: buildWordGlossesFromIast(cleanLine),
-      };
+      });
     }),
   };
 });
@@ -550,21 +578,18 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
       sktCell && sktCell.lang === 'Sanskrit'
         ? sktCell.text
         : 'gate gate pāragate pārasaṃgate bodhi svāhā';
-    const phonetics = generateVerseChinesePhonetics(iastLine);
 
-    return {
+    return createLazyVerse({
       id: `db8-polyglotta-${vol.vid}-v${idx + 1}`,
       index: idx + 1,
       iast: iastLine,
-      classicalTranslitZh: zhCell ? zhCell.text : phonetics.classicalTranslitZh,
-      modernPhoneticZh: phonetics.modernPhoneticZh,
+      customClassicalZh: zhCell ? zhCell.text : undefined,
       meaningZh: `【奥斯陆多本对勘 ${row.sectionRef || `#${row.rowIndex}`}】${zhCell ? `${zhCell.witnessLabel}：${zhCell.text}` : ''} ${tibCell ? `| 藏本 (${tibCell.witnessLabel})：${tibCell.text}` : ''}`.trim(),
       meaningEn: enCell
         ? `${enCell.witnessLabel}: ${enCell.text}`
         : `Bibliotheca Polyglotta (vid=${vol.vid}) parallel alignment row ${row.rowIndex}.`,
       tangNoteZh: `参校证本 (${vol.witnesses.length} 本)：${row.cells.map((c) => c.witnessLabel).slice(0, 4).join(' · ')}`,
-      words: buildWordGlossesFromIast(iastLine),
-    };
+    });
   });
 
   return {
@@ -851,18 +876,14 @@ const DB12_ENTRIES: DharaniEntry[] = [
       },
       verses: ochs.verses.slice(0, 6).map((v, idx) => {
         const cleanLine = v.sanskritIast.replace(/\s+/g, ' ').trim();
-        const phonetics = generateVerseChinesePhonetics(cleanLine);
-        return {
+        return createLazyVerse({
           id: `db12-ochs-${ochs.slug}-v${idx + 1}`,
           index: idx + 1,
           iast: cleanLine,
-          classicalTranslitZh: phonetics.classicalTranslitZh,
-          modernPhoneticZh: phonetics.modernPhoneticZh,
           meaningZh: `出自牛津大学 OCHS #${ochs.ochsNumber}《${ochs.titleSanskrit}》第 ${v.verseNumber} 颂，所释种子字：${v.targetBijaSyllables.join('、') || 'Bīja'}。`,
           meaningEn: `From Oxford OCHS #${ochs.ochsNumber} ${ochs.titleSanskrit} Verse ${v.verseNumber} (Target Bījas: ${v.targetBijaSyllables.join(', ')}).`,
           tangNoteZh: `牛津 OCHS 种子字密码辞书 (${v.chapterOrSection || `Verse ${v.verseNumber}`})`,
-          words: buildWordGlossesFromIast(cleanLine),
-        };
+        });
       }),
     };
   }),

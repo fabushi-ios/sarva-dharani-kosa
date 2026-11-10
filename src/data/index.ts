@@ -28,17 +28,35 @@ const RAW_BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
   ...GRETIL_CANONICAL_DHARANIS,
 ];
 
+function ensureLazyWordsOnVerse(
+  v: DharaniEntry['verses'][number]
+): DharaniEntry['verses'][number] {
+  const desc = Object.getOwnPropertyDescriptor(v, 'words');
+  if (desc && typeof desc.get === 'function') {
+    return v;
+  }
+  if (Array.isArray(v.words) && v.words.length > 0) {
+    return v;
+  }
+  let cachedWords: ReturnType<typeof buildWordGlossesFromIast> | null = null;
+  const clone = { ...v };
+  Object.defineProperty(clone, 'words', {
+    enumerable: true,
+    configurable: true,
+    get() {
+      if (!cachedWords) {
+        cachedWords = buildWordGlossesFromIast(v.iast);
+      }
+      return cachedWords;
+    },
+  });
+  return clone;
+}
+
 export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = RAW_BUILTIN_DHARANI_CORPUS.map(
   (entry) => ({
     ...entry,
-    verses: entry.verses.map((v) =>
-      v.words && v.words.length > 0
-        ? v
-        : {
-            ...v,
-            words: buildWordGlossesFromIast(v.iast),
-          }
-    ),
+    verses: entry.verses.map(ensureLazyWordsOnVerse),
   })
 );
 

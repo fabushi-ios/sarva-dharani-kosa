@@ -119,6 +119,7 @@ export function filterDharanis(
         entry.provenance.databaseBadgeZh || '',
         entry.provenance.editionCitation || '',
         entry.provenance.manuscriptNotesZh || '',
+        entry.provenance.rawSnippet || '',
       ].join(' ')
     );
 
@@ -126,16 +127,15 @@ export function filterDharanis(
       return true;
     }
 
+    const hasCjk = /[\u4e00-\u9fff]/.test(normalizedQuery);
     return entry.verses.some((v) => {
-      const verseText = normalizeSearchText(
-        `${v.iast} ${v.classicalTranslitZh} ${v.modernPhoneticZh} ${v.meaningZh} ${v.meaningEn}`
+      const fastVerseText = normalizeSearchText(`${v.iast} ${v.meaningZh} ${v.meaningEn}`);
+      if (fastVerseText.includes(normalizedQuery)) return true;
+      if (!hasCjk) return false;
+      const zhPhoneticText = normalizeSearchText(
+        `${v.classicalTranslitZh} ${v.modernPhoneticZh}`
       );
-      if (verseText.includes(normalizedQuery)) return true;
-      return v.words.some((w) =>
-        normalizeSearchText(`${w.iast} ${w.transliterationZh} ${w.meaningZh}`).includes(
-          normalizedQuery
-        )
-      );
+      return zhPhoneticText.includes(normalizedQuery);
     });
   });
 }
@@ -202,6 +202,7 @@ export function getSearchSuggestions(
 
   // Score all matching entries across the entire 1,419-entry corpus so DB1–DB12 are never starved
   const scoredCanon: Array<{ score: number; is12Db: boolean; item: SearchSuggestionItem }> = [];
+  const hasCjk = /[\u4e00-\u9fff]/.test(q);
 
   for (const entry of entries) {
     const is12Db = Boolean(
@@ -214,7 +215,7 @@ export function getSearchSuggestions(
       `${entry.taishoNo} ${entry.provenance.cbetaId || ''} ${entry.provenance.gretilFile || ''} ${entry.provenance.databaseId || ''} ${entry.provenance.databaseBadgeZh || ''}`
     );
     const normDeity = normalizeSearchText(
-      `${entry.deityZh} ${entry.translatorZh} ${entry.meritsAndSummaryZh}`
+      `${entry.deityZh} ${entry.translatorZh} ${entry.meritsAndSummaryZh} ${entry.provenance.rawSnippet || ''}`
     );
 
     const titleMatch = normTitle.includes(q);
@@ -222,15 +223,15 @@ export function getSearchSuggestions(
     const deityMatch = normDeity.includes(q);
 
     let matchedVerse: DharaniEntry['verses'][number] | undefined;
-    if (!titleMatch && !dbOrNoMatch) {
+    if (!titleMatch && !dbOrNoMatch && !deityMatch) {
       matchedVerse = entry.verses.find((v) => {
-        const vStr = normalizeSearchText(
-          `${v.iast} ${v.classicalTranslitZh} ${v.modernPhoneticZh} ${v.meaningZh} ${v.meaningEn}`
+        const fastVStr = normalizeSearchText(`${v.iast} ${v.meaningZh} ${v.meaningEn}`);
+        if (fastVStr.includes(q)) return true;
+        if (!hasCjk) return false;
+        const zhPhoneticText = normalizeSearchText(
+          `${v.classicalTranslitZh} ${v.modernPhoneticZh}`
         );
-        if (vStr.includes(q)) return true;
-        return v.words.some((w) =>
-          normalizeSearchText(`${w.iast} ${w.transliterationZh} ${w.meaningZh}`).includes(q)
-        );
+        return zhPhoneticText.includes(q);
       });
     } else {
       matchedVerse = entry.verses[0];
