@@ -117,8 +117,6 @@ function proxyToPythonTtsBackend(
   proxyReq.end();
 }
 
-const distAssetGzipCache = new Map<string, { raw: Buffer; gz: Buffer; mime: string }>();
-
 function attachApiMiddleware(middlewares: {
   use: (
     fn: (
@@ -216,39 +214,61 @@ function attachApiMiddleware(middlewares: {
       return;
     }
 
-    // Fast in-memory gzip for built /assets/*.js and /assets/*.css in preview mode
-    if (
-      req.method === 'GET' &&
-      parsedUrl.pathname.startsWith('/assets/') &&
-      (parsedUrl.pathname.endsWith('.js') || parsedUrl.pathname.endsWith('.css'))
-    ) {
-      const diskPath = path.join(process.cwd(), 'dist', parsedUrl.pathname);
-      if (fs.existsSync(diskPath)) {
-        let entry = distAssetGzipCache.get(diskPath);
-        if (!entry) {
-          const raw = fs.readFileSync(diskPath);
-          const gz = zlib.gzipSync(raw);
-          const mime = parsedUrl.pathname.endsWith('.css')
-            ? 'text/css; charset=utf-8'
-            : 'application/javascript; charset=utf-8';
-          entry = { raw, gz, mime };
-          distAssetGzipCache.set(diskPath, entry);
-        }
-        const acceptEncoding = String(req.headers['accept-encoding'] || '');
-        res.statusCode = 200;
-        res.setHeader('Content-Type', entry.mime);
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-        if (acceptEncoding.includes('gzip')) {
-          res.setHeader('Content-Encoding', 'gzip');
-          res.setHeader('Content-Length', String(entry.gz.length));
-          res.end(entry.gz);
-        } else {
-          res.setHeader('Content-Length', String(entry.raw.length));
-          res.end(entry.raw);
-        }
-        return;
+    const origWrite = res.write.bind(res);
+    const origEnd = res.end.bind(res);
+    const chunks: Buffer[] = [];
+
+    res.write = function (chunk: unknown, ...args: unknown[]) {
+      if (res.headersSent) {
+        return (origWrite as (...a: unknown[]) => boolean)(chunk, ...args);
       }
-    }
+      if (chunk) {
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk)));
+      }
+      return true;
+    } as typeof res.write;
+
+    res.end = function (chunk?: unknown, ...args: unknown[]) {
+      if (res.headersSent) {
+        return (origEnd as (...a: unknown[]) => unknown)(chunk, ...args);
+      }
+      if (chunk && typeof chunk !== 'function') {
+        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk)));
+      }
+      let fullBuf = Buffer.concat(chunks);
+      const contentType = String(res.getHeader('Content-Type') || '');
+
+      if (contentType.includes('javascript') && fullBuf.length > 30_000) {
+        const str = fullBuf.toString('utf8');
+        const idx = str.lastIndexOf('//# sourceMappingURL=data:');
+        if (idx !== -1) {
+          fullBuf = Buffer.from(str.slice(0, idx), 'utf8');
+        }
+      }
+
+      const acceptEncoding = String(req.headers['accept-encoding'] || '');
+      const existingEncoding = res.getHeader('Content-Encoding');
+      if (
+        !existingEncoding &&
+        acceptEncoding.includes('gzip') &&
+        fullBuf.length > 8_192 &&
+        (contentType.includes('javascript') ||
+          contentType.includes('text/html') ||
+          contentType.includes('text/css') ||
+          contentType.includes('application/json'))
+      ) {
+        const gz = zlib.gzipSync(fullBuf);
+        res.setHeader('Content-Encoding', 'gzip');
+        res.setHeader('Content-Length', String(gz.length));
+        return origEnd(gz);
+      }
+
+      if (chunks.length > 0) {
+        res.setHeader('Content-Length', String(fullBuf.length));
+        return origEnd(fullBuf);
+      }
+      return (origEnd as (...a: unknown[]) => unknown)(chunk, ...args);
+    } as typeof res.end;
 
     next();
   });
