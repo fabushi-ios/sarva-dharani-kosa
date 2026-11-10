@@ -5,10 +5,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-  padding-bottom: 84px; /* Space for sticky audio player bar */
+  padding-bottom: 92px; /* Space for fixed bottom resident audio player bar */
 }
 
 .app-header {

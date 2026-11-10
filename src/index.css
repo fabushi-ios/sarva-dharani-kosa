@@ -1570,9 +1570,12 @@ body {
    14. 48kHz VITS Audio Player Bar & 12-Database Workbench Compat (Parchment Theme)
    ========================================================================== */
 .audio-player-bar {
-  position: sticky;
+  position: fixed;
   bottom: 0;
-  z-index: 90;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 95;
   background: var(--bg-dark-header);
   color: #f4e8c1;
   border-top: 2px solid var(--accent-gold);

@@ -10,8 +10,6 @@
 
 html {
   font-size: 16px;
-  overflow-x: hidden;
-  max-width: 100vw;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,9 +20,7 @@ body {
   font-family: var(--font-zh-serif);
   line-height: 1.65;
   min-height: 100vh;
-  overflow-x: hidden;
-  max-width: 100vw;
-   position: relative;
+  overflow-x: clip;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 

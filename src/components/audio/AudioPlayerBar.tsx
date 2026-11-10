@@ -175,7 +175,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             htmlFor="audio-engine-mode-select"
             style={{
               fontSize: '0.76rem',
-              color: 'var(--text-secondary)',
+              color: '#f4e8c1',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '0.3rem',
@@ -206,7 +206,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
 
           <label
             htmlFor="audio-speed-select"
-            style={{ fontSize: '0.76rem', color: 'var(--text-secondary)' }}
+            style={{ fontSize: '0.76rem', color: '#f4e8c1' }}
           >
             速度：
           </label>
