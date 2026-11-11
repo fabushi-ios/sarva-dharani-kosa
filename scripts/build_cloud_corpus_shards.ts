@@ -277,7 +277,7 @@ export const CORPUS_AUTHORITATIVE_STATS = ${JSON.stringify(CORPUS_AUTHORITATIVE_
       cloned.provenance = {
         ...cloned.provenance,
         rawSnippet: cloned.provenance.rawSnippet
-          ? cloned.provenance.rawSnippet.slice(0, 260)
+          ? Array.from(cloned.provenance.rawSnippet).slice(0, 260).join('')
           : undefined,
         cbetaInterlinearTokens: cloned.provenance.cbetaInterlinearTokens
           ? cloned.provenance.cbetaInterlinearTokens.slice(0, 12)

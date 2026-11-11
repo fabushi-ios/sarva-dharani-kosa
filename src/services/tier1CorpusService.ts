@@ -83,9 +83,9 @@ const TIER1_ID_ALIASES: Record<string, Tier1DatabaseId> = {
 export function normalizeDiacritics(input: string): string {
   if (!input) return '';
   return String(input)
-    .normalize('NFD')
+    .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
-    .normalize('NFC')
+    .normalize('NFKC')
     .toLowerCase()
     .replace(/\s+/g, ' ')
     .trim();
@@ -95,6 +95,7 @@ function matchesQuery(haystack: string | undefined | null, rawQuery: string, nor
   if (!haystack || !rawQuery) return false;
   const hLower = haystack.normalize('NFC').toLowerCase();
   if (hLower.includes(rawQuery.normalize('NFC').toLowerCase())) return true;
+  if (haystack.normalize('NFKC').toLowerCase().includes(rawQuery.normalize('NFKC').toLowerCase())) return true;
   if (normQuery.length >= 2 && normalizeDiacritics(haystack).includes(normQuery)) return true;
   return false;
 }

@@ -522,8 +522,8 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                   <strong>OCHS 隐语构件：</strong>
                   {bijaLexiconEntry.phonemicBreakdown.slice(0, 3).join(' + ')}
                 </div>
-                <div style={{ color: 'var(--text-muted)', lineHeight: 1.35 }}>
-                  {bijaLexiconEntry.buddhistMeaning.slice(0, 66)}…
+                <div style={{ color: 'var(--text-muted)', lineHeight: 1.4 }}>
+                  {bijaLexiconEntry.buddhistMeaning}
                 </div>
               </div>
             </button>
@@ -774,7 +774,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                   style={{
                     fontSize: '0.75rem',
                     color: 'var(--text-secondary)',
-                    fontFamily: 'var(--font-sanskrit-roman)',
+                    fontFamily: 'var(--font-iast)',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     display: '-webkit-box',

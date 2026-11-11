@@ -113,7 +113,7 @@ export function normalizeSearchText(input: string): string {
       // keep raw
     }
   }
-  const base = stripDiacritics(raw);
+  const base = stripDiacritics(raw.normalize('NFKC'));
   let out = '';
   for (const ch of base) {
     out += TRAD_TO_SIMP_SEARCH_MAP[ch] || ch;
@@ -323,6 +323,11 @@ export function filterDharanis(
   });
 }
 
+function sliceCp(text: string | undefined | null, maxCodePoints: number): string {
+  if (!text) return '';
+  return Array.from(text).slice(0, maxCodePoints).join('');
+}
+
 function toCanonSuggestionItem(
   entry: DharaniEntry,
   matchTypeLabel: string,
@@ -341,10 +346,10 @@ function toCanonSuggestionItem(
     matchedVerseId: v?.id,
     matchedVerseIndex: v?.index,
     snippetPrimary: v
-      ? `梵音：${v.iast.slice(0, 72)}`
+      ? `梵音：${sliceCp(v.iast, 72)}`
       : entry.titleSanskritIast,
     snippetSecondary: v
-      ? `古汉语：${v.classicalTranslitZh.slice(0, 42)} · 梵音拼读：${v.modernPhoneticZh.slice(0, 42)}`
+      ? `古汉语：${sliceCp(v.classicalTranslitZh, 42)} · 梵音拼读：${sliceCp(v.modernPhoneticZh, 42)}`
       : entry.deityZh,
   };
 }
@@ -517,9 +522,9 @@ export function getSearchSuggestions(
         taishoNo: (hit.canonicalRefs && hit.canonicalRefs[0]) || hit.id,
         matchTypeLabel: `🌐 ${dbMeta.labelZh}`,
         snippetPrimary: hit.sanskritIast
-          ? `梵音/转写：${hit.sanskritIast.slice(0, 76)}`
-          : hit.snippet.slice(0, 76),
-        snippetSecondary: `${hit.subtitle} · ${hit.chineseText || hit.tibetanText || hit.snippet.slice(0, 48)}`,
+          ? `梵音/转写：${sliceCp(hit.sanskritIast, 76)}`
+          : sliceCp(hit.snippet, 76),
+        snippetSecondary: `${hit.subtitle} · ${hit.chineseText || hit.tibetanText || sliceCp(hit.snippet, 48)}`,
       });
       added12Db++;
     }
@@ -544,7 +549,7 @@ export function getSearchSuggestions(
         matchTypeLabel: `大正藏密教部原典 · 含真言 ${ts.dharaniBlockCount} 段`,
         snippetPrimary: `译者：${ts.translator} · 点击查看 CBETA TEI-P5 原典全部真言`,
         snippetSecondary: ts.sampleDharanis[0]
-          ? `原典咒句：${ts.sampleDharanis[0].slice(0, 72)}...`
+          ? `原典咒句：${sliceCp(ts.sampleDharanis[0], 72)}...`
           : `CBETA 经号 ${ts.id}.xml`,
       });
     }

@@ -15,10 +15,10 @@
   --border-subtle: #e4d9c5;
   --border-gold: #d5b878;
   --shadow-soft: 0 4px 16px rgba(36, 28, 21, 0.06);
-  --font-serif-zh: 'Noto Serif SC', 'Songti SC', serif;
-  --font-deva: 'Noto Serif Devanagari', serif;
-  --font-siddham: 'Noto Sans Siddham', 'Noto Serif Devanagari', serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif-zh: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', 'STSong', 'SimSun', 'Sarva Rare Han', 'SimSun-ExtB', 'Noto Sans Siddham', 'Noto Serif Devanagari', serif;
+  --font-deva: 'Noto Serif Devanagari', 'Noto Serif SC', 'Sarva Rare Han', serif;
+  --font-siddham: 'Noto Sans Siddham', 'Noto Serif Devanagari', 'Noto Serif SC', 'Sarva Rare Han', serif;
+  --font-mono: 'JetBrains Mono', 'Noto Sans SC', 'Sarva Rare Han', 'Noto Sans Siddham', monospace;
 }
 
 * {

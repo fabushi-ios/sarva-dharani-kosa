@@ -9,6 +9,7 @@
       content="基于德国哥廷根大学 GRETIL、数字化梵文佛典库 DSBC 与 CBETA 官方大藏经 XML-P5 语料库的模块化梵文陀罗尼全集网页应用。支持 IAST、天城文、悉昙梵字、国际音标四体对照，全咒六体合一汇总、音节轻重律（Guru/Laghu）分析、梵音合成跟读及唐代原典对音核验。"
     />
     <link rel="preload" href="/fonts/NotoSansSiddham-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/SarvaRareHan-Ext.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       @font-face {
         font-family: 'Noto Sans Siddham';
@@ -16,6 +17,22 @@
         font-weight: 400;
         font-style: normal;
         font-display: swap;
+      }
+      @font-face {
+        font-family: 'Sarva Rare Han';
+        src: url('/fonts/SarvaRareHan-Ext.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+        unicode-range: U+2E80-2FDF, U+31C0-31EF, U+3400-4DBF, U+9FA0-9FFF, U+F900-FAFF, U+20000-323AF;
+      }
+      @font-face {
+        font-family: 'Sarva Rare Han';
+        src: url('/fonts/SarvaRareHan-BMP.woff2') format('woff2');
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+        unicode-range: U+4E00-9F9F;
       }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -100,15 +100,18 @@ async function main() {
       while ((pm = pRegex.exec(xml)) !== null) {
         dharaniCount++;
         if (sampleDharanis.length < 3) {
-          const cleanP = pm[1]
-            .replace(/<cb:t xml:lang="sa-Sidd">[\s\S]*?<\/cb:t>/g, '')
-            .replace(/<cb:sg>([^<]+)<\/cb:sg>/g, '($1)')
-            .replace(/<note place="inline">([^<]*)<\/note>/g, '[$1]')
-            .replace(/<[^>]+>/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
+          const cleanP = Array.from(
+            pm[1]
+              .replace(/<cb:t[^>]*xml:lang="sa-Sidd"[^>]*>[\s\S]*?<\/cb:t>/g, '')
+              .replace(/<cb:sg>([^<]+)<\/cb:sg>/g, '($1)')
+              .replace(/<note place="inline">([^<]*)<\/note>/g, '[$1]')
+              .replace(/<[^>]+>/g, '')
+              .replace(/[\uE000-\uF8FF]|[\u{F0000}-\u{10FFFF}]/gu, '')
+              .replace(/\s+/g, ' ')
+              .trim()
+          );
           if (cleanP.length > 4) {
-            sampleDharanis.push(toSimplified(cleanP.slice(0, 220)));
+            sampleDharanis.push(toSimplified(cleanP.slice(0, 220).join('')));
           }
         }
       }

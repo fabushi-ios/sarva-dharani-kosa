@@ -18,6 +18,7 @@ import re
 import subprocess
 import sys
 import threading
+import unicodedata
 import urllib.parse
 from pathlib import Path
 from typing import Any
@@ -44,6 +45,7 @@ from backend.sanskrit_tts_engine import (
 )
 
 PUBLIC_AUDIO_DIR = PROJECT_ROOT / "public" / "audio"
+PUBLIC_FONTS_DIR = PROJECT_ROOT / "public" / "fonts"
 CACHE_DIR = PUBLIC_AUDIO_DIR / "cache"
 
 PUBLIC_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
@@ -469,7 +471,7 @@ def search_corpus_api(
     entries_by_id = cache["entries_by_id"]
     taisho_list = cache["taisho_list"]
 
-    norm_q = (q or "").strip().lower()
+    norm_q = unicodedata.normalize("NFKC", q or "").strip().lower()
     tokens = [tk for tk in norm_q.split() if tk]
     results: list[dict[str, Any]] = []
     matched_ids: list[str] = []
@@ -535,6 +537,8 @@ def get_phonetic_engine_html() -> Response:
 
 app.mount("/audio", StaticFiles(directory=str(PUBLIC_AUDIO_DIR)), name="audio")
 app.mount("/corpus", StaticFiles(directory=str(PUBLIC_CORPUS_DIR)), name="corpus")
+if PUBLIC_FONTS_DIR.exists():
+    app.mount("/fonts", StaticFiles(directory=str(PUBLIC_FONTS_DIR)), name="fonts")
 
 DIST_DIR = PROJECT_ROOT / "dist"
 if DIST_DIR.exists() and (DIST_DIR / "index.html").exists():

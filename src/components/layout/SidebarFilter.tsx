@@ -130,7 +130,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               }}
               title={cat.descriptionZh}
             >
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ lineHeight: 1.28, wordBreak: 'break-word', minWidth: 0 }}>
                 {cat.nameZh}
               </span>
               <span className="category-pill-bija">{cat.bijaSiddham}</span>

@@ -441,7 +441,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
       sutraSourceZh: `大正藏第84册悉昙部《${tr.title}》(${tr.taishoId})`,
       deityZh: '大日如来 · 悉昙五十字门法界体性',
       bijaIast: 'a',
-      meritsAndSummaryZh: `源自全球第 2 大数据库「大正藏 T84 悉昙部」${tr.author}撰《${tr.title}》（${tr.taishoId}，共 ${tr.rolls} 卷，${tr.charCount} 字）。核心法义涵盖：${tr.keyTopics.join('、')}。原典摘要：${tr.excerptText.slice(0, 160)}…`,
+      meritsAndSummaryZh: `源自全球第 2 大数据库「大正藏 T84 悉昙部」${tr.author}撰《${tr.title}》（${tr.taishoId}，共 ${tr.rolls} 卷，${tr.charCount} 字）。核心法义涵盖：${tr.keyTopics.join('、')}。原典摘要：${Array.from(tr.excerptText).slice(0, 160).join('')}…`,
       recitationTipsZh: '悉昙五十字母（摩多十六韵与体文三十四字）是一切如来真言陀罗尼之字门根本，字字皆入不可得空性。',
       provenance: {
         sourceType: 'GLOBAL-12DB',
@@ -451,7 +451,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
         cbetaRawXmlUrl: tr.sourceUrl,
         editionCitation: `Taishō Vol. 84 ${tr.taishoId} (${tr.title}, ${tr.author})`,
         manuscriptNotesZh: `日本东密/台密悉昙学权威原典（${tr.bkkbooksRepoId}）。`,
-        rawSnippet: tr.excerptText.slice(0, 260),
+        rawSnippet: Array.from(tr.excerptText).slice(0, 260).join(''),
       },
       verses: buildStandardVerses(
         `db2-siddham-${tr.taishoId}`,

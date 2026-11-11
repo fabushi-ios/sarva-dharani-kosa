@@ -73,13 +73,13 @@
 }
 
 :root {
-  /* 学术多文种字体栈 */
-  --font-zh-serif: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', serif;
-  --font-zh-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-devanagari: 'Noto Serif Devanagari', 'Siddhanta', serif;
-  --font-siddham: 'Noto Sans Siddham', 'Noto Serif Devanagari', serif;
-  --font-iast: 'Gentium Plus', 'Charis SIL', 'Cambria', Georgia, serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  /* 学术多文种字体栈（内置 Sarva Rare Han 覆盖 CJK 扩展 A–I 与兼容汉字，消除生僻字豆腐块） */
+  --font-zh-serif: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', 'STSong', 'SimSun', 'Sarva Rare Han', 'SimSun-ExtB', 'Noto Sans Siddham', 'Noto Serif Devanagari', serif;
+  --font-zh-sans: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Sarva Rare Han', 'SimSun-ExtB', 'Noto Sans Siddham', 'Noto Serif Devanagari', sans-serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Siddhanta', 'Noto Serif SC', 'Sarva Rare Han', serif;
+  --font-siddham: 'Noto Sans Siddham', 'Noto Serif Devanagari', 'Noto Serif SC', 'Sarva Rare Han', serif;
+  --font-iast: 'Gentium Plus', 'Charis SIL', 'Cambria', Georgia, 'Noto Serif SC', 'Songti SC', 'Sarva Rare Han', 'Noto Sans Siddham', serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Noto Sans SC', 'PingFang SC', 'Sarva Rare Han', 'Noto Sans Siddham', monospace;
 
   --radius-xs: 4px;
   --radius-sm: 6px;

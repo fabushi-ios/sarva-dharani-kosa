@@ -1,5 +1,31 @@
 @import './tokens.css';
 
+@font-face {
+  font-family: 'Noto Sans Siddham';
+  src: url('/fonts/NotoSansSiddham-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sarva Rare Han';
+  src: url('/fonts/SarvaRareHan-Ext.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+2E80-2FDF, U+31C0-31EF, U+3400-4DBF, U+9FA0-9FFF, U+F900-FAFF, U+20000-323AF;
+}
+
+@font-face {
+  font-family: 'Sarva Rare Han';
+  src: url('/fonts/SarvaRareHan-BMP.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+4E00-9F9F;
+}
+
 *,
 *::before,
 *::after {

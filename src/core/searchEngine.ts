@@ -293,28 +293,41 @@ export function searchAllDatabases(
   }
 
   // Case 2: Unfiltered search across all 12 databases + baseline + quadrilingual glossary
-  // Collect balanced hits per database so a single large DB (db1_fangshan) never starves db2..db12
-  const perDbCap = Math.max(4, Math.ceil(limit / 8));
+  // Collect balanced hits per database first so large DBs never starve db9..db12, then fill remaining capacity
+  const perDbCap = Math.max(2, Math.floor(limit / 13));
+  const overflowHits: EnrichedUnifiedSearchHit[] = [];
 
   for (const q of expandedQueries) {
     const normQ = normalizeDiacritics(q);
 
     // First include quadrilingual glossary & baseline hits (capped to keep room for all 12 DBs)
     const glossAndBase = searchBaselineAndGlossary(q, normQ, null);
-    for (const gh of glossAndBase.slice(0, 6)) {
+    for (const gh of glossAndBase.slice(0, 4)) {
       pushUnique(gh);
     }
+    for (const gh of glossAndBase.slice(4)) {
+      overflowHits.push(gh);
+    }
 
-    // Query each of the 12 canonical databases with perDbCap
+    // Query each of the 12 canonical databases with balanced perDbCap + overflow buffer
     for (const dbId of CANONICAL_DATABASE_IDS) {
       const isTier1 = ['db1_fangshan', 'db2_taisho_ext', 'db3_dsbc_gretil', 'db4_84000', 'db5_buddhanexus', 'db6_sarit'].includes(dbId);
+      const fetchLimit = Math.max(perDbCap, Math.ceil(limit / 6));
       const dbHits = isTier1
-        ? searchTier1Databases(q, { dbId, limit: perDbCap })
-        : searchTier23Databases(q, { dbId, limit: perDbCap });
+        ? searchTier1Databases(q, { dbId, limit: fetchLimit })
+        : searchTier23Databases(q, { dbId, limit: fetchLimit });
       for (const h of dbHits.slice(0, perDbCap)) {
         pushUnique(toEnrichedHit(h));
       }
+      for (const h of dbHits.slice(perDbCap)) {
+        overflowHits.push(toEnrichedHit(h));
+      }
     }
+  }
+
+  for (const h of overflowHits) {
+    if (finalHits.length >= limit) break;
+    pushUnique(h);
   }
 
   return finalHits;

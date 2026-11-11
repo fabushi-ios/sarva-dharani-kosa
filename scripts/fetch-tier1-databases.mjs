@@ -975,7 +975,7 @@ async function buildDb2TaishoExt(gaijiMap) {
       siddhamRegistryStats,
       ancientDharanis: ancientDharanis.map((r) => ({
         ...r,
-        dharaniTextZh: safeSlice(r.dharaniTextZh, 260),
+        dharaniTextZh: r.dharaniTextZh,
       })),
     },
     compact: {
@@ -984,9 +984,9 @@ async function buildDb2TaishoExt(gaijiMap) {
       siddhamTreatises,
       siddham18Chapters,
       siddhamRegistryStats,
-      ancientDharanis: ancientDharanis.map((r, idx) => ({
+      ancientDharanis: ancientDharanis.map((r) => ({
         ...r,
-        dharaniTextZh: idx < 15 || r.workId === 'T09n0262' || r.workId === 'T10n0293' ? safeSlice(r.dharaniTextZh, 220) : safeSlice(r.dharaniTextZh, 85),
+        dharaniTextZh: r.dharaniTextZh,
         inlineNotes: r.inlineNotes.slice(0, 4),
         ...(r.ttAlignments ? { ttAlignments: r.ttAlignments.slice(0, 5) } : {}),
       })),

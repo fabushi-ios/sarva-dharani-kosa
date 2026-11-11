@@ -6,6 +6,32 @@
   <title>梵音 100% 全覆盖音译与发声引擎 v3.0 (Plan 1 原生梵文神经网络 VITS + Plan 3 48kHz 悉昙神经采样库)</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
+    @font-face {
+      font-family: 'Noto Sans Siddham';
+      src: url('/fonts/NotoSansSiddham-Regular.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Sarva Rare Han';
+      src: url('/fonts/SarvaRareHan-Ext.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+2E80-2FDF, U+31C0-31EF, U+3400-4DBF, U+9FA0-9FFF, U+F900-FAFF, U+20000-323AF;
+    }
+    @font-face {
+      font-family: 'Sarva Rare Han';
+      src: url('/fonts/SarvaRareHan-BMP.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+      unicode-range: U+4E00-9F9F;
+    }
+    body {
+      font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Sarva Rare Han', 'SimSun-ExtB', 'Noto Sans Siddham', sans-serif;
+    }
     .syllable-card {
       transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.16s ease, border-color 0.16s ease;
     }
@@ -18,7 +44,7 @@
       box-shadow: 0 0 0 2px var(--primary), 0 8px 20px -4px rgba(0, 0, 0, 0.16);
     }
     .deva-font {
-      font-family: "Noto Sans Devanagari", "Kohinoor Devanagari", "Mangal", sans-serif;
+      font-family: "Noto Sans Devanagari", "Kohinoor Devanagari", "Mangal", "Sarva Rare Han", sans-serif;
     }
     @keyframes pulse-bar {
       0%, 100% { transform: scaleY(0.35); }
