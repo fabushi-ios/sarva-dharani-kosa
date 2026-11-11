@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { Volume2, Sparkles } from 'lucide-react';
 import type { DharaniVerse, ScriptVisibilityConfig } from '../../types/kosaTypes';
-import { iastToSiddham } from '../../core/sanskrit/transliterator';
+import { iastToDevanagari, iastToSiddham } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
   enrichSyllablesWithPhonetics,
@@ -74,6 +74,49 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
     () => enrichSyllablesWithPhonetics(syllables),
     [syllables]
   );
+
+  // Group syllables by orthographic subword for Brahmi scripts (Siddhaṃ & Devanāgarī) so OpenType GSUB
+  // conjunct ligatures (e.g. padmo -> 𑖢𑖟𑖿𑖦𑖺, maṇḍala -> 𑖦𑖜𑖿𑖚𑖩, buddha -> 𑖤𑖲𑖟𑖿𑖠) stay 100% intact during playback
+  const enrichedSubwords = useMemo(() => {
+    const groups: Array<{
+      key: number;
+      iast: string;
+      modernZh: string;
+      siddham: string;
+      devanagari: string;
+      firstSylIndex: number;
+      lastSylIndex: number;
+      dandaBefore?: '|' | '||';
+      dandaAfter?: '|' | '||';
+    }> = [];
+    for (const syl of enrichedSyllables) {
+      const swKey = syl.subwordIndex ?? syl.wordIndex ?? syl.index;
+      const last = groups[groups.length - 1];
+      if (last && last.key === swKey) {
+        last.iast += syl.iast;
+        last.modernZh += syl.modernZh;
+        last.lastSylIndex = syl.index;
+        if (syl.dandaAfter) last.dandaAfter = syl.dandaAfter;
+      } else {
+        groups.push({
+          key: swKey,
+          iast: syl.iast,
+          modernZh: syl.modernZh,
+          siddham: '',
+          devanagari: '',
+          firstSylIndex: syl.index,
+          lastSylIndex: syl.index,
+          dandaBefore: syl.dandaBefore,
+          dandaAfter: syl.dandaAfter,
+        });
+      }
+    }
+    for (const g of groups) {
+      g.siddham = iastToSiddham(g.iast);
+      g.devanagari = iastToDevanagari(g.iast);
+    }
+    return groups;
+  }, [enrichedSyllables]);
 
   const effectiveActiveSylIndex = isVersePlaying
     ? (activeSyllableIndex ?? enrichedSyllables[0]?.index ?? 1)
@@ -296,22 +339,37 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
             />
           </span>
           {isVersePlaying &&
-          enrichedSyllables.length > 0 &&
+          enrichedSubwords.length > 0 &&
           effective.siddhamOrigin === 'derived-reference' ? (
             <div className="script-content-siddham inline-syl-strip">
-              {enrichedSyllables.map((syl) => {
-                const isSpoken = effectiveActiveSylIndex === syl.index;
+              {enrichedSubwords.map((sw, swIdx) => {
+                const isSpoken =
+                  effectiveActiveSylIndex !== null &&
+                  effectiveActiveSylIndex >= sw.firstSylIndex &&
+                  effectiveActiveSylIndex <= sw.lastSylIndex;
                 const isPast =
-                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                  effectiveActiveSylIndex !== null && sw.lastSylIndex < effectiveActiveSylIndex;
+                const isLastSw = swIdx === enrichedSubwords.length - 1;
                 return (
-                  <span
-                    key={`${verse.id}-sid-${syl.index}`}
-                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
-                    onClick={() => onPlaySyllable(syl.iast)}
-                    title={`点击发音: ${syl.iast} (${syl.modernZh})`}
-                  >
-                    {syl.siddham || iastToSiddham(syl.iast)}
-                  </span>
+                  <React.Fragment key={`${verse.id}-sid-sw-${sw.key}`}>
+                    {sw.dandaBefore && (
+                      <span style={{ opacity: 0.65, padding: '0 0.18rem' }}>
+                        {sw.dandaBefore === '||' ? '𑗃' : '𑗂'}
+                      </span>
+                    )}
+                    <span
+                      className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                      onClick={() => onPlaySyllable(sw.iast)}
+                      title={`点击发音: ${sw.iast} (${sw.modernZh})`}
+                    >
+                      {sw.siddham}
+                    </span>
+                    {sw.dandaAfter && !isLastSw && (
+                      <span style={{ opacity: 0.65, padding: '0 0.18rem' }}>
+                        {sw.dandaAfter === '||' ? '𑗃' : '𑗂'}
+                      </span>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -339,22 +397,37 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
             />
           </span>
           {isVersePlaying &&
-          enrichedSyllables.length > 0 &&
+          enrichedSubwords.length > 0 &&
           effective.devanagariOrigin === 'derived-reference' ? (
             <div className="script-content-devanagari inline-syl-strip">
-              {enrichedSyllables.map((syl) => {
-                const isSpoken = effectiveActiveSylIndex === syl.index;
+              {enrichedSubwords.map((sw, swIdx) => {
+                const isSpoken =
+                  effectiveActiveSylIndex !== null &&
+                  effectiveActiveSylIndex >= sw.firstSylIndex &&
+                  effectiveActiveSylIndex <= sw.lastSylIndex;
                 const isPast =
-                  effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                  effectiveActiveSylIndex !== null && sw.lastSylIndex < effectiveActiveSylIndex;
+                const isLastSw = swIdx === enrichedSubwords.length - 1;
                 return (
-                  <span
-                    key={`${verse.id}-deva-${syl.index}`}
-                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
-                    onClick={() => onPlaySyllable(syl.iast)}
-                    title={`点击发音: ${syl.iast} (${syl.modernZh})`}
-                  >
-                    {syl.devanagari}
-                  </span>
+                  <React.Fragment key={`${verse.id}-deva-sw-${sw.key}`}>
+                    {sw.dandaBefore && (
+                      <span style={{ opacity: 0.65, padding: '0 0.18rem' }}>
+                        {sw.dandaBefore === '||' ? '॥' : '।'}
+                      </span>
+                    )}
+                    <span
+                      className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                      onClick={() => onPlaySyllable(sw.iast)}
+                      title={`点击发音: ${sw.iast} (${sw.modernZh})`}
+                    >
+                      {sw.devanagari}
+                    </span>
+                    {sw.dandaAfter && !isLastSw && (
+                      <span style={{ opacity: 0.65, padding: '0 0.18rem' }}>
+                        {sw.dandaAfter === '||' ? '॥' : '।'}
+                      </span>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>

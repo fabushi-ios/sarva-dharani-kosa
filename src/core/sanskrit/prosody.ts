@@ -130,6 +130,8 @@ const RISING_SONORITY_ONSET_PAIRS = new Set([
   'kv', 'khv', 'gv', 'ghv', 'jv',
   'ṭv', 'ḍv', 'tv', 'thv', 'dv', 'dhv', 'nv',
   'bhv', 'śv', 'ṣv', 'sv', 'hv',
+  // Sibilant / Aspirate + Nasal (rising sonority: fricative < nasal < vowel; keeps ṣṇī, śmi, sma intact)
+  'śm', 'śn', 'ṣṇ', 'ṣm', 'sm', 'sn', 'hm', 'hn',
 ]);
 
 /**

@@ -146,7 +146,7 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
   it('handles external yaṇ-sandhi (-Cy/-Cv), attached avagraha, and vowelless clitics cleanly', () => {
     expect(generateVerseChinesePhonetics('ity evaṃ', false).modernPhoneticZh).toBe('伊帝 诶旺');
     expect(generateVerseChinesePhonetics('koṭy-uṣṇīṣaṃ', false).modernPhoneticZh).toBe(
-      '果蒂-乌什尼伤'
+      '果蒂-乌师尼伤'
     );
     expect(generateVerseChinesePhonetics('śastrāgny-udaka', false).modernPhoneticZh).toBe(
       '沙斯特啦格尼-乌达嘎'
@@ -320,7 +320,81 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
       const dbId = entry.provenance.databaseId;
       if (dbId !== 'db1_fangshan' && dbId !== 'db2_taisho_ext') continue;
       const fullIast = entry.verses.map((v) => v.iast).join(' | ');
-      expect(fullIast).not.toMatch(/\baa+\b|divāaḥ|sūrya\s+(?:aṇa|ra)|\bṭpa/);
+      expect(fullIast).not.toMatch(/\baa+\b|divāaḥ|sūrya\s+(?:aṇa|ra)|(?:^|\s)ṭpa/);
+      expect(fullIast).not.toMatch(
+        /hṛṛ|kṣkṣ|(?:sama|te|he|ke)śvav|śvam|mahāpa\s+dmo|ṛnaiya|\bnamo\s+sutute\b|manṇa/
+      );
+    }
+  });
+
+  it('maps all underdotted IAST phonemes (ṛ/ṝ, ḷ/ḹ, ṣ, ṇ, ṭ/ṭh/ḍ/ḍh, ḥ, ṃ) accurately with zero polyphonic 什', () => {
+    // 1. Vocalic rhotic ṛ/ṝ -> 日 (vs lateral ḷ/ḹ -> 里, ri/rī -> 里, -ry- -> 哩)
+    expect(generateVerseChinesePhonetics('hṛdaya amṛta ṛṣi', false).modernPhoneticZh).toBe(
+      '赫日达呀 阿姆日达 日师'
+    );
+    expect(generateVerseChinesePhonetics('kḷpta śrī śrīṃ ārya', false).modernPhoneticZh).toBe(
+      '克里普达 希里 希林 阿哩呀'
+    );
+
+    // 2. Retroflex sibilant ṣ -> 沙/师/舒/师日/奢 (never polyphonic 什) & palatal ś -> 希/湿
+    expect(
+      generateVerseChinesePhonetics('mahā padmoṣṇīṣa hṛdaya', true).modernPhoneticZh
+    ).toBe('玛哈(mahā) · 巴德摩师尼沙(padmoṣṇīṣa) · 赫日达呀(hṛdaya)');
+    expect(
+      generateVerseChinesePhonetics('uṣṇīṣa rakṣaṇa maṇite', false).modernPhoneticZh
+    ).toBe('乌师尼沙 啦克沙拿 玛尼帝');
+    expect(
+      generateVerseChinesePhonetics('mahā raśmi sandite', false).modernPhoneticZh
+    ).toBe('玛哈 啦希米 散地帝');
+    expect(
+      generateVerseChinesePhonetics('śikhare vikasita padma vare', false).modernPhoneticZh
+    ).toBe('希卡雷 维嘎悉达 巴德玛 瓦雷');
+
+    // 3. Unaspirated ṭu/tu -> 度 vs aspirated ṭhu/thu -> 图 vs voiced ḍu/du -> 杜
+    expect(
+      generateVerseChinesePhonetics('turu turu dhuru dhuru namo stute', false).modernPhoneticZh
+    ).toBe('度鲁 度鲁 杜鲁 杜鲁 拿摩 斯度帝');
+    expect(mapSyllableToChinesePhonetics('ṭu').modernZh).toBe('度');
+    expect(mapSyllableToChinesePhonetics('ṭhu').modernZh).toBe('图');
+    expect(mapSyllableToChinesePhonetics('ḍu').modernZh).toBe('杜');
+
+    // 4. Zero polyphonic '什' across all generated modern Chinese phonetics
+    const p141 = DB1_FANGSHAN_CORPUS.records.find((r) => r.xmlId === 'pF28p0141a2301');
+    expect(p141).toBeDefined();
+    const p141Clauses = p141!.reconstructedIast
+      .replace(/\s*\|\|\s*$/, '')
+      .split(/\s*\|\s*/);
+    expect(p141Clauses).toEqual([
+      'nama stryadhvikānāṃ',
+      'sarvatathāgatānāṃ',
+      'oṃ',
+      'amogha maṇi',
+      'jvala jvala',
+      'mahā padmoṣṇīṣa hṛdaya',
+      'śikhare',
+      'maṇi maṇi',
+      'mahā maṇi',
+      'uṣṇīṣa rakṣaṇa maṇite',
+      'turu turu',
+      'mahā raśmi sandite',
+      'vikasita padma vare',
+      'dhuru dhuru',
+      'samaya siddhi',
+      'tara tara',
+      'tāraya kumāra',
+      'rakṣaṇa maṇḍala',
+      'padme samaśvāsaya',
+      'samanta vyavalokita padme',
+      'sarvoṣṇīṣādhiṣṭhānādhiṣṭhita',
+      'tathāgata rakṣaṇa guhya',
+      'sarvatathāgatoṣṇīṣa',
+      'padma vyavalokita',
+      'namo stute',
+      'svāhā',
+    ]);
+    for (const cl of p141Clauses) {
+      const phon = generateVerseChinesePhonetics(cl, false).modernPhoneticZh;
+      expect(phon).not.toContain('什');
     }
   });
 
@@ -380,4 +454,102 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
   });
 });
 
+describe('Global 2,482-Entry Cross-Database Hygiene & Root-Cause Invariants (DB1–DB12 + GRETIL + Curated)', () => {
+  it('enforces zero generic fallbacks, zero PUA/surrogates/gaiji, pure IAST characters, and zero English/Tibetan/apparatus leaks across all 2,482 entries', () => {
+    expect(BUILTIN_DHARANI_CORPUS.length).toBe(2482);
+
+    const loneSurrogateRe = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
+    const puaRe = /[\uE000-\uF8FF]|[\u{F0000}-\u{10FFFF}]/u;
+    const validIastVerseRe =
+      /^[-a-zA-ZāīūṛṝḷḹēōṃḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ'\u0310\s|—–.,:;!?()]+$/;
+    const unicodeEnglishLeakRe =
+      /(?<![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])(?:the|and|with|from|this|that|section|chapter|folio|edition|page|translated|sanskrit|tibetan|manuscript|homage|protect|grant|pacify|illness|untimely|death|defeating|buddhas|sentient|beings|accomplish|blessed|awakened|please|remember|rigveda|similar|rhetorical|structure|dieser|zitiert)(?![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])/i;
+    const encodingOrSiglumLeakRe =
+      /(?:(?<=\s|^)\.[tdnrsmlh]|~n|\^n|"s|`s|-i\b|\+[a-z]|(?<![a-zA-Z])[A-Z]{2,}(?![a-z])|r-i)/;
+    const db12ForbiddenStartRe =
+      /^(?:[ṅñṇḷṃḥ]|dm|db|dbh|dg|ṣṇ|ṣṭ|ṣk|ṣp|ṇḍ|ṇṭ|nd|nt|ṅk|ṅg|ñc|ñj|mp|mb|r[kgcjṭḍtdnpbmyvlśṣsh]|kt|pt|bd|ghn|hm|hn|ry|ly)/;
+    const validSpecialOnsets = new Set([
+      'hy', 'ṅa', 'ña', 'ṇa', 'ṅe', 'ḷṃ', 'ḹṃ', 'ḷkāro', 'ḷkāra',
+      'ṣṭa', 'rtha', 'ṣṭrīḥ', 'ṣṭrī', 'ṣṭri', 'ṣṭoṃ', 'ṣṭau', 'ṣṭrūṃ', 'ṣṭroṃ', 'ṣṭro',
+    ]);
+
+    for (const entry of BUILTIN_DHARANI_CORPUS) {
+      const dbKey = entry.provenance.databaseId || entry.categoryId;
+      const allIast = entry.verses.map((v) => v.iast).join(' | ');
+      const allZh = entry.verses.map((v) => v.classicalTranslitZh || '').join(' | ');
+      const meta = `${entry.titleZh} ${entry.titleSanskritIast} ${entry.meritsAndSummaryZh} ${allZh} ${entry.provenance.rawSnippet || ''}`;
+
+      expect(loneSurrogateRe.test(meta + allIast), `lone surrogate in ${entry.id}`).toBe(false);
+      expect(puaRe.test(`${entry.titleZh} ${entry.titleSanskritIast} ${allZh} ${allIast}`), `PUA in ${entry.id}`).toBe(false);
+      expect(allZh, `unresolved gaiji in ${entry.id}`).not.toMatch(/#(?:CB|SD|RJ)-?[0-9A-Za-z]+|\[(?:CB|SD|RJ)[0-9A-Za-z-]+\]/);
+      expect(allIast, `generic fallback in ${entry.id}`).not.toMatch(
+        /sarva-tathāgata-hṛdaya-dhāraṇī svāhā|munimuni mahāmuni śākyamuni|oṃ namo bhagavate svāhā/i
+      );
+      expect(validIastVerseRe.test(allIast), `non-IAST char/digit in ${entry.id}: ${allIast.slice(0, 80)}`).toBe(true);
+      expect(encodingOrSiglumLeakRe.test(allIast), `encoding/siglum leak in ${entry.id}: ${allIast.slice(0, 80)}`).toBe(false);
+
+      for (const v of entry.verses) {
+        expect(unicodeEnglishLeakRe.test(v.iast), `English/German leak in ${entry.id}: ${v.iast.slice(0, 80)}`).toBe(false);
+        if (dbKey === 'db1_fangshan' || dbKey === 'db2_taisho_ext') {
+          for (const w of v.iast.toLowerCase().split(/[\s|—–.,:;!?()-]+/).filter(Boolean)) {
+            if (w.startsWith("'")) continue;
+            const cleanW = w.replace(/'$/g, '');
+            if (validSpecialOnsets.has(cleanW) || /^ṣṭrī/.test(cleanW) || /^ḷkār/.test(cleanW)) continue;
+            if (cleanW.length >= 2) {
+              expect(db12ForbiddenStartRe.test(cleanW), `broken cluster "${cleanW}" in ${entry.id}`).toBe(false);
+            }
+          }
+        }
+      }
+
+      if (
+        (dbKey === 'db1_fangshan' || dbKey === 'db2_taisho_ext') &&
+        entry.id !== 'db2-taisho-T10n0293_arapacana_42'
+      ) {
+        const rawNoPipes = (entry.provenance.rawSnippet || '').replace(/\s*｜\s*/g, '');
+        expect(rawNoPipes, `mid-clause <lb/> CJK space in ${entry.id}`).not.toMatch(
+          /[\u4e00-\u9fff]\s+[\u4e00-\u9fff]/
+        );
+      }
+    }
+  });
+
+  it('verifies canonical root-cause repairs across representative DB3–DB12 records', () => {
+    const byId = new Map(BUILTIN_DHARANI_CORPUS.map((e) => [e.id, e]));
+
+    // DB3: §100 closing dhāraṇī restored
+    const db3Sec100 = byId.get('db3-dsbc-sec-100');
+    expect(db3Sec100?.verses.map((v) => v.iast).join(' ')).toContain('ye dharmā hetuprabhavā');
+    expect(db3Sec100?.verses.map((v) => v.iast).join(' ')).toContain('vajrasattva samayam anupālaya');
+
+    // DB7: 770 CE Hyakumantō darani (Raśmivimalaviśuddhaprabhā)
+    const db7Pr = byId.get('db7-cudl-ms-PR-FG-00870');
+    expect(db7Pr?.verses.map((v) => v.iast).join(' ')).toContain('vipulagarbhe vipulavimale');
+
+    // DB8: vid=207 Drāmiḍāvidyārājā Sanskrit mantras
+    const db8Vid207 = byId.get('db8-polyglotta-vid-207');
+    expect(db8Vid207?.verses.map((v) => v.iast).join(' ')).toContain('nimini nimini nimini');
+
+    // DB9: Derge Gzungs 'dus EWTS-to-IAST shad-clause extraction (zero Tibetan prose leak)
+    const db9_023 = byId.get('db9-rkts-1D_100_023');
+    const db9_023Iast = db9_023?.verses.map((v) => v.iast).join(' ') || '';
+    expect(db9_023Iast).toContain('oṃ namo bhagavate');
+    expect(db9_023Iast).toContain('avalokite');
+    expect(db9_023Iast).toContain('oṃ mohi mohi');
+    expect(db9_023Iast).not.toMatch(/rcagsaṅ|dgesloṅ|rdorje/);
+
+    // DB10: Saṃpuṭatantra SA00016.001
+    const db10Samputa = byId.get('db10-nibs-ms-SA00016.001');
+    expect(db10Samputa?.verses.map((v) => v.iast).join(' ')).toContain('śrīhevajrāya');
+
+    // DB11: CEToM THT 3187 Kizil Nīlakaṇṭha
+    const db11Tht = byId.get('db11-cetom-tht3187');
+    expect(db11Tht?.verses.map((v) => v.iast).join(' ')).toContain('vimalāmalamūrte svāhā');
+
+    // DB12: OCHS Mantrakoṣa & Mātṛkārṇanighaṇṭu clean of '1a)' and 'ai0'
+    const db12Mantrakosa = byId.get('db12-ochs-ochs_000_000_259_mantrakosa');
+    expect(db12Mantrakosa?.verses[0].iast).toContain('śrīgaṇeśāya namaḥ');
+    expect(db12Mantrakosa?.verses[0].iast).not.toContain('1a)');
+  });
+});
 

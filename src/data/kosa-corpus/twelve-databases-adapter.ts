@@ -27,21 +27,144 @@ import {
 } from '../../core/sanskrit/transliterator';
 
 const NON_SANSKRIT_BOILERPLATE_RE =
-  /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|\btadyathāpi\s*nāma|source\s*:\s*hidas|tibetan\s*:\s*d\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?)\b|^mpvv\s*=|^##\s*=|^§\s*=/i;
+  /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|source\s*:\s*hidas|tibetan\s*:\s*d\s*\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?|elder,\s*g\.r\.|the\s+saṃpuṭa\s+tantra\s*:\s*edition|unpublished\s+ph\.\s*d\.|this\s+mantra\s+is\s+also\s+found\s+in|bhaiṣajya\s+vastu\s+from\s+vinaya\s+vastu|dutt\s+supplies|better\s+understand|dissolved\s+from\s+here|derived\s+from\s+rudrapriya|and\s+rigveda|ist\s+auch\s+als|zitiert\s+in|bźin\s+du\s+spyod)\b|^mpvv\s*=|^##\s*=|^§\s*=/i;
 
 const ENGLISH_PROSE_STOPWORD_RE =
-  /\b(?:the|from|and|with|your|you|this|that|into|them|who|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners|seize|pull|bind|kill|spirits|summon|burn|blaze|move|shake|accept|flower|evildoers|noose|implore|wherever|arisen|practitioner|commands|charnel|grounds|pleasure|delights|worshiped|adorned)\b/gi;
+  /(?<![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])(?:the|from|and|with|your|you|this|that|into|upon|within|between|without|through|throughout|them|who|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners|seize|pull|bind|kill|spirits|summon|burn|blaze|move|shake|accept|flower|evildoers|noose|implore|wherever|arisen|practitioner|commands|charnel|grounds|pleasure|delights|worshiped|adorned|defeating|homage|perfect|buddhas|just|like|have|well-being|look|save|emancipate|sufferings|sentient|beings|please|enter|control|entire|remain|flow|toss|lotus|water|holder|treasury|unfold|expand|throne|purity|purify|accomplishment|remember|discord|sow|similar|rhetorical|structure|dieser|zitiert|zweite)(?![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])/gi;
+
+function healRuntimeConjunctSpaces(str: string): string {
+  if (!str) return '';
+  let s = str
+    .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])\s+\d+[abrv]\d+\s+([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])/g, '$1$2')
+    .replace(/\(\d+[rvab]\d*\)\(?/gi, '')
+    .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])\)([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])/g, '$1$2')
+    .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])-\s+r([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])/g, '$1r $2')
+    .replace(/([aāiīuūṛṝḷḹeēoō])\s+([ṃḥ])(?=\s|$|[|.,;:])/gi, '$1$2')
+    .replace(/\bsaṃ\s+skṛt/gi, 'saṃskṛt')
+    .replace(/\bsi\s*ṃ\s*h\s*ā\s*san/gi, 'siṃhāsan')
+    .replace(/\bsam\s+ā\s+pt([aāiīḥṃ])/gi, 'samāpt$1')
+    .replace(/\bdārid\s+ry\s+ābhi/gi, 'dāridryābhi')
+    .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])-i\b/g, '$1i');
+
+  for (let pass = 0; pass < 2; pass++) {
+    s = s.replace(
+      /([aāiīuūṛṝḷḹeēoō])\s+((?:r[kgcjṭḍtdnpbmyvlśṣsh]|cch|ṅ[kg]|ñ[cj]|ṇ[ṭḍ]|n[td]|m[pb]|dbh|db|dg|dm|pt|kt|bd|ḥs|ṃj|ṃk|ṃg|ṃc|ṃt|ṃd|ṃp|ṃb)[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ']*)/g,
+      '$1$2'
+    );
+    s = s.replace(
+      /(?<!\bṇi)([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ][aāiīuūṛṝḷḹeēoō])\s+(ṇ(?:i|ī|āṃ|ām|aṃ|am|ena|e|aīva|aiva|o|āya|ānāṃ|ānām))\b/g,
+      '$1$2'
+    );
+    s = s.replace(
+      /([aāiīuūṛṝḷḹeēoō])\s+(ṣṭ(?:iṃ|im|otka|atīrthāni))\b/g,
+      '$1$2'
+    );
+  }
+  return s;
+}
 
 export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
   if (!rawIast) return '';
   if (/\bPermanent\s+link\s+http|\$\(\s*["']#|\bfunction\s*\(/i.test(rawIast)) {
     return '';
   }
-  let text = rawIast
-    .replace(/\u00AD/g, '')
+  let text = healRuntimeConjunctSpaces(
+    rawIast
+      .replace(/[\u00AD\x00-\x08\x0B\x0C\x0E-\x1F]/g, ' ')
+      // Normalize ISO-15919 ring-below vocalic r/l, Vedic pitch accents, SARIT sandhi circumflexes & OCR glitches
+      .replace(/r\u0325\u0304[\u0300\u0301]?/g, 'ṝ')
+      .replace(/R\u0325\u0304[\u0300\u0301]?/g, 'Ṝ')
+      .replace(/r\u0325[\u0300\u0301]?/g, 'ṛ')
+      .replace(/R\u0325[\u0300\u0301]?/g, 'Ṛ')
+      .replace(/l\u0325[\u0300\u0301]?/g, 'ḷ')
+      .replace(/[\u0300\u0301]/g, '')
+      .replace(/[áà]/g, 'a')
+      .replace(/[ÁÀ]/g, 'A')
+      .replace(/[íì]/g, 'i')
+      .replace(/[ÍÌ]/g, 'I')
+      .replace(/[úù]/g, 'u')
+      .replace(/[ÚÙ]/g, 'U')
+      .replace(/[éèê]/g, 'e')
+      .replace(/[ÉÈÊ]/g, 'E')
+      .replace(/[óòô]/g, 'o')
+      .replace(/[ÓÒÔ]/g, 'O')
+      .replace(/â/g, 'ā')
+      .replace(/Â/g, 'Ā')
+      .replace(/î/g, 'ī')
+      .replace(/Î/g, 'Ī')
+      .replace(/û/g, 'ū')
+      .replace(/Û/g, 'Ū')
+      .replace(/ulläke/gi, 'ullāke')
+      .replace(/[’‘ʼˈ´æ]/g, "'")
+      .replace(/ṁ/g, 'ṃ')
+      .replace(/ġ/g, 'g')
+      .replace(/ḻ/g, 'l')
+      .replace(/ņ/g, 'ṇ')
+      .replace(/ḳs/g, 'kṣ')
+      .replace(/ḳ/g, 'k')
+      .replace(/ạ/g, 'a')
+      .replace(/[\u00B9\u00B2\u00B3\u2070-\u2079]+/g, '')
+      .replace(/\bthe\s+dharmātyādi\b/gi, 'ye dharmā ityādi')
+  )
+    // Strip editorial apparatus, GRETIL/SARIT/NIBS/Muktabodha/BuddhaNexus sigla & folio markers
+    .replace(/%[^\s|]*/g, ' ')
+    .replace(/\bCHAPTER(?:\s+\d+)?\b/gi, ' ')
+    .replace(/\b[A-Z]{4,}(?:-[A-Z0-9]+)+\b(?:\s+[IVXLC]+\.\d+)?/g, ' ')
+    .replace(/\bChapter\s+[IVXLC]+\s*::/gi, ' ')
+    .replace(/\bIntro\.\s*p\.\s*[IVXLC]+\b/gi, ' ')
+    .replace(/\bTibetan\s*:\s*D\s*\d+(?:=\d+)?\b/gi, ' ')
+    .replace(/-{3,}\s*\(\d+\)\s*-{3,}/g, ' | ')
+    .replace(/TTL<[^>]*>/g, ' ')
+    .replace(/\[\s*MISSING\s+FOLIO\s*\]/gi, ' ')
+    .replace(/\bFolio\s+\d+[A-Za-z]?\b/gi, ' ')
+    .replace(/\bfoll?\.\s*\d+[rvRV]\d*[^|]*/gi, ' ')
+    .replace(/\bend\s+of\s+[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ-]+\s+folio[^|]*/gi, ' ')
+    .replace(/\bThis\s+mantra\s+is\s+also\s+found\s+in\s+[A-Za-z]+\b/gi, ' ')
+    .replace(/\bBrahmāṇḍaP\s*:[^|]*/g, ' ')
+    .replace(/!\s*!\s*(?:DHN|KrA)[^|]*/g, ' ')
+    .replace(/\([A-Z]{2,6}\s*:[^)]*\)/g, ' ')
+    .replace(/\b(?:CDFGH|AFGH|BD|KrA|DHN)\s*:[^|]*/g, ' ')
+    .replace(/\bvar\s+[^|]*?\blem\s+cod\b/gi, ' ')
+    .replace(/\s+\bDutt\b/g, ' ')
+    .replace(/\((?:chā\.u|ī\.u|īśā|kauṣī|yajuḥ\.saṃ|bṛ\.u|mu\.u|ka\.u|tai\.u|śve\.u|ai\.u|pra\.u|mā\.u)[^)|]*[)|]?/gi, ' ')
+    .replace(/PrMoSū\([^)|.]*(?:\)\s*)?(?:Pāc\.\d+\.?)?/g, ' ')
+    .replace(/\(\s*ŚsP\s+[IVXLC0-9-]+\s*\)/g, ' ')
+    .replace(
+      /(?<![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])(?:Mns|NCit|Rm|AP|MBh|AVŚ|Vkn|KDA|HJm|Sitā|Gmdh|SHT|Viv|GBM|SRS|RKP|RKK|Rgs|DbSū|RBhrs|DbhP|PS|ŚsP|Pāc|DHN)(?![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])[\s,.:0-9IVXLCa-fA-Fv()-]*/g,
+      ' '
+    )
+    .replace(/\bpṛ0\s*\d+[a-z]*\)?\s*\|*/gi, ' ')
+    .replace(/\/\/\s*pek_\d+/gi, ' ')
+    .replace(/\b\d+[abrv]\d+\s*\([^)]*\)\s*:?/gi, ' ')
+    .replace(/\b\d+v\d+\)\s*\(?/gi, ' ')
+    .replace(/\b\d+,\d+\)\d+:/g, ' ')
+    .replace(/(?:^|\s|\|)\d+[ab]?\)(?=\s|$|\|)/g, ' ')
+    .replace(/\b(?:ab|cd)\d*:\d+\b/g, ' ')
+    .replace(/\b[Vr]\d+\b/g, ' ')
+    .replace(/\bñ\d+(?:\.\d+)+\b/g, ' ')
+    .replace(/\bC\.\d+(?:\.\d+)*\.?/g, ' ')
+    .replace(/(?:^|\s|\|)\.[0-9]+[a-z]*\b/g, ' ')
+    .replace(/(?<=\s|^)\.([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣ])/g, '$1')
+    .replace(/(?<=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])0\b/g, '')
+    .replace(/\bvāra\s*\d+\b/gi, 'vāra')
+    .replace(/(?<=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])\d+(?=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ'\s|.,;!?()-]|$)/g, '')
+    .replace(/\b\d+[.,]\d+[a-zA-Z]*\)?:?/g, ' ')
+    .replace(/\b\d+[a-zA-Z]+\d*[a-zA-Z]*\b/g, ' ')
+    .replace(/(?:^|\s)-\d+-(?=\s|$)/g, ' ')
+    .replace(/\b\d+-\d+\b/g, ' ')
+    .replace(/\b\d+-(?=\s|$)/g, ' ')
+    .replace(/\s+\b(?:MS|MSS|R)\b(?=\s*(?:\||$))/g, ' ')
+    .replace(/\b[IVXLC]{2,}\.(?=\s|$)/g, ' ')
+    .replace(/\[\s*(?:siddham|mantra|my|insert\s+name|the\s+rest\s+is\s+lost|\?+[^\]]*)\s*\]/gi, ' ')
+    .replace(/\\\s*addition\s+given\s+within[^|/]*\/?/gi, ' ')
+    .replace(/\(\s*!\s*\)/g, ' ')
+    .replace(/\(=[^)]*\)/g, ' ')
+    .replace(/\{\{[^}]*\}\}/g, ' ')
+    .replace(/\{[^}]*\}/g, ' ')
+    .replace(/\[\[[^\]]*\]\]/g, ' ')
     .replace(/^§\s*\d+[a-z]?\b\s*/gi, '')
     .replace(/(?:^|\|\s*)(?:Final\s+)?Rubric(?:,\s*section)?\s*:\s*(?:\[[^\]]*\])?\s*/gi, ' | ')
-    .replace(/\b(?:Incipit|Explicit|Colophon)\s*:\s*/gi, '')
+    .replace(/\b(?:Incipit|Explicit|Colophon)(?:,\s*section)?\s*:\s*/gi, '')
     .replace(/\[\s*space\s+left\s+blank[^\]]*\]/gi, ' ')
     .replace(/¦\s*\[\s*miniature\s*\]\s*/gi, '')
     .replace(/¦\s*miniature\s*/gi, '')
@@ -53,6 +176,7 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
     .replace(/\((?:MS-|PR-)[A-Z0-9-]+:[^)]*\)/g, '')
     .replace(/〚[^〛]*〛/g, '')
     .replace(/@[^@]*@@/g, '')
+    .replace(/@\d+[ab]\b/gi, ' ')
     .replace(/\\\s*\d+\s*\//g, ' ')
     .replace(/\\\s*([^/\\]{1,24}?)\s*\//g, ' $1 ')
     .replace(/\\[A-Za-z]+\s*\}?/g, ' ')
@@ -60,6 +184,7 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
     .replace(/\[\s*\d+(?:bis)?[rv]\d*\s*\]/gi, '')
     // Strip editorial page/folio/section brackets & sigla like [14], (Pkdh_141), (Sukhs_11)
     .replace(/\[\s*\d+[a-zA-Z]*\s*\]/g, ' ')
+    .replace(/\(\s*\d+\s*\)/g, ' ')
     .replace(/\(\s*(?:Pkdh|Mādh|Hgv|Bagchi|Dutt|Vaidya|Svalp|Trip|MDh|GBM|Vajraṭ|GRETIL|MS|fol\.?|p\.?|pp\.?)[^)]*\)/gi, ' ')
     .replace(/\(?\b[A-Z][A-Za-z0-9]{1,10}_\d+(?:\.\d+)*\b\)?/g, ' ')
     // Strip inline 84000 English translation insertions without truncating subsequent Sanskrit clauses
@@ -78,16 +203,18 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
     text = text.replace(/[\u0900-\u097F\u200c\u200d]+/g, (m) => devanagariToIast(m));
   }
 
+  // Convert GRETIL // and / danda markers to | and strip residual bracket/editorial punctuation
   text = text
-    .replace(/[*+≀◎_¯˘^≈#§@]/g, ' ')
+    .replace(/\/\/+/g, ' | ')
+    .replace(/\s*\/\s*/g, ' | ')
+    .replace(/[[\]{}$"“”<>°*+≀◎_¯˘^≈#§@=`\\≤…&]/g, ' ')
+    .replace(/,,+/g, ',')
     .replace(/\s+/g, ' ')
     .trim();
 
-  if (!text || NON_SANSKRIT_BOILERPLATE_RE.test(text)) {
-    return '';
-  }
+  if (!text) return '';
 
-  // If multi-clause string contains '|', filter English prose at clause granularity so valid Sanskrit clauses survive
+  // Filter boilerplate & English prose at clause granularity so valid Sanskrit sibling clauses always survive
   if (text.includes('|')) {
     const keptClauses = text
       .split(/\s*\|\s*/)
@@ -95,13 +222,14 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
       .filter((c) => {
         if (!c || NON_SANSKRIT_BOILERPLATE_RE.test(c)) return false;
         const hits = c.match(ENGLISH_PROSE_STOPWORD_RE) || [];
-        return hits.length < 2 && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(c);
+        return hits.length === 0 && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(c);
       });
     text = keptClauses.join(' | ');
     if (!text) return '';
   } else {
+    if (NON_SANSKRIT_BOILERPLATE_RE.test(text)) return '';
     const englishStopHits = text.match(ENGLISH_PROSE_STOPWORD_RE) || [];
-    if (englishStopHits.length >= 2) {
+    if (englishStopHits.length >= 1) {
       return '';
     }
   }
@@ -115,7 +243,14 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
     }
   );
 
-  text = text.replace(/\s+/g, ' ').replace(/^[|/\s.,;:()-]+|[|/\s.,;:()-]+$/g, '').trim();
+  // Strip stray standalone numerals left from footnote indices while keeping Sanskrit words intact
+  text = healRuntimeConjunctSpaces(
+    text
+      .replace(/(?:^|\s)\d+(?=\s|$|[|.,;:])/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/^[|/\s.,;:()-]+|[|/\s.,;:()-]+$/g, '')
+      .trim()
+  );
   if (!/[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(text)) return '';
   return text;
 }
@@ -422,7 +557,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
       Boolean(rec.ttAlignments && rec.ttAlignments.length > 0) ||
       Boolean(rec.sanskritOrigNotes && rec.sanskritOrigNotes.length > 0);
     const reconstructedIast =
-      recExt.reconstructedIast && recExt.reconstructedIast.trim().length >= 10
+      recExt.reconstructedIast && recExt.reconstructedIast.trim().length >= 3
         ? recExt.reconstructedIast
         : rec.ttAlignments && rec.ttAlignments.length > 0
         ? rec.ttAlignments.map((t) => t.iast).join(' ')
@@ -906,21 +1041,22 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
   }> = [];
 
   for (const row of vol.alignedRows) {
-    const sktCell = row.cells.find((c) => c.lang === 'Sanskrit') || row.cells[0];
-    if (sktCell && /\bPermanent\s+link\s+http|\$\(\s*["']#|\bfunction\s*\(/i.test(sktCell.text)) {
+    const sktCell = row.cells.find((c) => c.lang === 'Sanskrit');
+    if (!sktCell) continue;
+    if (/\bPermanent\s+link\s+http|\$\(\s*["']#|\bfunction\s*\(/i.test(sktCell.text)) {
       continue;
     }
-    if (sktCell && sktCell.lang === 'Sanskrit') {
-      const cleanedSkt = cleanAndExpandSanskritMantraIast(sktCell.text);
-      if (!cleanedSkt) continue;
-      validRows.push({ row, iastLine: cleanedSkt, hasSanskritCell: true });
-    } else {
-      validRows.push({
-        row,
-        iastLine: 'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā',
-        hasSanskritCell: false,
-      });
-    }
+    const cleanedSkt = cleanAndExpandSanskritMantraIast(sktCell.text);
+    if (!cleanedSkt) continue;
+    validRows.push({ row, iastLine: cleanedSkt, hasSanskritCell: true });
+  }
+
+  if (validRows.length === 0 && vol.alignedRows.length > 0) {
+    validRows.push({
+      row: vol.alignedRows[0],
+      iastLine: 'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā',
+      hasSanskritCell: false,
+    });
   }
 
   const verses: DharaniVerse[] = validRows.map(({ row, iastLine, hasSanskritCell }, idx) => {
@@ -1146,9 +1282,16 @@ const DB11_ENTRIES: DharaniEntry[] = [
     };
   }),
   ...DB11_IDP_DUNHUANG_CORPUS.cetomRecords.map((cet): DharaniEntry => {
-    const rawLines = cet.diplomaticLines
-      .map((l) => l.transliteration.replace(/[[\]/–—-]+/g, ' ').replace(/\s+/g, ' ').trim())
+    const cetExt = cet as typeof cet & { normalizedIastLines?: string[] };
+    const normLines = (cetExt.normalizedIastLines || [])
+      .map((l) => cleanAndExpandSanskritMantraIast(l))
       .filter((s) => s.length >= 3);
+    const rawLines =
+      normLines.length > 0
+        ? normLines
+        : cet.diplomaticLines
+            .map((l) => cleanAndExpandSanskritMantraIast(l.transliteration))
+            .filter((s) => s.length >= 3);
     const hasCetomLines = rawLines.length > 0;
     const iastLines =
       rawLines.length >= 2
@@ -1262,7 +1405,9 @@ const DB12_ENTRIES: DharaniEntry[] = [
         rawSnippet: iastLines.join('\n'),
       },
       verses: ochs.verses.slice(0, 8).map((v, idx) => {
-        const cleanLine = v.sanskritIast.replace(/\s+/g, ' ').trim();
+        const cleanLine =
+          cleanAndExpandSanskritMantraIast(v.sanskritIast) ||
+          v.sanskritIast.replace(/\s+/g, ' ').trim();
         const sem = translateSanskritVerse(cleanLine);
         const bijaBadge =
           v.targetBijaSyllables.length > 0

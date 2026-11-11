@@ -72,7 +72,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'namaḥ sarvabuddhabodhisattvebhyaḥ | oṃ maṇipadme hūṃ ||',
         classicalTranslitZh: '曩莫 萨嚩没驮冒地萨怛吠瓢 | 唵 摩抳钵讷铭 吽 ||',
-        modernPhoneticZh: '拿玛赫 萨尔瓦-布达-博地-萨特威比呀赫 | 嗡 玛尼帕德美 吽',
+        modernPhoneticZh: '拿玛赫 萨尔瓦-布达-博地-萨特威比呀赫 | 嗡 玛尼巴德美 吽',
         meaningZh: '归命一切诸佛菩萨！嗡！持摩尼宝珠与莲华之圣尊啊！吽（愿成满菩提）！',
         meaningEn:
           'Homage to all Buddhas and Bodhisattvas! Oṃ! O Jewel-Lotus Holder (Avalokiteśvara)! Hūṃ!',
@@ -125,7 +125,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | oṃ maṇipadme hūṃ hrīḥ ||',
         classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 曩莫 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 唵 摩抳钵讷铭 吽 纥哩 ||',
-        modernPhoneticZh: '拿摩 啦特拿-特啦呀呀 | 拿玛 阿哩呀-瓦洛给帝-湿瓦啦呀 博地-萨特瓦呀 玛哈-萨特瓦呀 玛哈-嘎鲁尼嘎呀 | 嗡 玛尼帕德美 吽 赫哩希',
+        modernPhoneticZh: '拿摩 啦特拿-特啦呀呀 | 拿玛 阿哩呀-瓦洛给帝-湿瓦啦呀 博地-萨特瓦呀 玛哈-萨特瓦呀 玛哈-嘎鲁尼嘎呀 | 嗡 玛尼巴德美 吽 赫里希',
         meaningZh: '【庄严宝王经归敬与七字连种子心印】归命三宝！归命圣观自在菩萨摩诃萨、大慈大悲尊！嗡！摩尼莲华尊，吽、纥哩（阿弥陀佛与观音共同莲华部心印）！',
         meaningEn:
           'Homage to the Three Jewels! Homage to Noble Avalokiteśvara, Bodhisattva Mahāsattva, the Greatly Compassionate One! Oṃ Maṇipadme Hūṃ Hrīḥ!',
@@ -231,7 +231,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 3,
         iast: 'tadyathā — oṃ dhara dhara dhiri dhiri dhuru dhuru itte vatte cale cale pracale pracale kusume kusumavare ili mili viṭi svāhā ||',
         classicalTranslitZh: '怛你也他 — 唵 驮啰 驮啰 地哩 地哩 度噜 度噜 壹帝 嚩帝 者隶 者隶 钵啰者隶 钵啰者隶 矩苏铭 矩苏摩嚩隶 壹里 弭里 尾置 娑嚩诃 ||',
-        modernPhoneticZh: '达地呀他 | 嗡 达啦 达啦 地哩 地哩 杜鲁 杜鲁 伊帝 瓦帝 佳咧 佳咧 普啦佳咧 普啦佳咧 古苏美 古苏玛瓦咧 伊利 米利 维蒂 斯瓦哈',
+        modernPhoneticZh: '达地呀他 | 嗡 达啦 达啦 地里 地里 杜鲁 杜鲁 伊帝 瓦帝 佳雷 佳雷 普啦佳雷 普啦佳雷 古苏美 古苏玛瓦雷 伊利 米利 维蒂 斯瓦哈',
         meaningZh: '即说咒曰：嗡！任持、任持！坚固、坚固！安住、安住！自在运转、妙转震动、胜妙前行！于心花与最胜妙花中，远离热恼，圆满成就，娑婆诃！',
         meaningEn:
           'Namely: Oṃ! Hold, hold! Sustain, sustain! Bear firmly, bear firmly! Move, move, advance, advance! O Flower, O Best of Flowers! Ili mili viṭi svāhā!',
@@ -298,7 +298,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'oṃ cara cara cili cili curu curu mahākāruṇika | siri siri ciri ciri miri miri | mahāpadmahasta kalakala kilikili kulukulu mahāśuddhasattva budhyabudhya |',
         classicalTranslitZh: '唵 者啰 者啰 只里 只里 主噜 主噜 摩诃迦噜抳迦 | 悉里 悉里 只里 只里 弥里 弥里 | 摩诃钵头摩诃娑多 迦啰迦啰 枳里枳里 俱嚧俱嚧 摩诃戍陀萨埵 勃陀勃陀 |',
-        modernPhoneticZh: '嗡 佳啦 佳啦 吉利 吉利 主鲁 主鲁 玛哈-嘎鲁尼嘎 | 悉哩 悉哩 吉哩 吉哩 米哩 米哩 | 玛哈-帕德玛-哈斯达 嘎啦嘎啦 给利给利 古卢古卢 玛哈-舒达萨特瓦 布地呀布地呀',
+        modernPhoneticZh: '嗡 佳啦 佳啦 吉利 吉利 主鲁 主鲁 玛哈-嘎鲁尼嘎 | 悉里 悉里 吉里 吉里 米里 米里 | 玛哈-巴德玛-哈斯达 嘎啦嘎啦 给利给利 古卢古卢 玛哈-舒达萨特瓦 布地呀布地呀',
         meaningZh: '嗡！游行救度、清净普覆，大悲圣尊啊！手持大莲华者、大清净有情啊！祈愿觉悟、觉照！',
         meaningEn:
           'Oṃ! Move, move, O Greatly Compassionate One! O Holder of the Great Lotus, O Great Pure Being, awaken, awaken!',
@@ -334,7 +334,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'dhara dhara dhiri dhiri dhuru dhuru tāraya tāraya māṃ sarvasattvāṃś ca | oṃ amoghavijaya hūṃ phaṭ svāhā ||',
         classicalTranslitZh: '驮啰 驮啰 地哩 地哩 度噜 度噜 多啰耶 多啰耶 𤚥 萨嚩萨怛嚩室者 | 唵 阿谟伽尾惹耶 吽 泮吒 娑嚩诃 ||',
-        modernPhoneticZh: '达啦 达啦 地哩 地哩 杜鲁 杜鲁 达啦呀 达啦呀 芒 萨尔瓦萨特旺什 佳 | 嗡 阿摩嘎-维佳呀 吽 帕特 斯瓦哈',
+        modernPhoneticZh: '达啦 达啦 地里 地里 杜鲁 杜鲁 达啦呀 达啦呀 芒 萨尔瓦萨特旺希 佳 | 嗡 阿摩嘎-维佳呀 吽 帕特 斯瓦哈',
         meaningZh: '忆持护念！救度我及一切众生度越苦海！嗡！不空尊胜！吽！摧破无明！圆满成就！',
         meaningEn:
           'Hold, sustain! Deliver, deliver me and all sentient beings! Oṃ O Unfailing Victor, Hūṃ Phaṭ Svāhā!',
@@ -452,7 +452,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'oṃ sarvadharmābhāvasvabhāvaviśuddhavajra a ā aṃ aḥ | prakṛtipariśuddhāḥ sarvadharmā yaduta sarvatathāgatajñānakāyamañjuśrīpariśuddhitām upādāyeti | a āḥ sarvatathāgata-hṛdaya hara hara | oṃ hūṃ hrīḥ bhagavan jñānamūrte vāgīśvara mahāpaca sarvadharmagaganāmalasupariśuddhadharmadhātujñānagarbha āḥ ||',
         classicalTranslitZh: '唵 萨嚩达磨婆嚩娑嚩婆嚩尾戍驮嚩日啰 阿 阿 暗 恶 | 钵啰讫哩底钵哩戍驮 萨嚩达磨 也努多 萨嚩怛他孽多枳娘曩迦耶曼殊室哩钵哩戍地多目波那曳底 | 阿 恶 萨嚩怛他孽多纥哩那耶 诃啰 诃啰 | 唵 吽 纥哩 婆孽鑁 枳娘曩母哩帝 嚩拟湿嚩啰 摩诃跛者 萨嚩达磨孽孽曩摩啰苏钵哩戍驮达磨驮睹枳娘曩孽婆 恶 ||',
-        modernPhoneticZh: '嗡 萨尔瓦-达尔玛-巴瓦斯瓦巴瓦维舒达瓦吉啦 阿 阿 昂 阿赫 | 普啦克哩帝巴哩舒达赫 萨尔瓦达尔玛 呀杜达 萨尔瓦-达他嘎达-吉尼亚拿-嘎呀-曼居什哩巴哩舒地当 乌巴达耶帝 | 阿 阿赫 萨尔瓦-达他嘎达-赫哩达呀 哈啦 哈啦 | 嗡 吽 赫哩希 巴嘎万 吉尼亚拿穆尔帝 瓦吉湿瓦啦 玛哈巴佳 萨尔瓦-达尔玛-嘎嘎拿玛啦苏巴哩舒达达尔玛达图吉尼亚拿嘎尔巴 阿赫',
+        modernPhoneticZh: '嗡 萨尔瓦-达尔玛-巴瓦斯瓦巴瓦维舒达瓦吉啦 阿 阿 昂 阿赫 | 普啦克日帝巴里舒达赫 萨尔瓦达尔玛 呀杜达 萨尔瓦-达他嘎达-吉尼亚拿-嘎呀-曼居希里巴里舒地当 乌巴达耶帝 | 阿 阿赫 萨尔瓦-达他嘎达-赫日达呀 哈啦 哈啦 | 嗡 吽 赫里希 巴嘎万 吉尼亚拿穆尔帝 瓦吉湿瓦啦 玛哈巴佳 萨尔瓦-达尔玛-嘎嘎拿玛啦苏巴里舒达达尔玛达度吉尼亚拿嘎尔巴 阿赫',
         meaningZh: '嗡！一切诸法无性自性清净金刚！阿、阿、暗、恶！一切诸法自性清净，所谓由一切如来智身妙吉祥清净性故。阿、恶！一切如来心，摄持、摄持！嗡、吽、纥哩！世尊、智慧身尊、语自在王、大成熟者、一切法如虚空无垢极清净法界智藏啊！恶！',
         meaningEn:
           'Oṃ! Vajra of the pure nature of the non-existence of all dharmas: A Ā Aṃ Aḥ! All dharmas are naturally pure by virtue of the purity of Mañjuśrī, the Wisdom-Body of all Tathāgatas. O Bhagavan, Embodiment of Wisdom, Lord of Speech (Vāgīśvara), Womb of the Wisdom of the utterly pure Dharmadhātu spotless like the sky of all dharmas: Āḥ!',
@@ -519,7 +519,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'oṃ tāre tuttāre ture svāhā ||',
         classicalTranslitZh: '唵 多隶 咄多隶 都隶 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 达咧 图达咧 图咧 斯瓦哈',
+        modernPhoneticZh: '嗡 达雷 度达雷 度雷 斯瓦哈',
         meaningZh: '嗡！圣救度母啊（度脱轮回者）！救度一切八大怖畏苦难之慈母啊！疾速赐予解脱成就者啊！圆满吉祥！',
         meaningEn:
           'Oṃ! O Savioress (Tāre)! O Deliverer from all fears (Tuttāre)! O Swift Heroine (Ture)! Svāhā!',
@@ -571,7 +571,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | tadyathā — oṃ tāre tuttāre ture sarvaduṣṭapraduṣṭān māṃ mocaya svāhā ||',
         classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 曩莫 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 怛你也他 — 唵 多隶 咄多隶 都隶 萨嚩訥瑟吒钵啰訥瑟吒 𤚥 谟左耶 娑嚩诃 ||',
-        modernPhoneticZh: '拿摩 啦特拿-特啦呀呀 | 拿玛 阿哩呀-瓦洛给帝-湿瓦啦呀 博地-萨特瓦呀 玛哈-萨特瓦呀 玛哈-嘎鲁尼嘎呀 | 达地呀他 | 嗡 达咧 图达咧 图咧 萨尔瓦-杜什达普啦杜什丹 芒 摩佳呀 斯瓦哈',
+        modernPhoneticZh: '拿摩 啦特拿-特啦呀呀 | 拿玛 阿哩呀-瓦洛给帝-湿瓦啦呀 博地-萨特瓦呀 玛哈-萨特瓦呀 玛哈-嘎鲁尼嘎呀 | 达地呀他 | 嗡 达雷 度达雷 度雷 萨尔瓦-杜师达普啦杜师丹 芒 摩佳呀 斯瓦哈',
         meaningZh: '【圣多罗菩萨根本长咒】归命三宝！归命圣观自在菩萨摩诃萨、具大慈悲者！即说咒曰：嗡！度母、救苦度母、疾速度母啊！请令我从一切恶毒、暴恶灾障中悉得解脱，圆满成就！',
         meaningEn:
           '[Fundamental Long Dhāraṇī of Ārya Tārā] Homage to the Three Jewels and Noble Avalokiteśvara! Namely: Oṃ Tāre Tuttāre Ture, liberate me from all wicked and hostile forces, Svāhā!',
@@ -803,7 +803,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'oṃ bhara bhara saṃbhara saṃbhara indriyabalaviśodhani hūṃ hūṃ ruru cale svāhā ||',
         classicalTranslitZh: '唵 跋啰 跋啰 三跋啰 三跋啰 因捺哩耶嚩攞尾戍驮你 吽 吽 噜噜 者隶 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 巴啦 巴啦 桑巴啦 桑巴啦 因德哩呀巴啦维硕达尼 吽 吽 鲁鲁 佳咧 斯瓦哈',
+        modernPhoneticZh: '嗡 巴啦 巴啦 桑巴啦 桑巴啦 因德里呀巴啦维硕达尼 吽 吽 鲁鲁 佳雷 斯瓦哈',
         meaningZh: '嗡！任持护念、积集福智二种资粮！净治五根五力之圣母啊！吽、吽！光明照耀、神通无碍！圆满吉祥！',
         meaningEn:
           'Oṃ! Sustain, sustain! Accumulate, accumulate (merit and wisdom)! O Purifier of the faculties and spiritual powers! Hūṃ Hūṃ Ruru Cale Svāhā!',
@@ -831,7 +831,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'oṃ maṇidhari vajriṇi mahāpratisare hūṃ hūṃ phaṭ phaṭ svāhā ||',
         classicalTranslitZh: '唵 摩抳驮哩 嚩日哩抳 摩诃钵啰底萨隶 吽 吽 泮吒 泮吒 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 玛尼达哩 瓦吉哩尼 玛哈-普啦帝萨咧 吽 吽 帕特 帕特 斯瓦哈',
+        modernPhoneticZh: '嗡 玛尼达里 瓦吉里尼 玛哈-普啦帝萨雷 吽 吽 帕特 帕特 斯瓦哈',
         meaningZh: '嗡！持摩尼宝珠母啊、执金刚母啊、大随求圣母啊！吽吽！摧破一切障碍（泮吒泮吒）！圆满成就！',
         meaningEn:
           'Oṃ! O Jewel-Holder, O Vajra-Holder, O Great Pratisarā! Hūṃ Hūṃ Phaṭ Phaṭ Svāhā!',
@@ -925,7 +925,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'tadyathā — siddhe susiddhe mocani mokṣaṇi mukte vimukte amale vimale nirmale maṅgalye hiraṇyagarbhe ratnagarbhe bhadre subhadre samantabhadre sarvārthasādhani | oṃ mayūrakrānte svāhā ||',
         classicalTranslitZh: '怛侄他 — 悉第 苏悉第 谟左你 谟刹你 目帝 尾目帝 阿摩隶 尾摩隶 涅摩隶 瞢誐隶 呬啰尼耶蘖陛 啰怛曩蘖陛 跋捺隶 苏跋捺隶 三曼多跋捺隶 萨嚩啰他娑陀你 | 唵 摩愉啰讫兰帝 娑嚩诃 ||',
-        modernPhoneticZh: '达地呀他 | 悉叠 苏悉叠 摩佳尼 摩克沙尼 穆克帝 维穆克帝 阿玛咧 维玛咧 尼尔玛咧 芒嘎勒耶 嘿啦尼呀嘎尔贝 啦特拿嘎尔贝 巴德咧 苏巴德咧 萨曼达-巴德咧 萨尔瓦尔他萨达尼 | 嗡 玛尤啦克兰帝 斯瓦哈',
+        modernPhoneticZh: '达地呀他 | 悉叠 苏悉叠 摩佳尼 摩克沙尼 穆克帝 维穆克帝 阿玛雷 维玛雷 尼尔玛雷 芒嘎勒耶 嘿啦尼呀嘎尔贝 啦特拿嘎尔贝 巴德雷 苏巴德雷 萨曼达-巴德雷 萨尔瓦尔他萨达尼 | 嗡 玛尤啦克兰帝 斯瓦哈',
         meaningZh: '即说咒曰：成就母、善成就母、解脱母、无垢离染母、吉祥金胎宝藏母、普贤善母、满一切义利母！嗡！乘御金翅孔雀王遨游法界之大明王母啊，息除诸毒，圆满成就！',
         meaningEn: 'Namely: O Accomplished One, Liberator, Stainless One, Golden-Womb, Jewel-Womb, All-Good One, Fulfiller of all aims! Oṃ! O She who mounts the Peacock (Mayūrakrānte), Svāhā!',
         words: [
@@ -1018,7 +1018,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'oṃ mārīcyai māṃ hūṃ hūṃ phaṭ phaṭ svāhā ||',
         classicalTranslitZh: '唵 摩哩支曳 𤚥 吽 吽 泮吒 泮吒 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 玛哩奇崖 芒 吽 吽 帕特 帕特 斯瓦哈',
+        modernPhoneticZh: '嗡 玛里奇崖 芒 吽 吽 帕特 帕特 斯瓦哈',
         meaningZh: '嗡！归命摩利支天菩萨！护我（𤚥）！吽吽！摧伏一切冤害（泮吒泮吒）！吉祥成就！',
         meaningEn: 'Oṃ! To Mārīcī! Protect me (Māṃ)! Hūṃ Hūṃ Phaṭ Phaṭ Svāhā!',
         words: [
@@ -1075,7 +1075,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'namaścaṇḍavajrapāṇaye mahāyakṣasenāpataye | tadyathā — oṃ truṭa truṭa troṭaya troṭaya | sphuṭa sphuṭa sphoṭaya sphoṭaya | ghūrṇa ghūrṇa ghūrṇāpaya ghūrṇāpaya |',
         classicalTranslitZh: '曩莫室战拏嚩日啰波拏曳 摩诃药叉细曩钵多曳 | 怛侄他 — 唵 咄噜吒 咄噜吒 咄嚧吒耶 咄嚧吒耶 | 娑普吒 娑普吒 娑破吒耶 娑破吒耶 | 具哩拏 具哩拏 具哩拏跛耶 具哩拏跛耶 |',
-        modernPhoneticZh: '拿玛什詹达瓦吉啦巴拿耶 玛哈-呀克沙-塞拿巴达耶 | 达地呀他 | 嗡 特鲁达 特鲁达 特洛达呀 特洛达呀 | 斯普达 斯普达 斯坡达呀 斯坡达呀 | 古尔拿 古尔拿 古尔拿巴呀 古尔拿巴呀',
+        modernPhoneticZh: '拿玛希詹达瓦吉啦巴拿耶 玛哈-呀克沙-塞拿巴达耶 | 达地呀他 | 嗡 特鲁达 特鲁达 特洛达呀 特洛达呀 | 斯普达 斯普达 斯坡达呀 斯坡达呀 | 古尔拿 古尔拿 古尔拿巴呀 古尔拿巴呀',
         meaningZh: '归命暴恶威猛执金刚手菩萨、大药叉军主！即说咒曰：嗡！断除、断除，令彼折断！破裂、破裂，令彼粉碎！旋动、旋动，令诸魔障震动瓦解！',
         meaningEn:
           'Homage to Fierce Vajrapāṇi, Great Commander of the Yakṣa hosts! Namely: Oṃ! Break, break, cause to break! Burst, burst, cause to burst! Whirl, whirl, cause to whirl away!',
@@ -1111,7 +1111,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'sarvasattvāni bodhaya bodhaya | saṃbodhaya saṃbodhaya | bhrama bhrama saṃbhramaya saṃbhramaya | sarvabhūtāni kuṭṭa kuṭṭa saṃkuṭṭaya saṃkuṭṭaya | sarvaśatrūn ghaṭa ghaṭa saṃghaṭaya saṃghaṭaya | sarvavidyāvajravajriṇi | vajraratnavajriṇi | vajratejovajriṇi | vajramālā-vajriṇi | vajrajihvāvajriṇi | vajrāṅkuśavajriṇi | vajrakrodhavajriṇi | vajradharavajriṇi | hūṃ hūṃ hūṃ phaṭ phaṭ phaṭ svāhā ||',
         classicalTranslitZh: '萨嚩萨怛嚩你 冒驮耶 冒驮耶 | 三冒驮耶 三冒驮耶 | 勃啰摩 勃啰摩 三勃啰摩耶 | 萨嚩部多你 矩吒 矩吒 三矩吒耶 | 萨嚩设咄嚧 伽吒 伽吒 三伽吒耶 | 萨嚩尾你也嚩日啰嚩日哩抳 ... 吽 吽 吽 泮吒 泮吒 泮吒 娑嚩诃 ||',
-        modernPhoneticZh: '萨尔瓦-萨特瓦尼 博达呀 博达呀 | 桑博达呀 桑博达呀 | 布啦玛 布啦玛 桑布啦玛呀 桑布啦玛呀 | 萨尔瓦-布达尼 古达 古达 桑古达呀 桑古达呀 | 萨尔瓦沙特伦 嘎达 嘎达 桑嘎达呀 桑嘎达呀 | 萨尔瓦-维地呀瓦吉啦瓦吉哩尼 | 瓦吉啦-啦特拿-瓦吉哩尼 | 瓦吉啦-帝久-瓦吉哩尼 | 瓦吉啦玛啦-瓦吉哩尼 | 瓦吉啦-吉赫瓦瓦吉哩尼 | 瓦吉朗古沙瓦吉哩尼 | 瓦吉啦-克洛达瓦吉哩尼 | 瓦吉啦-达啦瓦吉哩尼 | 吽 吽 吽 帕特 帕特 帕特 斯瓦哈',
+        modernPhoneticZh: '萨尔瓦-萨特瓦尼 博达呀 博达呀 | 桑博达呀 桑博达呀 | 布啦玛 布啦玛 桑布啦玛呀 桑布啦玛呀 | 萨尔瓦-布达尼 古达 古达 桑古达呀 桑古达呀 | 萨尔瓦沙特伦 嘎达 嘎达 桑嘎达呀 桑嘎达呀 | 萨尔瓦-维地呀瓦吉啦瓦吉里尼 | 瓦吉啦-啦特拿-瓦吉里尼 | 瓦吉啦-帝久-瓦吉里尼 | 瓦吉啦玛啦-瓦吉里尼 | 瓦吉啦-吉赫瓦瓦吉里尼 | 瓦吉朗古沙瓦吉里尼 | 瓦吉啦-克洛达瓦吉里尼 | 瓦吉啦-达啦瓦吉里尼 | 吽 吽 吽 帕特 帕特 帕特 斯瓦哈',
         meaningZh: '令一切有情觉悟、正等觉悟！摧伏一切鬼魅冤敌！一切明咒金刚母、金刚宝母、金刚威光母、金刚鬘母、金刚舌母、金刚钩母、金刚忿怒母、持金刚母！吽吽吽！泮吒泮吒泮吒！娑婆诃！',
         meaningEn:
           'Awaken, fully awaken all beings! Crush all hostile forces! O Vajra of all Vidyās, O Vajra-Jewel, O Vajra-Radiance, O Vajra-Garland, O Vajra-Holder! Hūṃ Hūṃ Hūṃ Phaṭ Phaṭ Phaṭ Svāhā!',
@@ -1169,7 +1169,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'namo ratnatrayāya | oṃ vasudhariṇi mahāvasuvṛṣṭinipātini svāhā ||',
         classicalTranslitZh: '曩谟 啰怛曩怛啰夜耶 | 唵 嚩苏驮哩抳 摩诃嚩苏尾哩瑟置你波底你 娑嚩诃 ||',
-        modernPhoneticZh: '拿摩 啦特拿-特啦呀呀 | 嗡 瓦苏达哩尼 玛哈-瓦苏维哩什蒂尼巴帝尼 斯瓦哈',
+        modernPhoneticZh: '拿摩 啦特拿-特啦呀呀 | 嗡 瓦苏达里尼 玛哈-瓦苏维日师蒂尼巴帝尼 斯瓦哈',
         meaningZh: '归命三宝！嗡！持世宝藏母、降下大宝雨之圣母啊，圆满成就！',
         meaningEn:
           'Homage to the Three Jewels! Oṃ! O Holder of Treasure, O She who showers down a great rain of wealth and merit, Svāhā!',
@@ -1197,7 +1197,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'oṃ śrīvasudhārāratnanidhānakṣetri svāhā | oṃ śrīvasumukhi svāhā | oṃ vasudhe svāhā ||',
         classicalTranslitZh: '唵 室哩嚩苏驮啰啰怛曩你驮曩乞晒怛哩 娑嚩诃 | 唵 室哩嚩苏穆企 娑嚩诃 | 唵 嚩苏第 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 什哩瓦苏达啦啦特拿尼达拿克晒特哩 斯瓦哈 | 嗡 什哩瓦苏穆奇 斯瓦哈 | 嗡 瓦苏叠 斯瓦哈',
+        modernPhoneticZh: '嗡 希里瓦苏达啦啦特拿尼达拿克奢特里 斯瓦哈 | 嗡 希里瓦苏穆奇 斯瓦哈 | 嗡 瓦苏叠 斯瓦哈',
         meaningZh: '嗡！吉祥持世宝藏刹土圣母，圆满成就！嗡！吉祥宝相面门母，圆满成就！嗡！持世圣母啊，圆满成就！',
         meaningEn:
           'Oṃ! O Sacred Field of the Jewel-Treasury of Glorious Vasudhārā, Svāhā! Oṃ O Glorious Treasure-Faced One, Svāhā! Oṃ O Vasudhā, Svāhā!',
@@ -1384,7 +1384,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 1,
         iast: 'namaḥ sarvatathāgatānām | oṃ vipulagarbhe maṇiprabhe tathāgatanidarśane | maṇi maṇi suprabhe vimale sāgaragambhīre hūṃ hūṃ jvala jvala buddhavilokite guhyādhiṣṭhiteagarbhe svāhā ||',
         classicalTranslitZh: '曩莫 萨嚩怛他蘖多喃 | 唵 尾补攞蘖陛 摩抳钵啰陛 怛他蘖多你捺舍宁 | 摩抳 摩抳 苏钵啰陛 尾摩隶 娑蘖啰俨鼻隶 吽 吽 入嚩攞 入嚩攞 没驮尾路枳帝 具呬夜地瑟耻帝蘖陛 娑嚩诃 ||',
-        modernPhoneticZh: '拿玛赫 萨尔瓦-达他嘎达南 | 嗡 维布啦嘎尔贝 玛尼普啦贝 达他嘎达-尼达尔沙内 | 玛尼 玛尼 苏普啦贝 维玛咧 萨嘎啦甘比咧 吽 吽 吉瓦啦 吉瓦啦 布达-维洛给帝 古赫呀地什提帝阿嘎尔贝 斯瓦哈',
+        modernPhoneticZh: '拿玛赫 萨尔瓦-达他嘎达南 | 嗡 维布啦嘎尔贝 玛尼普啦贝 达他嘎达-尼达尔沙内 | 玛尼 玛尼 苏普啦贝 维玛雷 萨嘎啦甘比雷 吽 吽 吉瓦啦 吉瓦啦 布达-维洛给帝 古赫呀地师提帝阿嘎尔贝 斯瓦哈',
         meaningZh: '归命一切如来！嗡！广大胎藏、摩尼宝光、如来示现印啊！摩尼宝、摩尼宝、妙光明、离垢清净、如海甚深！吽、吽！炽然放光、炽然放光！诸佛所垂慈鉴照、秘密加持胎藏啊！圆满成就！',
         meaningEn:
           'Homage to all Tathāgatas! Oṃ! O Vast Womb, Jewel-Radiance, Manifestation of the Tathāgatas! O Gem, O Gem, Wondrous Light, Stainless One, Profound as the Ocean! Hūṃ Hūṃ! Blaze, blaze! O Womb gazed upon by the Buddhas and blessed with secret power! Svāhā!',
@@ -1420,7 +1420,7 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
         index: 2,
         iast: 'oṃ maṇivajre hūṃ | oṃ maṇidhari hūṃ phaṭ ||',
         classicalTranslitZh: '唵 摩抳嚩日礼 吽（心咒）| 唵 摩抳驮哩 吽 泮吒（随心咒）||',
-        modernPhoneticZh: '嗡 玛尼瓦吉咧 吽 | 嗡 玛尼达哩 吽 帕特',
+        modernPhoneticZh: '嗡 玛尼瓦吉雷 吽 | 嗡 玛尼达里 吽 帕特',
         meaningZh: '【心咒】嗡！摩尼宝金刚！吽！【随心咒】嗡！执持摩尼宝母！吽！摧破业障！',
         meaningEn: '[Heart Mantra] Oṃ! O Jewel-Vajra, Hūṃ! [Near-Heart Mantra] Oṃ! O Jewel-Holder, Hūṃ Phaṭ!',
         words: [

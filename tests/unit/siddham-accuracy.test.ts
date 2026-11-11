@@ -170,5 +170,20 @@ describe('Siddhaṃ Unicode, Font Coverage & Corpus Philological Accuracy', () =
     expect(joinedZh).toContain('曩莫薩嚩怛他');
     expect(joinedIast).toContain('vipulagarbhe');
     expect(joinedIast).toContain('mahāpratisarā');
+
+    // Verify pF28p0141a2301 (一切如來秘密心廣聚光明無垢寶蓮花頂根本陁羅𡰱) exact Siddhaṃ & IAST alignment
+    const padmosnisa = shard12Db.find(
+      (e: { id: string }) => e.id === 'db1-fangshan-F28n1071_pF28p0141a2301'
+    );
+    expect(padmosnisa).toBeDefined();
+    expect(padmosnisa.verses).toHaveLength(26);
+    expect(padmosnisa.verses[5].iast).toBe('mahā padmoṣṇīṣa hṛdaya');
+    expect(padmosnisa.verses[5].classicalTranslitZh).toBe('摩賀鉢納謨瑟抳灑紇㗚乃野');
+    expect(iastToSiddham(padmosnisa.verses[5].iast)).toBe('𑖦𑖮𑖯 𑖢𑖟𑖿𑖦𑖺𑖬𑖿𑖜𑖱𑖬 𑖮𑖴𑖟𑖧');
+    expect(iastToSiddham(padmosnisa.verses[11].iast)).toBe('𑖦𑖮𑖯 𑖨𑖫𑖿𑖦𑖰 𑖭𑖡𑖿𑖟𑖰𑖝𑖸');
+    expect(iastToSiddham(padmosnisa.verses[17].iast)).toBe('𑖨𑖎𑖿𑖬𑖜 𑖦𑖜𑖿𑖚𑖩');
+    expect(iastToSiddham(padmosnisa.verses[20].iast)).toBe(
+      '𑖭𑖨𑖿𑖪𑖺𑖬𑖿𑖜𑖱𑖬𑖯𑖠𑖰𑖬𑖿𑖙𑖯𑖡𑖯𑖠𑖰𑖬𑖿𑖙𑖰𑖝'
+    );
   });
 });

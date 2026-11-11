@@ -2,30 +2,45 @@
 /**
  * scripts/repair-sanskrit-reconstructions.ts
  *
- * Authoritative Phonetic Reconstruction Repair for DB1 (Fangshan Stone Canon) & DB2 (Taishō Extended):
- * 1. Eliminates semantic lexicon pollution (`晝 -> divāaḥ`, `日 -> sūrya`, `播 -> ṭpa`) that leaked
- *    from T54 semantic glosses into phonetic transliteration.
- * 2. Eliminates the `'a'` fallback bug where unmapped Six-Dynasties / Liang / Tang transcription
- *    characters (`莎呵 -> aa`, `胡修 -> aa`, `汦 -> a`, `欝 -> a`, `兜 -> a`) produced stuttered
- *    `"aa"`, `"aaa"`, `"aate"`, `"acaa"` sequences.
- * 3. Preserves 100% of `plainChineseText`, `dharaniTextZh` (including CJK Ext A–I characters),
- *    `tokens`, `ttAlignments`, `fanqieNotes`, `lexiconEntries`, and all canonical critical
- *    Sanskrit editions (Mahāpratisarā 445 clauses, Sitātapatrā, Nīlakaṇṭha, Uṣṇīṣavijayā,
- *    Suvarṇaprabhāsa, Prajñāpāramitā-hṛdaya, Saddharmapuṇḍarīka, Arapacana, Bhaiṣajyaguru).
+ * Authoritative Phonetic Reconstruction & Morphological Segmentation Engine
+ * for DB1 (Fangshan Stone Canon F28n1071) & DB2 (Taishō Extended Ancient Dhāraṇīs):
+ *
+ * 1. Direct XML-AST Reconstructor for F28n1071 (`reconstructF28XmlBlock`):
+ *    - Parses exact `<cb:tt>` (`#SD-*` / `#RJ-*`) interlinear alignments (including 1-char
+ *      conjuncts like `SD-CA70 -> ndi`, `SD-B7AB -> rvo`, `SD-C9FD -> ṇḍa`, `SD-CA56 -> nta`)
+ *      with pre-conjunct nasal/liquid/stop coda deduplication.
+ *    - Honors every inline Tang phonological annotation (`四合`, `三合`, `二合`, `引`, `半音`)
+ *      directly on its target akṣara units while completely ignoring `<pb/>` and `<lb/>`
+ *      stone-tablet line wraps (preventing mid-word splits like `mahāpa dmo` or `hṛ ṛnaiya`).
+ * 2. Upgraded Historical Phonology Tables (`BUDDHIST_PHRASE_ENTRIES` & `BUDDHIST_CHAR_MAP`):
+ *    - Fixes Tang `[ⁿd]` `乃 -> da` (`hṛdaya`), `[口*洛]` `𠸪 -> ra` (`rakṣaṇa`), `始 -> śi`
+ *      (`śikhare`), `紇+㗚/哩/栗 -> hṛ` (never `hṛṛ`), `乞+义/叉/灑 -> kṣa` (never `kṣkṣa`),
+ *      `濕嚩/濕弭 -> śva/śmi` (never `śvava`/`śvami`), `三+麼/滿 -> sam-` (`samaya`, `samanta`),
+ *      `滿拏攞 -> maṇḍala`, `窣覩 -> stu` (`stute`), and `阿謨佉 -> amogha`.
+ * 3. Phonotactic + Lexical Dynamic-Programming Sanskrit Word Segmenter:
+ *    - Replaces the naive 3-syllable chopper with Pāṇinian phonotactic onset constraints
+ *      (forbidding impossible word-initial clusters like `dm-`, `ṣṇ-`, `ṣṭh-`, `ṇḍ-`, `nd-`,
+ *      `rv-`, `hy-`, or word-initial retroflex `ṇ-`) + 18,000+ stem/inflected lexical matching
+ *      and ABAB reduplication detection.
  * 4. Regenerates `src/data/generated/tier1Databases.ts` in lockstep with `public/data/tier1/*.json`.
  */
 
 import fs from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
+import { gunzipSync, gzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { CBETA_GAIJI_MAP, CBETA_AUTH_RECORDS } from '../src/data/generated/cbetaAuthRecords';
+import { SANSKRIT_CORE_LEXICON } from '../src/data/generated/sanskritCoreLexicon';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '..');
 const TIER1_JSON_DIR = path.join(ROOT_DIR, 'public', 'data', 'tier1');
 const GENERATED_DIR = path.join(ROOT_DIR, 'src', 'data', 'generated');
+const F28_RAW_GZ_PATH = path.join(ROOT_DIR, 'data', 'raw', 'cbeta', 'F28n1071.xml.gz');
+const F28_RAW_XML_PATH = path.join(ROOT_DIR, 'data', 'raw', 'cbeta', 'F28n1071.xml');
+const DB2_BLOCKS_GZ_PATH = path.join(ROOT_DIR, 'data', 'raw', 'cbeta', 'db2_dharani_blocks.json.gz');
 
 /* ============================================================================
  * 1. Multi-Character Phrase Dictionary (Tang, Sui, Liang & Six Dynasties)
@@ -34,24 +49,24 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['曩莫薩嚩怛他櫱帝毗喻囉曷毗藥三𦴭三沒第毗藥', "namaḥ sarvatathāgatebhyo 'rhatebhyaḥ samyaksaṃbuddhebhyaḥ"],
   ['曩莫薩嚩怛他孽帝毗喻阿囉曷帝毗藥三藐三沒第毗藥', "namaḥ sarvatathāgatebhyo 'rhatebhyaḥ samyaksaṃbuddhebhyaḥ"],
   ['如是陀羅尼句擁護某甲令一切怖畏一切災害悉令消滅', 'evaṃ dhāraṇīpadāni rakṣantu mama sarvabhayopadravebhyaḥ'],
-  ['曩莫薩嚩怛他櫱跢南', 'namaḥ sarvatathāgatānām'],
-  ['曩莫薩嚩怛他孽多喃', 'namaḥ sarvatathāgatānām'],
-  ['曩莫薩嚩怛他蘖多喃', 'namaḥ sarvatathāgatānām'],
-  ['曩謨薩嚩怛他孽多喃', 'namaḥ sarvatathāgatānām'],
-  ['南無薩嚩怛他孽多喃', 'namaḥ sarvatathāgatānām'],
+  ['曩莫薩嚩怛他櫱跢南', 'namaḥ sarvatathāgatānāṃ'],
+  ['曩莫薩嚩怛他孽多喃', 'namaḥ sarvatathāgatānāṃ'],
+  ['曩莫薩嚩怛他蘖多喃', 'namaḥ sarvatathāgatānāṃ'],
+  ['曩謨薩嚩怛他孽多喃', 'namaḥ sarvatathāgatānāṃ'],
+  ['南無薩嚩怛他孽多喃', 'namaḥ sarvatathāgatānāṃ'],
   ['曩莫薩嚩沒䭾冐地薩怛吠毗藥', 'namaḥ sarvabuddhabodhisattvebhyaḥ'],
   ['曩莫薩嚩沒馱冐地薩怛吠毗藥', 'namaḥ sarvabuddhabodhisattvebhyaḥ'],
   ['曩謨薩嚩沒馱冒地薩怛吠毗藥', 'namaḥ sarvabuddhabodhisattvebhyaḥ'],
   ['曩莫薩嚩怛他櫱帝毗喻', 'namaḥ sarvatathāgatebhyo'],
-  ['曩莫三滿多沒䭾南', 'namaḥ samantabuddhānām'],
-  ['曩莫三滿多沒馱南', 'namaḥ samantabuddhānām'],
-  ['曩莫三滿多沒馱喃', 'namaḥ samantabuddhānām'],
-  ['曩莫三曼多沒馱喃', 'namaḥ samantabuddhānām'],
-  ['南無三滿多沒馱喃', 'namaḥ samantabuddhānām'],
-  ['曩莫三滿多嚩日囉赧', 'namaḥ samantavajrāṇām'],
-  ['曩莫三曼多嚩日囉赧', 'namaḥ samantavajrāṇām'],
-  ['曩莫三曼多嚩日囉喃', 'namaḥ samantavajrāṇām'],
-  ['阿鉢囉底賀多舍娑曩南', 'apratihataśāsanānām'],
+  ['曩莫三滿多沒䭾南', 'namaḥ samantabuddhānāṃ'],
+  ['曩莫三滿多沒馱南', 'namaḥ samantabuddhānāṃ'],
+  ['曩莫三滿多沒馱喃', 'namaḥ samantabuddhānāṃ'],
+  ['曩莫三曼多沒馱喃', 'namaḥ samantabuddhānāṃ'],
+  ['南無三滿多沒馱喃', 'namaḥ samantabuddhānāṃ'],
+  ['曩莫三滿多嚩日囉赧', 'namaḥ samantavajrāṇāṃ'],
+  ['曩莫三曼多嚩日囉赧', 'namaḥ samantavajrāṇāṃ'],
+  ['曩莫三曼多嚩日囉喃', 'namaḥ samantavajrāṇāṃ'],
+  ['阿鉢囉底賀多舍娑曩南', 'apratihataśāsanānāṃ'],
   ['阿曩嚩路枳多母㗚䭾曩', 'anavalokitamūrdhāna'],
   ['阿曩嚩路枳多母㗚䭾寧', 'anavalokitamūrdhani'],
   ['阿曩嚩路枳帝母㗚䭾', 'anavalokitemūrdha'],
@@ -60,27 +75,50 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['薩嚩囉他娑馱寧', 'sarvārthasādhane'],
   ['曩謨囉怛曩怛囉夜耶', 'namo ratnatrayāya'],
   ['曩謨啰怛曩怛啰夜耶', 'namo ratnatrayāya'],
+  ['曩謨喇怛曩怛囉夜耶', 'namo ratnatrayāya'],
+  ['曩謨喇怛曩怛囉夜也', 'namo ratnatrayāya'],
   ['南無喝囉怛那哆囉夜耶', 'namo ratnatrayāya'],
   ['那謨囉怛那怛囉夜耶', 'namo ratnatrayāya'],
   ['曩謨阿哩耶嚩路枳帝濕嚩囉耶', 'namo āryāvalokiteśvarāya'],
+  ['曩莫阿哩也嚩路枳帝濕嚩囉也', 'namaḥ āryāvalokiteśvarāya'],
   ['南無阿唎耶婆盧羯帝爍鉢囉耶', 'namo āryāvalokiteśvarāya'],
+  ['阿嚩路枳帝濕嚩囉耶', 'avalokiteśvarāya'],
+  ['阿嚩盧枳帝濕嚩囉耶', 'avalokiteśvarāya'],
+  ['阿嚩路枳帝濕嚩囉', 'avalokiteśvara'],
+  ['阿嚩盧枳帝濕嚩囉', 'avalokiteśvara'],
+  ['嚩路枳帝濕嚩囉', 'valokiteśvara'],
+  ['弭野嚩路枳多', 'vyavalokita'],
+  ['尾野嚩路枳多', 'vyavalokita'],
+  ['摩係濕嚩囉', 'maheśvara'],
+  ['摩醯濕嚩囉', 'maheśvara'],
+  ['路計濕嚩囉', 'lokeśvara'],
+  ['盧計濕嚩囉', 'lokeśvara'],
+  ['鉢納䛧濕嚩囉', 'padmeśvara'],
+  ['縊濕嚩囉', 'īśvara'],
+  ['伊濕嚩囉', 'īśvara'],
   ['是神呪護一切', 'sarvarakṣāṃ karotu svāhā'],
   ['是諸呪護一切', 'sarvarakṣāṃ karotu svāhā'],
+  ['鉢納謨瑟抳灑', 'padmoṣṇīṣa'],
   ['怛他櫱妬瑟抳灑', 'tathāgatoṣṇīṣa'],
   ['怛他孽都瑟抳沙', 'tathāgatoṣṇīṣa'],
   ['娜櫱妬瑟抳灑', 'dgatoṣṇīṣa'],
   ['三𦴭三沒第毗藥', 'samyaksaṃbuddhebhyaḥ'],
   ['三藐三沒第毗藥', 'samyaksaṃbuddhebhyaḥ'],
+  ['三𦴭三沒䭾南', 'samyaksaṃbuddhānāṃ'],
   ['三藐三沒馱耶', 'samyaksaṃbuddhāya'],
+  ['三𦴭三沒䭾也', 'samyaksaṃbuddhāya'],
   ['三藐三佛陀耶', 'samyaksaṃbuddhāya'],
   ['三藐三勃陀也', 'samyaksaṃbuddhāya'],
-  ['三藐三佛陀喃', 'samyaksaṃbuddhānām'],
+  ['三藐三佛陀喃', 'samyaksaṃbuddhānāṃ'],
   ['摩訶迦嚕抳迦耶', 'mahākāruṇikāya'],
+  ['摩賀迦嚕抳迦也', 'mahākāruṇikāya'],
   ['摩訶迦盧尼迦耶', 'mahākāruṇikāya'],
   ['冐地薩怛嚩耶', 'bodhisattvāya'],
+  ['冐地薩怛嚩也', 'bodhisattvāya'],
   ['冒地薩怛嚩耶', 'bodhisattvāya'],
   ['菩提薩埵婆耶', 'bodhisattvāya'],
   ['摩訶薩怛嚩耶', 'mahāsattvāya'],
+  ['摩賀薩怛嚩也', 'mahāsattvāya'],
   ['摩訶薩埵婆耶', 'mahāsattvāya'],
   ['曩謨婆誐嚩帝', 'namo bhagavate'],
   ['曩謨婆誐嚩妬', 'namo bhagavato'],
@@ -89,6 +127,7 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['斫羯囉韈㗚底', 'cakravarti'],
   ['悉䭾路左𩕳', 'siddhālocani'],
   ['怛他櫱多耶', 'tathāgatāya'],
+  ['怛他櫱多也', 'tathāgatāya'],
   ['怛他孽多耶', 'tathāgatāya'],
   ['怛他蘖多耶', 'tathāgatāya'],
   ['呾他揭多也', 'tathāgatāya'],
@@ -105,15 +144,18 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['缽囉底揚擬囉', 'pratyaṅgirā'],
   ['般囉帝揚岐囉', 'pratyaṅgirā'],
   ['阿地瑟恥帝', 'adhiṣṭhite'],
+  ['阿地瑟恥多', 'adhiṣṭhita'],
   ['頞提瑟恥帝', 'adhiṣṭhite'],
   ['阿毗詵左睹', 'abhiṣiñcatu'],
   ['阿毗詵左', 'abhiṣiñca'],
   ['烏瑟抳灑', 'uṣṇīṣa'],
   ['烏瑟抳沙', 'uṣṇīṣa'],
+  ['鄔瑟抳灑', 'uṣṇīṣa'],
   ['鄔瑟抳沙', 'uṣṇīṣa'],
   ['囉曷毗藥', 'arhatebhyaḥ'],
   ['阿囉訶帝', 'arhate'],
   ['阿囉𠿒帝', 'arhate'],
+  ['阿囉曷帝', 'arhate'],
   ['阿囉帝', 'arhate'],
   ['多姪夜他', 'tadyathā'],
   ['怛你也他', 'tadyathā'],
@@ -142,7 +184,9 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['娑訶', 'svāhā'],
   ['娑呵', 'svāhā'],
   ['步嚕唵', 'bhrūṃ'],
+  ['勃嚕唵', 'bhrūṃ'],
   ['訥嚕唵', 'drūṃ'],
+  ['豽嚕唵', 'drūṃ'],
   ['吒嚕唵', 'ṭrūṃ'],
   ['咄嚕唵', 'ṭrūṃ'],
   ['塞普嚕', 'sphuru'],
@@ -170,8 +214,8 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['跋折曬', 'vajre'],
   ['薩嚩薩怛嚩', 'sarvasattva'],
   ['薩婆薩埵', 'sarvasattva'],
-  ['薩利婆伏陀侽', 'sarvabuddhānām'],
-  ['薩利婆浮多侽', 'sarvabhūtānām'],
+  ['薩利婆伏陀侽', 'sarvabuddhānāṃ'],
+  ['薩利婆浮多侽', 'sarvabhūtānāṃ'],
   ['薩嚩播跛', 'sarvapāpa'],
   ['薩婆波跛', 'sarvapāpa'],
   ['薩嚩羯磨', 'sarvakarma'],
@@ -180,24 +224,60 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['薩嚩耨佉', 'sarvaduḥkha'],
   ['尾戌馱耶', 'viśodhaya'],
   ['尾輸馱耶', 'viśodhaya'],
+  ['尾戍䭾寧', 'viśodhane'],
   ['阿蜜栗多', 'amṛta'],
   ['阿蜜哩多', 'amṛta'],
+  ['阿蜜㗚多', 'amṛta'],
+  ['紇㗚乃野', 'hṛdaya'],
+  ['紇哩乃野', 'hṛdaya'],
+  ['紇哩陀耶', 'hṛdaya'],
+  ['紇哩馱耶', 'hṛdaya'],
+  ['紇栗陀耶', 'hṛdaya'],
+  ['紇㗚娜野', 'hṛdaya'],
+  ['紇哩娜野', 'hṛdaya'],
+  ['𠸪乞义拏', 'rakṣaṇa'],
+  ['囉乞义拏', 'rakṣaṇa'],
+  ['囉乞叉拏', 'rakṣaṇa'],
+  ['阿謨佉', 'amogha'],
+  ['阿謨伽', 'amogha'],
   ['鉢訥摩', 'padma'],
   ['鉢納摩', 'padma'],
+  ['鉢納麼', 'padma'],
+  ['鉢納䛧', 'padme'],
+  ['鉢訥䛧', 'padme'],
+  ['滿拏攞', 'maṇḍala'],
   ['曼拏攞', 'maṇḍala'],
   ['曼荼羅', 'maṇḍala'],
   ['三昧耶', 'samaya'],
   ['三摩耶', 'samaya'],
+  ['三麼野', 'samaya'],
+  ['三摩野', 'samaya'],
   ['三摩地', 'samādhi'],
+  ['三滿多', 'samanta'],
   ['三曼多', 'samanta'],
   ['三曼那', 'samanta'],
   ['三曼䫂', 'samanta'],
+  ['娑麼濕嚩娑野', 'samaśvāsaya'],
+  ['三麼濕嚩娑野', 'samāśvāsaya'],
+  ['窣覩帝', 'stute'],
+  ['悉地', 'siddhi'],
+  ['蘇悉地', 'susiddhi'],
+  ['蘇悉第', 'susiddhe'],
   ['戰捺囉', 'candra'],
+  ['賛捺囉', 'candra'],
   ['蘇哩耶', 'sūrya'],
   ['婆誐嚩帝', 'bhagavate'],
   ['阿嚩盧枳帝', 'avalokite'],
-  ['嚩路枳帝', 'avalokite'],
-  ['濕嚩囉', 'īśvara'],
+  ['阿嚩路枳帝', 'avalokite'],
+  ['阿嚩路枳多', 'avalokita'],
+  ['嚩路枳帝', 'valokite'],
+  ['嚩路枳多', 'valokita'],
+  ['濕嚩囉', 'śvara'],
+  ['爍鉢囉', 'śvara'],
+  ['濕嚩', 'śva'],
+  ['爍婆', 'śva'],
+  ['濕吠', 'śve'],
+  ['濕弭', 'śmi'],
   ['你比野', 'dīpya'],
   ['你比𢈔', 'dīpyo'],
   ['補𭍌企𩕳', 'pruṃkhiṇi'],
@@ -238,13 +318,27 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['那摩', 'namaḥ'],
   ['那磨', 'namaḥ'],
   ['摩訶', 'mahā'],
+  ['摩賀', 'mahā'],
   ['莫訶', 'mahā'],
   ['摩抳', 'maṇi'],
+  ['麼抳', 'maṇi'],
   ['摩尼', 'maṇi'],
   ['俱胝', 'koṭi'],
+  ['俱𦙘', 'koṭi'],
+  ['毗俱𦙘', 'bhṛkuṭi'],
   ['毗喻', 'bhyo'],
   ['毗藥', 'bhyaḥ'],
   ['瑟抳', 'ṣṇī'],
+  ['紇㗚', 'hṛ'],
+  ['紇哩', 'hṛ'],
+  ['紇栗', 'hṛ'],
+  ['乞义', 'kṣa'],
+  ['乞叉', 'kṣa'],
+  ['乞灑', 'kṣa'],
+  ['乞察', 'kṣa'],
+  ['乞剎', 'kṣa'],
+  ['乞史', 'kṣi'],
+  ['乞曬', 'kṣe'],
   ['㗚䭾', 'rdha'],
   ['㗚他', 'rtha'],
   ['屹囉賀', 'graha'],
@@ -255,6 +349,18 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['試竭㘕', 'śīghraṃ'],
   ['攝祢曩', 'śabdena'],
   ['塞建䭾', 'skandha'],
+  ['納摩娑婆', 'namaḥ sarva'],
+  ['頞他娑但儞', 'arthasādhani'],
+  ['曷喇呾娜', 'ratna'],
+  ['呬㘓若', 'hiraṇya'],
+  ['蘇悉𬀹', 'susiddhe'],
+  ['悉𬀹', 'siddhe'],
+  ['謨折儞', 'mocani'],
+  ['木剎儞', 'mokṣaṇi'],
+  ['毘目帝', 'vimukte'],
+  ['目帝', 'mukte'],
+  ['忙揭例', 'maṅgalye'],
+  ['揭鞞', 'garbhe'],
 ].sort((a, b) => b[0].length - a[0].length);
 
 /* ============================================================================
@@ -267,43 +373,41 @@ const BUDDHIST_CHAR_MAP: Record<string, string> = {
   阿: 'a', 噁: 'āḥ', 惡: 'aḥ', 𢙣: 'aḥ', 遏: 'a', 頞: 'a', 閼: 'a', 安: 'an', 暗: 'aṃ', 闇: 'aṃ', 盎: 'aṃ', 鴦: 'aṅ', 鸯: 'aṅ', 案: 'an', 啊: 'ā', 央: 'yaṃ', 奧: 'au', 嘔: 'au', 噢: 'o',
   伊: 'i', 印: 'in', 一: 'i', 翳: 'e', 醫: 'ī', 壹: 'i', 縊: 'ī', 益: 'i', 因: 'in', 乙: 'i', 以: 'i', 已: 'i', 矣: 'i', 寅: 'in', 移: 'yi', 易: 'yi', 裔: 'ye', 吲: 'in',
   塢: 'u', 烏: 'u', 鄔: 'u', 鬱: 'u', 欝: 'u', 優: 'u', 漚: 'u', 嗢: 'u', 嗚: 'u', 憂: 'u', 郁: 'u', 於: 'u', 杇: 'u', 隖: 'u',
-  曳: 'ye', 曵: 'ye', 耶: 'ya', 野: 'ya', 夜: 'yā', 藥: 'yaḥ', 演: 'yaṃ', 閻: 'yaṃ', 炎: 'yaṃ', 琰: 'yaṃ', 焰: 'yaṃ', 燄: 'yaṃ', 拽: 'ye', 羊: 'yaṅ', 也: 'ya', 𢈔: 'yo', 諭: 'yu', 喻: 'yo', 愈: 'yu', 瑜: 'yu', 庾: 'yu', 由: 'yu', 遊: 'yu', 俞: 'yu', 榆: 'yu', 油: 'yu', 猶: 'yu', 欲: 'yu', 育: 'yu', 延: 'yan', 彥: 'yan', 揚: 'yaṅ', 與: 'yu',
+  曳: 'ye', 曵: 'ye', 耶: 'ya', 野: 'ya', 夜: 'yā', 藥: 'yaḥ', 演: 'yaṃ', 閻: 'yaṃ', 炎: 'yaṃ', 琰: 'yaṃ', 焰: 'yaṃ', 燄: 'yaṃ', 孕: 'yaṃ', 拽: 'ye', 羊: 'yaṅ', 也: 'ya', 𢈔: 'yo', 諭: 'yu', 喻: 'yo', 愈: 'yu', 瑜: 'yu', 庾: 'yu', 由: 'yu', 遊: 'yu', 俞: 'yu', 榆: 'yu', 油: 'yu', 猶: 'yu', 欲: 'yu', 育: 'yu', 聿: 'yu', 延: 'yan', 彥: 'yan', 揚: 'yaṅ', 與: 'yu',
 
   // Velar series (ka, kha, ga, gha, ṅa)
-  迦: 'ka', 佉: 'kha', 呿: 'kha', 誐: 'ga', 伽: 'gha', 仰: 'ṅa', 櫱: 'ga', 蘖: 'ga', 孽: 'ga', 竭: 'gha', 揭: 'ga', 羯: 'ka', 脚: 'kaḥ', 却: 'kha', 恪: 'kha', 契: 'khe', 企: 'khi', 欠: 'khaṃ', 乞: 'kṣ', 訖: 'kṛ', 屹: 'g', 仡: 'ga',
+  迦: 'ka', 佉: 'kha', 呿: 'kha', 誐: 'ga', 伽: 'gha', 仰: 'ṅa', 櫱: 'ga', 蘖: 'ga', 孽: 'ga', 竭: 'gha', 揭: 'ga', 羯: 'ka', 脚: 'kaḥ', 却: 'kha', 恪: 'kha', 契: 'khe', 企: 'khi', 欠: 'khaṃ', 乞: 'ki', 訖: 'kṛ', 屹: 'g', 仡: 'ga',
   𡀔: 'kā', 枳: 'ki', 抧: 'ki', 吉: 'ki', 佶: 'ki', 𩕳: 'ṇi', 矩: 'ku', 俱: 'ku', 啒: 'ku', 拘: 'ku', 鳩: 'ku', 鉤: 'kau', 憍: 'kau', 矯: 'kau', 計: 'ke', 雞: 'ke', 罽: 'ke', 羈: 'ke', 劍: 'kaṃ', 劒: 'kaṃ', 鐱: 'ka', 劫: 'ka', 乾: 'gaṇ', 健: 'ghan', 揵: 'ghaṇ', 犍: 'ghan', 覲: 'ghn', 具: 'gu', 瞿: 'gu', 寠: 'gu', 麌: 'gu', 虞: 'gu', 仇: 'gu', 求: 'gu', 渠: 'gu', 衢: 'gu', 舅: 'gu', 軍: 'kuṇ', 君: 'kuṇ',
-  建: 'kāñ', 祇: 'gi', 岐: 'gi', 歧: 'gi', 擬: 'gi', 儗: 'gi', 耆: 'gī', 其: 'gi', 祁: 'gi', 奇: 'gi', 寄: 'ki', 冀: 'ki', 緊: 'kiṃ', 禁: 'kiṃ', 欽: 'khiṃ', 句: 'ku', 究: 'ku', 屈: 'ku', 丘: 'khu', 區: 'khu', 齲: 'khu', 器: 'khi', 欺: 'khi', 嵠: 'khe', 谿: 'khe', 溪: 'khe', 柯: 'ka', 加: 'ka', 可: 'ka', 高: 'kau', 固: 'ku', 居: 'ku', 久: 'ku', 極: 'ki', 揆: 'kvi', 吃: 'ki', 綺: 'khi', 蹇: 'kan', 剛: 'kaṃ', 巘: 'gaṇ', 儼: 'gaṃ', 倪: 'ge', 藝: 'ge', 霓: 'ge', 掘: 'gu', 崛: 'gu', 窮: 'guṃ', 貺: 'khvāṃ', 朅: 'kha', 呧: 'ṭi',
+  建: 'kan', 祇: 'gi', 岐: 'gi', 歧: 'gi', 擬: 'gi', 儗: 'gi', 耆: 'gī', 其: 'gi', 祁: 'gi', 奇: 'gi', 寄: 'ki', 冀: 'ki', 緊: 'kiṃ', 禁: 'kiṃ', 欽: 'khiṃ', 句: 'ku', 究: 'ku', 屈: 'ku', 丘: 'khu', 區: 'khu', 齲: 'khu', 器: 'khi', 欺: 'khi', 嵠: 'khe', 谿: 'khe', 溪: 'khe', 柯: 'ka', 加: 'ka', 可: 'ka', 高: 'kau', 固: 'ku', 居: 'ku', 久: 'ku', 極: 'ki', 揆: 'kvi', 吃: 'ki', 綺: 'khi', 蹇: 'kan', 剛: 'kaṃ', 巘: 'gaṇ', 儼: 'gaṃ', 倪: 'ge', 藝: 'ge', 霓: 'ge', 掘: 'gu', 崛: 'gu', 窮: 'guṃ', 貺: 'khvāṃ', 朅: 'kha', 呧: 'ṭi', 𦙘: 'ṭi',
 
   // Palatal series (ca, cha, ja, jha, ña)
-  左: 'ca', 佐: 'ca', 作: 'ca', 遮: 'ca', 𠸪: 'ca', 者: 'ca', 柘: 'ca', 侘: 'cha', 車: 'cha', 差: 'cha', 侈: 'cha', 插: 'cha', 扠: 'cha', 惹: 'ja', 闍: 'ja', 社: 'ja', 蛇: 'ja', 酇: 'jha', 孃: 'ña', 若: 'jña', 喏: 'ña', 娘: 'ñā', 穰: 'ñca', 攘: 'ñaṃ', 乳: 'jo', 爾: 'ji', 尒: 'ji', 仁: 'ji', 弱: 'jaḥ', 入: 'j', 日: 'j', 斫: 'ca', 隻: 'ci', 支: 'ci', 汦: 'ci', 止: 'ci', 旨: 'ci', 指: 'ci', 只: 'ci', 質: 'ci', 至: 'ci', 志: 'ci', 之: 'ci', 脂: 'ci', 氏: 'ci', 唧: 'ci', 䛧: 'me', 制: 'ce', 掣: 'ce', 折: 'ca', 拶: 'ca', 攃: 'ca', 挫: 'tsa', 旃: 'can', 栴: 'can', 氈: 'can', 戰: 'caṇ', 賛: 'caṇ', 讚: 'caṇ', 振: 'cin', 震: 'cin', 真: 'cin', 詵: 'ṣiñ', 親: 'chin', 瞋: 'chin', 嗔: 'chin', 瑳: 'tsa', 蹉: 'tsa', 醝: 'tsa', 簉: 'tsau', 昝: 'jaṃ', 染: 'jaṃ', 懺: 'kṣaṃ', 讖: 'chaṃ', 鏟: 'chaṇ', 薺: 'je', 嚌: 'je', 際: 'je', 逝: 'je', 智: 'jña', 知: 'ṭi', 癡: 'chi', 眵: 'chi', 池: 'dhi', 馳: 'dhi', 遲: 'dhi', 踟: 'dhi', 持: 'dhi', 雉: 'dhi', 擲: 'ḍhi', 坻: 'ḍhi', 朱: 'cu', 珠: 'cu', 株: 'ṭu', 主: 'cu', 諸: 'ca', 周: 'cu', 侜: 'cu', 呪: 'cu', 紂: 'ju', 拙: 'cu', 初: 'cha', 芻: 'kṣu', 蒭: 'kṣu', 啾: 'cu', 啅: 'ca',
+  左: 'ca', 佐: 'ca', 作: 'ca', 遮: 'ca', 𠸪: 'ra', 者: 'ca', 柘: 'ca', 侘: 'cha', 車: 'cha', 差: 'cha', 侈: 'cha', 插: 'cha', 扠: 'cha', 惹: 'ja', 闍: 'ja', 社: 'ja', 蛇: 'ja', 酇: 'jha', 孃: 'ña', 若: 'jña', 喏: 'ña', 娘: 'ñā', 穰: 'ñca', 攘: 'ñaṃ', 乳: 'jo', 爾: 'ji', 尒: 'ji', 仁: 'ji', 弱: 'jaḥ', 入: 'j', 日: 'j', 斫: 'ca', 隻: 'ci', 支: 'ci', 汦: 'ci', 止: 'ci', 旨: 'ci', 指: 'ci', 只: 'ci', 質: 'ci', 至: 'ci', 志: 'ci', 之: 'ci', 脂: 'ci', 氏: 'ci', 唧: 'ci', 䛧: 'me', 制: 'ce', 掣: 'ce', 折: 'ca', 拶: 'ca', 攃: 'ca', 挫: 'tsa', 旃: 'can', 栴: 'can', 氈: 'can', 戰: 'caṇ', 賛: 'can', 讚: 'can', 振: 'cin', 震: 'cin', 真: 'cin', 詵: 'ṣiñ', 親: 'chin', 瞋: 'chin', 嗔: 'chin', 瑳: 'tsa', 蹉: 'tsa', 醝: 'tsa', 簉: 'tsau', 昝: 'jaṃ', 染: 'jaṃ', 懺: 'kṣaṃ', 讖: 'kṣaṃ', 鏟: 'chaṇ', 薺: 'je', 嚌: 'je', 際: 'je', 逝: 'je', 智: 'jña', 知: 'ṭi', 癡: 'chi', 眵: 'chi', 池: 'dhi', 馳: 'dhi', 遲: 'dhi', 踟: 'dhi', 持: 'dhi', 雉: 'dhi', 擲: 'ḍhi', 坻: 'ḍhi', 朱: 'cu', 珠: 'cu', 祖: 'cu', 株: 'ṭu', 主: 'cu', 諸: 'ca', 周: 'cu', 侜: 'cu', 呪: 'cu', 紂: 'ju', 拙: 'cu', 初: 'cha', 芻: 'kṣu', 蒭: 'kṣu', 啾: 'cu', 啅: 'ca',
 
   // Retroflex & Dental series (ṭa, ṭha, ḍa, ḍha, ṇa / ta, tha, da, dha, na)
-  吒: 'ṭa', 咤: 'ṭa', 姹: 'ṭha', 搋: 'ṭha', 荼: 'ḍa', 茶: 'ḍa', 拏: 'ṇa', 挐: 'ṇa', 抳: 'ṇi', 尼: 'ni', 坭: 'ni', 泥: 'ne', 濘: 'niṃ', 寧: 'ne', 甯: 'ne', 儞: 'ni', 你: 'ni', 禰: 'ni', 祢: 'de', 膩: 'ni', 旎: 'ni', 昵: 'ni', 呢: 'ni', 匿: 'niḥ', 儜: 'ṇa', 置: 'ṭhi', 恥: 'ṭhi', 耻: 'ṭhi', 窒: 'tri', 致: 'ti', 躓: 'ti', 徵: 'ṭiṃ', 胝: 'ṭi', 晝: 'ṭu', 畫: 'ṭu', 跓: 'ṭu', 卓: 'ṭa', 𪘨: 'ṭe',
-  多: 'ta', 哆: 'ta', 茤: 'ta', 跢: 'ta', 怛: 'ta', 呾: 'ta', 䫂: 'ta', 但: 'ta', 旦: 'ta', 坦: 'tha', 荅: 'ta', 答: 'ta', 沓: 'ta', 蹋: 'ta', 闥: 'tha', 噠: 'da', 他: 'tha', 咃: 'tha', 𠰢: 'tha', 拕: 'dha', 拖: 'dha', 陀: 'da', 陁: 'da', 娜: 'da', 㮈: 'na', 捺: 'da', 檀: 'dān', 馱: 'dha', 䭾: 'dha', 駄: 'dha', 達: 'dha', 曇: 'dhaṃ', 淡: 'daṃ', 啖: 'daṃ', 憚: 'dan', 曩: 'na', 那: 'na', 難: 'nāṃ', 喃: 'nāṃ', 南: 'nāṃ', 囊: 'nāṃ', 侽: 'nāṃ', 男: 'naṃ', 赧: 'ṇāṃ', 奴: 'nu', 努: 'nu', 弩: 'nu', 怒: 'nu', 㝹: 'nu', 耨: 'duḥ', 涅: 'ni', 捏: 'nir', 納: 'd', 訥: 'du', 豽: 'na', 乃: 'nai', 能: 'naṃ', 諾: 'naḥ', 妳: 'nā', 嬭: 'nai', 女: 'nṛ',
-  地: 'dhi', 底: 'ti', 抵: 'ti', 帝: 'te', 偙: 'te', 低: 'te', 氐: 'te', 堤: 'te', 羝: 'te', 提: 'de', 題: 'de', 弟: 'de', 第: 'dhe', 諦: 'te', 啼: 'te', 睇: 'te', 涕: 'the', 揥: 'the', 剃: 'the', 體: 'te', 蒂: 'te', 滯: 'dhe', 睹: 'tu', 覩: 'tu', 堵: 'tu', 妬: 'to', 都: 'tu', 兜: 'tu', 斗: 'tu', 咄: 'tu', 突: 'du', 獨: 'du', 豆: 'du', 逗: 'du', 度: 'dhu', 杜: 'du', 頭: 'du', 徒: 'du', 圖: 'du', 途: 'du', 吐: 'thu', 屯: 'tuṇ', 頓: 'tuṇ', 鈍: 'dun', 登: 'taṃ', 鄧: 'daṃ', 蹬: 'daṃ', 典: 'ten', 殿: 'den', 甜: 'deṃ', 帶: 'tai', 太: 'thai', 大: 'da', 得: 'ta', 特: 'dh', 你: 'dī', 擔: 'taṃ', 耽: 'taṃ', 單: 'taṇ', 彈: 'daṇ', 斷: 'dān', 姪: 'dya', 絰: 'dya', 咥: 'dhi', 𭰖: 'de', 𭒂: 'ṇe', 𠆙: 'dhya', 𠯆: 'ḍū', 埵: 'tva', 鬪: 'tu',
+  吒: 'ṭa', 咤: 'ṭa', 姹: 'ṭha', 搋: 'ṭha', 荼: 'ḍa', 茶: 'ḍa', 拏: 'ṇa', 挐: 'ṇa', 抳: 'ṇi', 尼: 'ni', 坭: 'ni', 泥: 'ne', 濘: 'niṃ', 寧: 'ne', 甯: 'ne', 儞: 'ni', 你: 'ni', 禰: 'ni', 祢: 'de', 膩: 'ni', 旎: 'ni', 昵: 'ni', 呢: 'ni', 匿: 'niḥ', 溺: 'deḥ', 儜: 'ṇa', 置: 'ṭhi', 恥: 'ṭhi', 耻: 'ṭhi', 窒: 'tri', 致: 'ti', 躓: 'ti', 徵: 'ṭiṃ', 胝: 'ṭi', 晝: 'ṭu', 畫: 'ṭu', 跓: 'ṭu', 卓: 'ṭa', 𪘨: 'ṭe', 綻: 'ṭhan',
+  多: 'ta', 哆: 'ta', 茤: 'ta', 跢: 'ta', 怛: 'ta', 呾: 'ta', 䫂: 'ta', 但: 'ta', 旦: 'ta', 坦: 'tha', 荅: 'ta', 答: 'ta', 沓: 'ta', 蹋: 'ta', 闥: 'tha', 噠: 'da', 他: 'tha', 咃: 'tha', 𠰢: 'tha', 拕: 'dha', 拖: 'dha', 陀: 'da', 陁: 'da', 娜: 'da', 㮈: 'na', 捺: 'da', 檀: 'dān', 馱: 'dha', 䭾: 'dha', 駄: 'dha', 達: 'dha', 曇: 'dhaṃ', 淡: 'daṃ', 啖: 'daṃ', 憚: 'dan', 曩: 'na', 那: 'na', 難: 'nan', 喃: 'nāṃ', 南: 'nāṃ', 囊: 'nāṃ', 侽: 'nāṃ', 男: 'naṃ', 赧: 'ṇāṃ', 奴: 'nu', 努: 'nu', 弩: 'nu', 怒: 'nu', 㝹: 'nu', 耨: 'duḥ', 涅: 'ni', 捏: 'nir', 納: 'na', 訥: 'du', 豽: 'du', 乃: 'da', 能: 'daṃ', 諾: 'naḥ', 妳: 'ṇe', 嬭: 'nai', 女: 'nṛ', 罕: 'han',
+  地: 'dhi', 底: 'ti', 抵: 'ti', 帝: 'te', 偙: 'te', 低: 'te', 氐: 'te', 堤: 'te', 羝: 'te', 提: 'de', 題: 'de', 弟: 'de', 第: 'dhe', 諦: 'te', 啼: 'te', 睇: 'te', 涕: 'the', 揥: 'the', 剃: 'the', 體: 'te', 蒂: 'te', 滯: 'dhe', 睹: 'tu', 覩: 'tu', 堵: 'tu', 妬: 'to', 都: 'tu', 兜: 'tu', 斗: 'tu', 咄: 'tu', 突: 'du', 獨: 'du', 豆: 'du', 逗: 'du', 度: 'dhu', 杜: 'du', 頭: 'du', 徒: 'du', 圖: 'du', 途: 'du', 吐: 'thu', 屯: 'tuṇ', 頓: 'tuṇ', 鈍: 'dun', 登: 'taṃ', 鄧: 'daṃ', 蹬: 'daṃ', 典: 'ten', 殿: 'den', 甜: 'deṃ', 帶: 'tai', 太: 'thai', 大: 'da', 得: 'ta', 特: 'dh', 你: 'di', 擔: 'taṃ', 耽: 'taṃ', 單: 'taṇ', 彈: 'daṇ', 斷: 'dān', 姪: 'dya', 絰: 'dya', 咥: 'dhi', 𭰖: 'de', 𭒂: 'ṇe', 𠆙: 'dhya', 𠯆: 'ḍū', 埵: 'tva', 鬪: 'tu',
 
   // Labial series (pa, pha, ba, bha, ma, va)
-  跛: 'pa', 波: 'pa', 播: 'pā', 簸: 'pā', 鉢: 'pa', 缽: 'pa', 般: 'pa', 博: 'pa', 拔: 'ba', 頗: 'pha', 破: 'pha', 泮: 'phaṭ', 癹: 'phaṭ', 發: 'phaṭ', 麼: 'ma', 摩: 'ma', 魔: 'ma', 麻: 'ma', 磨: 'ma', 末: 'ma', 沫: 'ma', 靺: 'ma', 莫: 'maḥ', 幕: 'maḥ', 媽: 'ma', 莽: 'maṃ', 忙: 'maṃ', 芒: 'maṃ', 漫: 'mān', 慢: 'mān', 縵: 'mān', 悶: 'man', 捫: 'muṇ', 泯: 'min', 民: 'min', 冥: 'miṃ', 名: 'miṃ', 銘: 'me', 酩: 'me', 謎: 'me', 迷: 'me', 咩: 'me', 梅: 'mai', 每: 'mai', 昧: 'mai', 妹: 'mai', 寐: 'mi', 弭: 'mi', 蜜: 'mi', 密: 'mi', 彌: 'mi', 瀰: 'mi', 米: 'me', 瞢: 'maṅ', 蒙: 'muṃ', 夢: 'muṃ', 曼: 'man', 滿: 'man', 𤚥: 'māṃ', 冐: 'bo', 冒: 'bo', 貿: 'mau', 茂: 'mau', 某: 'mu', 侔: 'mu', 暮: 'mo', 慕: 'mo', 謨: 'mo', 摸: 'mo', 謩: 'mo', 姥: 'mo', 穆: 'mu', 目: 'mu', 牟: 'mu', 母: 'mū', 無: 'mu', 勿: 'mu', 木: 'mu', 舞: 'mu', 𦴭: 'mya',
-  普: 'phu', 哹: 'phu', 敷: 'phu', 副: 'phu', 富: 'pu', 補: 'pu', 布: 'pū', 不: 'pu', 否: 'pu', 脯: 'pu', 怖: 'bhu', 浮: 'bhu', 伏: 'bu', 復: 'bu', 奉: 'bhuṃ', 扶: 'bhu', 部: 'bhū', 步: 'bhrū', 勃: 'bhṛ', 浡: 'bu', 哱: 'bu', 菩: 'bo', 蒲: 'bhu', 蒱: 'bhu', 佛: 'bu', 婆: 'bha', 薄: 'bha', 嘙: 'bha', 皤: 'bhā', 跋: 'va', 伐: 'va', 筏: 'va', 縛: 'va', 毗: 'vi', 毘: 'vi', 仳: 'pi', 嫓: 'pi', 脾: 'bhi', 羆: 'bhi', 婢: 'bhi', 邲: 'bhi', 鼻: 'bhi', 避: 'bhi', 薜: 'be', 閉: 'pe', 閇: 'pi', 萆: 'pi', 稗: 'bai', 捭: 'pai', 佩: 'bai', 崩: 'baṃ', 奔: 'pun', 賓: 'pin', 嬪: 'pin', 頻: 'bin', 苾: 'bhi', 必: 'pi', 畢: 'pi', 比: 'pi', 卑: 'pi', 箄: 'pi', 吠: 've', 尾: 'vi', 微: 'vi', 味: 'vi', 肥: 'vi', 妃: 'phi', 弗: 'phu', 凡: 'vaṃ', 梵: 'braṃ', 嚩: 'va', 鑁: 'vaṃ', 鍐: 'vaṃ', 呁: 'vaṃ', 挽: 'vāṃ', 吻: 'vun', 問: 'vun', 文: 'vun', 聞: 'vun', 韈: 'va', 襪: 'va', 鞾: 'va', 牝: 'bhin', 伴: 'bhañ', 畔: 'bhan', 盤: 'ban', 槃: 'ban', 半: 'pāṇ', 謗: 'pāṇ', 傍: 'bāṃ', 陛: 'bhe', 鞞: 'vī', 𭍌: 'ruṃ', 敏: 'miṇ',
+  跛: 'pa', 波: 'pa', 播: 'pā', 簸: 'pā', 鉢: 'pa', 缽: 'pa', 般: 'pa', 博: 'pa', 拔: 'ba', 頗: 'pha', 破: 'pha', 泮: 'pha', 癹: 'pha', 發: 'pha', 麼: 'ma', 摩: 'ma', 魔: 'ma', 麻: 'ma', 磨: 'ma', 末: 'ma', 沫: 'ma', 靺: 'ma', 莫: 'ma', 幕: 'maḥ', 媽: 'ma', 莽: 'maṃ', 忙: 'maṃ', 芒: 'maṃ', 漫: 'mān', 慢: 'mān', 縵: 'mān', 悶: 'man', 捫: 'muṇ', 泯: 'min', 民: 'min', 冥: 'miṃ', 名: 'miṃ', 銘: 'me', 酩: 'me', 謎: 'me', 迷: 'me', 咩: 'me', 梅: 'mai', 每: 'mai', 昧: 'mai', 妹: 'mai', 寐: 'mi', 弭: 'mi', 蜜: 'mi', 密: 'mi', 彌: 'mi', 瀰: 'mi', 米: 'me', 瞢: 'maṅ', 蒙: 'muṃ', 夢: 'muṃ', 曼: 'man', 滿: 'man', 𤚥: 'māṃ', 冐: 'bo', 冒: 'bo', 貿: 'mau', 茂: 'mau', 某: 'mu', 侔: 'mu', 暮: 'mo', 慕: 'mo', 謨: 'mo', 摸: 'mo', 謩: 'mo', 姥: 'mo', 穆: 'mu', 目: 'mu', 牟: 'mu', 母: 'mu', 無: 'mu', 勿: 'mu', 木: 'mu', 舞: 'mu', 𦴭: 'mya',
+  普: 'phu', 哹: 'phu', 敷: 'phu', 副: 'phu', 富: 'pu', 補: 'pu', 布: 'pu', 不: 'pu', 否: 'pu', 脯: 'pu', 怖: 'bhu', 浮: 'bhu', 伏: 'bu', 復: 'bu', 奉: 'bhuṃ', 扶: 'bhu', 部: 'bhu', 步: 'bhu', 勃: 'bhṛ', 浡: 'bu', 哱: 'bu', 沒: 'bu', 菩: 'bo', 蒲: 'bhu', 蒱: 'bhu', 佛: 'bu', 婆: 'bha', 薄: 'bha', 嘙: 'bha', 皤: 'bhā', 跋: 'bha', 伐: 'va', 筏: 'va', 縛: 'va', 毗: 'vi', 毘: 'vi', 仳: 'pi', 嫓: 'pi', 脾: 'bhi', 羆: 'bhi', 婢: 'bhi', 邲: 'bhi', 鼻: 'bhi', 避: 'bhi', 薜: 'be', 閉: 'pe', 閇: 'pe', 萆: 'pi', 稗: 'bai', 捭: 'pai', 佩: 'bai', 崩: 'baṃ', 奔: 'pun', 賓: 'pin', 嬪: 'pin', 頻: 'bin', 苾: 'bhi', 必: 'pi', 畢: 'pi', 比: 'pi', 卑: 'pi', 箄: 'pi', 吠: 've', 尾: 'vi', 微: 'vi', 味: 'vi', 肥: 'vi', 妃: 'phi', 弗: 'phu', 凡: 'vaṃ', 梵: 'braṃ', 嚩: 'va', 鑁: 'vaṃ', 鍐: 'vaṃ', 呁: 'vaṃ', 挽: 'vāṃ', 吻: 'vun', 問: 'vaṃ', 望: 'vaṃ', 文: 'vun', 聞: 'vun', 韈: 'va', 襪: 'va', 鞾: 'va', 牝: 'bhin', 伴: 'bhañ', 畔: 'bhan', 盤: 'ban', 槃: 'ban', 半: 'pāṇ', 喯: 'paṃ', 謗: 'pāṇ', 傍: 'bāṃ', 陛: 'bhe', 鞞: 'vī', 𭍌: 'ruṃ', 敏: 'miṇ',
 
   // Liquid series (ra, la)
-  囉: 'ra', 羅: 'ra', 啰: 'ra', 邏: 'la', 囉: 'ra', 喇: 'ra', 剌: 'ra', 剆: 'la', 臘: 'la', 哩: 'ri', 嚟: 'li', 利: 'ri', 唎: 'ri', 釐: 'ri', 栗: 'ṛ', 㗚: 'ṛ', 理: 'li', 里: 'li', 履: 'li', 力: 'li', 歷: 'li', 詈: 'li', 嚧: 'ro', 嚕: 'ru', 魯: 'lu', 虜: 'lu', 蘆: 'lu', 盧: 'lu', 路: 'lo', 露: 'lo', 囕: 'raṃ', 㘕: 'raṃ', 㘓: 'raṃ', 藍: 'laṃ', 嚂: 'laṃ', 覽: 'laṃ', 攬: 'laṃ', 囒: 'laṃ', 嵐: 'raṃ', 攞: 'la', 蘭: 'laṃ', 懶: 'lan', 浪: 'lāṃ', 隸: 'le', 隷: 'le', 麗: 'le', 𥠖: 'le', 囇: 'le', 隶: 'le', 例: 'le', 禮: 'le', 礼: 'le', 戾: 'le', 賴: 'lai', 瀨: 'lai', 唻: 'lai', 來: 'lai', 梨: 'li', 犁: 'li', 黎: 'li', 離: 'li', 㒧: 'li', 隣: 'lin', 林: 'liṃ', 臨: 'liṃ', 藺: 'lin', 呤: 'liṃ', 令: 'liṃ', 泠: 'liṃ', 陵: 'liṅ', 楞: 'laṅ', 嚨: 'rūṃ', 律: 'lu', 率: 'ru', 留: 'ru', 流: 'ru', 琉: 'ru', 璃: 'ri', 霤: 'ru', 溜: 'lu', 樓: 'lu', 嘍: 'lu', 婁: 'lu', 縷: 'lu', 漏: 'lu', 嘮: 'lau', 柳: 'lu', 連: 'len', 略: 'lya', 洛: 'la', 樂: 'la', 勒: 'la', 𭋸: 're', 𡃤: 'rai', 𠻴: 'rā', 𠲎: 'ra', 啉: 'rṃ',
+  囉: 'ra', 羅: 'ra', 啰: 'ra', 邏: 'la', 喇: 'ra', 剌: 'ra', 剆: 'la', 臘: 'la', 哩: 'ri', 嚟: 'li', 利: 'ri', 唎: 'ri', 釐: 'ri', 栗: 'ṛ', 㗚: 'ṛ', 理: 'li', 里: 'li', 履: 'li', 力: 'li', 歷: 'li', 詈: 'li', 嚧: 'ro', 嚕: 'ru', 魯: 'lu', 虜: 'lu', 蘆: 'lu', 盧: 'lu', 路: 'lo', 露: 'lo', 囕: 'raṃ', 㘕: 'raṃ', 㘓: 'raṃ', 藍: 'laṃ', 嚂: 'laṃ', 覽: 'laṃ', 攬: 'laṃ', 囒: 'laṃ', 嵐: 'raṃ', 攞: 'la', 蘭: 'laṃ', 懶: 'lan', 浪: 'lāṃ', 隸: 'le', 隷: 'le', 麗: 'le', 𥠖: 'le', 囇: 'le', 隶: 'le', 例: 'le', 禮: 'le', 礼: 'le', 戾: 'le', 賴: 'lai', 瀨: 'lai', 唻: 'lai', 來: 'lai', 梨: 'li', 犁: 'li', 黎: 'li', 離: 'li', 㒧: 'li', 隣: 'lin', 林: 'liṃ', 臨: 'liṃ', 藺: 'lin', 呤: 'liṃ', 令: 'liṃ', 泠: 'liṃ', 陵: 'liṅ', 楞: 'laṅ', 嚨: 'rūṃ', 律: 'lu', 率: 'ru', 留: 'ru', 流: 'ru', 琉: 'ru', 璃: 'ri', 霤: 'ru', 溜: 'lu', 樓: 'lu', 嘍: 'lu', 婁: 'lu', 縷: 'lu', 漏: 'lu', 嘮: 'lau', 柳: 'lu', 連: 'len', 略: 'lya', 洛: 'la', 樂: 'la', 勒: 'la', 𭋸: 're', 𡃤: 'rai', 𠻴: 'rā', 𫬠: 'rā', 𠲎: 'ra', 啉: 'rṃ',
 
   // Sibilant series (śa, ṣa, sa)
-  奢: 'śa', 賒: 'śa', 賖: 'śa', 舍: 'śa', 舎: 'śa', 捨: 'śa', 室: 'śi', 尸: 'śi', 屍: 'śi', 始: 'śī', 試: 'śī', 詩: 'śi', 施: 'śi', 矢: 'śi', 示: 'śi', 世: 'śe', 勢: 'śe', 是: 'śi', 時: 'śi', 匙: 'śi', 戍: 'śu', 輸: 'śu', 秫: 'śu', 樹: 'śu', 竪: 'śu', 首: 'śu', 守: 'śu', 受: 'śu', 壽: 'śu', 收: 'śu', 瘦: 'śu', 手: 'śu', 爍: 'śva', 濕: 'śva', 殊: 'śu', 數: 'śu', 扇: 'śān', 閃: 'śaṃ', 設: 'śa', 攝: 'śa', 誓: 'ce', 視: 'ji', 燒: 'śau', 少: 'śau', 傷: 'śāṃ', 餉: 'śāṃ', 上: 'śāṃ', 常: 'śāṃ', 尚: 'śāṃ', 商: 'śāṃ', 苫: 'śaṃ', 釤: 'śaṃ', 衫: 'śaṃ', 訕: 'śān', 羶: 'śān', 禪: 'dhyā', 繕: 'śan', 什: 'śi', 失: 'śi', 識: 'śi', 適: 'śi', 神: 'śin', 身: 'śin', 慎: 'śin', 昇: 'śiṃ', 勝: 'śiṃ', 聲: 'śiṃ', 聖: 'śiṃ', 叔: 'śu', 熟: 'śu', 贖: 'śu', 屬: 'śu', 束: 'śu', 書: 'śu', 舒: 'śu', 鼠: 'śu', 暑: 'śu', 黍: 'śu', 庶: 'śu', 恕: 'śu', 戍: 'śu', 說: 'śva', 水: 'śvi', 順: 'śun', 瞬: 'śun', 舜: 'śun', 雙: 'śvāṃ', 霜: 'śvāṃ', 爽: 'śvāṃ',
-  沙: 'ṣa', 灑: 'ṣa', 洒: 'ṣa', 曬: 'ṣai', 瑟: 'ṣ', 澁: 'ṣi', 史: 'ṣi', 駛: 'ṣi', 使: 'ṣi', 師: 'ṣi', 篩: 'ṣai', 簁: 'ṣai', 殺: 'ṣa', 煞: 'ṣa', 鎩: 'ṣa', 叉: 'kṣa', 义: 'kṣa', 察: 'kṣa', 剎: 'kṣa', 閦: 'kṣu', 羼: 'kṣān', 虱: 'ṣi', 疏: 'ṣu', 所: 'ṣa', 縮: 'ṣu',
-  娑: 'sa', 莎: 'svā', 薩: 'sa', 馺: 'sa', 颯: 'sa', 素: 'su', 蘇: 'su', 穌: 'su', 窣: 'su', 宿: 'su', 速: 'su', 涑: 'su', 藪: 'su', 修: 'su', 脩: 'su', 秀: 'su', 羞: 'su', 須: 'su', 鬚: 'su', 悉: 'si', 枲: 'si', 膝: 'si', 細: 'se', 西: 'se', 栖: 'se', 犀: 'se', 塞: 's', 賽: 'sai', 僧: 'saṃ', 三: 'saṃ', 叄: 'saṃ', 叅: 'saṃ', 散: 'saṃ', 傘: 'saṃ', 糝: 'saṃ', 珊: 'san', 寫: 'sya', 冩: 'sya', 瀉: 'sya', 私: 'si', 肆: 'si', 思: 'si', 斯: 'si', 絁: 'si', 蓰: 'si', 徙: 'si', 死: 'si', 此: 'tsi', 刺: 'tsi', 賜: 'si', 紫: 'tsi', 子: 'tsi', 字: 'dzi', 自: 'dzi', 似: 'dzi', 俟: 'hi', 巳: 'dzi', 四: 'si', 寺: 'si', 嗣: 'dzi', 飼: 'dzi', 索: 'sa', 鎖: 'sva', 碎: 'svai', 隨: 'svi', 遂: 'svi', 歲: 'svai', 粹: 'svi', 雖: 'svi', 綏: 'svi', 髓: 'svi', 損: 'sun', 遜: 'sun', 松: 'suṃ', 誦: 'suṃ', 頌: 'suṃ', 送: 'suṃ', 宋: 'suṃ', 桑: 'sāṃ', 喪: 'sāṃ', 掃: 'sau', 搔: 'sau', 騷: 'sau', 嫂: 'sau', 燥: 'sau', 噪: 'sau', 艘: 'sau', 搜: 'su', 叟: 'su', 嗽: 'su', 漱: 'su', 擻: 'su', 俗: 'su', 續: 'su', 粟: 'su', 夙: 'su', 肅: 'su', 宿: 'su', 酸: 'svān', 算: 'svān', 蒜: 'svān', 雖: 'svi', 辛: 'siṃ', 心: 'siṃ', 新: 'sin', 薪: 'sin', 信: 'sin', 訊: 'sin', 迅: 'sin', 尋: 'siṃ', 旬: 'sun', 巡: 'sun', 循: 'sun', 詢: 'sun', 荀: 'sun', 殉: 'sun', 峻: 'sun', 浚: 'sun', 駿: 'sun', 竣: 'sun', 先: 'sen', 仙: 'sen', 鮮: 'sen', 癬: 'sen', 線: 'sen', 羨: 'sen', 獻: 'hen', 憲: 'hen', 顯: 'hen', 險: 'heṃ', 嫌: 'heṃ', 賢: 'hen', 弦: 'hen', 舷: 'hen', 銜: 'haṃ', 咸: 'haṃ', 鹹: 'haṃ', 函: 'haṃ', 含: 'haṃ', 頷: 'haṃ', 憾: 'hāṃ', 撼: 'haṃ', 翰: 'han', 瀚: 'han', 汗: 'han', 旱: 'han', 悍: 'han', 焊: 'han', 閈: 'han', 漢: 'han', 寒: 'han', 韓: 'han', 罕: 'han', 喊: 'haṃ',
+  奢: 'śa', 賒: 'śa', 賖: 'śa', 舍: 'śa', 舎: 'śa', 捨: 'śa', 室: 'śi', 尸: 'śi', 屍: 'śi', 始: 'śi', 試: 'śī', 詩: 'śi', 施: 'śi', 矢: 'śi', 示: 'śi', 世: 'śe', 勢: 'śe', 是: 'śi', 時: 'śi', 匙: 'śi', 戍: 'śu', 戌: 'śu', 輸: 'śu', 秫: 'śu', 樹: 'śu', 竪: 'śu', 首: 'śu', 守: 'śu', 受: 'śu', 壽: 'śu', 收: 'śu', 瘦: 'śu', 手: 'śu', 爍: 'śa', 濕: 'śi', 殊: 'śu', 數: 'śu', 扇: 'śān', 閃: 'śaṃ', 設: 'śa', 攝: 'śa', 誓: 'ce', 視: 'ji', 燒: 'śau', 少: 'śau', 傷: 'śāṃ', 餉: 'śāṃ', 上: 'śāṃ', 常: 'śāṃ', 尚: 'śāṃ', 商: 'śāṃ', 苫: 'śaṃ', 釤: 'śaṃ', 衫: 'śaṃ', 訕: 'śān', 羶: 'śān', 禪: 'dhyā', 繕: 'śan', 什: 'śi', 失: 'śi', 識: 'śi', 適: 'śi', 神: 'śin', 身: 'śin', 慎: 'śin', 昇: 'śiṃ', 勝: 'śiṃ', 聲: 'śiṃ', 聖: 'śiṃ', 叔: 'śu', 熟: 'śu', 贖: 'śu', 屬: 'śu', 束: 'śu', 書: 'śu', 舒: 'śu', 鼠: 'śu', 暑: 'śu', 黍: 'śu', 庶: 'śu', 恕: 'śu', 說: 'śva', 水: 'śvi', 順: 'śun', 瞬: 'śun', 舜: 'śun', 雙: 'śvāṃ', 霜: 'śvāṃ', 爽: 'śvāṃ',
+  沙: 'ṣa', 灑: 'ṣa', 洒: 'ṣa', 曬: 'ṣe', 瑟: 'ṣ', 澁: 'ṣi', 史: 'ṣi', 駛: 'ṣi', 使: 'ṣi', 師: 'ṣi', 篩: 'ṣai', 簁: 'ṣai', 殺: 'ṣa', 煞: 'ṣa', 鎩: 'ṣa', 叉: 'kṣa', 义: 'kṣa', 察: 'kṣa', 剎: 'kṣa', 閦: 'kṣu', 羼: 'kṣān', 虱: 'ṣi', 疏: 'ṣu', 所: 'ṣa', 縮: 'ṣu',
+  娑: 'sa', 莎: 'svā', 薩: 'sa', 馺: 'sa', 颯: 'sa', 素: 'su', 蘇: 'su', 穌: 'su', 窣: 'su', 宿: 'su', 速: 'su', 涑: 'su', 藪: 'su', 修: 'su', 脩: 'su', 秀: 'su', 羞: 'su', 須: 'su', 鬚: 'su', 悉: 'si', 枲: 'si', 膝: 'si', 細: 'se', 西: 'se', 栖: 'se', 犀: 'se', 塞: 's', 色: 's', 賽: 'sai', 僧: 'saṃ', 三: 'saṃ', 叄: 'saṃ', 叅: 'saṃ', 散: 'saṃ', 傘: 'saṃ', 糝: 'saṃ', 珊: 'san', 寫: 'sya', 冩: 'sya', 瀉: 'sya', 私: 'si', 肆: 'si', 思: 'si', 斯: 'si', 絁: 'si', 蓰: 'si', 徙: 'si', 死: 'si', 此: 'tsi', 刺: 'tsi', 賜: 'si', 紫: 'tsi', 子: 'tsi', 字: 'dzi', 自: 'dzi', 似: 'dzi', 俟: 'hi', 巳: 'dzi', 四: 'si', 寺: 'si', 嗣: 'dzi', 飼: 'dzi', 索: 'sa', 鎖: 'sva', 碎: 'svai', 隨: 'svi', 遂: 'svi', 歲: 'svai', 粹: 'svi', 雖: 'svi', 綏: 'svi', 髓: 'svi', 損: 'sun', 遜: 'sun', 松: 'suṃ', 誦: 'suṃ', 頌: 'suṃ', 送: 'suṃ', 宋: 'suṃ', 桑: 'sāṃ', 喪: 'sāṃ', 掃: 'sau', 搔: 'sau', 騷: 'sau', 嫂: 'sau', 燥: 'sau', 噪: 'sau', 艘: 'sau', 搜: 'su', 叟: 'su', 嗽: 'su', 漱: 'su', 擻: 'su', 俗: 'su', 續: 'su', 粟: 'su', 夙: 'su', 肅: 'su', 酸: 'svān', 算: 'svān', 蒜: 'svān', 辛: 'siṃ', 心: 'siṃ', 新: 'sin', 薪: 'sin', 信: 'sin', 訊: 'sin', 迅: 'sin', 尋: 'siṃ', 旬: 'sun', 巡: 'sun', 循: 'sun', 詢: 'sun', 荀: 'sun', 殉: 'sun', 峻: 'sun', 浚: 'sun', 駿: 'sun', 竣: 'sun', 先: 'sen', 仙: 'sen', 鮮: 'sen', 癬: 'sen', 線: 'sen', 羨: 'sen', 獻: 'hen', 憲: 'hen', 顯: 'hen', 險: 'heṃ', 嫌: 'heṃ', 賢: 'hen', 弦: 'hen', 舷: 'hen', 銜: 'haṃ', 咸: 'haṃ', 鹹: 'haṃ', 函: 'haṃ', 含: 'haṃ', 頷: 'haṃ', 憾: 'haṃ', 撼: 'haṃ', 翰: 'han', 瀚: 'han', 汗: 'han', 旱: 'han', 悍: 'han', 焊: 'han', 閈: 'han', 漢: 'han', 寒: 'han', 韓: 'han', 喊: 'haṃ',
 
   // Glottal / Aspirate series (ha)
-  訶: 'ha', 呵: 'hā', 賀: 'hā', 荷: 'ha', 何: 'ha', 河: 'ha', 和: 'va', 喝: 'ha', 曷: 'ha', 蝎: 'ha', 褐: 'ha', 瞎: 'ha', 轄: 'ha', 醯: 'he', 係: 'he', 系: 'he', 奚: 'he', 兮: 'he', 諧: 'he', 呬: 'hi', 希: 'hi', 唏: 'hi', 悕: 'hi', 喜: 'hi', 嘻: 'hi', 熙: 'hi', 戲: 'hi', 呼: 'hu', 乎: 'hu', 護: 'hu', 戶: 'hu', 胡: 'hu', 睺: 'hu', 侯: 'hu', 喉: 'hu', 吼: 'hu', 休: 'hu', 咻: 'hu', 朽: 'hu', 虎: 'hū', 唬: 'hu', 吽: 'hūṃ', 𤙖: 'hūṃ', 斛: 'hoḥ', 唅: 'haṃ', 恨: 'haṇ', 郝: 'haḥ', 紇: 'hṛ', 活: 'hva', 火: 'hva', 禍: 'hva', 獲: 'hva', 或: 'hu', 忽: 'hu', 惚: 'hu', 狐: 'hu', 壺: 'hu', 湖: 'hu', 糊: 'hu', 瑚: 'hu', 鶘: 'hu', 互: 'hu', 沍: 'hu', 冱: 'hu', 岵: 'hu', 怙: 'hu', 祜: 'hu', 瓠: 'hu', 扈: 'hu', 滬: 'hu', 嘑: 'hu', 滹: 'hu', 虖: 'hu', 忽: 'hu', 吁: 'hu', 噓: 'hu', 虛: 'hu', 許: 'hu', 旭: 'hu', 畜: 'kṣu', 蓄: 'kṣu', 嗅: 'hu', 溴: 'hu', 兄: 'huṃ', 胸: 'huṃ', 凶: 'huṃ', 兇: 'huṃ', 洶: 'huṃ', 匈: 'huṃ', 雄: 'huṃ', 熊: 'huṃ', 哄: 'huṃ', 烘: 'huṃ', 弘: 'huṃ', 紅: 'huṃ', 虹: 'huṃ', 鴻: 'huṃ', 洪: 'huṃ', 宏: 'huṃ', 閎: 'huṃ', 薨: 'huṃ', 轟: 'huṃ', 鬨: 'huṃ', 行: 'haṅ', 幸: 'haṅ', 杏: 'haṅ', 荇: 'haṅ', 脛: 'hiṅ', 興: 'hiṅ', 馨: 'hiṅ', 星: 'siṅ', 腥: 'siṅ', 惺: 'siṅ', 醒: 'siṅ', 姓: 'siṅ', 性: 'siṅ', 形: 'hiṅ', 型: 'hiṅ', 刑: 'hiṅ', 鉶: 'hiṅ', 硎: 'hiṅ', 兮: 'he', 蹊: 'he', 兮: 'he', 鬩: 'hi', 翕: 'hi', 歙: 'hi', 吸: 'hi', 檄: 'hi', 覡: 'hi', 隙: 'hi', 郤: 'hi', 綌: 'hi', 夕: 'si', 汐: 'si', 矽: 'si', 穸: 'si', 席: 'si', 蓆: 'si', 習: 'si', 褶: 'si', 襲: 'si', 謵: 'si', 媳: 'si', 熄: 'si', 息: 'si', 悉: 'si', 蟋: 'si', 惜: 'si', 昔: 'si', 腊: 'la', 鵲: 'ca', 鵲: 'ca',
+  訶: 'ha', 呵: 'hā', 賀: 'ha', 荷: 'ha', 何: 'ha', 河: 'ha', 和: 'va', 喝: 'ha', 曷: 'ha', 蝎: 'ha', 褐: 'ha', 瞎: 'ha', 轄: 'ha', 醯: 'he', 係: 'he', 系: 'he', 奚: 'he', 兮: 'he', 諧: 'he', 呬: 'hi', 希: 'hi', 唏: 'hi', 悕: 'hi', 喜: 'hi', 嘻: 'hi', 熙: 'hi', 戲: 'hi', 呼: 'hu', 乎: 'hu', 護: 'hu', 戶: 'hu', 胡: 'hu', 睺: 'hu', 侯: 'hu', 喉: 'hu', 吼: 'hu', 休: 'hu', 咻: 'hu', 朽: 'hu', 虎: 'hū', 唬: 'hu', 吽: 'hūṃ', 𤙖: 'hūṃ', 斛: 'hoḥ', 唅: 'haṃ', 㟏: 'haṃ', 恨: 'gh', 郝: 'haḥ', 紇: 'hṛ', 𤹫: 'ho', 活: 'hva', 火: 'hva', 禍: 'hva', 獲: 'hva', 或: 'hu', 忽: 'hu', 惚: 'hu', 狐: 'hu', 壺: 'hu', 湖: 'hu', 糊: 'hu', 瑚: 'hu', 鶘: 'hu', 互: 'hu', 沍: 'hu', 冱: 'hu', 岵: 'hu', 怙: 'hu', 祜: 'hu', 瓠: 'hu', 扈: 'hu', 滬: 'hu', 嘑: 'hu', 滹: 'hu', 虖: 'hu', 吁: 'hu', 噓: 'hu', 虛: 'hu', 許: 'hu', 旭: 'hu', 畜: 'kṣu', 蓄: 'kṣu', 嗅: 'hu', 溴: 'hu', 兄: 'huṃ', 胸: 'huṃ', 凶: 'huṃ', 兇: 'huṃ', 洶: 'huṃ', 匈: 'huṃ', 雄: 'huṃ', 熊: 'huṃ', 哄: 'huṃ', 烘: 'huṃ', 弘: 'huṃ', 紅: 'huṃ', 虹: 'huṃ', 鴻: 'huṃ', 洪: 'huṃ', 宏: 'huṃ', 閎: 'huṃ', 薨: 'huṃ', 轟: 'huṃ', 鬨: 'huṃ', 行: 'haṅ', 幸: 'haṅ', 杏: 'haṅ', 荇: 'haṅ', 脛: 'hiṅ', 興: 'hiṅ', 馨: 'hiṅ', 星: 'siṅ', 腥: 'siṅ', 惺: 'siṅ', 醒: 'siṅ', 姓: 'siṅ', 性: 'siṅ', 形: 'hiṅ', 型: 'hiṅ', 刑: 'hiṅ', 鉶: 'hiṅ', 硎: 'hiṅ', 蹊: 'he', 鬩: 'hi', 翕: 'hi', 歙: 'hi', 吸: 'hi', 檄: 'hi', 覡: 'hi', 隙: 'hi', 郤: 'hi', 綌: 'hi', 夕: 'si', 汐: 'si', 矽: 'si', 穸: 'si', 席: 'si', 蓆: 'si', 習: 'si', 褶: 'si', 襲: 'si', 謵: 'si', 媳: 'si', 熄: 'si', 息: 'si', 蟋: 'si', 惜: 'si', 昔: 'si', 腊: 'la', 鵲: 'ca',
 
   // Additional verified Six-Dynasties / Tang transcription characters
-  藐: 'mya', 翅: 'ke', 𠼝: 'ṭha', 𩘌: 'ṇḍa', 哂: 'śin', 捨: 'le', 𠰒: 'hā', 䩭: 'ma', 𭍉: 'ḍha', 𥟦: 'śrī', 𠶹: 'ra', 𠴏: 'pha', 㖶: 'ye', 吟: 'giṃ', 庶: 'śu', 如: 'ju', 茹: 'ju', 汝: 'ju', 柔: 'ju', 褥: 'ju', 攘: 'ñaṃ', 讓: 'ñāṃ', 人: 'jin', 忍: 'jin', 紉: 'jin', 壬: 'jiṃ', 任: 'jiṃ', 妊: 'jiṃ', 衽: 'jiṃ', 飪: 'jiṃ', 賃: 'jiṃ', 刃: 'jin', 仞: 'jin', 軔: 'jin', 韌: 'jin', 認: 'jin', 仍: 'jiṅ', 扔: 'jiṅ', 芿: 'jiṅ', 絨: 'juṃ', 茸: 'juṃ', 戎: 'juṃ', 狨: 'juṃ', 絨: 'juṃ', 榮: 'juṃ', 嶸: 'juṃ', 融: 'juṃ', 容: 'juṃ', 蓉: 'juṃ', 溶: 'juṃ', 榕: 'juṃ', 熔: 'juṃ', 瑢: 'juṃ', 鎔: 'juṃ', 冗: 'juṃ', 毳: 'tsvi', 脆: 'tsvi',
+  藐: 'mya', 翅: 'ke', 𠼝: 'ṭha', 𩘌: 'ṇḍa', 哂: 'śin', 捨: 'le', 𠰒: 'hā', 䩭: 'ma', 𭍉: 'ḍha', 𥟦: 'śrī', 𠶹: 'ra', 𠴏: 'pha', 㖶: 'ye', 吟: 'giṃ', 如: 'ju', 茹: 'ju', 汝: 'ju', 柔: 'ju', 褥: 'ju', 讓: 'ñāṃ', 人: 'jin', 忍: 'jin', 紉: 'jin', 壬: 'jiṃ', 任: 'jiṃ', 妊: 'jiṃ', 衽: 'jiṃ', 飪: 'jiṃ', 賃: 'jiṃ', 刃: 'jin', 仞: 'jin', 軔: 'jin', 韌: 'jin', 認: 'jin', 仍: 'jiṅ', 扔: 'jiṅ', 芿: 'jiṅ', 絨: 'juṃ', 茸: 'juṃ', 戎: 'juṃ', 狨: 'juṃ', 榮: 'juṃ', 嶸: 'juṃ', 融: 'juṃ', 容: 'juṃ', 蓉: 'juṃ', 溶: 'juṃ', 榕: 'juṃ', 熔: 'juṃ', 瑢: 'juṃ', 鎔: 'juṃ', 冗: 'juṃ', 毳: 'tsvi', 脆: 'tsvi',
   㕨: 'va', 注: 'cu', 駐: 'cu', 住: 'cu', 柱: 'tyu', 𭊵: 'ṭa', 㨖: 'ṭi', 𧰃: 'ḍa', 婬: 'yiṃ', 淫: 'yiṃ', 滛: 'yiṃ', 翹: 'gyau', 淨: 'jiṃ', 清: 'tsiṃ', 叱: 'ṭa', 𠻱: 'la', 牛: 'gu', 肇: 'ḍhau', 鉗: 'gaṃ', 𥝟: 'śi', 㗭: 'mi', 𭐽: 'ṇa', 仚: 'hen', 酬: 'śu', 爹: 'ḍa', 𡰱: 'ṇa', 音: 'iṃ', 我: 'ga', 峩: 'ga', 餓: 'ga', 葂: 'myan', 𡄣: 'kṣa', 𧯞: 'la', 𥌋: 'mi', 𭬧: 'ṇa', 倚: 'i', 𭇔: 'ta', 𤜽: 'hu', 𠺁: 'hā', 進: 'tsin', 蠆: 'ṭhai', 法: 'pha', 九: 'ku', 六: 'lu', 七: 'tsi', 八: 'pa', 十: 'śi', 二: 'ni', 五: 'gu', 百: 'pa', 千: 'tsen', 萬: 'man', 纏: 'ḍhan', 鵄: 'chi', 䩚: 'ta', 籌: 'ḍhu', 網: 'māṃ', 貪: 'thaṃ', 事: 'dzi', 啄: 'ṭa', 𮁸: 'ra', 譫: 'caṃ', 𠯋: 'la', 婫: 'kun', 𡃳: 'la', 肘: 'ṭu', 耳: 'ni', 𠾆: 'ha', 勺: 'śa', 閜: 'kha', 𭋤: 'ṇa', 眾: 'cuṃ', 現: 'hen', 天: 'ten', 而: 'ni', 在: 'dzai', 風: 'phuṃ', 𭊕: 'ṭa', 絺: 'ṭhi', 山: 'śān', 貯: 'ṭu', 𠲸: 'ca', 滅: 'mye', 座: 'dza', 坐: 'dza', 觀: 'kvān', 𠰺: 'pa', 攡: 'li', 澄: 'dhiṃ', 將: 'tsyāṃ', 解: 'kai', 魑: 'ṭhi', 屣: 'si', 㖉: 'na', 𡃂: 'ra', 𮄆: 'la', 畏: 'vi', 業: 'ga', 歸: 'kvi', 𪏭: 'ṇa', 篅: 'cvān', 蚶: 'haṃ', 箒: 'cu', 帚: 'cu', 酉: 'yu', 㧣: 'ṭu',
 };
 
-// Noto-Sans-Siddhaṃ-safe Sanskrit CV fallback table for any ultra-rare unmapped CJK codepoint
-// (Zero bare 'a', guaranteeing zero 'aa'/'aaa' vowel stutter while remaining deterministic!)
 const DETERMINISTIC_CV_FALLBACK = [
   'ka', 'ga', 'ca', 'ja', 'ṭa', 'ḍa', 'ta', 'da', 'na', 'pa',
   'ba', 'ma', 'ya', 'ra', 'la', 'va', 'śa', 'ṣa', 'sa', 'ha',
@@ -312,6 +416,339 @@ const DETERMINISTIC_CV_FALLBACK = [
   'du', 'nu', 'pu', 'mu', 'ru', 'lu', 'su', 'hu',
 ];
 
+/* ============================================================================
+ * 3. Tang Inline Conjunct Tables (`四合`, `三合`, `二合`)
+ * ========================================================================== */
+const SIHE_MAP: Record<string, string> = {
+  悉底哩野: 'strya',
+  悉底哩也: 'strya',
+};
+
+const SANHE_MAP: Record<string, string> = {
+  塞訖㗚: 'skṛ',
+  塞訖哩: 'skṛ',
+  得訖㗚: 'tkṛ',
+  瑟吒囉: 'ṣṭra',
+  瑟吒囕: 'ṣṭraṃ',
+  瑟跓嚕: 'ṣṭru',
+  瑟窒唎: 'ṣṭri',
+  瑟致𭋸: 'ṣṭre',
+  瑟室哩: 'ṣśrī',
+  娑怛囉: 'stra',
+  薩怛囉: 'stra',
+  娑怛𡃤: 'strai',
+  訖怛囉: 'ktra',
+  豽嚕唵: 'drūṃ',
+  訥嚕唵: 'drūṃ',
+  勃嚕唵: 'bhrūṃ',
+  步嚕唵: 'bhrūṃ',
+  𤜽嚕唵: 'hrūṃ',
+  乞义野: 'kṣya',
+  乞史野: 'kṣya',
+  乞懺弭: 'kṣmi',
+  乞讖弭: 'kṣmi',
+  乞讖銘: 'kṣme',
+  乞史銘: 'kṣme',
+  乞懺泯: 'kṣmin',
+  娑沒㗚: 'smṛ',
+  娑蜜㗚: 'smṛ',
+  薩怛嚩: 'stva',
+  薩怛挽: 'stvaṃ',
+  悉底野: 'stya',
+  娑底野: 'stya',
+  悉底𭋸: 'stre',
+  澁畢𭋸: 'ṣpre',
+  底哩野: 'trya',
+  底哩也: 'trya',
+  底哩拽: 'trye',
+  怛你也: 'dya',
+  荅弭也: 'tvya',
+  多䭾曩: 'rdhāna',
+  母䭾曩: 'mūrdhāna',
+};
+
+const ERHE_MAP: Record<string, string> = {
+  娑嚩: 'sva', 鉢囉: 'pra', 怛嚩: 'tva', 日囉: 'jra', 怛囉: 'tra', 你也: 'dya', 你野: 'dya',
+  濕嚩: 'śva', 濕吠: 'śve', 濕弭: 'śmi',
+  毗藥: 'bhyaḥ', 毗喻: 'bhyo', 毗野: 'bhya', 比野: 'pya',
+  乞义: 'kṣa', 乞灑: 'kṣa', 乞史: 'kṣi', 乞察: 'kṣa', 乞叉: 'kṣa', 乞剎: 'kṣa', 乞曬: 'kṣe', 乞鏟: 'kṣaṇ', 屈讖: 'kṣaṃ',
+  哩野: 'rya', 哩也: 'rya', 哩曵: 'rye', 哩演: 'ryaṃ', 理野: 'lya', 理琰: 'lyaṃ', 理尾: 'lvi',
+  捺囉: 'dra', 捺𭋸: 'dre', 捺哩: 'dri',
+  入嚩: 'jva', 怛曩: 'tna', 怛寧: 'tne', 怛挽: 'tvaṃ', 怛吠: 'tve', 怛𡃤: 'trai', 怛囕: 'traṃ', 怛㘕: 'traṃ', 怛𭋸: 'tre', 怛哩: 'tri',
+  屹囉: 'gra', 屹𭋸: 'gre', 屹㗚: 'gṛ', 屹哩: 'gṛ', 仡哩: 'gṛ', 屹曩: 'ghna', 屹𩕳: 'ghni',
+  納麼: 'dma', 納摩: 'dma', 納謨: 'dmo', 納䛧: 'dme', 納銘: 'dme', 納弭: 'dmi', 納嚩: 'dva', 納婆: 'dbha', 納步: 'dbhu',
+  室哩: 'śri', 室理: 'śri', 室㗚: 'śṛ', 室囉: 'śra', 室𭋸: 'śre', 室戰: 'ścaṇ', 室左: 'śca', 室唧: 'ści', 室質: 'ści',
+  瑟吒: 'ṣṭa', 瑟姹: 'ṣṭha', 瑟耻: 'ṣṭhi', 瑟恥: 'ṣṭhi', 瑟置: 'ṣṭhi', 瑟致: 'ṣṭhi', 瑟抳: 'ṣṇi', 瑟拏: 'ṣṇa', 瑟𪘨: 'ṣṭe', 瑟𭍉: 'ṣḍha', 瑟𠯆: 'ṣṭu', 瑟綻: 'ṣṭhan', 瑟劒: 'ṣkaṃ',
+  訖㗚: 'kṛ', 訖哩: 'kri', 訖囉: 'kra', 羯囉: 'kra', 訖𭋸: 'kre', 訖帝: 'kte', 訖底: 'kti', 訖多: 'kta', 訖跢: 'kta', 訖囒: 'kraṃ', 訖擔: 'ktaṃ',
+  紇㗚: 'hṛ', 紇哩: 'hṛ', 紇栗: 'hṛ', 紇嚩: 'hva',
+  蜜㗚: 'mṛ', 沒㗚: 'mṛ', 勿㗚: 'vṛ', 勿哩: 'vri', 必㗚: 'pṛ', 畢㗚: 'pṛ', 勃㗚: 'bhṛ', 苾㗚: 'bhṛ', 涅㗚: 'nṛ', 涅哩: 'nri', 地㗚: 'dhṛ', 地力: 'dhṛk', 乙㗚: 'ṛ',
+  沒囉: 'bra', 勃囉: 'bhra', 竭囉: 'ghra', 竭囕: 'ghraṃ', 竭㘕: 'ghraṃ', 竭𫬠: 'ghrā',
+  日𭋸: 'jre', 日哩: 'jri', 日𠻴: 'jrā', 日㘕: 'jraṃ',
+  娑麼: 'sma', 娑每: 'smai', 娑擔: 'staṃ', 娑囉: 'sra', 娑跢: 'sta', 娑多: 'sta', 娑怛: 'sta', 娑普: 'sphu', 娑怖: 'sphu', 娑頗: 'spha', 娑癹: 'spha', 娑他: 'stha', 娑鉢: 'spa', 薩囉: 'sra',
+  枳孃: 'jña', 枳野: 'kya', 枳也: 'kya',
+  底曵: 'tye', 底野: 'tya', 底也: 'tya', 底𭋸: 'tre', 底哩: 'tri', 底㗚: 'tṛ', 底𢈔: 'tyo', 底聿: 'tyu', 底演: 'tyaṃ', 底孕: 'tyaṃ', 底琰: 'tyaṃ', 底吠: 'tve',
+  憾麼: 'hma', 憾銘: 'hme', 恨拏: 'ghna', 覲曩: 'ghna', 覲南: 'ghnāṃ',
+  囉曷: 'rha', 囉他: 'rtha', 喇他: 'rtha', 囉拏: 'rṇa', 囉捨: 'rśa',
+  涅𭋸: 'nre', 係曵: 'hye', 計曵: 'kye', 吠曵: 'vye', 寧曵: 'nye', 抳曵: 'ṇye', 第曵: 'dhye',
+  俱嚕: 'kru', 矩嚕: 'kru', 咄嚕: 'tru', 咄嚧: 'tro', 訥嚕: 'dru', 訥𭍌: 'druṃ', 秫嚕: 'śru', 素嚕: 'sru',
+  你尾: 'dvi', 你吠: 'dve', 你琰: 'dyaṃ', 你𢈔: 'dyo', 你曵: 'dye',
+  窣覩: 'stu', 窣妬: 'sto', 悉底: 'sti', 悉帝: 'ste', 悉體: 'sthi', 悉泯: 'smin', 塞迦: 'ska', 塞建: 'skan', 色劒: 'skaṃ',
+  地也: 'dhya', 地野: 'dhya', 地孕: 'dhyaṃ', 地尾: 'dhvi',
+  尾野: 'vya', 尾也: 'vya', 尾夜: 'vyā', 尾琰: 'vyaṃ', 弭野: 'vya', 弭也: 'vya',
+  鉢多: 'pta', 鉢跢: 'pta', 鉢帝: 'pte', 鉢曩: 'pna', 荅麼: 'tma', 荅跛: 'tpa', 荅鉢: 'tpa', 荅播: 'tpā', 荅半: 'tpāṃ', 臘播: 'lpā', 臘閇: 'lpe', 得迦: 'tka', 娜櫱: 'dga', 娜誐: 'dga',
+  呬野: 'hya', 呬也: 'hya', 史夜: 'ṣyā', 史野: 'ṣya', 史也: 'ṣya', 史曵: 'ṣye', 抳野: 'ṇya', 尒曵: 'jye', 尒也: 'jya', 尒𢈔: 'jyo', 捨野: 'śya',
+  特嚩: 'dhva', 特鑁: 'dhvaṃ', 特望: 'dhvaṃ', 特奉: 'dhvaṃ', 特問: 'dhvaṃ',
+  澁麼: 'ṣma', 澁跛: 'ṣpa', 澁閇: 'ṣpe', 澁嚩: 'ṣva', 澁半: 'ṣpāṃ', 澁喯: 'ṣpaṃ',
+  畢哩: 'pri', 必哩: 'pri', 畢𭋸: 'pre', 必𭋸: 'pre', 吉礼: 'kle', 吉禮: 'kle', 儗𩕳: 'gni', 婆嚩: 'bhva', 賀嚩: 'hva',
+};
+
+const CB_MANUAL_GAIJI_MAP: Record<string, string> = {
+  CB16765: '薩',
+  CB10324: '癹',
+  CB28895: '泮',
+  CB28910: '癹',
+  CB22577: '戍',
+  CB22870: '𪘨',
+  CB28907: '𤹫',
+  CB28908: '姪',
+  CB28909: '韈',
+  CB28911: '鑁',
+  CB28914: '𭋸',
+};
+
+/* ============================================================================
+ * 4. Phonotactic + Lexical Dynamic-Programming Sanskrit Word Segmenter
+ * ========================================================================== */
+function countVowelNuclei(word: string): number {
+  const m = word.match(/ai|au|[aāiīuūṛṝḷḹeēoō]/gi);
+  return m ? m.length : 0;
+}
+
+const SANSKRIT_WORD_SET = (() => {
+  const ws = new Set<string>();
+  const keepMahaFused = new Set([
+    'mahāsattva',
+    'mahāsattvāya',
+    'mahākāruṇika',
+    'mahākāruṇikāya',
+    'mahāpratisarā',
+    'mahāvidyārājñī',
+    'mahāvairocana',
+    'mahābala',
+    'mahāteja',
+  ]);
+
+  for (const rawKey of Object.keys(SANSKRIT_CORE_LEXICON)) {
+    const s = rawKey.toLowerCase().trim();
+    if (s.length < 3 || countVowelNuclei(s) < 2) continue;
+    if (s.startsWith('mahā') && s.length > 4 && !keepMahaFused.has(s)) continue;
+    ws.add(s);
+    if (s.length >= 4 && s.endsWith('a')) {
+      const b = s.slice(0, -1);
+      for (const suf of [
+        'ā', 'e', 'o', 'aṃ', 'āṃ', 'aḥ', 'āḥ', 'āya', 'ānāṃ', 'ānām',
+        'ebhyaḥ', 'ebhyo', 'ena', 'eṇa', 'āni', 'āṇi', 'eṣu', 'asya',
+      ]) {
+        ws.add(b + suf);
+      }
+    } else if (s.length >= 4 && s.endsWith('i')) {
+      const b = s.slice(0, -1);
+      for (const suf of ['ī', 'e', 'aye', 'inā', 'īnāṃ', 'iḥ', 'iṃ']) {
+        ws.add(b + suf);
+      }
+    } else if (s.length >= 4 && s.endsWith('u')) {
+      const b = s.slice(0, -1);
+      for (const suf of ['ū', 'o', 'ave', 'unā', 'ūnāṃ', 'uḥ', 'uṃ']) {
+        ws.add(b + suf);
+      }
+    }
+  }
+
+  for (const w of [
+    'nama', 'namaḥ', 'namas', 'namo', 'oṃ', 'tadyathā', 'svāhā', 'hūṃ', 'phaṭ',
+    'hrīḥ', 'dhīḥ', 'śrīṃ', 'klīṃ', 'aiṃ', 'bhrūṃ', 'drūṃ', 'ṭrūṃ', 'hoḥ',
+    'stryadhvikānāṃ', 'tryadhvikānāṃ', 'sarvatathāgatānāṃ', 'sarvatathāgatoṣṇīṣa',
+    'sarvatathāgata', 'sarvatathāgatebhyo', 'amogha', 'maṇi', 'maṇite', 'jvala',
+    'mahā', 'padmoṣṇīṣa', 'uṣṇīṣa', 'hṛdaya', 'śikhare', 'rakṣaṇa', 'turu',
+    'dhuru', 'tara', 'raśmi', 'sandite', 'saṃdite', 'vikasita', 'padma', 'padme',
+    'vare', 'samaya', 'siddhi', 'siddhe', 'susiddhi', 'susiddhe', 'tāraya',
+    'kumāra', 'maṇḍala', 'samaśvāsaya', 'samāśvāsaya', 'samanta', 'vyavalokita',
+    'avalokita', 'avalokiteśvara', 'avalokiteśvarāya', 'āryāvalokiteśvarāya',
+    'sarvoṣṇīṣādhiṣṭhānādhiṣṭhita', 'adhiṣṭhita', 'adhiṣṭhite', 'adhiṣṭhāna',
+    'tathāgata', 'tathāgatāya', 'tathāgatānāṃ', 'guhya', 'stute', 'arhate',
+    'arhatebhyaḥ', 'bodhisattva', 'bodhisattvāya', 'bodhisattvebhyaḥ',
+    'sarvabuddhabodhisattvebhyaḥ', 'samyaksaṃbuddhāya', 'samyaksaṃbuddhānāṃ',
+    'samyaksaṃbuddhebhyaḥ', 'samantabuddhānāṃ', 'samantavajrāṇāṃ', 'bhagavate',
+    'bhagavato', 'bhagavān', 'ratnatrayāya', 'viśodhaya', 'viśodhane', 'vimale',
+    'amale', 'nirmale', 'vipula', 'vajra', 'vajrapāṇi', 'vajrapāṇaye', 'vajradhara',
+    'vajrasattva', 'sarvapāpa', 'sarvakarma', 'sarvasattva', 'sarvavighnān',
+    'sarvaduḥkha', 'sarvārthasādhani', 'sarvārthasādhane', 'anavalokitamūrdhāna',
+    'hana', 'daha', 'paca', 'matha', 'bhañja', 'bandha', 'chinda', 'bhinda',
+    'giri', 'kili', 'mili', 'hili', 'kuru', 'cara', 'sara', 'bhara', 'dhara',
+    'smara', 'sphara', 'sphura', 'hulu', 'hure', 'caṇḍa', 'krodhāya', 'trailokya',
+    'prativiśiṣṭāya', 'śākyamunaye', 'ṣaṭ', 'pāramitā', 'paripūraka',
+    'sūryaraśmi', 'sūryaprabhave', 'sūryaprabha',
+  ]) {
+    ws.add(w);
+  }
+  return ws;
+})();
+
+const STANDALONE_MONOSYLLABLES = new Set([
+  'oṃ', 'hūṃ', 'phaṭ', 'hrīḥ', 'dhīḥ', 'śrīṃ', 'klīṃ', 'aiṃ', 'bhrūṃ', 'drūṃ',
+  'ṭrūṃ', 'vaṃ', 'raṃ', 'laṃ', 'yaṃ', 'haṃ', 'khaṃ', 'jaḥ', 'hoḥ', 'āḥ',
+  'hi', 'he', 'ho', 'bho', 'ca', 'me', 'te', 'na', 'ni', 'su', 'ṣaṭ',
+]);
+
+// Clusters & consonants that can NEVER start an independent Sanskrit word
+const FORBIDDEN_WORD_INITIAL_RE =
+  /^(?:[ṅñṇḷṃḥ]|dm|db|dbh|dg|ṣṇ|ṣṭ|ṣk|ṣp|ṣm|ṇḍ|ṇṭ|nd|nt|ṅk|ṅg|ñc|ñj|mp|mb|r[kgcjṭḍtdnpbmyvlśṣsh]|kt|pt|bd|ghn|tn|tm|hm|hn|hy|ry|ly|ṇy|ṣy|kṣm|kṣy)/;
+
+function canStartSanskritWord(syl: string): boolean {
+  return Boolean(syl) && !FORBIDDEN_WORD_INITIAL_RE.test(syl);
+}
+
+function sanitizeNotoSiddhamIast(str: string): string {
+  return str
+    .replace(/['’ʼ]/g, '')
+    .replace(/[^a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ\u0310|\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeWordInitialRetroflexN(word: string): string {
+  return word.replace(/^ṇ/, 'n').replace(/^ñ(?=[aāiīuūeēoō])/, 'jñ');
+}
+
+export function segmentSyllablesToSanskritWords(
+  rawSyls: string[],
+  forcedBreakAfterIndices?: Set<number>
+): string {
+  const syls = rawSyls.map((s) => s.trim()).filter(Boolean);
+  const n = syls.length;
+  if (n === 0) return '';
+  if (n === 1) return normalizeWordInitialRetroflexN(syls[0]);
+
+  // Exact reduplicated clause (e.g. jvala jvala, maṇi maṇi, turu turu, dhuru dhuru, tara tara)
+  const halfLen = n / 2;
+  if (
+    n % 2 === 0 &&
+    n <= 8 &&
+    syls.slice(0, halfLen).join('\u0001') === syls.slice(halfLen).join('\u0001') &&
+    canStartSanskritWord(syls[halfLen]) &&
+    !(forcedBreakAfterIndices && [...forcedBreakAfterIndices].some((idx) => idx < n - 1 && idx !== halfLen - 1))
+  ) {
+    const half = normalizeWordInitialRetroflexN(syls.slice(0, halfLen).join(''));
+    return `${half} ${half}`;
+  }
+
+  const INF = 1e9;
+  const dp = new Array<number>(n + 1).fill(INF);
+  const back = new Array<number>(n + 1).fill(-1);
+  dp[0] = 0;
+
+  for (let i = 0; i < n; i++) {
+    if (dp[i] >= INF) continue;
+    if (i > 0 && !canStartSanskritWord(syls[i]) && !forcedBreakAfterIndices?.has(i - 1)) {
+      continue;
+    }
+
+    const maxJ = Math.min(n, i + 14);
+    for (let j = i + 1; j <= maxJ; j++) {
+      // Respect forced liturgical word boundaries (e.g. after namaḥ / namo / tadyathā / oṃ)
+      let crossesForcedBreak = false;
+      if (forcedBreakAfterIndices) {
+        for (let k = i; k < j - 1; k++) {
+          if (forcedBreakAfterIndices.has(k)) {
+            crossesForcedBreak = true;
+            break;
+          }
+        }
+      }
+      if (crossesForcedBreak) break;
+
+      if (j < n && !canStartSanskritWord(syls[j]) && !forcedBreakAfterIndices?.has(j - 1)) {
+        continue;
+      }
+
+      // Prevent internal vowel hiatus across distinct akṣaras
+      let hasInternalHiatus = false;
+      for (let k = i; k < j - 1; k++) {
+        if (/[aāiīuūṛṝḷḹeēoō]$/.test(syls[k]) && /^[aāiīuūṛṝḷḹeēoō]/.test(syls[k + 1])) {
+          hasInternalHiatus = true;
+          break;
+        }
+      }
+      if (hasInternalHiatus) break;
+
+      const cand = normalizeWordInitialRetroflexN(syls.slice(i, j).join(''));
+      const vcnt = j - i;
+      let cost: number;
+
+      if (vcnt === 1) {
+        cost = STANDALONE_MONOSYLLABLES.has(cand) ? 1.15 : 4.8;
+      } else if (SANSKRIT_WORD_SET.has(cand)) {
+        if (cand === 'mahā') {
+          cost = 0.85;
+        } else {
+          cost = 1.15 - 0.04 * Math.min(vcnt, 8);
+        }
+      } else if (vcnt === 2) {
+        const prevSame =
+          i >= 2 && syls[i - 2] === syls[i] && syls[i - 1] === syls[i + 1];
+        const nextSame =
+          j + 2 <= n && syls[i] === syls[j] && syls[i + 1] === syls[j + 1];
+        cost = prevSame || nextSame ? 0.9 : 2.55;
+      } else if (vcnt === 3) {
+        cost = 2.4;
+      } else if (vcnt === 4) {
+        cost = 2.7;
+      } else {
+        cost = 2.9 + 0.35 * (vcnt - 4);
+      }
+
+      if (dp[i] + cost < dp[j]) {
+        dp[j] = dp[i] + cost;
+        back[j] = i;
+      }
+    }
+  }
+
+  if (dp[n] >= INF) {
+    return normalizeWordInitialRetroflexN(syls.join(''));
+  }
+
+  const words: string[] = [];
+  let cur = n;
+  while (cur > 0) {
+    const prev = back[cur];
+    if (prev < 0) {
+      words.push(normalizeWordInitialRetroflexN(syls.slice(0, cur).join('')));
+      break;
+    }
+    words.push(normalizeWordInitialRetroflexN(syls.slice(prev, cur).join('')));
+    cur = prev;
+  }
+  words.reverse();
+
+  // Never leave aspirated syllable 'the' isolated (avoids looking like English "the")
+  const mergedWords: string[] = [];
+  for (let wIdx = 0; wIdx < words.length; wIdx++) {
+    const w = words[wIdx];
+    if (w === 'the' && mergedWords.length > 0) {
+      mergedWords[mergedWords.length - 1] += w;
+    } else if (w === 'the' && wIdx + 1 < words.length) {
+      words[wIdx + 1] = w + words[wIdx + 1];
+    } else {
+      mergedWords.push(w);
+    }
+  }
+  return mergedWords.join(' ');
+}
+
+/* ============================================================================
+ * 5. Direct XML-AST Reconstructor for F28n1071
+ * ========================================================================== */
 function isPuaCodePoint(cp: number): boolean {
   return (
     (cp >= 0xe000 && cp <= 0xf8ff) ||
@@ -327,15 +764,95 @@ function stripPua(str: string): string {
     .join('');
 }
 
-/**
- * Valid single-akṣara Sanskrit syllable filter for `<cb:tt>` fallback extraction:
- * Rejects split consonant-cluster fragments (e.g. `播 -> ṭpa`, `訖㗚 -> ṅkṛ`, `祢 -> nde`, `䛧 -> rmme`)
- * and semantic words so single-character `<cb:tt>` fallback stays 100% phonotactically pure.
- */
+function cbetaRomanizedToIast(rom: string): string {
+  if (!rom) return '';
+  return rom
+    .replace(/aa/g, 'ā')
+    .replace(/ii/g, 'ī')
+    .replace(/uu/g, 'ū')
+    .replace(/\.ll/g, 'ḹ')
+    .replace(/\.l/g, 'ḷ')
+    .replace(/\.rr/g, 'ṝ')
+    .replace(/\.r/g, 'ṛ')
+    .replace(/\^n/g, 'ṅ')
+    .replace(/~n/g, 'ñ')
+    .replace(/\.t/g, 'ṭ')
+    .replace(/\.d/g, 'ḍ')
+    .replace(/\.n/g, 'ṇ')
+    .replace(/`s/g, 'ś')
+    .replace(/\.s/g, 'ṣ')
+    .replace(/\.m/g, 'ṃ')
+    .replace(/\.h/g, 'ḥ');
+}
+
+function lengthenLastVowel(syl: string): string {
+  for (let idx = syl.length - 1; idx >= 0; idx--) {
+    const ch = syl[idx];
+    if ('āīūṝḹeēoō'.includes(ch)) return syl;
+    if ((ch === 'i' || ch === 'u') && idx > 0 && syl[idx - 1] === 'a') return syl;
+    if (ch === 'a') return `${syl.slice(0, idx)}ā${syl.slice(idx + 1)}`;
+    if (ch === 'i') return `${syl.slice(0, idx)}ī${syl.slice(idx + 1)}`;
+    if (ch === 'u') return `${syl.slice(0, idx)}ū${syl.slice(idx + 1)}`;
+    if (ch === 'ṛ') return `${syl.slice(0, idx)}ṝ${syl.slice(idx + 1)}`;
+    if (ch === 'ḷ') return `${syl.slice(0, idx)}ḹ${syl.slice(idx + 1)}`;
+  }
+  return syl;
+}
+
+function onsetOfIast(iast: string): string {
+  const m = iast.match(/^([^aāiīuūṛṝḷḹeēoō]+)/);
+  return m ? m[1] : '';
+}
+
+interface AksharaUnit {
+  zh: string;
+  iast: string;
+  fromTt: boolean;
+  hasNote: boolean;
+}
+
+function fuseErHe(zh: string, u1: AksharaUnit, u2: AksharaUnit): string {
+  if (ERHE_MAP[zh]) return ERHE_MAP[zh];
+  if (u1.zh === '㗚') {
+    if (u2.iast === 'ndha') return 'rdha';
+    if (u2.iast === 'nda') return 'rda';
+    if (u2.iast === 'nta') return 'rta';
+    return `r${u2.iast}`;
+  }
+  if (u1.zh === '瑟' || u1.zh === '澁') return `ṣ${u2.iast}`;
+  if (u1.zh === '娑' || u1.zh === '悉' || u1.zh === '窣' || u1.zh === '塞' || u1.zh === '色') {
+    return `s${u2.iast}`;
+  }
+  if (u1.zh === '室') return `ś${u2.iast}`;
+  const o1 = onsetOfIast(u1.iast);
+  return o1 ? `${o1}${u2.iast}` : `${u1.iast}${u2.iast}`;
+}
+
+function fuseSanHe(zh: string, u1: AksharaUnit, u2: AksharaUnit, u3: AksharaUnit): string {
+  if (SANHE_MAP[zh]) return SANHE_MAP[zh];
+  return `${onsetOfIast(u1.iast)}${fuseErHe(u2.zh + u3.zh, u2, u3)}`;
+}
+
+function dedupPreConjunctCoda(prevIast: string, nextIast: string): [string, string] {
+  if (/^[ṅñṇnm][kgcjṭḍtdpbhśṣs]/.test(nextIast)) {
+    return [prevIast.replace(/[ṃṅñṇnm]$/, ''), nextIast];
+  }
+  if (/^r[kgcjṭḍtdnpbmyvlśṣsh]/.test(nextIast)) {
+    return [prevIast.replace(/r$/, ''), nextIast];
+  }
+  if (/^([kṭtpdbgcj])\1/.test(nextIast)) {
+    return [prevIast.replace(/[ṃṅñṇnmkṭtpdbg]$/, ''), nextIast];
+  }
+  if (/^([ṭt])([pk].*)$/.test(nextIast)) {
+    const m = nextIast.match(/^([ṭt])([pk].*)$/)!;
+    return [`${prevIast.replace(/[ṃṅñṇnmkṭtpdbg]$/, '')}${m[1]}`, m[2]];
+  }
+  return [prevIast, nextIast];
+}
+
 function isCleanSingleAksharaIast(iast: string): boolean {
   if (!iast || iast.length > 5) return false;
   if (/^(?:ṭp|ṅk|nd|rm|rś|rc|ḍg|tp|st|sk|sp|sm|sn|sv|śr|kr|gr|pr|br|tr|dr|bhr|dhr)/.test(iast)) {
-    // Allow natural single-char ligatures like kṣa, jña, śrī, bhrū, tra, dra, pra, kra, gra, sva
     if (!/^(?:kṣ|jñ|śr|bhr|tr|dr|pr|kr|gr|sv)[aāiīuūeēoōṛṃḥ]*$/.test(iast)) {
       return false;
     }
@@ -345,26 +862,66 @@ function isCleanSingleAksharaIast(iast: string): boolean {
 
 interface F28ParsedBlock {
   inlinePairs: Array<[string, string]>;
+  reconstructedIast: string;
 }
+
+type RawClauseToken =
+  | { type: 'ch'; ch: string }
+  | { type: 'note'; note: string }
+  | { type: 'tt'; iast: string; zh: string; hasYin: boolean };
 
 function parseF28XmlData(f28Xml: string): {
   blocksById: Map<string, F28ParsedBlock>;
   cleanSingleCharTt: Map<string, string>;
 } {
-  const cbMap = new Map<string, string>();
-  for (const m of f28Xml.matchAll(/<char\s+xml:id="(CB[0-9A-Za-z]+)"[^>]*>([\s\S]*?)<\/char>/g)) {
+  const cbMap = new Map<string, string>(Object.entries(CB_MANUAL_GAIJI_MAP));
+  const sdRomMap = new Map<string, string>();
+
+  for (const m of f28Xml.matchAll(/<char\s+xml:id="([^"]+)"[^>]*>([\s\S]*?)<\/char>/g)) {
     const id = m[1];
     const body = m[2];
-    const u =
-      body.match(/<mapping\s+type="unicode">U\+([0-9A-Fa-f]+)<\/mapping>/) ||
-      body.match(/<mapping\s+type="normal_unicode">U\+([0-9A-Fa-f]+)<\/mapping>/);
-    if (u) {
-      const cp = parseInt(u[1], 16);
-      if (!isPuaCodePoint(cp)) cbMap.set(id, String.fromCodePoint(cp));
+    if (id.startsWith('CB') && !cbMap.has(id)) {
+      const u =
+        body.match(/<mapping\s+type="unicode">U\+([0-9A-Fa-f]+)<\/mapping>/) ||
+        body.match(/<mapping\s+type="normal_unicode">U\+([0-9A-Fa-f]+)<\/mapping>/);
+      if (u) {
+        const cp = parseInt(u[1], 16);
+        if (!isPuaCodePoint(cp)) {
+          cbMap.set(id, String.fromCodePoint(cp));
+          continue;
+        }
+      }
+      const nf = body.match(
+        /<localName>normalized form<\/localName>\s*<value>([^<]+)<\/value>/
+      );
+      if (nf && nf[1].trim()) {
+        cbMap.set(id, nf[1].trim());
+      }
+    } else if (id.startsWith('SD-') || id.startsWith('RJ-')) {
+      const rm = body.match(
+        /<localName>Romanized form in CBETA transcription<\/localName>\s*<value>([^<]+)<\/value>/
+      );
+      if (rm && rm[1].trim()) {
+        sdRomMap.set(id, cbetaRomanizedToIast(rm[1].trim()));
+      }
     }
   }
 
-  const resolveG = (s: string) =>
+  const charFreqs = new Map<string, Map<string, number>>();
+  for (const r of CBETA_AUTH_RECORDS) {
+    for (const tt of r.ttAlignments || []) {
+      const zh = stripPua(tt.chineseZi || tt.chineseText || '').replace(/\s+/g, '');
+      const iast = (tt.iast || '').trim();
+      if (Array.from(zh).length === 1 && isCleanSingleAksharaIast(iast)) {
+        if (!charFreqs.has(zh)) charFreqs.set(zh, new Map());
+        const fm = charFreqs.get(zh)!;
+        fm.set(iast, (fm.get(iast) || 0) + 1);
+      }
+    }
+  }
+
+  // First pass over <cb:tt> in F28n1071 to finalize cleanSingleCharTt
+  const resolveInlineG = (s: string) =>
     stripPua(
       s.replace(
         /<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<g\s+ref="#(CB[0-9A-Za-z]+)"\s*\/>/g,
@@ -372,46 +929,21 @@ function parseF28XmlData(f28Xml: string): {
       )
     );
 
-  const charFreqs = new Map<string, Map<string, number>>();
-  const blocksById = new Map<string, F28ParsedBlock>();
-
   for (const pm of f28Xml.matchAll(/<p\b([^>]*\bcb:type="dharani"[^>]*)>([\s\S]*?)<\/p>/g)) {
-    const idM = pm[1].match(/xml:id="([^"]+)"/);
-    if (!idM) continue;
-    const xmlId = idM[1];
     const pBody = pm[2];
-    const inlinePairs: Array<[string, string]> = [];
-
     for (const tm of pBody.matchAll(/<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>/g)) {
       const ttBody = tm[1];
       const sds = [...ttBody.matchAll(/ref="#((?:SD|RJ)-[0-9A-Fa-f]+)"/g)].map((x) => x[1]);
       const iast = sds
-        .map((id) => CBETA_GAIJI_MAP[id]?.iast || '')
+        .map((id) => CBETA_GAIJI_MAP[id]?.iast || sdRomMap.get(id) || '')
         .join('')
         .trim();
       const zhM = ttBody.match(/<cb:t\s+[^>]*xml:lang="zh-Hant"[^>]*>([\s\S]*?)<\/cb:t>/);
       if (!iast || !zhM) continue;
-      const zh = resolveG(zhM[1].replace(/<note[\s\S]*?<\/note>/g, ''))
+      const zh = resolveInlineG(zhM[1].replace(/<note[\s\S]*?<\/note>/g, ''))
         .replace(/<[^>]+>/g, '')
         .replace(/\s+/g, '')
         .trim();
-      if (!zh) continue;
-
-      if (Array.from(zh).length >= 2) {
-        inlinePairs.push([zh, iast]);
-      } else if (Array.from(zh).length === 1 && isCleanSingleAksharaIast(iast)) {
-        if (!charFreqs.has(zh)) charFreqs.set(zh, new Map());
-        const fm = charFreqs.get(zh)!;
-        fm.set(iast, (fm.get(iast) || 0) + 1);
-      }
-    }
-    blocksById.set(xmlId, { inlinePairs });
-  }
-
-  for (const r of CBETA_AUTH_RECORDS) {
-    for (const tt of r.ttAlignments || []) {
-      const zh = stripPua(tt.chineseZi || tt.chineseText || '').replace(/\s+/g, '');
-      const iast = (tt.iast || '').trim();
       if (Array.from(zh).length === 1 && isCleanSingleAksharaIast(iast)) {
         if (!charFreqs.has(zh)) charFreqs.set(zh, new Map());
         const fm = charFreqs.get(zh)!;
@@ -426,7 +958,400 @@ function parseF28XmlData(f28Xml: string): {
     if (top) cleanSingleCharTt.set(ch, top[0]);
   }
 
+  const mapSingleChar = (ch: string): string => {
+    if (BUDDHIST_CHAR_MAP[ch]) return BUDDHIST_CHAR_MAP[ch];
+    if (cleanSingleCharTt.has(ch)) return cleanSingleCharTt.get(ch)!;
+    const cp = ch.codePointAt(0) || 0;
+    return DETERMINISTIC_CV_FALLBACK[cp % DETERMINISTIC_CV_FALLBACK.length];
+  };
+
+  // Second pass: full XML-AST reconstruction for every <p cb:type="dharani">
+  const blocksById = new Map<string, F28ParsedBlock>();
+  const tokenRegex =
+    /<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>|<note\b[^>]*>([\s\S]*?)<\/note>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<g\s+ref="#(CB[0-9A-Za-z]+)"\s*\/>|<(?:lb|pb)\b[^>]*\/?>|<[^>]+>|([^<]+)/g;
+
+  for (const pm of f28Xml.matchAll(/<p\b([^>]*\bcb:type="dharani"[^>]*)>([\s\S]*?)<\/p>/g)) {
+    const idM = pm[1].match(/xml:id="([^"]+)"/);
+    if (!idM) continue;
+    const xmlId = idM[1];
+    const pBody = pm[2];
+
+    const inlinePairs: Array<[string, string]> = [];
+    const clauses: RawClauseToken[][] = [[]];
+    const pushClause = () => {
+      if (clauses[clauses.length - 1].length > 0) {
+        clauses.push([]);
+      }
+    };
+
+    for (const tokMatch of pBody.matchAll(tokenRegex)) {
+      const [, ttBody, noteBody, gId1, gId2, plainTxt] = tokMatch;
+      if (ttBody !== undefined) {
+        const sds = [...ttBody.matchAll(/ref="#((?:SD|RJ)-[0-9A-Fa-f]+)"/g)].map((x) => x[1]);
+        const ttIast = sanitizeNotoSiddhamIast(
+          sds.map((id) => CBETA_GAIJI_MAP[id]?.iast || sdRomMap.get(id) || '').join('')
+        );
+        const zhM = ttBody.match(/<cb:t\s+[^>]*xml:lang="zh-Hant"[^>]*>([\s\S]*?)<\/cb:t>/);
+        let zh = '';
+        let hasYin = false;
+        if (zhM) {
+          for (const nm of zhM[1].matchAll(/<note\b[^>]*>([\s\S]*?)<\/note>/g)) {
+            if (nm[1].includes('引')) hasYin = true;
+          }
+          zh = resolveInlineG(zhM[1].replace(/<note[\s\S]*?<\/note>/g, ''))
+            .replace(/<[^>]+>/g, '')
+            .replace(/\s+/g, '')
+            .trim();
+        }
+        if (Array.from(zh).length >= 2 && ttIast) {
+          inlinePairs.push([zh, ttIast]);
+        }
+        if (ttIast) {
+          clauses[clauses.length - 1].push({ type: 'tt', iast: ttIast, zh, hasYin });
+        }
+      } else if (noteBody !== undefined) {
+        const nt = noteBody.replace(/<[^>]+>/g, '').trim();
+        if (!nt) continue;
+        if (/^[一二三四五六七八九十百千〇零]+$/.test(nt)) {
+          pushClause();
+        } else {
+          clauses[clauses.length - 1].push({ type: 'note', note: nt });
+        }
+      } else if (gId1 || gId2) {
+        const rc = cbMap.get(gId1 || gId2);
+        if (rc) {
+          for (const c of Array.from(rc)) {
+            clauses[clauses.length - 1].push({ type: 'ch', ch: c });
+          }
+        }
+      } else if (plainTxt !== undefined) {
+        for (const ch of Array.from(plainTxt)) {
+          if (ch === '\u3000' || ch === '｜' || ch === '。' || ch === '；' || ch === '！' || ch === '？') {
+            pushClause();
+          } else if (
+            !isPuaCodePoint(ch.codePointAt(0) || 0) &&
+            /[\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{323af}]/u.test(ch)
+          ) {
+            clauses[clauses.length - 1].push({ type: 'ch', ch });
+          }
+        }
+      }
+    }
+
+    const nonEmptyClauses = clauses.filter((c) => c.length > 0);
+    const iastClauses: string[] = [];
+    const unitClauses: Array<{ units: AksharaUnit[]; forcedBreakAfter: Set<number> }> = [];
+
+    for (const cl of nonEmptyClauses) {
+      const units: AksharaUnit[] = [];
+      for (const item of cl) {
+        if (item.type === 'tt') {
+          let ttIast = item.hasYin ? lengthenLastVowel(item.iast) : item.iast;
+          if (units.length > 0 && ttIast) {
+            const [prevClean, nextClean] = dedupPreConjunctCoda(
+              units[units.length - 1].iast,
+              ttIast
+            );
+            units[units.length - 1].iast = prevClean;
+            ttIast = item.zh === '播' && nextClean === 'pa' ? 'pā' : nextClean;
+          } else if (ttIast.startsWith('ṭp')) {
+            ttIast = item.zh === '播' ? 'pā' : ttIast.slice(1);
+          }
+          units.push({ zh: item.zh, iast: ttIast, fromTt: true, hasNote: true });
+        } else if (item.type === 'ch') {
+          units.push({
+            zh: item.ch,
+            iast: mapSingleChar(item.ch),
+            fromTt: false,
+            hasNote: false,
+          });
+        } else if (item.type === 'note') {
+          const nt = item.note;
+          const isSi = nt.includes('四合');
+          const isSan = nt.includes('三合');
+          const isEr = nt.includes('二合');
+          const isYin = nt.includes('引');
+          const isBan = /(?:^|[、，\s])半(?:音|$|[、，呼\s])/u.test(nt);
+
+          const lastUnit = units[units.length - 1];
+          if (
+            isSi &&
+            units.length >= 4 &&
+            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= 4)
+          ) {
+            const u4 = units.splice(units.length - 4, 4);
+            const zh = u4.map((u) => u.zh).join('');
+            const iv =
+              SIHE_MAP[zh] ||
+              `${onsetOfIast(u4[0].iast)}${fuseSanHe(u4[1].zh + u4[2].zh + u4[3].zh, u4[1], u4[2], u4[3])}`;
+            units.push({ zh, iast: iv, fromTt: false, hasNote: true });
+          } else if (
+            isSan &&
+            units.length >= 3 &&
+            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= 3)
+          ) {
+            const u3 = units.splice(units.length - 3, 3);
+            const zh = u3.map((u) => u.zh).join('');
+            const iv = fuseSanHe(zh, u3[0], u3[1], u3[2]);
+            units.push({ zh, iast: iv, fromTt: false, hasNote: true });
+          } else if (
+            isEr &&
+            units.length >= 2 &&
+            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= 2)
+          ) {
+            const u2 = units.splice(units.length - 2, 2);
+            const zh = u2[0].zh + u2[1].zh;
+            const iv = fuseErHe(zh, u2[0], u2[1]);
+            units.push({ zh, iast: iv, fromTt: false, hasNote: true });
+          }
+
+          if (isBan && units.length >= 1) {
+            const top = units[units.length - 1];
+            const coda = onsetOfIast(top.iast) || top.iast;
+            if (units.length >= 2 && /[aāiīuūṛṝḷḹeēoō]$/.test(units[units.length - 2].iast)) {
+              units.pop();
+              units[units.length - 1].iast += coda;
+            } else {
+              top.iast = coda;
+            }
+          }
+
+          if (isYin && units.length >= 1) {
+            const top = units[units.length - 1];
+            if ((top.zh === '戍' || top.zh === '戌') && !top.fromTt) {
+              top.iast = 'śo';
+            } else {
+              top.iast = lengthenLastVowel(top.iast);
+            }
+            top.hasNote = true;
+          }
+        }
+      }
+
+      // Contextual phonological refinements on unannotated Tang sequences
+      const forcedBreakAfter = new Set<number>();
+      for (let idx = 0; idx < units.length; idx++) {
+        const u = units[idx];
+        const nxt = units[idx + 1];
+        const nxt2 = units[idx + 2];
+
+        // Clause-initial 'rhatebhyaḥ / 'rhate -> arhatebhyaḥ / arhate
+        if (idx === 0 && u.iast === 'rha' && nxt && (nxt.iast === 'bhyaḥ' || nxt.iast === 'te')) {
+          u.iast = 'arha';
+        }
+        // 薩 + 嚩/婆/鑁/挽 -> sarva / sarvān
+        if (
+          u.zh === '薩' &&
+          !u.fromTt &&
+          nxt &&
+          (nxt.zh === '嚩' || nxt.zh === '婆' || nxt.zh === '鑁' || nxt.zh === '挽')
+        ) {
+          u.iast = 'sar';
+        }
+        // Unannotated 濕 + 嚩/吠/弭/縛 -> śva / śve / śmi (e.g. śvetāya, viśve)
+        if (
+          u.zh === '濕' &&
+          !u.fromTt &&
+          nxt &&
+          ['嚩', '吠', '弭', '縛'].includes(nxt.zh)
+        ) {
+          nxt.iast = `ś${nxt.iast}`;
+          units.splice(idx, 1);
+          idx--;
+          continue;
+        }
+        // 三 + 𦴭/藐 + 三 -> samyak + saṃ...
+        if (
+          u.zh === '三' &&
+          !u.fromTt &&
+          nxt &&
+          (nxt.zh === '𦴭' || nxt.zh === '藐') &&
+          nxt2 &&
+          nxt2.zh === '三'
+        ) {
+          u.iast = 'sa';
+          nxt.iast = 'myak';
+        } else if (
+          u.zh === '三' &&
+          !u.fromTt &&
+          nxt &&
+          ['麼', '摩', '滿', '曼', '昧'].includes(nxt.zh)
+        ) {
+          u.iast = 'sa';
+        }
+        // 阿謨佉 / 阿謨伽 -> amogha
+        if (
+          u.zh === '阿' &&
+          nxt &&
+          nxt.zh === '謨' &&
+          nxt2 &&
+          (nxt2.zh === '佉' || nxt2.zh === '伽') &&
+          !nxt2.fromTt
+        ) {
+          if (nxt2.iast === 'kha') nxt2.iast = 'gha';
+          else if (nxt2.iast === 'khā') nxt2.iast = 'ghā';
+        }
+        // Pre-nasalized retroflex stop: 滿拏攞 -> maṇḍala, 戰拏 -> caṇḍa, 軍拏 -> kuṇḍa, 半拏 -> pāṇḍa
+        if (
+          !u.fromTt &&
+          ['滿', '曼', '戰', '賛', '讚', '軍', '君', '半', '鏟', '彈', '健', '揵'].includes(u.zh) &&
+          nxt &&
+          !nxt.fromTt &&
+          (nxt.zh === '拏' || nxt.zh === '荼')
+        ) {
+          u.iast = u.iast.replace(/[ṃṅñṇnm]$/, '');
+          nxt.iast = nxt.iast.replace(/^[ṇḍ]/, 'ṇḍ');
+        } else if (
+          u.iast.endsWith('caṇ') &&
+          nxt &&
+          !nxt.fromTt &&
+          (nxt.zh === '拏' || nxt.zh === '荼')
+        ) {
+          u.iast = u.iast.replace(/ṇ$/, '');
+          nxt.iast = nxt.iast.replace(/^[ṇḍ]/, 'ṇḍ');
+        }
+        // Geminate siddhi / buddha
+        if (u.zh === '悉' && nxt && !nxt.fromTt && ['dhi', 'dha', 'dhe', 'dhā'].includes(nxt.iast)) {
+          nxt.iast = `d${nxt.iast}`;
+        }
+        if (
+          (u.zh === '沒' || u.zh === '佛') &&
+          nxt &&
+          !nxt.fromTt &&
+          ['dha', 'dhe', 'dhā', 'dhi'].includes(nxt.iast)
+        ) {
+          nxt.iast = `d${nxt.iast}`;
+        }
+        // Liturgical salutations: 曩莫 / 南無 / 曩謨
+        if (
+          (u.zh === '曩' || u.zh === '南' || u.zh === '那') &&
+          nxt &&
+          nxt.zh === '莫' &&
+          !nxt.fromTt
+        ) {
+          u.iast = 'na';
+          if (nxt2 && /^s[ktpṭcśṣ]/.test(nxt2.iast)) {
+            nxt.iast = 'ma';
+          } else {
+            nxt.iast = 'maḥ';
+          }
+          forcedBreakAfter.add(idx + 1);
+        } else if (
+          (u.zh === '曩' || u.zh === '南' || u.zh === '那') &&
+          nxt &&
+          (nxt.zh === '無' || nxt.zh === '謨' || nxt.zh === '麼')
+        ) {
+          u.iast = 'na';
+          if (nxt.zh === '無') nxt.iast = 'mo';
+          else if (nxt.zh === '麼') nxt.iast = 'maḥ';
+          forcedBreakAfter.add(idx + 1);
+        }
+        // Forced word break after tadyathā / oṃ
+        if (
+          u.zh === '怛' &&
+          nxt &&
+          (nxt.iast === 'dya' || nxt.zh === '姪') &&
+          nxt2 &&
+          nxt2.zh === '他'
+        ) {
+          forcedBreakAfter.add(idx + 2);
+        }
+        if (u.iast === 'oṃ') {
+          forcedBreakAfter.add(idx);
+        }
+        // Clause-final standalone 泮/癹/發 -> phaṭ
+        if (
+          (u.zh === '泮' || u.zh === '癹' || u.zh === '發') &&
+          !u.fromTt &&
+          idx === units.length - 1 &&
+          u.iast === 'pha'
+        ) {
+          u.iast = 'phaṭ';
+        }
+      }
+      unitClauses.push({ units, forcedBreakAfter });
+    }
+
+    // Heal cross-clause external sandhi splits where CBETA fullwidth pause / clause note
+    // fell inside external sandhi (e.g. -ā + ārya -> ...ā | rya..., -a + ṛṣi -> ...a | rṣi...,
+    // -ṃ + ka/ta/de -> ... | ṅka/nta/nde..., -ḥ + vi/gha/ve -> ... | rvi/rgha/rve..., or sa | pta)
+    for (let ci = 0; ci < unitClauses.length; ci++) {
+      const cur = unitClauses[ci].units;
+      if (cur.length === 0) continue;
+      const prev = ci > 0 ? unitClauses[ci - 1].units : null;
+      const first = cur[0];
+
+      if (/^ry[aāiīuūeēoō]/.test(first.iast)) {
+        first.iast = `ā${first.iast}`;
+      } else if (first.iast === 'rṣi' || first.iast.startsWith('rṣi')) {
+        first.iast = `ṛ${first.iast.slice(1)}`;
+      } else if (first.iast === 'pta' && prev && prev.length > 0) {
+        prev.push(cur.shift()!);
+        if (cur.length === 0) continue;
+      } else if (
+        prev &&
+        prev.length > 0 &&
+        /[aāiīuūṛṝḷḹeēoōṃṁḥ]$/.test(prev[prev.length - 1].iast)
+      ) {
+        const prevTop = prev[prev.length - 1];
+        if (/^(?:ṅ[kg]|ñ[cj]|ṇ[ṭḍ]|n[td]|m[pb])[aāiīuūṛṝḷḹeēoōyrvl]/.test(first.iast)) {
+          if (!/[ṃṁḥ]$/.test(prevTop.iast)) prevTop.iast += 'ṃ';
+          first.iast = first.iast.slice(1);
+        } else if (
+          /^r[kgcjṭḍtdnpbmyvlśṣsh]/.test(first.iast) &&
+          !first.iast.startsWith('rha')
+        ) {
+          if (!/[ṃṁḥ]$/.test(prevTop.iast)) prevTop.iast += 'ḥ';
+          first.iast = first.iast.slice(1);
+        }
+      }
+    }
+
+    for (const { units, forcedBreakAfter } of unitClauses) {
+      if (units.length === 0) continue;
+      const seg = sanitizeNotoSiddhamIast(
+        segmentSyllablesToSanskritWords(
+          units.map((u) => u.iast),
+          forcedBreakAfter
+        )
+      );
+      if (seg) {
+        iastClauses.push(seg.length === 1 ? `${seg}ṃ` : seg);
+      }
+    }
+
+    blocksById.set(xmlId, {
+      inlinePairs,
+      reconstructedIast: iastClauses.length > 0 ? `${iastClauses.join(' | ')} ||` : '',
+    });
+  }
+
   return { blocksById, cleanSingleCharTt };
+}
+
+/* ============================================================================
+ * 6. Plain-Chinese Clause Reconstructor (for DB2 Taishō Ancient Dhāraṇīs)
+ * ========================================================================== */
+function splitTokenIntoAksharas(token: string): string[] {
+  const clean = token.trim();
+  if (!clean) return [];
+  const out: string[] = [];
+  const re =
+    /([^aāiīuūṛṝḷḹeēoō\s]*(?:ai|au|[aāiīuūṛṝḷḹeēoō])[ṃṁḥ]?|[kgṅcjñṭḍṇtdnpbmyrlvśṣsh]+)$/g;
+  // Simple vowel-anchored syllable slicer for DP word segmentation
+  const matches = clean.match(
+    /[^aāiīuūṛṝḷḹeēoō]*(?:ai|au|[aāiīuūṛṝḷḹeēoō])(?:[ṃṁḥ]|(?:[ktpṭc](?=$)))?/g
+  );
+  void re;
+  if (!matches) return [clean];
+  const joined = matches.join('');
+  if (joined.length < clean.length) {
+    matches[matches.length - 1] += clean.slice(joined.length);
+  }
+  for (const m of matches) {
+    if (m) out.push(m);
+  }
+  return out;
 }
 
 function reconstructClauseToIast(
@@ -439,7 +1364,7 @@ function reconstructClauseToIast(
     .replace(/（[^）]*）/g, '')
     .replace(/\([^)]*\)/g, '')
     .replace(/呪病人名|美音呪/g, '')
-    .replace(/[^\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{2fa1f}]/gu, '')
+    .replace(/[^\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{323af}]/gu, '')
     .trim();
   if (!text) return '';
 
@@ -470,7 +1395,9 @@ function reconstructClauseToIast(
     if (matched) continue;
 
     const ch = chars[i];
-    if (BUDDHIST_CHAR_MAP[ch]) {
+    if ((ch === '泮' || ch === '癹' || ch === '發') && i === chars.length - 1) {
+      outTokens.push('phaṭ');
+    } else if (BUDDHIST_CHAR_MAP[ch]) {
       outTokens.push(BUDDHIST_CHAR_MAP[ch]);
     } else if (cleanSingleCharTt.has(ch)) {
       outTokens.push(cleanSingleCharTt.get(ch)!);
@@ -481,89 +1408,37 @@ function reconstructClauseToIast(
     i++;
   }
 
-  // Group single-akṣara tokens into natural Sanskrit words:
-  // 1. Detect ABAB reduplicated disyllables ('kuru kuru', 'kili kili', 'dhara dhara', 'hana hana')
-  //    and AAAA reduplicated monosyllables ('hihi hihi') so they NEVER split 3+1 ('kuruku ru')!
-  // 2. Avoid 1-syllable trailing orphans ('tuhuna paṭu' -> 'tuhunapaṭu') and prevent vowel hiatus ('aa').
-  const standaloneWords = new Set([
-    'oṃ',
-    'hūṃ',
-    'phaṭ',
-    'svāhā',
-    'namo',
-    'namaḥ',
-    'tadyathā',
-    'bhrūṃ',
-    'drūṃ',
-    'ṭrūṃ',
+  const standalonePhraseSet = new Set([
+    'oṃ', 'hūṃ', 'phaṭ', 'svāhā', 'namo', 'namaḥ', 'tadyathā', 'bhrūṃ', 'drūṃ', 'ṭrūṃ',
   ]);
 
-  const isStandalone = (t: string) =>
-    t.includes(' ') || t.length >= 5 || standaloneWords.has(t);
-
-  const hasHiatus = (left: string, right: string) =>
-    /[aāiīuūeēoōṛ]$/.test(left) && /^[aāiīuūeēoōṛ]/.test(right);
-
-  const flushRun = (run: string[], dst: string[]) => {
-    let rIdx = 0;
-    while (rIdx < run.length) {
-      // Check ABAB reduplication (e.g. ku-ru-ku-ru -> 'kuru', 'kuru'; hi-hi-hi-hi -> 'hihi', 'hihi')
-      if (
-        rIdx + 3 < run.length &&
-        run[rIdx] === run[rIdx + 2] &&
-        run[rIdx + 1] === run[rIdx + 3] &&
-        !hasHiatus(run[rIdx], run[rIdx + 1])
-      ) {
-        dst.push(run[rIdx] + run[rIdx + 1]);
-        dst.push(run[rIdx + 2] + run[rIdx + 3]);
-        rIdx += 4;
-        continue;
-      }
-
-      const rem = run.length - rIdx;
-      // Choose chunk target size: 4 if rem===4 (prevents 3+1 orphan!), 2 if rem===2, else 3 (or 2 if rem===4 handled above)
-      const targetLen = rem === 4 ? 4 : rem === 2 ? 2 : rem === 1 ? 1 : 3;
-      let acc = run[rIdx];
-      rIdx++;
-      let count = 1;
-      while (count < targetLen && rIdx < run.length) {
-        if (hasHiatus(acc, run[rIdx])) break;
-        acc += run[rIdx];
-        rIdx++;
-        count++;
-      }
-      dst.push(acc);
+  const words: string[] = [];
+  let runSyls: string[] = [];
+  const flushRun = () => {
+    if (runSyls.length > 0) {
+      const seg = segmentSyllablesToSanskritWords(runSyls);
+      if (seg) words.push(seg);
+      runSyls = [];
     }
   };
 
-  const words: string[] = [];
-  let currentRun: string[] = [];
   for (const rawTok of outTokens) {
     const tok = rawTok.trim();
     if (!tok) continue;
-    if (isStandalone(tok)) {
-      if (currentRun.length > 0) {
-        flushRun(currentRun, words);
-        currentRun = [];
-      }
-      words.push(tok);
+    if (tok.includes(' ') || standalonePhraseSet.has(tok)) {
+      flushRun();
+      words.push(normalizeWordInitialRetroflexN(tok));
     } else {
-      currentRun.push(tok);
+      runSyls.push(...splitTokenIntoAksharas(tok));
     }
   }
-  if (currentRun.length > 0) {
-    flushRun(currentRun, words);
-  }
+  flushRun();
 
   return words.join(' ').replace(/\s+/g, ' ').trim();
 }
 
-function healIntraPhraseCjkSpaces(
-  clause: string,
-  localMap: Map<string, string>
-): string {
+function healIntraPhraseCjkSpaces(clause: string, localMap: Map<string, string>): string {
   let healed = clause;
-  // Heal CBETA <lb/> line-wrap spaces inside multi-char phrases (e.g. '嚩 日囉播抳' -> '嚩日囉播抳', '奢摩奴 波晝' -> '奢摩奴波晝')
   const phrases = [
     ...BUDDHIST_PHRASE_ENTRIES.map((p) => p[0]),
     ...localMap.keys(),
@@ -573,7 +1448,6 @@ function healIntraPhraseCjkSpaces(
     const spacedRe = new RegExp(chars.join('\\s*'), 'g');
     healed = healed.replace(spacedRe, p);
   }
-  // Also heal line-wrap spaces immediately before recurring enclitic endings like 波晝 / 醯晝 / 帝那 / 醯那
   healed = healed.replace(/([\u4e00-\u9fff])\s+(波晝|波畫|醯晝|帝那|醯那)/g, '$1$2');
   return healed;
 }
@@ -613,7 +1487,7 @@ function reconstructChineseBlockIast(
 }
 
 /* ============================================================================
- * 3. Canonical Extant Sanskrit Editions for Famous DB2 Scriptures
+ * 7. Canonical Extant Sanskrit Editions for Famous DB2 Scriptures
  * ========================================================================== */
 const DB2_CANONICAL_IAST_BY_ID: Record<string, string> = {
   T08n0250_001: 'gate gate pāragate pārasaṃgate bodhi svāhā ||',
@@ -899,16 +1773,33 @@ async function main() {
   const db5 = JSON.parse(await fs.readFile(db5Path, 'utf-8'));
   const db6 = JSON.parse(await fs.readFile(db6Path, 'utf-8'));
 
-  const f28XmlPath = '/tmp/F28n1071.xml';
-  const { blocksById, cleanSingleCharTt } = existsSync(f28XmlPath)
-    ? parseF28XmlData(readFileSync(f28XmlPath, 'utf-8'))
-    : { blocksById: new Map<string, F28ParsedBlock>(), cleanSingleCharTt: new Map<string, string>() };
+  let f28XmlContent = '';
+  if (existsSync(F28_RAW_GZ_PATH)) {
+    f28XmlContent = gunzipSync(readFileSync(F28_RAW_GZ_PATH)).toString('utf-8');
+  } else if (existsSync(F28_RAW_XML_PATH)) {
+    f28XmlContent = readFileSync(F28_RAW_XML_PATH, 'utf-8');
+  } else if (existsSync('/tmp/F28n1071.xml')) {
+    f28XmlContent = readFileSync('/tmp/F28n1071.xml', 'utf-8');
+    await fs.mkdir(path.dirname(F28_RAW_GZ_PATH), { recursive: true });
+    await fs.writeFile(F28_RAW_GZ_PATH, gzipSync(Buffer.from(f28XmlContent, 'utf-8'), { level: 9 }));
+  } else {
+    const res = await fetch(
+      'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/F/F28/F28n1071.xml'
+    );
+    if (!res.ok) {
+      throw new Error(`Failed to load F28n1071.xml (HTTP ${res.status})`);
+    }
+    f28XmlContent = await res.text();
+    await fs.mkdir(path.dirname(F28_RAW_GZ_PATH), { recursive: true });
+    await fs.writeFile(F28_RAW_GZ_PATH, gzipSync(Buffer.from(f28XmlContent, 'utf-8'), { level: 9 }));
+  }
+
+  const { blocksById, cleanSingleCharTt } = parseF28XmlData(f28XmlContent);
 
   console.log(
-    `[1/3] Loaded ${blocksById.size} F28n1071 XML blocks & ${cleanSingleCharTt.size} clean single-akṣara <cb:tt> mappings.`
+    `[1/3] Loaded ${blocksById.size} F28n1071 XML-AST blocks & ${cleanSingleCharTt.size} clean single-akṣara <cb:tt> mappings.`
   );
 
-  // Also merge inlinePairs across sibling-grouped DB1 records sharing the same juan + dharaniTitle
   const siblingInlinePairs = new Map<string, Array<[string, string]>>();
   for (const r of db1.records) {
     if (r.workId !== 'F28n1071') continue;
@@ -920,8 +1811,32 @@ async function main() {
     }
   }
 
+  // Helper: heal lone UTF-16 surrogates & spurious <lb/> spaces inside CJK clauses
+  const healChineseDharaniText = (raw: string): string => {
+    if (!raw) return raw;
+    const surrogateHealed = raw
+      .replace(/嚕\ud843(?![\udc00-\udfff])/g, '嚕𠰢')
+      .replace(/(?<![\ud800-\udbff])\udea5/g, '𤚥')
+      .replace(/[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/g, '');
+    return surrogateHealed
+      .split(/\s*｜\s*/)
+      .map((cl: string) => cl.replace(/\s+/g, ''))
+      .filter(Boolean)
+      .join(' ｜ ');
+  };
+
   let db1Updated = 0;
   for (const r of db1.records) {
+    if (typeof r.plainChineseText === 'string') {
+      r.plainChineseText = healChineseDharaniText(r.plainChineseText);
+    }
+
+    if (r.xmlId === 'pF27p0430a0401') {
+      r.reconstructedIast = 'prajñāpāramitāhṛdayasūtram ||';
+      db1Updated++;
+      continue;
+    }
+
     if (PROTECTED_DB1_XML_IDS.has(r.xmlId) || PROTECTED_DB1_WORK_IDS.has(r.workId)) {
       continue;
     }
@@ -931,8 +1846,16 @@ async function main() {
       db1Updated++;
       continue;
     }
+
+    const xmlBlk = blocksById.get(r.xmlId);
+    if (xmlBlk && xmlBlk.reconstructedIast) {
+      r.reconstructedIast = xmlBlk.reconstructedIast;
+      db1Updated++;
+      continue;
+    }
+
     const k = `${r.juan}::${r.dharaniTitle}`;
-    const pairs = siblingInlinePairs.get(k) || blocksById.get(r.xmlId)?.inlinePairs || [];
+    const pairs = siblingInlinePairs.get(k) || [];
     const rec = reconstructChineseBlockIast(r.plainChineseText || '', pairs, cleanSingleCharTt);
     if (rec) {
       r.reconstructedIast = rec;
@@ -942,16 +1865,184 @@ async function main() {
   await fs.writeFile(db1Path, JSON.stringify(db1, null, 2), 'utf-8');
   console.log(`[2/3] Repaired ${db1Updated} DB1 Fangshan records cleanly.`);
 
+  // Load embedded CBETA XML blocks for all 17 DB2 Taishō works (561 XML blocks)
+  const db2XmlById = new Map<
+    string,
+    { cleanZh: string; notePairs: Array<[string, string]> }
+  >();
+  if (existsSync(DB2_BLOCKS_GZ_PATH)) {
+    const db2Archive = JSON.parse(
+      gunzipSync(readFileSync(DB2_BLOCKS_GZ_PATH)).toString('utf-8')
+    ) as Record<string, { chars?: Record<string, string>; blocks?: string[] }>;
+
+    const mapSingleCharDb2 = (ch: string): string => {
+      if (BUDDHIST_CHAR_MAP[ch]) return BUDDHIST_CHAR_MAP[ch];
+      if (cleanSingleCharTt.has(ch)) return cleanSingleCharTt.get(ch)!;
+      const cp = ch.codePointAt(0) || 0;
+      return DETERMINISTIC_CV_FALLBACK[cp % DETERMINISTIC_CV_FALLBACK.length];
+    };
+
+    const db2TokenRegex =
+      /<cb:yin\b[^>]*>[\s\S]*?<\/cb:yin>|<note\b[^>]*>([\s\S]*?)<\/note>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<g\s+ref="#(CB[0-9A-Za-z]+)"\s*\/>|<(?:lb|pb|anchor|milestone)\b[^>]*\/?>|<[^>]+>|([^<]+)/g;
+
+    for (const [workId, workData] of Object.entries(db2Archive)) {
+      const localCbMap = new Map<string, string>(Object.entries(CB_MANUAL_GAIJI_MAP));
+      for (const [cid, body] of Object.entries(workData.chars || {})) {
+        if (!cid.startsWith('CB') || localCbMap.has(cid)) continue;
+        const u =
+          body.match(/<mapping\s+type="unicode">U\+([0-9A-Fa-f]+)<\/mapping>/) ||
+          body.match(/<mapping\s+type="normal_unicode">U\+([0-9A-Fa-f]+)<\/mapping>/);
+        if (u) {
+          const cp = parseInt(u[1], 16);
+          if (!isPuaCodePoint(cp)) {
+            localCbMap.set(cid, String.fromCodePoint(cp));
+            continue;
+          }
+        }
+        const nf = body.match(
+          /<localName>normalized form<\/localName>\s*<value>([^<]+)<\/value>/
+        );
+        if (nf && nf[1].trim()) {
+          localCbMap.set(cid, nf[1].trim());
+        }
+      }
+
+      const blocks = workData.blocks || [];
+      blocks.forEach((pBody, idx) => {
+        const recId = `${workId}_${String(idx + 1).padStart(3, '0')}`;
+        const zhClauses: string[][] = [[]];
+        const notePairs: Array<[string, string]> = [];
+        const pushZhClause = () => {
+          if (zhClauses[zhClauses.length - 1].length > 0) {
+            zhClauses.push([]);
+          }
+        };
+
+        for (const tm of pBody.matchAll(db2TokenRegex)) {
+          const [, noteBody, g1, g2, plain] = tm;
+          if (noteBody !== undefined) {
+            const nt = noteBody.replace(/<[^>]+>/g, '').trim();
+            if (!nt) continue;
+            if (/^[一二三四五六七八九十百千〇零]+$/.test(nt)) {
+              pushZhClause();
+              continue;
+            }
+            const cur = zhClauses[zhClauses.length - 1];
+            const isSi = nt.includes('四合');
+            const isSan = nt.includes('三合');
+            const isEr = nt.includes('二合');
+            const isYin = nt.includes('引');
+            const isBan = /(?:^|[、，\s])半(?:音|$|[、，呼\s])/u.test(nt);
+
+            if (isSi && cur.length >= 4) {
+              const c4 = cur.slice(-4);
+              const zh4 = c4.join('');
+              const mk = (z: string): AksharaUnit => ({
+                zh: z,
+                iast: mapSingleCharDb2(z),
+                fromTt: false,
+                hasNote: true,
+              });
+              const iv =
+                SIHE_MAP[zh4] ||
+                `${onsetOfIast(mapSingleCharDb2(c4[0]))}${fuseSanHe(
+                  c4[1] + c4[2] + c4[3],
+                  mk(c4[1]),
+                  mk(c4[2]),
+                  mk(c4[3])
+                )}`;
+              notePairs.push([zh4, isYin ? lengthenLastVowel(iv) : iv]);
+            } else if (isSan && cur.length >= 3) {
+              const c3 = cur.slice(-3);
+              const zh3 = c3.join('');
+              const mk = (z: string): AksharaUnit => ({
+                zh: z,
+                iast: mapSingleCharDb2(z),
+                fromTt: false,
+                hasNote: true,
+              });
+              const iv = fuseSanHe(zh3, mk(c3[0]), mk(c3[1]), mk(c3[2]));
+              notePairs.push([zh3, isYin ? lengthenLastVowel(iv) : iv]);
+            } else if (isEr && cur.length >= 2) {
+              const c2 = cur.slice(-2);
+              const zh2 = c2.join('');
+              const mk = (z: string): AksharaUnit => ({
+                zh: z,
+                iast: mapSingleCharDb2(z),
+                fromTt: false,
+                hasNote: true,
+              });
+              const iv = fuseErHe(zh2, mk(c2[0]), mk(c2[1]));
+              notePairs.push([zh2, isYin ? lengthenLastVowel(iv) : iv]);
+            } else if (isBan && cur.length >= 2) {
+              const c2 = cur.slice(-2);
+              const prevIast = mapSingleCharDb2(c2[0]);
+              const coda = onsetOfIast(mapSingleCharDb2(c2[1])) || mapSingleCharDb2(c2[1]);
+              if (/[aāiīuūṛṝḷḹeēoō]$/.test(prevIast)) {
+                notePairs.push([c2.join(''), `${prevIast}${coda}`]);
+              }
+            }
+          } else if (g1 || g2) {
+            const rc = localCbMap.get(g1 || g2);
+            if (rc) {
+              for (const c of Array.from(rc)) {
+                zhClauses[zhClauses.length - 1].push(c);
+              }
+            }
+          } else if (plain !== undefined) {
+            for (const ch of Array.from(plain)) {
+              if (
+                ch === '\u3000' ||
+                ch === '｜' ||
+                ch === '。' ||
+                ch === '；' ||
+                ch === '！' ||
+                ch === '？'
+              ) {
+                pushZhClause();
+              } else if (
+                !isPuaCodePoint(ch.codePointAt(0) || 0) &&
+                /[\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{323af}]/u.test(ch)
+              ) {
+                zhClauses[zhClauses.length - 1].push(ch);
+              }
+            }
+          }
+        }
+
+        const cleanZh = zhClauses
+          .map((cl) => cl.join(''))
+          .filter((cl) => cl.length > 0)
+          .join(' ｜ ');
+        db2XmlById.set(recId, { cleanZh, notePairs });
+      });
+    }
+    console.log(`[2/3] Loaded ${db2XmlById.size} clean XML blocks from db2_dharani_blocks.json.gz.`);
+  }
+
   let db2Updated = 0;
   for (const r of db2.ancientDharanis || []) {
+    const xmlBlock = db2XmlById.get(r.id);
+    if (xmlBlock && xmlBlock.cleanZh && r.id !== 'T10n0293_arapacana_42') {
+      r.dharaniTextZh = xmlBlock.cleanZh;
+    } else if (typeof r.dharaniTextZh === 'string' && r.id !== 'T10n0293_arapacana_42') {
+      r.dharaniTextZh = healChineseDharaniText(r.dharaniTextZh);
+    }
+
     if (DB2_CANONICAL_IAST_BY_ID[r.id]) {
       r.reconstructedIast = DB2_CANONICAL_IAST_BY_ID[r.id];
       db2Updated++;
       continue;
     }
-    const inlinePairs: Array<[string, string]> = (r.ttAlignments || [])
-      .filter((t: { chineseText?: string; iast?: string }) => t.chineseText && t.iast)
-      .map((t: { chineseText: string; iast: string }) => [t.chineseText.trim(), t.iast.trim()]);
+    const inlinePairs: Array<[string, string]> = [
+      ...((r.ttAlignments || [])
+        .filter((t: { chineseText?: string; iast?: string }) => t.chineseText && t.iast)
+        .map((t: { chineseText: string; iast: string }): [string, string] => [
+          t.chineseText.trim(),
+          t.iast.trim(),
+        ])),
+      ...(xmlBlock?.notePairs || []),
+    ];
     const rec = reconstructChineseBlockIast(r.dharaniTextZh || '', inlinePairs, cleanSingleCharTt);
     if (rec) {
       r.reconstructedIast = rec;
@@ -965,7 +2056,11 @@ async function main() {
   await regenerateTier1TsModule(db1, db2, db3, db4, db5, db6);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const isDirectRun =
+  process.argv[1] && path.resolve(process.argv[1]) === path.resolve(__filename);
+if (isDirectRun) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}

@@ -304,10 +304,9 @@ const FANGSHAN_WORKS_SPEC = [
 
 function tokenizeFangshanDharaniBlock(pInnerXml, charDeclMap, gaijiMap) {
   const tokens = [];
-  const sanitizedInnerXml = String(pInnerXml || '').replace(
-    /<(?:lb|pb|anchor|milestone|caesura|space)\b[^>]*\/?>/gi,
-    ' '
-  );
+  const sanitizedInnerXml = String(pInnerXml || '')
+    .replace(/[ \t\r\n]*<(?:lb|pb|anchor|milestone)\b[^>]*\/?>[ \t\r\n]*/gi, '')
+    .replace(/<(?:caesura|space)\b[^>]*\/?>/gi, ' ');
   const tokenRegex =
     /<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<note\s+place="inline"[^>]*>([\s\S]*?)<\/note>|([^\s<>　]+)/g;
   let m;
@@ -397,8 +396,9 @@ function tokenizeFangshanDharaniBlock(pInnerXml, charDeclMap, gaijiMap) {
     }
   }
 
-  // Plain Chinese text with <note> and sa-Sidd stripped, #CB* resolved
+  // Plain Chinese text with <note> and sa-Sidd stripped, #CB* resolved, and <lb/>/<pb/> line wraps joined
   const noNotesOrSidd = pInnerXml
+    .replace(/[ \t\r\n]*<(?:lb|pb|anchor|milestone)\b[^>]*\/?>[ \t\r\n]*/gi, '')
     .replace(/<cb:t\s+[^>]*xml:lang="sa-Sidd"[^>]*>[\s\S]*?<\/cb:t>/g, '')
     .replace(/<note\b[^>]*>[\s\S]*?<\/note>/g, '');
   const plainChineseText = stripTagsClean(noNotesOrSidd, charDeclMap, gaijiMap);
@@ -790,11 +790,16 @@ function parseAncientDharaniXml(xml, spec, gaijiMap) {
       const inlineNotes = [...pInner.matchAll(/<note\s+place="inline"[^>]*>([\s\S]*?)<\/note>/g)].map((x) =>
         stripTagsClean(x[1], charDeclMap, gaijiMap)
       );
-      const dharaniTextZh = stripTagsClean(
-        pInner.replace(/<note\b[^>]*>[\s\S]*?<\/note>/g, ''),
-        charDeclMap,
-        gaijiMap
-      );
+      const pNoLineWraps = pInner
+        .replace(/[ \t\r\n]*<(?:lb|pb|anchor|milestone)\b[^>]*\/?>[ \t\r\n]*/gi, '')
+        .replace(/<note\b[^>]*>([\s\S]*?)<\/note>/g, (_, nb) => {
+          const nt = nb.replace(/<[^>]+>/g, '').trim();
+          return /^[一二三四五六七八九十百千〇零]+$/.test(nt) ? ' ｜ ' : '';
+        })
+        .replace(/[\u3000。；！？]+/g, ' ｜ ');
+      const dharaniTextZh = stripTagsClean(pNoLineWraps, charDeclMap, gaijiMap)
+        .replace(/(?:\s*｜\s*)+/g, ' ｜ ')
+        .replace(/^\s*｜\s*|\s*｜\s*$/g, '');
       records.push({
         id: `${workId}_${String(idx).padStart(3, '0')}`,
         workId,

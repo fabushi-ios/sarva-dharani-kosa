@@ -632,6 +632,7 @@ export interface CetomManuscriptRecord {
     lineNum: string;            // e.g. "a1", "a2", "a3"
     transliteration: string;    // e.g. "/// – – – [ru] [ṇi] kā ya – ///"
   }>;
+  normalizedIastLines?: string[];
   sourceUrl: string;            // https://cetom.univie.ac.at/?m-tht3187
   crossRefs?: CanonicalCrossRefs;
 }
