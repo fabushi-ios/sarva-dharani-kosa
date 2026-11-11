@@ -42,13 +42,18 @@ function serializeVerse(v: DharaniVerse, isCurated: boolean): DharaniVerse {
     wordsDesc &&
     'value' in wordsDesc &&
     Array.isArray(wordsDesc.value) &&
-    wordsDesc.value.length > 0;
+    wordsDesc.value.length > 0 &&
+    v.fieldSources?.words !== 'derived-reference';
 
   const classicalDesc = Object.getOwnPropertyDescriptor(v, 'classicalTranslitZh');
-  const hasExplicitClassical = Boolean(classicalDesc && 'value' in classicalDesc && classicalDesc.value);
+  const hasExplicitClassical =
+    Boolean(classicalDesc && 'value' in classicalDesc && classicalDesc.value) &&
+    v.fieldSources?.classicalTranslitZh !== 'derived-reference';
 
   const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
-  const hasExplicitModern = Boolean(modernDesc && 'value' in modernDesc && modernDesc.value);
+  const hasExplicitModern =
+    Boolean(modernDesc && 'value' in modernDesc && modernDesc.value) &&
+    v.fieldSources?.modernPhoneticZh !== 'derived-reference';
 
   const out: Record<string, unknown> = {
     id: v.id,
@@ -57,10 +62,10 @@ function serializeVerse(v: DharaniVerse, isCurated: boolean): DharaniVerse {
     meaningZh: v.meaningZh,
     meaningEn: v.meaningEn,
   };
-  if (hasExplicitClassical || isCurated) {
+  if (hasExplicitClassical) {
     out.classicalTranslitZh = v.classicalTranslitZh;
   }
-  if (hasExplicitModern || isCurated) {
+  if (hasExplicitModern) {
     out.modernPhoneticZh = v.modernPhoneticZh;
   }
   if (v.tangNoteZh) {
@@ -68,6 +73,21 @@ function serializeVerse(v: DharaniVerse, isCurated: boolean): DharaniVerse {
   }
   if (hasExplicitWords) {
     out.words = wordsDesc.value;
+  }
+  if (v.fieldSources) {
+    out.fieldSources =
+      !hasExplicitWords && v.fieldSources.words === 'db-original'
+        ? { ...v.fieldSources, words: 'derived-reference' }
+        : v.fieldSources;
+  }
+  if (v.siddhamOriginal) {
+    out.siddhamOriginal = v.siddhamOriginal;
+  }
+  if (v.devanagariOriginal) {
+    out.devanagariOriginal = v.devanagariOriginal;
+  }
+  if (v.diplomaticOriginal) {
+    out.diplomaticOriginal = v.diplomaticOriginal;
   }
   return out as unknown as DharaniVerse;
 }

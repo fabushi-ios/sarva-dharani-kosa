@@ -1,23 +1,19 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { Volume2, Sparkles } from 'lucide-react';
 import type { DharaniVerse, ScriptVisibilityConfig } from '../../types/kosaTypes';
-import {
-  iastToDevanagari,
-  iastToIpa,
-  iastToSiddham,
-} from '../../core/sanskrit/transliterator';
+import { iastToSiddham } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
-  buildWordGlossesFromIast,
   enrichSyllablesWithPhonetics,
-  formatModernPhoneticWithIastOption,
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 import {
-  normalizeSanskritToken,
-  resolveEffectiveVerseMeaning,
-} from '../../core/sanskrit/sanskritLexicon';
+  resolveEffectiveVerseFields,
+  resolveEffectiveWordGlosses,
+  type EntryFieldOriginState,
+} from '../../core/provenance/fieldProvenance';
 import { sanskritAudioEngine } from '../../services/audio/sanskritAudioEngine';
+import { ProvenanceBadge } from '../common/ProvenanceBadge';
 
 interface VerseBlockProps {
   verse: DharaniVerse;
@@ -42,75 +38,36 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
   onPlayVerse,
   onPlaySyllable,
 }) => {
-  const siddhamText = useMemo(() => iastToSiddham(verse.iast), [verse.iast]);
-  const devanagariText = useMemo(() => iastToDevanagari(verse.iast), [verse.iast]);
-  const ipaText = useMemo(() => iastToIpa(verse.iast), [verse.iast]);
+  const effective = useMemo(
+    () => resolveEffectiveVerseFields(verse, config.showPhoneticIastBracket),
+    [verse, config.showPhoneticIastBracket]
+  );
+
   const syllables = useMemo(() => analyzeSanskritProsody(verse.iast), [verse.iast]);
 
-  // Unified phonological single-source-of-truth for both verse-level and syllable-level phonetics
-  const autoPhonetics = useMemo(
-    () => generateVerseChinesePhonetics(verse.iast, config.showPhoneticIastBracket),
-    [verse.iast, config.showPhoneticIastBracket]
-  );
+  // Check if DB's modernPhoneticZh matches syllable engine output 1-to-1 (so syllable-by-syllable karaoke only runs when it won't alter DB text)
+  const canUseInlineModernSyllables = useMemo(() => {
+    if (effective.modernPhoneticOrigin === 'derived-reference') return true;
+    const autoPlain = generateVerseChinesePhonetics(verse.iast, false).modernPhoneticZh;
+    return (verse.modernPhoneticZh || '').trim() === autoPlain;
+  }, [effective.modernPhoneticOrigin, verse.iast, verse.modernPhoneticZh]);
 
-  const effectiveClassicalZh =
-    verse.classicalTranslitZh && !verse.classicalTranslitZh.startsWith('【GRETIL')
-      ? verse.classicalTranslitZh
-      : autoPhonetics.classicalTranslitZh;
-
-  const effectiveModernPhoneticZh = useMemo(
-    () =>
-      autoPhonetics.modernPhoneticZh ||
-      formatModernPhoneticWithIastOption(
-        verse.modernPhoneticZh || '',
-        verse.iast,
-        config.showPhoneticIastBracket
-      ),
-    [autoPhonetics.modernPhoneticZh, verse.modernPhoneticZh, verse.iast, config.showPhoneticIastBracket]
-  );
-
-  // Guarantee authentic semantic verse translation (preserving curated translations while translating provenance-only verses)
-  const effectiveMeaning = useMemo(
-    () => resolveEffectiveVerseMeaning(verse),
-    [verse]
-  );
-
-  // Guarantee 100% word-by-word coverage for EVERY Sanskrit word in `verse.iast`,
-  // seamlessly merging any curated per-word glosses onto the full untruncated token sequence.
-  const effectiveWords = useMemo(() => {
-    if (!config.showWordGloss) return [];
-    const fullAutoWords = buildWordGlossesFromIast(verse.iast);
-    if (!verse.words || verse.words.length === 0) {
-      return fullAutoWords;
+  const wordsResult = useMemo(() => {
+    if (!config.showWordGloss) {
+      return { words: [], sectionState: 'derived-reference' as EntryFieldOriginState };
     }
-    if (verse.words.length >= fullAutoWords.length) {
-      return verse.words;
+    const res = resolveEffectiveWordGlosses(verse);
+    if (config.hideDerivedReference) {
+      return {
+        words: res.words.filter((w) => w.origin === 'db-original'),
+        sectionState: 'db-original' as EntryFieldOriginState,
+      };
     }
-    const curatedByNorm = new Map<string, (typeof verse.words)[number]>();
-    for (const cw of verse.words) {
-      for (const sub of cw.iast.split(/\s+/)) {
-        const nk = normalizeSanskritToken(sub);
-        if (nk && !curatedByNorm.has(nk)) {
-          curatedByNorm.set(nk, cw);
-        }
-      }
-    }
-    return fullAutoWords.map((aw) => {
-      const nk = normalizeSanskritToken(aw.iast);
-      const curated = nk ? curatedByNorm.get(nk) : undefined;
-      if (curated && !curated.meaningZh.includes('契入本尊三昧总持')) {
-        return {
-          ...aw,
-          stem: curated.stem || aw.stem,
-          grammar: curated.grammar || aw.grammar,
-          transliterationZh: curated.transliterationZh || aw.transliterationZh,
-          meaningZh: curated.meaningZh,
-          meaningEn: curated.meaningEn || aw.meaningEn,
-        };
-      }
-      return aw;
-    });
-  }, [config.showWordGloss, verse.iast, verse.words]);
+    return res;
+  }, [config.showWordGloss, config.hideDerivedReference, verse]);
+
+  const shouldShowLayer = (enabled: boolean, origin: EntryFieldOriginState): boolean =>
+    enabled && (!config.hideDerivedReference || origin !== 'derived-reference');
 
   // Enrich each syllable with full inter-syllable Sandhi, Abhinidhāna, Parasavarṇa & Samāsa context
   const enrichedSyllables = useMemo(
@@ -295,11 +252,52 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         </>
       )}
 
+      {/* 若数据库收录藏文/尼瓦尔/婆罗谜等外交原貌底本，直接原貌呈现并标明原典原载 */}
+      {verse.diplomaticOriginal && (
+        <div className="script-row is-original-row">
+          <span className="script-label" style={{ color: 'var(--accent-lapis)' }}>
+            <span>写本原貌</span>
+            <ProvenanceBadge
+              state="db-original"
+              compact
+              customTooltip="【库藏原文】此行为原数据库收录之藏文/尼瓦尔/西域写卷外交释读原文。"
+            />
+          </span>
+          <div
+            className="script-content-iast"
+            style={{
+              padding: '0.28rem 0.62rem',
+              background: 'var(--accent-lapis-soft)',
+              borderRadius: 'var(--radius-xs)',
+              borderLeft: '3.5px solid var(--accent-lapis)',
+            }}
+          >
+            {verse.diplomaticOriginal}
+          </div>
+        </div>
+      )}
+
       {/* Parallel Multi-Script & Chinese Phonetic / Classical Transliteration Alignment */}
-      {config.showSiddham && (
-        <div className="script-row">
-          <span className="script-label">悉昙梵字</span>
-          {isVersePlaying && enrichedSyllables.length > 0 ? (
+      {shouldShowLayer(config.showSiddham, effective.siddhamOrigin) && (
+        <div
+          className={`script-row ${
+            effective.siddhamOrigin === 'db-original' ? 'is-original-row' : 'is-reference-row'
+          }`}
+        >
+          <span className="script-label">
+            <span>悉昙梵字</span>
+            <ProvenanceBadge
+              state={effective.siddhamOrigin}
+              field="siddham"
+              compact
+              customLabel={
+                effective.siddhamOrigin === 'db-original' ? '● 原典原载' : '◇ 转写参考'
+              }
+            />
+          </span>
+          {isVersePlaying &&
+          enrichedSyllables.length > 0 &&
+          effective.siddhamOrigin === 'derived-reference' ? (
             <div className="script-content-siddham inline-syl-strip">
               {enrichedSyllables.map((syl) => {
                 const isSpoken = effectiveActiveSylIndex === syl.index;
@@ -318,15 +316,31 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-siddham">{siddhamText}</div>
+            <div className="script-content-siddham">{effective.siddhamText}</div>
           )}
         </div>
       )}
 
-      {config.showDevanagari && (
-        <div className="script-row">
-          <span className="script-label">天城梵文</span>
-          {isVersePlaying && enrichedSyllables.length > 0 ? (
+      {shouldShowLayer(config.showDevanagari, effective.devanagariOrigin) && (
+        <div
+          className={`script-row ${
+            effective.devanagariOrigin === 'db-original' ? 'is-original-row' : 'is-reference-row'
+          }`}
+        >
+          <span className="script-label">
+            <span>天城梵文</span>
+            <ProvenanceBadge
+              state={effective.devanagariOrigin}
+              field="devanagari"
+              compact
+              customLabel={
+                effective.devanagariOrigin === 'db-original' ? '● 原典原载' : '◇ 转写参考'
+              }
+            />
+          </span>
+          {isVersePlaying &&
+          enrichedSyllables.length > 0 &&
+          effective.devanagariOrigin === 'derived-reference' ? (
             <div className="script-content-devanagari inline-syl-strip">
               {enrichedSyllables.map((syl) => {
                 const isSpoken = effectiveActiveSylIndex === syl.index;
@@ -345,14 +359,28 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-devanagari">{devanagariText}</div>
+            <div className="script-content-devanagari">{effective.devanagariText}</div>
           )}
         </div>
       )}
 
-      {config.showIast && (
-        <div className="script-row">
-          <span className="script-label">梵文 IAST</span>
+      {shouldShowLayer(config.showIast, effective.iastOrigin) && (
+        <div
+          className={`script-row ${
+            effective.iastOrigin === 'db-original' ? 'is-original-row' : 'is-reference-row'
+          }`}
+        >
+          <span className="script-label">
+            <span>梵文 IAST</span>
+            <ProvenanceBadge
+              state={effective.iastOrigin}
+              field="iast"
+              compact
+              customLabel={
+                effective.iastOrigin === 'db-original' ? '● 原典原载' : '◇ 重构参考'
+              }
+            />
+          </span>
           {isVersePlaying && enrichedSyllables.length > 0 ? (
             <div className="script-content-iast inline-syl-strip">
               {enrichedSyllables.map((syl) => {
@@ -373,18 +401,31 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-iast">{verse.iast}</div>
+            <div className="script-content-iast">{effective.iastText}</div>
           )}
         </div>
       )}
 
-      {/* 直接在梵文下方平行对齐展示「梵音拼读参考」与「古汉语音译」，跟读时逐音节同步高亮 */}
-      {config.showModernPhoneticZh && (
-        <div className="script-row">
+      {/* 梵音拼读：若数据库已有梵音拼读则保留原文并标「原典原载」；仅在数据库缺失时才处理生成并标「处理参考」 */}
+      {shouldShowLayer(config.showModernPhoneticZh, effective.modernPhoneticOrigin) && (
+        <div
+          className={`script-row ${
+            effective.modernPhoneticOrigin === 'db-original'
+              ? 'is-original-row'
+              : 'is-reference-row'
+          }`}
+        >
           <span className="script-label" style={{ color: 'var(--accent-jade)' }}>
-            梵音拼读参考
+            <span>
+              {effective.modernPhoneticOrigin === 'db-original' ? '梵音拼读' : '梵音拼读参考'}
+            </span>
+            <ProvenanceBadge
+              state={effective.modernPhoneticOrigin}
+              field="modernPhoneticZh"
+              compact
+            />
           </span>
-          {isVersePlaying && enrichedSyllables.length > 0 ? (
+          {isVersePlaying && enrichedSyllables.length > 0 && canUseInlineModernSyllables ? (
             <div className="script-content-phonetic-zh inline-syl-strip">
               {enrichedSyllables.map((syl, sIdx) => {
                 const isSpoken = effectiveActiveSylIndex === syl.index;
@@ -423,17 +464,34 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-phonetic-zh">{effectiveModernPhoneticZh}</div>
+            <div className="script-content-phonetic-zh">{effective.modernPhoneticZh}</div>
           )}
         </div>
       )}
 
-      {config.showClassicalZh && (
-        <div className="script-row">
+      {shouldShowLayer(config.showClassicalZh, effective.classicalTranslitOrigin) && (
+        <div
+          className={`script-row ${
+            effective.classicalTranslitOrigin === 'db-original'
+              ? 'is-original-row'
+              : 'is-reference-row'
+          }`}
+        >
           <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
-            古汉语音译
+            <span>
+              {effective.classicalTranslitOrigin === 'db-original'
+                ? '古汉语音译'
+                : '古音拟音参考'}
+            </span>
+            <ProvenanceBadge
+              state={effective.classicalTranslitOrigin}
+              field="classicalTranslitZh"
+              compact
+            />
           </span>
-          {isVersePlaying && enrichedSyllables.length > 0 ? (
+          {isVersePlaying &&
+          enrichedSyllables.length > 0 &&
+          effective.classicalTranslitOrigin === 'derived-reference' ? (
             <div className="script-content-classical-zh inline-syl-strip">
               {enrichedSyllables.map((syl) => {
                 const isSpoken = effectiveActiveSylIndex === syl.index;
@@ -444,7 +502,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                     key={`${verse.id}-cls-${syl.index}`}
                     className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
                     onClick={() => onPlaySyllable(syl.iast)}
-                    title={`梵音: ${syl.iast} · 古汉语: ${syl.classicalZh}`}
+                    title={`梵音: ${syl.iast} · 古汉语参考: ${syl.classicalZh}`}
                   >
                     {syl.classicalZh}
                   </span>
@@ -452,100 +510,173 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-classical-zh">{effectiveClassicalZh}</div>
+            <div className="script-content-classical-zh">{effective.classicalTranslitZh}</div>
           )}
         </div>
       )}
 
-      {config.showIpa && (
-        <div className="script-row">
-          <span className="script-label">国际音标</span>
-          <div className="script-content-ipa">/{ipaText}/</div>
+      {shouldShowLayer(config.showIpa, effective.ipaOrigin) && (
+        <div className="script-row is-reference-row">
+          <span className="script-label">
+            <span>国际音标</span>
+            <ProvenanceBadge state={effective.ipaOrigin} field="ipa" compact />
+          </span>
+          <div className="script-content-ipa">/{effective.ipaText}/</div>
         </div>
       )}
 
       {/* 逐音节五层对齐卡：摩多轻重 + 梵文 IAST + 梵音拼读 + 古汉语 + IPA */}
-      {config.showProsodyMeter && enrichedSyllables.length > 0 && (
-        <div>
-          <div
-            style={{
-              fontSize: '0.72rem',
-              color: 'var(--text-muted)',
-              marginBottom: '0.35rem',
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-            }}
-          >
-            <span>
-              <strong>逐音节三体对照跟读卡</strong>（每格自上而下：轻重拍 · <strong>梵文</strong> ·{' '}
-              <strong style={{ color: 'var(--accent-jade)' }}>梵音拼读</strong> ·{' '}
-              <strong style={{ color: 'var(--accent-vermilion)' }}>古汉语</strong> · IPA，点击单字发声）
-            </span>
-            <span>
-              <strong style={{ color: 'var(--accent-vermilion)' }}>— Guru 重音 (2拍)</strong> ·{' '}
-              <strong style={{ color: 'var(--accent-jade)' }}>⌣ Laghu 轻音 (1拍)</strong>
-            </span>
+      {shouldShowLayer(config.showProsodyMeter, effective.prosodyOrigin) &&
+        enrichedSyllables.length > 0 && (
+          <div>
+            <div
+              style={{
+                fontSize: '0.72rem',
+                color: 'var(--text-muted)',
+                marginBottom: '0.35rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '0.5rem',
+              }}
+            >
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                <strong>逐音节三体对照跟读卡</strong>
+                <ProvenanceBadge
+                  state={effective.prosodyOrigin}
+                  field="prosody"
+                  compact
+                  customLabel="◇ 声韵切分·参考"
+                />
+                <span>
+                  （每格自上而下：轻重拍 · <strong>梵文</strong> ·{' '}
+                  <strong style={{ color: 'var(--accent-jade)' }}>拼读参考</strong> ·{' '}
+                  <strong style={{ color: 'var(--accent-vermilion)' }}>古音参考</strong> · IPA，点击单字发声）
+                </span>
+              </span>
+              <span>
+                <strong style={{ color: 'var(--accent-vermilion)' }}>— Guru 重音 (2拍)</strong> ·{' '}
+                <strong style={{ color: 'var(--accent-jade)' }}>⌣ Laghu 轻音 (1拍)</strong>
+              </span>
+            </div>
+            <div className="prosody-syllables-strip">
+              {enrichedSyllables.map((syl) => {
+                const isSpoken = isVersePlaying && effectiveActiveSylIndex === syl.index;
+                const isPast =
+                  isVersePlaying &&
+                  effectiveActiveSylIndex !== null &&
+                  syl.index < effectiveActiveSylIndex;
+                return (
+                  <button
+                    key={`${verse.id}-syl-${syl.index}`}
+                    ref={isSpoken ? activePillRef : null}
+                    type="button"
+                    className={`syllable-pill ${syl.weight} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    style={
+                      syl.index > 1 && syl.isWordStart
+                        ? { marginLeft: '0.32rem' }
+                        : undefined
+                    }
+                    onClick={() => onPlaySyllable(syl.iast)}
+                    title={`梵音: ${syl.iast} [${syl.ipa}]${syl.wordIast ? ` (所属词: ${syl.wordIast})` : ''} | 拼读参考: ${syl.modernZh} | 古音参考: ${syl.classicalZh} | ${
+                      syl.weight === 'guru' ? 'Guru 重音 (2摩多)' : 'Laghu 轻音 (1摩多)'
+                    }`}
+                  >
+                    <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
+                    <span className="syl-iast">{syl.iast}</span>
+                    <span className="syl-modern-zh" title="单音节拼读参考">
+                      {syl.modernZh}
+                    </span>
+                    <span className="syl-tang-zh" title="单音节古音参考">
+                      {syl.classicalZh}
+                    </span>
+                    <span className="syl-ipa">[{syl.ipa}]</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div className="prosody-syllables-strip">
-            {enrichedSyllables.map((syl) => {
-              const isSpoken = isVersePlaying && effectiveActiveSylIndex === syl.index;
-              const isPast =
-                isVersePlaying &&
-                effectiveActiveSylIndex !== null &&
-                syl.index < effectiveActiveSylIndex;
-              return (
-                <button
-                  key={`${verse.id}-syl-${syl.index}`}
-                  ref={isSpoken ? activePillRef : null}
-                  type="button"
-                  className={`syllable-pill ${syl.weight} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
-                  style={
-                    syl.index > 1 && syl.isWordStart
-                      ? { marginLeft: '0.32rem' }
-                      : undefined
-                  }
-                  onClick={() => onPlaySyllable(syl.iast)}
-                  title={`梵音: ${syl.iast} [${syl.ipa}]${syl.wordIast ? ` (所属词: ${syl.wordIast})` : ''} | 梵音拼读: ${syl.modernZh} | 古汉语: ${syl.classicalZh} | ${
-                    syl.weight === 'guru' ? 'Guru 重音 (2摩多)' : 'Laghu 轻音 (1摩多)'
-                  }`}
-                >
-                  <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
-                  <span className="syl-iast">{syl.iast}</span>
-                  <span className="syl-modern-zh" title="现代梵音拼读">
-                    {syl.modernZh}
-                  </span>
-                  <span className="syl-tang-zh" title="唐宋古汉语音译">
-                    {syl.classicalZh}
-                  </span>
-                  <span className="syl-ipa">[{syl.ipa}]</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+        )}
 
-      {(config.showMeaningZh || config.showMeaningEn) && (
+      {(shouldShowLayer(config.showMeaningZh, effective.meaningZhOrigin) ||
+        shouldShowLayer(config.showMeaningEn, effective.meaningEnOrigin)) && (
         <div className="translit-meaning-grid">
-          {config.showMeaningZh && (
-            <div className="translit-box meaning-zh">
-              <div className="box-mini-label">本句汉文精准意译</div>
-              <div className="box-text-zh">{effectiveMeaning.meaningZh}</div>
+          {shouldShowLayer(config.showMeaningZh, effective.meaningZhOrigin) && (
+            <div
+              className={`translit-box meaning-zh ${
+                effective.meaningZhOrigin === 'db-original'
+                  ? 'is-original-box'
+                  : 'is-reference-box'
+              }`}
+            >
+              <div
+                className="box-mini-label"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.4rem',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span>
+                  {effective.meaningZhOrigin === 'db-original'
+                    ? '本句汉文意译（数据库原载）'
+                    : '本句汉文拟译参考（辞典推导）'}
+                </span>
+                <ProvenanceBadge
+                  state={effective.meaningZhOrigin}
+                  field="meaningZh"
+                  compact
+                  customLabel={
+                    effective.meaningZhOrigin === 'db-original' ? '● 原典原载' : '◇ 拟译参考'
+                  }
+                />
+              </div>
+              <div className="box-text-zh">{effective.meaningZh}</div>
             </div>
           )}
 
-          {config.showMeaningEn && (
-            <div className="translit-box meaning-en">
-              <div className="box-mini-label">Scholarly English Translation</div>
-              <div className="box-text-en">{effectiveMeaning.meaningEn}</div>
+          {shouldShowLayer(config.showMeaningEn, effective.meaningEnOrigin) && (
+            <div
+              className={`translit-box meaning-en ${
+                effective.meaningEnOrigin === 'db-original'
+                  ? 'is-original-box'
+                  : 'is-reference-box'
+              }`}
+            >
+              <div
+                className="box-mini-label"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.4rem',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span>
+                  {effective.meaningEnOrigin === 'db-original'
+                    ? 'English Translation (Source Edition)'
+                    : 'English Gloss Reference (Lexicon Derived)'}
+                </span>
+                <ProvenanceBadge
+                  state={effective.meaningEnOrigin}
+                  field="meaningEn"
+                  compact
+                  customLabel={
+                    effective.meaningEnOrigin === 'db-original' ? '● 原典原载' : '◇ 拟译参考'
+                  }
+                />
+              </div>
+              <div className="box-text-en">{effective.meaningEn}</div>
             </div>
           )}
         </div>
       )}
 
-      {config.showWordGloss && effectiveWords.length > 0 && (
+      {config.showWordGloss && wordsResult.words.length > 0 && (
         <div>
           <div
             style={{
@@ -553,49 +684,71 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               color: 'var(--text-muted)',
               marginBottom: '0.3rem',
               fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.45rem',
+              flexWrap: 'wrap',
             }}
           >
-            逐词词根、古汉语音译与语法格位解析（Pada-ccheda &amp; Vyākaraṇa）：
+            <span>逐词词根、古汉语音译与语法格位解析（Pada-ccheda &amp; Vyākaraṇa）：</span>
+            <ProvenanceBadge state={wordsResult.sectionState} field="words" compact />
           </div>
           <div className="word-gloss-grid">
-            {effectiveWords.map((w, idx) => (
-              <div
-                key={`${verse.id}-w-${idx}`}
-                className="word-gloss-card"
-                onClick={() => onPlaySyllable(w.iast)}
-                style={{ cursor: 'pointer' }}
-                title="点击听取该梵文词发音"
-              >
-                <div className="wg-top">
-                  <span className="wg-iast">{w.iast}</span>
-                  {w.grammar && <span className="wg-grammar">{w.grammar}</span>}
+            {wordsResult.words.map((w, idx) => {
+              const wordOrigin = w.origin || 'db-original';
+              return (
+                <div
+                  key={`${verse.id}-w-${idx}`}
+                  className={`word-gloss-card ${
+                    wordOrigin === 'db-original' ? 'is-original-card' : 'is-reference-card'
+                  }`}
+                  onClick={() => onPlaySyllable(w.iast)}
+                  style={{ cursor: 'pointer' }}
+                  title="点击听取该梵文词发音"
+                >
+                  <div className="wg-top">
+                    <span className="wg-iast">{w.iast}</span>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', flexWrap: 'wrap' }}>
+                      {w.grammar && <span className="wg-grammar">{w.grammar}</span>}
+                      <ProvenanceBadge
+                        state={wordOrigin}
+                        compact
+                        customLabel={wordOrigin === 'db-original' ? '● 原载' : '◇ 参考'}
+                        customTooltip={
+                          wordOrigin === 'db-original'
+                            ? '【库藏原文】此词释义为数据库原载解析。'
+                            : '【处理参考】原数据库未单列此词，由系统分词检索梵汉辞典自动生成，仅供参考。'
+                        }
+                      />
+                    </div>
+                  </div>
+                  {w.stem && (
+                    <div
+                      style={{
+                        fontSize: '0.68rem',
+                        color: 'var(--text-muted)',
+                        fontFamily: 'var(--font-iast)',
+                      }}
+                    >
+                      词干/词根：{w.stem}
+                    </div>
+                  )}
+                  <div className="wg-translit">古汉语：{w.transliterationZh}</div>
+                  <div className="wg-meaning">释义：{w.meaningZh}</div>
+                  {w.meaningEn && (
+                    <div
+                      style={{
+                        fontSize: '0.72rem',
+                        color: 'var(--text-muted)',
+                        fontFamily: 'var(--font-iast)',
+                      }}
+                    >
+                      {w.meaningEn}
+                    </div>
+                  )}
                 </div>
-                {w.stem && (
-                  <div
-                    style={{
-                      fontSize: '0.68rem',
-                      color: 'var(--text-muted)',
-                      fontFamily: 'var(--font-iast)',
-                    }}
-                  >
-                    词干/词根：{w.stem}
-                  </div>
-                )}
-                <div className="wg-translit">古汉语：{w.transliterationZh}</div>
-                <div className="wg-meaning">释义：{w.meaningZh}</div>
-                {w.meaningEn && (
-                  <div
-                    style={{
-                      fontSize: '0.72rem',
-                      color: 'var(--text-muted)',
-                      fontFamily: 'var(--font-iast)',
-                    }}
-                  >
-                    {w.meaningEn}
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

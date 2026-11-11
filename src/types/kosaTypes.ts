@@ -20,6 +20,22 @@ export interface CategoryMeta {
   descriptionZh: string;
 }
 
+export type FieldOrigin = 'db-original' | 'derived-reference';
+
+export type VerseTrackableField =
+  | 'siddham'
+  | 'devanagari'
+  | 'iast'
+  | 'modernPhoneticZh'
+  | 'classicalTranslitZh'
+  | 'ipa'
+  | 'prosody'
+  | 'meaningZh'
+  | 'meaningEn'
+  | 'words';
+
+export type VerseFieldSources = Partial<Record<VerseTrackableField, FieldOrigin>>;
+
 export interface WordGloss {
   iast: string;
   stem?: string;
@@ -27,6 +43,7 @@ export interface WordGloss {
   transliterationZh: string;
   meaningZh: string;
   meaningEn?: string;
+  origin?: FieldOrigin;
 }
 
 export interface DharaniVerse {
@@ -39,6 +56,14 @@ export interface DharaniVerse {
   meaningEn: string;
   tangNoteZh?: string; // 唐代原典夹注（如不空译本本尊/声调注音）
   words: WordGloss[];
+  /** 明确记录每个字段来自「原数据库已有内容 (db-original)」还是「系统处理推导参考 (derived-reference)」 */
+  fieldSources?: VerseFieldSources;
+  /** 若原数据库本身收录悉昙梵字（如 CBETA #SD-*），完整保留原字，不做二次覆盖转写 */
+  siddhamOriginal?: string;
+  /** 若原数据库本身收录天城体梵文，完整保留原文，不做二次覆盖转写 */
+  devanagariOriginal?: string;
+  /** 若原数据库收录藏文/尼瓦尔/婆罗谜等外交原貌文本，保留备查 */
+  diplomaticOriginal?: string;
 }
 
 export interface AuthoritativeProvenance {
@@ -88,10 +113,11 @@ export interface ScriptVisibilityConfig {
   showProsodyMeter: boolean;
   showClassicalZh: boolean;
   showModernPhoneticZh: boolean;
-  showPhoneticIastBracket: boolean; // 梵音拼读参考是否开启括号 (IAST) 对照
+  showPhoneticIastBracket: boolean; // 梵音拼读是否开启括号 (IAST) 对照
   showMeaningZh: boolean;
   showMeaningEn: boolean;
   showWordGloss: boolean;
+  hideDerivedReference?: boolean;   // 仅显示数据库原有内容（隐藏系统处理生成的参考层）
 }
 
 export type ActiveWorkspaceTab =

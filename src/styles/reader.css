@@ -346,8 +346,12 @@
 }
 
 .script-label {
-  width: 88px;
+  width: 114px;
   flex-shrink: 0;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -682,3 +686,154 @@
   color: var(--text-secondary);
   line-height: 1.3;
 }
+
+/* ==========================================================================
+   Field Provenance Badges & Original vs. Derived-Reference Visual Distinction
+   ========================================================================== */
+.prov-origin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.22rem;
+  padding: 0.1rem 0.44rem;
+  border-radius: 4px;
+  font-size: 0.66rem;
+  line-height: 1.25;
+  font-family: var(--font-zh-sans);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: help;
+}
+
+.prov-origin-badge.is-compact {
+  padding: 0.07rem 0.36rem;
+  font-size: 0.62rem;
+}
+
+/* 数据库原有内容：朱砂实线印章标 */
+.prov-origin-badge.is-original {
+  background: var(--accent-vermilion-soft);
+  color: var(--accent-vermilion);
+  border: 1px solid var(--accent-vermilion-border);
+  font-weight: 700;
+}
+
+/* 系统推导生成内容：泥金虚线参考标 */
+.prov-origin-badge.is-reference {
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  border: 1px dashed var(--accent-gold);
+  font-weight: 600;
+}
+
+/* 部分原载+部分补全参考 */
+.prov-origin-badge.is-mixed {
+  background: var(--accent-lapis-soft);
+  color: var(--accent-lapis);
+  border: 1px dashed var(--accent-lapis-border);
+  font-weight: 600;
+}
+
+/* 容器边框视觉区分：原文用实线重边框，处理参考用虚线边框 */
+.script-row.is-original-row .script-content-phonetic-zh {
+  border-left: 3.5px solid var(--accent-jade);
+}
+
+.script-row.is-reference-row .script-content-phonetic-zh {
+  border: 1px dashed var(--accent-gold-border);
+  border-left: 3px dashed var(--accent-jade);
+  background: var(--bg-elevated);
+}
+
+.script-row.is-original-row .script-content-classical-zh {
+  border-left: 3.5px solid var(--accent-vermilion);
+}
+
+.script-row.is-reference-row .script-content-classical-zh {
+  border: 1px dashed var(--accent-gold-border);
+  border-left: 3px dashed var(--accent-vermilion);
+  background: var(--bg-elevated);
+}
+
+.script-row.is-reference-row .script-content-iast {
+  padding: 0.24rem 0.55rem;
+  border-radius: var(--radius-xs);
+  border-left: 3px dashed var(--accent-gold);
+  background: var(--bg-elevated);
+}
+
+.translit-box.is-original-box {
+  border-left-width: 3.5px;
+  border-left-style: solid;
+}
+
+.translit-box.is-reference-box {
+  border: 1px dashed var(--accent-gold-border);
+  border-left: 3px dashed var(--accent-gold);
+}
+
+.word-gloss-card.is-original-card {
+  border-left: 3px solid var(--accent-vermilion);
+}
+
+.word-gloss-card.is-reference-card {
+  border: 1px dashed var(--border-strong);
+}
+
+.provenance-legend-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-left: 3.5px solid var(--accent-lapis);
+  font-size: 0.78rem;
+}
+
+.provenance-legend-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.provenance-legend-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.2rem;
+  align-items: center;
+  line-height: 1.5;
+}
+
+.provenance-field-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.08rem 0.42rem;
+  margin-right: 0.28rem;
+  margin-bottom: 0.16rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+}
+
+.provenance-field-pill.is-original {
+  background: var(--accent-vermilion-soft);
+  color: var(--accent-vermilion);
+  border: 1px solid var(--accent-vermilion-border);
+  font-weight: 700;
+}
+
+.provenance-field-pill.is-reference {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+  border: 1px dashed var(--border-strong);
+}
+
+.provenance-field-pill.is-mixed {
+  background: var(--accent-lapis-soft);
+  color: var(--accent-lapis);
+  border: 1px dashed var(--accent-lapis-border);
+  font-weight: 600;
+}
+

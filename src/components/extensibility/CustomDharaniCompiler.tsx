@@ -10,9 +10,11 @@ import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
   buildWordGlossesFromIast,
   enrichSyllablesWithPhonetics,
+  formatModernPhoneticWithIastOption,
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
+import { ProvenanceBadge } from '../common/ProvenanceBadge';
 
 interface CustomDharaniCompilerProps {
   customEntries: DharaniEntry[];
@@ -61,6 +63,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
   const [iastInput, setIastInput] = useState(
     'oṃ tāre tuttāre ture mama āyuḥpuṇyajñānapuṣṭiṃ kuru svāhā ||'
   );
+  const [modernPhoneticInput, setModernPhoneticInput] = useState('');
   const [translitZh, setTranslitZh] = useState('');
   const [meaningZh, setMeaningZh] = useState(
     '嗡！圣救度母啊！祈请令我寿命、福德与般若智慧皆悉圆满增长，吉祥成就！'
@@ -77,7 +80,16 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
     [iastInput, showBracketIast]
   );
 
-  const effectiveClassicalZh = translitZh.trim() || autoPhonetics.classicalTranslitZh;
+  const hasCustomModernPhonetic = modernPhoneticInput.trim().length > 0;
+  const hasCustomClassicalZh = translitZh.trim().length > 0;
+  const hasCustomMeaningZh = meaningZh.trim().length > 0;
+
+  const effectiveModernPhoneticZh = hasCustomModernPhonetic
+    ? formatModernPhoneticWithIastOption(modernPhoneticInput.trim(), iastInput, showBracketIast)
+    : autoPhonetics.modernPhoneticZh;
+  const effectiveClassicalZh = hasCustomClassicalZh
+    ? translitZh.trim()
+    : autoPhonetics.classicalTranslitZh;
 
   const handleSaveToCorpus = (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +97,9 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
 
     const cleanIast = iastInput.trim();
     const autoMeaning = translateSanskritVerse(cleanIast);
+    const savedModern = hasCustomModernPhonetic
+      ? modernPhoneticInput.trim()
+      : generateVerseChinesePhonetics(cleanIast, false).modernPhoneticZh;
 
     const newEntry: DharaniEntry = {
       id: `custom-${Date.now()}`,
@@ -96,12 +111,12 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
       translatorZh: '梵咒实时编译器生成',
       sutraSourceZh: '用户模块化扩展语料',
       deityZh: deityZh.trim() || '诸佛菩萨总持',
-      meritsAndSummaryZh: meaningZh.trim() || autoMeaning.meaningZh,
-      recitationTipsZh: '由系统自动根据 IAST 元音长短与复辅音规则计算摩多轻重律。',
+      meritsAndSummaryZh: hasCustomMeaningZh ? meaningZh.trim() : autoMeaning.meaningZh,
+      recitationTipsZh: '已录入原项保留原载内容，未填字段由系统自动计算并标注为处理参考。',
       provenance: {
         sourceType: 'Academic-Critical-Edition',
         editionCitation: 'Compiled via Sarva-Dhāraṇī-Kośa Live Sanskrit Phonetic Compiler',
-        manuscriptNotesZh: '用户本地持久化模块，可随时导出为标准 JSON。',
+        manuscriptNotesZh: '用户本地持久化模块，明确区分录入原文与编译器自动推导参考项。',
       },
       verses: [
         {
@@ -109,10 +124,22 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
           index: 1,
           iast: cleanIast,
           classicalTranslitZh: effectiveClassicalZh,
-          modernPhoneticZh: autoPhonetics.modernPhoneticZh,
-          meaningZh: meaningZh.trim() || autoMeaning.meaningZh,
+          modernPhoneticZh: savedModern,
+          meaningZh: hasCustomMeaningZh ? meaningZh.trim() : autoMeaning.meaningZh,
           meaningEn: autoMeaning.meaningEn || 'Custom compiled Sanskrit mantra verse.',
           words: buildWordGlossesFromIast(cleanIast),
+          fieldSources: {
+            siddham: 'derived-reference',
+            devanagari: 'derived-reference',
+            iast: 'db-original',
+            modernPhoneticZh: hasCustomModernPhonetic ? 'db-original' : 'derived-reference',
+            classicalTranslitZh: hasCustomClassicalZh ? 'db-original' : 'derived-reference',
+            ipa: 'derived-reference',
+            prosody: 'derived-reference',
+            meaningZh: hasCustomMeaningZh ? 'db-original' : 'derived-reference',
+            meaningEn: 'derived-reference',
+            words: 'derived-reference',
+          },
         },
       ],
     };
@@ -141,7 +168,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
           <span>梵文陀罗尼实时六体转写编译器与模块化语料扩展台</span>
         </h2>
         <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-          输入任意罗马转写梵文（IAST），系统即时编译为唐代悉昙梵字、梵音拼读参考、天城体、古汉语音译、国际音标（IPA）与摩多轻重律（Guru/Laghu）。
+          输入任意罗马转写梵文（IAST）；若已提供原载拼读或古音译则原样保留（标注「● 库藏原文」），留空项才由系统自动处理推导并标注「◇ 处理参考」。
         </p>
       </div>
 
@@ -156,6 +183,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
               setTitleZh(tpl.titleZh);
               setDeityZh(tpl.deityZh);
               setIastInput(tpl.iast);
+              setModernPhoneticInput('');
               setTranslitZh(tpl.translitZh);
               setMeaningZh(tpl.meaningZh);
             }}
@@ -196,8 +224,23 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
           </div>
 
           <div>
+            <label htmlFor="compiler-modern-phonetic-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
+              原载梵音拼读（若已有拼读则原样保留；留空才由系统拼读处理并标为参考）：
+            </label>
+            <input
+              id="compiler-modern-phonetic-input"
+              type="text"
+              placeholder={autoPhonetics.modernPhoneticZh}
+              className="header-search-input"
+              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              value={modernPhoneticInput}
+              onChange={(e) => setModernPhoneticInput(e.target.value)}
+            />
+          </div>
+
+          <div>
             <label htmlFor="compiler-translit-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              自定义唐宋古汉语音译（留空则由系统自动对音）：
+              自定义唐宋古汉语音译（留空则由系统自动对音并标为参考）：
             </label>
             <input
               id="compiler-translit-input"
@@ -212,7 +255,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
 
           <div>
             <label htmlFor="compiler-meaning-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              汉文意译与功德说明：
+              汉文意译与功德说明（留空则由辞典自动拟译并标为参考）：
             </label>
             <textarea
               id="compiler-meaning-input"
@@ -244,37 +287,59 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
             </button>
           </div>
 
-          <div className="script-row">
-            <span className="script-label">悉昙梵字</span>
+          <div className="script-row is-reference-row">
+            <span className="script-label">
+              <span>悉昙梵字</span>
+              <ProvenanceBadge state="derived-reference" field="siddham" compact customLabel="◇ 转写参考" />
+            </span>
             <div className="script-content-siddham">{siddhamOut}</div>
           </div>
 
-          <div className="script-row">
+          <div className={`script-row ${hasCustomModernPhonetic ? 'is-original-row' : 'is-reference-row'}`}>
             <span className="script-label" style={{ color: 'var(--accent-jade)' }}>
-              梵音拼读参考
+              <span>{hasCustomModernPhonetic ? '梵音拼读' : '梵音拼读参考'}</span>
+              <ProvenanceBadge
+                state={hasCustomModernPhonetic ? 'db-original' : 'derived-reference'}
+                field="modernPhoneticZh"
+                compact
+              />
             </span>
-            <div className="script-content-phonetic-zh">{autoPhonetics.modernPhoneticZh}</div>
+            <div className="script-content-phonetic-zh">{effectiveModernPhoneticZh}</div>
           </div>
 
-          <div className="script-row">
-            <span className="script-label">天城梵文</span>
+          <div className="script-row is-reference-row">
+            <span className="script-label">
+              <span>天城梵文</span>
+              <ProvenanceBadge state="derived-reference" field="devanagari" compact customLabel="◇ 转写参考" />
+            </span>
             <div className="script-content-devanagari">{devanagariOut}</div>
           </div>
 
-          <div className="script-row">
-            <span className="script-label">梵文 IAST</span>
+          <div className="script-row is-original-row">
+            <span className="script-label">
+              <span>梵文 IAST</span>
+              <ProvenanceBadge state="db-original" field="iast" compact />
+            </span>
             <div className="script-content-iast">{iastInput}</div>
           </div>
 
-          <div className="script-row">
+          <div className={`script-row ${hasCustomClassicalZh ? 'is-original-row' : 'is-reference-row'}`}>
             <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
-              古汉语音译
+              <span>古汉语音译</span>
+              <ProvenanceBadge
+                state={hasCustomClassicalZh ? 'db-original' : 'derived-reference'}
+                field="classicalTranslitZh"
+                compact
+              />
             </span>
             <div className="script-content-classical-zh">{effectiveClassicalZh}</div>
           </div>
 
-          <div className="script-row">
-            <span className="script-label">国际音标</span>
+          <div className="script-row is-reference-row">
+            <span className="script-label">
+              <span>国际音标</span>
+              <ProvenanceBadge state="derived-reference" field="ipa" compact />
+            </span>
             <div className="script-content-ipa">/{ipaOut}/</div>
           </div>
 

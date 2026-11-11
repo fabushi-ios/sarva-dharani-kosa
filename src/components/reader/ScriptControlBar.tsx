@@ -16,7 +16,7 @@ const TOGGLE_ITEMS: { key: keyof ScriptVisibilityConfig; label: string }[] = [
   { key: 'showSiddham', label: '悉昙梵字 (Siddhaṃ)' },
   { key: 'showDevanagari', label: '天城体 (Devanāgarī)' },
   { key: 'showIast', label: 'IAST 国际转写' },
-  { key: 'showModernPhoneticZh', label: '梵音拼读参考' },
+  { key: 'showModernPhoneticZh', label: '梵音拼读' },
   { key: 'showPhoneticIastBracket', label: '拼读括号 (IAST)' },
   { key: 'showClassicalZh', label: '古汉语音译' },
   { key: 'showIpa', label: 'IPA 国际音标' },
@@ -69,6 +69,33 @@ export const ScriptControlBar: React.FC<ScriptControlBarProps> = ({
             <span>{item.label}</span>
           </button>
         ))}
+
+        <button
+          id="toggle-script-hideDerivedReference"
+          type="button"
+          className={`script-toggle-pill ${config.hideDerivedReference ? 'on' : ''}`}
+          style={
+            config.hideDerivedReference
+              ? {
+                  background: 'var(--accent-vermilion)',
+                  borderColor: 'var(--accent-vermilion)',
+                  color: '#fff8ee',
+                  fontWeight: 700,
+                }
+              : {
+                  borderStyle: 'dashed',
+                  borderColor: 'var(--accent-vermilion-border)',
+                  color: 'var(--accent-vermilion)',
+                  fontWeight: 600,
+                }
+          }
+          onClick={() => toggleKey('hideDerivedReference')}
+          title="开启后仅显示原数据库固有内容，自动隐藏所有系统处理推导的参考项"
+        >
+          <span>
+            {config.hideDerivedReference ? '● 仅看库藏原文（已隐藏参考）' : '仅看库藏原文'}
+          </span>
+        </button>
       </div>
 
       {hasSiddhamInterlinear && (

@@ -19,15 +19,58 @@ import { buildWordGlossesFromIast } from '../core/sanskrit/phoneticMapper';
 export { DHARANI_CATEGORIES };
 
 function attachLazyWordsIfNeeded(v: DharaniVerse): DharaniVerse {
-  const desc = Object.getOwnPropertyDescriptor(v, 'words');
-  if (desc && desc.get) {
+  const wordsDesc = Object.getOwnPropertyDescriptor(v, 'words');
+  const classicalDesc = Object.getOwnPropertyDescriptor(v, 'classicalTranslitZh');
+  const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
+
+  const hasGetterWords = Boolean(wordsDesc && typeof wordsDesc.get === 'function');
+  const explicitWords =
+    !hasGetterWords && Array.isArray(v.words) && v.words.length > 0 ? v.words : null;
+  const allAutoWords =
+    explicitWords !== null && explicitWords.every((w) => w.origin === 'derived-reference');
+
+  const computedFieldSources: DharaniVerse['fieldSources'] = {
+    iast: v.fieldSources?.iast ?? 'db-original',
+    siddham: v.fieldSources?.siddham ?? (v.siddhamOriginal ? 'db-original' : 'derived-reference'),
+    devanagari:
+      v.fieldSources?.devanagari ?? (v.devanagariOriginal ? 'db-original' : 'derived-reference'),
+    classicalTranslitZh:
+      v.fieldSources?.classicalTranslitZh ??
+      (classicalDesc && 'value' in classicalDesc && classicalDesc.value
+        ? 'db-original'
+        : 'derived-reference'),
+    modernPhoneticZh:
+      v.fieldSources?.modernPhoneticZh ??
+      (modernDesc && 'value' in modernDesc && modernDesc.value
+        ? 'db-original'
+        : 'derived-reference'),
+    ipa: v.fieldSources?.ipa ?? 'derived-reference',
+    prosody: v.fieldSources?.prosody ?? 'derived-reference',
+    meaningZh: v.fieldSources?.meaningZh ?? 'db-original',
+    meaningEn: v.fieldSources?.meaningEn ?? 'db-original',
+    words:
+      v.fieldSources?.words ??
+      (explicitWords && !allAutoWords ? 'db-original' : 'derived-reference'),
+  };
+
+  if (hasGetterWords) {
+    v.fieldSources = computedFieldSources;
     return v;
   }
-  if (v.words && v.words.length > 0) {
-    return v;
+
+  if (explicitWords) {
+    return {
+      ...v,
+      fieldSources: computedFieldSources,
+      words: explicitWords.map((w) => ({
+        ...w,
+        origin: w.origin ?? 'db-original',
+      })),
+    };
   }
+
   let cachedWords: DharaniVerse['words'] | null = null;
-  const clone = { ...v };
+  const clone = { ...v, fieldSources: computedFieldSources };
   Object.defineProperty(clone, 'words', {
     enumerable: true,
     configurable: true,
@@ -50,31 +93,6 @@ const RAW_BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
   ...TWELVE_DATABASES_ADAPTED_DHARANIS,
   ...GRETIL_CANONICAL_DHARANIS,
 ];
-
-function ensureLazyWordsOnVerse(
-  v: DharaniEntry['verses'][number]
-): DharaniEntry['verses'][number] {
-  const desc = Object.getOwnPropertyDescriptor(v, 'words');
-  if (desc && typeof desc.get === 'function') {
-    return v;
-  }
-  if (Array.isArray(v.words) && v.words.length > 0) {
-    return v;
-  }
-  let cachedWords: ReturnType<typeof buildWordGlossesFromIast> | null = null;
-  const clone = { ...v };
-  Object.defineProperty(clone, 'words', {
-    enumerable: true,
-    configurable: true,
-    get() {
-      if (!cachedWords) {
-        cachedWords = buildWordGlossesFromIast(v.iast);
-      }
-      return cachedWords;
-    },
-  });
-  return clone;
-}
 
 export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = RAW_BUILTIN_DHARANI_CORPUS.map(
   (entry) => ({

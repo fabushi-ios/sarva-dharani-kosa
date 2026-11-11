@@ -39,6 +39,18 @@ function buildCompleteMahapratisaraVerses(): DharaniVerse[] {
       meaningEn: sem.meaningEn,
       tangNoteZh: `${sectionTag} · Hidas (2012) 梵文贝叶经校勘本`,
       words: buildWordGlossesFromIast(cleanClause),
+      fieldSources: {
+        iast: 'db-original',
+        siddham: 'derived-reference',
+        devanagari: 'derived-reference',
+        classicalTranslitZh: 'derived-reference',
+        modernPhoneticZh: 'derived-reference',
+        ipa: 'derived-reference',
+        prosody: 'derived-reference',
+        meaningZh: 'derived-reference',
+        meaningEn: 'derived-reference',
+        words: 'derived-reference',
+      },
     };
   });
 }

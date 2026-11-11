@@ -18,6 +18,7 @@ export const DEFAULT_SCRIPT_CONFIG: ScriptVisibilityConfig = {
   showMeaningZh: true,
   showMeaningEn: true,
   showWordGloss: true,
+  hideDerivedReference: false,
 };
 
 export function loadBookmarks(): Set<string> {

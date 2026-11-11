@@ -18,6 +18,7 @@ function makeLazyGretilVerse(params: {
   id: string;
   index: number;
   iast: string;
+  iastOrigin?: 'db-original' | 'derived-reference';
   meaningZh: string;
   meaningEn: string;
   tangNoteZh: string;
@@ -38,6 +39,18 @@ function makeLazyGretilVerse(params: {
     meaningZh: params.meaningZh,
     meaningEn: params.meaningEn,
     tangNoteZh: params.tangNoteZh,
+    fieldSources: {
+      iast: params.iastOrigin || 'db-original',
+      siddham: 'derived-reference',
+      devanagari: 'derived-reference',
+      classicalTranslitZh: 'derived-reference',
+      modernPhoneticZh: 'derived-reference',
+      ipa: 'derived-reference',
+      prosody: 'derived-reference',
+      meaningZh: 'derived-reference',
+      meaningEn: 'derived-reference',
+      words: 'derived-reference',
+    },
   } as DharaniVerse;
 
   Object.defineProperties(verse, {
@@ -136,8 +149,9 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
           .map((l) => cleanAndExpandSanskritMantraIast(l))
           .filter((l) => l.length > 8);
 
+  const usedFallback = baseLines.length === 0;
   const sourceLines = expandGretilLines(
-    baseLines.length > 0 ? baseLines : [`oṃ namo bhagavate ${record.titleSanskrit} svāhā`],
+    !usedFallback ? baseLines : [`oṃ namo bhagavate ${record.titleSanskrit} svāhā`],
     12
   );
 
@@ -148,6 +162,7 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
       id: `${record.id}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
+      iastOrigin: usedFallback ? 'derived-reference' : 'db-original',
       meaningZh: sem.meaningZh,
       meaningEn: sem.meaningEn,
       tangNoteZh: `GRETIL 梵本档案：${record.file}（原典总行数：${record.totalLinesInSource} 行 · 对勘大正藏 ${record.taishoNo}）`,
@@ -157,8 +172,9 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
 
 function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): DharaniVerse[] {
   const expandedLines = expandGretilLines(record.mantraVerses, 12);
+  const usedFallback = expandedLines.length === 0;
   const safeLines =
-    expandedLines.length > 0
+    !usedFallback
       ? expandedLines
       : expandGretilLines([`namo bhagavate | ${record.titleSanskrit} svāhā`], 12);
   return safeLines.map((line, idx) => {
@@ -168,6 +184,7 @@ function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): Dhar
       id: `${record.id}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
+      iastOrigin: usedFallback ? 'derived-reference' : 'db-original',
       meaningZh: sem.meaningZh,
       meaningEn: sem.meaningEn,
       tangNoteZh: `GRETIL 梵文原典档案：${record.file}（全书共 ${record.totalLines} 行）`,

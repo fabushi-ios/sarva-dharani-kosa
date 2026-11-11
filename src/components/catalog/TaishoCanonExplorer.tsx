@@ -135,14 +135,22 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
     const verses: DharaniVerse[] =
       blocks.length > 0
         ? blocks.map((blk) => {
-            const iast = blk.iastText || 'oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā';
+            const hasDbIast = Boolean(blk.iastText && blk.iastText.trim().length > 0);
+            const hasDbClassical = Boolean(blk.text && blk.text.trim().length > 0);
+            const hasDbSiddham = Boolean(
+              blk.siddhamText && /[\u{11580}-\u{115FF}]/u.test(blk.siddhamText)
+            );
+            const iast = hasDbIast
+              ? blk.iastText!.trim()
+              : 'oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā';
             const phonetics = generateVerseChinesePhonetics(iast);
             const sem = translateSanskritVerse(iast);
             return {
               id: `${selectedFile.id}-v-${blk.index}`,
               index: blk.index,
               iast,
-              classicalTranslitZh: blk.text || phonetics.classicalTranslitZh,
+              siddhamOriginal: hasDbSiddham ? blk.siddhamText!.trim() : undefined,
+              classicalTranslitZh: hasDbClassical ? blk.text : phonetics.classicalTranslitZh,
               modernPhoneticZh: phonetics.modernPhoneticZh,
               meaningZh: sem.meaningZh,
               meaningEn: sem.meaningEn,
@@ -151,6 +159,18 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                   ? blk.tangNotes.join('；')
                   : `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段（${selectedFile.translator}）`,
               words: buildWordGlossesFromIast(iast),
+              fieldSources: {
+                siddham: hasDbSiddham ? 'db-original' : 'derived-reference',
+                devanagari: 'derived-reference',
+                iast: hasDbIast ? 'db-original' : 'derived-reference',
+                modernPhoneticZh: 'derived-reference',
+                classicalTranslitZh: hasDbClassical ? 'db-original' : 'derived-reference',
+                ipa: 'derived-reference',
+                prosody: 'derived-reference',
+                meaningZh: 'derived-reference',
+                meaningEn: 'derived-reference',
+                words: 'derived-reference',
+              },
             };
           })
         : [
@@ -167,6 +187,18 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
               meaningEn: translateSanskritVerse('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā').meaningEn,
               tangNoteZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
               words: buildWordGlossesFromIast('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'),
+              fieldSources: {
+                siddham: 'derived-reference',
+                devanagari: 'derived-reference',
+                iast: 'derived-reference',
+                modernPhoneticZh: 'derived-reference',
+                classicalTranslitZh: 'db-original',
+                ipa: 'derived-reference',
+                prosody: 'derived-reference',
+                meaningZh: 'derived-reference',
+                meaningEn: 'derived-reference',
+                words: 'derived-reference',
+              },
             },
           ];
 

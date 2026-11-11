@@ -28,6 +28,10 @@ import { FullDharaniSummaryCard } from './FullDharaniSummaryCard';
 import { VerseBlock } from './VerseBlock';
 import { CbetaSiddhamInterlinearView } from './CbetaSiddhamInterlinearView';
 import { AuthoritativeSourceModal } from './AuthoritativeSourceModal';
+import {
+  summarizeEntryFieldProvenance,
+  TRACKABLE_FIELD_LABELS_ZH,
+} from '../../core/provenance/fieldProvenance';
 
 interface DharaniReaderProps {
   entry: DharaniEntry;
@@ -193,6 +197,12 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   const interlinearTokens = entry.provenance.cbetaInterlinearTokens || [];
   const hasSiddhamInterlinear = interlinearTokens.length > 0;
 
+  const entryProvSummary = useMemo(() => summarizeEntryFieldProvenance(entry), [entry]);
+  const hasDiplomaticWitness = useMemo(
+    () => entry.verses.some((v) => Boolean(v.diplomaticOriginal && v.diplomaticOriginal.trim())),
+    [entry.verses]
+  );
+
   const targetBijaIast = useMemo(() => inferEntryBijaIast(entry), [entry]);
 
   const bijaLexiconEntry =
@@ -256,9 +266,9 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               <span
                 className="deity-pill"
                 style={{
-                  background: 'rgba(139, 92, 246, 0.14)',
-                  color: '#6d28d9',
-                  borderColor: 'rgba(139, 92, 246, 0.35)',
+                  background: 'var(--accent-vermilion-soft)',
+                  color: 'var(--accent-vermilion)',
+                  borderColor: 'var(--accent-vermilion-border)',
                   fontWeight: 700,
                 }}
               >
@@ -594,6 +604,86 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
         readerSubMode={readerSubMode}
         onReaderSubModeChange={setReaderSubMode}
       />
+
+      {readerSubMode === 'verses' && (
+        <section
+          id="entry-provenance-legend-banner"
+          className="provenance-legend-banner"
+          aria-label="库藏原文与处理参考区分说明"
+        >
+          <div className="provenance-legend-top">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
+              <strong style={{ color: 'var(--text-primary)', fontSize: '0.82rem' }}>
+                库藏原文 vs. 处理参考标识：
+              </strong>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.76rem' }}>
+                原数据库已有内容完整保留（实线框 +{' '}
+                <span className="prov-origin-badge is-original is-compact">● 库藏原文</span>
+                ）；仅在原数据库缺失时才作推导补全（虚线框 +{' '}
+                <span className="prov-origin-badge is-reference is-compact">◇ 处理参考</span>）。
+              </span>
+            </div>
+
+            <button
+              id="banner-toggle-hide-reference-btn"
+              type="button"
+              className={`btn-scholarly ${scriptConfig.hideDerivedReference ? 'primary' : ''}`}
+              style={{ padding: '0.22rem 0.6rem', fontSize: '0.74rem' }}
+              onClick={() =>
+                onScriptConfigChange({
+                  ...scriptConfig,
+                  hideDerivedReference: !scriptConfig.hideDerivedReference,
+                })
+              }
+            >
+              <span>
+                {scriptConfig.hideDerivedReference
+                  ? '显示全部（恢复处理参考层）'
+                  : '仅看库藏原文（隐藏参考层）'}
+              </span>
+            </button>
+          </div>
+
+          <div className="provenance-legend-groups">
+            <div>
+              <strong style={{ color: 'var(--accent-vermilion)', marginRight: '0.35rem' }}>
+                ● 本条库藏原文：
+              </strong>
+              {hasDiplomaticWitness && (
+                <span className="provenance-field-pill is-original">写本原貌</span>
+              )}
+              {entryProvSummary.originalFields.map((f) => (
+                <span key={`orig-${f}`} className="provenance-field-pill is-original">
+                  {TRACKABLE_FIELD_LABELS_ZH[f]}
+                </span>
+              ))}
+              {entryProvSummary.mixedFields.map((f) => (
+                <span key={`mix-${f}`} className="provenance-field-pill is-mixed">
+                  {TRACKABLE_FIELD_LABELS_ZH[f]} (部分原载)
+                </span>
+              ))}
+              {!hasDiplomaticWitness &&
+                entryProvSummary.originalFields.length === 0 &&
+                entryProvSummary.mixedFields.length === 0 && (
+                  <span style={{ color: 'var(--text-muted)' }}>（本条为目录提要记录）</span>
+                )}
+            </div>
+
+            {entryProvSummary.derivedFields.length > 0 && (
+              <div>
+                <strong style={{ color: 'var(--accent-gold)', marginRight: '0.35rem' }}>
+                  ◇ 处理推导参考（仅供参考）：
+                </strong>
+                {entryProvSummary.derivedFields.map((f) => (
+                  <span key={`ref-${f}`} className="provenance-field-pill is-reference">
+                    {TRACKABLE_FIELD_LABELS_ZH[f]}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {readerSubMode === 'cbeta-interlinear' && hasSiddhamInterlinear ? (
         <CbetaSiddhamInterlinearView

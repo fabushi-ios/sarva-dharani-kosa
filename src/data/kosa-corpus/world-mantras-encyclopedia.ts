@@ -29,17 +29,38 @@ interface CompactMantraSeed {
 
 function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
   const verses: DharaniVerse[] = seed.verses.map((v, idx) => {
-    const autoPhonetics = generateVerseChinesePhonetics(v.iast, false);
+    const hasDbClassical = Boolean(v.classicalTranslitZh && v.classicalTranslitZh.trim());
+    const hasDbModern = Boolean(v.modernPhoneticZh && v.modernPhoneticZh.trim());
+    const autoPhonetics =
+      !hasDbClassical || !hasDbModern
+        ? generateVerseChinesePhonetics(v.iast, false)
+        : null;
     return {
       id: `${seed.id}-v${idx + 1}`,
       index: idx + 1,
       iast: v.iast,
-      classicalTranslitZh: v.classicalTranslitZh || autoPhonetics.classicalTranslitZh,
-      modernPhoneticZh: v.modernPhoneticZh || autoPhonetics.modernPhoneticZh,
+      classicalTranslitZh: hasDbClassical
+        ? v.classicalTranslitZh!.trim()
+        : autoPhonetics!.classicalTranslitZh,
+      modernPhoneticZh: hasDbModern
+        ? v.modernPhoneticZh!.trim()
+        : autoPhonetics!.modernPhoneticZh,
       meaningZh: v.meaningZh,
       meaningEn: v.meaningEn,
       tangNoteZh: v.tangNoteZh,
       words: buildWordGlossesFromIast(v.iast),
+      fieldSources: {
+        iast: 'db-original',
+        siddham: 'derived-reference',
+        devanagari: 'derived-reference',
+        classicalTranslitZh: hasDbClassical ? 'db-original' : 'derived-reference',
+        modernPhoneticZh: hasDbModern ? 'db-original' : 'derived-reference',
+        ipa: 'derived-reference',
+        prosody: 'derived-reference',
+        meaningZh: 'db-original',
+        meaningEn: 'db-original',
+        words: 'derived-reference',
+      },
     };
   });
 

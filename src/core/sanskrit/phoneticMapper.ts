@@ -1159,43 +1159,93 @@ export function generateVerseChinesePhonetics(
 }
 
 /**
- * Formats a verse's Modern Phonetic Guide (梵音拼读参考) according to the user's
+ * Formats a verse's Modern Phonetic Guide (梵音拼读) according to the user's
  * toggle preference for showing or hiding parenthesized (IAST) annotations.
- * Uses the unified phonological engine when `iastVerse` is provided so verse-level
- * and syllable-level phonetics are guaranteed 100% consistent.
+ *
+ * Strict Provenance Contract:
+ * 1. When `rawModernPhoneticZh` is provided (from the database / source entry),
+ *    ALWAYS preserve the database's Chinese phonetic text verbatim — NEVER overwrite it
+ *    with algorithmic phonetics. Only attach/strip `(iast)` brackets as requested.
+ * 2. ONLY when `rawModernPhoneticZh` is empty/absent does it fall back to
+ *    `generateVerseChinesePhonetics(iastVerse, showIastBracket)`.
  */
 export function formatModernPhoneticWithIastOption(
   rawModernPhoneticZh: string,
   iastVerse: string,
   showIastBracket: boolean
 ): string {
-  if (iastVerse && iastVerse.trim()) {
-    const generated = generateVerseChinesePhonetics(iastVerse, showIastBracket).modernPhoneticZh;
-    if (generated) return generated;
+  const trimmedRaw = (rawModernPhoneticZh || '').trim();
+
+  if (!trimmedRaw) {
+    if (iastVerse && iastVerse.trim()) {
+      return generateVerseChinesePhonetics(iastVerse, showIastBracket).modernPhoneticZh;
+    }
+    return '';
   }
 
-  const hasExistingBrackets = /\([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ'-]+\)/.test(
-    rawModernPhoneticZh
-  );
+  const hasExistingBrackets = /\([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ\s'-]+\)/.test(trimmedRaw);
 
   if (!showIastBracket) {
-    if (!hasExistingBrackets) return rawModernPhoneticZh;
-    return rawModernPhoneticZh
+    if (!hasExistingBrackets) return trimmedRaw;
+    return trimmedRaw
       .replace(/\s*\([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ\s'-]+\)/g, '')
       .replace(/\s+·\s+/g, ' ')
       .replace(/\s{2,}/g, ' ')
       .trim();
   }
 
-  return rawModernPhoneticZh;
+  // `showIastBracket` is true: preserve database `trimmedRaw` characters and attach `(IAST)`
+  if (hasExistingBrackets || !iastVerse || !iastVerse.trim()) {
+    return trimmedRaw;
+  }
+
+  const dandaRe = /^(?:\|\||\|+|｜|।|॥)$/;
+  const rawTokens = trimmedRaw
+    .replace(/\s*(\|\||\|+|｜|।|॥)\s*/g, ' $1 ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  const zhWordTokens = rawTokens.filter((t) => !dandaRe.test(t));
+
+  const cleanedIast = cleanEditorialIast(iastVerse).replace(/\s*(?:\|\||\|+|।|॥)\s*$/, '').trim();
+  const iastTokens = cleanedIast
+    .replace(/\s*(\|\||\|+|।|॥)\s*/g, ' $1 ')
+    .trim()
+    .split(/\s+/)
+    .filter((t) => Boolean(t) && !dandaRe.test(t));
+
+  if (zhWordTokens.length > 0 && zhWordTokens.length === iastTokens.length) {
+    let wordIdx = 0;
+    const pieces: Array<{ text: string; isDanda: boolean }> = rawTokens.map((tok) => {
+      if (dandaRe.test(tok)) {
+        return { text: tok, isDanda: true };
+      }
+      const pairedIast = iastTokens[wordIdx++];
+      return { text: `${tok}(${pairedIast})`, isDanda: false };
+    });
+
+    let out = '';
+    for (let i = 0; i < pieces.length; i++) {
+      const cur = pieces[i];
+      const prev = pieces[i - 1];
+      if (i > 0) {
+        out += cur.isDanda || prev.isDanda ? ' ' : ' · ';
+      }
+      out += cur.text;
+    }
+    return out.trim();
+  }
+
+  return cleanedIast ? `${trimmedRaw} (${cleanedIast})` : trimmedRaw;
 }
 
 import { analyzeSanskritWord } from './sanskritLexicon';
+import type { FieldOrigin } from '../../types/kosaTypes';
 
 /**
  * Automatically generates structured WordGloss[] for any Sanskrit IAST verse line
- * so every entry across DB1–DB12, GRETIL, CBETA, and Curated canons has complete,
- * untruncated word-by-word Sanskrit-Chinese-English lexical & grammatical analysis.
+ * as a derived reference fallback (`origin: 'derived-reference'`) when a database entry
+ * does not natively contain per-word glosses.
  */
 export function buildWordGlossesFromIast(iastVerse: string): Array<{
   iast: string;
@@ -1204,6 +1254,7 @@ export function buildWordGlossesFromIast(iastVerse: string): Array<{
   transliterationZh: string;
   meaningZh: string;
   meaningEn?: string;
+  origin: FieldOrigin;
 }> {
   const cleaned = cleanEditorialIast(iastVerse);
   const rawTokens = cleaned
@@ -1221,9 +1272,10 @@ export function buildWordGlossesFromIast(iastVerse: string): Array<{
       iast: word,
       stem: analysis.stem,
       grammar: analysis.grammar,
-      transliterationZh: `${dictHit?.classicalZh || phon.classicalTranslitZh}（拼读：${phon.modernPhoneticZh}）`,
+      transliterationZh: `${dictHit?.classicalZh || phon.classicalTranslitZh}（拼读参考：${phon.modernPhoneticZh}）`,
       meaningZh: analysis.meaningZh,
       meaningEn: analysis.meaningEn || undefined,
+      origin: 'derived-reference',
     };
   });
 }

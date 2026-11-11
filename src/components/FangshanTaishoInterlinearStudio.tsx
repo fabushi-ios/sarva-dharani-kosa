@@ -9,6 +9,7 @@ import {
 } from '../data/unifiedCorpusRegistry';
 import { sanskritAudioEngine, speakSanskrit } from '../services/sanskritAudioEngine';
 import { iastToSiddham } from '../core/sanskrit/transliterator';
+import { ProvenanceBadge } from './common/ProvenanceBadge';
 
 export function FangshanTaishoInterlinearStudio() {
   const [subMode, setSubMode] = useState<'fangshan' | 't54' | 'cbeta_tt' | 'taisho_gretil'>('fangshan');
@@ -202,12 +203,47 @@ export function FangshanTaishoInterlinearStudio() {
                 </div>
 
                 <div className="script-summary-box">
-                  <div>
-                    <strong>漢文音譯全文：</strong> {selectedFangshan.plainChineseText}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                      <strong>漢文音譯全文：</strong>
+                      <ProvenanceBadge
+                        state="db-original"
+                        compact
+                        customLabel="● 庫藏原文"
+                        customTooltip="【庫藏原文】直接取自房山石經 F28 原典漢文音譯與夾注。"
+                      />
+                    </div>
+                    <div>{selectedFangshan.plainChineseText}</div>
                   </div>
                   {selectedFangshan.reconstructedIast && (
-                    <div>
-                      <strong>梵文轉寫 (Reconstructed IAST)：</strong> {selectedFangshan.reconstructedIast}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.2rem',
+                        marginTop: '0.55rem',
+                        paddingTop: '0.55rem',
+                        borderTop: '1px dashed var(--border-subtle)',
+                      }}
+                    >
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                        <strong>梵文轉寫 (IAST)：</strong>
+                        <ProvenanceBadge
+                          state={selectedFangshan.tokens.length > 0 ? 'db-original' : 'derived-reference'}
+                          compact
+                          customLabel={
+                            selectedFangshan.tokens.length > 0
+                              ? '● <cb:tt> 梵漢對音原載'
+                              : '◇ 對音重構·參考'
+                          }
+                          customTooltip={
+                            selectedFangshan.tokens.length > 0
+                              ? '【庫藏原文】由原典 <cb:tt> 悉曇字碼對應之梵文音讀連綴而成。'
+                              : '【處理參考】原段無 <cb:tt> 悉曇字碼，此梵文由系統依遼金對音規則重構還原，僅供參考。'
+                          }
+                        />
+                      </div>
+                      <div>{selectedFangshan.reconstructedIast}</div>
                     </div>
                   )}
                 </div>
@@ -223,10 +259,25 @@ export function FangshanTaishoInterlinearStudio() {
                     const rawSid = tok.siddhamUnicode || gaiji?.siddhamUnicode || '';
                     const hasSiddhamGlyph = /[\u{11580}-\u{115FF}]/u.test(rawSid);
                     return (
-                      <div key={tokIdx} className="syllable-card">
+                      <div
+                        key={tokIdx}
+                        className="syllable-card"
+                        style={
+                          hasSiddhamGlyph
+                            ? { borderLeft: '3px solid var(--accent-vermilion)' }
+                            : { borderStyle: 'dashed' }
+                        }
+                      >
                         <div className="siddham-script">
                           {(hasSiddhamGlyph ? rawSid : resolvedIast ? iastToSiddham(resolvedIast) : '') || '𑖀'}
                         </div>
+                        {!hasSiddhamGlyph && (
+                          <ProvenanceBadge
+                            state="derived-reference"
+                            compact
+                            customLabel="◇ 字形參考"
+                          />
+                        )}
                         <div className="syl-iast">
                           {resolvedIast || tok.siddhamRef || `#${tokIdx + 1}`}
                         </div>
