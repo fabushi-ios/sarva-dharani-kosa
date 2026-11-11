@@ -116,7 +116,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
           />
           {playbackState.isLoadingAudio ? (
             <div style={{ fontSize: '0.84rem', color: 'var(--accent-vermilion)', fontWeight: 600 }}>
-              ⚡ 正在极速准备 48,000 Hz 梵音神经引擎，首句即将零卡顿起诵...
+              ⚡ 正在通过 Hugging Face 48,000 Hz 梵音神经 API 极速获取发音（后台同步缓存本地神经模型）...
             </div>
           ) : playbackState.isPlaying && syl ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -169,7 +169,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             </div>
           ) : (
             <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              当前待诵：<strong>{dharaniTitleZh}</strong>（48,000 Hz 多线程Worker神经VITS + 预热连诵 · 硬件时钟零停顿跟读）
+              当前待诵：<strong>{dharaniTitleZh}</strong>（首次访问 HF 云端神经 API 即点即发声 + 后台自动缓存 48,000 Hz ONNX 神经模型）
             </div>
           )}
         </div>

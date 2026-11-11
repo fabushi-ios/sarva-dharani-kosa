@@ -12,8 +12,17 @@
 
 import { iastToDevanagari } from '../../core/sanskrit/transliterator';
 
-export const HF_MODEL_CDN_BASE =
-  'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main';
+export const HF_MODEL_CDN_BASE = (
+  (typeof import.meta !== 'undefined' &&
+    (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_HF_MODEL_BASE_URL) ||
+  'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main'
+).replace(/\/+$/, '');
+
+export const HF_TTS_API_BASE_URL = (
+  (typeof import.meta !== 'undefined' &&
+    (import.meta as unknown as { env?: Record<string, string> }).env?.VITE_HF_TTS_API_URL) ||
+  'https://bhrum108-sarva-dharani-kosa-tts-api.hf.space'
+).replace(/\/+$/, '');
 
 const ORT_CDN_URLS = [
   'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js',
@@ -835,26 +844,48 @@ export function isBrowserOnnxReady(voice: 'male' | 'female' = 'male'): boolean {
 
 let keepAliveSent = false;
 
-function sendHfKeepAliveBeacon(): void {
+export function sendHfKeepAliveBeacon(): void {
   if (keepAliveSent || typeof window === 'undefined' || typeof fetch === 'undefined') {
     return;
   }
   keepAliveSent = true;
-  setTimeout(() => {
-    void fetch(`${HF_MODEL_CDN_BASE}/vocabs.json?keepalive=${Date.now()}`, {
+
+  const fireKeepAlive = () => {
+    const ts = Date.now();
+    void fetch(`${HF_TTS_API_BASE_URL}/api/health?keepalive=${ts}`, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-store',
+    }).catch(() => {});
+    void fetch(`${HF_MODEL_CDN_BASE}/vocabs.json?keepalive=${ts}`, {
       method: 'HEAD',
       mode: 'no-cors',
       cache: 'no-store',
     }).catch(() => {});
     void fetch(
-      `https://bhrum108-sarva-dharani-kosa.static.hf.space/index.html?keepalive=${Date.now()}`,
+      `https://bhrum108-sarva-dharani-kosa.static.hf.space/index.html?keepalive=${ts}`,
       {
         method: 'HEAD',
         mode: 'no-cors',
         cache: 'no-store',
       }
     ).catch(() => {});
-  }, 4000);
+  };
+
+  // Immediate warmup ping on first entry so HF Neural TTS API Space is hot before user clicks Play
+  setTimeout(fireKeepAlive, 120);
+
+  // Periodic 20-minute keep-alive while the user keeps the study page open
+  const timer = setInterval(() => {
+    if (typeof document !== 'undefined' && document.visibilityState === 'hidden') {
+      return;
+    }
+    fireKeepAlive();
+  }, 20 * 60 * 1000);
+
+  if (typeof (timer as unknown as { unref?: () => void })?.unref === 'function') {
+    (timer as unknown as { unref: () => void }).unref();
+  }
 }
 
 /**

@@ -2,8 +2,8 @@ name: Hugging Face 48h Auto Keep-Alive
 
 on:
   schedule:
-    # Runs automatically every 6 hours (4 times a day), well within Hugging Face's 48-hour inactivity window
-    - cron: '0 */6 * * *'
+    # Runs automatically every 30 minutes (48 times/day) to prevent HF Space hibernation and keep 48kHz VITS ONNX RAM sessions warm
+    - cron: '*/30 * * * *'
   workflow_dispatch:
   push:
     branches:
@@ -14,7 +14,7 @@ on:
 
 jobs:
   keepalive:
-    name: Ping & Wake Hugging Face Space + 48kHz VITS Model CDN
+    name: Ping & Wake Hugging Face Neural TTS API + Static Space + ONNX CDN
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -26,10 +26,12 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Execute Hugging Face Space & TTS Model Keep-Alive
+      - name: Execute Hugging Face Neural TTS API & Space Keep-Alive
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           HF_SPACE_ID: bhrum108/sarva-dharani-kosa
+          HF_TTS_SPACE_ID: bhrum108/sarva-dharani-kosa-tts-api
           HF_MODEL_ID: bhrum108/sarva-dharani-kosa-tts
           HF_SPACE_LIVE_URL: https://bhrum108-sarva-dharani-kosa.static.hf.space
+          HF_TTS_API_URL: https://bhrum108-sarva-dharani-kosa-tts-api.hf.space
         run: node scripts/hf-keepalive.mjs

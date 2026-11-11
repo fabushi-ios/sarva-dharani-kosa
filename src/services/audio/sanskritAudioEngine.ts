@@ -33,11 +33,12 @@ import {
 } from '../../core/sanskrit/phoneticMapper';
 import type { DharaniVerse } from '../../types/kosaTypes';
 import {
+  HF_TTS_API_BASE_URL,
   cancelLowPriorityBrowserOnnxTasks,
   isBrowserOnnxReady,
+  sendHfKeepAliveBeacon,
   synthesizePcmWithBrowserOnnxVits,
   synthesizeWithBrowserOnnxVits,
-  waitForBrowserOnnxReady,
   warmupBrowserOnnxVits,
   type AcousticChunkSpan,
 } from './browserOnnxTtsEngine';
@@ -95,6 +96,12 @@ export const AUDIO_API_ENDPOINTS = {
   health: `${TTS_API_BASE_URL}/api/health`,
   spriteManifest: `${TTS_API_BASE_URL}/audio/siddham_sprite_manifest.json`,
   spriteOgg: `${TTS_API_BASE_URL}/audio/siddham_sprite_48k.ogg`,
+} as const;
+
+export const HF_AUDIO_API_ENDPOINTS = {
+  tts: `${HF_TTS_API_BASE_URL}/api/tts`,
+  syllable: `${HF_TTS_API_BASE_URL}/api/syllable/`,
+  health: `${HF_TTS_API_BASE_URL}/api/health`,
 } as const;
 
 /**
@@ -217,11 +224,13 @@ class SanskritAudioEngine {
   private neuralVerseCache: Map<string, CachedNeuralVerse> = new Map();
   private neuralInflightRequests: Map<string, Promise<CachedNeuralVerse>> = new Map();
   private pythonBackendAvailable = false;
+  private hfCloudApiAvailable = true;
   private healthProbed = false;
 
   constructor() {
     if (typeof window !== 'undefined') {
       (window as unknown as Record<string, unknown>).sarvaAudioEngine = this;
+      sendHfKeepAliveBeacon();
       this.probeBackendHealth();
     }
   }
@@ -254,51 +263,80 @@ class SanskritAudioEngine {
       typeof window !== 'undefined' &&
       (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-    // On static edge deployments (Hugging Face Static Space, Cloudflare, etc.), start warming up
-    // the Dedicated Web Worker ONNX engine at t = 0ms in parallel with health probing!
-    if (!isLocalHost && !TTS_API_BASE_URL) {
-      void warmupBrowserOnnxVits(this.state.voice).then((ok) => {
-        if (ok && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
-          this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
-        }
-      });
-    }
-
-    try {
-      const ctrl = new AbortController();
-      const timeoutId = setTimeout(() => ctrl.abort(), 1400);
-      let res: Response;
-      try {
-        res = await fetch(AUDIO_API_ENDPOINTS.health, { signal: ctrl.signal });
-      } finally {
-        clearTimeout(timeoutId);
-      }
-      const ct = res.headers.get('content-type') || '';
-      if (res.ok && ct.includes('application/json')) {
-        const data = await res.json();
-        this.pythonBackendAvailable = data?.status === 'ok';
-        this.healthProbed = true;
-        this.state.backendOnline = true;
-        if (typeof data?.spriteCount === 'number') {
-          this.state.spriteCount = data.spriteCount;
-        }
-        this.notify();
-        if (this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
-          this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
-        }
-        return;
-      }
-    } catch {
-      // Static edge hosting without Python FastAPI backend
-    }
-    this.pythonBackendAvailable = false;
-    this.healthProbed = true;
-    this.state.backendOnline = true;
+    // Always begin caching & compiling the ONNX neural model in the background Dedicated Worker
+    // on first page entry, while using the Hugging Face Neural TTS API immediately until ONNX is ready!
     void warmupBrowserOnnxVits(this.state.voice).then((ok) => {
       if (ok && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
         this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
       }
     });
+
+    const probeLocalPromise = (async () => {
+      if (!isLocalHost && !TTS_API_BASE_URL) {
+        return false;
+      }
+      try {
+        const ctrl = new AbortController();
+        const timeoutId = setTimeout(() => ctrl.abort(), 1400);
+        let res: Response;
+        try {
+          res = await fetch(AUDIO_API_ENDPOINTS.health, { signal: ctrl.signal });
+        } finally {
+          clearTimeout(timeoutId);
+        }
+        const ct = res.headers?.get?.('content-type') || '';
+        if (res.ok && ct.includes('application/json')) {
+          const data = await res.json();
+          if (data?.status === 'ok') {
+            if (typeof data?.spriteCount === 'number') {
+              this.state.spriteCount = data.spriteCount;
+            }
+            return true;
+          }
+        }
+      } catch {
+        // Local FastAPI server not running
+      }
+      return false;
+    })();
+
+    const probeHfCloudPromise = (async () => {
+      if (!HF_TTS_API_BASE_URL) {
+        return false;
+      }
+      try {
+        const ctrl = new AbortController();
+        const timeoutId = setTimeout(() => ctrl.abort(), 8000);
+        let res: Response;
+        try {
+          res = await fetch(HF_AUDIO_API_ENDPOINTS.health, {
+            mode: 'cors',
+            signal: ctrl.signal,
+          });
+        } finally {
+          clearTimeout(timeoutId);
+        }
+        const ct = res.headers?.get?.('content-type') || '';
+        if (res.ok && ct.includes('application/json')) {
+          const data = await res.json();
+          return data?.status === 'ok';
+        }
+      } catch {
+        // Will retry HF API on demand if local ONNX is still downloading
+      }
+      return false;
+    })();
+
+    const [localOk, hfOk] = await Promise.all([probeLocalPromise, probeHfCloudPromise]);
+    this.pythonBackendAvailable = localOk;
+    this.hfCloudApiAvailable = hfOk;
+    this.healthProbed = true;
+    this.state.backendOnline = true;
+    this.notify();
+
+    if (this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+      this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
+    }
   }
 
   public subscribe(listener: StateListener): () => void {
@@ -393,7 +431,8 @@ class SanskritAudioEngine {
             this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
           }
         });
-      } else if (changed && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+      }
+      if (changed && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
         this.prewarmVerses(this.pendingPrewarmVerses, 3);
       }
     }
@@ -672,12 +711,15 @@ class SanskritAudioEngine {
 
   /**
    * Pre-synthesizes an individual verse (e.g. on button hover/focus) for instant single-verse start.
+   * Uses local Worker ONNX when ready, or Hugging Face Neural TTS API while ONNX is caching in background.
    */
   public prewarmSingleVerse(verse: DharaniVerse) {
     if (
       typeof window === 'undefined' ||
       this.state.mode !== 'neural-vits-48k' ||
-      (!this.pythonBackendAvailable && !isBrowserOnnxReady(this.state.voice))
+      (!this.pythonBackendAvailable &&
+        !this.hfCloudApiAvailable &&
+        !isBrowserOnnxReady(this.state.voice))
     ) {
       return;
     }
@@ -693,17 +735,24 @@ class SanskritAudioEngine {
   }
 
   private triggerPrewarmQueue(verses: DharaniVerse[], maxCount: number) {
-    if (!this.healthProbed) return;
-    if (!this.pythonBackendAvailable && !isBrowserOnnxReady(this.state.voice)) {
+    const onnxReady = isBrowserOnnxReady(this.state.voice);
+    if (!this.pythonBackendAvailable && !onnxReady) {
+      // Ensure background ONNX model download & CacheStorage population is running
       void warmupBrowserOnnxVits(this.state.voice).then((ok) => {
         if (ok && !this.state.isPlaying && this.pendingPrewarmVerses === verses) {
           this.triggerPrewarmQueue(verses, maxCount);
         }
       });
-      return;
+      if (!this.hfCloudApiAvailable) {
+        return;
+      }
     }
 
-    const slice = verses.slice(0, maxCount);
+    // While local ONNX is still caching on first visit, prewarm first 2 verses via HF Neural API;
+    // once local ONNX is ready (or local FastAPI is active), prewarm full maxCount verses.
+    const effectiveCount =
+      this.pythonBackendAvailable || onnxReady ? maxCount : Math.min(maxCount, 2);
+    const slice = verses.slice(0, effectiveCount);
     if (slice.length === 0) return;
 
     const sig = `${slice.map((v) => v.iast.trim()).join('||')}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
@@ -745,8 +794,145 @@ class SanskritAudioEngine {
     })();
   }
 
+  private getOrderedNeuralApiEndpoints(): Array<{
+    tts: string;
+    syllable: string;
+    isLocal: boolean;
+  }> {
+    const list: Array<{ tts: string; syllable: string; isLocal: boolean }> = [];
+    if (this.pythonBackendAvailable) {
+      list.push({
+        tts: AUDIO_API_ENDPOINTS.tts,
+        syllable: AUDIO_API_ENDPOINTS.syllable,
+        isLocal: true,
+      });
+    }
+    if (HF_TTS_API_BASE_URL && HF_AUDIO_API_ENDPOINTS.tts !== AUDIO_API_ENDPOINTS.tts) {
+      list.push({
+        tts: HF_AUDIO_API_ENDPOINTS.tts,
+        syllable: HF_AUDIO_API_ENDPOINTS.syllable,
+        isLocal: false,
+      });
+    }
+    return list;
+  }
+
+  private async requestNeuralTtsJsonFromApi(
+    text: string,
+    voice: SanskritVoiceGender,
+    rate: number,
+    signal?: AbortSignal
+  ): Promise<Record<string, unknown> | null> {
+    const endpoints = this.getOrderedNeuralApiEndpoints();
+    for (const ep of endpoints) {
+      try {
+        const res = await fetch(ep.tts, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text,
+            script: 'auto',
+            voice,
+            rate,
+            response_format: 'json',
+          }),
+          signal,
+        });
+        const ct = res.headers?.get?.('content-type') || '';
+        if (res.ok && ct.includes('application/json')) {
+          const json = (await res.json()) as Record<string, unknown>;
+          if (typeof json.audioBase64Wav === 'string' && json.audioBase64Wav.length > 100) {
+            if (!ep.isLocal) {
+              this.hfCloudApiAvailable = true;
+            }
+            return json;
+          }
+        }
+        if (ep.isLocal) {
+          this.pythonBackendAvailable = false;
+        }
+      } catch (err) {
+        if (signal?.aborted) throw err;
+        if (ep.isLocal) {
+          this.pythonBackendAvailable = false;
+        } else {
+          this.hfCloudApiAvailable = false;
+        }
+      }
+    }
+    return null;
+  }
+
+  private async requestNeuralSyllableBufferFromApi(
+    ctx: AudioContext,
+    sylIast: string,
+    voice: SanskritVoiceGender,
+    rate: number
+  ): Promise<{ buffer: AudioBuffer; model: string } | null> {
+    const endpoints = this.getOrderedNeuralApiEndpoints();
+    for (const ep of endpoints) {
+      try {
+        const url = `${ep.syllable}${encodeURIComponent(sylIast)}?voice=${voice}&rate=${rate}&format=wav`;
+        const res = await fetch(url, { mode: 'cors' });
+        if (!res.ok) {
+          if (ep.isLocal) this.pythonBackendAvailable = false;
+          continue;
+        }
+        const ct = res.headers?.get?.('content-type') || '';
+        let wavArr: ArrayBuffer | null = null;
+        let apiModel =
+          voice === 'female'
+            ? 'gnumanth/ninada:onnx/sa_female.onnx'
+            : 'gnumanth/ninada:onnx/sa.onnx';
+
+        if (ct.includes('audio')) {
+          wavArr = await res.arrayBuffer();
+        } else if (ct.includes('application/json')) {
+          const json = (await res.json()) as Record<string, unknown>;
+          if (typeof json.audioBase64Wav === 'string' && json.audioBase64Wav.length > 64) {
+            wavArr = this.base64ToArrayBuffer(json.audioBase64Wav);
+            if (typeof json.model === 'string' && json.model) {
+              apiModel = json.model;
+            }
+          }
+        }
+
+        if (wavArr && wavArr.byteLength > 44) {
+          if (!ep.isLocal) {
+            this.hfCloudApiAvailable = true;
+          }
+          const fastWav = this.decode16BitPcmWavToFloat32(wavArr);
+          if (fastWav) {
+            const trimmed = trimSilenceAndShiftTimings(fastWav.pcm, SAMPLE_RATE, []);
+            const outBuf = ctx.createBuffer(
+              1,
+              Math.max(480, trimmed.pcm.length),
+              SAMPLE_RATE
+            );
+            outBuf.getChannelData(0).set(trimmed.pcm);
+            return { buffer: outBuf, model: apiModel };
+          }
+          const decoded = await ctx.decodeAudioData(wavArr.slice(0));
+          return { buffer: decoded, model: apiModel };
+        }
+      } catch {
+        if (ep.isLocal) {
+          this.pythonBackendAvailable = false;
+        } else {
+          this.hfCloudApiAvailable = false;
+        }
+      }
+    }
+    return null;
+  }
+
   /**
-   * Play a single Sanskrit syllable or word with 48,000 Hz Neural VITS API (`sa.onnx` / `sa_female.onnx`)
+   * Play a single Sanskrit syllable or word with 48,000 Hz Neural VITS (`sa.onnx` / `sa_female.onnx`).
+   * In `'neural-vits-48k'` mode:
+   * - Uses Hugging Face Neural TTS API immediately on first visit while local ONNX caches in background.
+   * - Uses cached Dedicated Worker ONNX once ready.
+   * - Never falls back to non-neural formant synthesis.
    */
   public async playSingleSyllable(iastSyllable: string) {
     const cleanText = (iastSyllable || '').trim();
@@ -801,72 +987,86 @@ class SanskritAudioEngine {
         return;
       }
 
-      try {
-        if (this.pythonBackendAvailable) {
-          if (prosody.length > 1) {
-            const neural = await this.fetchNeuralVitsVerseBuffer(ctx, cleanText, prosody);
-            if (reqId !== this.singleSyllableRequestId) return;
-            const buf = this.materializeAudioBuffer(ctx, neural);
-            this.cacheSingleSyllableBuffer(singleKey, buf);
-            this.playTrackedSingleSource(ctx, buf);
-            return;
-          }
+      const onnxReadyNow = isBrowserOnnxReady(voice);
+      if (!onnxReadyNow && !this.pythonBackendAvailable) {
+        void warmupBrowserOnnxVits(voice);
+      }
 
-          const res = await fetch(
-            `${AUDIO_API_ENDPOINTS.syllable}${encodeURIComponent(syl.iast)}?voice=${voice}&rate=${rate}&format=wav`
-          );
-          const contentType = res.headers.get('content-type') || '';
-          if (res.ok && contentType.includes('audio')) {
-            const arrBuf = await res.arrayBuffer();
-            const decoded = await ctx.decodeAudioData(arrBuf);
+      let showedLoading = false;
+      if (!onnxReadyNow && !this.state.isPlaying) {
+        showedLoading = true;
+        this.state.isLoadingAudio = true;
+        this.notify();
+      }
+
+      try {
+        // Multi-syllable word/phrase: delegate to fetchNeuralVitsVerseBuffer (HF API first if !onnxReady, Worker ONNX if ready)
+        if (prosody.length > 1) {
+          const neural = await this.fetchNeuralVitsVerseBuffer(ctx, cleanText, prosody);
+          if (reqId !== this.singleSyllableRequestId) return;
+          this.state.activeModel = neural.model;
+          const buf = this.materializeAudioBuffer(ctx, neural);
+          this.cacheSingleSyllableBuffer(singleKey, buf);
+          this.playTrackedSingleSource(ctx, buf);
+          return;
+        }
+
+        const preferApi = this.pythonBackendAvailable || !onnxReadyNow;
+        if (preferApi) {
+          const apiOut = await this.requestNeuralSyllableBufferFromApi(ctx, syl.iast, voice, rate);
+          if (apiOut) {
             if (reqId !== this.singleSyllableRequestId) return;
-            this.cacheSingleSyllableBuffer(singleKey, decoded);
-            this.playTrackedSingleSource(ctx, decoded);
+            this.state.activeModel = apiOut.model;
+            this.cacheSingleSyllableBuffer(singleKey, apiOut.buffer);
+            this.playTrackedSingleSource(ctx, apiOut.buffer);
             return;
           }
         }
 
-        let showedLoading = false;
-        if (!isBrowserOnnxReady(voice) && !this.state.isPlaying) {
-          showedLoading = true;
-          this.state.isLoadingAudio = true;
+        const wasmOut = await synthesizeWithBrowserOnnxVits(
+          ctx,
+          cleanText,
+          voice,
+          rate,
+          true,
+          'high'
+        );
+        if (reqId !== this.singleSyllableRequestId) return;
+        this.state.activeModel = wasmOut.model;
+        const trimmedSingle = trimSilenceAndShiftTimings(wasmOut.pcm48k, SAMPLE_RATE, []);
+        const outBuf = ctx.createBuffer(
+          1,
+          Math.max(480, trimmedSingle.pcm.length),
+          SAMPLE_RATE
+        );
+        outBuf.getChannelData(0).set(trimmedSingle.pcm);
+        this.cacheSingleSyllableBuffer(singleKey, outBuf);
+        this.playTrackedSingleSource(ctx, outBuf);
+        return;
+      } catch {
+        // If local ONNX failed unexpectedly, attempt cloud HF Neural API before giving up
+        try {
+          const backupApi = await this.requestNeuralSyllableBufferFromApi(
+            ctx,
+            syl.iast,
+            voice,
+            rate
+          );
+          if (backupApi && reqId === this.singleSyllableRequestId) {
+            this.state.activeModel = backupApi.model;
+            this.cacheSingleSyllableBuffer(singleKey, backupApi.buffer);
+            this.playTrackedSingleSource(ctx, backupApi.buffer);
+          }
+        } catch {
+          // Do not fall back to non-neural formant synthesizer in neural-vits-48k mode
+        }
+      } finally {
+        if (showedLoading && !this.state.isPlaying) {
+          this.state.isLoadingAudio = false;
           this.notify();
         }
-        try {
-          const onnxReady =
-            isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 7500));
-          if (reqId !== this.singleSyllableRequestId) return;
-          if (onnxReady) {
-            const wasmOut = await synthesizeWithBrowserOnnxVits(
-              ctx,
-              cleanText,
-              voice,
-              rate,
-              prosody.length <= 1,
-              'high'
-            );
-            if (reqId !== this.singleSyllableRequestId) return;
-            this.state.activeModel = wasmOut.model;
-            const trimmedSingle = trimSilenceAndShiftTimings(wasmOut.pcm48k, SAMPLE_RATE, []);
-            const outBuf = ctx.createBuffer(
-              1,
-              Math.max(480, trimmedSingle.pcm.length),
-              SAMPLE_RATE
-            );
-            outBuf.getChannelData(0).set(trimmedSingle.pcm);
-            this.cacheSingleSyllableBuffer(singleKey, outBuf);
-            this.playTrackedSingleSource(ctx, outBuf);
-            return;
-          }
-        } finally {
-          if (showedLoading && !this.state.isPlaying) {
-            this.state.isLoadingAudio = false;
-            this.notify();
-          }
-        }
-      } catch {
-        // Fallback to local 48kHz formant synthesis if unreachable
       }
+      return;
     }
 
     if (reqId !== this.singleSyllableRequestId) return;
@@ -1160,8 +1360,11 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Fetches and decodes 48,000 Hz Native Classical Sanskrit Neural VITS audio (`sa.onnx` / `sa_female.onnx`)
-   * from `/api/tts` with exact acoustic syllable timings, or synthesizes directly via Dedicated Worker ONNX Runtime Web.
+   * Fetches and decodes 48,000 Hz Native Classical Sanskrit Neural VITS audio (`sa.onnx` / `sa_female.onnx`):
+   * - On first visit while local Browser ONNX is still caching in the background (`!isBrowserOnnxReady`),
+   *   fetches immediately from the Hugging Face Neural TTS API (`POST /api/tts`).
+   * - Once local Browser ONNX is cached and ready (`isBrowserOnnxReady`), synthesizes locally in the
+   *   Dedicated Web Worker with 0ms network latency (falling over to HF Neural API only if Worker throws).
    */
   private async fetchNeuralVitsVerseBuffer(
     ctx: AudioContext | null,
@@ -1185,44 +1388,49 @@ class SanskritAudioEngine {
     }
 
     const promise = (async (): Promise<CachedNeuralVerse> => {
-      let data: Record<string, unknown> | null = null;
-
-      if (this.pythonBackendAvailable) {
-        try {
-          const res = await fetch(AUDIO_API_ENDPOINTS.tts, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              text: iastText,
-              script: 'auto',
-              voice,
-              rate,
-              response_format: 'json',
-            }),
-            signal,
-          });
-
-          const ct = res.headers.get('content-type') || '';
-          if (res.ok && ct.includes('application/json')) {
-            const json = (await res.json()) as Record<string, unknown>;
-            if (typeof json.audioBase64Wav === 'string' && json.audioBase64Wav.length > 100) {
-              data = json;
-            }
-          } else {
-            this.pythonBackendAvailable = false;
-          }
-        } catch (err) {
-          if (signal?.aborted) throw err;
-          this.pythonBackendAvailable = false;
-        }
+      const onnxReadyNow = isBrowserOnnxReady(voice);
+      if (!onnxReadyNow && !this.pythonBackendAvailable) {
+        void warmupBrowserOnnxVits(voice);
       }
 
+      let data: Record<string, unknown> | null = null;
       let rawPcm48k: Float32Array | null = null;
       let decodedBuffer: AudioBuffer | undefined;
-      let rawDurationSec: number;
+      let rawDurationSec = 0;
       let serverTimings: Array<{ index: number; startMs: number; endMs: number }> = [];
       let wasmChunkSpans: AcousticChunkSpan[] | undefined;
       let modelOverride: string | null = null;
+
+      const preferApiFirst = this.pythonBackendAvailable || !onnxReadyNow;
+      if (preferApiFirst) {
+        data = await this.requestNeuralTtsJsonFromApi(iastText, voice, rate, signal);
+      }
+
+      if (!data) {
+        try {
+          const wasmRes = await synthesizePcmWithBrowserOnnxVits(
+            iastText,
+            voice,
+            rate,
+            syllables.length <= 1,
+            priority,
+            signal
+          );
+          rawPcm48k = wasmRes.pcm48k;
+          rawDurationSec = wasmRes.durationSec;
+          modelOverride = wasmRes.model;
+          wasmChunkSpans = wasmRes.chunkSpans;
+        } catch (wasmErr) {
+          if (signal?.aborted) throw wasmErr;
+          // If local Worker ONNX threw while ready, fall over to Hugging Face Neural API
+          if (!preferApiFirst) {
+            data = await this.requestNeuralTtsJsonFromApi(iastText, voice, rate, signal);
+          }
+          if (!data) {
+            throw wasmErr;
+          }
+        }
+      }
 
       if (data) {
         const b64 = String(data.audioBase64Wav || '');
@@ -1247,19 +1455,6 @@ class SanskritAudioEngine {
             endMs: number;
           }>;
         }
-      } else {
-        const wasmRes = await synthesizePcmWithBrowserOnnxVits(
-          iastText,
-          voice,
-          rate,
-          syllables.length <= 1,
-          priority,
-          signal
-        );
-        rawPcm48k = wasmRes.pcm48k;
-        rawDurationSec = wasmRes.durationSec;
-        modelOverride = wasmRes.model;
-        wasmChunkSpans = wasmRes.chunkSpans;
       }
 
       let timings: PlaybackSyllableTiming[] = [];
@@ -1343,9 +1538,7 @@ class SanskritAudioEngine {
         model: modelStr,
       };
 
-      if (modelStr.includes('onnx')) {
-        this.storeInNeuralVerseCache(cacheKey, entry);
-      }
+      this.storeInNeuralVerseCache(cacheKey, entry);
       return entry;
     })();
 
@@ -1366,16 +1559,26 @@ class SanskritAudioEngine {
   }
 
   /**
-   * 4-verse sliding-window lookahead prefetch in BOTH Dedicated Worker ONNX mode and Python Backend mode!
-   * Because Worker inference runs off the main thread at ~0.21x Real-Time Factor, upcoming verses
-   * finish synthesizing well before the current verse ends, guaranteeing 0ms inter-verse wait.
+   * Sliding-window lookahead prefetch across Local Worker ONNX, Local FastAPI, and Hugging Face Neural TTS API!
+   * Upcoming verses finish synthesizing well before the current verse ends, guaranteeing 0ms inter-verse wait.
    */
   private prefetchUpcomingVerses(upcomingVerses: DharaniVerse[], signal?: AbortSignal) {
     if (!upcomingVerses || upcomingVerses.length === 0 || signal?.aborted) return;
-    if (!this.pythonBackendAvailable && !isBrowserOnnxReady(this.state.voice)) return;
+    if (
+      !this.pythonBackendAvailable &&
+      !this.hfCloudApiAvailable &&
+      !isBrowserOnnxReady(this.state.voice)
+    ) {
+      return;
+    }
+
+    const targets =
+      this.pythonBackendAvailable || isBrowserOnnxReady(this.state.voice)
+        ? upcomingVerses
+        : upcomingVerses.slice(0, 2);
 
     void (async () => {
-      for (const nextVerse of upcomingVerses) {
+      for (const nextVerse of targets) {
         if (signal?.aborted || !this.state.isPlaying) break;
         const fullKey = `${nextVerse.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
         if (this.neuralVerseCache.has(fullKey) || this.neuralInflightRequests.has(fullKey)) {
@@ -1400,8 +1603,8 @@ class SanskritAudioEngine {
 
   /**
    * Plays an uncached multi-word verse via First-Clause Instant Streaming:
-   * Synthesizes the first 1–2 words (~120ms) and begins hardware audio playback immediately while
-   * pipelining remaining segments in the Worker and scheduling them sample-accurately via `source.start(when)`.
+   * Synthesizes Segment 0 first with zero lock contention and begins hardware audio playback immediately
+   * while pipelining remaining segments sequentially and scheduling them via `source.start(when)`.
    */
   private async playVerseNeuralStreaming(
     ctx: AudioContext,
@@ -1413,23 +1616,19 @@ class SanskritAudioEngine {
     this.state.isLoadingAudio = true;
     this.notify();
 
-    // Launch all segment syntheses in order at high priority so Worker pipelines Seg 0 -> Seg 1 -> ...
-    const segPromises = segments.map((seg) =>
-      this.fetchNeuralVitsVerseBuffer(ctx, seg.text, seg.syllables, signal, 'high')
-    );
-    // Attach silent catchers so unhandled rejections cannot fire if Seg 0 fails or aborts early
-    for (const p of segPromises) {
-      p.catch(() => {});
-    }
-
     let firstSeg: CachedNeuralVerse;
     try {
-      firstSeg = await segPromises[0];
+      firstSeg = await this.fetchNeuralVitsVerseBuffer(
+        ctx,
+        segments[0].text,
+        segments[0].syllables,
+        signal,
+        'high'
+      );
     } catch (err) {
       this.state.isLoadingAudio = false;
       this.notify();
-      if (signal.aborted) throw err;
-      return this.playVerseHardwareBuffer(verse, signal);
+      throw err;
     }
 
     this.state.isLoadingAudio = false;
@@ -1440,9 +1639,6 @@ class SanskritAudioEngine {
     if (signal.aborted) {
       throw new Error('Aborted');
     }
-
-    // Queue upcoming verses at low priority (automatically runs right after high-priority segPromises!)
-    this.prefetchUpcomingVerses(upcomingVerses, signal);
 
     return new Promise<void>((resolve, reject) => {
       if (signal.aborted) {
@@ -1581,15 +1777,21 @@ class SanskritAudioEngine {
         this.notify();
       }
 
-      // Pipeline Segments 1..K onto Web Audio hardware clock as each resolves
+      // Pipeline Segments 1..K sequentially at high priority, then prefetch upcoming verses
       void (async () => {
-        for (let i = 1; i < segPromises.length; i++) {
+        for (let i = 1; i < segments.length; i++) {
           if (settled || signal.aborted) return;
           try {
-            const seg = await segPromises[i];
+            const seg = await this.fetchNeuralVitsVerseBuffer(
+              ctx,
+              segments[i].text,
+              segments[i].syllables,
+              signal,
+              'high'
+            );
             if (settled || signal.aborted) return;
             scheduleSegment(seg);
-            const doneFrac = (i + 1) / segPromises.length;
+            const doneFrac = (i + 1) / segments.length;
             const currentSpan = finalEndHardwareTime - verseStartTime;
             liveTotalDurationSec = Math.max(currentSpan, currentSpan / doneFrac);
           } catch {
@@ -1598,6 +1800,7 @@ class SanskritAudioEngine {
         }
         if (settled || signal.aborted) return;
         allSegmentsScheduled = true;
+        this.prefetchUpcomingVerses(upcomingVerses, signal);
         liveTotalDurationSec = Math.max(0.05, finalEndHardwareTime - verseStartTime);
         const remainingMs = Math.max(0, (finalEndHardwareTime - ctx.currentTime) * 1000);
         endTimer = setTimeout(() => {
@@ -1655,8 +1858,11 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine (`/api/tts` or Browser ONNX Worker)
-   * with uncontended 60fps hardware-clock syllable synchronization.
+   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine:
+   * - Uses Hugging Face Neural TTS API (`POST /api/tts`) immediately on first visit while
+   *   local Browser ONNX caches in the background.
+   * - Uses Dedicated Worker ONNX locally once cached & ready.
+   * - Zero fallback to non-neural formant synthesis!
    */
   private async playVerseNeuralVitsBuffer(
     verse: DharaniVerse,
@@ -1688,7 +1894,7 @@ class SanskritAudioEngine {
     const rate = this.state.rate;
     const cacheKey = `${verse.iast.trim()}|${voice}|${rate.toFixed(2)}`;
 
-    // 1. Instant < 2ms playback if full verse is already cached in RAM (from prewarm or prefetch!)
+    // 1. Instant < 2ms playback if full verse is already cached in RAM (from HF API prewarm or Worker prefetch!)
     const cachedVerse = this.neuralVerseCache.get(cacheKey);
     if (cachedVerse) {
       const buf = this.materializeAudioBuffer(ctx, cachedVerse);
@@ -1706,33 +1912,21 @@ class SanskritAudioEngine {
       );
     }
 
-    // 2. If running in Browser ONNX mode on static edge hosting, verify ONNX session readiness
-    if (!this.pythonBackendAvailable) {
-      if (!isBrowserOnnxReady(voice)) {
-        this.state.isLoadingAudio = true;
-        this.notify();
-      }
-
-      const onnxReady =
-        isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 7500));
-
-      if (!onnxReady) {
-        this.state.isLoadingAudio = false;
-        this.notify();
-        return this.playVerseHardwareBuffer(verse, signal);
-      }
+    // 2. Ensure background ONNX caching is running while first-visit audio is served via HF Neural API
+    const onnxReadyNow = isBrowserOnnxReady(voice);
+    if (!onnxReadyNow && !this.pythonBackendAvailable) {
+      void warmupBrowserOnnxVits(voice);
     }
 
-    // 3. If not already inflight and verse has multiple breath-groups, use First-Clause Instant Streaming
-    // so audio begins in ~120ms instead of waiting for the entire long mantra line!
+    // 3. Use First-Clause Instant Streaming when local Worker ONNX is ready (or on extra-long verses > 24 syllables)
     if (!this.neuralInflightRequests.has(cacheKey)) {
       const segments = this.splitVerseIntoStreamingSegments(verse.iast, syllables);
-      if (segments.length > 1) {
+      if (segments.length > 1 && (onnxReadyNow || syllables.length > 24)) {
         return this.playVerseNeuralStreaming(ctx, verse, segments, signal, upcomingVerses);
       }
     }
 
-    // 4. Short verse (or already inflight prewarm): finish buffer & play immediately
+    // 4. Fetch full neural verse buffer (via HF Neural API when !onnxReadyNow, or Worker ONNX when ready)
     let audioBuffer: AudioBuffer;
     let timings: PlaybackSyllableTiming[];
     let totalDurationSec: number;
@@ -1752,17 +1946,6 @@ class SanskritAudioEngine {
       totalDurationSec = neural.totalDurationSec;
       this.state.activeModel = neural.model;
       this.state.backendOnline = true;
-    } catch (err) {
-      if (signal.aborted) throw err;
-      const fallback = this.synthesizeContinuousVerseBuffer(
-        ctx,
-        syllables,
-        this.state.rate,
-        true
-      );
-      audioBuffer = fallback.audioBuffer;
-      timings = fallback.timings;
-      totalDurationSec = fallback.totalDurationSec;
     } finally {
       this.state.isLoadingAudio = false;
       this.notify();
@@ -2151,7 +2334,8 @@ class SanskritAudioEngine {
 
   /**
    * Synthesize an entire Dhāraṇī into a downloadable 48,000 Hz 16-bit `.wav` Blob
-   * using the real ONNX Neural VITS engine (`POST /api/tts`) when `mode === 'neural-vits-48k'`.
+   * using the real ONNX Neural VITS engine (`POST /api/tts` on HF/local API or Browser ONNX Worker)
+   * when `mode === 'neural-vits-48k'`, without falling back to formant synthesis.
    */
   public async renderVersesToNeuralWavBlob(
     verses: DharaniVerse[],
@@ -2164,39 +2348,30 @@ class SanskritAudioEngine {
   }> {
     if (this.state.mode === 'neural-vits-48k') {
       const joinedIast = verses.map((v) => v.iast).join(' । ');
-      try {
-        const res = await fetch(AUDIO_API_ENDPOINTS.tts, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            text: joinedIast,
-            script: 'auto',
-            voice: this.state.voice,
-            rate,
-            response_format: 'json',
-          }),
-        });
-        const ct = res.headers.get('content-type') || '';
-        if (res.ok && ct.includes('application/json')) {
-          const data = await res.json();
-          if (data.audioBase64Wav) {
-            const wavArr = this.base64ToArrayBuffer(data.audioBase64Wav);
-            const blob = new Blob([wavArr], { type: 'audio/wav' });
-            const url = URL.createObjectURL(blob);
-            return {
-              blob,
-              url,
-              durationSec: Number(data.durationSec) || 1.0,
-              model:
-                data.model ||
-                (this.state.voice === 'female'
-                  ? 'gnumanth/ninada:onnx/sa_female.onnx'
-                  : 'gnumanth/ninada:onnx/sa.onnx'),
-            };
-          }
+      const voice = this.state.voice;
+      const onnxReadyNow = isBrowserOnnxReady(voice);
+      if (!onnxReadyNow && !this.pythonBackendAvailable) {
+        void warmupBrowserOnnxVits(voice);
+      }
+
+      const preferApiFirst = this.pythonBackendAvailable || !onnxReadyNow;
+      if (preferApiFirst) {
+        const apiData = await this.requestNeuralTtsJsonFromApi(joinedIast, voice, rate);
+        if (apiData && typeof apiData.audioBase64Wav === 'string') {
+          const wavArr = this.base64ToArrayBuffer(apiData.audioBase64Wav);
+          const blob = new Blob([wavArr], { type: 'audio/wav' });
+          const url = URL.createObjectURL(blob);
+          return {
+            blob,
+            url,
+            durationSec: Number(apiData.durationSec) || 1.0,
+            model:
+              String(apiData.model || '') ||
+              (voice === 'female'
+                ? 'gnumanth/ninada:onnx/sa_female.onnx'
+                : 'gnumanth/ninada:onnx/sa.onnx'),
+          };
         }
-      } catch {
-        // Proceed to in-browser ONNX VITS synthesis
       }
 
       try {
@@ -2204,7 +2379,7 @@ class SanskritAudioEngine {
         const wasmRes = await synthesizeWithBrowserOnnxVits(
           ctx,
           joinedIast,
-          this.state.voice,
+          voice,
           rate,
           false
         );
@@ -2217,8 +2392,26 @@ class SanskritAudioEngine {
           durationSec: wasmRes.durationSec,
           model: wasmRes.model,
         };
-      } catch {
-        // Fallback to local 48kHz formant synthesis if unreachable
+      } catch (err) {
+        if (!preferApiFirst) {
+          const backupData = await this.requestNeuralTtsJsonFromApi(joinedIast, voice, rate);
+          if (backupData && typeof backupData.audioBase64Wav === 'string') {
+            const wavArr = this.base64ToArrayBuffer(backupData.audioBase64Wav);
+            const blob = new Blob([wavArr], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            return {
+              blob,
+              url,
+              durationSec: Number(backupData.durationSec) || 1.0,
+              model:
+                String(backupData.model || '') ||
+                (voice === 'female'
+                  ? 'gnumanth/ninada:onnx/sa_female.onnx'
+                  : 'gnumanth/ninada:onnx/sa.onnx'),
+            };
+          }
+        }
+        throw err;
       }
     }
 

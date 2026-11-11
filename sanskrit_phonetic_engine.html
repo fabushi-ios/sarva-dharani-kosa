@@ -1084,16 +1084,49 @@ function getAudioContext() {
   return audioCtx;
 }
 
+const HF_TTS_API_BASE = 'https://bhrum108-sarva-dharani-kosa-tts-api.hf.space';
+const _readyOnnxVoices = new Set();
+let _hfKeepAliveStarted = false;
+
+function startHfKeepAlivePing() {
+  if (_hfKeepAliveStarted || !isRealBrowserOnnxCapable()) return;
+  _hfKeepAliveStarted = true;
+  const ping = () => {
+    fetch(`${HF_TTS_API_BASE}/api/health`, { mode: 'cors', cache: 'no-store' }).catch(() => {});
+  };
+  setTimeout(ping, 120);
+  setInterval(() => {
+    if (typeof document === 'undefined' || document.visibilityState === 'visible') {
+      ping();
+    }
+  }, 20 * 60 * 1000);
+}
+
 async function fetchWithFallback(relativePath, options = {}) {
   const candidates = [relativePath];
   if (!relativePath.startsWith('http')) {
-    candidates.push(`http://127.0.0.1:8765${relativePath}`);
+    const host = (typeof window !== 'undefined' && window.location && window.location.hostname)
+      ? window.location.hostname
+      : '';
+    if (!host || host === 'localhost' || host === '127.0.0.1') {
+      candidates.push(`http://127.0.0.1:8765${relativePath}`);
+    }
+    candidates.push(`${HF_TTS_API_BASE}${relativePath}`);
   }
   let lastErr = null;
   for (const url of candidates) {
     try {
-      const resp = await fetch(url, options);
-      if (resp && resp.ok) return resp;
+      const fetchOpts = url.startsWith('http') ? { mode: 'cors', ...options } : options;
+      const resp = await fetch(url, fetchOpts);
+      if (resp && resp.ok) {
+        const ct = (resp.headers && typeof resp.headers.get === 'function')
+          ? String(resp.headers.get('content-type') || '').toLowerCase()
+          : '';
+        if (relativePath.startsWith('/api/') && ct.includes('text/html')) {
+          continue;
+        }
+        return resp;
+      }
     } catch (e) {
       lastErr = e;
     }
@@ -1135,6 +1168,11 @@ function updateAudioStatusBadge(text) {
 }
 
 async function checkBackendHealth() {
+  // Always begin caching local ONNX model in background + keep HF Neural API warm on first page entry
+  if (isRealBrowserOnnxCapable()) {
+    startHfKeepAlivePing();
+    warmupStandaloneBrowserOnnx('male');
+  }
   try {
     const resp = await fetchWithFallback('/api/health');
     const ct = (resp.headers && typeof resp.headers.get === 'function') ? (resp.headers.get('content-type') || '') : 'application/json';
@@ -1142,14 +1180,13 @@ async function checkBackendHealth() {
     const health = await resp.json();
     if (health && health.status === 'ok') {
       updateAudioStatusBadge(
-        `🟢 方案 1 (Ninada VITS ${health.sampleRate || 48000}Hz 原生梵文神经网络) 就绪`
+        `🟢 方案 1 (Hugging Face 云端神经 API + 后台缓存 ONNX · ${health.sampleRate || 48000}Hz) 就绪`
       );
       return;
     }
   } catch (e) {}
   if (isRealBrowserOnnxCapable()) {
     updateAudioStatusBadge('🟢 方案 1 (Browser ONNX VITS 48000Hz 极速神经网络) 就绪');
-    warmupStandaloneBrowserOnnx('male');
   }
 }
 
@@ -1252,8 +1289,9 @@ function loadSaSession(voice) {
         scales: new ort.Tensor('float32', new Float32Array([1.0, 0.25, 0.0]), [3])
       });
     } catch (_) {}
+    _readyOnnxVoices.add(vKey);
     return session;
-  })().catch(err => { _saSessionMap.delete(vKey); throw err; });
+  })().catch(err => { _readyOnnxVoices.delete(vKey); _saSessionMap.delete(vKey); throw err; });
   _saSessionMap.set(vKey, p);
   return p;
 }
@@ -1544,7 +1582,10 @@ function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, 
 }
 
 /**
- * 统一使用方案 1 (/api/syllable/{slp1} 或 Browser ONNX VITS) 播放单个梵文音节 (48kHz VITS + 内存缓存)
+ * 统一使用方案 1 播放单个梵文音节 (48kHz VITS + 内存缓存)：
+ * - 首次进入（本地 ONNX 尚未缓存完成）：立即调用 Hugging Face / FastAPI 神经 API，同时后台缓存 ONNX
+ * - 本地 ONNX 就绪后：零延迟本地推理，云端神经 API 作为高可用互备
+ * - 移除向 legacy-tts 的回退
  */
 async function playSingleSyllable(rawSlp, cardIndex = -1) {
   const reqId = ++_singleClickReqId;
@@ -1559,28 +1600,43 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
   const rateEl = document.getElementById('speechRate');
 
   const voice = (voiceEl && voiceEl.value) ? voiceEl.value : 'male';
+  const vKey = voice === 'female' ? 'female' : (voice === 'mobile' ? 'mobile' : 'male');
   const rate = parseFloat(rateEl ? rateEl.value : '1.0') || 1.0;
 
   const cacheKey = `${cleanSlp}|${voice}|${rate.toFixed(2)}`;
-  try {
-    if (dynamicSyllableBufferCache.has(cacheKey)) {
-      const cached = dynamicSyllableBufferCache.get(cacheKey);
-      stopIdleSingleAudioNodes();
-      const durSec = playBufferSlice(cached.buffer, 0, cached.buffer.duration, 1.0, 0);
-      if (cardIndex >= 0) {
-        setTimeout(() => {
-          const card = document.getElementById(`syl-card-${cardIndex}`);
-          if (card && !isSpeaking) card.classList.remove('speaking-active');
-        }, Math.round(durSec * 1000) + 40);
-      }
-      return {
-        source: cached.source || 'neural-tts',
-        sampleRate: 48000,
-        durationSec: Number((durSec || cached.durationSec || 0.25).toFixed(4)),
-        slp1: cleanSlp
-      };
+  if (dynamicSyllableBufferCache.has(cacheKey)) {
+    const cached = dynamicSyllableBufferCache.get(cacheKey);
+    stopIdleSingleAudioNodes();
+    const durSec = playBufferSlice(cached.buffer, 0, cached.buffer.duration, 1.0, 0);
+    if (cardIndex >= 0) {
+      setTimeout(() => {
+        const card = document.getElementById(`syl-card-${cardIndex}`);
+        if (card && !isSpeaking) card.classList.remove('speaking-active');
+      }, Math.round(durSec * 1000) + 40);
     }
+    return {
+      source: cached.source || 'neural-tts',
+      sampleRate: 48000,
+      durationSec: Number((durSec || cached.durationSec || 0.25).toFixed(4)),
+      slp1: cleanSlp
+    };
+  }
 
+  const onnxReady = isRealBrowserOnnxCapable() && _readyOnnxVoices.has(vKey);
+  if (isRealBrowserOnnxCapable() && !onnxReady) {
+    warmupStandaloneBrowserOnnx(voice);
+  }
+
+  const finishCardHighlight = (durSec) => {
+    if (cardIndex >= 0) {
+      setTimeout(() => {
+        const card = document.getElementById(`syl-card-${cardIndex}`);
+        if (card && !isSpeaking) card.classList.remove('speaking-active');
+      }, Math.round(durSec * 1000) + 40);
+    }
+  };
+
+  const playViaNeuralApi = async () => {
     const q = `voice=${encodeURIComponent(voice)}&rate=${encodeURIComponent(rate)}&format=json`;
     const resp = await fetchWithFallback(`/api/syllable/${encodeURIComponent(cleanSlp)}?${q}`);
     const data = await resp.json();
@@ -1595,52 +1651,59 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
       stopIdleSingleAudioNodes();
       playBufferSlice(decodedBuf, 0, durFromApi, 1.0, 0);
     }
-    if (cardIndex >= 0) {
-      setTimeout(() => {
-        const card = document.getElementById(`syl-card-${cardIndex}`);
-        if (card && !isSpeaking) card.classList.remove('speaking-active');
-      }, Math.round(durFromApi * 1000) + 40);
-    }
+    finishCardHighlight(durFromApi);
     return {
       source: 'neural-tts',
       sampleRate: 48000,
       durationSec: Number(durFromApi.toFixed(4)),
       slp1: cleanSlp
     };
-  } catch (err) {
-    if (isRealBrowserOnnxCapable()) {
-      try {
-        const devaSyl = slp1ToDevanagari(cleanSlp) || cleanSlp;
-        const wasmBuf = await synthesizeBrowserOnnx48k(devaSyl, voice, rate, true);
-        const durSec = wasmBuf.duration || 0.26;
-        dynamicSyllableBufferCache.set(cacheKey, {
-          buffer: wasmBuf,
-          durationSec: durSec,
-          source: 'neural-tts'
-        });
-        if (reqId === _singleClickReqId) {
-          stopIdleSingleAudioNodes();
-          playBufferSlice(wasmBuf, 0, durSec, 1.0, 0);
-          updateAudioStatusBadge(`🟢 方案 1 (Browser ONNX VITS 48000Hz · ${voice}) 已发声`);
-        }
-        if (cardIndex >= 0) {
-          setTimeout(() => {
-            const card = document.getElementById(`syl-card-${cardIndex}`);
-            if (card && !isSpeaking) card.classList.remove('speaking-active');
-          }, Math.round(durSec * 1000) + 40);
-        }
-        return {
-          source: 'neural-tts',
-          sampleRate: 48000,
-          durationSec: Number(durSec.toFixed(4)),
-          slp1: cleanSlp
-        };
-      } catch (e2) {}
+  };
+
+  const playViaLocalOnnx = async () => {
+    if (!isRealBrowserOnnxCapable()) throw new Error('Browser ONNX unavailable');
+    const devaSyl = slp1ToDevanagari(cleanSlp) || cleanSlp;
+    const wasmBuf = await synthesizeBrowserOnnx48k(devaSyl, voice, rate, true);
+    const durSec = wasmBuf.duration || 0.26;
+    dynamicSyllableBufferCache.set(cacheKey, {
+      buffer: wasmBuf,
+      durationSec: durSec,
+      source: 'neural-tts'
+    });
+    if (reqId === _singleClickReqId) {
+      stopIdleSingleAudioNodes();
+      playBufferSlice(wasmBuf, 0, durSec, 1.0, 0);
+      updateAudioStatusBadge(`🟢 方案 1 (Browser ONNX VITS 48000Hz · ${voice}) 已发声`);
     }
+    finishCardHighlight(durSec);
     return {
-      source: 'legacy-tts',
-      sampleRate: 24000,
-      durationSec: 0.25,
+      source: 'neural-tts',
+      sampleRate: 48000,
+      durationSec: Number(durSec.toFixed(4)),
+      slp1: cleanSlp
+    };
+  };
+
+  try {
+    if (!onnxReady) {
+      try {
+        return await playViaNeuralApi();
+      } catch (apiErr) {
+        return await playViaLocalOnnx();
+      }
+    } else {
+      try {
+        return await playViaLocalOnnx();
+      } catch (onnxErr) {
+        return await playViaNeuralApi();
+      }
+    }
+  } catch (err) {
+    finishCardHighlight(0.1);
+    return {
+      source: 'neural-tts',
+      sampleRate: 48000,
+      durationSec: 0,
       slp1: cleanSlp
     };
   }
@@ -1649,8 +1712,9 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
 /**
  * 朗读整段梵文，并按帧级时间戳同步高亮音节卡片
  * 支持：
- * - neural-tts：调用方案 1 `POST /api/tts` 或静态边缘 Browser ONNX VITS 获取 48kHz 音频流与 `syllableTimings`
- * - legacy-tts：系统 Web Speech API 对比兜底
+ * - neural-tts：首次进入本地 ONNX 尚未缓存完成时直接调用 Hugging Face / FastAPI `POST /api/tts`，
+ *   同时后台缓存 ONNX 模型；本地 ONNX 就绪后使用本地 48kHz 推理（严禁回退至 legacy-tts）
+ * - legacy-tts：仅当用户在下拉菜单显式选择系统语音对比时使用
  */
 async function speakSanskrit(fromButton = false) {
   if (isSpeaking) {
@@ -1673,14 +1737,21 @@ async function speakSanskrit(fromButton = false) {
 
   const rate = parseFloat(document.getElementById('speechRate')?.value || '1.0') || 1.0;
   const voice = document.getElementById('voiceSelect')?.value || 'male';
+  const vKey = voice === 'female' ? 'female' : (voice === 'mobile' ? 'mobile' : 'male');
   const rawMode = document.getElementById('audioModeSelect')?.value || 'neural-tts';
   const mode = rawMode === 'tts' ? 'legacy-tts' : (rawMode === 'legacy-tts' ? 'legacy-tts' : 'neural-tts');
 
   setSpeakingUI(true);
 
-  // 方案 1：原生古典梵文神经网络整句合成 (neural-tts + Browser ONNX fallback)
+  // 方案 1：原生古典梵文神经网络整句合成（首次进入走 Hugging Face API + 后台缓存 ONNX，无回退）
   if (mode === 'neural-tts') {
-    try {
+    const onnxReady = isRealBrowserOnnxCapable() && _readyOnnxVoices.has(vKey);
+    if (isRealBrowserOnnxCapable() && !onnxReady) {
+      warmupStandaloneBrowserOnnx(voice);
+    }
+
+    const speakViaNeuralApi = async () => {
+      updateAudioStatusBadge(`⏳ 正在通过 Hugging Face 神经模型 API 获取 48kHz 梵音 (${voice})...`);
       const resp = await fetchWithFallback('/api/tts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1693,6 +1764,9 @@ async function speakSanskrit(fromButton = false) {
         })
       });
       const data = await resp.json();
+      if (!isSpeaking) {
+        return { mode: 'stopped', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
+      }
       const totalDurSec = Number(data.durationSec) || 1.2;
       const timings = Array.isArray(data.syllableTimings) ? data.syllableTimings : [];
       const audioBuf = await decodeWavBase64ToBuffer(data.audioBase64Wav || '', totalDurSec);
@@ -1723,68 +1797,91 @@ async function speakSanskrit(fromButton = false) {
         durationSec: totalDurSec,
         syllableTimings: timings
       };
-    } catch (err) {
-      if (isRealBrowserOnnxCapable()) {
+    };
+
+    const speakViaLocalOnnx = async () => {
+      if (!isRealBrowserOnnxCapable()) throw new Error('Browser ONNX unavailable');
+      updateAudioStatusBadge(`⏳ 正在通过本地缓存 Browser ONNX VITS 合成 48kHz 古典梵音 (${voice})...`);
+      const wasmBuf = await synthesizeBrowserOnnx48k(devaText || slp1ToDevanagari(inputToSlp1(rawInput, 'smart')), voice, rate, false);
+      if (!isSpeaking) {
+        return { mode: 'stopped', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
+      }
+      const totalDurSec = wasmBuf.duration || 1.2;
+      playBufferSlice(wasmBuf, 0, totalDurSec, 1.0, 0);
+
+      const cards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
+      const weights = cards.map(c => {
+        const r = c.getAttribute('data-raw') || '';
+        return /[AIFXEO]|[MH~]$|[kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL]$/.test(r) ? 1.75 : 1.0;
+      });
+      const wSum = weights.reduce((a, b) => a + b, 0) || 1;
+      let curMs = 15;
+      const activeMs = Math.max(80, Math.round(totalDurSec * 1000) - 40);
+      const timings = cards.map((c, idx) => {
+        const durMs = Math.max(30, Math.round((weights[idx] / wSum) * activeMs));
+        const st = curMs;
+        curMs += durMs;
+        const tid = setTimeout(() => {
+          if (!isSpeaking) return;
+          highlightSyllableCard(idx, true);
+        }, st);
+        activeHighlightTimers.push(tid);
+        return {
+          index: idx,
+          slp1: c.getAttribute('data-raw') || '',
+          startMs: st,
+          endMs: curMs,
+          durationMs: durMs
+        };
+      });
+
+      currentStopTimer = setTimeout(() => {
+        stopSpeaking();
+      }, Math.round(totalDurSec * 1000) + 100);
+
+      updateAudioStatusBadge(
+        `🔊 正在播放 Browser ONNX VITS 48000Hz (${voice} · ${totalDurSec.toFixed(2)}s)`
+      );
+
+      return {
+        mode: 'neural-tts',
+        sampleRate: 48000,
+        durationSec: totalDurSec,
+        syllableTimings: timings
+      };
+    };
+
+    try {
+      if (!onnxReady) {
         try {
-          updateAudioStatusBadge(`⏳ 正在通过 Browser ONNX VITS 合成 48kHz 古典梵音 (${voice})...`);
-          const wasmBuf = await synthesizeBrowserOnnx48k(devaText || slp1ToDevanagari(inputToSlp1(rawInput, 'smart')), voice, rate, false);
-          if (!isSpeaking) {
-            return { mode: 'stopped', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
-          }
-          const totalDurSec = wasmBuf.duration || 1.2;
-          playBufferSlice(wasmBuf, 0, totalDurSec, 1.0, 0);
-
-          const cards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
-          const weights = cards.map(c => {
-            const r = c.getAttribute('data-raw') || '';
-            return /[AIFXEO]|[MH~]$|[kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL]$/.test(r) ? 1.75 : 1.0;
-          });
-          const wSum = weights.reduce((a, b) => a + b, 0) || 1;
-          let curMs = 15;
-          const activeMs = Math.max(80, Math.round(totalDurSec * 1000) - 40);
-          const timings = cards.map((c, idx) => {
-            const durMs = Math.max(30, Math.round((weights[idx] / wSum) * activeMs));
-            const st = curMs;
-            curMs += durMs;
-            const tid = setTimeout(() => {
-              if (!isSpeaking) return;
-              highlightSyllableCard(idx, true);
-            }, st);
-            activeHighlightTimers.push(tid);
-            return {
-              index: idx,
-              slp1: c.getAttribute('data-raw') || '',
-              startMs: st,
-              endMs: curMs,
-              durationMs: durMs
-            };
-          });
-
-          currentStopTimer = setTimeout(() => {
-            stopSpeaking();
-          }, Math.round(totalDurSec * 1000) + 100);
-
-          updateAudioStatusBadge(
-            `🔊 正在播放 Browser ONNX VITS 48000Hz (${voice} · ${totalDurSec.toFixed(2)}s)`
-          );
-
-          return {
-            mode: 'neural-tts',
-            sampleRate: 48000,
-            durationSec: totalDurSec,
-            syllableTimings: timings
-          };
-        } catch (onnxErr) {
-          // Fall through to legacy Web Speech API if CDN unreachable
+          return await speakViaNeuralApi();
+        } catch (apiErr) {
+          if (!isRealBrowserOnnxCapable()) throw apiErr;
+          return await speakViaLocalOnnx();
         }
       } else {
-        stopSpeaking();
-        throw err;
+        try {
+          return await speakViaLocalOnnx();
+        } catch (onnxErr) {
+          return await speakViaNeuralApi();
+        }
       }
+    } catch (finalErr) {
+      stopSpeaking();
+      if (!isRealBrowserOnnxCapable()) {
+        throw finalErr;
+      }
+      updateAudioStatusBadge('⚠️ 梵音神经引擎请求超时，请重试');
+      return {
+        mode: 'neural-tts',
+        sampleRate: 48000,
+        durationSec: 0,
+        syllableTimings: []
+      };
     }
   }
 
-  // 对比兜底：浏览器原生 Web Speech API (legacy-tts)
+  // 显式选择对比模式：浏览器原生 Web Speech API (legacy-tts)
   if ('speechSynthesis' in window && window.speechSynthesis) {
     const voices = window.speechSynthesis.getVoices() || [];
     const targetVoice = voices.find(v => v.lang && v.lang.startsWith('sa')) ||

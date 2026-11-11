@@ -3,9 +3,10 @@ set -euo pipefail
 
 # ==============================================================================
 # 一键部署脚本：
-#   1. Hugging Face Model Hub CDN (托管 155MB 48kHz 梵文神经 VITS ONNX 模型)
-#   2. Hugging Face Static Space (免费托管完整前端与 WebAssembly 神经 TTS)
-#   3. Cloudflare Pages (全球边缘 CDN 部署，可选)
+#   1. Hugging Face Docker Space (托管 48kHz 古典梵文神经 VITS 实时推理 API，供首次访问零等待发音)
+#   2. Hugging Face Model Hub CDN (托管 48kHz 梵文神经 VITS ONNX 模型与全量云端语料检索分片，供浏览器后台缓存)
+#   3. Hugging Face Static Space (免费托管完整前端与后台 WebAssembly 神经缓存引擎)
+#   4. Cloudflare Pages (全球边缘 CDN 部署，可选)
 #
 # 用法：
 #   export HF_TOKEN="hf_xxxxxxxx"
@@ -14,10 +15,11 @@ set -euo pipefail
 # ==============================================================================
 
 SPACE_NAME="${HF_SPACE_NAME:-sarva-dharani-kosa}"
+TTS_API_SPACE_NAME="${HF_TTS_API_SPACE_NAME:-sarva-dharani-kosa-tts-api}"
 MODEL_REPO_NAME="${HF_MODEL_REPO_NAME:-sarva-dharani-kosa-tts}"
 CF_PROJECT_NAME="${CF_PAGES_PROJECT:-sarva-dharani-kosa}"
 
-echo "=== [1/4] 检查 Hugging Face CLI 与认证状态 ==="
+echo "=== [1/5] 检查 Hugging Face CLI 与认证状态 ==="
 if ! python3 -c "import huggingface_hub" >/dev/null 2>&1; then
   echo "正在安装 huggingface_hub CLI..."
   pip install --user --break-system-packages -q "huggingface_hub"
@@ -42,16 +44,104 @@ EOF
 }
 
 SPACE_ID="${HF_USER}/${SPACE_NAME}"
+TTS_API_SPACE_ID="${HF_USER}/${TTS_API_SPACE_NAME}"
 MODEL_ID="${HF_USER}/${MODEL_REPO_NAME}"
 HF_STATIC_URL="https://$(echo "${HF_USER}-${SPACE_NAME}" | tr '[:upper:]' '[:lower:]' | tr '_' '-').static.hf.space"
+HF_TTS_API_URL="https://$(echo "${HF_USER}-${TTS_API_SPACE_NAME}" | tr '[:upper:]' '[:lower:]' | tr '_' '-').hf.space"
 HF_MODEL_CDN="https://huggingface.co/${MODEL_ID}/resolve/main"
 
 echo "✅ 已认证 Hugging Face 用户: ${HF_USER}"
+echo "🎙️ 48kHz 神经模型 API Space: https://huggingface.co/spaces/${TTS_API_SPACE_ID} (${HF_TTS_API_URL})"
 echo "🧠 48kHz ONNX 模型仓库: https://huggingface.co/${MODEL_ID}"
-echo "🚀 目标 Hugging Face Space: https://huggingface.co/spaces/${SPACE_ID}"
+echo "🚀 目标前端 Static Space: https://huggingface.co/spaces/${SPACE_ID}"
 echo "🌐 独立直连访问地址: ${HF_STATIC_URL}"
 
-echo "=== [2/4] 编译全量世界梵文真言陀罗尼云端分片与检索索引，并同步至 Hugging Face Hub CDN ==="
+echo "=== [2/5] 部署 48kHz 古典梵文神经 VITS API 至 Hugging Face Docker Space (${TTS_API_SPACE_ID}) ==="
+TTS_STAGE_DIR="$(mktemp -d)"
+trap 'rm -rf "${TTS_STAGE_DIR}"' EXIT
+
+mkdir -p "${TTS_STAGE_DIR}/backend" "${TTS_STAGE_DIR}/models"
+cp requirements.txt "${TTS_STAGE_DIR}/requirements.txt"
+cp backend/*.py "${TTS_STAGE_DIR}/backend/" 2>/dev/null || true
+cp -r models/ninada "${TTS_STAGE_DIR}/models/ninada"
+
+cat > "${TTS_STAGE_DIR}/Dockerfile" <<'DOCKER_EOF'
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    HOME=/home/user \
+    HOST=0.0.0.0 \
+    PORT=7860 \
+    OMP_NUM_THREADS=2 \
+    TTS_CACHE_DIR=/tmp/sarva-tts-cache
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    libgomp1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -u 1000 user
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY models ./models
+COPY backend ./backend
+
+RUN mkdir -p /app/public/audio/cache /app/public/corpus /tmp/sarva-tts-cache && \
+    chown -R 1000:1000 /app /tmp/sarva-tts-cache && \
+    chmod -R 775 /app/public /tmp/sarva-tts-cache
+
+USER 1000
+EXPOSE 7860
+
+CMD ["sh", "-c", "uvicorn backend.tts_server:app --host ${HOST:-0.0.0.0} --port ${PORT:-7860}"]
+DOCKER_EOF
+
+cat > "${TTS_STAGE_DIR}/README.md" <<'README_EOF'
+---
+title: Sarva-Dhāraṇī-Kośa 48kHz Sanskrit Neural VITS TTS API
+emoji: 🕉️
+colorFrom: yellow
+colorTo: red
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
+# 48,000 Hz Classical Sanskrit Neural VITS TTS API (`sa.onnx` / `sa_female.onnx`)
+
+Provides real-time 48,000 Hz Classical Sanskrit Neural VITS synthesis (`/api/health`, `/api/tts`, `/api/syllable/{slp1}`) for **Sarva-Dhāraṇī-Kośa (梵音宝典)** so first-time visitors receive instant neural recitation while the browser caches ONNX models in the background.
+README_EOF
+
+python3 - "${TTS_API_SPACE_ID}" "${TTS_STAGE_DIR}" <<'EOF'
+import os, sys
+from huggingface_hub import HfApi
+
+tts_space_id = sys.argv[1]
+stage_dir = sys.argv[2]
+api = HfApi(token=os.environ.get("HF_TOKEN") or None)
+api.create_repo(
+    repo_id=tts_space_id,
+    repo_type="space",
+    space_sdk="docker",
+    exist_ok=True,
+    private=False,
+)
+api.upload_folder(
+    folder_path=stage_dir,
+    repo_id=tts_space_id,
+    repo_type="space",
+    ignore_patterns=["**/__pycache__/**", "**/*.pyc"],
+    commit_message="Deploy 48kHz Classical Sanskrit Neural VITS FastAPI Docker Space",
+)
+print(f"✅ 48kHz 梵文神经 VITS API Space 已同步至 https://huggingface.co/spaces/{tts_space_id}")
+EOF
+
+echo "=== [3/5] 编译全量世界梵文真言陀罗尼云端分片与检索索引，并同步至 Hugging Face Hub CDN ==="
 if [ ! -d "node_modules" ]; then
   npm ci
 fi
@@ -66,7 +156,7 @@ model_id = sys.argv[1]
 api = HfApi(token=os.environ.get("HF_TOKEN") or None)
 api.create_repo(repo_id=model_id, repo_type="model", exist_ok=True, private=False)
 ninada_dir = Path("models/ninada")
-if ninada_dir.is_dir() and any(ninada_dir.glob("*.onnx")):
+if ninada_dir.is_dir() and any(ninada_dir.rglob("*.onnx")):
     api.upload_folder(
         folder_path="models/ninada",
         repo_id=model_id,
@@ -83,8 +173,8 @@ api.upload_folder(
 print(f"✅ 模型与云端语料检索分片已同步至 https://huggingface.co/{model_id}")
 EOF
 
-echo "=== [3/4] 构建生产环境前端包 (dist/) 并部署至 Hugging Face Space ==="
-VITE_HF_MODEL_BASE_URL="${HF_MODEL_CDN}" npm run build
+echo "=== [4/5] 构建生产环境前端包 (dist/) 并部署至 Hugging Face Static Space ==="
+VITE_HF_MODEL_BASE_URL="${HF_MODEL_CDN}" VITE_HF_TTS_API_URL="${HF_TTS_API_URL}" npm run build
 
 python3 - "${SPACE_ID}" <<'EOF'
 import os, sys
@@ -120,14 +210,14 @@ api.upload_folder(
     repo_id=space_id,
     repo_type="space",
     ignore_patterns=["audio/cache/**"],
-    commit_message="Deploy Sarva-Dharani-Kosa production static web bundle with 48kHz ONNX Neural VITS TTS",
+    commit_message="Deploy Sarva-Dharani-Kosa production static web bundle with Cloud HF Neural TTS API + Background ONNX Caching",
 )
 print(f"✅ 成功部署至 https://huggingface.co/spaces/{space_id}")
 EOF
 
-echo "=== [4/4] 使用 Cloudflare Wrangler CLI 部署至 Cloudflare Pages ==="
+echo "=== [5/5] 使用 Cloudflare Wrangler CLI 部署至 Cloudflare Pages ==="
 if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
-  echo "⚠️ 未检测到 CLOUDFLARE_API_TOKEN，跳过 Cloudflare Pages 推送（Hugging Face Space 已上线：${HF_STATIC_URL}）。"
+  echo "⚠️ 未检测到 CLOUDFLARE_API_TOKEN，跳过 Cloudflare Pages 推送（Hugging Face Space 已上线：${HF_STATIC_URL}，神经语音 API：${HF_TTS_API_URL}）。"
   exit 0
 fi
 
@@ -135,6 +225,7 @@ npx --yes wrangler pages project create "${CF_PROJECT_NAME}" --production-branch
 npx --yes wrangler pages deploy dist --project-name="${CF_PROJECT_NAME}" --branch=main --commit-dirty=true
 
 echo "🎉 部署全部完成！"
+echo "  • Hugging Face 48kHz 梵文神经 API: ${HF_TTS_API_URL}"
 echo "  • Hugging Face 完整在线站点: ${HF_STATIC_URL}"
 echo "  • Hugging Face Space 主页: https://huggingface.co/spaces/${SPACE_ID}"
 echo "  • Cloudflare Pages 全球边缘站点: https://${CF_PROJECT_NAME}.pages.dev"

@@ -44,12 +44,31 @@ from backend.sanskrit_tts_engine import (
     input_to_slp1,
 )
 
+import os
+
 PUBLIC_AUDIO_DIR = PROJECT_ROOT / "public" / "audio"
 PUBLIC_FONTS_DIR = PROJECT_ROOT / "public" / "fonts"
-CACHE_DIR = PUBLIC_AUDIO_DIR / "cache"
 
-PUBLIC_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
+
+def _init_writable_cache_dir() -> Path:
+    preferred = Path(os.environ.get("TTS_CACHE_DIR", str(PUBLIC_AUDIO_DIR / "cache")))
+    for candidate in (preferred, Path("/tmp/sarva-tts-cache")):
+        try:
+            candidate.mkdir(parents=True, exist_ok=True)
+            probe = candidate / ".write_probe"
+            probe.write_bytes(b"ok")
+            probe.unlink(missing_ok=True)
+            return candidate
+        except OSError:
+            continue
+    return Path("/tmp")
+
+
+try:
+    PUBLIC_AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass
+CACHE_DIR = _init_writable_cache_dir()
 
 
 class TTSRequest(BaseModel):
@@ -208,10 +227,19 @@ app.add_middleware(
 
 @app.on_event("startup")
 def _startup_preload() -> None:
-    get_tts_engine()
+    engine = get_tts_engine()
+    for warm_voice in ("male", "female"):
+        try:
+            synth = engine.synthesize_single_syllable("oM", voice=warm_voice, rate=1.0)
+            _MEM_SYL_CACHE[f"v2_plan1|oM|{warm_voice}|1.000"] = {
+                **synth,
+                "source": "neural-tts",
+            }
+        except Exception:
+            pass
 
 
-@app.get("/api/health")
+@app.api_route("/api/health", methods=["GET", "HEAD"])
 def api_health() -> dict[str, Any]:
     engine = get_tts_engine()
     return {
@@ -413,7 +441,10 @@ def get_syllable(
 
 
 PUBLIC_CORPUS_DIR = PROJECT_ROOT / "public" / "corpus"
-PUBLIC_CORPUS_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    PUBLIC_CORPUS_DIR.mkdir(parents=True, exist_ok=True)
+except OSError:
+    pass
 _CORPUS_INDEX_CACHE: dict[str, Any] | None = None
 
 
@@ -535,14 +566,28 @@ def get_phonetic_engine_html() -> Response:
     raise HTTPException(status_code=404, detail="sanskrit_phonetic_engine.html not found")
 
 
-app.mount("/audio", StaticFiles(directory=str(PUBLIC_AUDIO_DIR)), name="audio")
-app.mount("/corpus", StaticFiles(directory=str(PUBLIC_CORPUS_DIR)), name="corpus")
+if PUBLIC_AUDIO_DIR.exists():
+    app.mount("/audio", StaticFiles(directory=str(PUBLIC_AUDIO_DIR)), name="audio")
+if PUBLIC_CORPUS_DIR.exists():
+    app.mount("/corpus", StaticFiles(directory=str(PUBLIC_CORPUS_DIR)), name="corpus")
 if PUBLIC_FONTS_DIR.exists():
     app.mount("/fonts", StaticFiles(directory=str(PUBLIC_FONTS_DIR)), name="fonts")
 
 DIST_DIR = PROJECT_ROOT / "dist"
 if DIST_DIR.exists() and (DIST_DIR / "index.html").exists():
     app.mount("/", StaticFiles(directory=str(DIST_DIR), html=True), name="frontend")
+else:
+    @app.api_route("/", methods=["GET", "HEAD"])
+    def root_api_info() -> dict[str, Any]:
+        engine = get_tts_engine()
+        return {
+            "status": "ok",
+            "service": "sarva-dharani-kosa-tts-api",
+            "engine": "ninada-vits-sanskrit-48khz",
+            "sampleRate": TARGET_SAMPLE_RATE,
+            "modelsLoaded": engine.models_loaded,
+            "endpoints": ["/api/health", "/api/tts", "/api/syllable/{slp1_key}"],
+        }
 
 
 if __name__ == "__main__":
