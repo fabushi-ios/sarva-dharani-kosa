@@ -573,21 +573,30 @@ if PUBLIC_CORPUS_DIR.exists():
 if PUBLIC_FONTS_DIR.exists():
     app.mount("/fonts", StaticFiles(directory=str(PUBLIC_FONTS_DIR)), name="fonts")
 
+def _build_service_info() -> dict[str, Any]:
+    engine = get_tts_engine()
+    return {
+        "status": "ok",
+        "service": "sarva-dharani-kosa-tts-api",
+        "engine": "ninada-vits-sanskrit-48khz",
+        "sampleRate": TARGET_SAMPLE_RATE,
+        "modelsLoaded": engine.models_loaded,
+        "endpoints": ["/api/health", "/api/info", "/api/tts", "/api/syllable/{slp1_key}"],
+    }
+
+
+@app.api_route("/api/info", methods=["GET", "HEAD"])
+def api_service_info() -> dict[str, Any]:
+    return _build_service_info()
+
+
 DIST_DIR = PROJECT_ROOT / "dist"
 if DIST_DIR.exists() and (DIST_DIR / "index.html").exists():
     app.mount("/", StaticFiles(directory=str(DIST_DIR), html=True), name="frontend")
-else:
+elif os.environ.get("SARVA_GRADIO_ROOT") != "1":
     @app.api_route("/", methods=["GET", "HEAD"])
     def root_api_info() -> dict[str, Any]:
-        engine = get_tts_engine()
-        return {
-            "status": "ok",
-            "service": "sarva-dharani-kosa-tts-api",
-            "engine": "ninada-vits-sanskrit-48khz",
-            "sampleRate": TARGET_SAMPLE_RATE,
-            "modelsLoaded": engine.models_loaded,
-            "endpoints": ["/api/health", "/api/tts", "/api/syllable/{slp1_key}"],
-        }
+        return _build_service_info()
 
 
 if __name__ == "__main__":

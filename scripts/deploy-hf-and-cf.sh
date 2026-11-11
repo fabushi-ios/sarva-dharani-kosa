@@ -56,50 +56,24 @@ echo "🧠 48kHz ONNX 模型仓库: https://huggingface.co/${MODEL_ID}"
 echo "🚀 目标前端 Static Space: https://huggingface.co/spaces/${SPACE_ID}"
 echo "🌐 独立直连访问地址: ${HF_STATIC_URL}"
 
-echo "=== [2/5] 部署 48kHz 古典梵文神经 VITS API 至 Hugging Face Docker Space (${TTS_API_SPACE_ID}) ==="
+echo "=== [2/5] 部署 48kHz 古典梵文神经 VITS API 至 Hugging Face ZeroGPU Space (${TTS_API_SPACE_ID}) ==="
 TTS_STAGE_DIR="$(mktemp -d)"
 trap 'rm -rf "${TTS_STAGE_DIR}"' EXIT
 
 mkdir -p "${TTS_STAGE_DIR}/backend" "${TTS_STAGE_DIR}/models"
-cp requirements.txt "${TTS_STAGE_DIR}/requirements.txt"
+cp backend/hf_space_app.py "${TTS_STAGE_DIR}/app.py"
 cp backend/*.py "${TTS_STAGE_DIR}/backend/" 2>/dev/null || true
 cp -r models/ninada "${TTS_STAGE_DIR}/models/ninada"
 
-cat > "${TTS_STAGE_DIR}/Dockerfile" <<'DOCKER_EOF'
-FROM python:3.11-slim
+cat > "${TTS_STAGE_DIR}/packages.txt" <<'PKG_EOF'
+ffmpeg
+PKG_EOF
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    HOME=/home/user \
-    HOST=0.0.0.0 \
-    PORT=7860 \
-    OMP_NUM_THREADS=2 \
-    TTS_CACHE_DIR=/tmp/sarva-tts-cache
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    libgomp1 \
-    && rm -rf /var/lib/apt/lists/* \
-    && useradd -m -u 1000 user
-
-WORKDIR /app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
-
-COPY models ./models
-COPY backend ./backend
-
-RUN mkdir -p /app/public/audio/cache /app/public/corpus /tmp/sarva-tts-cache && \
-    chown -R 1000:1000 /app /tmp/sarva-tts-cache && \
-    chmod -R 775 /app/public /tmp/sarva-tts-cache
-
-USER 1000
-EXPOSE 7860
-
-CMD ["sh", "-c", "uvicorn backend.tts_server:app --host ${HOST:-0.0.0.0} --port ${PORT:-7860}"]
-DOCKER_EOF
+cat > "${TTS_STAGE_DIR}/requirements.txt" <<'REQ_EOF'
+onnxruntime>=1.17.0
+numpy>=1.24.0
+scipy>=1.11.0
+REQ_EOF
 
 cat > "${TTS_STAGE_DIR}/README.md" <<'README_EOF'
 ---
@@ -107,8 +81,9 @@ title: Sarva-Dhāraṇī-Kośa 48kHz Sanskrit Neural VITS TTS API
 emoji: 🕉️
 colorFrom: yellow
 colorTo: red
-sdk: docker
-app_port: 7860
+sdk: gradio
+sdk_version: 5.50.0
+app_file: app.py
 pinned: false
 ---
 
@@ -124,19 +99,31 @@ from huggingface_hub import HfApi
 tts_space_id = sys.argv[1]
 stage_dir = sys.argv[2]
 api = HfApi(token=os.environ.get("HF_TOKEN") or None)
-api.create_repo(
-    repo_id=tts_space_id,
-    repo_type="space",
-    space_sdk="docker",
-    exist_ok=True,
-    private=False,
-)
+
+space_exists = False
+try:
+    info = api.repo_info(repo_id=tts_space_id, repo_type="space")
+    space_exists = True
+    print(f"ℹ️ TTS API Space already exists: {tts_space_id} (sdk={getattr(info, 'sdk', None)})")
+except Exception:
+    space_exists = False
+
+if not space_exists:
+    api.create_repo(
+        repo_id=tts_space_id,
+        repo_type="space",
+        space_sdk="gradio",
+        space_hardware="zero-a10g",
+        exist_ok=True,
+        private=False,
+    )
+
 api.upload_folder(
     folder_path=stage_dir,
     repo_id=tts_space_id,
     repo_type="space",
     ignore_patterns=["**/__pycache__/**", "**/*.pyc"],
-    commit_message="Deploy 48kHz Classical Sanskrit Neural VITS FastAPI Docker Space",
+    commit_message="Deploy 48kHz Classical Sanskrit Neural VITS FastAPI + Gradio ZeroGPU Space",
 )
 print(f"✅ 48kHz 梵文神经 VITS API Space 已同步至 https://huggingface.co/spaces/{tts_space_id}")
 EOF
@@ -154,7 +141,11 @@ from huggingface_hub import HfApi
 
 model_id = sys.argv[1]
 api = HfApi(token=os.environ.get("HF_TOKEN") or None)
-api.create_repo(repo_id=model_id, repo_type="model", exist_ok=True, private=False)
+try:
+    api.repo_info(repo_id=model_id, repo_type="model")
+except Exception:
+    api.create_repo(repo_id=model_id, repo_type="model", exist_ok=True, private=False)
+
 ninada_dir = Path("models/ninada")
 if ninada_dir.is_dir() and any(ninada_dir.rglob("*.onnx")):
     api.upload_folder(
@@ -183,13 +174,16 @@ from huggingface_hub import HfApi
 
 space_id = sys.argv[1]
 api = HfApi(token=os.environ.get("HF_TOKEN") or None)
-api.create_repo(
-    repo_id=space_id,
-    repo_type="space",
-    space_sdk="static",
-    exist_ok=True,
-    private=False,
-)
+try:
+    api.repo_info(repo_id=space_id, repo_type="space")
+except Exception:
+    api.create_repo(
+        repo_id=space_id,
+        repo_type="space",
+        space_sdk="static",
+        exist_ok=True,
+        private=False,
+    )
 
 readme_path = Path("dist/README.md")
 readme_path.write_text("""---
