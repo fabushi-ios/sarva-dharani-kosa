@@ -9,6 +9,7 @@ import {
   type MixedSegmentableField,
 } from '../../core/provenance/fieldProvenance';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
+import { PhoneticText } from '../common/PhoneticText';
 
 interface FullDharaniSummaryCardProps {
   entry: DharaniEntry;
@@ -180,7 +181,7 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
     return true;
   };
 
-  const renderSegmentedRow = (items: string[], separator: string) =>
+  const renderSegmentedRow = (items: string[], separator: string, isPhoneticZh = false) =>
     items.map((text, idx) => {
       const v = entry.verses[idx];
       const isPlayingThis = activeVerseIndex !== null && v && v.index === activeVerseIndex;
@@ -198,7 +199,7 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             onClick={() => onPlayVerse?.(idx)}
             title={v ? `点击定位并讽诵第 ${v.index} 句` : undefined}
           >
-            {text}
+            {isPhoneticZh ? <PhoneticText text={text} /> : text}
           </span>
           {idx < items.length - 1 ? <span>{separator}</span> : null}
         </React.Fragment>
@@ -206,6 +207,7 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
     });
 
   const renderMixedSummaryRow = (field: MixedSegmentableField, separator: string) => {
+    const isPhoneticZh = field === 'modernPhoneticZh';
     const nonEmptyEntries = entry.verses
       .map((v, idx) => ({
         verse: v,
@@ -230,16 +232,22 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             onClick={() => onPlayVerse?.(idx)}
             title={`第 ${v.index} 句（点击讽诵）：朱砂色为原典原载，青金色为系统参考`}
           >
-            {isPlayingThis
-              ? segments.map((s) => s.text).join('')
-              : segments.map((seg, sIdx) => (
-                  <span
-                    key={`${v.id}-${field}-seg-${sIdx}`}
-                    className={seg.origin === 'db-original' ? 'prov-seg-orig' : 'prov-seg-ref'}
-                  >
-                    {seg.text}
-                  </span>
-                ))}
+            {isPlayingThis ? (
+              isPhoneticZh ? (
+                <PhoneticText text={segments.map((s) => s.text).join('')} />
+              ) : (
+                segments.map((s) => s.text).join('')
+              )
+            ) : (
+              segments.map((seg, sIdx) => (
+                <span
+                  key={`${v.id}-${field}-seg-${sIdx}`}
+                  className={seg.origin === 'db-original' ? 'prov-seg-orig' : 'prov-seg-ref'}
+                >
+                  {isPhoneticZh ? <PhoneticText text={seg.text} /> : seg.text}
+                </span>
+              ))
+            )}
           </span>
           {listPos < nonEmptyEntries.length - 1 ? (
             <span style={{ color: 'var(--text-muted)' }}>{separator}</span>
@@ -257,13 +265,14 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
     separator: string,
     alwaysSegmentByVerse = false
   ) => {
+    const isPhoneticZh = field === 'modernPhoneticZh';
     if (state === 'mixed') {
       return renderMixedSummaryRow(field, separator);
     }
     if (activeVerseIndex !== null || alwaysSegmentByVerse) {
-      return renderSegmentedRow(plainList, separator);
+      return renderSegmentedRow(plainList, separator, isPhoneticZh);
     }
-    return plainFull;
+    return isPhoneticZh ? <PhoneticText text={plainFull} /> : plainFull;
   };
 
   return (

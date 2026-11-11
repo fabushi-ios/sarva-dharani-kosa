@@ -1,11 +1,18 @@
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, it, expect } from 'vitest';
 import { analyzeSanskritProsody } from '../../src/core/sanskrit/prosody';
 import { iastToDevanagari, iastToIpa } from '../../src/core/sanskrit/transliterator';
 import {
+  coalesceSubscriptRuns,
   enrichSyllablesWithPhonetics,
   generateVerseChinesePhonetics,
   mapSyllableToChinesePhonetics,
+  parsePhoneticRichSegments,
+  stripPhoneticSubscriptMarkers,
 } from '../../src/core/sanskrit/phoneticMapper';
+import { PhoneticText } from '../../src/components/common/PhoneticText';
+import { filterDharanis, normalizeSearchText } from '../../src/core/search/searchEngine';
 import {
   VITS_INHERENT_A_MARKER,
   cancelLowPriorityBrowserOnnxTasks,
@@ -48,7 +55,7 @@ function reconstructModernFromEnriched(iast: string): string {
       }
       wordStr += syls[i].modernZh;
     }
-    if (wordStr) tokens.push(wordStr);
+    if (wordStr) tokens.push(coalesceSubscriptRuns(wordStr));
     if (syls[syls.length - 1].dandaAfter) {
       pendingDanda = true;
     }
@@ -63,7 +70,7 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
 
     const verseOut = generateVerseChinesePhonetics(iast, false);
     expect(verseOut.modernPhoneticZh).toBe(
-      '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀 | 拿摩 阿哩呀-瓦洛给帝-湿瓦啦呀 博地-萨特瓦呀 玛哈-萨特瓦呀 玛哈-嘎鲁尼嘎呀'
+      '拿摩 布达呀 | 拿摩 达₍尔₎玛呀 | 拿玛₍赫₎ 桑嘎呀 | 拿摩 阿₍哩₎呀-瓦洛给帝-₍湿₎瓦啦呀 博地-萨₍特₎瓦呀 玛哈-萨₍特₎瓦呀 玛哈-嘎鲁尼嘎呀'
     );
 
     const enriched = enrichSyllablesWithPhonetics(analyzeSanskritProsody(iast));
@@ -78,14 +85,14 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
     expect(byIndex['4:dhā'].modern).toBe('达'); // Voiced aspirate single-syllable (not 达哈—)
     expect(byIndex['9:mā'].modern).toBe('玛'); // No em-dash '—' masquerading as '一'
     expect(byIndex['9:mā'].tang).toBe('摩(引)'); // BMP-safe Tang dīrgha notation (not Extension-B tofu U+246A5 𤚥)
-    expect(byIndex['12:maḥ'].modern).toBe('玛赫'); // Visarga -aḥ -> 赫 (not 玛哈)
+    expect(byIndex['12:maḥ'].modern).toBe('玛₍赫₎'); // Visarga -aḥ -> subscript ₍赫₎ (not full syllable 玛哈)
     expect(byIndex['13:saṃ'].modern).toBe('桑'); // Velar assimilation before gh (not 萨姆)
     expect(byIndex['14:ghā'].modern).toBe('嘎'); // Complete CV matrix cell (not 嘎哈啊)
-    expect(byIndex['18:ār'].modern).toBe('阿哩'); // Pre-palatal Repha svarabhakti before y
+    expect(byIndex['18:ār'].modern).toBe('阿₍哩₎'); // Pre-palatal Repha svarabhakti before y in subscript
     expect(byIndex['23:te'].modern).toBe('帝'); // Rising-sonority onset keeps śva intact (not teś -> 帝斯)
-    expect(byIndex['24:śva'].modern).toBe('湿瓦');
+    expect(byIndex['24:śva'].modern).toBe('₍湿₎瓦');
     expect(byIndex['29:sat'].modern).toBe('萨'); // Homorganic t before tv absorbed (not 萨特 + 特瓦—)
-    expect(byIndex['30:tvā'].modern).toBe('特瓦');
+    expect(byIndex['30:tvā'].modern).toBe('₍特₎瓦');
   });
 
   it('syllabifies rising-sonority 2- and 3-consonant Akṣara onsets accurately', () => {
@@ -94,11 +101,11 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
 
     const tryadhva = analyzeSanskritProsody('tryadhva').map((s) => s.iast);
     expect(tryadhva).toEqual(['trya', 'dhva']);
-    expect(generateVerseChinesePhonetics('tryadhva', false).modernPhoneticZh).toBe('特哩呀德瓦');
+    expect(generateVerseChinesePhonetics('tryadhva', false).modernPhoneticZh).toBe('₍特哩₎呀₍德₎瓦');
 
     const agrya = analyzeSanskritProsody('agrya').map((s) => s.iast);
     expect(agrya).toEqual(['a', 'grya']);
-    expect(generateVerseChinesePhonetics('agrya', false).modernPhoneticZh).toBe('阿格哩呀');
+    expect(generateVerseChinesePhonetics('agrya', false).modernPhoneticZh).toBe('阿₍格哩₎呀');
   });
 
   it('implements Abhinidhāna & Varṇakrama geminate absorption (stops and manuscript sonorants)', () => {
@@ -106,7 +113,7 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
       '布达呀 悉叠 乌达啦'
     );
     expect(generateVerseChinesePhonetics('sarvva āryya dharmma', false).modernPhoneticZh).toBe(
-      '萨尔瓦 阿哩呀 达尔玛'
+      '萨₍尔₎瓦 阿₍哩₎呀 达₍尔₎玛'
     );
   });
 
@@ -117,11 +124,11 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
 
     // Word-final -ṃ stays stable across whitespace boundaries (e.g. repeated bīja)
     expect(generateVerseChinesePhonetics('khūṃ khūṃ jvala', false).modernPhoneticZh).toBe(
-      '空 空 吉瓦啦'
+      '空 空 ₍吉₎瓦啦'
     );
     // Standalone bīja laṃ -> 兰 (classical 蓝), while word-internal laṃ before k -> 朗
     expect(generateVerseChinesePhonetics('oṃ laṃ svāhā', false).modernPhoneticZh).toBe(
-      '嗡 兰 斯瓦哈'
+      '嗡 兰 ₍斯₎瓦哈'
     );
     expect(mapSyllableToChinesePhonetics('laṃ').classicalZh).toBe('蓝');
 
@@ -139,20 +146,20 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
     ).toBe('津达玛尼 萨曼达 善帝嘎 尼啦干他');
 
     expect(generateVerseChinesePhonetics('namaḥ śāntiḥ āyuḥ', false).modernPhoneticZh).toBe(
-      '拿玛赫 善帝希 阿尤忽'
+      '拿玛₍赫₎ 善帝₍希₎ 阿尤₍忽₎'
     );
   });
 
   it('handles external yaṇ-sandhi (-Cy/-Cv), attached avagraha, and vowelless clitics cleanly', () => {
-    expect(generateVerseChinesePhonetics('ity evaṃ', false).modernPhoneticZh).toBe('伊帝 诶旺');
+    expect(generateVerseChinesePhonetics('ity evaṃ', false).modernPhoneticZh).toBe('伊₍帝₎ 诶旺');
     expect(generateVerseChinesePhonetics('koṭy-uṣṇīṣaṃ', false).modernPhoneticZh).toBe(
-      '果蒂-乌师尼伤'
+      '果₍蒂₎-乌₍师₎尼伤'
     );
     expect(generateVerseChinesePhonetics('śastrāgny-udaka', false).modernPhoneticZh).toBe(
-      '沙斯特啦格尼-乌达嘎'
+      '沙₍斯特₎啦₍格尼₎-乌达嘎'
     );
-    expect(generateVerseChinesePhonetics('ehy ehi', false).modernPhoneticZh).toBe('诶嘿 诶嘿');
-    expect(generateVerseChinesePhonetics("śiro'rtiṃ", false).modernPhoneticZh).toBe('希洛尔丁');
+    expect(generateVerseChinesePhonetics('ehy ehi', false).modernPhoneticZh).toBe('诶₍嘿₎ 诶嘿');
+    expect(generateVerseChinesePhonetics("śiro'rtiṃ", false).modernPhoneticZh).toBe('希洛₍尔₎丁');
     expect(generateVerseChinesePhonetics("so 'py uvāca", false).modernPhoneticZh).toBe(
       '索 比 乌瓦佳'
     );
@@ -330,30 +337,30 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
   it('maps all underdotted IAST phonemes (ṛ/ṝ, ḷ/ḹ, ṣ, ṇ, ṭ/ṭh/ḍ/ḍh, ḥ, ṃ) accurately with zero polyphonic 什', () => {
     // 1. Vocalic rhotic ṛ/ṝ -> 日 (vs lateral ḷ/ḹ -> 里, ri/rī -> 里, -ry- -> 哩)
     expect(generateVerseChinesePhonetics('hṛdaya amṛta ṛṣi', false).modernPhoneticZh).toBe(
-      '赫日达呀 阿姆日达 日师'
+      '₍赫₎日达呀 阿₍姆₎日达 日师'
     );
     expect(generateVerseChinesePhonetics('kḷpta śrī śrīṃ ārya', false).modernPhoneticZh).toBe(
-      '克里普达 希里 希林 阿哩呀'
+      '₍克₎里₍普₎达 ₍希₎里 ₍希₎林 阿₍哩₎呀'
     );
 
     // 2. Retroflex sibilant ṣ -> 沙/师/舒/师日/奢 (never polyphonic 什) & palatal ś -> 希/湿
     expect(
       generateVerseChinesePhonetics('mahā padmoṣṇīṣa hṛdaya', true).modernPhoneticZh
-    ).toBe('玛哈(mahā) · 巴德摩师尼沙(padmoṣṇīṣa) · 赫日达呀(hṛdaya)');
+    ).toBe('玛哈(mahā) · 巴₍德₎摩₍师₎尼沙(padmoṣṇīṣa) · ₍赫₎日达呀(hṛdaya)');
     expect(
       generateVerseChinesePhonetics('uṣṇīṣa rakṣaṇa maṇite', false).modernPhoneticZh
-    ).toBe('乌师尼沙 啦克沙拿 玛尼帝');
+    ).toBe('乌₍师₎尼沙 啦₍克₎沙拿 玛尼帝');
     expect(
       generateVerseChinesePhonetics('mahā raśmi sandite', false).modernPhoneticZh
-    ).toBe('玛哈 啦希米 散地帝');
+    ).toBe('玛哈 啦₍希₎米 散地帝');
     expect(
       generateVerseChinesePhonetics('śikhare vikasita padma vare', false).modernPhoneticZh
-    ).toBe('希卡雷 维嘎悉达 巴德玛 瓦雷');
+    ).toBe('希卡雷 维嘎悉达 巴₍德₎玛 瓦雷');
 
     // 3. Unaspirated ṭu/tu -> 度 vs aspirated ṭhu/thu -> 图 vs voiced ḍu/du -> 杜
     expect(
       generateVerseChinesePhonetics('turu turu dhuru dhuru namo stute', false).modernPhoneticZh
-    ).toBe('度鲁 度鲁 杜鲁 杜鲁 拿摩 斯度帝');
+    ).toBe('度鲁 度鲁 杜鲁 杜鲁 拿摩 ₍斯₎度帝');
     expect(mapSyllableToChinesePhonetics('ṭu').modernZh).toBe('度');
     expect(mapSyllableToChinesePhonetics('ṭhu').modernZh).toBe('图');
     expect(mapSyllableToChinesePhonetics('ḍu').modernZh).toBe('杜');
@@ -398,6 +405,89 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
     }
   });
 
+  it('enforces standard Śikṣā small-subscript notation (小字下标), 1-to-1 Akṣara isomorphism, vowel-colored Visarga, and subscript-transparent search', () => {
+    // 1. User screenshot regression: Manjusri 8-Syllable Supreme Mantra (文殊八字最胜大威德心陀罗尼)
+    const m8Entry = BUILTIN_DHARANI_CORPUS.find(
+      (e) => e.id === 'manjusri-astaksara-mantra'
+    );
+    expect(m8Entry).toBeDefined();
+    const m8Iast = m8Entry!.verses[0].iast;
+    expect(m8Iast).toBe('namaḥ sarvabuddhānām | oṃ āḥ vī ra hūṃ kha ca raḥ ||');
+
+    const m8WithBrackets = generateVerseChinesePhonetics(m8Iast, true).modernPhoneticZh;
+    expect(m8WithBrackets).toBe(
+      '拿玛₍赫₎(namaḥ) · 萨₍尔₎瓦-布达南(sarvabuddhānām) | 嗡(oṃ) · 阿₍赫₎(āḥ) · 维(vī) · 啦(ra) · 吽(hūṃ) · 卡(kha) · 佳(ca) · 啦₍赫₎(raḥ)'
+    );
+
+    // SSR markup renders <sub class="phon-sub">赫</sub> with zero raw ₍ / ₎ leaked into visible DOM
+    const m8Html = renderToStaticMarkup(React.createElement(PhoneticText, { text: m8WithBrackets }));
+    expect(m8Html).toContain('拿玛<sub class="phon-sub">赫</sub><span class="phon-iast-paren">(namaḥ)</span>');
+    expect(m8Html).toContain('萨<sub class="phon-sub">尔</sub>瓦-布达南<span class="phon-iast-paren">(sarvabuddhānām)</span>');
+    expect(m8Html).toContain('阿<sub class="phon-sub">赫</sub><span class="phon-iast-paren">(āḥ)</span>');
+    expect(m8Html).toContain('啦<sub class="phon-sub">赫</sub><span class="phon-iast-paren">(raḥ)</span>');
+    expect(m8Html).not.toMatch(/[₍₎]/);
+
+    // Truncated snippet safety in parsePhoneticRichSegments
+    expect(parsePhoneticRichSegments('拿玛₍赫')).toEqual([
+      { kind: 'normal', text: '拿玛' },
+      { kind: 'sub', text: '赫' },
+    ]);
+    expect(stripPhoneticSubscriptMarkers('拿玛₍赫₎ 萨₍尔₎瓦')).toBe('拿玛赫 萨尔瓦');
+
+    // 2. Strict 1-to-1 Akṣara-to-Full-Character Isomorphism across all curated entries
+    let checkedSyllables = 0;
+    for (const entry of BUILTIN_DHARANI_CORPUS) {
+      if (entry.provenance.sourceType === 'GLOBAL-12DB' || entry.categoryId === 'gretil-canonical') {
+        continue;
+      }
+      for (const verse of entry.verses) {
+        const enriched = enrichSyllablesWithPhonetics(analyzeSanskritProsody(verse.iast));
+        for (const syl of enriched) {
+          checkedSyllables++;
+          const fullCharsOnly = syl.modernZh.replace(/₍[^₎]*₎/g, '');
+          expect(
+            [...fullCharsOnly].length,
+            `Expected exact 1 full-sized char for Akṣara "${syl.iast}" in ${entry.id}, got "${syl.modernZh}"`
+          ).toBe(1);
+        }
+      }
+    }
+    expect(checkedSyllables).toBeGreaterThan(3000);
+
+    // 3. Full Śikṣā vowel-colored Visarga (a/ā/o -> ₍赫₎, i/ī/ai -> ₍希₎, e -> ₍嘿₎, u/ū/au -> ₍忽₎)
+    expect(
+      generateVerseChinesePhonetics('namaḥ śāntiḥ devaiḥ hareḥ āyuḥ gauḥ hoḥ', false)
+        .modernPhoneticZh
+    ).toBe('拿玛₍赫₎ 善帝₍希₎ 叠歪₍希₎ 哈雷₍嘿₎ 阿尤₍忽₎ 高₍忽₎ 霍₍赫₎');
+
+    // 4. Unaspirated vs aspirated stops, kho vs khau, monophonic chan, and sibilant śuṃ/ṣuṃ
+    expect(mapSyllableToChinesePhonetics('pe').modernZh).toBe('贝');
+    expect(mapSyllableToChinesePhonetics('phe').modernZh).toBe('佩');
+    expect(mapSyllableToChinesePhonetics('peṃ').modernZh).toBe('崩');
+    expect(mapSyllableToChinesePhonetics('pheṃ').modernZh).toBe('烹');
+    expect(mapSyllableToChinesePhonetics('kun').modernZh).toBe('滚');
+    expect(mapSyllableToChinesePhonetics('khun').modernZh).toBe('坤');
+    expect(mapSyllableToChinesePhonetics('cṛ').modernZh).toBe('₍吉₎日');
+    expect(mapSyllableToChinesePhonetics('chṛ').modernZh).toBe('₍奇₎日');
+    expect(mapSyllableToChinesePhonetics('ko').modernZh).toBe('果');
+    expect(mapSyllableToChinesePhonetics('kho').modernZh).toBe('阔');
+    expect(mapSyllableToChinesePhonetics('khau').modernZh).toBe('考');
+    expect(mapSyllableToChinesePhonetics('chan').modernZh).toBe('产');
+    expect(mapSyllableToChinesePhonetics('śuṃ').modernZh).toBe('顺');
+    expect(mapSyllableToChinesePhonetics('ṣuṃ').modernZh).toBe('顺');
+
+    // 5. Subscript-transparent search normalization (no NFKC '(' / ')' decomposition)
+    expect(normalizeSearchText('拿玛₍赫₎ 萨₍尔₎瓦')).toBe('拿玛赫 萨尔瓦');
+    const hits = filterDharanis([m8Entry!], {
+      query: '拿玛赫 阿赫',
+      categoryId: 'all',
+      onlyBookmarked: false,
+      bookmarkedIds: new Set(),
+      sourceFilter: 'all',
+    });
+    expect(hits.map((h) => h.id)).toContain('manjusri-astaksara-mantra');
+  });
+
   it('trims leading/trailing dead air with zero-click cosine fades, shifts syllable timings, and enforces crisp Daṇḍa pauses', () => {
     const sr = 48000;
     // Construct 500ms buffer: 100ms dead silence + 200ms voiced tone + 200ms dead silence
@@ -421,7 +511,7 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
       {
         syl: syls[1],
         classicalZh: '娑婆',
-        modernZh: '斯瓦',
+        modernZh: '₍斯₎瓦',
         startSec: 0.2,
         endSec: 0.3,
       },

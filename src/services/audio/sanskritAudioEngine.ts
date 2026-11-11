@@ -3018,7 +3018,7 @@ class SanskritAudioEngine {
 
       const textToSpeak =
         langMode === 'zh-CN'
-          ? syl.modernZh.replace(/—/g, '')
+          ? syl.modernZh.replace(/[—₍₎]/g, '')
           : syl.devanagari;
 
       this.speakUtteranceOnce(textToSpeak, langMode);

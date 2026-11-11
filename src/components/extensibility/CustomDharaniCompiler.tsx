@@ -37,6 +37,7 @@ import {
 } from '../../services/audio/sanskritAudioEngine';
 import { useDharaniAudioExport } from '../../services/audio/dharaniAudioExportStore';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
+import { PhoneticText } from '../common/PhoneticText';
 
 export interface CustomDharaniCompilerProps {
   customEntries: DharaniEntry[];
@@ -1189,7 +1190,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
                                 onClick={() => onPlaySyllable(syl.iast)}
                                 title={`${syl.iast} → ${syl.modernZh}`}
                               >
-                                {syl.modernZh}
+                                <PhoneticText text={syl.modernZh} />
                               </span>
                               {syl.dandaAfter && <span style={{ opacity: 0.55 }}>{syl.dandaAfter}</span>}
                             </React.Fragment>
@@ -1197,7 +1198,9 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
                         })}
                       </div>
                     ) : (
-                      <div className="script-content-phonetic-zh">{m.displayModernPhoneticZh}</div>
+                      <div className="script-content-phonetic-zh">
+                        <PhoneticText text={m.displayModernPhoneticZh} />
+                      </div>
                     )}
                   </div>
 
@@ -1335,7 +1338,9 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
                           >
                             <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
                             <span className="syl-iast">{syl.iast}</span>
-                            <span className="syl-modern-zh">{syl.modernZh}</span>
+                            <span className="syl-modern-zh">
+                              <PhoneticText text={syl.modernZh} />
+                            </span>
                             <span className="syl-tang-zh">{syl.classicalZh}</span>
                             <span className="syl-ipa">[{syl.ipa}]</span>
                           </button>

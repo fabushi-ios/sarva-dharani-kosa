@@ -20,6 +20,7 @@ import {
   type PlaybackState,
 } from '../../services/audio/sanskritAudioEngine';
 import { useDharaniAudioExport } from '../../services/audio/dharaniAudioExportStore';
+import { PhoneticText } from '../common/PhoneticText';
 
 interface AudioPlayerBarProps {
   entryId?: string;
@@ -228,7 +229,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                     flexShrink: 0,
                   }}
                 >
-                  {playbackState.currentSyllableModernZh}
+                  <PhoneticText text={playbackState.currentSyllableModernZh} />
                 </span>
                 <span
                   style={{

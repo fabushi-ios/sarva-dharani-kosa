@@ -20,6 +20,7 @@ import {
   getSearchSuggestions,
   type SearchSuggestionItem,
 } from '../../core/search/searchEngine';
+import { PhoneticText } from '../common/PhoneticText';
 
 interface HeaderProps {
   searchQuery: string;
@@ -304,7 +305,7 @@ export const Header: React.FC<HeaderProps> = ({
                       </div>
                       <div className="search-suggestion-primary">{item.snippetPrimary}</div>
                       <div className="search-suggestion-secondary">
-                        {item.snippetSecondary}
+                        <PhoneticText text={item.snippetSecondary} />
                       </div>
                     </button>
                   ))

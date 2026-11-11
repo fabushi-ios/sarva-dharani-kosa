@@ -640,6 +640,33 @@
   min-width: 0;
 }
 
+/* Sub-syllabic vowelless phonemes (Visarga -ḥ, Virāma codas, conjunct onsets) */
+.phon-sub {
+  font-size: 0.72em;
+  font-weight: 500;
+  line-height: 1;
+  vertical-align: baseline;
+  position: relative;
+  bottom: -0.12em;
+  opacity: 0.88;
+  margin: 0 0.02em;
+}
+
+.phon-iast-paren {
+  font-family: var(--font-iast);
+  font-size: 0.88em;
+  font-weight: 500;
+  opacity: 0.84;
+  margin-left: 0.03em;
+}
+
+.inline-syl-token.active-spoken .phon-sub,
+.inline-syl-token.active-spoken .phon-iast-paren,
+.syllable-pill.active-spoken .phon-sub {
+  color: #ffffff !important;
+  opacity: 0.96;
+}
+
 .script-content-classical-zh {
   font-size: clamp(0.98rem, 1.35vw, 1.08rem);
   font-weight: 700;

@@ -66,9 +66,9 @@ export const SanskritPhoneticsAcademy: React.FC<SanskritPhoneticsAcademyProps> =
         {/* Tang Dynasty Phonetic Annotation Guide */}
         <div className="hero-meta-grid">
           <div className="meta-box">
-            <div className="meta-box-label">一、何谓「二合 / 三合」（Saṃyukta-akṣara）</div>
+            <div className="meta-box-label">一、何谓「二合 / 三合」与小字轻拼（Saṃyukta &amp; Virāma）</div>
             <div>
-              梵文复辅音连缀时，前辅音失去默认短元音 <code>a</code>（加 Virāma 止音符），与后辅音紧接拼读为一拍。如唐译「娑嚩(二合)诃」即 <strong>svāhā</strong>（不可读作三音节 suō-pó-hē，而应将 s 与 v 连读为 svā）。
+              梵文复辅音连缀或止音收尾（Virāma）时，无元音辅音不可读成独立满拍汉字。现代标准梵音注音将其标为<strong>小字下标</strong>：如唐译「娑嚩(二合)诃」<strong>svāhā</strong> 记作 <sub className="phon-sub">斯</sub><strong>瓦哈</strong>，<strong>phaṭ</strong> 记作 <strong>帕</strong><sub className="phon-sub">特</sub>，使满字数与梵文音节（Akṣara）严格一一对应。
             </div>
           </div>
           <div className="meta-box">
@@ -84,9 +84,9 @@ export const SanskritPhoneticsAcademy: React.FC<SanskritPhoneticsAcademyProps> =
             </div>
           </div>
           <div className="meta-box">
-            <div className="meta-box-label">四、空点（ṃ / m̐）与涅槃点（ḥ）</div>
+            <div className="meta-box-label">四、空点（ṃ / m̐）与涅槃点小字止声（ḥ）</div>
             <div>
-              悉昙字顶圆点 <strong>𑖽 (ṃ, Anusvāra 空点/菩提点)</strong> 与仰月点 <strong>𑖼 (m̐, Candrabindu 大空智点)</strong> 收于鼻腔共鸣；字侧双点 <strong>𑖾 (ḥ, Visarga 涅槃点/止声)</strong> 于元音末送出清净气音。
+              悉昙字顶圆点 <strong>𑖽 (ṃ, Anusvāra 空点)</strong> 与仰月点 <strong>𑖼 (m̐, Candrabindu)</strong> 收于同部位鼻腔共鸣；字侧双点 <strong>𑖾 (ḥ, Visarga 涅槃点)</strong> 于元音末轻送清气音，依前元音色彩标为小字下标（<strong>āḥ → 阿<sub className="phon-sub">赫</sub>、raḥ → 啦<sub className="phon-sub">赫</sub>、śāntiḥ → 善帝<sub className="phon-sub">希</sub>、āyuḥ → 阿尤<sub className="phon-sub">忽</sub></strong>）。
             </div>
           </div>
         </div>

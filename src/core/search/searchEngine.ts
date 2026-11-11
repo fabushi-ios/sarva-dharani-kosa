@@ -98,7 +98,7 @@ const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }>
 };
 
 export function normalizeSearchText(input: string): string {
-  let raw = input || '';
+  let raw = (input || '').replace(/[₍₎]/g, '');
   if (/[\u0900-\u097F]/.test(raw)) {
     try {
       raw += ' ' + slp1ToIast(devanagariToSlp1(raw));

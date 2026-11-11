@@ -4,15 +4,21 @@
  * Professor-Grade Deterministic Sanskrit Phonological & Phonetic Engine:
  * 1. Complete 34 × 14 Akṣara Phonetic Matrix (Modern Mandarin Phonetics & Tang Siddhaṃ Classical Orthography)
  *    with zero Extension-B tofu characters, zero Siddhaṃ leakage, and zero fallback concatenation artifacts.
- * 2. Context-Aware Śikṣā Sandhi & Coarticulation:
- *    - Abhinidhāna (Homorganic geminate stop closure absorption: bud-dhā -> 布达, sat-tvā -> 萨特瓦, sid-dhe -> 悉叠)
+ * 2. Standard Sub-Syllabic Subscript Notation (`₍...₎` -> UI `<sub class="phon-sub">...</sub>`):
+ *    - Enforces 1-to-1 Akṣara-to-Full-Character isomorphism: every Sanskrit syllable has exactly 1 full-sized
+ *      Chinese character for its vocalic/nasal nucleus, while vowelless onset prefixes (`svā` -> `₍斯₎瓦`,
+ *      `hrīḥ` -> `₍赫₎里₍希₎`), Virāma codas (`phaṭ` -> `帕₍特₎`, `sarva` -> `萨₍尔₎瓦`, `padme` -> `巴₍德₎美`),
+ *      and Visarga breath releases (`namaḥ` -> `拿玛₍赫₎`, `āḥ` -> `阿₍赫₎`, `raḥ` -> `啦₍赫₎`) are rendered in
+ *      small subscript notation per professional Sino-Sanskrit phonetic standards.
+ * 3. Context-Aware Śikṣā Sandhi & Coarticulation:
+ *    - Abhinidhāna (Homorganic geminate stop closure absorption: bud-dhā -> 布达, sat-tvā -> 萨₍特₎瓦, sid-dhe -> 悉叠)
  *    - Parasavarṇa (Anusvāra ṃ place-of-articulation assimilation: [ŋ] velar, [ɲ/ɳ/n̪] coronal, [m/m̃] labial/final)
  *    - Single-Character Mandarin Nasal Rhyme Synthesis (man -> 曼, cin -> 津, śān -> 善, kaṇ -> 干, khūṃ -> 空)
- *    - Vowel-Colored Visarga ḥ Echo/Aspiration (-aḥ -> 赫, -iḥ -> 希, -uḥ -> 忽/呼)
- *    - Pre-Palatal Repha Svarabhakti (-r before y- -> 哩: ār-yā -> 阿哩呀, vai-ḍūr-ya -> 歪杜哩呀)
+ *    - Full Śikṣā Vowel-Colored Visarga ḥ (-aḥ/-āḥ/-oḥ -> ₍赫₎, -iḥ/-īḥ/-aiḥ -> ₍希₎, -eḥ -> ₍嘿₎, -uḥ/-ūḥ/-auḥ -> ₍忽₎)
+ *    - Pre-Palatal Repha Svarabhakti (-r before y- -> ₍哩₎: ār-yā -> 阿₍哩₎呀, vai-ḍūr-ya -> 歪杜₍哩₎呀)
  *    - Dual-Mode Onset Cluster Prefixes (palatal glide before -y vs minimal schwa before -r/-l/-v/stops)
- * 3. Sanskrit Samāsa Compound Stem Hyphenator for long polysyllabic compounds.
- * 4. 100% Unified Single-Source-of-Truth between Verse-Level "梵音拼读参考" and Syllable-Level "逐音节三体对照跟读卡".
+ * 4. Sanskrit Samāsa Compound Stem Hyphenator for long polysyllabic compounds.
+ * 5. 100% Unified Single-Source-of-Truth between Verse-Level "梵音拼读参考" and Syllable-Level "逐音节三体对照跟读卡".
  */
 
 import { cleanEditorialIast } from './transliterator';
@@ -21,6 +27,107 @@ import {
   tokenizeWordPhonemes,
   type SyllableAnalysis,
 } from './prosody';
+
+export const PHONETIC_SUB_OPEN = '₍'; // U+208D (BMP-safe subscript delimiter)
+export const PHONETIC_SUB_CLOSE = '₎'; // U+208E (BMP-safe subscript delimiter)
+
+export interface PhoneticRichSegment {
+  text: string;
+  kind: 'normal' | 'sub' | 'iast';
+}
+
+/**
+ * Wraps vowelless sub-syllabic Chinese phonetic characters (Visarga -ḥ, Virāma coda, conjunct onset)
+ * in BMP-safe subscript delimiters `₍...₎` for UI `<sub class="phon-sub">` rendering.
+ */
+export function wrapSubscriptPhonetic(text: string): string {
+  if (!text) return '';
+  const clean = text.replace(/[₍₎]/g, '');
+  return clean ? `${PHONETIC_SUB_OPEN}${clean}${PHONETIC_SUB_CLOSE}` : '';
+}
+
+/**
+ * Merges adjacent `₎₍` runs within a syllable into a single contiguous `₍...₎` group
+ * (e.g., `₍特₎₍哩₎呀` -> `₍特哩₎呀`, `₍吉₎₍尼₎亚` -> `₍吉尼₎亚`).
+ */
+export function coalesceSubscriptRuns(text: string): string {
+  if (!text) return '';
+  return text.replace(/₎₍/g, '');
+}
+
+/**
+ * Strips `₍` and `₎` subscript markers for plain-text search indexing or TTS speech synthesis.
+ */
+export function stripPhoneticSubscriptMarkers(text: string): string {
+  if (!text) return '';
+  return text.replace(/[₍₎]/g, '');
+}
+
+const IAST_PAREN_TOKEN_RE =
+  /^\([a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ'\u0310\s.|/-]+\)/;
+
+/**
+ * Parses a phonetic display string into coalesced rich typographic segments:
+ * - `'sub'`: vowelless sub-syllabic characters inside `₍...₎` (coalescing adjacent `₎₍` across syllable joins)
+ * - `'iast'`: parenthesized `(iast)` annotations when bracket display is enabled
+ * - `'normal'`: full-sized syllabic Chinese characters and separators
+ */
+export function parsePhoneticRichSegments(text: string): PhoneticRichSegment[] {
+  if (!text) return [];
+  const merged = text.replace(/₎₍/g, '');
+  const segments: PhoneticRichSegment[] = [];
+  let i = 0;
+
+  const pushSeg = (kind: PhoneticRichSegment['kind'], chunk: string) => {
+    if (!chunk) return;
+    const prev = segments[segments.length - 1];
+    if (prev && prev.kind === kind) {
+      prev.text += chunk;
+    } else {
+      segments.push({ text: chunk, kind });
+    }
+  };
+
+  while (i < merged.length) {
+    const ch = merged[i];
+    if (ch === PHONETIC_SUB_OPEN) {
+      const closeIdx = merged.indexOf(PHONETIC_SUB_CLOSE, i + 1);
+      if (closeIdx === -1) {
+        // Gracefully handle truncated search snippets with unclosed `₍`
+        pushSeg('sub', merged.slice(i + 1));
+        break;
+      }
+      pushSeg('sub', merged.slice(i + 1, closeIdx));
+      i = closeIdx + 1;
+      continue;
+    }
+    if (ch === PHONETIC_SUB_CLOSE) {
+      i += 1;
+      continue;
+    }
+    if (ch === '(') {
+      const iastMatch = merged.slice(i).match(IAST_PAREN_TOKEN_RE);
+      if (iastMatch) {
+        pushSeg('iast', iastMatch[0]);
+        i += iastMatch[0].length;
+        continue;
+      }
+    }
+    let nextSpecial = i + 1;
+    while (
+      nextSpecial < merged.length &&
+      merged[nextSpecial] !== PHONETIC_SUB_OPEN &&
+      merged[nextSpecial] !== PHONETIC_SUB_CLOSE &&
+      merged[nextSpecial] !== '('
+    ) {
+      nextSpecial++;
+    }
+    pushSeg('normal', merged.slice(i, nextSpecial));
+    i = nextSpecial;
+  }
+
+  return segments;
+}
 
 export interface SyllablePhoneticContext {
   onset?: string[];
@@ -151,57 +258,58 @@ type EightRow = [string, string, string, string, string, string, string, string]
 
 /**
  * Complete 34-Consonant × 8-Vowel-Quality Modern Mandarin Phonetic Matrix (`CV_MODERN_MATRIX`)
- * Every cell is a natural, scholarly Chinese phonetic rendering:
- * - Vocalic `ṛ/ṝ` (Mūrdhanya rhotic vowel `[r̩ / ɻ̩]`) uses retroflex syllabic `'日'` (distinct from lateral `ḷ/ḹ` `'里'`).
- * - Retroflex sibilant `ṣ` (`[ʂ]`) uses `'沙 / 师 / 舒 / 师日 / 奢 / 筛 / 硕 / 稍'` (distinct from palatal `ś` `'希/谢'` and dental `s` `'悉/塞'`).
- * - Unaspirated `ṭu / tu` (`[ʈu / t̪u]`) uses `'度'` (distinct from aspirated `ṭhu / thu` `'图'` and voiced `ḍu / du` `'杜'`).
+ * Every cell has exactly 1 full-sized Chinese syllable nucleus character, with vowelless consonant
+ * onsets before vocalic `ṛ/ṝ` (or `ṅ/ñ` glides) marked as small subscripts `₍...₎`:
+ * - Vocalic `ṛ/ṝ` (Mūrdhanya rhotic vowel `[r̩ / ɻ̩]`) uses retroflex syllabic `'日'` (`hṛ` -> `'₍赫₎日'`).
+ * - Retroflex sibilant `ṣ` (`[ʂ]`) uses `'沙 / 师 / 舒 / ₍师₎日 / 奢 / 筛 / 硕 / 稍'` (distinct from palatal `ś` `'希/谢'` and dental `s` `'悉/塞'`).
+ * - Unaspirated stops (`k, c, ṭ, t, p`) strictly map to Mandarin unaspirated `[k, tɕ, t, p]` (`pe` -> `'贝'`, distinct from aspirated `phe` -> `'佩'`).
  * [a/ā, i/ī, u/ū, ṛ/ṝ, e, ai, o, au]
  */
 const CV_MODERN_MATRIX: Record<string, EightRow> = {
   // Ka-varga (Velars 喉音)
-  k:  ['嘎', '给', '古', '克日', '给', '该', '果', '高'],
-  kh: ['卡', '奇', '库', '克日', '开', '凯', '考', '考'],
-  g:  ['嘎', '吉', '古', '格日', '给', '该', '果', '高'],
-  gh: ['嘎', '吉', '古', '格日', '给', '该', '果', '高'],
-  ṅ:  ['昂', '昂伊', '昂乌', '昂日', '昂诶', '昂爱', '昂欧', '昂奥'],
+  k:  ['嘎', '给', '古', '₍克₎日', '给', '该', '果', '高'],
+  kh: ['卡', '奇', '库', '₍克₎日', '开', '凯', '阔', '考'],
+  g:  ['嘎', '吉', '古', '₍格₎日', '给', '该', '果', '高'],
+  gh: ['嘎', '吉', '古', '₍格₎日', '给', '该', '果', '高'],
+  ṅ:  ['昂', '₍昂₎伊', '₍昂₎乌', '₍昂₎日', '₍昂₎诶', '₍昂₎爱', '₍昂₎欧', '₍昂₎奥'],
 
   // Ca-varga (Palatals 颚音)
-  c:  ['佳', '吉', '主', '奇日', '杰', '斋', '卓', '招'],
-  ch: ['恰', '奇', '楚', '奇日', '切', '拆', '绰', '超'],
-  j:  ['佳', '吉', '居', '吉日', '杰', '斋', '久', '焦'],
-  jh: ['佳', '吉', '居', '吉日', '杰', '斋', '久', '焦'],
-  ñ:  ['尼亚', '尼', '纽', '尼日', '涅', '尼崖', '尼优', '尼妖'],
+  c:  ['佳', '吉', '主', '₍吉₎日', '杰', '斋', '卓', '招'],
+  ch: ['恰', '奇', '楚', '₍奇₎日', '切', '拆', '绰', '超'],
+  j:  ['佳', '吉', '居', '₍吉₎日', '杰', '斋', '久', '焦'],
+  jh: ['佳', '吉', '居', '₍吉₎日', '杰', '斋', '久', '焦'],
+  ñ:  ['₍尼₎亚', '尼', '纽', '₍尼₎日', '涅', '₍尼₎崖', '₍尼₎优', '₍尼₎妖'],
 
   // Ṭa-varga (Retroflexes 卷舌顶音)
-  ṭ:  ['达', '蒂', '度', '特日', '帝', '呆', '多', '刀'],
-  ṭh: ['他', '提', '图', '特日', '提', '胎', '托', '掏'],
-  ḍ:  ['达', '迪', '杜', '德日', '叠', '代', '多', '导'],
-  ḍh: ['达', '迪', '杜', '德日', '叠', '代', '多', '导'],
-  ṇ:  ['拿', '尼', '努', '尼日', '内', '乃', '诺', '挠'],
+  ṭ:  ['达', '蒂', '度', '₍特₎日', '帝', '呆', '多', '刀'],
+  ṭh: ['他', '提', '图', '₍特₎日', '提', '胎', '托', '掏'],
+  ḍ:  ['达', '迪', '杜', '₍德₎日', '叠', '代', '多', '导'],
+  ḍh: ['达', '迪', '杜', '₍德₎日', '叠', '代', '多', '导'],
+  ṇ:  ['拿', '尼', '努', '₍尼₎日', '内', '乃', '诺', '挠'],
 
   // Ta-varga (Dentals 齿音)
-  t:  ['达', '帝', '度', '特日', '帝', '呆', '多', '刀'],
-  th: ['他', '提', '图', '特日', '提', '泰', '托', '涛'],
-  d:  ['达', '地', '杜', '德日', '叠', '代', '多', '道'],
-  dh: ['达', '地', '杜', '德日', '叠', '代', '多', '道'],
-  n:  ['拿', '尼', '努', '尼日', '内', '奈', '诺', '恼'],
+  t:  ['达', '帝', '度', '₍特₎日', '帝', '呆', '多', '刀'],
+  th: ['他', '提', '图', '₍特₎日', '提', '泰', '托', '涛'],
+  d:  ['达', '地', '杜', '₍德₎日', '叠', '代', '多', '道'],
+  dh: ['达', '地', '杜', '₍德₎日', '叠', '代', '多', '道'],
+  n:  ['拿', '尼', '努', '₍尼₎日', '内', '奈', '诺', '恼'],
 
   // Pa-varga (Labials 唇音)
-  p:  ['巴', '比', '布', '普日', '佩', '拜', '波', '包'],
-  ph: ['帕', '批', '普', '普日', '佩', '派', '坡', '抛'],
-  b:  ['巴', '比', '布', '布日', '贝', '白', '博', '包'],
-  bh: ['巴', '比', '布', '布日', '贝', '拜', '博', '包'],
-  m:  ['玛', '米', '穆', '姆日', '美', '麦', '摩', '毛'],
+  p:  ['巴', '比', '布', '₍普₎日', '贝', '拜', '波', '包'],
+  ph: ['帕', '批', '普', '₍普₎日', '佩', '派', '坡', '抛'],
+  b:  ['巴', '比', '布', '₍布₎日', '贝', '白', '博', '包'],
+  bh: ['巴', '比', '布', '₍布₎日', '贝', '拜', '博', '包'],
+  m:  ['玛', '米', '穆', '₍姆₎日', '美', '麦', '摩', '毛'],
 
   // Antaḥstha & Ūṣman (Semivowels & Sibilants 半元音与擦音)
-  y:  ['呀', '伊', '尤', '伊日', '耶', '崖', '优', '妖'],
-  r:  ['啦', '里', '鲁', '日',   '雷', '来', '洛', '劳'],
-  l:  ['啦', '利', '卢', '勒日', '雷', '赖', '洛', '牢'],
-  v:  ['瓦', '维', '武', '维日', '威', '歪', '沃', '沃'],
-  ś:  ['沙', '希', '舒', '希日', '谢', '晒', '硕', '烧'],
-  ṣ:  ['沙', '师', '舒', '师日', '奢', '筛', '硕', '稍'],
-  s:  ['萨', '悉', '苏', '斯日', '塞', '赛', '索', '骚'],
-  h:  ['哈', '嘿', '呼', '赫日', '嘿', '嗨', '霍', '豪'],
+  y:  ['呀', '伊', '尤', '₍伊₎日', '耶', '崖', '优', '妖'],
+  r:  ['啦', '里', '鲁', '日',     '雷', '来', '洛', '劳'],
+  l:  ['啦', '利', '卢', '₍勒₎日', '雷', '赖', '洛', '牢'],
+  v:  ['瓦', '维', '武', '₍维₎日', '威', '歪', '沃', '沃'],
+  ś:  ['沙', '希', '舒', '₍希₎日', '谢', '晒', '硕', '烧'],
+  ṣ:  ['沙', '师', '舒', '₍师₎日', '奢', '筛', '硕', '稍'],
+  s:  ['萨', '悉', '苏', '₍斯₎日', '塞', '赛', '索', '骚'],
+  h:  ['哈', '嘿', '呼', '₍赫₎日', '嘿', '嗨', '霍', '豪'],
 };
 
 /**
@@ -306,40 +414,40 @@ const TANG_LONG_CV_OVERRIDES: Record<string, string> = {
 type SixNasalRow = [string, string, string, string, string, string];
 
 const NASAL_N_MATRIX: Record<string, SixNasalRow> = {
-  '':  ['安', '因', '温', '仁',   '恩', '温'],
-  k:   ['干', '金', '昆', '克仁', '根', '滚'],
-  kh:  ['堪', '钦', '坤', '克仁', '肯', '坤'],
-  g:   ['甘', '金', '滚', '格仁', '根', '滚'],
-  gh:  ['甘', '金', '滚', '格仁', '根', '滚'],
-  ṅ:   ['昂', '因', '温', '昂仁', '恩', '翁'],
-  c:   ['詹', '津', '准', '奇仁', '珍', '准'],
-  ch:  ['参', '亲', '春', '奇仁', '嗔', '春'],
-  j:   ['詹', '津', '准', '吉仁', '珍', '准'],
-  jh:  ['詹', '津', '准', '吉仁', '珍', '准'],
-  ñ:   ['年', '宁', '纽恩', '尼仁', '年', '农'],
-  ṭ:   ['丹', '丁', '敦', '特仁', '得恩', '敦'],
-  ṭh:  ['滩', '听', '吞', '特仁', '特恩', '吞'],
-  ḍ:   ['丹', '丁', '敦', '德仁', '得恩', '敦'],
-  ḍh:  ['丹', '丁', '敦', '德仁', '得恩', '敦'],
-  ṇ:   ['南', '宁', '嫩', '尼仁', '嫩', '农'],
-  t:   ['丹', '丁', '敦', '特仁', '得恩', '敦'],
-  th:  ['滩', '听', '吞', '特仁', '特恩', '吞'],
-  d:   ['丹', '丁', '敦', '德仁', '得恩', '敦'],
-  dh:  ['丹', '丁', '敦', '德仁', '得恩', '敦'],
-  n:   ['南', '宁', '嫩', '尼仁', '嫩', '农'],
-  p:   ['班', '宾', '奔', '普仁', '本', '奔'],
-  ph:  ['潘', '拼', '喷', '普仁', '盆', '喷'],
-  b:   ['班', '宾', '奔', '布仁', '本', '奔'],
-  bh:  ['班', '宾', '奔', '布仁', '本', '奔'],
-  m:   ['曼', '民', '闷', '姆仁', '门', '闷'],
-  y:   ['延', '因', '晕', '伊仁', '延', '晕'],
-  r:   ['兰', '林', '伦', '仁',   '伦', '伦'],
-  l:   ['兰', '林', '伦', '勒仁', '伦', '伦'],
-  v:   ['万', '文', '温', '维仁', '文', '温'],
-  ś:   ['善', '心', '顺', '希仁', '申', '顺'],
-  ṣ:   ['山', '申', '顺', '师仁', '申', '顺'],
-  s:   ['散', '辛', '孙', '斯仁', '森', '孙'],
-  h:   ['罕', '欣', '昏', '赫仁', '痕', '昏'],
+  '':  ['安', '因', '温', '仁',       '恩',     '温'],
+  k:   ['干', '金', '滚', '₍克₎仁',   '根',     '滚'],
+  kh:  ['堪', '钦', '坤', '₍克₎仁',   '肯',     '坤'],
+  g:   ['甘', '金', '滚', '₍格₎仁',   '根',     '滚'],
+  gh:  ['甘', '金', '滚', '₍格₎仁',   '根',     '滚'],
+  ṅ:   ['昂', '因', '温', '₍昂₎仁',   '恩',     '翁'],
+  c:   ['詹', '津', '准', '₍吉₎仁',   '珍',     '准'],
+  ch:  ['产', '亲', '春', '₍奇₎仁',   '嗔',     '春'],
+  j:   ['詹', '津', '准', '₍吉₎仁',   '珍',     '准'],
+  jh:  ['詹', '津', '准', '₍吉₎仁',   '珍',     '准'],
+  ñ:   ['年', '宁', '₍尼₎温', '₍尼₎仁', '年',   '农'],
+  ṭ:   ['丹', '丁', '敦', '₍特₎仁',   '得₍恩₎', '敦'],
+  ṭh:  ['滩', '听', '吞', '₍特₎仁',   '特₍恩₎', '吞'],
+  ḍ:   ['丹', '丁', '敦', '₍德₎仁',   '得₍恩₎', '敦'],
+  ḍh:  ['丹', '丁', '敦', '₍德₎仁',   '得₍恩₎', '敦'],
+  ṇ:   ['南', '宁', '嫩', '₍尼₎仁',   '嫩',     '农'],
+  t:   ['丹', '丁', '敦', '₍特₎仁',   '得₍恩₎', '敦'],
+  th:  ['滩', '听', '吞', '₍特₎仁',   '特₍恩₎', '吞'],
+  d:   ['丹', '丁', '敦', '₍德₎仁',   '得₍恩₎', '敦'],
+  dh:  ['丹', '丁', '敦', '₍德₎仁',   '得₍恩₎', '敦'],
+  n:   ['南', '宁', '嫩', '₍尼₎仁',   '嫩',     '农'],
+  p:   ['班', '宾', '奔', '₍普₎仁',   '本',     '奔'],
+  ph:  ['潘', '拼', '喷', '₍普₎仁',   '盆',     '喷'],
+  b:   ['班', '宾', '奔', '₍布₎仁',   '本',     '奔'],
+  bh:  ['班', '宾', '奔', '₍布₎仁',   '本',     '奔'],
+  m:   ['曼', '民', '闷', '₍姆₎仁',   '门',     '闷'],
+  y:   ['延', '因', '晕', '₍伊₎仁',   '延',     '晕'],
+  r:   ['兰', '林', '伦', '仁',       '伦',     '伦'],
+  l:   ['兰', '林', '伦', '₍勒₎仁',   '伦',     '伦'],
+  v:   ['万', '文', '温', '₍维₎仁',   '文',     '温'],
+  ś:   ['善', '心', '顺', '₍希₎仁',   '申',     '顺'],
+  ṣ:   ['山', '申', '顺', '₍师₎仁',   '申',     '顺'],
+  s:   ['散', '辛', '孙', '₍斯₎仁',   '森',     '孙'],
+  h:   ['罕', '欣', '昏', '₍赫₎仁',   '痕',     '昏'],
 };
 
 /**
@@ -347,44 +455,45 @@ const NASAL_N_MATRIX: Record<string, SixNasalRow> = {
  * [a/ā + ng, i/ī + ng, u/ū + ng, ṛ + ng, e/ai + ng, o/au + ng]
  */
 const NASAL_NG_MATRIX: Record<string, SixNasalRow> = {
-  '':  ['昂', '英', '翁', '仍',   '鞥', '嗡'],
-  k:   ['刚', '京', '工', '克仍', '耕', '工'],
-  kh:  ['康', '卿', '空', '克仍', '坑', '空'],
-  g:   ['刚', '京', '工', '格仍', '耕', '工'],
-  gh:  ['刚', '京', '工', '格仍', '耕', '工'],
-  ṅ:   ['昂', '英', '翁', '昂仍', '鞥', '翁'],
-  c:   ['章', '精', '中', '奇仍', '征', '中'],
-  ch:  ['昌', '清', '充', '奇仍', '称', '充'],
-  j:   ['章', '精', '中', '吉仍', '征', '中'],
-  jh:  ['章', '精', '中', '吉仍', '征', '中'],
-  ñ:   ['娘', '宁', '浓', '尼仍', '宁', '浓'],
-  ṭ:   ['当', '丁', '东', '特仍', '登', '东'],
-  ṭh:  ['汤', '听', '通', '特仍', '腾', '通'],
-  ḍ:   ['当', '丁', '东', '德仍', '登', '东'],
-  ḍh:  ['当', '丁', '东', '德仍', '登', '东'],
-  ṇ:   ['南', '宁', '农', '尼仍', '能', '农'],
-  t:   ['当', '定', '东', '特仍', '登', '东'],
-  th:  ['汤', '听', '通', '特仍', '腾', '通'],
-  d:   ['当', '定', '东', '德仍', '登', '东'],
-  dh:  ['当', '定', '东', '德仍', '登', '东'],
-  n:   ['南', '宁', '农', '尼仍', '能', '农'],
-  p:   ['邦', '兵', '崩', '普仍', '朋', '崩'],
-  ph:  ['滂', '娉', '烹', '普仍', '烹', '烹'],
-  b:   ['邦', '兵', '崩', '布仍', '崩', '崩'],
-  bh:  ['邦', '兵', '崩', '布仍', '崩', '崩'],
-  m:   ['芒', '明', '蒙', '姆仍', '盟', '蒙'],
-  y:   ['央', '英', '雍', '伊仍', '英', '雍'],
-  r:   ['朗', '灵', '隆', '仍',   '棱', '隆'],
-  l:   ['朗', '灵', '隆', '勒仍', '棱', '隆'],
-  v:   ['旺', '文', '翁', '维仍', '翁', '翁'],
-  ś:   ['商', '星', '充', '希仍', '生', '充'],
-  ṣ:   ['伤', '生', '崇', '师仍', '生', '崇'],
-  s:   ['桑', '星', '松', '斯仍', '僧', '松'],
-  h:   ['罕', '兴', '吽', '赫仍', '哼', '轰'],
+  '':  ['昂', '英', '翁', '仍',     '鞥', '嗡'],
+  k:   ['刚', '京', '工', '₍克₎仍', '耕', '工'],
+  kh:  ['康', '卿', '空', '₍克₎仍', '坑', '空'],
+  g:   ['刚', '京', '工', '₍格₎仍', '耕', '工'],
+  gh:  ['刚', '京', '工', '₍格₎仍', '耕', '工'],
+  ṅ:   ['昂', '英', '翁', '₍昂₎仍', '鞥', '翁'],
+  c:   ['章', '精', '中', '₍吉₎仍', '征', '中'],
+  ch:  ['昌', '清', '充', '₍奇₎仍', '称', '充'],
+  j:   ['章', '精', '中', '₍吉₎仍', '征', '中'],
+  jh:  ['章', '精', '中', '₍吉₎仍', '征', '中'],
+  ñ:   ['娘', '宁', '浓', '₍尼₎仍', '宁', '浓'],
+  ṭ:   ['当', '丁', '东', '₍特₎仍', '登', '东'],
+  ṭh:  ['汤', '听', '通', '₍特₎仍', '腾', '通'],
+  ḍ:   ['当', '丁', '东', '₍德₎仍', '登', '东'],
+  ḍh:  ['当', '丁', '东', '₍德₎仍', '登', '东'],
+  ṇ:   ['南', '宁', '农', '₍尼₎仍', '能', '农'],
+  t:   ['当', '定', '东', '₍特₎仍', '登', '东'],
+  th:  ['汤', '听', '通', '₍特₎仍', '腾', '通'],
+  d:   ['当', '定', '东', '₍德₎仍', '登', '东'],
+  dh:  ['当', '定', '东', '₍德₎仍', '登', '东'],
+  n:   ['南', '宁', '农', '₍尼₎仍', '能', '农'],
+  p:   ['邦', '兵', '崩', '₍普₎仍', '崩', '崩'],
+  ph:  ['滂', '娉', '烹', '₍普₎仍', '烹', '烹'],
+  b:   ['邦', '兵', '崩', '₍布₎仍', '崩', '崩'],
+  bh:  ['邦', '兵', '崩', '₍布₎仍', '崩', '崩'],
+  m:   ['芒', '明', '蒙', '₍姆₎仍', '盟', '蒙'],
+  y:   ['央', '英', '雍', '₍伊₎仍', '英', '雍'],
+  r:   ['朗', '灵', '隆', '仍',     '棱', '隆'],
+  l:   ['朗', '灵', '隆', '₍勒₎仍', '棱', '隆'],
+  v:   ['旺', '文', '翁', '₍维₎仍', '翁', '翁'],
+  ś:   ['商', '星', '顺', '₍希₎仍', '生', '顺'],
+  ṣ:   ['伤', '生', '顺', '₍师₎仍', '生', '顺'],
+  s:   ['桑', '星', '松', '₍斯₎仍', '僧', '松'],
+  h:   ['罕', '兴', '吽', '₍赫₎仍', '哼', '轰'],
 };
 
 /**
  * Universal Sacred Esoteric Syllables & Exact Akṣara Overrides (valid in any word position)
+ * Sub-syllabic vowelless onsets, Virāma codas, and Visarga releases are marked with `₍...₎`.
  */
 const UNIVERSAL_AKSARA_OVERRIDES: Record<string, { modern: string; tang: string }> = {
   oṃ: { modern: '嗡', tang: '唵' },
@@ -393,31 +502,31 @@ const UNIVERSAL_AKSARA_OVERRIDES: Record<string, { modern: string; tang: string 
   hum: { modern: '吽', tang: '吽' },
   huṃ: { modern: '吽', tang: '吽' },
   khūṃ: { modern: '空', tang: '吽' },
-  hrīḥ: { modern: '赫里希', tang: '纥哩' },
-  hrīṃ: { modern: '赫林', tang: '纥哩' },
-  dhīḥ: { modern: '迪希', tang: '地' },
-  bhrūṃ: { modern: '部隆', tang: '勃笼' },
-  trūṃ: { modern: '特隆', tang: '都嚧瓮' },
-  ṭrūṃ: { modern: '特隆', tang: '吒嚧瓮' },
-  śrīṃ: { modern: '希林', tang: '室哩' },
-  śrī: { modern: '希里', tang: '室利' },
-  klīṃ: { modern: '克林', tang: '讫哩' },
-  krīṃ: { modern: '克林', tang: '讫哩' },
-  phaṭ: { modern: '帕特', tang: '泮吒' },
-  svā: { modern: '斯瓦', tang: '娑嚩' },
-  pad: { modern: '巴德', tang: '钵讷' },
-  hoḥ: { modern: '霍赫', tang: '斛' },
-  jaḥ: { modern: '佳赫', tang: '弱' },
+  hrīḥ: { modern: '₍赫₎里₍希₎', tang: '纥哩' },
+  hrīṃ: { modern: '₍赫₎林', tang: '纥哩' },
+  dhīḥ: { modern: '迪₍希₎', tang: '地' },
+  bhrūṃ: { modern: '₍部₎隆', tang: '勃笼' },
+  trūṃ: { modern: '₍特₎隆', tang: '都嚧瓮' },
+  ṭrūṃ: { modern: '₍特₎隆', tang: '吒嚧瓮' },
+  śrīṃ: { modern: '₍希₎林', tang: '室哩' },
+  śrī: { modern: '₍希₎里', tang: '室利' },
+  klīṃ: { modern: '₍克₎林', tang: '讫哩' },
+  krīṃ: { modern: '₍克₎林', tang: '讫哩' },
+  phaṭ: { modern: '帕₍特₎', tang: '泮吒' },
+  svā: { modern: '₍斯₎瓦', tang: '娑嚩' },
+  pad: { modern: '巴₍德₎', tang: '钵讷' },
+  hoḥ: { modern: '霍₍赫₎', tang: '斛' },
+  jaḥ: { modern: '佳₍赫₎', tang: '弱' },
   tsa: { modern: '杂', tang: '縒' },
-  tsal: { modern: '杂尔', tang: '縒攞' },
-  ysa: { modern: '伊萨', tang: '也娑' },
+  tsal: { modern: '杂₍尔₎', tang: '縒攞' },
+  ysa: { modern: '₍伊₎萨', tang: '也娑' },
 };
 
 /**
  * Standalone 1-Syllable Bīja Overrides (applied ONLY when standalone word, not medial saṃ/laṃ/raṃ sandhi)
  */
 const STANDALONE_BIJA_OVERRIDES: Record<string, { modern: string; tang: string }> = {
-  aiṃ: { modern: '爱姆', tang: '蔼' },
+  aiṃ: { modern: '爱₍姆₎', tang: '蔼' },
   vaṃ: { modern: '汪', tang: '鑁' },
   vam: { modern: '汪', tang: '鑁' },
   kham: { modern: '康', tang: '欠' },
@@ -445,7 +554,7 @@ const CLUSTER_PREFIX_MINIMAL: Record<string, { modern: string; tang: string }> =
   g: { modern: '格', tang: '伽' },
   gh: { modern: '格', tang: '伽' },
   ṅ: { modern: '昂', tang: '仰' },
-  c: { modern: '奇', tang: '遮' },
+  c: { modern: '吉', tang: '遮' },
   ch: { modern: '奇', tang: '车' },
   j: { modern: '吉', tang: '日' },
   jh: { modern: '吉', tang: '社' },
@@ -477,7 +586,7 @@ const CLUSTER_PREFIX_MINIMAL: Record<string, { modern: string; tang: string }> =
 
 /**
  * Palatalized onset prefix specifically when IMMEDIATELY preceding palatal semivowel `-y`
- * (e.g., tadyathā -> 达-地呀-他, tryadhvikānāṃ -> 特哩呀..., devebhyaḥ -> 叠-威-比呀赫)
+ * (e.g., tadyathā -> 达-₍地₎呀-他, tryadhvikānāṃ -> ₍特哩₎呀..., devebhyaḥ -> 叠-威-₍比₎呀₍赫₎)
  */
 const CLUSTER_PREFIX_BEFORE_Y: Record<string, { modern: string; tang: string }> = {
   ...CLUSTER_PREFIX_MINIMAL,
@@ -529,7 +638,7 @@ function getNasalVowelSlot(vowel: string): number {
 function renderNasalizedCore(mainC: string, vowel: string, mode: 'n' | 'ng'): string {
   if (vowel === 'ḷ' || vowel === 'ḹ') {
     const pre = mainC && mainC !== 'l' ? CLUSTER_PREFIX_MINIMAL[mainC]?.modern || '' : '';
-    return pre + (mode === 'ng' ? '灵' : '林');
+    return wrapSubscriptPhonetic(pre) + (mode === 'ng' ? '灵' : '林');
   }
   const slot = getNasalVowelSlot(vowel);
   const table = mode === 'ng' ? NASAL_NG_MATRIX : NASAL_N_MATRIX;
@@ -545,7 +654,7 @@ function renderOpenCore(mainC: string, vowel: string): { modern: string; tang: s
     const preMod = mainC === 'l' ? '' : CLUSTER_PREFIX_MINIMAL[mainC]?.modern || '';
     const preTang = mainC === 'l' ? '' : CLUSTER_PREFIX_MINIMAL[mainC]?.tang || '';
     return {
-      modern: `${preMod}里`,
+      modern: `${wrapSubscriptPhonetic(preMod)}里`,
       tang: `${preTang}里${vowel === 'ḹ' ? '(引)' : ''}`,
     };
   }
@@ -562,11 +671,21 @@ function renderOpenCore(mainC: string, vowel: string): { modern: string; tang: s
   return { modern, tang };
 }
 
+/**
+ * Śikṣā Vowel-Colored Visarga (`-ḥ` 涅槃点/止声) Breath Release:
+ * - High-front & palatal offglide (`i, ī, ai`): palatal breath `[ç / hʲ]` -> `希` (Tang `醯`)
+ * - Mid-front (`e`): mid-front breath `[eːh]` -> `嘿` (Tang `醯`)
+ * - Rounded back & labial offglide (`u, ū, au`): labial-velar breath `[hʷ / xʷ]` -> `忽` (Tang `虎`)
+ * - Open/central/mid-back (`a, ā, ṛ, ṝ, ḷ, ḹ, o`): glottal breath `[h]` -> `赫` (Tang `入`)
+ */
 function renderVisargaTail(vowel: string): { modern: string; tang: string } {
-  if (vowel === 'i' || vowel === 'ī') {
+  if (vowel === 'i' || vowel === 'ī' || vowel === 'ai') {
     return { modern: '希', tang: '醯' };
   }
-  if (vowel === 'u' || vowel === 'ū') {
+  if (vowel === 'e') {
+    return { modern: '嘿', tang: '醯' };
+  }
+  if (vowel === 'u' || vowel === 'ū' || vowel === 'au') {
     return { modern: '忽', tang: '虎' };
   }
   return { modern: '赫', tang: '入' };
@@ -578,7 +697,7 @@ function renderCodaConsonant(
   sameSubwordNext: boolean
 ): { modern: string; tang: string } {
   // Rule B1: Abhinidhāna & Varṇakrama — Homorganic stop closure or identical geminate absorption
-  // within the same word (e.g., bud-dhā -> 布+达, sat-tvā -> 萨+特瓦, sarv-va -> 萨尔+瓦, āry-ya -> 阿哩+呀)
+  // within the same word (e.g., bud-dhā -> 布+达, sat-tvā -> 萨+₍特₎瓦, sarv-va -> 萨₍尔₎+瓦, āry-ya -> 阿₍哩₎+呀)
   if (sameSubwordNext && nextOnsetFirst) {
     const g1 = getStopPlaceGroup(c);
     const g2 = getStopPlaceGroup(nextOnsetFirst);
@@ -600,7 +719,8 @@ function renderCodaConsonant(
   if (c === 'l') return { modern: '尔', tang: '攞' };
   if (c === 'k' || c === 'kh') return { modern: '克', tang: '羯' };
   if (c === 'g' || c === 'gh') return { modern: '格', tang: '伽' };
-  if (c === 'c' || c === 'ch') return { modern: '奇', tang: '遮' };
+  if (c === 'c') return { modern: '吉', tang: '遮' };
+  if (c === 'ch') return { modern: '奇', tang: '遮' };
   if (c === 'j' || c === 'jh') return { modern: '吉', tang: '日' };
   if (c === 'ṭ' || c === 'ṭh' || c === 't' || c === 'th') return { modern: '特', tang: '怛' };
   if (c === 'ḍ' || c === 'ḍh' || c === 'd' || c === 'dh') return { modern: '德', tang: '讷' };
@@ -738,7 +858,7 @@ export function mapSyllableToChinesePhonetics(
       for (let pIdx = 0; pIdx < prefixList.length; pIdx++) {
         const pre = prefixList[pIdx];
         const nextInOnset = onset[pIdx + 1];
-        // Absorb geminate or homorganic stop inside onset cluster (e.g. subword-initial `ttva` -> `特瓦`)
+        // Absorb geminate or homorganic stop inside onset cluster (e.g. subword-initial `ttva` -> `₍特₎瓦`)
         const gPre = getStopPlaceGroup(pre);
         const gNext = getStopPlaceGroup(nextInOnset);
         if (pre === nextInOnset || (gPre && gPre === gNext)) {
@@ -753,7 +873,7 @@ export function mapSyllableToChinesePhonetics(
   }
 
   // Rule B6: Subword-final external `yaṇ-sandhi` coda (`-Cy` from `-Ci`, `-Cv` from `-Cu`,
-  // e.g. `ity evaṃ` -> `伊帝`, `koṭy-uṣṇīṣaṃ` -> `果蒂`, `agny-udaka` -> `阿格尼`, `ehy ehi` -> `诶嘿`, `jiṣṇv` -> `吉什努`)
+  // e.g. `ity evaṃ` -> `伊₍帝₎`, `koṭy-uṣṇīṣaṃ` -> `果₍蒂₎`, `agny-udaka` -> `阿₍格尼₎`, `ehy ehi` -> `诶₍嘿₎`)
   let remainingCoda = [...coda];
   let yanSandhiTailModern = '';
   let yanSandhiTailTang = '';
@@ -801,18 +921,18 @@ export function mapSyllableToChinesePhonetics(
       nasalMode = 'ng';
       tangNasalSuffix = '三';
     } else {
-      // Word-final or before sibilant/semivowel (saṃskāra -> 桑斯嘎啦, hṛdayaṃ -> 赫哩达央, puṣṭiṃ -> 普什丁)
+      // Word-final or before sibilant/semivowel (saṃskāra -> 桑₍斯₎嘎啦, hṛdayaṃ -> ₍赫₎日达央, puṣṭiṃ -> 布₍师₎丁)
       nasalMode = vowel === 'i' || vowel === 'ī' ? 'n' : 'ng';
       tangNasalSuffix = '喃';
     }
   } else if (remainingCoda.length > 0 && isNasalConsonant(remainingCoda[0])) {
     const nasalC = remainingCoda.shift()!;
     if (nasalC === 'm' && sameSubwordNext && nextFirst === 'y') {
-      // e.g. sam-yak -> 萨姆-呀克 (keep labial [m] distinct before [j])
+      // e.g. sam-yak -> 萨₍姆₎-呀₍克₎ (keep labial [m] distinct before [j])
       explicitLabialMu = true;
       tangNasalSuffix = '摩';
     } else if (nasalC === 'm' && (vowel === 'ṛ' || vowel === 'ṝ')) {
-      // e.g. vijṛmbhamāṇa -> 维吉哩姆巴玛拿
+      // e.g. vijṛmbhamāṇa -> 维₍吉₎日₍姆₎巴玛拿
       explicitLabialMu = true;
       tangNasalSuffix = '摩';
     } else if (nasalC === 'ṅ') {
@@ -847,7 +967,7 @@ export function mapSyllableToChinesePhonetics(
     }
   } else {
     const openCore = renderOpenCore(mainC, vowel);
-    coreModern = openCore.modern + (explicitLabialMu ? '姆' : '');
+    coreModern = openCore.modern + (explicitLabialMu ? wrapSubscriptPhonetic('姆') : '');
     coreTang = openCore.tang + (explicitLabialMu ? tangNasalSuffix : '');
   }
 
@@ -887,9 +1007,17 @@ export function mapSyllableToChinesePhonetics(
     visargaTang = vTail.tang;
   }
 
+  const modernSyllable = coalesceSubscriptRuns(
+    wrapSubscriptPhonetic(prefixModern) +
+      coreModern +
+      wrapSubscriptPhonetic(codaModern) +
+      wrapSubscriptPhonetic(yanSandhiTailModern) +
+      wrapSubscriptPhonetic(visargaModern)
+  );
+
   return {
     classicalZh: prefixTang + coreTang + codaTang + yanSandhiTailTang + visargaTang,
-    modernZh: prefixModern + coreModern + codaModern + yanSandhiTailModern + visargaModern,
+    modernZh: modernSyllable,
   };
 }
 
@@ -1133,6 +1261,7 @@ export function generateVerseChinesePhonetics(
       }
       wordModern += s.modernZh;
     }
+    wordModern = coalesceSubscriptRuns(wordModern);
 
     modernPieces.push({
       text: includeIastBrackets ? `${wordModern}(${wordIast})` : wordModern,

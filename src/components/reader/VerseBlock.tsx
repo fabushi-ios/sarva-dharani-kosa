@@ -17,6 +17,7 @@ import {
 } from '../../core/provenance/fieldProvenance';
 import { sanskritAudioEngine } from '../../services/audio/sanskritAudioEngine';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
+import { PhoneticText } from '../common/PhoneticText';
 
 interface VerseBlockProps {
   verse: DharaniVerse;
@@ -331,7 +332,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                   <span className="spotlight-token-chip">
                     <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>拼读</span>
                     <strong style={{ fontSize: '1.05rem', color: 'var(--accent-jade)' }}>
-                      {activeSyl.modernZh}
+                      <PhoneticText text={activeSyl.modernZh} />
                     </strong>
                   </span>
                   <span className="spotlight-token-chip">
@@ -618,9 +619,13 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                       onClick={() => onPlaySyllable(syl.iast)}
                       title={`梵音: ${syl.iast} · 现代拼读: ${syl.modernZh}${syl.wordIast ? ` · 所属词: ${syl.wordIast}` : ''}`}
                     >
-                      {config.showPhoneticIastBracket
-                        ? `${syl.modernZh}(${syl.iast})`
-                        : syl.modernZh}
+                      <PhoneticText
+                        text={
+                          config.showPhoneticIastBracket
+                            ? `${syl.modernZh}(${syl.iast})`
+                            : syl.modernZh
+                        }
+                      />
                     </span>
                     {syl.dandaAfter && !isLastSyl && (
                       <span style={{ opacity: 0.55, padding: '0 0.15rem' }}>{syl.dandaAfter}</span>
@@ -630,7 +635,9 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-phonetic-zh">{effective.modernPhoneticZh}</div>
+            <div className="script-content-phonetic-zh">
+              <PhoneticText text={effective.modernPhoneticZh} />
+            </div>
           )}
         </div>
       )}
@@ -746,7 +753,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                     <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
                     <span className="syl-iast">{syl.iast}</span>
                     <span className="syl-modern-zh" title="单音节拼读参考">
-                      {syl.modernZh}
+                      <PhoneticText text={syl.modernZh} />
                     </span>
                     <span className="syl-tang-zh" title="单音节古音参考">
                       {syl.classicalZh}
@@ -913,7 +920,9 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                       词干/词根：{w.stem}
                     </div>
                   )}
-                  <div className="wg-translit">古汉语：{w.transliterationZh}</div>
+                  <div className="wg-translit">
+                    古汉语：<PhoneticText text={w.transliterationZh} />
+                  </div>
                   <div className="wg-meaning">释义：{w.meaningZh}</div>
                   {w.meaningEn && (
                     <div
