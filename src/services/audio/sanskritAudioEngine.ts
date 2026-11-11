@@ -105,6 +105,9 @@ interface CachedNeuralVerse {
 class SanskritAudioEngine {
   private audioCtx: AudioContext | null = null;
   private activeSourceNode: AudioBufferSourceNode | null = null;
+  private activeSingleSyllableSource: AudioBufferSourceNode | null = null;
+  private singleSyllableRequestId = 0;
+  private singleSyllableCache: Map<string, AudioBuffer> = new Map();
   private rafId: number | null = null;
   private abortController: AbortController | null = null;
   private droneGainNode: GainNode | null = null;
@@ -138,7 +141,7 @@ class SanskritAudioEngine {
     omDroneActive: false,
     backendOnline: true,
     spriteCount: 612,
-    activeModel: 'gnumanth/ninada:onnx/sa.onnx',
+    activeModel: 'bhrum108/sarva-dharani-kosa-tts:onnx/sa.onnx',
   };
 
   private listeners: Set<StateListener> = new Set();
@@ -164,7 +167,7 @@ class SanskritAudioEngine {
     this.state.backendOnline = true;
     setTimeout(() => {
       void warmupBrowserOnnxVits(this.state.voice);
-    }, 1500);
+    }, 400);
   }
 
   public subscribe(listener: StateListener): () => void {
@@ -214,13 +217,13 @@ class SanskritAudioEngine {
     if (mode === 'neural-vits-48k') {
       this.state.activeModel =
         this.state.voice === 'female'
-          ? 'gnumanth/ninada:onnx/sa_female.onnx'
-          : 'gnumanth/ninada:onnx/sa.onnx';
+          ? 'bhrum108/sarva-dharani-kosa-tts:onnx/sa_female.onnx'
+          : 'bhrum108/sarva-dharani-kosa-tts:onnx/sa.onnx';
       if (!this.pythonBackendAvailable) {
         void warmupBrowserOnnxVits(this.state.voice);
       }
     } else if (mode === 'studio-vocal-chant') {
-      this.state.activeModel = 'Rosenberg 136.1Hz Formant + 612-Syllable Sprite';
+      this.state.activeModel = 'Rosenberg Sadja Formant + 612-Syllable Sprite';
     } else if (mode === 'mandarin-phonetic-guide') {
       this.state.activeModel = 'WebSpeech zh-CN 现代梵音拼读';
     } else {
@@ -234,8 +237,8 @@ class SanskritAudioEngine {
     if (this.state.mode === 'neural-vits-48k') {
       this.state.activeModel =
         voice === 'female'
-          ? 'gnumanth/ninada:onnx/sa_female.onnx'
-          : 'gnumanth/ninada:onnx/sa.onnx';
+          ? 'bhrum108/sarva-dharani-kosa-tts:onnx/sa_female.onnx'
+          : 'bhrum108/sarva-dharani-kosa-tts:onnx/sa.onnx';
       if (!this.pythonBackendAvailable) {
         void warmupBrowserOnnxVits(voice);
       }
@@ -252,7 +255,7 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Toggle continuous 136.1Hz Sadja (Om) + 204.15Hz Pa + 272.2Hz Sa' background resonance field
+   * Toggle continuous Sadja (Om) + 204.15Hz Pa + 272.2Hz Sa' background resonance field
    */
   public toggleOmDrone(): boolean {
     if (this.state.omDroneActive) {
@@ -323,7 +326,43 @@ class SanskritAudioEngine {
     this.notify();
   }
 
+  private stopSingleSyllableSource() {
+    if (this.activeSingleSyllableSource) {
+      try {
+        this.activeSingleSyllableSource.stop();
+        this.activeSingleSyllableSource.disconnect();
+      } catch {
+        // ignore if already stopped
+      }
+      this.activeSingleSyllableSource = null;
+    }
+  }
+
+  private playTrackedSingleSource(ctx: AudioContext, buffer: AudioBuffer) {
+    this.stopSingleSyllableSource();
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.connect(ctx.destination);
+    this.activeSingleSyllableSource = src;
+    src.onended = () => {
+      if (this.activeSingleSyllableSource === src) {
+        this.activeSingleSyllableSource = null;
+      }
+    };
+    src.start();
+  }
+
+  private cacheSingleSyllableBuffer(key: string, buffer: AudioBuffer) {
+    if (this.singleSyllableCache.size >= 256) {
+      const oldest = this.singleSyllableCache.keys().next().value;
+      if (oldest) this.singleSyllableCache.delete(oldest);
+    }
+    this.singleSyllableCache.set(key, buffer);
+  }
+
   public stop() {
+    this.singleSyllableRequestId++;
+    this.stopSingleSyllableSource();
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
@@ -363,6 +402,9 @@ class SanskritAudioEngine {
     const cleanText = (iastSyllable || '').trim();
     if (!cleanText) return;
 
+    const reqId = ++this.singleSyllableRequestId;
+    this.stopSingleSyllableSource();
+
     const prosody = analyzeSanskritProsody(cleanText);
     const syl =
       prosody[0] || {
@@ -398,67 +440,85 @@ class SanskritAudioEngine {
     }
 
     const ctx = this.getAudioContext();
+    const voice = this.state.voice;
+    const rate = this.state.rate;
 
     if (this.state.mode === 'neural-vits-48k') {
+      const singleKey = `${cleanText}|${voice}|${rate.toFixed(2)}`;
+      const cachedBuf = this.singleSyllableCache.get(singleKey);
+      if (cachedBuf) {
+        this.playTrackedSingleSource(ctx, cachedBuf);
+        return;
+      }
+
       try {
         if (this.pythonBackendAvailable) {
           if (prosody.length > 1) {
             const neural = await this.fetchNeuralVitsVerseBuffer(ctx, cleanText, prosody);
-            const src = ctx.createBufferSource();
-            src.buffer = neural.audioBuffer;
-            src.connect(ctx.destination);
-            src.start();
+            if (reqId !== this.singleSyllableRequestId) return;
+            this.cacheSingleSyllableBuffer(singleKey, neural.audioBuffer);
+            this.playTrackedSingleSource(ctx, neural.audioBuffer);
             return;
           }
 
           const res = await fetch(
-            `${AUDIO_API_ENDPOINTS.syllable}${encodeURIComponent(syl.iast)}?voice=${this.state.voice}&rate=${this.state.rate}&format=wav`
+            `${AUDIO_API_ENDPOINTS.syllable}${encodeURIComponent(syl.iast)}?voice=${voice}&rate=${rate}&format=wav`
           );
           const contentType = res.headers.get('content-type') || '';
           if (res.ok && contentType.includes('audio')) {
             const arrBuf = await res.arrayBuffer();
             const decoded = await ctx.decodeAudioData(arrBuf);
-            const src = ctx.createBufferSource();
-            src.buffer = decoded;
-            src.connect(ctx.destination);
-            src.start();
+            if (reqId !== this.singleSyllableRequestId) return;
+            this.cacheSingleSyllableBuffer(singleKey, decoded);
+            this.playTrackedSingleSource(ctx, decoded);
             return;
           }
         }
 
-        const onnxReady =
-          isBrowserOnnxReady(this.state.voice) ||
-          (await waitForBrowserOnnxReady(this.state.voice, 750));
-        if (onnxReady) {
-          const wasmOut = await synthesizeWithBrowserOnnxVits(
-            ctx,
-            prosody.length > 1 ? cleanText : syl.devanagari || syl.iast,
-            this.state.voice,
-            this.state.rate,
-            prosody.length <= 1,
-            'high'
-          );
-          const src = ctx.createBufferSource();
-          src.buffer = wasmOut.audioBuffer;
-          src.connect(ctx.destination);
-          src.start();
-          return;
+        let showedLoading = false;
+        if (!isBrowserOnnxReady(voice) && !this.state.isPlaying) {
+          showedLoading = true;
+          this.state.isLoadingAudio = true;
+          this.notify();
+        }
+        try {
+          const onnxReady =
+            isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 6500));
+          if (reqId !== this.singleSyllableRequestId) return;
+          if (onnxReady) {
+            const wasmOut = await synthesizeWithBrowserOnnxVits(
+              ctx,
+              cleanText,
+              voice,
+              rate,
+              prosody.length <= 1,
+              'high'
+            );
+            if (reqId !== this.singleSyllableRequestId) return;
+            this.state.activeModel = wasmOut.model;
+            this.cacheSingleSyllableBuffer(singleKey, wasmOut.audioBuffer);
+            this.playTrackedSingleSource(ctx, wasmOut.audioBuffer);
+            return;
+          }
+        } finally {
+          if (showedLoading && !this.state.isPlaying) {
+            this.state.isLoadingAudio = false;
+            this.notify();
+          }
         }
       } catch {
         // Fallback to local 48kHz formant synthesis if unreachable
       }
     }
 
+    if (reqId !== this.singleSyllableRequestId) return;
     const { audioBuffer } = this.synthesizeContinuousVerseBuffer(
       ctx,
       prosody.length > 0 ? prosody : [syl],
       1.0,
       false
     );
-    const src = ctx.createBufferSource();
-    src.buffer = audioBuffer;
-    src.connect(ctx.destination);
-    src.start();
+    this.playTrackedSingleSource(ctx, audioBuffer);
   }
 
   /**
@@ -535,9 +595,53 @@ class SanskritAudioEngine {
     if (syllables.length === 0) return [];
     const enriched = enrichSyllablesWithPhonetics(syllables);
 
-    // If acoustic breath-chunk spans are available from Browser ONNX VITS,
-    // align syllables directly into each breath-chunk's non-silent speech window [speechStartSec, speechEndSec].
+    // If per-word or per-chunk acoustic spans are available from Browser ONNX VITS durations,
+    // lock syllables directly onto their exact spoken windows [speechStartSec, speechEndSec].
     if (chunkSpans && chunkSpans.length > 0) {
+      // 1. Exact 1-to-1 word-group alignment when chunkSpans matches prosody word/subword groups
+      const wordGroups: Array<typeof enriched> = [];
+      let lastGroupKey = '';
+      for (const s of enriched) {
+        const key =
+          s.wordIndex !== undefined
+            ? `${s.wordIndex}:${s.subwordIndex ?? 0}`
+            : `syl:${s.index}`;
+        if (wordGroups.length === 0 || key !== lastGroupKey) {
+          wordGroups.push([s]);
+          lastGroupKey = key;
+        } else {
+          wordGroups[wordGroups.length - 1].push(s);
+        }
+      }
+
+      if (wordGroups.length === chunkSpans.length) {
+        const exactTimings: PlaybackSyllableTiming[] = [];
+        for (let gIdx = 0; gIdx < wordGroups.length; gIdx++) {
+          const group = wordGroups[gIdx];
+          const span = chunkSpans[gIdx];
+          const groupMatras =
+            group.reduce((acc, s) => acc + (s.weight === 'guru' ? 1.75 : 1.0), 0) || 1;
+          const activeSpanSec = Math.max(0.045, span.speechEndSec - span.speechStartSec);
+          let cursor = span.speechStartSec;
+          for (const syl of group) {
+            const w = syl.weight === 'guru' ? 1.75 : 1.0;
+            const dur = (w / groupMatras) * activeSpanSec;
+            exactTimings.push({
+              syl,
+              classicalZh: syl.classicalZh,
+              modernZh: syl.modernZh,
+              startSec: cursor,
+              endSec: cursor + dur,
+            });
+            cursor += dur;
+          }
+        }
+        if (exactTimings.length === enriched.length) {
+          return exactTimings;
+        }
+      }
+
+      // 2. Proportional alignment across chunkSpans when counts differ slightly
       const timings: PlaybackSyllableTiming[] = [];
       const totalChars = chunkSpans.reduce((acc, c) => acc + Math.max(1, c.charCount), 0) || 1;
       let sylCursor = 0;
@@ -913,7 +1017,7 @@ class SanskritAudioEngine {
       this.notify();
 
       const onnxReady =
-        isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 2400));
+        isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 6500));
 
       if (!onnxReady) {
         this.state.isLoadingAudio = false;
@@ -1166,7 +1270,7 @@ class SanskritAudioEngine {
       const hasNasal = /[ṃṁmnṇñṅ]/.test(syl.iast);
 
       // Vedic chanting pitch contour:
-      // Male: Guru 148 Hz -> 137.5 Hz, Laghu 136.1 Hz -> 134.5 Hz
+      // Male: Guru 148 Hz -> 137.5 Hz, Laghu SA_FUNDAMENTAL_HZ -> 134.5 Hz
       // Female: Guru 232 Hz -> 216 Hz, Laghu 216 Hz -> 208 Hz
       const isFemale = this.state.voice === 'female';
       const f0Start = isFemale
@@ -1383,7 +1487,7 @@ class SanskritAudioEngine {
     const fallback = this.renderVersesToWavBlob(verses, rate);
     return {
       ...fallback,
-      model: 'Rosenberg 136.1Hz Formant 48kHz',
+      model: 'Rosenberg Sadja Formant 48kHz',
     };
   }
 

@@ -1137,13 +1137,334 @@ function updateAudioStatusBadge(text) {
 async function checkBackendHealth() {
   try {
     const resp = await fetchWithFallback('/api/health');
+    const ct = (resp.headers && typeof resp.headers.get === 'function') ? (resp.headers.get('content-type') || '') : 'application/json';
+    if (ct && !ct.includes('json')) throw new Error('Non-JSON health');
     const health = await resp.json();
     if (health && health.status === 'ok') {
       updateAudioStatusBadge(
         `🟢 方案 1 (Ninada VITS ${health.sampleRate || 48000}Hz 原生梵文神经网络) 就绪`
       );
+      return;
     }
   } catch (e) {}
+  if (isRealBrowserOnnxCapable()) {
+    updateAudioStatusBadge('🟢 方案 1 (Browser ONNX VITS 48000Hz 原生梵文神经网络) 按需就绪');
+    setTimeout(() => { warmupStandaloneBrowserOnnx('male'); }, 500);
+  }
+}
+
+const HF_ONNX_CDN = 'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main';
+const ORT_WEB_JS = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js';
+const ORT_WEB_DIR = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/';
+const VITS_HS = '\u200a';
+const ASCII_WS_RE = /[ \t\r\n\f\v\u00a0\u3000]+/;
+const ASCII_TRIM_RE = /^[ \t\r\n\f\v\u00a0\u3000]+|[ \t\r\n\f\v\u00a0\u3000]+$/g;
+const DEVA_CONS_SET = new Set(Array.from('कखगघङचछजझञटठडढणतथदधनपफबभमयरलवशषसहळक़ख़ग़ज़ड़ढ़फ़य़'));
+let _ortWebPromise = null;
+let _saVocabPromise = null;
+const _saSessionMap = new Map();
+let _singleClickReqId = 0;
+
+function isRealBrowserOnnxCapable() {
+  return (
+    typeof window !== 'undefined' &&
+    typeof document !== 'undefined' &&
+    Boolean(document.head) &&
+    typeof document.createElement === 'function' &&
+    typeof window.location !== 'undefined' &&
+    /^https?:/.test(window.location.protocol || '')
+  );
+}
+
+async function fetchCachedAsset(url) {
+  if (typeof caches !== 'undefined' && caches && typeof caches.open === 'function') {
+    try {
+      const c = await caches.open('sarva-dharani-onnx-v2');
+      const hit = await c.match(url);
+      if (hit && hit.ok) return hit;
+      const fresh = await fetch(url, { mode: 'cors' });
+      if (fresh.ok) await c.put(url, fresh.clone());
+      return fresh;
+    } catch (e) {}
+  }
+  return fetch(url, { mode: 'cors' });
+}
+
+function loadOrtWebRuntime() {
+  if (window.ort) return Promise.resolve(window.ort);
+  if (_ortWebPromise) return _ortWebPromise;
+  _ortWebPromise = new Promise((resolve, reject) => {
+    const sc = document.createElement('script');
+    sc.src = ORT_WEB_JS;
+    sc.async = true;
+    sc.crossOrigin = 'anonymous';
+    sc.onload = () => {
+      if (window.ort) {
+        window.ort.env.wasm.wasmPaths = ORT_WEB_DIR;
+        window.ort.env.wasm.simd = true;
+        window.ort.env.wasm.numThreads = 1;
+        resolve(window.ort);
+      } else {
+        reject(new Error('ort missing'));
+      }
+    };
+    sc.onerror = () => {
+      _ortWebPromise = null;
+      reject(new Error('ort script error'));
+    };
+    document.head.appendChild(sc);
+  });
+  return _ortWebPromise;
+}
+
+function loadSaVocabSpec() {
+  if (!_saVocabPromise) {
+    _saVocabPromise = fetchCachedAsset(`${HF_ONNX_CDN}/vocabs.json`)
+      .then(r => { if (!r.ok) throw new Error('vocab 404'); return r.json(); })
+      .then(j => j.languages.sa)
+      .catch(err => { _saVocabPromise = null; throw err; });
+  }
+  return _saVocabPromise;
+}
+
+function loadSaSession(voice) {
+  const vKey = voice === 'female' ? 'female' : (voice === 'mobile' ? 'mobile' : 'male');
+  if (_saSessionMap.has(vKey)) return _saSessionMap.get(vKey);
+  const rel = vKey === 'female' ? 'onnx/sa_female.onnx' : (vKey === 'mobile' ? 'onnx_mobile/sa.onnx' : 'onnx/sa.onnx');
+  const p = (async () => {
+    const ort = await loadOrtWebRuntime();
+    const resp = await fetchCachedAsset(`${HF_ONNX_CDN}/${rel}`);
+    if (!resp.ok) throw new Error('onnx 404');
+    const buf = await resp.arrayBuffer();
+    return ort.InferenceSession.create(new Uint8Array(buf), {
+      executionProviders: ['wasm'],
+      graphOptimizationLevel: 'all'
+    });
+  })().catch(err => { _saSessionMap.delete(vKey); throw err; });
+  _saSessionMap.set(vKey, p);
+  return p;
+}
+
+function warmupStandaloneBrowserOnnx(voice) {
+  if (!isRealBrowserOnnxCapable()) return;
+  Promise.all([loadOrtWebRuntime(), loadSaVocabSpec(), loadSaSession(voice)]).catch(() => {});
+}
+
+function conditionDevaWordForOnnx(w) {
+  const clean = String(w || '').replace(ASCII_TRIM_RE, '').replace(/\u200a+/g, '');
+  if (!clean) return '';
+  const chars = Array.from(clean);
+  const last = chars[chars.length - 1];
+  const prev = chars.length >= 2 ? chars[chars.length - 2] : '';
+  if (DEVA_CONS_SET.has(last) || (last === '\u093c' && DEVA_CONS_SET.has(prev))) {
+    return clean + VITS_HS;
+  }
+  return clean;
+}
+
+function shapeAndUpsample48k(raw24k, chars, durs, effRate, isBareVirama) {
+  let wav24 = raw24k;
+  const expected = chars.length * 2 + 1;
+  if (chars.length > 0 && durs.length === expected) {
+    const prefix = new Int32Array(expected + 1);
+    for (let i = 0; i < expected; i++) prefix[i + 1] = prefix[i] + Math.max(0, Math.round(durs[i]));
+    const lastIdx = chars.length - 1;
+    const lastTok = 2 * lastIdx + 1;
+    const lastCh = chars[lastIdx];
+    if (isBareVirama && lastCh === VITS_HS) {
+      const cut = Math.min(raw24k.length, (prefix[lastTok] + Math.min(2, durs[lastTok])) * 256);
+      wav24 = new Float32Array(cut + 768);
+      wav24.set(raw24k.subarray(0, cut), 0);
+      const fd = Math.min(cut, 512);
+      for (let i = 0; i < fd; i++) wav24[cut - fd + i] *= 0.5 * (1 + Math.cos((Math.PI * i) / Math.max(1, fd - 1)));
+    } else if (lastCh === '\u094d') {
+      const b0 = prefix[lastTok - 1] * 256, b1 = prefix[lastTok] * 256;
+      const v0 = b1, v1 = Math.min(raw24k.length, prefix[lastTok + 1] * 256);
+      let sb = 0, sv = 0;
+      for (let i = b0; i < b1 && i < raw24k.length; i++) sb += raw24k[i] * raw24k[i];
+      for (let i = v0; i < v1; i++) sv += raw24k[i] * raw24k[i];
+      const rmsB = b1 > b0 ? Math.sqrt(sb / (b1 - b0)) : 0;
+      const rmsV = v1 > v0 ? Math.sqrt(sv / (v1 - v0)) : 0;
+      if (durs[lastTok - 1] >= 2 && rmsB < 0.032 && rmsV > 0.015) {
+        const cut = Math.min(raw24k.length, v0);
+        wav24 = new Float32Array(cut + 1024);
+        wav24.set(raw24k.subarray(0, cut), 0);
+        const fd = Math.min(cut, 512);
+        for (let i = 0; i < fd; i++) wav24[cut - fd + i] *= 0.5 * (1 + Math.cos((Math.PI * i) / Math.max(1, fd - 1)));
+      }
+    } else if (lastCh === VITS_HS) {
+      const maxFr = Math.max(9, Math.round(12 / effRate));
+      if (durs[lastTok] > maxFr) {
+        const cut = Math.min(raw24k.length, (prefix[lastTok] + maxFr) * 256);
+        wav24 = new Float32Array(cut + 1024);
+        wav24.set(raw24k.subarray(0, cut), 0);
+        const fd = Math.min(maxFr * 256, 1024);
+        for (let i = 0; i < fd; i++) wav24[cut - fd + i] *= 0.5 * (1 + Math.cos((Math.PI * i) / Math.max(1, fd - 1)));
+      }
+    }
+  }
+
+  const pad = 240; // 10ms clean zero pre-pad at 24kHz
+  const nRaw = wav24.length;
+  const clean24 = new Float32Array(pad + nRaw);
+  let px = nRaw > 0 ? wav24[0] : 0, py = 0, sum = 0;
+  for (let i = 0; i < nRaw; i++) {
+    const x = wav24[i];
+    const y = x - px + 0.995 * py;
+    px = x; py = y;
+    clean24[pad + i] = y;
+    sum += y;
+  }
+  const mean = nRaw > 0 ? sum / nRaw : 0;
+  for (let i = 0; i < nRaw; i++) clean24[pad + i] -= mean;
+  const fi = Math.min(36, Math.floor(nRaw / 4));
+  for (let i = 0; i < fi; i++) clean24[pad + i] *= 0.5 * (1 - Math.cos((Math.PI * i) / Math.max(1, fi - 1)));
+  const fo = Math.min(384, Math.floor(nRaw / 3));
+  for (let i = 0; i < fo; i++) clean24[clean24.length - fo + i] *= 0.5 * (1 + Math.cos((Math.PI * i) / Math.max(1, fo - 1)));
+
+  const n24 = clean24.length;
+  const out48 = new Float32Array(n24 * 2);
+  let peak = 0;
+  for (let n = 0; n < n24; n++) {
+    const s0 = clean24[n];
+    const s1 = n + 1 < n24 ? clean24[n + 1] : 0;
+    const sm1 = n - 1 >= 0 ? clean24[n - 1] : 0;
+    const s2 = n + 2 < n24 ? clean24[n + 2] : 0;
+    const mid = 0.5859375 * (s0 + s1) - 0.0859375 * (sm1 + s2);
+    out48[2 * n] = s0;
+    out48[2 * n + 1] = mid;
+    if (Math.abs(s0) > peak) peak = Math.abs(s0);
+    if (Math.abs(mid) > peak) peak = Math.abs(mid);
+  }
+  if (peak > 1e-5) {
+    const gain = 0.89125 / peak;
+    for (let i = 0; i < out48.length; i++) out48[i] *= gain;
+  }
+  return out48;
+}
+
+async function synthesizeBrowserOnnx48k(devaInput, voice, rate, isSingle) {
+  const ctx = getAudioContext();
+  if (!ctx) throw new Error('No AudioContext');
+  const [ort, vocab, session] = await Promise.all([
+    loadOrtWebRuntime(),
+    loadSaVocabSpec(),
+    loadSaSession(voice)
+  ]);
+  const effRate = Math.max(0.5, Math.min(2.0, Number(rate) || 1.0));
+  let deva = String(devaInput || '').normalize('NFC')
+    .replace(/ॐ/g, 'ओम्')
+    .replace(/ॠ/g, 'ऋ').replace(/ॄ/g, 'ृ')
+    .replace(/ऌ/g, 'लृ').replace(/ॡ/g, 'लृ')
+    .replace(/ॢ/g, '्लृ').replace(/ॣ/g, '्लृ')
+    .replace(/[ \t]*ऽ+[ \t]*/g, ' ')
+    .replace(/[-–—]+/g, ' ');
+
+  const clauses = [];
+  if (isSingle) {
+    const s = deva.replace(ASCII_TRIM_RE, '');
+    const isBare = /^(?:[\u0915-\u0939\u0958-\u095f]\u093c?\u094d)+$/.test(s);
+    if (isBare) {
+      clauses.push({ text: s.slice(0, -1) + VITS_HS, pauseMs: 0, isBare: true });
+    } else {
+      clauses.push({
+        text: s.split(ASCII_WS_RE).filter(Boolean).map(conditionDevaWordForOnnx).join(' '),
+        pauseMs: 0,
+        isBare: false
+      });
+    }
+  } else {
+    const rawParts = deva.split(/(॥|।|\|\||\|)/);
+    let cur = '';
+    for (const p of rawParts) {
+      const ps = p.replace(ASCII_TRIM_RE, '');
+      if (!ps) continue;
+      if (ps === '॥' || ps === '||') {
+        if (cur) { clauses.push({ text: cur, pauseMs: 420 }); cur = ''; }
+      } else if (ps === '।' || ps === '|') {
+        if (cur) { clauses.push({ text: cur, pauseMs: 220 }); cur = ''; }
+      } else {
+        cur = cur ? `${cur} ${ps}` : ps;
+      }
+    }
+    if (cur) clauses.push({ text: cur, pauseMs: 0 });
+  }
+
+  const expanded = [];
+  for (const cl of clauses) {
+    if (cl.isBare) { expanded.push(cl); continue; }
+    const words = cl.text.split(ASCII_WS_RE).filter(Boolean).map(conditionDevaWordForOnnx);
+    for (let i = 0; i < words.length; i += 5) {
+      const slice = words.slice(i, i + 5);
+      expanded.push({
+        text: slice.join(' '),
+        pauseMs: i + 5 >= words.length ? cl.pauseMs : 35,
+        isBare: false
+      });
+    }
+  }
+
+  const c2i = vocab.char_to_id;
+  const blankId = BigInt(vocab.blank_id ?? 143);
+  const parts48 = [];
+  let totalLen = 0;
+
+  for (let ci = 0; ci < expanded.length; ci++) {
+    const cl = expanded[ci];
+    const chars = [];
+    const ids = [];
+    for (const ch of cl.text.toLowerCase()) {
+      if (ch in c2i) {
+        chars.push(ch);
+        ids.push(BigInt(c2i[ch]));
+      }
+    }
+    if (ids.length === 0) {
+      chars.push(' ');
+      ids.push(BigInt(c2i[' '] ?? 0));
+    }
+    const inter = new BigInt64Array(ids.length * 2 + 1);
+    inter[0] = blankId;
+    for (let i = 0; i < ids.length; i++) {
+      inter[2 * i + 1] = ids[i];
+      inter[2 * i + 2] = blankId;
+    }
+    const feeds = {
+      input_ids: new ort.Tensor('int64', inter, [1, inter.length]),
+      scales: new ort.Tensor('float32', new Float32Array([1.0 / effRate, 0.25, 0.0]), [3])
+    };
+    const out = await session.run(feeds);
+    const wavName = session.outputNames[0] || 'waveform';
+    const durName = session.outputNames[1] || 'durations';
+    const raw24 = out[wavName].data;
+    const rawDurs = out[durName] ? Array.from(out[durName].data, Number) : [];
+    const seg48 = shapeAndUpsample48k(raw24, chars, rawDurs, effRate, Boolean(cl.isBare));
+    parts48.push(seg48);
+    totalLen += seg48.length;
+    if (cl.pauseMs > 0 && ci < expanded.length - 1) {
+      const pSamps = Math.round(((cl.pauseMs / effRate) / 1000) * 48000);
+      if (pSamps > 0) {
+        parts48.push(new Float32Array(pSamps));
+        totalLen += pSamps;
+      }
+    }
+  }
+
+  const final48 = new Float32Array(Math.max(480, totalLen));
+  let off = 0;
+  for (const p of parts48) { final48.set(p, off); off += p.length; }
+  const audioBuf = ctx.createBuffer(1, final48.length, 48000);
+  audioBuf.getChannelData(0).set(final48);
+  return audioBuf;
+}
+
+function stopIdleSingleAudioNodes() {
+  if (isSpeaking) return;
+  while (activeAudioNodes.length > 0) {
+    const node = activeAudioNodes.pop();
+    try { node.stop(); } catch (e) {}
+    try { node.disconnect(); } catch (e) {}
+  }
 }
 
 function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, startDelaySec = 0) {
@@ -1168,7 +1489,7 @@ function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, 
   }
 
   const gainNode = ctx.createGain();
-  const fadeIn = Math.min(0.008, effectiveDur * 0.15);
+  const fadeIn = Math.min(0.004, effectiveDur * 0.12);
   const fadeOut = Math.min(0.015, effectiveDur * 0.22);
   if (gainNode.gain && typeof gainNode.gain.setValueAtTime === 'function') {
     gainNode.gain.setValueAtTime(0.0001, startTime);
@@ -1187,9 +1508,12 @@ function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, 
 }
 
 /**
- * 统一使用方案 1 (/api/syllable/{slp1}) 播放单个梵文音节 (48kHz VITS + 内存缓存)
+ * 统一使用方案 1 (/api/syllable/{slp1} 或 Browser ONNX VITS) 播放单个梵文音节 (48kHz VITS + 内存缓存)
  */
 async function playSingleSyllable(rawSlp, cardIndex = -1) {
+  const reqId = ++_singleClickReqId;
+  stopIdleSingleAudioNodes();
+
   const cleanSlp = String(rawSlp || '').replace(/[\s|।॥'.,;!?-]+/g, '').trim() || String(rawSlp || '').trim();
   if (cardIndex >= 0) {
     highlightSyllableCard(cardIndex, true);
@@ -1205,6 +1529,7 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
   try {
     if (dynamicSyllableBufferCache.has(cacheKey)) {
       const cached = dynamicSyllableBufferCache.get(cacheKey);
+      stopIdleSingleAudioNodes();
       const durSec = playBufferSlice(cached.buffer, 0, cached.buffer.duration, 1.0, 0);
       if (cardIndex >= 0) {
         setTimeout(() => {
@@ -1213,7 +1538,7 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
         }, Math.round(durSec * 1000) + 40);
       }
       return {
-        source: 'neural-tts',
+        source: cached.source || 'neural-tts',
         sampleRate: 48000,
         durationSec: Number((durSec || cached.durationSec || 0.25).toFixed(4)),
         slp1: cleanSlp
@@ -1225,12 +1550,13 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
     const data = await resp.json();
     const durFromApi = Number(data.durationSec) || 0.26;
     const decodedBuf = await decodeWavBase64ToBuffer(data.audioBase64Wav || '', durFromApi);
-    if (decodedBuf) {
+    if (decodedBuf && reqId === _singleClickReqId) {
       dynamicSyllableBufferCache.set(cacheKey, {
         buffer: decodedBuf,
         durationSec: durFromApi,
         source: 'neural-tts'
       });
+      stopIdleSingleAudioNodes();
       playBufferSlice(decodedBuf, 0, durFromApi, 1.0, 0);
     }
     if (cardIndex >= 0) {
@@ -1246,6 +1572,35 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
       slp1: cleanSlp
     };
   } catch (err) {
+    if (isRealBrowserOnnxCapable()) {
+      try {
+        const devaSyl = slp1ToDevanagari(cleanSlp) || cleanSlp;
+        const wasmBuf = await synthesizeBrowserOnnx48k(devaSyl, voice, rate, true);
+        const durSec = wasmBuf.duration || 0.26;
+        dynamicSyllableBufferCache.set(cacheKey, {
+          buffer: wasmBuf,
+          durationSec: durSec,
+          source: 'neural-tts'
+        });
+        if (reqId === _singleClickReqId) {
+          stopIdleSingleAudioNodes();
+          playBufferSlice(wasmBuf, 0, durSec, 1.0, 0);
+          updateAudioStatusBadge(`🟢 方案 1 (Browser ONNX VITS 48000Hz · ${voice}) 已发声`);
+        }
+        if (cardIndex >= 0) {
+          setTimeout(() => {
+            const card = document.getElementById(`syl-card-${cardIndex}`);
+            if (card && !isSpeaking) card.classList.remove('speaking-active');
+          }, Math.round(durSec * 1000) + 40);
+        }
+        return {
+          source: 'neural-tts',
+          sampleRate: 48000,
+          durationSec: Number(durSec.toFixed(4)),
+          slp1: cleanSlp
+        };
+      } catch (e2) {}
+    }
     return {
       source: 'legacy-tts',
       sampleRate: 24000,
@@ -1258,7 +1613,7 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
 /**
  * 朗读整段梵文，并按帧级时间戳同步高亮音节卡片
  * 支持：
- * - neural-tts：调用方案 1 `POST /api/tts` 获取 48kHz VITS 音频流与 `syllableTimings`
+ * - neural-tts：调用方案 1 `POST /api/tts` 或静态边缘 Browser ONNX VITS 获取 48kHz 音频流与 `syllableTimings`
  * - legacy-tts：系统 Web Speech API 对比兜底
  */
 async function speakSanskrit(fromButton = false) {
@@ -1287,7 +1642,7 @@ async function speakSanskrit(fromButton = false) {
 
   setSpeakingUI(true);
 
-  // 方案 1：原生古典梵文神经网络整句合成 (neural-tts)
+  // 方案 1：原生古典梵文神经网络整句合成 (neural-tts + Browser ONNX fallback)
   if (mode === 'neural-tts') {
     try {
       const resp = await fetchWithFallback('/api/tts', {
@@ -1333,8 +1688,63 @@ async function speakSanskrit(fromButton = false) {
         syllableTimings: timings
       };
     } catch (err) {
-      stopSpeaking();
-      throw err;
+      if (isRealBrowserOnnxCapable()) {
+        try {
+          updateAudioStatusBadge(`⏳ 正在通过 Browser ONNX VITS 合成 48kHz 古典梵音 (${voice})...`);
+          const wasmBuf = await synthesizeBrowserOnnx48k(devaText || slp1ToDevanagari(inputToSlp1(rawInput, 'smart')), voice, rate, false);
+          if (!isSpeaking) {
+            return { mode: 'stopped', sampleRate: 48000, durationSec: 0, syllableTimings: [] };
+          }
+          const totalDurSec = wasmBuf.duration || 1.2;
+          playBufferSlice(wasmBuf, 0, totalDurSec, 1.0, 0);
+
+          const cards = Array.from(document.querySelectorAll('.syllable-card[data-raw]'));
+          const weights = cards.map(c => {
+            const r = c.getAttribute('data-raw') || '';
+            return /[AIFXEO]|[MH~]$|[kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL]$/.test(r) ? 1.75 : 1.0;
+          });
+          const wSum = weights.reduce((a, b) => a + b, 0) || 1;
+          let curMs = 15;
+          const activeMs = Math.max(80, Math.round(totalDurSec * 1000) - 40);
+          const timings = cards.map((c, idx) => {
+            const durMs = Math.max(30, Math.round((weights[idx] / wSum) * activeMs));
+            const st = curMs;
+            curMs += durMs;
+            const tid = setTimeout(() => {
+              if (!isSpeaking) return;
+              highlightSyllableCard(idx, true);
+            }, st);
+            activeHighlightTimers.push(tid);
+            return {
+              index: idx,
+              slp1: c.getAttribute('data-raw') || '',
+              startMs: st,
+              endMs: curMs,
+              durationMs: durMs
+            };
+          });
+
+          currentStopTimer = setTimeout(() => {
+            stopSpeaking();
+          }, Math.round(totalDurSec * 1000) + 100);
+
+          updateAudioStatusBadge(
+            `🔊 正在播放 Browser ONNX VITS 48000Hz (${voice} · ${totalDurSec.toFixed(2)}s)`
+          );
+
+          return {
+            mode: 'neural-tts',
+            sampleRate: 48000,
+            durationSec: totalDurSec,
+            syllableTimings: timings
+          };
+        } catch (onnxErr) {
+          // Fall through to legacy Web Speech API if CDN unreachable
+        }
+      } else {
+        stopSpeaking();
+        throw err;
+      }
     }
   }
 

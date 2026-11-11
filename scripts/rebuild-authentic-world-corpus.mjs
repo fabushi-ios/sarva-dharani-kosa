@@ -1320,7 +1320,13 @@ async function rebuildDb1AndDb2(mahapratisaraEd) {
     m.set(iast, (m.get(iast) || 0) + 1);
   };
   for (const lex of db2.lexiconEntries || []) {
-    if (lex.phoneticZh && lex.iast) addFreq(lex.phoneticZh.trim(), lex.iast.trim());
+    // Exclude T54n2135 semantic glosses (e.g. 晝->divāaḥ, 日->sūrya) and split clusters (播->ṭpa)
+    if (lex.sourceWorkId === 'T54n2135') continue;
+    const pz = lex.phoneticZh ? lex.phoneticZh.trim() : '';
+    const ia = lex.iast ? lex.iast.trim() : '';
+    if (pz.length === 1 && ia && !/\s/.test(ia) && ia.length <= 4 && !/^[ṭḍṇṅñ][pkcṭt]/.test(ia)) {
+      addFreq(pz, ia);
+    }
   }
   const ttScanRe = /<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>/g;
   let tm;

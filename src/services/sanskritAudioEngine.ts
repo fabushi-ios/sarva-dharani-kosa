@@ -16,6 +16,12 @@ import type {
   NeuralVoice,
   SyllableTimingItem,
 } from '../types/dharani';
+import {
+  isBrowserOnnxReady,
+  synthesizeWithBrowserOnnxVits,
+  waitForBrowserOnnxReady,
+  warmupBrowserOnnxVits,
+} from './audio/browserOnnxTtsEngine';
 
 export const VOWEL_FORMANTS: Record<string, [number, number, number]> = {
   'a': [720, 1240, 0.22], 'A': [750, 1280, 0.40],
@@ -285,7 +291,8 @@ class SanskritAudioEngine {
     if (typeof window === 'undefined' || typeof fetch === 'undefined') return;
     try {
       const healthRes = await fetch(`${this.getApiBaseUrl()}/api/health`);
-      if (healthRes.ok) {
+      const ct = healthRes.headers?.get?.('content-type') || 'application/json';
+      if (healthRes.ok && ct.includes('application/json')) {
         const data = await healthRes.json();
         this.healthStatus = {
           backendOnline: data.status === 'ok',
@@ -295,9 +302,15 @@ class SanskritAudioEngine {
             ? data.modelsLoaded
             : this.healthStatus.modelsLoaded,
         };
+        this.notify();
+        return;
       }
     } catch {
       this.healthStatus.backendOnline = false;
+    }
+    if (typeof document !== 'undefined' && Boolean(document.head)) {
+      const onnxVoice: 'male' | 'female' = this.currentVoice === 'female' ? 'female' : 'male';
+      void warmupBrowserOnnxVits(onnxVoice);
     }
     this.notify();
   }
@@ -454,9 +467,22 @@ class SanskritAudioEngine {
     this.notify();
   }
 
+  private stopActiveSources(): void {
+    for (const src of this.activeSources) {
+      try {
+        src.stop();
+        src.disconnect();
+      } catch {
+        // ignore already stopped
+      }
+    }
+    this.activeSources.clear();
+  }
+
   /**
    * Plays a single Sanskrit syllable (Akṣara) at 48,000 Hz using Plan 1 (`GET /api/syllable/{slp1Key}`)
-   * with in-memory `AudioBuffer` caching, falling back to 136.1 Hz Formant Synth or Web Speech.
+   * or in-browser ONNX VITS (`sa.onnx` / `sa_female.onnx`), with in-memory `AudioBuffer` caching,
+   * falling back to 136.1 Hz Formant Synth or Web Speech.
    */
   public async playSyllable(
     rawSlpOrIast: string,
@@ -464,8 +490,11 @@ class SanskritAudioEngine {
   ): Promise<PlaySyllableResult> {
     const cleanKey = inputToSlp1(rawSlpOrIast.trim(), 'smart') || rawSlpOrIast.trim();
     const voice = options.voice || this.currentVoice;
+    const onnxVoice: 'male' | 'female' = voice === 'female' ? 'female' : 'male';
     const rate = options.rate || this.currentRate;
     const mode = options.mode || this.currentMode;
+
+    this.stopActiveSources();
 
     if (mode === 'synth') {
       const dur = synthesizeSyllableAudio(cleanKey, 0, rate);
@@ -473,6 +502,7 @@ class SanskritAudioEngine {
     }
 
     if (mode === 'legacy-tts' && typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(slp1ToDevanagari(cleanKey));
       utter.lang = 'sa-IN';
       utter.rate = rate;
@@ -483,9 +513,10 @@ class SanskritAudioEngine {
     const ctx = getBrowserAudioContext();
     if (ctx && typeof fetch !== 'undefined') {
       const cacheKey = `${cleanKey}:${voice}:${rate.toFixed(2)}`;
-      try {
-        let decoded = this.syllableBufferCache.get(cacheKey);
-        if (!decoded) {
+      let decoded = this.syllableBufferCache.get(cacheKey);
+
+      if (!decoded) {
+        try {
           const q = new URLSearchParams({
             voice,
             rate: String(rate),
@@ -494,33 +525,61 @@ class SanskritAudioEngine {
           const res = await fetch(
             `${this.getApiBaseUrl()}/api/syllable/${encodeURIComponent(cleanKey)}?${q.toString()}`
           );
-          if (res.ok) {
+          const ct = res.headers?.get?.('content-type') || 'audio/wav';
+          if (res.ok && ct.includes('audio')) {
             this.healthStatus.backendOnline = true;
             const wavBuf = await res.arrayBuffer();
             decoded = await ctx.decodeAudioData(wavBuf.slice(0));
             this.syllableBufferCache.set(cacheKey, decoded);
           }
+        } catch {
+          // Backend unreachable; try Browser ONNX VITS next
         }
+      }
 
-        if (decoded) {
-          const source = ctx.createBufferSource();
-          source.buffer = decoded;
-          source.connect(ctx.destination);
-          this.activeSources.add(source);
-          source.onended = () => {
-            this.activeSources.delete(source);
-          };
-          source.start();
-          this.notify();
-          return {
-            source: 'neural-tts',
-            sampleRate: 48000,
-            durationSec: decoded.duration,
-            slp1: cleanKey,
-          };
+      if (
+        !decoded &&
+        typeof document !== 'undefined' &&
+        Boolean(document.head)
+      ) {
+        try {
+          const ready =
+            isBrowserOnnxReady(onnxVoice) || (await waitForBrowserOnnxReady(onnxVoice, 6500));
+          if (ready) {
+            const iastSyl = slp1ToIast(cleanKey) || slp1ToDevanagari(cleanKey) || cleanKey;
+            const wasmOut = await synthesizeWithBrowserOnnxVits(
+              ctx,
+              iastSyl,
+              onnxVoice,
+              rate,
+              true,
+              'high'
+            );
+            decoded = wasmOut.audioBuffer;
+            this.syllableBufferCache.set(cacheKey, decoded);
+          }
+        } catch {
+          // Fall back to formant synth below
         }
-      } catch {
-        // Fallback to 136.1 Hz Formant Synthesizer if backend is offline
+      }
+
+      if (decoded) {
+        this.stopActiveSources();
+        const source = ctx.createBufferSource();
+        source.buffer = decoded;
+        source.connect(ctx.destination);
+        this.activeSources.add(source);
+        source.onended = () => {
+          this.activeSources.delete(source);
+        };
+        source.start();
+        this.notify();
+        return {
+          source: 'neural-tts',
+          sampleRate: 48000,
+          durationSec: decoded.duration,
+          slp1: cleanKey,
+        };
       }
     }
 
@@ -530,7 +589,7 @@ class SanskritAudioEngine {
 
   /**
    * Synthesizes and plays a full verse, mantra, or Dhāraṇī at 48,000 Hz with
-   * frame-accurate syllable highlighting via Plan 1 (`POST /api/tts`),
+   * frame-accurate syllable highlighting via Plan 1 (`POST /api/tts`) or Browser ONNX VITS,
    * or falls back to the 136.1 Hz Formant Synthesizer (`synth`).
    */
   public async speakText(
@@ -545,6 +604,7 @@ class SanskritAudioEngine {
 
     const mode = options.mode || this.currentMode;
     const voice = options.voice || this.currentVoice;
+    const onnxVoice: 'male' | 'female' = voice === 'female' ? 'female' : 'male';
     const rate = options.rate || options.speed || this.currentRate;
     const onDone = () => {
       options.onPlaybackEnd?.();
@@ -554,7 +614,19 @@ class SanskritAudioEngine {
     this.isPlayingState = true;
     this.notify();
 
-    // Plan 1: Native Classical Sanskrit Neural VITS TTS (/api/tts)
+    const slpFull = inputToSlp1(cleanText, 'smart');
+    const rawWords = slpFull.replace(/-/g, ' ').split(/\s+/).filter(Boolean);
+    const allSyllables: string[] = [];
+    for (const w of rawWords) {
+      const tokens = syllabifySlp1Word(w);
+      for (const tk of tokens) {
+        if (!tk.symbol) {
+          allSyllables.push((tk.onset || '') + (tk.vowel || '') + (tk.mod || '') + (tk.coda || ''));
+        }
+      }
+    }
+
+    // Plan 1: Native Classical Sanskrit Neural VITS TTS (/api/tts) + Browser ONNX fallback
     if (
       (mode === 'neural-auto' || mode === 'neural-tts') &&
       typeof window !== 'undefined' &&
@@ -573,7 +645,8 @@ class SanskritAudioEngine {
           }),
         });
 
-        if (response.ok) {
+        const ct = response.headers?.get?.('content-type') || 'application/json';
+        if (response.ok && ct.includes('application/json')) {
           this.healthStatus.backendOnline = true;
           const data = await response.json();
           const timings: SyllableTimingItem[] = Array.isArray(data.syllableTimings)
@@ -631,23 +704,95 @@ class SanskritAudioEngine {
           }
         }
       } catch {
-        // Fall through to 136.1 Hz Formant Synthesizer
+        // Proceed to Browser ONNX VITS in real browser environments
       }
-    }
 
-    // 136.1 Hz Formant Synthesizer fallback (with syllable timeline population for AudioPlayerBar)
-    const slpFull = inputToSlp1(cleanText, 'smart');
-    const rawWords = slpFull.replace(/-/g, ' ').split(/\s+/).filter(Boolean);
-    const allSyllables: string[] = [];
-    for (const w of rawWords) {
-      const tokens = syllabifySlp1Word(w);
-      for (const tk of tokens) {
-        if (!tk.symbol) {
-          allSyllables.push((tk.onset || '') + (tk.vowel || '') + (tk.mod || '') + (tk.coda || ''));
+      if (typeof document !== 'undefined' && Boolean(document.head)) {
+        const ctx = getBrowserAudioContext();
+        if (ctx) {
+          try {
+            const ready =
+              isBrowserOnnxReady(onnxVoice) || (await waitForBrowserOnnxReady(onnxVoice, 6500));
+            if (ready) {
+              const iastLine = slp1ToIast(slpFull) || cleanText;
+              const wasmOut = await synthesizeWithBrowserOnnxVits(
+                ctx,
+                iastLine,
+                onnxVoice,
+                rate,
+                allSyllables.length <= 1,
+                'high'
+              );
+              const audioBuffer = wasmOut.audioBuffer;
+              const totalMs = Math.max(80, Math.round(audioBuffer.duration * 1000));
+              const weights = allSyllables.map((rawSyl) =>
+                /[AIFXEO]|[MH~]$|[kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL]$/.test(rawSyl) ? 1.75 : 1.0
+              );
+              const weightSum = weights.reduce((a, b) => a + b, 0) || 1;
+              let cursorMs = 10;
+              const activeMs = Math.max(50, totalMs - 30);
+              const wasmTimings: SyllableTimingItem[] = allSyllables.map((rawSyl, idx) => {
+                const durMs = Math.max(30, Math.round((weights[idx] / weightSum) * activeMs));
+                const item: SyllableTimingItem = {
+                  index: idx,
+                  slp1: rawSyl,
+                  deva: slp1ToDevanagari(rawSyl),
+                  iast: slp1ToIast(rawSyl),
+                  meter: weights[idx] > 1 ? '—' : '⏑',
+                  startMs: cursorMs,
+                  endMs: cursorMs + durMs,
+                  durationMs: durMs,
+                };
+                cursorMs += durMs;
+                return item;
+              });
+
+              this.activeTimings = wasmTimings;
+              const source = ctx.createBufferSource();
+              source.buffer = audioBuffer;
+              source.connect(ctx.destination);
+              this.activeSources.add(source);
+
+              for (const t of wasmTimings) {
+                const timerId = window.setTimeout(() => {
+                  this.activeSyllableIndex = t.index;
+                  this.notify();
+                  options.onSyllableHighlight?.(t.index, t);
+                }, Math.max(0, t.startMs));
+                this.highlightTimers.push(timerId);
+              }
+
+              const endTimerId = window.setTimeout(() => {
+                this.isPlayingState = false;
+                this.activeSyllableIndex = -1;
+                this.notify();
+                options.onSyllableHighlight?.(-1, null);
+                onDone();
+              }, Math.ceil(audioBuffer.duration * 1000) + 60);
+              this.highlightTimers.push(endTimerId);
+
+              source.onended = () => {
+                this.activeSources.delete(source);
+              };
+
+              source.start();
+              this.notify();
+
+              return {
+                mode: 'neural-tts',
+                sampleRate: 48000,
+                durationSec: audioBuffer.duration,
+                syllableTimings: wasmTimings,
+              };
+            }
+          } catch {
+            // Fall through to 136.1 Hz Formant Synthesizer
+          }
         }
       }
     }
 
+    // 136.1 Hz Formant Synthesizer fallback (with syllable timeline population for AudioPlayerBar)
     let offset = 0;
     const synthTimings: SyllableTimingItem[] = [];
     allSyllables.forEach((rawSyl, idx) => {
@@ -728,7 +873,7 @@ export function playSingleSyllable(
   const slpSyl = inputToSlp1(rawStr, 'smart');
   const devaSyl = slp1ToDevanagari(slpSyl);
 
-  // If running in browser and user requests neural-tts (or auto when neural backend is active)
+  // If running in browser and user requests neural-tts (or auto in a real DOM browser / active backend)
   if (
     typeof window !== 'undefined' &&
     (mode === 'neural-tts' ||
@@ -736,9 +881,10 @@ export function playSingleSyllable(
       (mode === 'auto' &&
         (sanskritAudioEngine.getMode() === 'neural-tts' ||
           sanskritAudioEngine.getMode() === 'neural-auto') &&
-        sanskritAudioEngine.getHealthStatus().backendOnline))
+        (sanskritAudioEngine.getHealthStatus().backendOnline ||
+          (typeof document !== 'undefined' && Boolean(document.head)))))
   ) {
-    sanskritAudioEngine.playSyllable(slpSyl, { voice: options.voice, rate });
+    void sanskritAudioEngine.playSyllable(slpSyl, { voice: options.voice, rate });
     return computeSyllableAcousticProfile(slpSyl, rate).durationSec;
   }
 
@@ -805,7 +951,7 @@ export function speakSanskrit(
     }
   }
 
-  // If running in browser and neural-tts is requested (or auto when backend is online)
+  // If running in browser and neural-tts is requested (or auto in a real DOM browser / active backend)
   if (
     typeof window !== 'undefined' &&
     (mode === 'neural-tts' ||
@@ -813,13 +959,14 @@ export function speakSanskrit(
       (mode === 'auto' &&
         (sanskritAudioEngine.getMode() === 'neural-tts' ||
           sanskritAudioEngine.getMode() === 'neural-auto') &&
-        sanskritAudioEngine.getHealthStatus().backendOnline))
+        (sanskritAudioEngine.getHealthStatus().backendOnline ||
+          (typeof document !== 'undefined' && Boolean(document.head)))))
   ) {
     let estTotal = 0;
     for (const s of allSyllables) {
       estTotal += computeSyllableAcousticProfile(s, rate).durationSec + 0.05;
     }
-    sanskritAudioEngine.speakText(textOrSlp1, {
+    void sanskritAudioEngine.speakText(textOrSlp1, {
       mode: 'neural-tts',
       voice,
       rate,

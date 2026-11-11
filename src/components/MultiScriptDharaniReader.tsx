@@ -15,7 +15,6 @@ import {
 } from '../core/transliterator';
 import {
   computeSyllableAcousticProfile,
-  playSingleSyllable,
   sanskritAudioEngine,
   speakSanskrit,
   stopSpeaking,
@@ -345,8 +344,7 @@ export function MultiScriptDharaniReader() {
                 type="button"
                 className="syllable-card"
                 onClick={() => {
-                  playSingleSyllable(syl.slp1, { mode: 'synth' });
-                  void sanskritAudioEngine.playSyllable(syl.slp1);
+                  void sanskritAudioEngine.playSyllable(syl.rawIast || syl.slp1);
                 }}
               >
                 <div className="siddham-script">{syl.siddhamUnicode}</div>

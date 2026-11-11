@@ -1,11 +1,22 @@
 import { describe, it, expect } from 'vitest';
 import { analyzeSanskritProsody } from '../../src/core/sanskrit/prosody';
-import { iastToIpa } from '../../src/core/sanskrit/transliterator';
+import { iastToDevanagari, iastToIpa } from '../../src/core/sanskrit/transliterator';
 import {
   enrichSyllablesWithPhonetics,
   generateVerseChinesePhonetics,
   mapSyllableToChinesePhonetics,
 } from '../../src/core/sanskrit/phoneticMapper';
+import {
+  VITS_INHERENT_A_MARKER,
+  conditionDevanagariWordForVits,
+  normalizeSikshaDevanagari,
+  shapeVitsWaveform24kWithDurations,
+  upsample24kTo48kAndMaster,
+} from '../../src/services/audio/browserOnnxTtsEngine';
+import {
+  DB1_FANGSHAN_CORPUS,
+  DB2_TAISHO_EXT_CORPUS,
+} from '../../src/data/generated/tier1Databases';
 import { BUILTIN_DHARANI_CORPUS } from '../../src/data/index';
 
 function reconstructModernFromEnriched(iast: string): string {
@@ -180,4 +191,135 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
     expect(mapSyllableToChinesePhonetics('mā').classicalZh).toBe('摩(引)');
     expect(mapSyllableToChinesePhonetics('ma').classicalZh).toBe('摩');
   });
+
+  it('conditions inherent-a words (cipa, hunupa, dharma, sarva-buddha) with \\u200a and zero Avagraha/vowel stutter', () => {
+    expect(VITS_INHERENT_A_MARKER).toBe('\u200a');
+
+    // User-reported exact bug cases: cipa ('चिप') and hunupa ('हुनुप')
+    expect(conditionDevanagariWordForVits(iastToDevanagari('cipa'))).toBe(`चिप${VITS_INHERENT_A_MARKER}`);
+    expect(conditionDevanagariWordForVits(iastToDevanagari('hunupa'))).toBe(`हुनुप${VITS_INHERENT_A_MARKER}`);
+    expect(conditionDevanagariWordForVits(iastToDevanagari('jñapa'))).toBe(`ज्ञप${VITS_INHERENT_A_MARKER}`);
+    expect(conditionDevanagariWordForVits(iastToDevanagari('dharma'))).toBe(`धर्म${VITS_INHERENT_A_MARKER}`);
+
+    // Overt vowel signs, Virāma, Anusvāra, and Visarga must NEVER receive \u200a or 'ऽ'
+    expect(conditionDevanagariWordForVits(iastToDevanagari('cipaṭu'))).toBe('चिपटु');
+    expect(conditionDevanagariWordForVits(iastToDevanagari('hunupaṭu'))).toBe('हुनुपटु');
+    expect(conditionDevanagariWordForVits('फट्')).toBe('फट्');
+    expect(conditionDevanagariWordForVits('ओम्')).toBe('ओम्');
+    expect(conditionDevanagariWordForVits('स्वाहा')).toBe('स्वाहा');
+    expect(conditionDevanagariWordForVits('नमः')).toBe('नमः');
+
+    // Compound hyphens and elided Avagraha normalize cleanly without dropping internal inherent 'a'
+    const compoundNorm = normalizeSikshaDevanagari(iastToDevanagari('sarva-buddha सोऽहम् ॐ'), false);
+    expect(compoundNorm.clauses[0].vitsText).toBe(
+      `सर्व${VITS_INHERENT_A_MARKER} बुद्ध${VITS_INHERENT_A_MARKER} सो हम् ओम्`
+    );
+    expect(compoundNorm.clauses[0].vitsText).not.toContain('ऽ');
+
+    // Bare Virāma matrix cell ('क्') sets isBareVirama = true and appends \u200a for burst windowing
+    const bareViramaNorm = normalizeSikshaDevanagari('क्', true);
+    expect(bareViramaNorm.clauses[0]).toEqual({
+      vitsText: `क${VITS_INHERENT_A_MARKER}`,
+      pauseMs: 0,
+      isBareVirama: true,
+    });
+
+    // All 33 inherent-'a' consonants condition cleanly with \u200a and zero vowel duplication
+    const all33 = [
+      'ka', 'kha', 'ga', 'gha', 'ṅa',
+      'ca', 'cha', 'ja', 'jha', 'ña',
+      'ṭa', 'ṭha', 'ḍa', 'ḍha', 'ṇa',
+      'ta', 'tha', 'da', 'dha', 'na',
+      'pa', 'pha', 'ba', 'bha', 'ma',
+      'ya', 'ra', 'la', 'va',
+      'śa', 'ṣa', 'sa', 'ha',
+    ];
+    for (const syl of all33) {
+      const singleNorm = normalizeSikshaDevanagari(iastToDevanagari(syl), true);
+      expect(singleNorm.clauses[0].vitsText.endsWith(VITS_INHERENT_A_MARKER)).toBe(true);
+      expect(singleNorm.clauses[0].vitsText).not.toContain('ऽ');
+      expect(singleNorm.clauses[0].vitsText).not.toContain('अ');
+    }
+  });
+
+  it('suppresses post-stop Virāma epenthesis (phaṭ), preserves nasal codas (oṃ), caps Laghu \\u200a, and preserves onset bursts', () => {
+    const hop = 256;
+
+    // 1. Oral stop Virāma ('फट्'): silent stop closure blank (< 0.032 RMS) + spurious voiced epenthesis (> 0.015 RMS)
+    const phatChars = ['फ', 'ट', '्']; // 7 interleaved tokens
+    const phatDurs = [2, 6, 1, 5, 3, 8, 2]; // total 27 frames
+    const phatRaw = new Float32Array(27 * hop);
+    // Voiced 'pha' + 'ṭ' closure burst in frames 0..14
+    for (let i = 0; i < 14 * hop; i++) phatRaw[i] = 0.25 * Math.sin((2 * Math.PI * i) / 48);
+    // Silent closure blank in frames 14..17 (durs[4] = 3, RMS = 0)
+    // Spurious voiced vowel on '्' in frames 17..25 (durs[5] = 8)
+    for (let i = 17 * hop; i < 25 * hop; i++) phatRaw[i] = 0.18 * Math.sin((2 * Math.PI * i) / 48);
+
+    const shapedPhat = shapeVitsWaveform24kWithDurations(phatRaw, phatChars, phatDurs, 1.0, false);
+    expect(shapedPhat.durs[5]).toBe(0); // Spurious virāma vowel completely suppressed!
+    expect(shapedPhat.wav24k.length).toBe((17 + 4) * hop);
+
+    // 2. Nasal Virāma ('ओम्'): continuous voiced nasal blank (~0.12 RMS) is preserved intact!
+    const omChars = ['ओ', 'म', '्'];
+    const omDurs = [2, 10, 1, 6, 3, 7, 2]; // total 31 frames
+    const omRaw = new Float32Array(31 * hop);
+    for (let i = 0; i < 29 * hop; i++) omRaw[i] = 0.18 * Math.sin((2 * Math.PI * i) / 64);
+    const shapedOm = shapeVitsWaveform24kWithDurations(omRaw, omChars, omDurs, 1.0, false);
+    expect(shapedOm.durs[5]).toBe(7); // Nasal coda resonance preserved!
+
+    // 3. Utterance-final \u200a Laghu cap ('चिप\u200a'):
+    // When preceding blank (durs[6]=2) already carries voiced vowel onset (>= 0.055 RMS), caps durs[7] to 13 - 2 = 11 frames;
+    // when preceding blank is silent (< 0.055 RMS), caps durs[7] to 12 frames.
+    const cipaChars = ['च', 'ि', 'प', VITS_INHERENT_A_MARKER]; // 9 interleaved tokens
+    const cipaDurs = [2, 5, 1, 6, 2, 5, 2, 22, 3];
+    const cipaRaw = new Float32Array(48 * hop);
+    for (let i = 0; i < 45 * hop; i++) cipaRaw[i] = 0.22 * Math.sin((2 * Math.PI * (i + 7)) / 32);
+    const shapedCipa = shapeVitsWaveform24kWithDurations(cipaRaw, cipaChars, cipaDurs, 1.0, false);
+    expect(shapedCipa.durs[7]).toBe(11);
+
+    const cipaSilentBlankRaw = new Float32Array(cipaRaw);
+    cipaSilentBlankRaw.fill(0, 21 * hop, 23 * hop); // zero out frames 21..23 (durs[6])
+    const shapedCipaSilentBlank = shapeVitsWaveform24kWithDurations(
+      cipaSilentBlankRaw,
+      cipaChars,
+      cipaDurs,
+      1.0,
+      false
+    );
+    expect(shapedCipaSilentBlank.durs[7]).toBe(12);
+
+    // 4. 48kHz upsampling prepends 10ms zero pad (480 samples @ 48kHz) and normalizes peak to ~0.8913 (-1 dBFS)
+    const mastered48k = upsample24kTo48kAndMaster(shapedCipa.wav24k);
+    expect(mastered48k.length).toBe((shapedCipa.wav24k.length + 240) * 2);
+    let peak = 0;
+    for (let i = 0; i < mastered48k.length; i++) {
+      const a = Math.abs(mastered48k[i]);
+      if (a > peak) peak = a;
+    }
+    expect(peak).toBeGreaterThan(0.88);
+    expect(peak).toBeLessThanOrEqual(0.90);
+  });
+
+  it('reconstructs T21n1336_001 (cipaṭu, hunupaṭu, svāhā) and DB1/DB2 with zero divāaḥ or aa vowel stutters', () => {
+    const t1336_001 = DB2_TAISHO_EXT_CORPUS.ancientDharanis.find((d) => d.id === 'T21n1336_001');
+    expect(t1336_001).toBeDefined();
+    expect(t1336_001!.reconstructedIast).toContain('cipaṭu cipaṭu hunupaṭu hunupaṭu');
+    expect(t1336_001!.reconstructedIast).toContain('svāhā');
+    expect(t1336_001!.reconstructedIast).not.toContain('divāaḥ');
+
+    const p27 = DB1_FANGSHAN_CORPUS.records.find((r) => r.xmlId === 'pF28p0027b0701');
+    expect(p27).toBeDefined();
+    expect(p27!.reconstructedIast).toContain('namo bhagavato vajrapāṇaye');
+    expect(p27!.reconstructedIast).toContain('kili kili');
+    expect(p27!.reconstructedIast).toContain('dhara dhara');
+    expect(p27!.reconstructedIast).toContain('vajreṇa');
+
+    for (const entry of BUILTIN_DHARANI_CORPUS) {
+      const dbId = entry.provenance.databaseId;
+      if (dbId !== 'db1_fangshan' && dbId !== 'db2_taisho_ext') continue;
+      const fullIast = entry.verses.map((v) => v.iast).join(' | ');
+      expect(fullIast).not.toMatch(/\baa+\b|divāaḥ|sūrya\s+(?:aṇa|ra)|\bṭpa/);
+    }
+  });
 });
+

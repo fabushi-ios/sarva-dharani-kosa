@@ -31,46 +31,34 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODELS_DIR = PROJECT_ROOT / "models" / "ninada"
 TARGET_SAMPLE_RATE = 48000
 PEAK_TARGET_LINEAR = 0.8912509381337456  # -1.0 dBFS
+VITS_INHERENT_A_MARKER = "\u200a"
+_ASCII_WS_CHARS = " \t\r\n\f\v\u00a0\u3000"
+_ASCII_WS_RE = re.compile(r"[ \t\r\n\f\v\u00a0\u3000]+")
+
+_STUDIO_SPEC = (
+    json.loads((MODELS_DIR / "vocabs.json").read_text(encoding="utf-8"))
+    if (MODELS_DIR / "vocabs.json").exists()
+    else {"sample_rate": 24000, "hop_length": 256, "languages": {"sa": {"blank_id": 143, "pad_id": 0, "char_to_id": {}}}}
+)
+STUDIO_SAMPLE_RATE: int = int(_STUDIO_SPEC.get("sample_rate", 24000))
+STUDIO_HOP_LENGTH: int = int(_STUDIO_SPEC.get("hop_length", 256))
+STUDIO_VOCABS: dict[str, Any] = _STUDIO_SPEC["languages"]
 
 try:
     from ninada.g2p import text_to_ids as ninada_mms_text_to_ids
-    from ninada.studio_g2p import (
-        STUDIO_HOP_LENGTH,
-        STUDIO_SAMPLE_RATE,
-        STUDIO_VOCABS,
-        studio_text_to_ids,
-    )
 except ImportError:
-    _STUDIO_SPEC = json.loads((MODELS_DIR / "vocabs.json").read_text(encoding="utf-8"))
-    STUDIO_SAMPLE_RATE: int = int(_STUDIO_SPEC.get("sample_rate", 24000))
-    STUDIO_HOP_LENGTH: int = int(_STUDIO_SPEC.get("hop_length", 256))
-    STUDIO_VOCABS: dict[str, Any] = _STUDIO_SPEC["languages"]
-    _MMS_SPEC = json.loads((MODELS_DIR / "onnx" / "sa" / "vocab.json").read_text(encoding="utf-8"))
+    _MMS_SPEC = (
+        json.loads((MODELS_DIR / "onnx" / "sa" / "vocab.json").read_text(encoding="utf-8"))
+        if (MODELS_DIR / "onnx" / "sa" / "vocab.json").exists()
+        else {"vocab_tokens": ["_", " ", "अ"]}
+    )
     _MMS_CHAR_TO_ID: dict[str, int] = {
         tok: idx for idx, tok in enumerate(_MMS_SPEC.get("vocab_tokens", []))
     }
     _MMS_BLANK_ID: int = _MMS_CHAR_TO_ID.get("_", 0)
 
-    def studio_text_to_ids(text: str, lang: str | None = "sa") -> tuple[list[int], str, str]:
-        lc = lang if (lang and lang in STUDIO_VOCABS) else "sa"
-        spec = STUDIO_VOCABS[lc]
-        c2i: dict[str, int] = spec["char_to_id"]
-        blank_id = int(spec["blank_id"])
-        t = unicodedata.normalize("NFC", str(text or "")).strip()
-        t = re.sub(r"[\u0951-\u0954\u1cd0-\u1cff\u200c\u200d\ufeff]", "", t)
-        t = re.sub(r"\s*ऽ+", "ऽ", t).replace("||", "॥").replace("|", "।")
-        cleaned = re.sub(r"\s+", " ", t.lower()).strip()
-        raw_ids = [int(c2i[ch]) for ch in cleaned if ch in c2i]
-        if not raw_ids:
-            raw_ids = [int(c2i.get(" ", spec.get("pad_id", 0)))]
-        interleaved: list[int] = [blank_id]
-        for cid in raw_ids:
-            interleaved.append(cid)
-            interleaved.append(blank_id)
-        return interleaved, lc, cleaned
-
     def ninada_mms_text_to_ids(text: str, lang: str | None = "sa") -> dict[str, Any]:
-        cleaned = unicodedata.normalize("NFC", str(text or "")).strip()
+        cleaned = unicodedata.normalize("NFC", str(text or "")).strip(_ASCII_WS_CHARS)
         raw_ids = [_MMS_CHAR_TO_ID[ch] for ch in cleaned if ch in _MMS_CHAR_TO_ID]
         if not raw_ids:
             raw_ids = [_MMS_CHAR_TO_ID.get("अ", 0)]
@@ -87,6 +75,30 @@ except ImportError:
             "input_ids": interleaved,
             "attention_mask": [1] * len(interleaved),
         }
+
+
+def studio_text_to_ids(text: str, lang: str | None = "sa") -> tuple[list[int], str, str]:
+    """
+    Tokenize Devanagari text into Studio VITS interleaved IDs while preserving
+    `VITS_INHERENT_A_MARKER` (`\\u200a`, `id=102`) for word-final inherent short `a`.
+    """
+    lc = lang if (lang and lang in STUDIO_VOCABS) else "sa"
+    spec = STUDIO_VOCABS[lc]
+    c2i: dict[str, int] = spec["char_to_id"]
+    blank_id = int(spec.get("blank_id", 143))
+    t = unicodedata.normalize("NFC", str(text or "")).strip(_ASCII_WS_CHARS)
+    t = re.sub(r"[\u0951-\u0954\u1cd0-\u1cff\u200c\u200d\ufeff]", "", t)
+    t = re.sub(r"[ \t]*ऽ+", "ऽ", t).replace("||", "॥").replace("|", "।")
+    cleaned = _ASCII_WS_RE.sub(" ", t.lower()).strip(_ASCII_WS_CHARS)
+    raw_ids = [int(c2i[ch]) for ch in cleaned if ch in c2i]
+    if not raw_ids:
+        raw_ids = [int(c2i.get(" ", spec.get("pad_id", 0)))]
+    interleaved: list[int] = [blank_id]
+    for cid in raw_ids:
+        interleaved.append(cid)
+        interleaved.append(blank_id)
+    return interleaved, lc, cleaned
+
 
 # ============================================================================
 # Module 1: Multi-Script Input -> SLP1 Phonemic Encoding Engine
@@ -887,45 +899,43 @@ def normalize_sanskrit_siksha(
     norm_deva = norm_deva.replace("ॠ", "ऋ").replace("ॄ", "ृ")
     norm_deva = norm_deva.replace("ऌ", "लृ").replace("ॡ", "लृ")
     norm_deva = norm_deva.replace("ॢ", "्लृ").replace("ॣ", "्लृ")
-    # Avagraha: prolong preceding vowel by stripping 'ऽ' (keeping preceding vowel open/sustained)
-    norm_deva = re.sub(r"\s*ऽ+", "", norm_deva)
+    # Elided Avagraha & hyphens -> clean word boundary
+    norm_deva = re.sub(r"[ \t]*ऽ+[ \t]*", " ", norm_deva)
+    norm_deva = re.sub(r"[-–—]+", " ", norm_deva)
+    norm_deva = _ASCII_WS_RE.sub(" ", norm_deva).strip(_ASCII_WS_CHARS)
 
     # Split into prosodic clauses on Daṇḍa (। -> 250ms, ॥ -> 450ms)
     clauses: list[dict[str, Any]] = []
     parts = re.split(r"(॥|।|\|\||\|)", norm_deva)
     cur_text = ""
     for p in parts:
-        p_s = p.strip()
+        p_s = p.strip(_ASCII_WS_CHARS)
         if not p_s:
             continue
         if p_s in ("॥", "||"):
-            if cur_text.strip():
-                clauses.append({"text": cur_text.strip(), "pauseMs": 450})
+            if cur_text.strip(_ASCII_WS_CHARS):
+                clauses.append({"text": cur_text.strip(_ASCII_WS_CHARS), "pauseMs": 450})
                 cur_text = ""
             elif clauses:
                 clauses[-1]["pauseMs"] = 450
         elif p_s in ("।", "|"):
-            if cur_text.strip():
-                clauses.append({"text": cur_text.strip(), "pauseMs": 250})
+            if cur_text.strip(_ASCII_WS_CHARS):
+                clauses.append({"text": cur_text.strip(_ASCII_WS_CHARS), "pauseMs": 250})
                 cur_text = ""
             elif clauses:
                 clauses[-1]["pauseMs"] = max(clauses[-1]["pauseMs"], 250)
         else:
-            cur_text = f"{cur_text} {p_s}".strip() if cur_text else p_s
-    if cur_text.strip():
-        clauses.append({"text": cur_text.strip(), "pauseMs": 0})
+            cur_text = f"{cur_text} {p_s}".strip(_ASCII_WS_CHARS) if cur_text else p_s
+    if cur_text.strip(_ASCII_WS_CHARS):
+        clauses.append({"text": cur_text.strip(_ASCII_WS_CHARS), "pauseMs": 0})
 
-    # Condition each clause: multi-character Sanskrit words are natively voiced by sa.onnx;
-    # only isolated 1-character bare consonants use Avagraha ('ऽ') to sustain inherent 'a'.
+    # Condition every word ending on a bare Devanāgarī consonant with U+200A (`\u200a`, id=102)
+    # so Classical Sanskrit inherent short `a` (`चिप`, `हुनुप`, `धर्म`, `बुद्ध`) is 100% voiced
+    # without Hindi schwa deletion or Avagraha vowel doubling.
     conditioned_clauses: list[dict[str, Any]] = []
     for cl in clauses:
-        words = cl["text"].split()
-        cond_words: list[str] = []
-        for w in words:
-            if len(w) == 1 and w in DEVA_CONSONANTS:
-                cond_words.append(w + "ऽ")
-            else:
-                cond_words.append(w)
+        words = [w for w in _ASCII_WS_RE.split(cl["text"]) if w]
+        cond_words = [condition_devanagari_word_for_vits(w) for w in words]
         conditioned_clauses.append({
             "text": cl["text"],
             "vitsText": " ".join(cond_words),
@@ -945,15 +955,35 @@ def normalize_sanskrit_siksha(
     }
 
 
+_TRAILING_PUNCT_RE = re.compile(r"[।॥|.,;:!?'\"()\[\]{}—–-]+$")
+
+
+def condition_devanagari_word_for_vits(word: str) -> str:
+    """Append U+200A (`VITS_INHERENT_A_MARKER`) to Devanāgarī words ending in a bare consonant."""
+    clean = word.strip(_ASCII_WS_CHARS).replace(VITS_INHERENT_A_MARKER, "")
+    if not clean:
+        return ""
+    m = _TRAILING_PUNCT_RE.search(clean)
+    core = clean[: m.start()] if m else clean
+    suffix = m.group(0) if m else ""
+    if not core:
+        return clean
+    last = core[-1]
+    second_last = core[-2] if len(core) >= 2 else ""
+    if (last in DEVA_CONSONANTS) or (last == "\u093c" and second_last in DEVA_CONSONANTS):
+        return f"{core}{VITS_INHERENT_A_MARKER}{suffix}"
+    return f"{core}{suffix}"
+
+
 def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
     """
     Prepare deterministic Classical Sanskrit Śikṣā conditioning metadata for an isolated SLP1 syllable
     using pure Plan 1 Native Classical Sanskrit VITS synthesis:
-    1. Bare Virāma consonant (`k..L` -> `क्..ळ्`): synthesize `C + 'ऽ'` and window initial ~88ms burst/VOT.
+    1. Bare Virāma consonant (`k..L` -> `क्..ळ्`): synthesize `C + '\\u200a'` and window initial ~88ms burst/VOT.
     2. Standalone Svara (`a..O`, `aM`, `aH` -> `अ..अः`): synthesize via 16kHz MMS specialist (3x upsampled to 48kHz).
     3. Inherent-`a` open syllable (`ka..La`, `pra`, `jYa`, `kza`, etc.):
-       append Sanskrit Avagraha `'ऽ'` (`deva + 'ऽ'`) so VITS sustains the single inherent short `a` naturally
-       without glottal-stop duplication.
+       append `VITS_INHERENT_A_MARKER` (`deva + '\\u200a'`) so VITS voices crisp Laghu short `a`
+       with zero glottal-stop duplication.
     4. Inherent-`a` syllable with `M` or `H` (`kaM..LaM`, `kaH..LaH`, `saM`, `yaM`, `vaH`, `naH`, `maH`, `svaH`):
        synthesize `deva` directly in VITS (`कं`, `कः`, etc.).
     5. Overt matra / closed syllables (`kA..kO`, `oM`, `hUM`, `hrIH`, `pad`, `tat`, `kArt`, `snye`, etc.):
@@ -968,7 +998,7 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
     if meter == "" and all(ch in CONS_SET for ch in key):
         base_deva = "".join(SLP1_CONS_TO_DEVA[ch] for ch in key[:-1]) + "्" if len(key) > 1 else ""
         last_deva = SLP1_CONS_TO_DEVA[key[-1]]
-        vits_query = base_deva + last_deva + "ऽ"
+        vits_query = base_deva + last_deva + VITS_INHERENT_A_MARKER
         return {
             "slp1": key,
             "iast": iast,
@@ -1006,7 +1036,7 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
 
     # Category 3: Isolated inherent-'a' open syllable (ends with 'a', not 'oM')
     if key.endswith("a") and len(key) >= 2 and all(ch in CONS_SET for ch in key[:-1]):
-        vits_query = deva + "ऽ"
+        vits_query = deva + VITS_INHERENT_A_MARKER
         return {
             "slp1": key,
             "iast": iast,
@@ -1119,6 +1149,123 @@ def apply_mastering_envelope_48k(
     return arr
 
 
+VITS_HOP_LENGTH_24K = 256
+ONSET_PAD_SAMPLES_24K = 240  # 10ms @ 24kHz -> 480 samples (10ms) @ 48kHz so 8ms fade-in never clips bursts
+
+
+def _segment_rms(arr: np.ndarray, start_idx: int, end_idx: int) -> float:
+    s = max(0, int(start_idx))
+    e = min(len(arr), int(end_idx))
+    if e <= s:
+        return 0.0
+    seg = arr[s:e]
+    return float(np.sqrt(np.mean(seg * seg)))
+
+
+def _apply_raised_cosine_tail(arr: np.ndarray, fade_start: int, fade_end: int) -> None:
+    s = max(0, int(fade_start))
+    e = min(len(arr), int(fade_end))
+    n = e - s
+    if n <= 1:
+        return
+    w = 0.5 * (1.0 + np.cos(np.pi * np.arange(n, dtype=np.float32) / float(n - 1)))
+    arr[s:e] *= w
+
+
+def shape_vits_waveform_24k_with_durations(
+    raw_wav_24k: np.ndarray,
+    chars: list[str],
+    raw_durs: list[int],
+    eff_rate: float = 1.0,
+    is_bare_virama: bool = False,
+    prepend_onset_pad: bool = True,
+) -> tuple[np.ndarray, list[int]]:
+    """
+    Use the exact VITS `durations` alignment tensor (`1 frame = 256 samples @ 24kHz`) to:
+    1. Window bare Virāma matrix cells (`क्..ह्`) strictly to their consonant release burst.
+    2. Suppress post-stop Virāma vowel epenthesis (`फट्` -> crisp `"phaṭ"`, never `"pha-ṭa"`),
+       while preserving continuous nasal codas (`ओम्` -> full `[mː]` resonance).
+    3. Cap utterance-final `\\u200a` short-`a` duration to Laghu (~9-12 frames) so `cipa` / `hunupa` / `ka`
+       never over-lengthen into Dīrgha `ā`.
+    4. Prepend 10ms (`240` samples) zero onset pad so `apply_mastering_envelope_48k(fade_in_ms=8.0)`
+       never clips initial plosive/affricate consonant bursts (`च` in `चिप`).
+    """
+    arr = np.asarray(raw_wav_24k, dtype=np.float32).reshape(-1)
+    durs = [max(0, int(round(d))) for d in raw_durs]
+    expected_len = len(chars) * 2 + 1
+
+    if len(chars) > 0 and len(durs) == expected_len and len(arr) > 0:
+        prefix = [0] * (expected_len + 1)
+        for i in range(expected_len):
+            prefix[i + 1] = prefix[i] + durs[i]
+
+        last_char_idx = len(chars) - 1
+        last_tok_idx = 2 * last_char_idx + 1
+        last_char = chars[last_char_idx]
+
+        # 1. Bare Virāma matrix cell (e.g. 'क्'): keep strictly consonant closure + release burst
+        if is_bare_virama and last_char == VITS_INHERENT_A_MARKER:
+            keep_vot_frames = min(durs[last_tok_idx], 2)
+            cut_frame = prefix[last_tok_idx] + keep_vot_frames
+            silent_tail_frames = 3
+            cut_samples = min(len(arr), cut_frame * VITS_HOP_LENGTH_24K)
+            out = np.zeros(cut_samples + silent_tail_frames * VITS_HOP_LENGTH_24K, dtype=np.float32)
+            out[:cut_samples] = arr[:cut_samples]
+            fade_samples = min(cut_samples, 2 * VITS_HOP_LENGTH_24K)
+            _apply_raised_cosine_tail(out, cut_samples - fade_samples, cut_samples)
+            durs[last_tok_idx] = keep_vot_frames
+            durs[last_tok_idx + 1] = silent_tail_frames
+            arr = out
+
+        # 2. Utterance-final Virāma epenthesis suppression ('फट्', 'सम्यक्', 'तत्')
+        elif last_char == "\u094d":
+            prev_blank_idx = last_tok_idx - 1
+            blank_start = prefix[prev_blank_idx] * VITS_HOP_LENGTH_24K
+            blank_end = prefix[prev_blank_idx + 1] * VITS_HOP_LENGTH_24K
+            virama_start = prefix[last_tok_idx] * VITS_HOP_LENGTH_24K
+            virama_end = prefix[last_tok_idx + 1] * VITS_HOP_LENGTH_24K
+            prev_blank_rms = _segment_rms(arr, blank_start, blank_end)
+            virama_rms = _segment_rms(arr, virama_start, virama_end)
+            if durs[prev_blank_idx] >= 2 and prev_blank_rms < 0.032 and virama_rms > 0.015:
+                cut_samples = min(len(arr), virama_start)
+                silent_tail_frames = 4
+                out = np.zeros(cut_samples + silent_tail_frames * VITS_HOP_LENGTH_24K, dtype=np.float32)
+                out[:cut_samples] = arr[:cut_samples]
+                fade_samples = min(cut_samples, 2 * VITS_HOP_LENGTH_24K)
+                _apply_raised_cosine_tail(out, cut_samples - fade_samples, cut_samples)
+                durs[last_tok_idx] = 0
+                durs[last_tok_idx + 1] = silent_tail_frames
+                arr = out
+
+        # 3. Utterance-final `\u200a` Laghu duration cap
+        elif last_char == VITS_INHERENT_A_MARKER:
+            prev_blank_idx = last_tok_idx - 1
+            blank_start = prefix[prev_blank_idx] * VITS_HOP_LENGTH_24K
+            blank_end = prefix[prev_blank_idx + 1] * VITS_HOP_LENGTH_24K
+            prev_blank_rms = _segment_rms(arr, blank_start, blank_end)
+            eff = max(0.5, float(eff_rate))
+            if prev_blank_rms >= 0.055:
+                max_hs_frames = max(4, int(round(13.0 / eff)) - durs[prev_blank_idx])
+            else:
+                max_hs_frames = max(9, int(round(12.0 / eff)))
+            if durs[last_tok_idx] > max_hs_frames:
+                cut_frame = prefix[last_tok_idx] + max_hs_frames
+                cut_samples = min(len(arr), cut_frame * VITS_HOP_LENGTH_24K)
+                silent_tail_frames = 4
+                out = np.zeros(cut_samples + silent_tail_frames * VITS_HOP_LENGTH_24K, dtype=np.float32)
+                out[:cut_samples] = arr[:cut_samples]
+                fade_samples = min(max_hs_frames * VITS_HOP_LENGTH_24K, 4 * VITS_HOP_LENGTH_24K)
+                _apply_raised_cosine_tail(out, cut_samples - fade_samples, cut_samples)
+                durs[last_tok_idx] = max_hs_frames
+                durs[last_tok_idx + 1] = silent_tail_frames
+                arr = out
+
+    if prepend_onset_pad and len(arr) > 0:
+        arr = np.concatenate([np.zeros(ONSET_PAD_SAMPLES_24K, dtype=np.float32), arr])
+
+    return arr, durs
+
+
 def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.ndarray:
     """
     Trim leading/trailing silence and apply clean 48kHz mastering without pitch-warping resample
@@ -1133,7 +1280,7 @@ def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.n
     thresh = 0.020
     active_idx = np.where(np.abs(arr) > thresh)[0]
     if len(active_idx) >= 16:
-        pad_pre = int(0.008 * TARGET_SAMPLE_RATE)
+        pad_pre = int(0.010 * TARGET_SAMPLE_RATE)
         pad_post = int(0.018 * TARGET_SAMPLE_RATE)
         st = max(0, int(active_idx[0]) - pad_pre)
         ed = min(len(arr), int(active_idx[-1]) + pad_post)
@@ -1268,10 +1415,13 @@ class SanskritTTSEngine:
         deva_text: str,
         voice: str = "male",
         length_scale: float = 1.0,
-        noise_scale: float = 0.333,
+        noise_scale: float = 0.25,
         noise_w: float = 0.0,
+        eff_rate: float = 1.0,
+        is_bare_virama: bool = False,
+        prepend_onset_pad: bool = True,
     ) -> tuple[np.ndarray, list[int], list[str], str]:
-        """Run 24,000 Hz Studio/Mobile VITS specialist and upsample 2x to 48,000 Hz."""
+        """Run 24,000 Hz Studio/Mobile VITS specialist with duration-tensor shaping and upsample 2x to 48,000 Hz."""
         sess, model_id = self._select_studio_session(voice)
         ids, lc, cleaned = studio_text_to_ids(deva_text, lang="sa")
         c2i = STUDIO_VOCABS["sa"]["char_to_id"]
@@ -1284,9 +1434,17 @@ class SanskritTTSEngine:
                 "scales": scales,
             },
         )
-        wav_24k = np.asarray(wav_out, dtype=np.float32).reshape(-1)
-        durs_list = np.asarray(durs_out, dtype=np.int64).reshape(-1).tolist()
-        wav_48k = upsample_to_48k(wav_24k, 24000)
+        raw_wav_24k = np.asarray(wav_out, dtype=np.float32).reshape(-1)
+        raw_durs_list = np.asarray(durs_out, dtype=np.int64).reshape(-1).tolist()
+        shaped_24k, durs_list = shape_vits_waveform_24k_with_durations(
+            raw_wav_24k,
+            valid_chars,
+            raw_durs_list,
+            eff_rate=eff_rate,
+            is_bare_virama=is_bare_virama,
+            prepend_onset_pad=prepend_onset_pad,
+        )
+        wav_48k = upsample_to_48k(shaped_24k, 24000)
         return wav_48k, durs_list, valid_chars, model_id
 
     def synthesize_single_syllable(
@@ -1313,8 +1471,11 @@ class SanskritTTSEngine:
                 query,
                 voice=voice,
                 length_scale=base_len_scale,
-                noise_scale=0.333,
+                noise_scale=0.25,
                 noise_w=0.0,
+                eff_rate=eff_rate,
+                is_bare_virama=(cond["category"] == "virama"),
+                prepend_onset_pad=False,
             )
 
         # Scale target bounds by speech rate
@@ -1424,8 +1585,11 @@ class SanskritTTSEngine:
                 vits_text,
                 voice=voice,
                 length_scale=1.0 / eff_rate,
-                noise_scale=0.333,
-                noise_w=0.25,
+                noise_scale=0.25,
+                noise_w=0.0,
+                eff_rate=eff_rate,
+                is_bare_virama=False,
+                prepend_onset_pad=True,
             )
             wav_48k = apply_mastering_envelope_48k(wav_48k, fade_in_ms=8.0, fade_out_ms=20.0)
             clause_dur_ms = (len(wav_48k) / float(TARGET_SAMPLE_RATE)) * 1000.0
@@ -1466,7 +1630,7 @@ class SanskritTTSEngine:
                     n_consume = max(1, len(s_norm))
                     if (
                         char_ptr + n_consume < n_chars
-                        and valid_chars[char_ptr + n_consume] in ("ऽ", "अ")
+                        and valid_chars[char_ptr + n_consume] in (VITS_INHERENT_A_MARKER, "ऽ", "अ")
                         and s_obj["slp1"].endswith("a")
                     ):
                         n_consume += 1

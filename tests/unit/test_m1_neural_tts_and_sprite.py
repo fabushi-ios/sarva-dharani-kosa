@@ -81,9 +81,9 @@ def test_f2_siksha_normalizer_and_zero_schwa_deletion() -> None:
     assert len(norm["clauses"]) == 2
     assert norm["clauses"][0]["pauseMs"] == 250
     assert norm["clauses"][1]["pauseMs"] == 450
-    # Word-final inherent-'a' consonants ('धर्म', 'बुद्ध') must be conditioned with explicit 'अ'
-    assert "धर्मअ" in norm["vitsDeva"]
-    assert "बुद्धअ" in norm["vitsDeva"]
+    # Word-final inherent-'a' consonants ('धर्म', 'बुद्ध') must be conditioned with U+200A ('\u200a')
+    assert "धर्म\u200a" in norm["vitsDeva"]
+    assert "बुद्ध\u200a" in norm["vitsDeva"]
 
     # Rare vocalic liquids and Avagraha
     norm_rare = normalize_sanskrit_siksha("पितॄणाम् क्लृप्त सोऽहम्")
@@ -109,7 +109,7 @@ def test_f2_single_syllable_conditioning_categories() -> None:
 
     c_inh = condition_single_syllable_slp1("pra")
     assert c_inh["category"] == "inherent_a"
-    assert c_inh["vitsQuery"].endswith("अ")
+    assert c_inh["vitsQuery"].endswith("\u200a")
     assert c_inh["meter"] == "⏑"
 
     c_mod = condition_single_syllable_slp1("kaH")
