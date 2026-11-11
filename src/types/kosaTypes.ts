@@ -76,7 +76,8 @@ export interface AuthoritativeProvenance {
     | 'GRETIL/DSBC'
     | 'CBETA-XML-P5'
     | 'Academic-Critical-Edition'
-    | 'GLOBAL-12DB';
+    | 'GLOBAL-12DB'
+    | 'LOCAL-USER-DRAFT';
   databaseId?: string;          // e.g. 'db1_fangshan' .. 'db12_muktabodha_ochs'
   databaseBadgeZh?: string;     // e.g. 'DB1 · 房山石经 F28n1071'
   cbetaId?: string;

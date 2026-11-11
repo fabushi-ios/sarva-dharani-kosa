@@ -82,7 +82,6 @@ export const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => loadTheme());
   const [activeTab, setActiveTab] = useState<ActiveWorkspaceTab>('canon-reader');
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
-  const [compilerViewMode, setCompilerViewMode] = useState<'compiler' | 'engine' | 'both'>('compiler');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
@@ -108,13 +107,6 @@ export const App: React.FC = () => {
     return unsub;
   }, []);
 
-  // Default to side-by-side/stacked 'both' on desktop, 'compiler' first on mobile to avoid iframe scroll trap
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth > 960) {
-      setCompilerViewMode('both');
-    }
-  }, []);
-
   // Lock background body scroll when mobile catalog drawer is open & close on Escape
   useEffect(() => {
     if (typeof document === 'undefined') return;
@@ -133,17 +125,18 @@ export const App: React.FC = () => {
     }
   }, [mobileCatalogOpen]);
 
+  // Authoritative canon strictly excludes local browser editor drafts
   const allEntries = useMemo(() => {
     const seen = new Set<string>();
     const combined: DharaniEntry[] = [];
-    for (const item of [...customEntries, ...cloudCorpusEntries]) {
+    for (const item of cloudCorpusEntries) {
       if (!seen.has(item.id)) {
         seen.add(item.id);
         combined.push(item);
       }
     }
     return combined;
-  }, [customEntries, cloudCorpusEntries]);
+  }, [cloudCorpusEntries]);
 
   const filteredEntries = useMemo(() => {
     const base = filterDharanis(allEntries, {
@@ -172,6 +165,7 @@ export const App: React.FC = () => {
   );
 
   const [taishoActiveEntry, setTaishoActiveEntry] = useState<DharaniEntry | null>(null);
+  const [compilerLiveEntry, setCompilerLiveEntry] = useState<DharaniEntry | null>(null);
 
   const activeEntry = useMemo(() => {
     const foundInFiltered = filteredEntries.find((e) => e.id === selectedEntryId);
@@ -182,9 +176,11 @@ export const App: React.FC = () => {
   }, [allEntries, filteredEntries, selectedEntryId]);
 
   const effectiveAudioEntry =
-    activeTab === 'taisho-explorer' && taishoActiveEntry
-      ? taishoActiveEntry
-      : activeEntry;
+    activeTab === 'custom-compiler' && compilerLiveEntry
+      ? compilerLiveEntry
+      : activeTab === 'taisho-explorer' && taishoActiveEntry
+        ? taishoActiveEntry
+        : activeEntry;
 
   const currentEntryIdx = useMemo(() => {
     if (!activeEntry) return -1;
@@ -261,6 +257,11 @@ export const App: React.FC = () => {
       saveCustomDharanis(next);
       return next;
     });
+  };
+
+  const handleClearAllCustomEntries = () => {
+    setCustomEntries([]);
+    saveCustomDharanis([]);
   };
 
   const handleSelectAdapterDbId = (dbId: string) => {
@@ -460,7 +461,7 @@ export const App: React.FC = () => {
 
             <SidebarFilter
               entries={filteredEntries}
-              totalCorpusCount={Math.max(allEntries.length, 2051 + customEntries.length)}
+              totalCorpusCount={Math.max(allEntries.length, 2051)}
               selectedId={activeEntry.id}
               onSelectEntry={(id) => handleSelectEntry(id)}
               selectedCategory={selectedCategory}
@@ -569,80 +570,20 @@ export const App: React.FC = () => {
         )}
 
         {activeTab === 'custom-compiler' && (
-          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载四行谱发音引擎与梵文编译器...</div>}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <div
-                className="script-control-bar"
-                style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}
-              >
-                <div className="preset-pills-group" role="group" aria-label="引擎与编译器视图切换">
-                  <button
-                    type="button"
-                    className={`preset-mode-pill ${compilerViewMode === 'compiler' ? 'active' : ''}`}
-                    onClick={() => setCompilerViewMode('compiler')}
-                  >
-                    六体实时编译器
-                  </button>
-                  <button
-                    type="button"
-                    className={`preset-mode-pill ${compilerViewMode === 'engine' ? 'active' : ''}`}
-                    onClick={() => setCompilerViewMode('engine')}
-                  >
-                    四行谱发音引擎 v3.0
-                  </button>
-                  <button
-                    type="button"
-                    className={`preset-mode-pill ${compilerViewMode === 'both' ? 'active' : ''}`}
-                    onClick={() => setCompilerViewMode('both')}
-                  >
-                    上下同屏全览
-                  </button>
-                </div>
-
-                <a
-                  href="/sanskrit_phonetic_engine.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-scholarly primary"
-                >
-                  <span>新窗口全屏打开发音引擎 v3.0 ↗</span>
-                </a>
-              </div>
-
-              {(compilerViewMode === 'compiler' || compilerViewMode === 'both') && (
-                <CustomDharaniCompiler
-                  customEntries={customEntries}
-                  onAddCustomEntry={handleAddCustomEntry}
-                  onDeleteCustomEntry={handleDeleteCustomEntry}
-                  onSelectEntryInReader={(id) => handleSelectEntry(id)}
-                  onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-                />
-              )}
-
-              {(compilerViewMode === 'engine' || compilerViewMode === 'both') && (
-                <section className="dharani-hero-card">
-                  <div>
-                    <h2 className="hero-title-zh" style={{ fontSize: '1.15rem' }}>
-                      梵语悉昙四行谱发音引擎与 34×14 摩多矩阵工作台 v3.0 (48,000 Hz Neural VITS)
-                    </h2>
-                    <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-                      集成 IIT Madras Rasa 古典梵语男/女声 ONNX VITS (48kHz) + 612音节 Siddhaṃ Audio Sprite + 136.1Hz 共振峰合成器。
-                    </p>
-                  </div>
-                  <iframe
-                    src="/sanskrit_phonetic_engine.html"
-                    title="梵语悉昙四行谱发音引擎 v3.0"
-                    style={{
-                      width: '100%',
-                      height: 'clamp(460px, 72vh, 720px)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: 'var(--radius-sm)',
-                      background: '#0f1420',
-                    }}
-                  />
-                </section>
-              )}
-            </div>
+          <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载梵音六体编译与全咒发声工作台...</div>}>
+            <CustomDharaniCompiler
+              customEntries={customEntries}
+              onAddCustomEntry={handleAddCustomEntry}
+              onDeleteCustomEntry={handleDeleteCustomEntry}
+              onClearAllCustomEntries={handleClearAllCustomEntries}
+              playbackState={playbackState}
+              onPlayVerses={(verses, startIdx = 0, singleOnly = false) =>
+                sanskritAudioEngine.playVerses(verses, startIdx, singleOnly)
+              }
+              onStopPlayback={() => sanskritAudioEngine.stop()}
+              onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+              onLiveEntryChange={setCompilerLiveEntry}
+            />
           </Suspense>
         )}
       </div>

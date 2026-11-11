@@ -12,7 +12,6 @@ import {
   Moon,
   ShieldCheck,
   CornerDownLeft,
-  ExternalLink,
   Info,
 } from 'lucide-react';
 import type { ActiveWorkspaceTab, DharaniEntry } from '../../types/kosaTypes';
@@ -326,17 +325,6 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="header-util-label-desktop">馆藏参数</span>
             </button>
 
-            <a
-              href="/sanskrit_phonetic_engine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="header-util-btn"
-              title="在新窗口打开独立版 48kHz 四行谱发音引擎 v3.0"
-            >
-              <ExternalLink size={14} />
-              <span className="header-util-label-desktop">独立引擎</span>
-            </a>
-
             <button
               id="theme-toggle-button"
               type="button"
@@ -439,7 +427,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => onTabChange('custom-compiler')}
               >
                 <Code2 size={14} />
-                <span>四行谱引擎与编译器</span>
+                <span>梵音编译与发声台</span>
               </button>
             </nav>
           </div>
@@ -466,20 +454,6 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="prov-stat-item">
               语音方案：<strong>48,000 Hz 神经VITS (sa.onnx 男/女声)</strong> + <strong>612音节Sprite</strong> + <strong>136.1Hz Om共振场</strong> · <strong>48kHz MP3 / WAV 同名导出</strong>
             </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <a
-              href="/sanskrit_phonetic_engine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'var(--accent-vermilion)',
-                fontWeight: 700,
-                textDecoration: 'none',
-              }}
-            >
-              独立版发音引擎 v3.0 ↗
-            </a>
           </div>
         </div>
       </div>
