@@ -34,7 +34,7 @@ import { hydrateExtendedSanskritLexicon } from '../../core/sanskrit/sanskritLexi
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v10';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v11';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -83,6 +83,7 @@ async function openCorpusCache(): Promise<Cache | null> {
       window.caches.delete('sarva-dharani-corpus-v7').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v8').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v9').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v10').catch(() => {});
     }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {
@@ -131,14 +132,14 @@ export async function fetchCachedJsonShard<T>(
 
   if (supportsGzipStream) {
     candidateSources.push(
-      { url: `/corpus/${fileName}.gz?v=8`, isGz: true, source: 'local-shard' },
-      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=8`, isGz: true, source: 'cloud-cdn' }
+      { url: `/corpus/${fileName}.gz?v=11`, isGz: true, source: 'local-shard' },
+      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=11`, isGz: true, source: 'cloud-cdn' }
     );
   }
   candidateSources.push(
-    { url: `/corpus/${fileName}?v=8`, isGz: false, source: 'local-shard' },
-    { url: `/api/corpus/${fileName}?v=8`, isGz: false, source: 'local-shard' },
-    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=8`, isGz: false, source: 'cloud-cdn' }
+    { url: `/corpus/${fileName}?v=11`, isGz: false, source: 'local-shard' },
+    { url: `/api/corpus/${fileName}?v=11`, isGz: false, source: 'local-shard' },
+    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=11`, isGz: false, source: 'cloud-cdn' }
   );
 
   let lastErr: unknown = null;

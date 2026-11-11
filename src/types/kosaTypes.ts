@@ -64,6 +64,10 @@ export interface DharaniVerse {
   devanagariOriginal?: string;
   /** 若原数据库收录藏文/尼瓦尔/婆罗谜等外交原貌文本，保留备查 */
   diplomaticOriginal?: string;
+  /** 当字段为 mixed（部分原载+部分参考）时，记录原典原载对应的梵文音节/词块列表，供界面精确双色标示 */
+  originalIastTokens?: string[];
+  /** 当字段为 mixed 时，记录原典原刻对应的悉昙字块（如 CBETA #SD-* 原字），供界面精确双色标示 */
+  originalSiddhamTokens?: string[];
 }
 
 export interface AuthoritativeProvenance {

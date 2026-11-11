@@ -9,6 +9,7 @@ import {
 } from '../data/unifiedCorpusRegistry';
 import { sanskritAudioEngine, speakSanskrit } from '../services/sanskritAudioEngine';
 import { iastToSiddham } from '../core/sanskrit/transliterator';
+import { resolveMixedIastStringSegments } from '../core/provenance/fieldProvenance';
 import { ProvenanceBadge } from './common/ProvenanceBadge';
 
 export function FangshanTaishoInterlinearStudio() {
@@ -229,6 +230,19 @@ export function FangshanTaishoInterlinearStudio() {
                         : isFullTt
                         ? 'db-original'
                         : 'mixed';
+                    const cbTtIastTokens =
+                      fangshanIastState === 'mixed'
+                        ? selectedFangshan.tokens
+                            .filter((t) => t.tokenType === 'cb_tt' && Boolean(t.iast))
+                            .map((t) => t.iast!)
+                        : [];
+                    const mixedSegs =
+                      fangshanIastState === 'mixed'
+                        ? resolveMixedIastStringSegments(
+                            selectedFangshan.reconstructedIast,
+                            cbTtIastTokens
+                          )
+                        : null;
                     return (
                       <div
                         style={{
@@ -256,12 +270,32 @@ export function FangshanTaishoInterlinearStudio() {
                               fangshanIastState === 'db-original'
                                 ? '【庫藏原文】全段音節均由房山石經原刻 <cb:tt> #SD-* 悉曇字碼直接連綴而成。'
                                 : fangshanIastState === 'mixed'
-                                ? `【原載+參考】本段石經原刻含 ${selectedFangshan.ttCount} 組 <cb:tt> 悉曇字碼對音，未標梵字之音節依遼金對音規則與平行梵本重構補全供參考。`
+                                ? `【原載+參考】朱砂紅字為本段石經原刻之 ${selectedFangshan.ttCount} 組 <cb:tt> 悉曇對音音節，青金藍字為依遼金對音規則與平行梵本重構補全之參考音節。`
                                 : '【處理參考】原段無 <cb:tt> 悉曇字碼，此梵文由系統依遼金對音規則重構還原，僅供參考。'
                             }
                           />
                         </div>
-                        <div>{selectedFangshan.reconstructedIast}</div>
+                        <div style={{ fontFamily: 'var(--font-iast)', lineHeight: 1.65 }}>
+                          {mixedSegs
+                            ? mixedSegs.map((seg, idx) => (
+                                <span
+                                  key={idx}
+                                  className={
+                                    seg.origin === 'db-original'
+                                      ? 'prov-seg-orig'
+                                      : 'prov-seg-ref'
+                                  }
+                                  title={
+                                    seg.origin === 'db-original'
+                                      ? '● 石經 <cb:tt> 原刻對音音節'
+                                      : '◇ 系統重構補全音節（參考）'
+                                  }
+                                >
+                                  {seg.text}
+                                </span>
+                              ))
+                            : selectedFangshan.reconstructedIast}
+                        </div>
                       </div>
                     );
                   })()}

@@ -725,12 +725,70 @@
   font-weight: 600;
 }
 
-/* 部分原载+部分补全参考 */
+/* 部分原载+部分补全参考：徽章内「原载」与「参考」分用朱砂色与青金石色，并与正文片段颜色严格一致 */
 .prov-origin-badge.is-mixed {
-  background: var(--accent-lapis-soft);
-  color: var(--accent-lapis);
-  border: 1px dashed var(--accent-lapis-border);
+  background: linear-gradient(
+    90deg,
+    var(--prov-orig-bg) 0%,
+    var(--bg-surface) 50%,
+    var(--prov-ref-bg) 100%
+  );
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  border-left: 2.5px solid var(--prov-orig-ink);
+  border-right: 2.5px dashed var(--prov-ref-ink);
   font-weight: 600;
+  gap: 0.12rem;
+}
+
+.prov-part-orig {
+  color: var(--prov-orig-ink);
+  font-weight: 700;
+}
+
+.prov-part-sep {
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 0 0.08rem;
+}
+
+.prov-part-ref {
+  color: var(--prov-ref-ink);
+  font-weight: 600;
+}
+
+/* 混合行（原载+参考）内联正文双色片段：与徽章内「原载」「参考」字色 1:1 对应，且零水平间距不拆散梵文连字 */
+.prov-seg-orig {
+  color: var(--prov-orig-ink);
+  background: var(--prov-orig-bg);
+  text-decoration: underline;
+  text-decoration-color: var(--prov-orig-border);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.prov-seg-ref {
+  color: var(--prov-ref-ink);
+}
+
+/* 同步跟诵时混合行内联音节块亦保持「原载 / 参考」双色区分（正在发音音节由 .active-spoken 高亮覆盖） */
+.inline-syl-token.prov-token-orig {
+  color: var(--prov-orig-ink);
+  background: var(--prov-orig-bg);
+  border-bottom: 2px solid var(--prov-orig-border);
+  font-weight: 700;
+}
+
+.inline-syl-token.prov-token-ref {
+  color: var(--prov-ref-ink);
+}
+
+.inline-syl-token.prov-token-ref.past-spoken {
+  color: var(--prov-ref-ink);
+  background: var(--prov-ref-bg);
+  border-bottom: 2px dashed var(--prov-ref-border);
 }
 
 /* 容器边框视觉区分：原文用实线重边框，处理参考用虚线边框 */
@@ -760,7 +818,8 @@
 .script-row.is-mixed-row .script-content-phonetic-zh,
 .script-row.is-mixed-row .script-content-classical-zh {
   padding-left: 0.55rem;
-  border-left: 3.5px dashed var(--accent-lapis);
+  border-left: 3.5px solid var(--prov-orig-ink);
+  box-shadow: inset 3.5px 0 0 0 transparent;
 }
 
 .script-row.is-reference-row .script-content-iast {
@@ -776,7 +835,8 @@
 }
 
 .translit-box.is-mixed-box {
-  border-left: 3.5px dashed var(--accent-lapis);
+  border-left: 3.5px solid var(--prov-orig-ink);
+  border-right: 2.5px dashed var(--prov-ref-ink);
 }
 
 .translit-box.is-reference-box {
@@ -785,11 +845,30 @@
 }
 
 .word-gloss-card.is-original-card {
-  border-left: 3px solid var(--accent-vermilion);
+  border-left: 3px solid var(--prov-orig-ink);
 }
 
 .word-gloss-card.is-reference-card {
   border: 1px dashed var(--border-strong);
+}
+
+.word-gloss-grid.is-mixed-words .word-gloss-card.is-original-card .wg-iast {
+  color: var(--prov-orig-ink);
+}
+
+.word-gloss-grid.is-mixed-words .word-gloss-card.is-reference-card {
+  border: 1px dashed var(--prov-ref-border);
+  border-left: 3px dashed var(--prov-ref-ink);
+}
+
+.word-gloss-grid.is-mixed-words .word-gloss-card.is-reference-card .wg-iast {
+  color: var(--prov-ref-ink);
+}
+
+.word-gloss-grid.is-mixed-words .word-gloss-card.is-reference-card .prov-origin-badge.is-reference {
+  background: var(--prov-ref-bg);
+  color: var(--prov-ref-ink);
+  border-color: var(--prov-ref-border);
 }
 
 .provenance-legend-banner {
@@ -844,9 +923,18 @@
 }
 
 .provenance-field-pill.is-mixed {
-  background: var(--accent-lapis-soft);
-  color: var(--accent-lapis);
-  border: 1px dashed var(--accent-lapis-border);
+  background: linear-gradient(
+    90deg,
+    var(--prov-orig-bg) 0%,
+    var(--bg-surface) 50%,
+    var(--prov-ref-bg) 100%
+  );
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  border-left: 2.5px solid var(--prov-orig-ink);
+  border-right: 2.5px dashed var(--prov-ref-ink);
   font-weight: 600;
+  gap: 0.2rem;
 }
+
 

@@ -3,8 +3,10 @@ import { Copy, Check, Layers, Sparkles } from 'lucide-react';
 import type { DharaniEntry, ScriptVisibilityConfig } from '../../types/kosaTypes';
 import {
   resolveEffectiveVerseFields,
+  resolveVerseMixedSegments,
   summarizeEntryFieldProvenance,
   type EntryFieldOriginState,
+  type MixedSegmentableField,
 } from '../../core/provenance/fieldProvenance';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
 
@@ -203,6 +205,67 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
       );
     });
 
+  const renderMixedSummaryRow = (field: MixedSegmentableField, separator: string) => {
+    const nonEmptyEntries = entry.verses
+      .map((v, idx) => ({
+        verse: v,
+        idx,
+        segments: resolveVerseMixedSegments(v, field, config.showPhoneticIastBracket),
+      }))
+      .filter((item) => item.segments.length > 0);
+
+    return nonEmptyEntries.map(({ verse: v, idx, segments }, listPos) => {
+      const isPlayingThis = activeVerseIndex !== null && v.index === activeVerseIndex;
+      return (
+        <React.Fragment key={`${v.id}-${field}`}>
+          <span
+            className={isPlayingThis ? 'inline-syl-token active-spoken' : ''}
+            style={
+              isPlayingThis
+                ? { padding: '0.1rem 0.42rem', borderRadius: '5px', display: 'inline' }
+                : onPlayVerse
+                ? { cursor: 'pointer' }
+                : undefined
+            }
+            onClick={() => onPlayVerse?.(idx)}
+            title={`第 ${v.index} 句（点击讽诵）：朱砂色为原典原载，青金色为系统参考`}
+          >
+            {isPlayingThis
+              ? segments.map((s) => s.text).join('')
+              : segments.map((seg, sIdx) => (
+                  <span
+                    key={`${v.id}-${field}-seg-${sIdx}`}
+                    className={seg.origin === 'db-original' ? 'prov-seg-orig' : 'prov-seg-ref'}
+                  >
+                    {seg.text}
+                  </span>
+                ))}
+          </span>
+          {listPos < nonEmptyEntries.length - 1 ? (
+            <span style={{ color: 'var(--text-muted)' }}>{separator}</span>
+          ) : null}
+        </React.Fragment>
+      );
+    });
+  };
+
+  const renderSummaryFieldContent = (
+    field: MixedSegmentableField,
+    state: EntryFieldOriginState,
+    plainList: string[],
+    plainFull: string,
+    separator: string,
+    alwaysSegmentByVerse = false
+  ) => {
+    if (state === 'mixed') {
+      return renderMixedSummaryRow(field, separator);
+    }
+    if (activeVerseIndex !== null || alwaysSegmentByVerse) {
+      return renderSegmentedRow(plainList, separator);
+    }
+    return plainFull;
+  };
+
   return (
     <section
       id="full-dharani-combined-summary"
@@ -287,9 +350,13 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             />
           </span>
           <div className="script-content-siddham" style={{ lineHeight: 1.85 }}>
-            {activeVerseIndex !== null
-              ? renderSegmentedRow(combined.siddhamList, '  ')
-              : combined.siddhamFull}
+            {renderSummaryFieldContent(
+              'siddham',
+              provSummary.byField.siddham,
+              combined.siddhamList,
+              combined.siddhamFull,
+              '  '
+            )}
           </div>
         </div>
       )}
@@ -329,9 +396,13 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             />
           </span>
           <div className="script-content-phonetic-zh" style={{ lineHeight: 1.75 }}>
-            {activeVerseIndex !== null
-              ? renderSegmentedRow(combined.modernPhoneticList, ' ｜ ')
-              : combined.modernPhoneticFull}
+            {renderSummaryFieldContent(
+              'modernPhoneticZh',
+              provSummary.byField.modernPhoneticZh,
+              combined.modernPhoneticList,
+              combined.modernPhoneticFull,
+              ' ｜ '
+            )}
           </div>
         </div>
       )}
@@ -374,9 +445,13 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             />
           </span>
           <div className="script-content-devanagari" style={{ lineHeight: 1.75 }}>
-            {activeVerseIndex !== null
-              ? renderSegmentedRow(combined.devanagariList, ' । ')
-              : combined.devanagariFull}
+            {renderSummaryFieldContent(
+              'devanagari',
+              provSummary.byField.devanagari,
+              combined.devanagariList,
+              combined.devanagariFull,
+              ' । '
+            )}
           </div>
         </div>
       )}
@@ -419,9 +494,13 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             />
           </span>
           <div className="script-content-iast" style={{ lineHeight: 1.65 }}>
-            {activeVerseIndex !== null
-              ? renderSegmentedRow(combined.iastList, ' | ')
-              : combined.iastFull}
+            {renderSummaryFieldContent(
+              'iast',
+              provSummary.byField.iast,
+              combined.iastList,
+              combined.iastFull,
+              ' | '
+            )}
           </div>
         </div>
       )}
@@ -457,9 +536,13 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             />
           </span>
           <div className="script-content-classical-zh" style={{ lineHeight: 1.75 }}>
-            {activeVerseIndex !== null
-              ? renderSegmentedRow(combined.classicalZhList, ' ｜ ')
-              : combined.classicalZhFull}
+            {renderSummaryFieldContent(
+              'classicalTranslitZh',
+              provSummary.byField.classicalTranslitZh,
+              combined.classicalZhList,
+              combined.classicalZhFull,
+              ' ｜ '
+            )}
           </div>
         </div>
       )}
@@ -535,7 +618,14 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
               />
             </span>
             <div className="box-text-zh" style={{ lineHeight: 1.78 }}>
-              {renderSegmentedRow(combined.meaningZhList, ' ｜ ')}
+              {renderSummaryFieldContent(
+                'meaningZh',
+                provSummary.byField.meaningZh,
+                combined.meaningZhList,
+                combined.meaningZhFull,
+                ' ｜ ',
+                true
+              )}
             </div>
           </div>
         )}
@@ -579,7 +669,14 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
               />
             </span>
             <div className="box-text-en" style={{ lineHeight: 1.68 }}>
-              {renderSegmentedRow(combined.meaningEnList, ' | ')}
+              {renderSummaryFieldContent(
+                'meaningEn',
+                provSummary.byField.meaningEn,
+                combined.meaningEnList,
+                combined.meaningEnFull,
+                ' | ',
+                true
+              )}
             </div>
           </div>
         )}

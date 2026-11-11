@@ -28,6 +28,14 @@
   --accent-jade: #266041;
   --accent-jade-soft: rgba(38, 96, 65, 0.1);
 
+  /* 混合溯源双色语义令牌（徽章「原载 / 参考」词色与对应正文内容色严格 1:1 一致） */
+  --prov-orig-ink: #9e2a2b;
+  --prov-orig-bg: rgba(158, 42, 43, 0.11);
+  --prov-orig-border: rgba(158, 42, 43, 0.38);
+  --prov-ref-ink: #1b5c8a;
+  --prov-ref-bg: rgba(27, 92, 138, 0.09);
+  --prov-ref-border: rgba(27, 92, 138, 0.32);
+
   --border-subtle: #e3d7c3;
   --border-strong: #cbb89d;
 
@@ -63,6 +71,13 @@
 
   --accent-jade: #5cb88a;
   --accent-jade-soft: rgba(92, 184, 138, 0.14);
+
+  --prov-orig-ink: #f2665e;
+  --prov-orig-bg: rgba(242, 102, 94, 0.17);
+  --prov-orig-border: rgba(242, 102, 94, 0.45);
+  --prov-ref-ink: #6ab4ec;
+  --prov-ref-bg: rgba(106, 180, 236, 0.15);
+  --prov-ref-border: rgba(106, 180, 236, 0.38);
 
   --border-subtle: #332b23;
   --border-strong: #4a3e32;

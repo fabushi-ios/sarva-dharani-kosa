@@ -116,6 +116,12 @@ function serializeVerse(
   if (v.diplomaticOriginal) {
     out.diplomaticOriginal = v.diplomaticOriginal;
   }
+  if (v.originalIastTokens && v.originalIastTokens.length > 0) {
+    out.originalIastTokens = v.originalIastTokens;
+  }
+  if (v.originalSiddhamTokens && v.originalSiddhamTokens.length > 0) {
+    out.originalSiddhamTokens = v.originalSiddhamTokens;
+  }
   return out as unknown as DharaniVerse;
 }
 

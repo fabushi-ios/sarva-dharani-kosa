@@ -10,7 +10,10 @@ import {
 import {
   resolveEffectiveVerseFields,
   resolveEffectiveWordGlosses,
+  resolveVerseMixedSegments,
+  resolveVersePlaybackTokenOrigins,
   type EntryFieldOriginState,
+  type ProvenanceTextSegment,
 } from '../../core/provenance/fieldProvenance';
 import { sanskritAudioEngine } from '../../services/audio/sanskritAudioEngine';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
@@ -125,6 +128,62 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
     }
     return groups;
   }, [enrichedSyllables]);
+
+  const mixedSiddhamSegments = useMemo(
+    () =>
+      effective.siddhamOrigin === 'mixed'
+        ? resolveVerseMixedSegments(verse, 'siddham', config.showPhoneticIastBracket)
+        : null,
+    [verse, effective.siddhamOrigin, config.showPhoneticIastBracket]
+  );
+
+  const mixedDevanagariSegments = useMemo(
+    () =>
+      effective.devanagariOrigin === 'mixed'
+        ? resolveVerseMixedSegments(verse, 'devanagari', config.showPhoneticIastBracket)
+        : null,
+    [verse, effective.devanagariOrigin, config.showPhoneticIastBracket]
+  );
+
+  const mixedIastSegments = useMemo(
+    () =>
+      effective.iastOrigin === 'mixed'
+        ? resolveVerseMixedSegments(verse, 'iast', config.showPhoneticIastBracket)
+        : null,
+    [verse, effective.iastOrigin, config.showPhoneticIastBracket]
+  );
+
+  const hasAnyMixedPlaybackLayer =
+    effective.siddhamOrigin === 'mixed' ||
+    effective.devanagariOrigin === 'mixed' ||
+    effective.iastOrigin === 'mixed';
+
+  const playbackTokenOrigins = useMemo(
+    () =>
+      isVersePlaying && hasAnyMixedPlaybackLayer
+        ? resolveVersePlaybackTokenOrigins(
+            verse,
+            enrichedSubwords.map((sw) => sw.iast),
+            enrichedSyllables.map((s) => s.iast)
+          )
+        : null,
+    [isVersePlaying, hasAnyMixedPlaybackLayer, verse, enrichedSubwords, enrichedSyllables]
+  );
+
+  const renderMixedSegments = (segments: ProvenanceTextSegment[], keyPrefix: string) =>
+    segments.map((seg, idx) => (
+      <span
+        key={`${keyPrefix}-${idx}`}
+        className={seg.origin === 'db-original' ? 'prov-seg-orig' : 'prov-seg-ref'}
+        title={
+          seg.origin === 'db-original'
+            ? '● 原典原载内容（与左侧徽章「原载」同色）'
+            : '◇ 系统补全/转写参考（与左侧徽章「参考」同色）'
+        }
+      >
+        {seg.text}
+      </span>
+    ));
 
   const effectiveActiveSylIndex = isVersePlaying
     ? (activeSyllableIndex ?? enrichedSyllables[0]?.index ?? 1)
@@ -348,7 +407,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           </span>
           {isVersePlaying &&
           enrichedSubwords.length > 0 &&
-          effective.siddhamOrigin === 'derived-reference' ? (
+          (effective.siddhamOrigin === 'derived-reference' ||
+            effective.siddhamOrigin === 'mixed') ? (
             <div className="script-content-siddham inline-syl-strip">
               {enrichedSubwords.map((sw, swIdx) => {
                 const isSpoken =
@@ -358,6 +418,12 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                 const isPast =
                   effectiveActiveSylIndex !== null && sw.lastSylIndex < effectiveActiveSylIndex;
                 const isLastSw = swIdx === enrichedSubwords.length - 1;
+                const mixedTokClass =
+                  effective.siddhamOrigin === 'mixed' && playbackTokenOrigins
+                    ? playbackTokenOrigins.subwordOrigins[swIdx] === 'db-original'
+                      ? 'prov-token-orig'
+                      : 'prov-token-ref'
+                    : '';
                 return (
                   <React.Fragment key={`${verse.id}-sid-sw-${sw.key}`}>
                     {sw.dandaBefore && (
@@ -366,7 +432,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                       </span>
                     )}
                     <span
-                      className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                      className={`inline-syl-token ${mixedTokClass} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
                       onClick={() => onPlaySyllable(sw.iast)}
                       title={`点击发音: ${sw.iast} (${sw.modernZh})`}
                     >
@@ -382,7 +448,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-siddham">{effective.siddhamText}</div>
+            <div className="script-content-siddham">
+              {mixedSiddhamSegments
+                ? renderMixedSegments(mixedSiddhamSegments, `${verse.id}-sid-mix`)
+                : effective.siddhamText}
+            </div>
           )}
         </div>
       )}
@@ -406,7 +476,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           </span>
           {isVersePlaying &&
           enrichedSubwords.length > 0 &&
-          effective.devanagariOrigin === 'derived-reference' ? (
+          (effective.devanagariOrigin === 'derived-reference' ||
+            effective.devanagariOrigin === 'mixed') ? (
             <div className="script-content-devanagari inline-syl-strip">
               {enrichedSubwords.map((sw, swIdx) => {
                 const isSpoken =
@@ -416,6 +487,12 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                 const isPast =
                   effectiveActiveSylIndex !== null && sw.lastSylIndex < effectiveActiveSylIndex;
                 const isLastSw = swIdx === enrichedSubwords.length - 1;
+                const mixedTokClass =
+                  effective.devanagariOrigin === 'mixed' && playbackTokenOrigins
+                    ? playbackTokenOrigins.subwordOrigins[swIdx] === 'db-original'
+                      ? 'prov-token-orig'
+                      : 'prov-token-ref'
+                    : '';
                 return (
                   <React.Fragment key={`${verse.id}-deva-sw-${sw.key}`}>
                     {sw.dandaBefore && (
@@ -424,7 +501,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                       </span>
                     )}
                     <span
-                      className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                      className={`inline-syl-token ${mixedTokClass} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
                       onClick={() => onPlaySyllable(sw.iast)}
                       title={`点击发音: ${sw.iast} (${sw.modernZh})`}
                     >
@@ -440,7 +517,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-devanagari">{effective.devanagariText}</div>
+            <div className="script-content-devanagari">
+              {mixedDevanagariSegments
+                ? renderMixedSegments(mixedDevanagariSegments, `${verse.id}-deva-mix`)
+                : effective.devanagariText}
+            </div>
           )}
         </div>
       )}
@@ -464,15 +545,21 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           </span>
           {isVersePlaying && enrichedSyllables.length > 0 ? (
             <div className="script-content-iast inline-syl-strip">
-              {enrichedSyllables.map((syl) => {
+              {enrichedSyllables.map((syl, sIdx) => {
                 const isSpoken = effectiveActiveSylIndex === syl.index;
                 const isPast =
                   effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                const mixedTokClass =
+                  effective.iastOrigin === 'mixed' && playbackTokenOrigins
+                    ? playbackTokenOrigins.syllableOrigins[sIdx] === 'db-original'
+                      ? 'prov-token-orig'
+                      : 'prov-token-ref'
+                    : '';
                 return (
                   <span
                     key={`${verse.id}-iast-${syl.index}`}
                     ref={isSpoken ? activeInlineIastRef : null}
-                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                    className={`inline-syl-token ${mixedTokClass} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
                     onClick={() => onPlaySyllable(syl.iast)}
                     title={`点击发音: ${syl.iast} (${syl.modernZh})`}
                   >
@@ -482,7 +569,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               })}
             </div>
           ) : (
-            <div className="script-content-iast">{effective.iastText}</div>
+            <div className="script-content-iast">
+              {mixedIastSegments
+                ? renderMixedSegments(mixedIastSegments, `${verse.id}-iast-mix`)
+                : effective.iastText}
+            </div>
           )}
         </div>
       )}
@@ -778,7 +869,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
             <span>逐词词根、古汉语音译与语法格位解析（Pada-ccheda &amp; Vyākaraṇa）：</span>
             <ProvenanceBadge state={wordsResult.sectionState} field="words" compact />
           </div>
-          <div className="word-gloss-grid">
+          <div
+            className={`word-gloss-grid ${
+              wordsResult.sectionState === 'mixed' ? 'is-mixed-words' : ''
+            }`}
+          >
             {wordsResult.words.map((w, idx) => {
               const wordOrigin = w.origin || 'db-original';
               return (

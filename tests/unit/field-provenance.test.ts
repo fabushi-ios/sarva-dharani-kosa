@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, it, expect } from 'vitest';
-import type { DharaniEntry, DharaniVerse } from '../../src/types/kosaTypes';
+import type { DharaniEntry, DharaniVerse, ScriptVisibilityConfig } from '../../src/types/kosaTypes';
 import {
   formatModernPhoneticWithIastOption,
   generateVerseChinesePhonetics,
@@ -10,8 +12,12 @@ import {
   resolveEffectiveVerseFields,
   resolveEffectiveWordGlosses,
   resolveVerseFieldOrigin,
+  resolveVerseMixedSegments,
   summarizeEntryFieldProvenance,
 } from '../../src/core/provenance/fieldProvenance';
+import { ProvenanceBadge } from '../../src/components/common/ProvenanceBadge';
+import { VerseBlock } from '../../src/components/reader/VerseBlock';
+import { FullDharaniSummaryCard } from '../../src/components/reader/FullDharaniSummaryCard';
 import { BUILTIN_DHARANI_CORPUS } from '../../src/data/index';
 import {
   FIRST_SCREEN_CORPUS,
@@ -318,6 +324,133 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
     ).toBe(true);
   });
 
+  it('renders dual-color mixed ProvenanceBadge and 1:1 matching content segments across all mixed verses and summaries', () => {
+    // 1. ProvenanceBadge splits mixed label into .prov-part-orig + .prov-part-sep + .prov-part-ref
+    const badgeDefaultHtml = renderToStaticMarkup(
+      React.createElement(ProvenanceBadge, { state: 'mixed', compact: true })
+    );
+    expect(badgeDefaultHtml).toContain('prov-origin-badge is-mixed');
+    expect(badgeDefaultHtml).toContain('<span class="prov-part-orig">● 原载</span>');
+    expect(badgeDefaultHtml).toContain('<span class="prov-part-sep">+</span>');
+    expect(badgeDefaultHtml).toContain('<span class="prov-part-ref">◇ 参考</span>');
+
+    const badgeCustomHtml = renderToStaticMarkup(
+      React.createElement(ProvenanceBadge, {
+        state: 'mixed',
+        compact: true,
+        customLabel: '◐ 原載(8組<cb:tt>)+重構參考',
+      })
+    );
+    expect(badgeCustomHtml).toContain('prov-part-orig');
+    expect(badgeCustomHtml).toContain('● 原載(8組&lt;cb:tt&gt;)');
+    expect(badgeCustomHtml).toContain('<span class="prov-part-ref">◇ 重構參考</span>');
+
+    // 2. DB1 Fangshan mixed verse segment resolution (F28n1071_pF28p0141a2301)
+    const fangshan141 = BUILTIN_DHARANI_CORPUS.find(
+      (e) => e.id === 'db1-fangshan-F28n1071_pF28p0141a2301'
+    )!;
+    // Verse 1: "nama stryadhvikānāṃ" with <cb:tt> ma=莫
+    const v1IastSegs = resolveVerseMixedSegments(fangshan141.verses[0], 'iast');
+    expect(v1IastSegs).toEqual([
+      { text: 'na', origin: 'derived-reference' },
+      { text: 'ma', origin: 'db-original' },
+      { text: ' stryadhvikānāṃ', origin: 'derived-reference' },
+    ]);
+    const v1SidSegs = resolveVerseMixedSegments(fangshan141.verses[0], 'siddham');
+    expect(v1SidSegs).toEqual([
+      { text: '𑖡', origin: 'derived-reference' },
+      { text: '𑖦', origin: 'db-original' },
+      { text: ' 𑖭𑖿𑖝𑖿𑖨𑖿𑖧𑖠𑖿𑖪𑖰𑖎𑖯𑖡𑖯𑖽', origin: 'derived-reference' },
+    ]);
+
+    // Verse 12: "mahā raśmi sandite" with <cb:tt> ndi=你 (conjunct akṣara kept intact!)
+    const v12SidSegs = resolveVerseMixedSegments(fangshan141.verses[11], 'siddham');
+    expect(v12SidSegs).toEqual([
+      { text: '𑖦𑖮𑖯 𑖨𑖫𑖿𑖦𑖰 𑖭', origin: 'derived-reference' },
+      { text: '𑖡𑖿𑖟𑖰', origin: 'db-original' },
+      { text: '𑖝𑖸', origin: 'derived-reference' },
+    ]);
+
+    // 3. DB11 CEToM Silk Road Brāhmī fragment (psuv67) mixed segment resolution
+    const psuv67 = BUILTIN_DHARANI_CORPUS.find((e) => e.id === 'db11-cetom-psuv67')!;
+    const psuvSegs = resolveVerseMixedSegments(psuv67.verses[0], 'iast');
+    expect(psuvSegs.some((s) => s.origin === 'db-original' && s.text.includes('udakena'))).toBe(
+      true
+    );
+    expect(
+      psuvSegs.some((s) => s.origin === 'derived-reference' && s.text.includes('nayanti'))
+    ).toBe(true);
+
+    // 4. Full-corpus Golden Invariant across all 2,482 entries:
+    //    Every mixed verse in the entire corpus MUST resolve to BOTH db-original AND derived-reference
+    //    segments with 100% lossless text concatenation!
+    let checkedMixedCount = 0;
+    for (const entry of BUILTIN_DHARANI_CORPUS) {
+      for (const verse of entry.verses) {
+        const eff = resolveEffectiveVerseFields(verse, false);
+        if (eff.iastOrigin === 'mixed') {
+          checkedMixedCount++;
+          const segs = resolveVerseMixedSegments(verse, 'iast', false);
+          expect(segs.some((s) => s.origin === 'db-original')).toBe(true);
+          expect(segs.some((s) => s.origin === 'derived-reference')).toBe(true);
+          expect(segs.map((s) => s.text).join('')).toBe(eff.iastText);
+        }
+        if (eff.siddhamOrigin === 'mixed') {
+          const segs = resolveVerseMixedSegments(verse, 'siddham', false);
+          expect(segs.some((s) => s.origin === 'db-original')).toBe(true);
+          expect(segs.some((s) => s.origin === 'derived-reference')).toBe(true);
+          expect(segs.map((s) => s.text).join('')).toBe(eff.siddhamText);
+        }
+      }
+    }
+    expect(checkedMixedCount).toBeGreaterThan(4000);
+
+    // 5. SSR DOM check on VerseBlock & FullDharaniSummaryCard
+    const defaultConfig: ScriptVisibilityConfig = {
+      showFullCombinedSummary: true,
+      showDevanagari: true,
+      showSiddham: true,
+      showIast: true,
+      showIpa: true,
+      showProsodyMeter: false,
+      showClassicalZh: true,
+      showModernPhoneticZh: true,
+      showPhoneticIastBracket: false,
+      showMeaningZh: true,
+      showMeaningEn: true,
+      showWordGloss: false,
+    };
+
+    const verseHtml = renderToStaticMarkup(
+      React.createElement(VerseBlock, {
+        verse: fangshan141.verses[0],
+        config: defaultConfig,
+        isVersePlaying: false,
+        activeSyllableIndex: null,
+        verseProgress: 0,
+        autoScroll: false,
+        onPlayVerse: () => {},
+        onPlaySyllable: () => {},
+      })
+    );
+    expect(verseHtml).toContain('<span class="prov-seg-orig"');
+    expect(verseHtml).toContain('>𑖦</span>');
+    expect(verseHtml).toContain('>ma</span>');
+    expect(verseHtml).toContain('prov-seg-ref');
+
+    const summaryHtml = renderToStaticMarkup(
+      React.createElement(FullDharaniSummaryCard, {
+        entry: fangshan141,
+        config: defaultConfig,
+        onToggleBracketIast: () => {},
+      })
+    );
+    expect(summaryHtml).toContain('prov-part-orig');
+    expect(summaryHtml).toContain('prov-part-ref');
+    expect(summaryHtml).toContain('prov-seg-orig');
+    expect(summaryHtml).toContain('prov-seg-ref');
+  });
+
   it('preserves fieldSources and hand-crafted strings cleanly across compiled cloud shards and FIRST_SCREEN_CORPUS', () => {
     expect(FIRST_SCREEN_CORPUS.length).toBeGreaterThanOrEqual(20);
     for (const entry of FIRST_SCREEN_CORPUS) {
@@ -363,5 +496,19 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
     expect(effCin.siddhamOrigin).toBe('db-original');
     expect(effCin.modernPhoneticOrigin).toBe('derived-reference');
     expect(effCin.modernPhoneticZh).toContain('拿摩 布达呀');
+
+    // Verify shard-12db.json preserves originalIastTokens on mixed Fangshan verses
+    const raw12Db = JSON.parse(
+      fs.readFileSync(path.join(shardDir, 'shard-12db.json'), 'utf8')
+    ) as DharaniEntry[];
+    const hydrated12Db = attachLazyWordsToEntries(raw12Db);
+    const hydratedF141 = hydrated12Db.find(
+      (e) => e.id === 'db1-fangshan-F28n1071_pF28p0141a2301'
+    )!;
+    expect(hydratedF141.verses[0].originalIastTokens).toEqual(['ma']);
+    expect(resolveVerseMixedSegments(hydratedF141.verses[0], 'siddham')[1]).toEqual({
+      text: '𑖦',
+      origin: 'db-original',
+    });
   });
 });

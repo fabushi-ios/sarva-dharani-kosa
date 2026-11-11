@@ -26,6 +26,10 @@ import {
   iastToDevanagari,
   iastToSiddham,
 } from '../../core/sanskrit/transliterator';
+import {
+  extractDiplomaticSanskritCandidates,
+  matchIastOriginalAksharaFlags,
+} from '../../core/provenance/fieldProvenance';
 
 const NON_SANSKRIT_BOILERPLATE_RE =
   /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|source\s*:\s*hidas|tibetan\s*:\s*d\s*\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?|elder,\s*g\.r\.|the\s+saṃpuṭa\s+tantra\s*:\s*edition|unpublished\s+ph\.\s*d\.|this\s+mantra\s+is\s+also\s+found\s+in|bhaiṣajya\s+vastu\s+from\s+vinaya\s+vastu|dutt\s+supplies|better\s+understand|dissolved\s+from\s+here|derived\s+from\s+rudrapriya|and\s+rigveda|ist\s+auch\s+als|zitiert\s+in|bźin\s+du\s+spyod)\b|^mpvv\s*=|^##\s*=|^§\s*=/i;
@@ -373,6 +377,8 @@ function createLazyVerse(params: {
   siddhamOriginal?: string;
   devanagariOriginal?: string;
   diplomaticOriginal?: string;
+  originalIastTokens?: string[];
+  originalSiddhamTokens?: string[];
 }): DharaniVerse {
   let cachedPhonetics: { classicalTranslitZh: string; modernPhoneticZh: string } | null = null;
   let cachedWords: DharaniVerse['words'] | null = null;
@@ -413,6 +419,12 @@ function createLazyVerse(params: {
     ...(params.siddhamOriginal ? { siddhamOriginal: params.siddhamOriginal } : {}),
     ...(params.devanagariOriginal ? { devanagariOriginal: params.devanagariOriginal } : {}),
     ...(params.diplomaticOriginal ? { diplomaticOriginal: params.diplomaticOriginal } : {}),
+    ...(params.originalIastTokens && params.originalIastTokens.length > 0
+      ? { originalIastTokens: params.originalIastTokens }
+      : {}),
+    ...(params.originalSiddhamTokens && params.originalSiddhamTokens.length > 0
+      ? { originalSiddhamTokens: params.originalSiddhamTokens }
+      : {}),
   } as DharaniVerse;
 
   Object.defineProperties(verse, {
@@ -467,6 +479,8 @@ function buildStandardVerses(
     perVerseDevanagariOriginal?: Array<string | undefined>;
     perVerseDiplomaticOriginal?: Array<string | undefined>;
     perVerseTangNoteZh?: Array<string | undefined>;
+    perVerseOriginalIastTokens?: Array<string[] | undefined>;
+    perVerseOriginalSiddhamTokens?: Array<string[] | undefined>;
   }
 ): DharaniVerse[] {
   return iastLines.map((line, idx) => {
@@ -493,6 +507,8 @@ function buildStandardVerses(
       siddhamOriginal: extraOptions?.perVerseSiddhamOriginal?.[idx],
       devanagariOriginal: extraOptions?.perVerseDevanagariOriginal?.[idx],
       diplomaticOriginal: resolvedDiplomatic,
+      originalIastTokens: extraOptions?.perVerseOriginalIastTokens?.[idx],
+      originalSiddhamTokens: extraOptions?.perVerseOriginalSiddhamTokens?.[idx],
     });
   });
 }
@@ -538,6 +554,10 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
   const perVerseFieldSources: VerseFieldSources[] = [];
   const perVerseSiddhamOriginal: Array<string | undefined> = [];
   const perVerseTangNoteZh: Array<string | undefined> = [];
+  const perVerseOriginalIastTokens: Array<string[] | undefined> = [];
+
+  // Track claimed cbTtTokens indices when C !== V so a single <cb:tt> token is never broadcast across all verses
+  const claimedTtIndices = new Set<number>();
 
   for (let vIdx = 0; vIdx < V; vIdx++) {
     const cStart = C === V ? vIdx : Math.floor((vIdx * C) / V);
@@ -549,12 +569,82 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
         : cStart + 1;
 
     const sliceOrigins = rawClauseOrigins.slice(cStart, cEnd);
-    const verseOrigin: 'db-original' | 'mixed' | 'derived-reference' =
+    const rawVerseOrigin: 'db-original' | 'mixed' | 'derived-reference' =
       sliceOrigins.length > 0 && sliceOrigins.every((o) => o === 'db-original')
         ? 'db-original'
         : sliceOrigins.some((o) => o === 'db-original' || o === 'mixed')
         ? 'mixed'
         : 'derived-reference';
+
+    const cleanVerseIast = iastLines[vIdx].replace(/\s+/g, ' ').trim();
+    const verseZhLine = zhLines?.[vIdx] || '';
+
+    // Gather candidate <cb:tt> tokens for this verse
+    let candidatePairs: Array<{ idx: number; tok: (typeof cbTtTokens)[number] }> = [];
+    for (let ti = 0; ti < cbTtTokens.length; ti++) {
+      const t = cbTtTokens[ti];
+      const inSlice =
+        typeof t.clauseIndex === 'number'
+          ? t.clauseIndex >= cStart && t.clauseIndex < cEnd
+          : C === 1;
+      if (!inSlice) continue;
+      if (C < V) {
+        if (claimedTtIndices.has(ti)) continue;
+        // When 1 Chinese block spans many Sanskrit clauses, prefer verses whose Chinese slice also contains t.textZh
+        if (t.textZh && verseZhLine && !verseZhLine.includes(t.textZh) && zhLines?.some((z) => z.includes(t.textZh))) {
+          continue;
+        }
+      }
+      candidatePairs.push({ idx: ti, tok: t });
+    }
+
+    let verseOrigin: 'db-original' | 'mixed' | 'derived-reference' = rawVerseOrigin;
+    let verifiedPairs = candidatePairs;
+
+    if (rawVerseOrigin === 'mixed') {
+      let matchRes = matchIastOriginalAksharaFlags(
+        cleanVerseIast,
+        candidatePairs.map((p) => p.tok.iast || '')
+      );
+
+      // When C > V (abridged parallel Sanskrit vs full Chinese clauses), allow a small ±8 clause alignment window
+      if (matchRes.matchedTokenIndices.length === 0 && C !== V) {
+        const winStart = Math.max(0, cStart - 8);
+        const winEnd = Math.min(C, cEnd + 8);
+        const windowPairs: Array<{ idx: number; tok: (typeof cbTtTokens)[number] }> = [];
+        for (let ti = 0; ti < cbTtTokens.length; ti++) {
+          if (claimedTtIndices.has(ti)) continue;
+          const t = cbTtTokens[ti];
+          if (typeof t.clauseIndex === 'number' && t.clauseIndex >= winStart && t.clauseIndex < winEnd) {
+            windowPairs.push({ idx: ti, tok: t });
+          }
+        }
+        if (windowPairs.length > 0) {
+          const winRes = matchIastOriginalAksharaFlags(
+            cleanVerseIast,
+            windowPairs.map((p) => p.tok.iast || '')
+          );
+          if (winRes.matchedTokenIndices.length > 0) {
+            candidatePairs = windowPairs;
+            matchRes = winRes;
+          }
+        }
+      }
+
+      if (matchRes.matchedTokenIndices.length > 0) {
+        verifiedPairs = matchRes.matchedTokenIndices.map((mi) => candidatePairs[mi]);
+        for (const vp of verifiedPairs) {
+          claimedTtIndices.add(vp.idx);
+        }
+        verseOrigin =
+          matchRes.aksharaFlags.length > 0 && matchRes.aksharaFlags.every(Boolean)
+            ? 'db-original'
+            : 'mixed';
+      } else {
+        verifiedPairs = [];
+        verseOrigin = 'derived-reference';
+      }
+    }
 
     perVerseFieldSources.push({
       iast: verseOrigin,
@@ -562,29 +652,28 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
       classicalTranslitZh: 'db-original',
     });
 
-    const cleanVerseIast = iastLines[vIdx].replace(/\s+/g, ' ').trim();
     if (verseOrigin === 'db-original' || verseOrigin === 'mixed') {
       perVerseSiddhamOriginal.push(iastToSiddham(cleanVerseIast));
     } else {
       perVerseSiddhamOriginal.push(undefined);
     }
 
-    const matchedTt = cbTtTokens.filter((t) =>
-      typeof t.clauseIndex === 'number'
-        ? t.clauseIndex >= cStart && t.clauseIndex < cEnd
-        : C === 1
-    );
-    if (matchedTt.length > 0 && verseOrigin === 'mixed') {
-      const ttSummary = matchedTt
+    if (verseOrigin === 'mixed' && verifiedPairs.length > 0) {
+      perVerseOriginalIastTokens.push(
+        verifiedPairs.map((p) => p.tok.iast || '').filter(Boolean)
+      );
+      const ttSummary = verifiedPairs
         .map(
-          (t) =>
+          ({ tok: t }) =>
             `${t.siddhamUnicode || (t.iast ? iastToSiddham(t.iast) : '')}(${t.iast || ''}=${t.textZh})`
         )
         .join(' · ');
       perVerseTangNoteZh.push(`石经原刻悉昙对音：${ttSummary} ｜ ${baseFangshanNote}`);
-    } else if (matchedTt.length > 0 && verseOrigin === 'db-original') {
-      perVerseTangNoteZh.push(`石经全句原刻悉昙梵汉双行对音 (${matchedTt.length} 组 <cb:tt>) ｜ ${baseFangshanNote}`);
+    } else if (verseOrigin === 'db-original' && candidatePairs.length > 0) {
+      perVerseOriginalIastTokens.push(undefined);
+      perVerseTangNoteZh.push(`石经全句原刻悉昙梵汉双行对音 (${candidatePairs.length} 组 <cb:tt>) ｜ ${baseFangshanNote}`);
     } else {
+      perVerseOriginalIastTokens.push(undefined);
       perVerseTangNoteZh.push(baseFangshanNote);
     }
   }
@@ -625,6 +714,7 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
         perVerseFieldSources,
         perVerseSiddhamOriginal,
         perVerseTangNoteZh,
+        perVerseOriginalIastTokens,
       }
     ),
   };
@@ -1553,26 +1643,56 @@ const DB11_ENTRIES: DharaniEntry[] = [
     const V = iastLines.length;
     const perVerseDiplomaticOriginal: Array<string | undefined> = [];
     const perVerseFieldSources: VerseFieldSources[] = [];
+    const perVerseOriginalIastTokens: Array<string[] | undefined> = [];
 
     for (let vIdx = 0; vIdx < V; vIdx++) {
       if (!hasCetomLines || D === 0) {
         perVerseDiplomaticOriginal.push(undefined);
         perVerseFieldSources.push({ iast: 'derived-reference' });
+        perVerseOriginalIastTokens.push(undefined);
         continue;
       }
       const dStart = D >= V ? Math.floor((vIdx * D) / V) : vIdx;
       const dEnd =
         D >= V ? Math.max(dStart + 1, Math.floor(((vIdx + 1) * D) / V)) : dStart + 1;
-      const bucketLines = D >= V ? cet.diplomaticLines.slice(dStart, dEnd) : cet.diplomaticLines[vIdx] ? [cet.diplomaticLines[vIdx]] : [];
+      const bucketLines =
+        D >= V
+          ? cet.diplomaticLines.slice(dStart, dEnd)
+          : cet.diplomaticLines[vIdx]
+          ? [cet.diplomaticLines[vIdx]]
+          : [];
       const dipText = bucketLines.map((l) => `[${l.lineNum}] ${l.transliteration}`).join('  ');
       perVerseDiplomaticOriginal.push(dipText || undefined);
 
-      const hasLacunaOrRestoration =
-        normLines.length > 0 &&
-        bucketLines.some((l) => /\/\/\/|\.\.|[[\]()]/.test(l.transliteration));
-      perVerseFieldSources.push({
-        iast: hasLacunaOrRestoration ? 'mixed' : 'db-original',
-      });
+      if (normLines.length === 0) {
+        // iastLines came directly from cet.diplomaticLines with no external parallel normalization
+        perVerseFieldSources.push({ iast: 'db-original' });
+        perVerseOriginalIastTokens.push(undefined);
+        continue;
+      }
+
+      const cleanVerseIast = iastLines[vIdx].replace(/\s+/g, ' ').trim();
+      const dipCandidates = extractDiplomaticSanskritCandidates(dipText);
+      const matchRes = matchIastOriginalAksharaFlags(cleanVerseIast, dipCandidates);
+      const hasLacunaOrRestoration = bucketLines.some((l) =>
+        /\/\/\/|\.\.|[[\]()]/.test(l.transliteration)
+      );
+
+      if (matchRes.aksharaFlags.length > 0 && matchRes.aksharaFlags.every(Boolean) && !hasLacunaOrRestoration) {
+        perVerseFieldSources.push({ iast: 'db-original' });
+        perVerseOriginalIastTokens.push(undefined);
+      } else if (matchRes.matchedTokenIndices.length > 0 && matchRes.aksharaFlags.some(Boolean)) {
+        const matchedTokens = Array.from(
+          new Set(matchRes.matchedTokenIndices.map((mi) => dipCandidates[mi]).filter(Boolean))
+        );
+        perVerseFieldSources.push({ iast: 'mixed' });
+        perVerseOriginalIastTokens.push(matchedTokens);
+      } else {
+        // Diplomatic line is Tocharian B gloss/rubric or lacuna; leaf witness is preserved in diplomaticOriginal (db-original),
+        // while parallel Sanskrit normalization is honestly marked derived-reference
+        perVerseFieldSources.push({ iast: 'derived-reference' });
+        perVerseOriginalIastTokens.push(undefined);
+      }
     }
 
     return {
@@ -1607,6 +1727,7 @@ const DB11_ENTRIES: DharaniEntry[] = [
         {
           perVerseFieldSources,
           perVerseDiplomaticOriginal,
+          perVerseOriginalIastTokens,
         }
       ),
     };

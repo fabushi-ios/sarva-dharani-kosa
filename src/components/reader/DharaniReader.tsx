@@ -617,10 +617,17 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 库藏原文 vs. 处理参考标识：
               </strong>
               <span style={{ color: 'var(--text-secondary)', fontSize: '0.76rem' }}>
-                原数据库已有内容完整保留（实线框 +{' '}
-                <span className="prov-origin-badge is-original is-compact">● 库藏原文</span>
-                ）；仅在原数据库缺失时才作推导补全（虚线框 +{' '}
-                <span className="prov-origin-badge is-reference is-compact">◇ 处理参考</span>）。
+                全段原载标{' '}
+                <span className="prov-origin-badge is-original is-compact">● 库藏原文</span>；
+                部分原载标{' '}
+                <span className="prov-origin-badge is-mixed is-compact">
+                  <span className="prov-part-orig">● 原载</span>
+                  <span className="prov-part-sep">+</span>
+                  <span className="prov-part-ref">◇ 参考</span>
+                </span>
+                （正文内 <span className="prov-seg-orig">原载内容</span> 与{' '}
+                <span className="prov-seg-ref">参考内容</span> 同色对应）；全段补全标{' '}
+                <span className="prov-origin-badge is-reference is-compact">◇ 处理参考</span>。
               </span>
             </div>
 
@@ -659,7 +666,12 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               ))}
               {entryProvSummary.mixedFields.map((f) => (
                 <span key={`mix-${f}`} className="provenance-field-pill is-mixed">
-                  {TRACKABLE_FIELD_LABELS_ZH[f]} (部分原载)
+                  <span>{TRACKABLE_FIELD_LABELS_ZH[f]}</span>
+                  <span style={{ fontSize: '0.68rem' }}>
+                    (<span className="prov-part-orig">●原载</span>
+                    <span className="prov-part-sep">+</span>
+                    <span className="prov-part-ref">◇参考</span>)
+                  </span>
                 </span>
               ))}
               {!hasDiplomaticWitness &&
