@@ -172,6 +172,12 @@ export const App: React.FC = () => {
     return sanskritAudioEngine.subscribe(setPlaybackState);
   }, []);
 
+  useEffect(() => {
+    if (activeEntry?.verses && activeEntry.verses.length > 0) {
+      sanskritAudioEngine.prewarmVerses(activeEntry.verses, 3);
+    }
+  }, [activeEntry]);
+
   const handleToggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };

@@ -712,25 +712,43 @@ class SanskritAudioEngine {
         if (ctx) {
           try {
             const ready =
-              isBrowserOnnxReady(onnxVoice) || (await waitForBrowserOnnxReady(onnxVoice, 6500));
+              isBrowserOnnxReady(onnxVoice) || (await waitForBrowserOnnxReady(onnxVoice, 7500));
             if (ready) {
               const iastLine = slp1ToIast(slpFull) || cleanText;
-              const wasmOut = await synthesizeWithBrowserOnnxVits(
-                ctx,
-                iastLine,
-                onnxVoice,
-                rate,
-                allSyllables.length <= 1,
-                'high'
-              );
-              const audioBuffer = wasmOut.audioBuffer;
+              const phraseCacheKey = `phrase:${iastLine}|${onnxVoice}|${rate.toFixed(2)}`;
+              let audioBuffer = this.syllableBufferCache.get(phraseCacheKey);
+              if (!audioBuffer) {
+                const wasmOut = await synthesizeWithBrowserOnnxVits(
+                  ctx,
+                  iastLine,
+                  onnxVoice,
+                  rate,
+                  allSyllables.length <= 1,
+                  'high'
+                );
+                const rawPcm = wasmOut.pcm48k;
+                let s0 = 0;
+                while (s0 < rawPcm.length && Math.abs(rawPcm[s0]) < 0.0085) s0++;
+                let s1 = rawPcm.length - 1;
+                while (s1 > s0 && Math.abs(rawPcm[s1]) < 0.0085) s1--;
+                const cut0 = Math.max(0, s0 - 288);
+                const cut1 = Math.min(rawPcm.length, Math.max(cut0 + 1200, s1 + 672));
+                const trimmed = rawPcm.subarray(cut0, cut1);
+                audioBuffer = ctx.createBuffer(1, Math.max(480, trimmed.length), 48000);
+                audioBuffer.getChannelData(0).set(trimmed);
+                if (this.syllableBufferCache.size >= 256) {
+                  const firstK = this.syllableBufferCache.keys().next().value;
+                  if (firstK) this.syllableBufferCache.delete(firstK);
+                }
+                this.syllableBufferCache.set(phraseCacheKey, audioBuffer);
+              }
               const totalMs = Math.max(80, Math.round(audioBuffer.duration * 1000));
               const weights = allSyllables.map((rawSyl) =>
                 /[AIFXEO]|[MH~]$|[kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL]$/.test(rawSyl) ? 1.75 : 1.0
               );
               const weightSum = weights.reduce((a, b) => a + b, 0) || 1;
-              let cursorMs = 10;
-              const activeMs = Math.max(50, totalMs - 30);
+              let cursorMs = 6;
+              const activeMs = Math.max(50, totalMs - 20);
               const wasmTimings: SyllableTimingItem[] = allSyllables.map((rawSyl, idx) => {
                 const durMs = Math.max(30, Math.round((weights[idx] / weightSum) * activeMs));
                 const item: SyllableTimingItem = {
@@ -768,7 +786,7 @@ class SanskritAudioEngine {
                 this.notify();
                 options.onSyllableHighlight?.(-1, null);
                 onDone();
-              }, Math.ceil(audioBuffer.duration * 1000) + 60);
+              }, Math.ceil(audioBuffer.duration * 1000) + 18);
               this.highlightTimers.push(endTimerId);
 
               source.onended = () => {

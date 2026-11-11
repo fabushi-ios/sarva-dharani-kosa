@@ -48,7 +48,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               onClick={onStop}
             >
               <Square size={15} />
-              <span>停止讽诵</span>
+              <span>{playbackState.isLoadingAudio ? '准备梵音中 · 停止' : '停止讽诵'}</span>
             </button>
           ) : (
             <button
@@ -114,7 +114,11 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             size={16}
             color={playbackState.isPlaying ? 'var(--accent-vermilion)' : 'var(--text-muted)'}
           />
-          {playbackState.isPlaying && syl ? (
+          {playbackState.isLoadingAudio ? (
+            <div style={{ fontSize: '0.84rem', color: 'var(--accent-vermilion)', fontWeight: 600 }}>
+              ⚡ 正在极速准备 48,000 Hz 梵音神经引擎，首句即将零卡顿起诵...
+            </div>
+          ) : playbackState.isPlaying && syl ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
               <span className="siddham-glyph" style={{ fontSize: '1.35rem', color: 'var(--accent-vermilion)' }}>
                 {syl.siddham}
@@ -165,7 +169,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
             </div>
           ) : (
             <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-              当前待诵：<strong>{dharaniTitleZh}</strong>（48,000 Hz 神经VITS + 612音节Sprite + 136.1Hz 共振峰 · 硬件时钟零延迟跟读）
+              当前待诵：<strong>{dharaniTitleZh}</strong>（48,000 Hz 多线程Worker神经VITS + 预热连诵 · 硬件时钟零停顿跟读）
             </div>
           )}
         </div>

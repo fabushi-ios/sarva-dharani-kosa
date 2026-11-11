@@ -286,13 +286,15 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 onClick={onStopPlayback}
               >
                 <Square size={14} />
-                <span>停止讽诵</span>
+                <span>{playbackState.isLoadingAudio ? '准备梵音中 · 停止' : '停止讽诵'}</span>
               </button>
             ) : (
               <button
                 id="hero-play-all-btn"
                 type="button"
                 className="btn-scholarly primary"
+                onMouseEnter={() => sanskritAudioEngine.prewarmVerses(entry.verses, 3)}
+                onFocus={() => sanskritAudioEngine.prewarmVerses(entry.verses, 3)}
                 onClick={onPlayAllVerses}
               >
                 <Play size={14} />

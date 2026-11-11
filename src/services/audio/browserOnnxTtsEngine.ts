@@ -136,28 +136,91 @@ let ortLoadPromise: Promise<OrtGlobal> | null = null;
 let vocabPromise: Promise<StudioVocabSpec> | null = null;
 const sessionCache = new Map<string, Promise<{ session: OrtSession; modelId: string }>>();
 const readyVoices = new Set<'male' | 'female'>();
+const activeModelIds = new Map<'male' | 'female', string>();
 
 interface QueuedTask {
   priority: 'high' | 'low';
+  abort: () => void;
   run: () => Promise<void>;
 }
 
 const inferenceQueue: QueuedTask[] = [];
 let inferenceRunning = false;
 
+function createAbortError(): Error {
+  const err = new Error('Aborted');
+  err.name = 'AbortError';
+  return err;
+}
+
+/**
+ * Purges any pending low-priority prefetch/prewarm tasks that have not yet started executing,
+ * ensuring immediate zero-wait turnaround when the user clicks Play or switches Dhāraṇī entries.
+ */
+export function cancelLowPriorityBrowserOnnxTasks(): void {
+  for (let i = inferenceQueue.length - 1; i >= 0; i--) {
+    if (inferenceQueue[i].priority === 'low') {
+      const [removed] = inferenceQueue.splice(i, 1);
+      removed.abort();
+    }
+  }
+}
+
 function scheduleInference<T>(
   taskFn: () => Promise<T>,
-  priority: 'high' | 'low' = 'high'
+  priority: 'high' | 'low' = 'high',
+  signal?: AbortSignal
 ): Promise<T> {
+  if (signal?.aborted) {
+    return Promise.reject(createAbortError());
+  }
+
   return new Promise<T>((resolve, reject) => {
-    const wrapped = async () => {
-      try {
-        const res = await taskFn();
-        resolve(res);
-      } catch (err) {
-        reject(err);
+    let settled = false;
+
+    const cleanupSignal = () => {
+      if (signal) {
+        signal.removeEventListener('abort', onSignalAbort);
       }
     };
+
+    const abortTask = () => {
+      if (settled) return;
+      settled = true;
+      cleanupSignal();
+      reject(createAbortError());
+    };
+
+    const taskEntry: QueuedTask = {
+      priority,
+      abort: abortTask,
+      run: async () => {
+        if (settled || signal?.aborted) {
+          abortTask();
+          return;
+        }
+        settled = true;
+        cleanupSignal();
+        try {
+          const res = await taskFn();
+          resolve(res);
+        } catch (err) {
+          reject(err);
+        }
+      },
+    };
+
+    const onSignalAbort = () => {
+      const idx = inferenceQueue.indexOf(taskEntry);
+      if (idx !== -1) {
+        inferenceQueue.splice(idx, 1);
+      }
+      abortTask();
+    };
+
+    if (signal) {
+      signal.addEventListener('abort', onSignalAbort, { once: true });
+    }
 
     if (priority === 'high') {
       let insertIdx = inferenceQueue.length;
@@ -167,9 +230,9 @@ function scheduleInference<T>(
           break;
         }
       }
-      inferenceQueue.splice(insertIdx, 0, { priority, run: wrapped });
+      inferenceQueue.splice(insertIdx, 0, taskEntry);
     } else {
-      inferenceQueue.push({ priority, run: wrapped });
+      inferenceQueue.push(taskEntry);
     }
 
     void drainInferenceQueue();
@@ -184,7 +247,6 @@ async function drainInferenceQueue(): Promise<void> {
       const next = inferenceQueue.shift();
       if (next) {
         await next.run();
-        await new Promise((r) => setTimeout(r, 0));
       }
     }
   } finally {
@@ -210,6 +272,434 @@ async function fetchWithPersistentCache(url: string): Promise<Response> {
     }
   }
   return fetch(url, { mode: 'cors' });
+}
+
+interface WorkerInferResponse {
+  clause48k: Float32Array;
+  shapedDurs: number[];
+  modelId: string;
+}
+
+interface OnnxWorkerClient {
+  warmup(voice: 'male' | 'female'): Promise<string>;
+  infer(params: {
+    voice: 'male' | 'female';
+    interleaved: BigInt64Array;
+    effRate: number;
+    validChars: string[];
+    isBareVirama: boolean;
+  }): Promise<WorkerInferResponse>;
+}
+
+let workerClient: OnnxWorkerClient | null = null;
+let workerFailed = false;
+const workerVoiceInitPromises = new Map<'male' | 'female', Promise<string>>();
+
+function buildWorkerSource(): string {
+  const weightsJson = JSON.stringify(Array.from(HALFBAND_ODD_WEIGHTS));
+  const ortUrlsJson = JSON.stringify(ORT_CDN_URLS);
+  return `
+"use strict";
+const HF_BASE = ${JSON.stringify(HF_MODEL_CDN_BASE)};
+const ORT_URLS = ${ortUrlsJson};
+const ORT_WASM_DIR = ${JSON.stringify(ORT_WASM_DIR)};
+const CACHE_BUCKET = ${JSON.stringify(CACHE_BUCKET)};
+const ODD_WEIGHTS = new Float64Array(${weightsJson});
+const HOP_24K = 256;
+const ONSET_PAD_24K = 240;
+const PEAK_TARGET = 0.8912509381337456;
+const INHERENT_A_CH = String.fromCharCode(0x200a);
+const VIRAMA_CH = String.fromCharCode(0x094d);
+
+let ortPromise = null;
+const sessions = new Map();
+
+async function fetchCached(url) {
+  if (typeof caches !== "undefined") {
+    try {
+      const cache = await caches.open(CACHE_BUCKET);
+      const hit = await cache.match(url);
+      if (hit && hit.ok) return hit;
+      const net = await fetch(url, { mode: "cors" });
+      if (net.ok) {
+        await cache.put(url, net.clone());
+      }
+      return net;
+    } catch (_) {}
+  }
+  return fetch(url, { mode: "cors" });
+}
+
+async function ensureOrt() {
+  if (self.ort) return self.ort;
+  if (ortPromise) return ortPromise;
+  ortPromise = (async () => {
+    let lastErr = null;
+    for (const url of ORT_URLS) {
+      try {
+        try {
+          self.importScripts(url);
+        } catch (_) {
+          const resp = await fetchCached(url);
+          if (!resp.ok) throw new Error("HTTP " + resp.status);
+          const code = await resp.text();
+          (0, eval)(code);
+        }
+        if (self.ort) {
+          self.ort.env.wasm.wasmPaths = ORT_WASM_DIR;
+          self.ort.env.wasm.simd = true;
+          const hw = (self.navigator && self.navigator.hardwareConcurrency) || 2;
+          self.ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.min(4, hw) : 1;
+          return self.ort;
+        }
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    ortPromise = null;
+    throw lastErr || new Error("Failed to load onnxruntime-web in worker");
+  })();
+  return ortPromise;
+}
+
+async function fetchModelBytes(voice) {
+  const mobileRel = voice === "female" ? "onnx_mobile/sa_female.onnx" : "onnx_mobile/sa.onnx";
+  const studioRel = voice === "female" ? "onnx/sa_female.onnx" : "onnx/sa.onnx";
+  let chosenRel = mobileRel;
+  let resp = await fetchCached(HF_BASE + "/" + mobileRel).catch(() => null);
+  if (!resp || !resp.ok) {
+    chosenRel = studioRel;
+    resp = await fetchCached(HF_BASE + "/" + studioRel);
+  }
+  if (!resp.ok) {
+    throw new Error("Failed to load ONNX model " + chosenRel + " (" + resp.status + ")");
+  }
+  const buf = await resp.arrayBuffer();
+  return { buf, modelId: "bhrum108/sarva-dharani-kosa-tts:" + chosenRel };
+}
+
+async function getSession(voice) {
+  let p = sessions.get(voice);
+  if (!p) {
+    p = (async () => {
+      const [ort, modelData] = await Promise.all([ensureOrt(), fetchModelBytes(voice)]);
+      const session = await ort.InferenceSession.create(new Uint8Array(modelData.buf), {
+        executionProviders: ["wasm"],
+        graphOptimizationLevel: "all"
+      });
+      // Run 3-token micro warmup so WASM SIMD kernels & arena memory are hot before first click
+      try {
+        const warmIds = new BigInt64Array([143n, 5n, 143n]);
+        const warmScales = new Float32Array([1.0, 0.25, 0.0]);
+        await session.run({
+          input_ids: new ort.Tensor("int64", warmIds, [1, 3]),
+          scales: new ort.Tensor("float32", warmScales, [3])
+        });
+      } catch (_) {}
+      return { session, modelId: modelData.modelId };
+    })();
+    p.catch(() => sessions.delete(voice));
+    sessions.set(voice, p);
+  }
+  return p;
+}
+
+function segmentRms(buf, s0, e0) {
+  const s = Math.max(0, s0);
+  const e = Math.min(buf.length, e0);
+  if (e <= s) return 0;
+  let sumSq = 0;
+  for (let i = s; i < e; i++) {
+    const v = buf[i];
+    sumSq += v * v;
+  }
+  return Math.sqrt(sumSq / (e - s));
+}
+
+function cosineTail(buf, fadeStart, fadeEnd) {
+  const s = Math.max(0, fadeStart);
+  const e = Math.min(buf.length, fadeEnd);
+  const len = e - s;
+  if (len <= 1) return;
+  for (let i = 0; i < len; i++) {
+    buf[s + i] *= 0.5 * (1 + Math.cos((Math.PI * i) / (len - 1)));
+  }
+}
+
+function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama) {
+  const expectedLen = chars.length * 2 + 1;
+  if (chars.length === 0 || rawDurs.length !== expectedLen || rawWav24k.length === 0) {
+    return { wav24k: rawWav24k, durs: rawDurs.slice() };
+  }
+  const durs = rawDurs.map((d) => Math.max(0, Math.round(d)));
+  const prefix = new Int32Array(expectedLen + 1);
+  for (let i = 0; i < expectedLen; i++) prefix[i + 1] = prefix[i] + durs[i];
+
+  const lastCharIdx = chars.length - 1;
+  const lastTokenIdx = 2 * lastCharIdx + 1;
+  const lastChar = chars[lastCharIdx];
+
+  if (isBareVirama && lastChar === INHERENT_A_CH) {
+    const keepVot = Math.min(durs[lastTokenIdx], 2);
+    const cutFrame = prefix[lastTokenIdx] + keepVot;
+    const silentTail = 3;
+    const cutSamples = Math.min(rawWav24k.length, cutFrame * HOP_24K);
+    const out = new Float32Array(cutSamples + silentTail * HOP_24K);
+    out.set(rawWav24k.subarray(0, cutSamples), 0);
+    const fadeSamples = Math.min(cutSamples, 2 * HOP_24K);
+    cosineTail(out, cutSamples - fadeSamples, cutSamples);
+    durs[lastTokenIdx] = keepVot;
+    durs[lastTokenIdx + 1] = silentTail;
+    return { wav24k: out, durs };
+  }
+
+  if (lastChar === VIRAMA_CH) {
+    const prevBlankIdx = lastTokenIdx - 1;
+    const prevBlankRms = segmentRms(rawWav24k, prefix[prevBlankIdx] * HOP_24K, prefix[prevBlankIdx + 1] * HOP_24K);
+    const viramaRms = segmentRms(rawWav24k, prefix[lastTokenIdx] * HOP_24K, prefix[lastTokenIdx + 1] * HOP_24K);
+    if (durs[prevBlankIdx] >= 2 && prevBlankRms < 0.032 && viramaRms > 0.015) {
+      const cutSamples = Math.min(rawWav24k.length, prefix[lastTokenIdx] * HOP_24K);
+      const silentTail = 4;
+      const out = new Float32Array(cutSamples + silentTail * HOP_24K);
+      out.set(rawWav24k.subarray(0, cutSamples), 0);
+      const fadeSamples = Math.min(cutSamples, 2 * HOP_24K);
+      cosineTail(out, cutSamples - fadeSamples, cutSamples);
+      durs[lastTokenIdx] = 0;
+      durs[lastTokenIdx + 1] = silentTail;
+      return { wav24k: out, durs };
+    }
+  }
+
+  if (lastChar === INHERENT_A_CH) {
+    const prevBlankIdx = lastTokenIdx - 1;
+    const prevBlankRms = segmentRms(rawWav24k, prefix[prevBlankIdx] * HOP_24K, prefix[prevBlankIdx + 1] * HOP_24K);
+    const maxHs = prevBlankRms >= 0.055
+      ? Math.max(4, Math.round(13 / effRate) - durs[prevBlankIdx])
+      : Math.max(9, Math.round(12 / effRate));
+    if (durs[lastTokenIdx] > maxHs) {
+      const cutFrame = prefix[lastTokenIdx] + maxHs;
+      const cutSamples = Math.min(rawWav24k.length, cutFrame * HOP_24K);
+      const silentTail = 4;
+      const out = new Float32Array(cutSamples + silentTail * HOP_24K);
+      out.set(rawWav24k.subarray(0, cutSamples), 0);
+      const fadeSamples = Math.min(maxHs * HOP_24K, 4 * HOP_24K);
+      cosineTail(out, cutSamples - fadeSamples, cutSamples);
+      durs[lastTokenIdx] = maxHs;
+      durs[lastTokenIdx + 1] = silentTail;
+      return { wav24k: out, durs };
+    }
+  }
+
+  return { wav24k: rawWav24k, durs };
+}
+
+function upsampleAndMaster(pcm24k) {
+  const nRaw = pcm24k.length;
+  if (nRaw === 0) return new Float32Array(0);
+  const clean24 = new Float32Array(ONSET_PAD_24K + nRaw);
+  let prevX = pcm24k[0];
+  let prevY = 0;
+  let sum = 0;
+  for (let i = 0; i < nRaw; i++) {
+    const x = pcm24k[i];
+    const y = x - prevX + 0.995 * prevY;
+    prevX = x;
+    prevY = y;
+    clean24[ONSET_PAD_24K + i] = y;
+    sum += y;
+  }
+  const mean = sum / nRaw;
+  for (let i = 0; i < nRaw; i++) clean24[ONSET_PAD_24K + i] -= mean;
+
+  const microFadeIn = Math.min(36, Math.floor(nRaw / 4));
+  for (let i = 0; i < microFadeIn; i++) {
+    clean24[ONSET_PAD_24K + i] *= 0.5 * (1 - Math.cos((Math.PI * i) / Math.max(1, microFadeIn - 1)));
+  }
+  const fadeOut24 = Math.min(384, Math.floor(nRaw / 3));
+  cosineTail(clean24, clean24.length - fadeOut24, clean24.length);
+
+  const n24 = clean24.length;
+  const n48 = n24 * 2;
+  const out = new Float32Array(n48);
+  const M = ODD_WEIGHTS.length;
+  for (let n = 0; n < n24; n++) {
+    out[2 * n] = clean24[n];
+    let acc = 0;
+    for (let k = 0; k < M; k++) {
+      const idxL = n - k;
+      const idxR = n + 1 + k;
+      acc += ODD_WEIGHTS[k] * ((idxL >= 0 ? clean24[idxL] : 0) + (idxR < n24 ? clean24[idxR] : 0));
+    }
+    out[2 * n + 1] = acc;
+  }
+
+  let peak = 0;
+  for (let i = 0; i < n48; i++) {
+    const a = Math.abs(out[i]);
+    if (a > peak) peak = a;
+  }
+  if (peak > 1e-5) {
+    const scale = PEAK_TARGET / peak;
+    for (let i = 0; i < n48; i++) out[i] *= scale;
+  }
+  return out;
+}
+
+self.onmessage = async (ev) => {
+  const msg = ev.data;
+  const id = msg.id;
+  try {
+    if (msg.type === "warmup") {
+      const { modelId } = await getSession(msg.voice);
+      self.postMessage({ id, ok: true, modelId });
+      return;
+    }
+    if (msg.type === "infer") {
+      const [ort, { session, modelId }] = await Promise.all([ensureOrt(), getSession(msg.voice)]);
+      const ids = new BigInt64Array(msg.interleavedBuffer);
+      const scales = new Float32Array([1.0 / msg.effRate, 0.25, 0.0]);
+      const outputs = await session.run({
+        input_ids: new ort.Tensor("int64", ids, [1, ids.length]),
+        scales: new ort.Tensor("float32", scales, [3])
+      });
+      const wavName = session.outputNames[0] || "waveform";
+      const durName = session.outputNames[1] || "durations";
+      const wavOut = outputs[wavName].data;
+      const durTensor = outputs[durName];
+      const rawDurs = durTensor && durTensor.data ? Array.from(durTensor.data, (v) => Number(v)) : [];
+      const shaped = shapeWav24k(wavOut, msg.validChars, rawDurs, msg.effRate, Boolean(msg.isBareVirama));
+      const clause48k = upsampleAndMaster(shaped.wav24k);
+      self.postMessage(
+        { id, ok: true, pcm48kBuffer: clause48k.buffer, shapedDurs: shaped.durs, modelId },
+        [clause48k.buffer]
+      );
+    }
+  } catch (err) {
+    self.postMessage({ id, ok: false, error: err && err.message ? err.message : String(err) });
+  }
+};
+`;
+}
+
+function getOrCreateWorkerClient(): OnnxWorkerClient | null {
+  if (workerFailed || typeof window === 'undefined' || typeof Worker === 'undefined') {
+    return null;
+  }
+  if (workerClient) {
+    return workerClient;
+  }
+
+  try {
+    const blob = new Blob([buildWorkerSource()], { type: 'application/javascript' });
+    const blobUrl = URL.createObjectURL(blob);
+    const worker = new Worker(blobUrl);
+    let nextMsgId = 1;
+    const pending = new Map<
+      number,
+      { resolve: (val: unknown) => void; reject: (err: Error) => void }
+    >();
+
+    worker.onmessage = (ev: MessageEvent) => {
+      const data = ev.data as {
+        id: number;
+        ok: boolean;
+        error?: string;
+        modelId?: string;
+        pcm48kBuffer?: ArrayBuffer;
+        shapedDurs?: number[];
+      };
+      const entry = pending.get(data.id);
+      if (!entry) return;
+      pending.delete(data.id);
+      if (!data.ok) {
+        entry.reject(new Error(data.error || 'Worker ONNX error'));
+        return;
+      }
+      if (data.pcm48kBuffer) {
+        entry.resolve({
+          clause48k: new Float32Array(data.pcm48kBuffer),
+          shapedDurs: data.shapedDurs || [],
+          modelId: data.modelId || 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx',
+        } satisfies WorkerInferResponse);
+      } else {
+        entry.resolve(data.modelId || 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx');
+      }
+    };
+
+    worker.onerror = (err) => {
+      workerFailed = true;
+      workerClient = null;
+      workerVoiceInitPromises.clear();
+      for (const [, p] of pending) {
+        p.reject(new Error(err.message || 'Worker crashed'));
+      }
+      pending.clear();
+      try {
+        worker.terminate();
+        URL.revokeObjectURL(blobUrl);
+      } catch {
+        // ignore
+      }
+    };
+
+    workerClient = {
+      warmup(voice: 'male' | 'female'): Promise<string> {
+        let p = workerVoiceInitPromises.get(voice);
+        if (!p) {
+          p = new Promise<string>((resolve, reject) => {
+            const id = nextMsgId++;
+            pending.set(id, {
+              resolve: (val) => {
+                const modelId = String(val);
+                readyVoices.add(voice);
+                activeModelIds.set(voice, modelId);
+                resolve(modelId);
+              },
+              reject: (e) => {
+                workerVoiceInitPromises.delete(voice);
+                reject(e);
+              },
+            });
+            worker.postMessage({ id, type: 'warmup', voice });
+          });
+          workerVoiceInitPromises.set(voice, p);
+        }
+        return p;
+      },
+      infer(params): Promise<WorkerInferResponse> {
+        return new Promise<WorkerInferResponse>((resolve, reject) => {
+          const id = nextMsgId++;
+          const copy = new BigInt64Array(params.interleaved);
+          pending.set(id, {
+            resolve: (val) => {
+              const res = val as WorkerInferResponse;
+              readyVoices.add(params.voice);
+              activeModelIds.set(params.voice, res.modelId);
+              resolve(res);
+            },
+            reject,
+          });
+          worker.postMessage(
+            {
+              id,
+              type: 'infer',
+              voice: params.voice,
+              interleavedBuffer: copy.buffer,
+              effRate: params.effRate,
+              validChars: params.validChars,
+              isBareVirama: params.isBareVirama,
+            },
+            [copy.buffer]
+          );
+        });
+      },
+    };
+    return workerClient;
+  } catch {
+    workerFailed = true;
+    workerClient = null;
+    return null;
+  }
 }
 
 async function ensureOrtLoaded(): Promise<OrtGlobal> {
@@ -277,35 +767,52 @@ async function getOrLoadSession(voice: 'male' | 'female'): Promise<{
   session: OrtSession;
   modelId: string;
 }> {
-  const studioRel = voice === 'female' ? 'onnx/sa_female.onnx' : 'onnx/sa.onnx';
   const mobileRel =
     voice === 'female' ? 'onnx_mobile/sa_female.onnx' : 'onnx_mobile/sa.onnx';
+  const studioRel = voice === 'female' ? 'onnx/sa_female.onnx' : 'onnx/sa.onnx';
 
   let sessPromise = sessionCache.get(voice);
   if (!sessPromise) {
     sessPromise = (async () => {
-      const ort = await ensureOrtLoaded();
-      let chosenRel = studioRel;
-      let res = await fetchWithPersistentCache(`${HF_MODEL_CDN_BASE}/${studioRel}`).catch(
-        () => null
-      );
-      if (!res || !res.ok) {
-        chosenRel = mobileRel;
-        res = await fetchWithPersistentCache(`${HF_MODEL_CDN_BASE}/${mobileRel}`);
-      }
-      if (!res.ok) {
-        throw new Error(`Failed to download ONNX model ${chosenRel} (${res.status})`);
-      }
-      const buf = await res.arrayBuffer();
+      // Download model bytes in parallel with loading ONNX Runtime script (eliminates sequential waterfall)
+      const fetchModelPromise = (async () => {
+        let chosenRel = mobileRel;
+        let res = await fetchWithPersistentCache(`${HF_MODEL_CDN_BASE}/${mobileRel}`).catch(
+          () => null
+        );
+        if (!res || !res.ok) {
+          chosenRel = studioRel;
+          res = await fetchWithPersistentCache(`${HF_MODEL_CDN_BASE}/${studioRel}`);
+        }
+        if (!res.ok) {
+          throw new Error(`Failed to download ONNX model ${chosenRel} (${res.status})`);
+        }
+        return { buf: await res.arrayBuffer(), chosenRel };
+      })();
+
+      const [ort, { buf, chosenRel }] = await Promise.all([
+        ensureOrtLoaded(),
+        fetchModelPromise,
+      ]);
       const session = await ort.InferenceSession.create(new Uint8Array(buf), {
         executionProviders: ['wasm'],
         graphOptimizationLevel: 'all',
       });
+      // Run 3-token micro warmup so WASM SIMD kernels are compiled before user interaction
+      try {
+        const warmIds = new BigInt64Array([143n, 5n, 143n]);
+        const warmScales = new Float32Array([1.0, 0.25, 0.0]);
+        await session.run({
+          input_ids: new ort.Tensor('int64', warmIds, [1, 3]),
+          scales: new ort.Tensor('float32', warmScales, [3]),
+        });
+      } catch {
+        // Ignore warmup glitch if any
+      }
+      const modelId = `bhrum108/sarva-dharani-kosa-tts:${chosenRel}`;
       readyVoices.add(voice);
-      return {
-        session,
-        modelId: `bhrum108/sarva-dharani-kosa-tts:${chosenRel}`,
-      };
+      activeModelIds.set(voice, modelId);
+      return { session, modelId };
     })();
     sessPromise.catch(() => {
       sessionCache.delete(voice);
@@ -351,14 +858,24 @@ function sendHfKeepAliveBeacon(): void {
 }
 
 /**
- * Pre-downloads and compiles the ONNX model in the background so that when the user clicks Play,
- * zero download or WASM compilation delay occurs.
+ * Pre-downloads and compiles the ONNX model in the background Dedicated Worker (or fallback main thread)
+ * so that when the user clicks Play, zero download or WASM JIT compilation delay occurs.
  */
 export async function warmupBrowserOnnxVits(voice: 'male' | 'female' = 'male'): Promise<boolean> {
   if (typeof window === 'undefined') return false;
   sendHfKeepAliveBeacon();
   try {
-    await Promise.all([ensureOrtLoaded(), getSanskritVocab(), getOrLoadSession(voice)]);
+    const wc = getOrCreateWorkerClient();
+    if (wc) {
+      try {
+        await Promise.all([getSanskritVocab(), wc.warmup(voice)]);
+        return true;
+      } catch {
+        workerFailed = true;
+        workerClient = null;
+      }
+    }
+    await Promise.all([getSanskritVocab(), getOrLoadSession(voice)]);
     return true;
   } catch {
     return false;
@@ -370,7 +887,7 @@ export async function warmupBrowserOnnxVits(voice: 'male' | 'female' = 'male'): 
  */
 export async function waitForBrowserOnnxReady(
   voice: 'male' | 'female' = 'male',
-  timeoutMs = 4500
+  timeoutMs = 7500
 ): Promise<boolean> {
   if (readyVoices.has(voice)) return true;
   let timer: ReturnType<typeof setTimeout> | null = null;
@@ -442,7 +959,7 @@ function splitClauseIntoBreathChunks(
     ) {
       chunks.push({
         vitsText: currentWords.join(' '),
-        pauseMs: 35,
+        pauseMs: 0,
       });
       currentWords = [w];
       currentLen = w.length;
@@ -520,19 +1037,19 @@ export function normalizeSikshaDevanagari(
     if (!ps) continue;
     if (ps === '॥' || ps === '||') {
       if (trimAsciiWs(cur)) {
-        rawClauses.push({ vitsText: trimAsciiWs(cur), pauseMs: 420 });
+        rawClauses.push({ vitsText: trimAsciiWs(cur), pauseMs: 165 });
         cur = '';
       } else if (rawClauses.length > 0) {
-        rawClauses[rawClauses.length - 1].pauseMs = 420;
+        rawClauses[rawClauses.length - 1].pauseMs = 165;
       }
     } else if (ps === '।' || ps === '|') {
       if (trimAsciiWs(cur)) {
-        rawClauses.push({ vitsText: trimAsciiWs(cur), pauseMs: 220 });
+        rawClauses.push({ vitsText: trimAsciiWs(cur), pauseMs: 95 });
         cur = '';
       } else if (rawClauses.length > 0) {
         rawClauses[rawClauses.length - 1].pauseMs = Math.max(
           rawClauses[rawClauses.length - 1].pauseMs,
-          220
+          95
         );
       }
     } else {
@@ -842,25 +1359,67 @@ function parseDurationsTensor(tensor?: OrtTensor): number[] {
   return out;
 }
 
-export async function synthesizeWithBrowserOnnxVits(
-  ctx: AudioContext,
+export async function synthesizePcmWithBrowserOnnxVits(
   text: string,
   voice: 'male' | 'female' = 'male',
   rate = 1.0,
   isSingleSyllable = false,
-  priority: 'high' | 'low' = 'high'
+  priority: 'high' | 'low' = 'high',
+  signal?: AbortSignal
 ): Promise<{
-  audioBuffer: AudioBuffer;
   pcm48k: Float32Array;
   durationSec: number;
   model: string;
   chunkSpans: AcousticChunkSpan[];
 }> {
-  const [ort, vocab, { session, modelId }] = await Promise.all([
-    ensureOrtLoaded(),
-    getSanskritVocab(),
-    getOrLoadSession(voice),
-  ]);
+  if (signal?.aborted) {
+    throw createAbortError();
+  }
+
+  let wc = getOrCreateWorkerClient();
+  let vocab: StudioVocabSpec;
+  let fallbackOrt: OrtGlobal | null = null;
+  let fallbackSession: OrtSession | null = null;
+  let resolvedModelId =
+    activeModelIds.get(voice) ||
+    (voice === 'female'
+      ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
+      : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx');
+
+  if (wc) {
+    try {
+      const [v, mId] = await Promise.all([getSanskritVocab(), wc.warmup(voice)]);
+      vocab = v;
+      resolvedModelId = mId;
+    } catch {
+      workerFailed = true;
+      workerClient = null;
+      wc = null;
+      const [ort, v, loaded] = await Promise.all([
+        ensureOrtLoaded(),
+        getSanskritVocab(),
+        getOrLoadSession(voice),
+      ]);
+      fallbackOrt = ort;
+      vocab = v;
+      fallbackSession = loaded.session;
+      resolvedModelId = loaded.modelId;
+    }
+  } else {
+    const [ort, v, loaded] = await Promise.all([
+      ensureOrtLoaded(),
+      getSanskritVocab(),
+      getOrLoadSession(voice),
+    ]);
+    fallbackOrt = ort;
+    vocab = v;
+    fallbackSession = loaded.session;
+    resolvedModelId = loaded.modelId;
+  }
+
+  if (signal?.aborted) {
+    throw createAbortError();
+  }
 
   const effRate = Math.max(0.5, Math.min(2.0, rate));
   const { clauses } = normalizeSikshaDevanagari(text, isSingleSyllable);
@@ -872,6 +1431,10 @@ export async function synthesizeWithBrowserOnnxVits(
   let totalSamples = 0;
 
   for (let cIdx = 0; cIdx < clauses.length; cIdx++) {
+    if (signal?.aborted) {
+      throw createAbortError();
+    }
+
     const cl = clauses[cIdx];
     const cleaned = trimAsciiWs(
       cl.vitsText.replace(/[\u0951-\u0954\u1cd0-\u1cff\u200c\u200d\ufeff]/g, '').toLowerCase()
@@ -897,31 +1460,64 @@ export async function synthesizeWithBrowserOnnxVits(
       interleaved[2 * i + 2] = blankId;
     }
 
-    // Deterministic duration predictor (`noise_w = 0.0`) + clean harmonic glottal excitation (`noise_scale = 0.25`)
-    const scales = new Float32Array([1.0 / effRate, 0.25, 0.0]);
-    const feeds: Record<string, OrtTensor> = {
-      input_ids: new ort.Tensor('int64', interleaved, [1, interleaved.length]),
-      scales: new ort.Tensor('float32', scales, [3]),
-    };
+    const { clause48k, shapedDurs } = await scheduleInference(
+      async () => {
+        if (wc) {
+          try {
+            const workerOut = await wc.infer({
+              voice,
+              interleaved,
+              effRate,
+              validChars,
+              isBareVirama: Boolean(cl.isBareVirama),
+            });
+            resolvedModelId = workerOut.modelId;
+            return {
+              clause48k: workerOut.clause48k,
+              shapedDurs: workerOut.shapedDurs,
+            };
+          } catch {
+            workerFailed = true;
+            workerClient = null;
+            wc = null;
+          }
+        }
 
-    const { clause48k, shapedDurs } = await scheduleInference(async () => {
-      const outputs = await session.run(feeds);
-      const wavName = session.outputNames[0] || 'waveform';
-      const durName = session.outputNames[1] || 'durations';
-      const wavOut = outputs[wavName].data as Float32Array;
-      const rawDurs = parseDurationsTensor(outputs[durName]);
-      const { wav24k, durs } = shapeVitsWaveform24kWithDurations(
-        wavOut,
-        validChars,
-        rawDurs,
-        effRate,
-        Boolean(cl.isBareVirama)
-      );
-      return {
-        clause48k: upsample24kTo48kAndMaster(wav24k),
-        shapedDurs: durs,
-      };
-    }, priority);
+        if (!fallbackOrt || !fallbackSession) {
+          const [ort, loaded] = await Promise.all([
+            ensureOrtLoaded(),
+            getOrLoadSession(voice),
+          ]);
+          fallbackOrt = ort;
+          fallbackSession = loaded.session;
+          resolvedModelId = loaded.modelId;
+        }
+
+        const scales = new Float32Array([1.0 / effRate, 0.25, 0.0]);
+        const feeds: Record<string, OrtTensor> = {
+          input_ids: new fallbackOrt.Tensor('int64', interleaved, [1, interleaved.length]),
+          scales: new fallbackOrt.Tensor('float32', scales, [3]),
+        };
+        const outputs = await fallbackSession.run(feeds);
+        const wavName = fallbackSession.outputNames[0] || 'waveform';
+        const durName = fallbackSession.outputNames[1] || 'durations';
+        const wavOut = outputs[wavName].data as Float32Array;
+        const rawDurs = parseDurationsTensor(outputs[durName]);
+        const { wav24k, durs } = shapeVitsWaveform24kWithDurations(
+          wavOut,
+          validChars,
+          rawDurs,
+          effRate,
+          Boolean(cl.isBareVirama)
+        );
+        return {
+          clause48k: upsample24kTo48kAndMaster(wav24k),
+          shapedDurs: durs,
+        };
+      },
+      priority,
+      signal
+    );
 
     const chunkStartSample = totalSamples;
     const wordSpans = extractWordSpansFromDurations(
@@ -979,14 +1575,43 @@ export async function synthesizeWithBrowserOnnxVits(
     offset += part.length;
   }
 
-  const audioBuffer = ctx.createBuffer(1, finalPcm.length, TARGET_SAMPLE_RATE);
-  audioBuffer.getChannelData(0).set(finalPcm);
+  return {
+    pcm48k: finalPcm,
+    durationSec: finalPcm.length / TARGET_SAMPLE_RATE,
+    model: resolvedModelId,
+    chunkSpans,
+  };
+}
+
+export async function synthesizeWithBrowserOnnxVits(
+  ctx: BaseAudioContext,
+  text: string,
+  voice: 'male' | 'female' = 'male',
+  rate = 1.0,
+  isSingleSyllable = false,
+  priority: 'high' | 'low' = 'high',
+  signal?: AbortSignal
+): Promise<{
+  audioBuffer: AudioBuffer;
+  pcm48k: Float32Array;
+  durationSec: number;
+  model: string;
+  chunkSpans: AcousticChunkSpan[];
+}> {
+  const res = await synthesizePcmWithBrowserOnnxVits(
+    text,
+    voice,
+    rate,
+    isSingleSyllable,
+    priority,
+    signal
+  );
+
+  const audioBuffer = ctx.createBuffer(1, res.pcm48k.length, TARGET_SAMPLE_RATE);
+  audioBuffer.getChannelData(0).set(res.pcm48k);
 
   return {
     audioBuffer,
-    pcm48k: finalPcm,
-    durationSec: finalPcm.length / TARGET_SAMPLE_RATE,
-    model: modelId,
-    chunkSpans,
+    ...res,
   };
 }

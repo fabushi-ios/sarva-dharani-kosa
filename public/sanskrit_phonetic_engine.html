@@ -1148,8 +1148,8 @@ async function checkBackendHealth() {
     }
   } catch (e) {}
   if (isRealBrowserOnnxCapable()) {
-    updateAudioStatusBadge('🟢 方案 1 (Browser ONNX VITS 48000Hz 原生梵文神经网络) 按需就绪');
-    setTimeout(() => { warmupStandaloneBrowserOnnx('male'); }, 500);
+    updateAudioStatusBadge('🟢 方案 1 (Browser ONNX VITS 48000Hz 极速神经网络) 就绪');
+    warmupStandaloneBrowserOnnx('male');
   }
 }
 
@@ -1230,16 +1230,29 @@ function loadSaVocabSpec() {
 function loadSaSession(voice) {
   const vKey = voice === 'female' ? 'female' : (voice === 'mobile' ? 'mobile' : 'male');
   if (_saSessionMap.has(vKey)) return _saSessionMap.get(vKey);
-  const rel = vKey === 'female' ? 'onnx/sa_female.onnx' : (vKey === 'mobile' ? 'onnx_mobile/sa.onnx' : 'onnx/sa.onnx');
+  const mobileRel = vKey === 'female' ? 'onnx_mobile/sa_female.onnx' : 'onnx_mobile/sa.onnx';
+  const studioRel = vKey === 'female' ? 'onnx/sa_female.onnx' : 'onnx/sa.onnx';
   const p = (async () => {
-    const ort = await loadOrtWebRuntime();
-    const resp = await fetchCachedAsset(`${HF_ONNX_CDN}/${rel}`);
-    if (!resp.ok) throw new Error('onnx 404');
-    const buf = await resp.arrayBuffer();
-    return ort.InferenceSession.create(new Uint8Array(buf), {
+    const fetchBufPromise = (async () => {
+      let resp = await fetchCachedAsset(`${HF_ONNX_CDN}/${mobileRel}`).catch(() => null);
+      if (!resp || !resp.ok) {
+        resp = await fetchCachedAsset(`${HF_ONNX_CDN}/${studioRel}`);
+      }
+      if (!resp.ok) throw new Error('onnx 404');
+      return resp.arrayBuffer();
+    })();
+    const [ort, buf] = await Promise.all([loadOrtWebRuntime(), fetchBufPromise]);
+    const session = await ort.InferenceSession.create(new Uint8Array(buf), {
       executionProviders: ['wasm'],
       graphOptimizationLevel: 'all'
     });
+    try {
+      await session.run({
+        input_ids: new ort.Tensor('int64', new BigInt64Array([143n, 5n, 143n]), [1, 3]),
+        scales: new ort.Tensor('float32', new Float32Array([1.0, 0.25, 0.0]), [3])
+      });
+    } catch (_) {}
+    return session;
   })().catch(err => { _saSessionMap.delete(vKey); throw err; });
   _saSessionMap.set(vKey, p);
   return p;
@@ -1380,9 +1393,9 @@ async function synthesizeBrowserOnnx48k(devaInput, voice, rate, isSingle) {
       const ps = p.replace(ASCII_TRIM_RE, '');
       if (!ps) continue;
       if (ps === '॥' || ps === '||') {
-        if (cur) { clauses.push({ text: cur, pauseMs: 420 }); cur = ''; }
+        if (cur) { clauses.push({ text: cur, pauseMs: 165 }); cur = ''; }
       } else if (ps === '।' || ps === '|') {
-        if (cur) { clauses.push({ text: cur, pauseMs: 220 }); cur = ''; }
+        if (cur) { clauses.push({ text: cur, pauseMs: 95 }); cur = ''; }
       } else {
         cur = cur ? `${cur} ${ps}` : ps;
       }
@@ -1398,7 +1411,7 @@ async function synthesizeBrowserOnnx48k(devaInput, voice, rate, isSingle) {
       const slice = words.slice(i, i + 5);
       expanded.push({
         text: slice.join(' '),
-        pauseMs: i + 5 >= words.length ? cl.pauseMs : 35,
+        pauseMs: i + 5 >= words.length ? cl.pauseMs : 0,
         isBare: false
       });
     }
@@ -1450,9 +1463,32 @@ async function synthesizeBrowserOnnx48k(devaInput, voice, rate, isSingle) {
     }
   }
 
-  const final48 = new Float32Array(Math.max(480, totalLen));
+  const rawFinal48 = new Float32Array(Math.max(480, totalLen));
   let off = 0;
-  for (const p of parts48) { final48.set(p, off); off += p.length; }
+  for (const p of parts48) { rawFinal48.set(p, off); off += p.length; }
+
+  let firstActive = 0;
+  while (firstActive < rawFinal48.length && Math.abs(rawFinal48[firstActive]) < 0.0085) firstActive++;
+  let lastActive = rawFinal48.length - 1;
+  while (lastActive > firstActive && Math.abs(rawFinal48[lastActive]) < 0.0085) lastActive--;
+
+  let final48 = rawFinal48;
+  if (firstActive < lastActive) {
+    const trimStart = Math.max(0, firstActive - 288);
+    const trimEnd = Math.min(rawFinal48.length, lastActive + 1 + 672);
+    if (trimEnd - trimStart >= 480 && (trimStart > 0 || trimEnd < rawFinal48.length)) {
+      final48 = rawFinal48.slice(trimStart, trimEnd);
+      const fi = Math.min(144, Math.floor(final48.length / 4));
+      for (let i = 0; i < fi; i++) {
+        final48[i] *= 0.5 * (1 - Math.cos((Math.PI * i) / fi));
+      }
+      const fo = Math.min(480, Math.floor(final48.length / 4));
+      for (let i = 0; i < fo; i++) {
+        final48[final48.length - 1 - i] *= 0.5 * (1 - Math.cos((Math.PI * i) / fo));
+      }
+    }
+  }
+
   const audioBuf = ctx.createBuffer(1, final48.length, 48000);
   audioBuf.getChannelData(0).set(final48);
   return audioBuf;

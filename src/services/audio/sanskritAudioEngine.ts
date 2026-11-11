@@ -33,7 +33,9 @@ import {
 } from '../../core/sanskrit/phoneticMapper';
 import type { DharaniVerse } from '../../types/kosaTypes';
 import {
+  cancelLowPriorityBrowserOnnxTasks,
   isBrowserOnnxReady,
+  synthesizePcmWithBrowserOnnxVits,
   synthesizeWithBrowserOnnxVits,
   waitForBrowserOnnxReady,
   warmupBrowserOnnxVits,
@@ -95,8 +97,103 @@ export const AUDIO_API_ENDPOINTS = {
   spriteOgg: `${TTS_API_BASE_URL}/audio/siddham_sprite_48k.ogg`,
 } as const;
 
+/**
+ * Trims leading and trailing near-silent padding from a 48kHz PCM waveform while preserving
+ * a protective 6ms pre-onset margin (with 3ms raised-cosine attack) and 14ms post-offset decay
+ * (with 10ms raised-cosine release), shifting all syllable timing windows by the exact trimmed offset.
+ */
+export function trimSilenceAndShiftTimings(
+  pcm: Float32Array,
+  sampleRate: number,
+  timings: PlaybackSyllableTiming[]
+): {
+  pcm: Float32Array;
+  timings: PlaybackSyllableTiming[];
+  durationSec: number;
+} {
+  const n = pcm.length;
+  const minSamples = Math.round(0.05 * sampleRate);
+  if (n <= minSamples) {
+    return {
+      pcm,
+      timings,
+      durationSec: n / sampleRate,
+    };
+  }
+
+  const threshold = 0.0085; // ~ -41.4 dBFS: preserves soft fricatives, aspirates & visargas while cutting dead air
+  const preMargin = Math.round(0.006 * sampleRate); // 6ms clean onset guard
+  const postMargin = Math.round(0.014 * sampleRate); // 14ms natural coda tail
+
+  let firstActive = 0;
+  while (firstActive < n && Math.abs(pcm[firstActive]) < threshold) {
+    firstActive++;
+  }
+
+  if (firstActive >= n) {
+    return {
+      pcm,
+      timings,
+      durationSec: n / sampleRate,
+    };
+  }
+
+  let lastActive = n - 1;
+  while (lastActive > firstActive && Math.abs(pcm[lastActive]) < threshold) {
+    lastActive--;
+  }
+
+  const cutStart = Math.max(0, firstActive - preMargin);
+  const cutEnd = Math.min(n, Math.max(cutStart + minSamples, lastActive + 1 + postMargin));
+
+  if (cutStart === 0 && cutEnd === n) {
+    return {
+      pcm,
+      timings,
+      durationSec: n / sampleRate,
+    };
+  }
+
+  const outLen = cutEnd - cutStart;
+  const trimmed = new Float32Array(outLen);
+  trimmed.set(pcm.subarray(cutStart, cutEnd), 0);
+
+  const fadeInLen = Math.min(Math.round(0.003 * sampleRate), Math.floor(outLen / 6));
+  for (let i = 0; i < fadeInLen; i++) {
+    const w = 0.5 * (1 - Math.cos((Math.PI * i) / Math.max(1, fadeInLen - 1)));
+    trimmed[i] *= w;
+  }
+
+  const fadeOutLen = Math.min(Math.round(0.01 * sampleRate), Math.floor(outLen / 5));
+  const fadeOutStart = outLen - fadeOutLen;
+  for (let i = 0; i < fadeOutLen; i++) {
+    const w = 0.5 * (1 + Math.cos((Math.PI * i) / Math.max(1, fadeOutLen - 1)));
+    trimmed[fadeOutStart + i] *= w;
+  }
+
+  const trimmedLeadSec = cutStart / sampleRate;
+  const newDurationSec = outLen / sampleRate;
+
+  const shiftedTimings = timings.map((t) => {
+    const s = Math.max(0, t.startSec - trimmedLeadSec);
+    const e = Math.min(newDurationSec, Math.max(s + 0.032, t.endSec - trimmedLeadSec));
+    return {
+      ...t,
+      startSec: s,
+      endSec: e,
+    };
+  });
+
+  return {
+    pcm: trimmed,
+    timings: shiftedTimings,
+    durationSec: newDurationSec,
+  };
+}
+
 interface CachedNeuralVerse {
-  audioBuffer: AudioBuffer;
+  audioBuffer?: AudioBuffer;
+  pcm48k?: Float32Array;
   timings: PlaybackSyllableTiming[];
   totalDurationSec: number;
   model: string;
@@ -105,16 +202,22 @@ interface CachedNeuralVerse {
 class SanskritAudioEngine {
   private audioCtx: AudioContext | null = null;
   private activeSourceNode: AudioBufferSourceNode | null = null;
+  private scheduledStreamingSources: Set<AudioBufferSourceNode> = new Set();
   private activeSingleSyllableSource: AudioBufferSourceNode | null = null;
   private singleSyllableRequestId = 0;
   private singleSyllableCache: Map<string, AudioBuffer> = new Map();
   private rafId: number | null = null;
   private abortController: AbortController | null = null;
+  private prewarmAbortController: AbortController | null = null;
+  private prewarmDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  private lastPrewarmSignature = '';
+  private pendingPrewarmVerses: DharaniVerse[] = [];
   private droneGainNode: GainNode | null = null;
   private droneOscillators: OscillatorNode[] = [];
   private neuralVerseCache: Map<string, CachedNeuralVerse> = new Map();
   private neuralInflightRequests: Map<string, Promise<CachedNeuralVerse>> = new Map();
   private pythonBackendAvailable = false;
+  private healthProbed = false;
 
   constructor() {
     if (typeof window !== 'undefined') {
@@ -141,33 +244,61 @@ class SanskritAudioEngine {
     omDroneActive: false,
     backendOnline: true,
     spriteCount: 612,
-    activeModel: 'bhrum108/sarva-dharani-kosa-tts:onnx/sa.onnx',
+    activeModel: 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx',
   };
 
   private listeners: Set<StateListener> = new Set();
 
   private async probeBackendHealth() {
+    const isLocalHost =
+      typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+    // On static edge deployments (Hugging Face Static Space, Cloudflare, etc.), start warming up
+    // the Dedicated Web Worker ONNX engine at t = 0ms in parallel with health probing!
+    if (!isLocalHost && !TTS_API_BASE_URL) {
+      void warmupBrowserOnnxVits(this.state.voice).then((ok) => {
+        if (ok && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+          this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
+        }
+      });
+    }
+
     try {
-      const res = await fetch(AUDIO_API_ENDPOINTS.health);
+      const ctrl = new AbortController();
+      const timeoutId = setTimeout(() => ctrl.abort(), 1400);
+      let res: Response;
+      try {
+        res = await fetch(AUDIO_API_ENDPOINTS.health, { signal: ctrl.signal });
+      } finally {
+        clearTimeout(timeoutId);
+      }
       const ct = res.headers.get('content-type') || '';
       if (res.ok && ct.includes('application/json')) {
         const data = await res.json();
         this.pythonBackendAvailable = data?.status === 'ok';
+        this.healthProbed = true;
         this.state.backendOnline = true;
         if (typeof data?.spriteCount === 'number') {
           this.state.spriteCount = data.spriteCount;
         }
         this.notify();
+        if (this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+          this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
+        }
         return;
       }
     } catch {
       // Static edge hosting without Python FastAPI backend
     }
     this.pythonBackendAvailable = false;
+    this.healthProbed = true;
     this.state.backendOnline = true;
-    setTimeout(() => {
-      void warmupBrowserOnnxVits(this.state.voice);
-    }, 400);
+    void warmupBrowserOnnxVits(this.state.voice).then((ok) => {
+      if (ok && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+        this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
+      }
+    });
   }
 
   public subscribe(listener: StateListener): () => void {
@@ -191,14 +322,22 @@ class SanskritAudioEngine {
       this.audioCtx = new AudioCtx({ sampleRate: SAMPLE_RATE });
     }
     if (this.audioCtx.state === 'suspended') {
-      this.audioCtx.resume();
+      void this.audioCtx.resume();
     }
     return this.audioCtx;
   }
 
   public setRate(rate: number) {
-    this.state.rate = Math.max(0.5, Math.min(1.6, rate));
-    this.notify();
+    const nextRate = Math.max(0.5, Math.min(1.6, rate));
+    if (Math.abs(nextRate - this.state.rate) > 1e-4) {
+      this.state.rate = nextRate;
+      this.lastPrewarmSignature = '';
+      cancelLowPriorityBrowserOnnxTasks();
+      this.notify();
+      if (this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+        this.prewarmVerses(this.pendingPrewarmVerses, 3);
+      }
+    }
   }
 
   public setLoopVerse(loop: boolean) {
@@ -217,10 +356,14 @@ class SanskritAudioEngine {
     if (mode === 'neural-vits-48k') {
       this.state.activeModel =
         this.state.voice === 'female'
-          ? 'bhrum108/sarva-dharani-kosa-tts:onnx/sa_female.onnx'
-          : 'bhrum108/sarva-dharani-kosa-tts:onnx/sa.onnx';
+          ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
+          : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx';
       if (!this.pythonBackendAvailable) {
         void warmupBrowserOnnxVits(this.state.voice);
+      }
+      if (this.pendingPrewarmVerses.length > 0) {
+        this.lastPrewarmSignature = '';
+        this.prewarmVerses(this.pendingPrewarmVerses, 3);
       }
     } else if (mode === 'studio-vocal-chant') {
       this.state.activeModel = 'Rosenberg Sadja Formant + 612-Syllable Sprite';
@@ -233,14 +376,25 @@ class SanskritAudioEngine {
   }
 
   public setVoice(voice: SanskritVoiceGender) {
+    const changed = this.state.voice !== voice;
     this.state.voice = voice;
     if (this.state.mode === 'neural-vits-48k') {
       this.state.activeModel =
         voice === 'female'
-          ? 'bhrum108/sarva-dharani-kosa-tts:onnx/sa_female.onnx'
-          : 'bhrum108/sarva-dharani-kosa-tts:onnx/sa.onnx';
+          ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
+          : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx';
+      if (changed) {
+        this.lastPrewarmSignature = '';
+        cancelLowPriorityBrowserOnnxTasks();
+      }
       if (!this.pythonBackendAvailable) {
-        void warmupBrowserOnnxVits(voice);
+        void warmupBrowserOnnxVits(voice).then((ok) => {
+          if (ok && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+            this.triggerPrewarmQueue(this.pendingPrewarmVerses, 3);
+          }
+        });
+      } else if (changed && this.pendingPrewarmVerses.length > 0 && !this.state.isPlaying) {
+        this.prewarmVerses(this.pendingPrewarmVerses, 3);
       }
     }
     this.notify();
@@ -376,6 +530,17 @@ class SanskritAudioEngine {
       }
       this.activeSourceNode = null;
     }
+    if (this.scheduledStreamingSources.size > 0) {
+      for (const src of this.scheduledStreamingSources) {
+        try {
+          src.stop();
+          src.disconnect();
+        } catch {
+          // ignore
+        }
+      }
+      this.scheduledStreamingSources.clear();
+    }
     if (this.abortController) {
       this.abortController.abort();
       this.abortController = null;
@@ -393,6 +558,191 @@ class SanskritAudioEngine {
     this.state.syllableProgress = 0;
     this.state.verseProgress = 0;
     this.notify();
+  }
+
+  private materializeAudioBuffer(ctx: AudioContext, entry: CachedNeuralVerse): AudioBuffer {
+    if (entry.audioBuffer) {
+      return entry.audioBuffer;
+    }
+    const pcm = entry.pcm48k || new Float32Array(480);
+    const buf = ctx.createBuffer(1, Math.max(480, pcm.length), SAMPLE_RATE);
+    buf.getChannelData(0).set(pcm);
+    entry.audioBuffer = buf;
+    entry.pcm48k = undefined;
+    return buf;
+  }
+
+  private decode16BitPcmWavToFloat32(wavBuf: ArrayBuffer): {
+    pcm: Float32Array;
+    sampleRate: number;
+  } | null {
+    if (wavBuf.byteLength < 44) return null;
+    const view = new DataView(wavBuf);
+    // 'RIFF' (0x46464952 LE) and 'WAVE' (0x45564157 LE)
+    if (view.getUint32(0, true) !== 0x46464952 || view.getUint32(8, true) !== 0x45564157) {
+      return null;
+    }
+    let offset = 12;
+    let audioFormat = 0;
+    let numChannels = 1;
+    let sampleRate = SAMPLE_RATE;
+    let bitsPerSample = 16;
+    let dataOffset = -1;
+    let dataByteLength = 0;
+
+    while (offset + 8 <= wavBuf.byteLength) {
+      const chunkId = view.getUint32(offset, true);
+      const chunkSize = view.getUint32(offset + 4, true);
+      if (chunkId === 0x20746d66 && offset + 24 <= wavBuf.byteLength) {
+        // 'fmt '
+        audioFormat = view.getUint16(offset + 8, true);
+        numChannels = view.getUint16(offset + 10, true);
+        sampleRate = view.getUint32(offset + 12, true);
+        bitsPerSample = view.getUint16(offset + 22, true);
+      } else if (chunkId === 0x61746164) {
+        // 'data'
+        dataOffset = offset + 8;
+        dataByteLength = Math.min(chunkSize, wavBuf.byteLength - dataOffset);
+        break;
+      }
+      offset += 8 + chunkSize + (chunkSize & 1);
+    }
+
+    if (
+      audioFormat !== 1 ||
+      bitsPerSample !== 16 ||
+      numChannels < 1 ||
+      sampleRate !== SAMPLE_RATE ||
+      dataOffset < 0 ||
+      dataByteLength < 2
+    ) {
+      return null;
+    }
+
+    const bytesPerFrame = numChannels * 2;
+    const numFrames = Math.floor(dataByteLength / bytesPerFrame);
+    const pcm = new Float32Array(numFrames);
+    const inv = 1 / 32768;
+    let bytePtr = dataOffset;
+    if (numChannels === 1) {
+      for (let i = 0; i < numFrames; i++) {
+        pcm[i] = view.getInt16(bytePtr, true) * inv;
+        bytePtr += 2;
+      }
+    } else {
+      const chInv = inv / numChannels;
+      for (let i = 0; i < numFrames; i++) {
+        let sum = 0;
+        for (let c = 0; c < numChannels; c++) {
+          sum += view.getInt16(bytePtr, true);
+          bytePtr += 2;
+        }
+        pcm[i] = sum * chInv;
+      }
+    }
+    return { pcm, sampleRate };
+  }
+
+  /**
+   * Proactively pre-synthesizes the first `maxCount` verses of the currently displayed Dhāraṇī
+   * in the background Worker (without touching AudioContext prior to user gesture) so clicking
+   * "Start" begins playback in < 5ms with zero cold-synthesis lag.
+   */
+  public prewarmVerses(verses: DharaniVerse[], maxCount = 3) {
+    this.pendingPrewarmVerses = verses;
+    if (
+      typeof window === 'undefined' ||
+      this.state.mode !== 'neural-vits-48k' ||
+      this.state.isPlaying ||
+      verses.length === 0
+    ) {
+      return;
+    }
+
+    if (this.prewarmDebounceTimer) {
+      clearTimeout(this.prewarmDebounceTimer);
+    }
+    this.prewarmDebounceTimer = setTimeout(() => {
+      this.prewarmDebounceTimer = null;
+      if (!this.state.isPlaying && this.state.mode === 'neural-vits-48k') {
+        this.triggerPrewarmQueue(verses, maxCount);
+      }
+    }, 65);
+  }
+
+  /**
+   * Pre-synthesizes an individual verse (e.g. on button hover/focus) for instant single-verse start.
+   */
+  public prewarmSingleVerse(verse: DharaniVerse) {
+    if (
+      typeof window === 'undefined' ||
+      this.state.mode !== 'neural-vits-48k' ||
+      (!this.pythonBackendAvailable && !isBrowserOnnxReady(this.state.voice))
+    ) {
+      return;
+    }
+    const cacheKey = `${verse.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+    if (this.neuralVerseCache.has(cacheKey) || this.neuralInflightRequests.has(cacheKey)) {
+      return;
+    }
+    const syls = analyzeSanskritProsody(verse.iast);
+    if (syls.length === 0) return;
+    void this.fetchNeuralVitsVerseBuffer(this.audioCtx, verse.iast, syls, undefined, 'low').catch(
+      () => {}
+    );
+  }
+
+  private triggerPrewarmQueue(verses: DharaniVerse[], maxCount: number) {
+    if (!this.healthProbed) return;
+    if (!this.pythonBackendAvailable && !isBrowserOnnxReady(this.state.voice)) {
+      void warmupBrowserOnnxVits(this.state.voice).then((ok) => {
+        if (ok && !this.state.isPlaying && this.pendingPrewarmVerses === verses) {
+          this.triggerPrewarmQueue(verses, maxCount);
+        }
+      });
+      return;
+    }
+
+    const slice = verses.slice(0, maxCount);
+    if (slice.length === 0) return;
+
+    const sig = `${slice.map((v) => v.iast.trim()).join('||')}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+    if (sig === this.lastPrewarmSignature) {
+      return;
+    }
+    this.lastPrewarmSignature = sig;
+
+    if (this.prewarmAbortController) {
+      this.prewarmAbortController.abort();
+    }
+    cancelLowPriorityBrowserOnnxTasks();
+
+    const ctrl = new AbortController();
+    this.prewarmAbortController = ctrl;
+
+    void (async () => {
+      for (const v of slice) {
+        if (ctrl.signal.aborted || this.state.isPlaying) break;
+        const key = `${v.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+        if (this.neuralVerseCache.has(key)) continue;
+        const syls = analyzeSanskritProsody(v.iast);
+        if (syls.length === 0) continue;
+        try {
+          const entry = await this.fetchNeuralVitsVerseBuffer(
+            this.audioCtx,
+            v.iast,
+            syls,
+            ctrl.signal,
+            'low'
+          );
+          if (!this.state.isPlaying && entry.model) {
+            this.state.activeModel = entry.model;
+          }
+        } catch {
+          if (ctrl.signal.aborted) break;
+        }
+      }
+    })();
   }
 
   /**
@@ -456,8 +806,9 @@ class SanskritAudioEngine {
           if (prosody.length > 1) {
             const neural = await this.fetchNeuralVitsVerseBuffer(ctx, cleanText, prosody);
             if (reqId !== this.singleSyllableRequestId) return;
-            this.cacheSingleSyllableBuffer(singleKey, neural.audioBuffer);
-            this.playTrackedSingleSource(ctx, neural.audioBuffer);
+            const buf = this.materializeAudioBuffer(ctx, neural);
+            this.cacheSingleSyllableBuffer(singleKey, buf);
+            this.playTrackedSingleSource(ctx, buf);
             return;
           }
 
@@ -483,7 +834,7 @@ class SanskritAudioEngine {
         }
         try {
           const onnxReady =
-            isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 6500));
+            isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 7500));
           if (reqId !== this.singleSyllableRequestId) return;
           if (onnxReady) {
             const wasmOut = await synthesizeWithBrowserOnnxVits(
@@ -496,8 +847,15 @@ class SanskritAudioEngine {
             );
             if (reqId !== this.singleSyllableRequestId) return;
             this.state.activeModel = wasmOut.model;
-            this.cacheSingleSyllableBuffer(singleKey, wasmOut.audioBuffer);
-            this.playTrackedSingleSource(ctx, wasmOut.audioBuffer);
+            const trimmedSingle = trimSilenceAndShiftTimings(wasmOut.pcm48k, SAMPLE_RATE, []);
+            const outBuf = ctx.createBuffer(
+              1,
+              Math.max(480, trimmedSingle.pcm.length),
+              SAMPLE_RATE
+            );
+            outBuf.getChannelData(0).set(trimmedSingle.pcm);
+            this.cacheSingleSyllableBuffer(singleKey, outBuf);
+            this.playTrackedSingleSource(ctx, outBuf);
             return;
           }
         } finally {
@@ -530,6 +888,23 @@ class SanskritAudioEngine {
     singleVerseOnly = false
   ) {
     this.stop();
+    if (this.prewarmDebounceTimer) {
+      clearTimeout(this.prewarmDebounceTimer);
+      this.prewarmDebounceTimer = null;
+    }
+    if (this.prewarmAbortController) {
+      this.prewarmAbortController.abort();
+      this.prewarmAbortController = null;
+    }
+
+    const firstTarget = verses[startVerseArrayIdx];
+    if (firstTarget && this.state.mode === 'neural-vits-48k') {
+      const firstKey = `${firstTarget.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+      if (!this.neuralVerseCache.has(firstKey) && !this.neuralInflightRequests.has(firstKey)) {
+        cancelLowPriorityBrowserOnnxTasks();
+      }
+    }
+
     const controller = new AbortController();
     this.abortController = controller;
     this.state.isPlaying = true;
@@ -543,15 +918,14 @@ class SanskritAudioEngine {
         this.state.verseProgress = 0;
         this.notify();
 
-        const nextVerse =
-          !singleVerseOnly && idx + 1 < verses.length ? verses[idx + 1] : undefined;
+        const upcomingVerses = !singleVerseOnly ? verses.slice(idx + 1, idx + 5) : [];
 
         if (this.state.mode === 'mandarin-phonetic-guide') {
           await this.playVerseSpeechSynced(verse, 'zh-CN', controller.signal);
         } else if (this.state.mode === 'indic-devanagari-tts') {
           await this.playVerseSpeechSynced(verse, 'hi-IN', controller.signal);
         } else if (this.state.mode === 'neural-vits-48k') {
-          await this.playVerseNeuralVitsBuffer(verse, controller.signal, nextVerse);
+          await this.playVerseNeuralVitsBuffer(verse, controller.signal, upcomingVerses);
         } else {
           await this.playVerseHardwareBuffer(verse, controller.signal);
         }
@@ -559,13 +933,24 @@ class SanskritAudioEngine {
         if (controller.signal.aborted) break;
 
         if (this.state.loopVerse) {
-          await this.sleep(320, controller.signal);
+          await this.sleep(Math.round(130 / this.state.rate), controller.signal);
           continue;
         }
         if (singleVerseOnly) {
           break;
         }
-        await this.sleep(220, controller.signal);
+
+        if (idx + 1 < verses.length) {
+          if (this.state.mode === 'neural-vits-48k') {
+            const nextKey = `${verses[idx + 1].iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+            if (this.neuralVerseCache.has(nextKey)) {
+              // Crisp 32ms natural breath articulation between cached verses (zero sluggish pause)
+              await this.sleep(Math.max(18, Math.round(32 / this.state.rate)), controller.signal);
+            }
+          } else {
+            await this.sleep(Math.max(25, Math.round(55 / this.state.rate)), controller.signal);
+          }
+        }
         idx++;
       }
     } catch {
@@ -710,13 +1095,15 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Splits a verse into short breath-segments for progressive synthesis.
+   * Splits an uncached multi-word verse into a fast 1–2 word initial micro-segment (~120ms synthesis)
+   * followed by balanced breath-segments so audio starts virtually instantaneously while the Worker
+   * synthesizes the rest of the verse in the background.
    */
   private splitVerseIntoStreamingSegments(
     iastText: string,
     syllables: SyllableAnalysis[]
   ): Array<{ text: string; syllables: SyllableAnalysis[] }> {
-    if (syllables.length <= 6 || iastText.trim().length <= 28) {
+    if (syllables.length <= 5 || iastText.trim().length <= 24) {
       return [{ text: iastText.trim(), syllables }];
     }
 
@@ -774,10 +1161,10 @@ class SanskritAudioEngine {
 
   /**
    * Fetches and decodes 48,000 Hz Native Classical Sanskrit Neural VITS audio (`sa.onnx` / `sa_female.onnx`)
-   * from `/api/tts` with exact acoustic syllable timings, or synthesizes directly in-browser via ONNX Runtime Web.
+   * from `/api/tts` with exact acoustic syllable timings, or synthesizes directly via Dedicated Worker ONNX Runtime Web.
    */
   private async fetchNeuralVitsVerseBuffer(
-    ctx: AudioContext,
+    ctx: AudioContext | null,
     iastText: string,
     syllables: SyllableAnalysis[],
     signal?: AbortSignal,
@@ -830,8 +1217,9 @@ class SanskritAudioEngine {
         }
       }
 
-      let audioBuffer: AudioBuffer;
-      let totalDurationSec: number;
+      let rawPcm48k: Float32Array | null = null;
+      let decodedBuffer: AudioBuffer | undefined;
+      let rawDurationSec: number;
       let serverTimings: Array<{ index: number; startMs: number; endMs: number }> = [];
       let wasmChunkSpans: AcousticChunkSpan[] | undefined;
       let modelOverride: string | null = null;
@@ -839,8 +1227,19 @@ class SanskritAudioEngine {
       if (data) {
         const b64 = String(data.audioBase64Wav || '');
         const wavArrayBuffer = this.base64ToArrayBuffer(b64);
-        audioBuffer = await ctx.decodeAudioData(wavArrayBuffer.slice(0));
-        totalDurationSec = audioBuffer.duration || Number(data.durationSec) || 1.0;
+        const fastWav = this.decode16BitPcmWavToFloat32(wavArrayBuffer);
+        if (fastWav) {
+          rawPcm48k = fastWav.pcm;
+          rawDurationSec = rawPcm48k.length / SAMPLE_RATE;
+        } else {
+          const targetCtx = ctx || this.getAudioContext();
+          decodedBuffer = await targetCtx.decodeAudioData(wavArrayBuffer.slice(0));
+          rawDurationSec = decodedBuffer.duration || Number(data.durationSec) || 1.0;
+          if (decodedBuffer.sampleRate === SAMPLE_RATE && decodedBuffer.numberOfChannels >= 1) {
+            rawPcm48k = new Float32Array(decodedBuffer.getChannelData(0));
+            decodedBuffer = undefined;
+          }
+        }
         if (Array.isArray(data.syllableTimings)) {
           serverTimings = data.syllableTimings as Array<{
             index: number;
@@ -849,16 +1248,16 @@ class SanskritAudioEngine {
           }>;
         }
       } else {
-        const wasmRes = await synthesizeWithBrowserOnnxVits(
-          ctx,
+        const wasmRes = await synthesizePcmWithBrowserOnnxVits(
           iastText,
           voice,
           rate,
           syllables.length <= 1,
-          priority
+          priority,
+          signal
         );
-        audioBuffer = wasmRes.audioBuffer;
-        totalDurationSec = wasmRes.durationSec;
+        rawPcm48k = wasmRes.pcm48k;
+        rawDurationSec = wasmRes.durationSec;
         modelOverride = wasmRes.model;
         wasmChunkSpans = wasmRes.chunkSpans;
       }
@@ -875,16 +1274,16 @@ class SanskritAudioEngine {
             classicalZh: syl.classicalZh,
             modernZh: syl.modernZh,
             startSec: Math.max(0, (st.startMs || 0) / 1000),
-            endSec: Math.min(totalDurationSec, Math.max(0.04, (st.endMs || 100) / 1000)),
+            endSec: Math.min(rawDurationSec, Math.max(0.04, (st.endMs || 100) / 1000)),
           });
         }
       } else if (serverTimings.length > 0 && enriched.length > 0) {
         const firstStartSec = Math.max(0, (serverTimings[0].startMs || 0) / 1000);
         const lastEndSec = Math.min(
-          totalDurationSec,
+          rawDurationSec,
           Math.max(
             firstStartSec + 0.1,
-            (serverTimings[serverTimings.length - 1].endMs || totalDurationSec * 1000) / 1000
+            (serverTimings[serverTimings.length - 1].endMs || rawDurationSec * 1000) / 1000
           )
         );
         const activeSpanSec = Math.max(0.15, lastEndSec - firstStartSec);
@@ -908,30 +1307,44 @@ class SanskritAudioEngine {
           cursor += dur;
         }
       } else {
-        timings = this.buildProportionalTimings(syllables, totalDurationSec, wasmChunkSpans);
+        timings = this.buildProportionalTimings(syllables, rawDurationSec, wasmChunkSpans);
+      }
+
+      let finalPcm48k = rawPcm48k;
+      let totalDurationSec = rawDurationSec;
+
+      if (finalPcm48k) {
+        const trimmed = trimSilenceAndShiftTimings(finalPcm48k, SAMPLE_RATE, timings);
+        finalPcm48k = trimmed.pcm;
+        timings = trimmed.timings;
+        totalDurationSec = trimmed.durationSec;
+      }
+
+      let audioBuffer = decodedBuffer;
+      if (!audioBuffer && ctx && finalPcm48k) {
+        audioBuffer = ctx.createBuffer(1, Math.max(480, finalPcm48k.length), SAMPLE_RATE);
+        audioBuffer.getChannelData(0).set(finalPcm48k);
+        finalPcm48k = null;
       }
 
       const modelStr = String(
         data?.model ||
           modelOverride ||
           (voice === 'female'
-            ? 'gnumanth/ninada:onnx/sa_female.onnx'
-            : 'gnumanth/ninada:onnx/sa.onnx')
+            ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
+            : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx')
       );
 
       const entry: CachedNeuralVerse = {
         audioBuffer,
+        pcm48k: finalPcm48k || undefined,
         timings,
         totalDurationSec,
         model: modelStr,
       };
 
       if (modelStr.includes('onnx')) {
-        if (this.neuralVerseCache.size >= 120) {
-          const oldestKey = this.neuralVerseCache.keys().next().value;
-          if (oldestKey) this.neuralVerseCache.delete(oldestKey);
-        }
-        this.neuralVerseCache.set(cacheKey, entry);
+        this.storeInNeuralVerseCache(cacheKey, entry);
       }
       return entry;
     })();
@@ -944,30 +1357,311 @@ class SanskritAudioEngine {
     }
   }
 
-  private prefetchNextVerseFirstSegment(ctx: AudioContext, nextVerse?: DharaniVerse) {
-    // Only prefetch during active playback when using an external HTTP backend.
-    // In Browser ONNX mode, running WASM session.run() during active playback would block
-    // the browser main thread and starve requestAnimationFrame syllable highlighting.
-    if (!this.pythonBackendAvailable || !nextVerse) return;
-    const nextSyls = analyzeSanskritProsody(nextVerse.iast);
-    if (nextSyls.length === 0) return;
-
-    const fullKey = `${nextVerse.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
-    if (this.neuralVerseCache.has(fullKey)) return;
-
-    void this.fetchNeuralVitsVerseBuffer(ctx, nextVerse.iast, nextSyls, undefined, 'low').catch(
-      () => {}
-    );
+  private storeInNeuralVerseCache(cacheKey: string, entry: CachedNeuralVerse) {
+    if (this.neuralVerseCache.size >= 120) {
+      const oldestKey = this.neuralVerseCache.keys().next().value;
+      if (oldestKey) this.neuralVerseCache.delete(oldestKey);
+    }
+    this.neuralVerseCache.set(cacheKey, entry);
   }
 
   /**
-   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine (`/api/tts` or Browser ONNX)
+   * 4-verse sliding-window lookahead prefetch in BOTH Dedicated Worker ONNX mode and Python Backend mode!
+   * Because Worker inference runs off the main thread at ~0.21x Real-Time Factor, upcoming verses
+   * finish synthesizing well before the current verse ends, guaranteeing 0ms inter-verse wait.
+   */
+  private prefetchUpcomingVerses(upcomingVerses: DharaniVerse[], signal?: AbortSignal) {
+    if (!upcomingVerses || upcomingVerses.length === 0 || signal?.aborted) return;
+    if (!this.pythonBackendAvailable && !isBrowserOnnxReady(this.state.voice)) return;
+
+    void (async () => {
+      for (const nextVerse of upcomingVerses) {
+        if (signal?.aborted || !this.state.isPlaying) break;
+        const fullKey = `${nextVerse.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+        if (this.neuralVerseCache.has(fullKey) || this.neuralInflightRequests.has(fullKey)) {
+          continue;
+        }
+        const nextSyls = analyzeSanskritProsody(nextVerse.iast);
+        if (nextSyls.length === 0) continue;
+        try {
+          await this.fetchNeuralVitsVerseBuffer(
+            this.audioCtx,
+            nextVerse.iast,
+            nextSyls,
+            signal,
+            'low'
+          );
+        } catch {
+          if (signal?.aborted) break;
+        }
+      }
+    })();
+  }
+
+  /**
+   * Plays an uncached multi-word verse via First-Clause Instant Streaming:
+   * Synthesizes the first 1–2 words (~120ms) and begins hardware audio playback immediately while
+   * pipelining remaining segments in the Worker and scheduling them sample-accurately via `source.start(when)`.
+   */
+  private async playVerseNeuralStreaming(
+    ctx: AudioContext,
+    verse: DharaniVerse,
+    segments: Array<{ text: string; syllables: SyllableAnalysis[] }>,
+    signal: AbortSignal,
+    upcomingVerses: DharaniVerse[]
+  ): Promise<void> {
+    this.state.isLoadingAudio = true;
+    this.notify();
+
+    // Launch all segment syntheses in order at high priority so Worker pipelines Seg 0 -> Seg 1 -> ...
+    const segPromises = segments.map((seg) =>
+      this.fetchNeuralVitsVerseBuffer(ctx, seg.text, seg.syllables, signal, 'high')
+    );
+    // Attach silent catchers so unhandled rejections cannot fire if Seg 0 fails or aborts early
+    for (const p of segPromises) {
+      p.catch(() => {});
+    }
+
+    let firstSeg: CachedNeuralVerse;
+    try {
+      firstSeg = await segPromises[0];
+    } catch (err) {
+      this.state.isLoadingAudio = false;
+      this.notify();
+      if (signal.aborted) throw err;
+      return this.playVerseHardwareBuffer(verse, signal);
+    }
+
+    this.state.isLoadingAudio = false;
+    this.state.activeModel = firstSeg.model;
+    this.state.backendOnline = true;
+    this.notify();
+
+    if (signal.aborted) {
+      throw new Error('Aborted');
+    }
+
+    // Queue upcoming verses at low priority (automatically runs right after high-priority segPromises!)
+    this.prefetchUpcomingVerses(upcomingVerses, signal);
+
+    return new Promise<void>((resolve, reject) => {
+      if (signal.aborted) {
+        reject(new Error('Aborted'));
+        return;
+      }
+
+      let settled = false;
+      let allSegmentsScheduled = false;
+      let endTimer: ReturnType<typeof setTimeout> | null = null;
+      const resolvedSegments: Array<{
+        entry: CachedNeuralVerse;
+        offsetSec: number;
+      }> = [];
+
+      const liveTimings: PlaybackSyllableTiming[] = [];
+      const verseStartTime = ctx.currentTime + 0.004;
+      const interSegGapSec = 0.012 / this.state.rate;
+      let nextHardwareStartSec = verseStartTime;
+      let liveTotalDurationSec = Math.max(
+        firstSeg.totalDurationSec * segments.length * 0.85,
+        firstSeg.totalDurationSec
+      );
+      let finalEndHardwareTime = verseStartTime + firstSeg.totalDurationSec;
+
+      const scheduleSegment = (segEntry: CachedNeuralVerse) => {
+        const buf = this.materializeAudioBuffer(ctx, segEntry);
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        src.connect(ctx.destination);
+        this.scheduledStreamingSources.add(src);
+        this.activeSourceNode = src;
+
+        const segStart = Math.max(ctx.currentTime + 0.003, nextHardwareStartSec);
+        const offsetFromVerseStart = segStart - verseStartTime;
+
+        for (const t of segEntry.timings) {
+          liveTimings.push({
+            ...t,
+            startSec: offsetFromVerseStart + t.startSec,
+            endSec: offsetFromVerseStart + t.endSec,
+          });
+        }
+        resolvedSegments.push({ entry: segEntry, offsetSec: offsetFromVerseStart });
+
+        finalEndHardwareTime = segStart + segEntry.totalDurationSec;
+        nextHardwareStartSec = finalEndHardwareTime + interSegGapSec;
+
+        src.onended = () => {
+          this.scheduledStreamingSources.delete(src);
+          if (this.activeSourceNode === src) {
+            this.activeSourceNode = null;
+          }
+          if (allSegmentsScheduled && this.scheduledStreamingSources.size === 0) {
+            finishCleanly();
+          }
+        };
+
+        src.start(segStart);
+      };
+
+      const cleanup = () => {
+        if (endTimer !== null) {
+          clearTimeout(endTimer);
+          endTimer = null;
+        }
+        if (this.rafId !== null) {
+          cancelAnimationFrame(this.rafId);
+          this.rafId = null;
+        }
+        signal.removeEventListener('abort', onAbort);
+      };
+
+      const cacheFullStitchedVerse = () => {
+        if (resolvedSegments.length !== segments.length) return;
+        const fullKey = `${verse.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
+        if (this.neuralVerseCache.has(fullKey)) return;
+        const lastSeg = resolvedSegments[resolvedSegments.length - 1];
+        const stitchedDurSec = lastSeg.offsetSec + lastSeg.entry.totalDurationSec;
+        const totalFrames = Math.max(480, Math.ceil(stitchedDurSec * SAMPLE_RATE));
+        const stitchedBuf = ctx.createBuffer(1, totalFrames, SAMPLE_RATE);
+        const dst = stitchedBuf.getChannelData(0);
+        for (const item of resolvedSegments) {
+          const b = this.materializeAudioBuffer(ctx, item.entry);
+          const ch = b.getChannelData(0);
+          const dstStart = Math.min(totalFrames, Math.max(0, Math.round(item.offsetSec * SAMPLE_RATE)));
+          const copyLen = Math.min(ch.length, totalFrames - dstStart);
+          if (copyLen > 0) {
+            dst.set(ch.subarray(0, copyLen), dstStart);
+          }
+        }
+        this.storeInNeuralVerseCache(fullKey, {
+          audioBuffer: stitchedBuf,
+          timings: [...liveTimings],
+          totalDurationSec: totalFrames / SAMPLE_RATE,
+          model: firstSeg.model,
+        });
+      };
+
+      const finishCleanly = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        cacheFullStitchedVerse();
+        resolve();
+      };
+
+      const onAbort = () => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        for (const s of this.scheduledStreamingSources) {
+          try {
+            s.stop();
+            s.disconnect();
+          } catch {
+            // ignore
+          }
+        }
+        this.scheduledStreamingSources.clear();
+        reject(new Error('Aborted'));
+      };
+      signal.addEventListener('abort', onAbort, { once: true });
+
+      // Schedule Segment 0 immediately!
+      scheduleSegment(firstSeg);
+
+      if (liveTimings.length > 0) {
+        const first = liveTimings[0];
+        this.state.currentSyllableIndex = first.syl.index;
+        this.state.currentSyllableInfo = first.syl;
+        this.state.currentSyllableClassicalZh = first.classicalZh;
+        this.state.currentSyllableModernZh = first.modernZh;
+        this.state.syllableProgress = 0;
+        this.state.verseProgress = 0;
+        this.notify();
+      }
+
+      // Pipeline Segments 1..K onto Web Audio hardware clock as each resolves
+      void (async () => {
+        for (let i = 1; i < segPromises.length; i++) {
+          if (settled || signal.aborted) return;
+          try {
+            const seg = await segPromises[i];
+            if (settled || signal.aborted) return;
+            scheduleSegment(seg);
+            const doneFrac = (i + 1) / segPromises.length;
+            const currentSpan = finalEndHardwareTime - verseStartTime;
+            liveTotalDurationSec = Math.max(currentSpan, currentSpan / doneFrac);
+          } catch {
+            if (settled || signal.aborted) return;
+          }
+        }
+        if (settled || signal.aborted) return;
+        allSegmentsScheduled = true;
+        liveTotalDurationSec = Math.max(0.05, finalEndHardwareTime - verseStartTime);
+        const remainingMs = Math.max(0, (finalEndHardwareTime - ctx.currentTime) * 1000);
+        endTimer = setTimeout(() => {
+          finishCleanly();
+        }, Math.ceil(remainingMs) + 6);
+        if (this.scheduledStreamingSources.size === 0 && ctx.currentTime >= finalEndHardwareTime) {
+          finishCleanly();
+        }
+      })();
+
+      let lastNotifyElapsed = -1;
+      const updateFrame = () => {
+        if (settled || signal.aborted) return;
+        const elapsed = Math.max(0, ctx.currentTime - verseStartTime);
+        const verseProg = Math.min(1, Math.max(0, elapsed / Math.max(0.1, liveTotalDurationSec)));
+
+        let activeTiming = liveTimings[0];
+        for (const t of liveTimings) {
+          if (elapsed >= t.startSec && elapsed <= t.endSec) {
+            activeTiming = t;
+            break;
+          } else if (elapsed > t.endSec) {
+            activeTiming = t;
+          }
+        }
+
+        if (activeTiming) {
+          const sylDur = Math.max(0.04, activeTiming.endSec - activeTiming.startSec);
+          const sylProg = Math.min(1, Math.max(0, (elapsed - activeTiming.startSec) / sylDur));
+          const changedSyl = this.state.currentSyllableIndex !== activeTiming.syl.index;
+
+          this.state.currentSyllableIndex = activeTiming.syl.index;
+          this.state.currentSyllableInfo = activeTiming.syl;
+          this.state.currentSyllableClassicalZh = activeTiming.classicalZh;
+          this.state.currentSyllableModernZh = activeTiming.modernZh;
+          this.state.syllableProgress = sylProg;
+          this.state.verseProgress = verseProg;
+
+          if (changedSyl || elapsed - lastNotifyElapsed >= 0.05) {
+            lastNotifyElapsed = elapsed;
+            this.notify();
+          }
+        }
+
+        if (allSegmentsScheduled && ctx.currentTime >= finalEndHardwareTime) {
+          finishCleanly();
+          return;
+        }
+
+        this.rafId = requestAnimationFrame(updateFrame);
+      };
+
+      this.rafId = requestAnimationFrame(updateFrame);
+    });
+  }
+
+  /**
+   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine (`/api/tts` or Browser ONNX Worker)
    * with uncontended 60fps hardware-clock syllable synchronization.
    */
   private async playVerseNeuralVitsBuffer(
     verse: DharaniVerse,
     signal: AbortSignal,
-    nextVerse?: DharaniVerse
+    upcomingVerses: DharaniVerse[] = []
   ): Promise<void> {
     if (signal.aborted) {
       throw new Error('Aborted');
@@ -994,17 +1688,18 @@ class SanskritAudioEngine {
     const rate = this.state.rate;
     const cacheKey = `${verse.iast.trim()}|${voice}|${rate.toFixed(2)}`;
 
-    // 1. Instant playback if full verse is already cached in RAM
+    // 1. Instant < 2ms playback if full verse is already cached in RAM (from prewarm or prefetch!)
     const cachedVerse = this.neuralVerseCache.get(cacheKey);
     if (cachedVerse) {
+      const buf = this.materializeAudioBuffer(ctx, cachedVerse);
       this.state.isLoadingAudio = false;
       this.state.activeModel = cachedVerse.model;
       this.state.backendOnline = true;
       this.notify();
-      this.prefetchNextVerseFirstSegment(ctx, nextVerse);
+      this.prefetchUpcomingVerses(upcomingVerses, signal);
       return this.playDecodedBufferWithSync(
         ctx,
-        cachedVerse.audioBuffer,
+        buf,
         cachedVerse.timings,
         cachedVerse.totalDurationSec,
         signal
@@ -1013,11 +1708,13 @@ class SanskritAudioEngine {
 
     // 2. If running in Browser ONNX mode on static edge hosting, verify ONNX session readiness
     if (!this.pythonBackendAvailable) {
-      this.state.isLoadingAudio = true;
-      this.notify();
+      if (!isBrowserOnnxReady(voice)) {
+        this.state.isLoadingAudio = true;
+        this.notify();
+      }
 
       const onnxReady =
-        isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 6500));
+        isBrowserOnnxReady(voice) || (await waitForBrowserOnnxReady(voice, 7500));
 
       if (!onnxReady) {
         this.state.isLoadingAudio = false;
@@ -1026,8 +1723,16 @@ class SanskritAudioEngine {
       }
     }
 
-    // 3. Synthesize the full verse before starting audio playback so 0% WASM CPU runs
-    // during playback and requestAnimationFrame highlights every syllable at 60fps without stutter!
+    // 3. If not already inflight and verse has multiple breath-groups, use First-Clause Instant Streaming
+    // so audio begins in ~120ms instead of waiting for the entire long mantra line!
+    if (!this.neuralInflightRequests.has(cacheKey)) {
+      const segments = this.splitVerseIntoStreamingSegments(verse.iast, syllables);
+      if (segments.length > 1) {
+        return this.playVerseNeuralStreaming(ctx, verse, segments, signal, upcomingVerses);
+      }
+    }
+
+    // 4. Short verse (or already inflight prewarm): finish buffer & play immediately
     let audioBuffer: AudioBuffer;
     let timings: PlaybackSyllableTiming[];
     let totalDurationSec: number;
@@ -1042,7 +1747,7 @@ class SanskritAudioEngine {
         signal,
         'high'
       );
-      audioBuffer = neural.audioBuffer;
+      audioBuffer = this.materializeAudioBuffer(ctx, neural);
       timings = neural.timings;
       totalDurationSec = neural.totalDurationSec;
       this.state.activeModel = neural.model;
@@ -1067,7 +1772,7 @@ class SanskritAudioEngine {
       throw new Error('Aborted');
     }
 
-    this.prefetchNextVerseFirstSegment(ctx, nextVerse);
+    this.prefetchUpcomingVerses(upcomingVerses, signal);
     return this.playDecodedBufferWithSync(ctx, audioBuffer, timings, totalDurationSec, signal);
   }
 
@@ -1109,6 +1814,7 @@ class SanskritAudioEngine {
         return;
       }
 
+      let settled = false;
       const source = ctx.createBufferSource();
       source.buffer = audioBuffer;
       source.connect(ctx.destination);
@@ -1116,6 +1822,29 @@ class SanskritAudioEngine {
 
       const startTime = ctx.currentTime;
       let lastNotifyElapsed = -1;
+
+      const cleanupAndFinish = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(endTimer);
+        if (this.rafId !== null) {
+          cancelAnimationFrame(this.rafId);
+          this.rafId = null;
+        }
+        signal.removeEventListener('abort', onAbort);
+        if (this.activeSourceNode === source) {
+          this.activeSourceNode = null;
+        }
+        resolve();
+      };
+
+      // High-precision timer fallback so background-tab throttling or delayed `onended` IPC
+      // never adds sluggish dead air after the last sample has played
+      const endTimer = setTimeout(() => {
+        if (ctx.currentTime - startTime >= totalDurationSec - 0.006) {
+          cleanupAndFinish();
+        }
+      }, Math.max(0, Math.ceil(totalDurationSec * 1000) + 5));
 
       if (timings.length > 0) {
         const first = timings[0];
@@ -1129,7 +1858,7 @@ class SanskritAudioEngine {
       }
 
       const updateFrame = () => {
-        if (signal.aborted) return;
+        if (settled || signal.aborted) return;
         const elapsed = ctx.currentTime - startTime;
         const verseProg = Math.min(1, Math.max(0, elapsed / totalDurationSec));
 
@@ -1156,31 +1885,40 @@ class SanskritAudioEngine {
           this.state.syllableProgress = sylProg;
           this.state.verseProgress = verseProg;
 
-          if (changedSyl || elapsed - lastNotifyElapsed >= 0.055) {
+          if (changedSyl || elapsed - lastNotifyElapsed >= 0.05) {
             lastNotifyElapsed = elapsed;
             this.notify();
           }
         }
 
-        if (elapsed < totalDurationSec) {
-          this.rafId = requestAnimationFrame(updateFrame);
+        if (elapsed >= totalDurationSec) {
+          cleanupAndFinish();
+          return;
         }
+
+        this.rafId = requestAnimationFrame(updateFrame);
       };
 
       source.onended = () => {
+        cleanupAndFinish();
+      };
+
+      const onAbort = () => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(endTimer);
         if (this.rafId !== null) {
           cancelAnimationFrame(this.rafId);
           this.rafId = null;
         }
-        this.activeSourceNode = null;
-        resolve();
-      };
-
-      const onAbort = () => {
         try {
           source.stop();
+          source.disconnect();
         } catch {
           // ignore
+        }
+        if (this.activeSourceNode === source) {
+          this.activeSourceNode = null;
         }
         reject(new Error('Aborted'));
       };

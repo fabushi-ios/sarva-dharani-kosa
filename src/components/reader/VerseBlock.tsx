@@ -17,6 +17,7 @@ import {
   normalizeSanskritToken,
   resolveEffectiveVerseMeaning,
 } from '../../core/sanskrit/sanskritLexicon';
+import { sanskritAudioEngine } from '../../services/audio/sanskritAudioEngine';
 
 interface VerseBlockProps {
   verse: DharaniVerse;
@@ -209,6 +210,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           id={`play-verse-btn-${verse.id}`}
           type="button"
           className={`btn-scholarly ${isVersePlaying ? 'primary' : ''}`}
+          onMouseEnter={() => sanskritAudioEngine.prewarmSingleVerse(verse)}
+          onFocus={() => sanskritAudioEngine.prewarmSingleVerse(verse)}
           onClick={onPlayVerse}
           title="连续合成梵音讽诵本句（硬件时钟60fps同步跟读）"
         >

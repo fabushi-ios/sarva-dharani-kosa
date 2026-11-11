@@ -1667,7 +1667,11 @@ class SanskritTTSEngine:
             full_pcm_parts.append(wav_48k)
             cur_time_ms += clause_dur_ms
 
-            pause_ms = int(round(cl["pauseMs"] / eff_rate)) if cl["pauseMs"] > 0 and c_idx < len(clauses) - 1 else 0
+            pause_ms = (
+                int(round((cl["pauseMs"] * 0.42) / eff_rate))
+                if cl["pauseMs"] > 0 and c_idx < len(clauses) - 1
+                else 0
+            )
             if pause_ms > 0:
                 pause_samps = int(round((pause_ms / 1000.0) * TARGET_SAMPLE_RATE))
                 full_pcm_parts.append(np.zeros(pause_samps, dtype=np.float32))

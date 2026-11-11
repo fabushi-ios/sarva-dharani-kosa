@@ -8,11 +8,13 @@ import {
 } from '../../src/core/sanskrit/phoneticMapper';
 import {
   VITS_INHERENT_A_MARKER,
+  cancelLowPriorityBrowserOnnxTasks,
   conditionDevanagariWordForVits,
   normalizeSikshaDevanagari,
   shapeVitsWaveform24kWithDurations,
   upsample24kTo48kAndMaster,
 } from '../../src/services/audio/browserOnnxTtsEngine';
+import { trimSilenceAndShiftTimings } from '../../src/services/audio/sanskritAudioEngine';
 import {
   DB1_FANGSHAN_CORPUS,
   DB2_TAISHO_EXT_CORPUS,
@@ -321,5 +323,61 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
       expect(fullIast).not.toMatch(/\baa+\b|divāaḥ|sūrya\s+(?:aṇa|ra)|\bṭpa/);
     }
   });
+
+  it('trims leading/trailing dead air with zero-click cosine fades, shifts syllable timings, and enforces crisp Daṇḍa pauses', () => {
+    const sr = 48000;
+    // Construct 500ms buffer: 100ms dead silence + 200ms voiced tone + 200ms dead silence
+    const totalSamples = Math.round(0.5 * sr); // 24000
+    const leadSilent = Math.round(0.1 * sr);   // 4800
+    const voicedLen = Math.round(0.2 * sr);    // 9600
+    const rawPcm = new Float32Array(totalSamples);
+    for (let i = 0; i < voicedLen; i++) {
+      rawPcm[leadSilent + i] = 0.35 * Math.sin((2 * Math.PI * 220 * i) / sr);
+    }
+
+    const syls = enrichSyllablesWithPhonetics(analyzeSanskritProsody('oṃ svāhā'));
+    const rawTimings = [
+      {
+        syl: syls[0],
+        classicalZh: '唵',
+        modernZh: '嗡',
+        startSec: 0.1,
+        endSec: 0.2,
+      },
+      {
+        syl: syls[1],
+        classicalZh: '娑婆',
+        modernZh: '斯瓦',
+        startSec: 0.2,
+        endSec: 0.3,
+      },
+    ];
+
+    const trimmed = trimSilenceAndShiftTimings(rawPcm, sr, rawTimings);
+    // Expected: ~6ms pre-margin + 200ms voiced + ~14ms post-margin = ~220ms (down from 500ms!)
+    expect(trimmed.durationSec).toBeGreaterThan(0.215);
+    expect(trimmed.durationSec).toBeLessThan(0.225);
+    expect(trimmed.pcm[0]).toBe(0); // Raised-cosine fade-in starts cleanly at 0
+    expect(Math.abs(trimmed.pcm[trimmed.pcm.length - 1])).toBeLessThan(1e-6); // Fade-out ends at 0
+
+    // Timings shifted back by ~94ms (100ms lead silence minus 6ms onset cushion)
+    expect(trimmed.timings[0].startSec).toBeGreaterThan(0.004);
+    expect(trimmed.timings[0].startSec).toBeLessThan(0.008);
+    expect(trimmed.timings[1].endSec).toBeLessThanOrEqual(trimmed.durationSec);
+
+    // Tightened Daṇḍa pauses (95ms single '|', 165ms double '||') and 0ms mid-chunk breath split
+    const multiClause = normalizeSikshaDevanagari(
+      'oṃ maṇi padme hūṃ | gate gate pāragate pārasaṃgate bodhi svāhā ||',
+      false
+    );
+    expect(multiClause.clauses[0].pauseMs).toBe(95);
+    // Second clause has 6 words -> split into 5-word chunk (0ms pause) + 1-word chunk (165ms pause)
+    expect(multiClause.clauses[1].pauseMs).toBe(0);
+    expect(multiClause.clauses[2].pauseMs).toBe(165);
+
+    // Safe no-op invocation when queue is empty
+    expect(() => cancelLowPriorityBrowserOnnxTasks()).not.toThrow();
+  });
 });
+
 
