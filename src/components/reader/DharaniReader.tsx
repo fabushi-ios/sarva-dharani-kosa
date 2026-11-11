@@ -453,17 +453,44 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
             {(
               [
-                { id: 'neural-vits-48k', label: '48kHz 神经VITS' },
-                { id: 'studio-vocal-chant', label: '136.1Hz 共振唱诵' },
-                { id: 'mandarin-phonetic-guide', label: '普通话谐音领读' },
-                { id: 'indic-devanagari-tts', label: '天城文TTS' },
-              ] as Array<{ id: AudioEngineMode; label: string }>
+                {
+                  id: 'neural-vits-48k',
+                  label: '48kHz 神经VITS',
+                  tip: '原生 48,000 Hz 古典梵语神经网络纯净干声',
+                },
+                {
+                  id: 'neural-resonance-hall',
+                  label: '神经·殿堂共鸣',
+                  tip: '保留神经模型自然语调 + 136.1Hz 共鸣弦泛音激励 + 胸腔暖音 + 石窟殿堂混响',
+                },
+                {
+                  id: 'neural-vedic-chant',
+                  label: '神经·定调梵呗',
+                  tip: '清浊分离保共振峰 TD-PSOLA 锁定 136.1Hz 轻重律吟唱音阶 + 全套殿堂共鸣声场',
+                },
+                {
+                  id: 'studio-vocal-chant',
+                  label: '纯共振峰合成',
+                  tip: '136.1Hz 离线数学公式声道共振峰电子合成',
+                },
+                {
+                  id: 'mandarin-phonetic-guide',
+                  label: '普通话谐音领读',
+                  tip: '现代梵音汉字拼读慢速教学领诵',
+                },
+                {
+                  id: 'indic-devanagari-tts',
+                  label: '天城文TTS',
+                  tip: '浏览器系统天城文语音合成',
+                },
+              ] as Array<{ id: AudioEngineMode; label: string; tip: string }>
             ).map((m) => (
               <button
                 key={m.id}
                 type="button"
                 className={`script-toggle-chip ${playbackState.mode === m.id ? 'active' : ''}`}
                 onClick={() => sanskritAudioEngine.setMode(m.id)}
+                title={m.tip}
               >
                 {m.label}
               </button>

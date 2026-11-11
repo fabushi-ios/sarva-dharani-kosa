@@ -52,14 +52,34 @@ import {
   type AudioExportProgress,
   type ExportedDharaniAudio,
 } from './audioExportEncoder';
+import {
+  renderNeuralResonanceStereoPcm,
+  type NeuralResonanceVariant,
+} from './neuralResonanceDsp';
 
-export type { AudioExportFormat, AudioExportProgress, ExportedDharaniAudio };
+export type { AudioExportFormat, AudioExportProgress, ExportedDharaniAudio, NeuralResonanceVariant };
 
 export type AudioEngineMode =
   | 'neural-vits-48k'
+  | 'neural-resonance-hall'
+  | 'neural-vedic-chant'
   | 'studio-vocal-chant'
   | 'mandarin-phonetic-guide'
   | 'indic-devanagari-tts';
+
+export function isNeuralEngineMode(mode: AudioEngineMode): boolean {
+  return (
+    mode === 'neural-vits-48k' ||
+    mode === 'neural-resonance-hall' ||
+    mode === 'neural-vedic-chant'
+  );
+}
+
+export function getNeuralResonanceVariant(mode: AudioEngineMode): NeuralResonanceVariant | null {
+  if (mode === 'neural-resonance-hall') return 'hall';
+  if (mode === 'neural-vedic-chant') return 'vedic-chant';
+  return null;
+}
 
 export type SanskritVoiceGender = 'male' | 'female';
 
@@ -213,6 +233,15 @@ export function trimSilenceAndShiftTimings(
 interface CachedNeuralVerse {
   audioBuffer?: AudioBuffer;
   pcm48k?: Float32Array;
+  resonantBuffers?: Partial<
+    Record<
+      NeuralResonanceVariant,
+      {
+        buffer: AudioBuffer;
+        durationSec: number;
+      }
+    >
+  >;
   timings: PlaybackSyllableTiming[];
   totalDurationSec: number;
   model: string;
@@ -409,14 +438,25 @@ class SanskritAudioEngine {
     this.notify();
   }
 
+  private formatActiveNeuralModelLabel(baseModel: string, mode: AudioEngineMode): string {
+    if (mode === 'neural-resonance-hall') {
+      return `${baseModel} + ${SA_FUNDAMENTAL_HZ}Hz 殿堂共鸣声场`;
+    }
+    if (mode === 'neural-vedic-chant') {
+      return `${baseModel} + ${SA_FUNDAMENTAL_HZ}Hz 定调梵呗PSOLA`;
+    }
+    return baseModel;
+  }
+
   public setMode(mode: AudioEngineMode) {
     this.stop();
     this.state.mode = mode;
-    if (mode === 'neural-vits-48k') {
-      this.state.activeModel =
+    if (isNeuralEngineMode(mode)) {
+      const baseModel =
         this.state.voice === 'female'
           ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
           : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx';
+      this.state.activeModel = this.formatActiveNeuralModelLabel(baseModel, mode);
       if (!this.pythonBackendAvailable) {
         void warmupBrowserOnnxVits(this.state.voice);
       }
@@ -437,11 +477,12 @@ class SanskritAudioEngine {
   public setVoice(voice: SanskritVoiceGender) {
     const changed = this.state.voice !== voice;
     this.state.voice = voice;
-    if (this.state.mode === 'neural-vits-48k') {
-      this.state.activeModel =
+    if (isNeuralEngineMode(this.state.mode)) {
+      const baseModel =
         voice === 'female'
           ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
           : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx';
+      this.state.activeModel = this.formatActiveNeuralModelLabel(baseModel, this.state.mode);
       if (changed) {
         this.lastPrewarmSignature = '';
         cancelLowPriorityBrowserOnnxTasks();
@@ -632,6 +673,80 @@ class SanskritAudioEngine {
     return buf;
   }
 
+  private materializeVersePlaybackBuffer(
+    ctx: AudioContext,
+    entry: CachedNeuralVerse,
+    options?: {
+      isStreamingSegment?: boolean;
+      segIndex?: number;
+      segCount?: number;
+    }
+  ): { buffer: AudioBuffer; durationSec: number } {
+    const dryBuf = this.materializeAudioBuffer(ctx, entry);
+    const variant = getNeuralResonanceVariant(this.state.mode);
+    if (!variant) {
+      return { buffer: dryBuf, durationSec: entry.totalDurationSec };
+    }
+
+    const isStreamingSeg = Boolean(options?.isStreamingSegment);
+    if (!isStreamingSeg && entry.resonantBuffers?.[variant]) {
+      return entry.resonantBuffers[variant]!;
+    }
+
+    const dryPcm = dryBuf.getChannelData(0);
+    const includeOpeningBell = isStreamingSeg ? (options?.segIndex ?? 0) === 0 : true;
+    const isFinalSeg =
+      !isStreamingSeg || (options?.segIndex ?? 0) >= Math.max(1, options?.segCount ?? 1) - 1;
+    const tailSec = isFinalSeg ? 0.22 : 0;
+
+    const rendered = renderNeuralResonanceStereoPcm(dryPcm, {
+      sampleRate: SAMPLE_RATE,
+      voice: this.state.voice,
+      variant,
+      timings: entry.timings,
+      includeOpeningBell,
+      tailSec,
+    });
+
+    const stereoBuf = ctx.createBuffer(2, Math.max(480, rendered.left.length), SAMPLE_RATE);
+    stereoBuf.getChannelData(0).set(rendered.left);
+    stereoBuf.getChannelData(1).set(rendered.right);
+
+    const out = { buffer: stereoBuf, durationSec: rendered.durationSec };
+    if (!isStreamingSeg) {
+      if (!entry.resonantBuffers) {
+        entry.resonantBuffers = {};
+      }
+      entry.resonantBuffers[variant] = out;
+    }
+    return out;
+  }
+
+  private renderSingleSyllableModeBuffer(
+    ctx: AudioContext,
+    dryBuf: AudioBuffer,
+    syllables: SyllableAnalysis[]
+  ): AudioBuffer {
+    const variant = getNeuralResonanceVariant(this.state.mode);
+    if (!variant) {
+      return dryBuf;
+    }
+    const dryPcm = dryBuf.getChannelData(0);
+    const timings = this.buildProportionalTimings(syllables, dryBuf.duration);
+    const rendered = renderNeuralResonanceStereoPcm(dryPcm, {
+      sampleRate: SAMPLE_RATE,
+      voice: this.state.voice,
+      variant,
+      timings,
+      includeOpeningBell: false,
+      tailSec: 0.14,
+    });
+    const stereoBuf = ctx.createBuffer(2, Math.max(480, rendered.left.length), SAMPLE_RATE);
+    stereoBuf.getChannelData(0).set(rendered.left);
+    stereoBuf.getChannelData(1).set(rendered.right);
+    return stereoBuf;
+  }
+
   private decode16BitPcmWavToFloat32(wavBuf: ArrayBuffer): {
     pcm: Float32Array;
     sampleRate: number;
@@ -712,7 +827,7 @@ class SanskritAudioEngine {
     this.pendingPrewarmVerses = verses;
     if (
       typeof window === 'undefined' ||
-      this.state.mode !== 'neural-vits-48k' ||
+      !isNeuralEngineMode(this.state.mode) ||
       this.state.isPlaying ||
       verses.length === 0
     ) {
@@ -724,7 +839,7 @@ class SanskritAudioEngine {
     }
     this.prewarmDebounceTimer = setTimeout(() => {
       this.prewarmDebounceTimer = null;
-      if (!this.state.isPlaying && this.state.mode === 'neural-vits-48k') {
+      if (!this.state.isPlaying && isNeuralEngineMode(this.state.mode)) {
         this.triggerPrewarmQueue(verses, maxCount);
       }
     }, 65);
@@ -737,7 +852,7 @@ class SanskritAudioEngine {
   public prewarmSingleVerse(verse: DharaniVerse) {
     if (
       typeof window === 'undefined' ||
-      this.state.mode !== 'neural-vits-48k' ||
+      !isNeuralEngineMode(this.state.mode) ||
       (!this.pythonBackendAvailable &&
         !this.hfCloudApiAvailable &&
         !isBrowserOnnxReady(this.state.voice))
@@ -1024,11 +1139,21 @@ class SanskritAudioEngine {
     const voice = this.state.voice;
     const rate = this.state.rate;
 
-    if (this.state.mode === 'neural-vits-48k') {
-      const singleKey = `${cleanText}|${voice}|${rate.toFixed(2)}`;
+    if (isNeuralEngineMode(this.state.mode)) {
+      const targetSyllaList = prosody.length > 0 ? prosody : [syl];
+      const dryKey = `${cleanText}|${voice}|${rate.toFixed(2)}|dry`;
+      const singleKey = `${cleanText}|${voice}|${rate.toFixed(2)}|${this.state.mode}`;
       const cachedBuf = this.singleSyllableCache.get(singleKey);
       if (cachedBuf) {
         this.playTrackedSingleSource(ctx, cachedBuf);
+        return;
+      }
+
+      const cachedDryBuf = this.singleSyllableCache.get(dryKey);
+      if (cachedDryBuf) {
+        const modeBuf = this.renderSingleSyllableModeBuffer(ctx, cachedDryBuf, targetSyllaList);
+        this.cacheSingleSyllableBuffer(singleKey, modeBuf);
+        this.playTrackedSingleSource(ctx, modeBuf);
         return;
       }
 
@@ -1049,10 +1174,12 @@ class SanskritAudioEngine {
         if (prosody.length > 1) {
           const neural = await this.fetchNeuralVitsVerseBuffer(ctx, cleanText, prosody);
           if (reqId !== this.singleSyllableRequestId) return;
-          this.state.activeModel = neural.model;
-          const buf = this.materializeAudioBuffer(ctx, neural);
-          this.cacheSingleSyllableBuffer(singleKey, buf);
-          this.playTrackedSingleSource(ctx, buf);
+          this.state.activeModel = this.formatActiveNeuralModelLabel(neural.model, this.state.mode);
+          const dryBuf = this.materializeAudioBuffer(ctx, neural);
+          this.cacheSingleSyllableBuffer(dryKey, dryBuf);
+          const modeBuf = this.renderSingleSyllableModeBuffer(ctx, dryBuf, targetSyllaList);
+          this.cacheSingleSyllableBuffer(singleKey, modeBuf);
+          this.playTrackedSingleSource(ctx, modeBuf);
           return;
         }
 
@@ -1061,9 +1188,14 @@ class SanskritAudioEngine {
           const apiOut = await this.requestNeuralSyllableBufferFromApi(ctx, syl.iast, voice, rate);
           if (apiOut) {
             if (reqId !== this.singleSyllableRequestId) return;
-            this.state.activeModel = apiOut.model;
-            this.cacheSingleSyllableBuffer(singleKey, apiOut.buffer);
-            this.playTrackedSingleSource(ctx, apiOut.buffer);
+            this.state.activeModel = this.formatActiveNeuralModelLabel(
+              apiOut.model,
+              this.state.mode
+            );
+            this.cacheSingleSyllableBuffer(dryKey, apiOut.buffer);
+            const modeBuf = this.renderSingleSyllableModeBuffer(ctx, apiOut.buffer, targetSyllaList);
+            this.cacheSingleSyllableBuffer(singleKey, modeBuf);
+            this.playTrackedSingleSource(ctx, modeBuf);
             return;
           }
         }
@@ -1077,7 +1209,7 @@ class SanskritAudioEngine {
           'high'
         );
         if (reqId !== this.singleSyllableRequestId) return;
-        this.state.activeModel = wasmOut.model;
+        this.state.activeModel = this.formatActiveNeuralModelLabel(wasmOut.model, this.state.mode);
         const trimmedSingle = trimSilenceAndShiftTimings(wasmOut.pcm48k, SAMPLE_RATE, []);
         const outBuf = ctx.createBuffer(
           1,
@@ -1085,8 +1217,10 @@ class SanskritAudioEngine {
           SAMPLE_RATE
         );
         outBuf.getChannelData(0).set(trimmedSingle.pcm);
-        this.cacheSingleSyllableBuffer(singleKey, outBuf);
-        this.playTrackedSingleSource(ctx, outBuf);
+        this.cacheSingleSyllableBuffer(dryKey, outBuf);
+        const modeBuf = this.renderSingleSyllableModeBuffer(ctx, outBuf, targetSyllaList);
+        this.cacheSingleSyllableBuffer(singleKey, modeBuf);
+        this.playTrackedSingleSource(ctx, modeBuf);
         return;
       } catch {
         // If local ONNX failed unexpectedly, attempt cloud HF Neural API before giving up
@@ -1098,12 +1232,21 @@ class SanskritAudioEngine {
             rate
           );
           if (backupApi && reqId === this.singleSyllableRequestId) {
-            this.state.activeModel = backupApi.model;
-            this.cacheSingleSyllableBuffer(singleKey, backupApi.buffer);
-            this.playTrackedSingleSource(ctx, backupApi.buffer);
+            this.state.activeModel = this.formatActiveNeuralModelLabel(
+              backupApi.model,
+              this.state.mode
+            );
+            this.cacheSingleSyllableBuffer(dryKey, backupApi.buffer);
+            const modeBuf = this.renderSingleSyllableModeBuffer(
+              ctx,
+              backupApi.buffer,
+              targetSyllaList
+            );
+            this.cacheSingleSyllableBuffer(singleKey, modeBuf);
+            this.playTrackedSingleSource(ctx, modeBuf);
           }
         } catch {
-          // Do not fall back to non-neural formant synthesizer in neural-vits-48k mode
+          // Do not fall back to non-neural formant synthesizer in neural modes
         }
       } finally {
         if (showedLoading && !this.state.isPlaying) {
@@ -1143,7 +1286,7 @@ class SanskritAudioEngine {
     }
 
     const firstTarget = verses[startVerseArrayIdx];
-    if (firstTarget && this.state.mode === 'neural-vits-48k') {
+    if (firstTarget && isNeuralEngineMode(this.state.mode)) {
       const firstKey = `${firstTarget.iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
       if (!this.neuralVerseCache.has(firstKey) && !this.neuralInflightRequests.has(firstKey)) {
         cancelLowPriorityBrowserOnnxTasks();
@@ -1169,7 +1312,7 @@ class SanskritAudioEngine {
           await this.playVerseSpeechSynced(verse, 'zh-CN', controller.signal);
         } else if (this.state.mode === 'indic-devanagari-tts') {
           await this.playVerseSpeechSynced(verse, 'hi-IN', controller.signal);
-        } else if (this.state.mode === 'neural-vits-48k') {
+        } else if (isNeuralEngineMode(this.state.mode)) {
           await this.playVerseNeuralVitsBuffer(verse, controller.signal, upcomingVerses);
         } else {
           await this.playVerseHardwareBuffer(verse, controller.signal);
@@ -1186,7 +1329,7 @@ class SanskritAudioEngine {
         }
 
         if (idx + 1 < verses.length) {
-          if (this.state.mode === 'neural-vits-48k') {
+          if (isNeuralEngineMode(this.state.mode)) {
             const nextKey = `${verses[idx + 1].iast.trim()}|${this.state.voice}|${this.state.rate.toFixed(2)}`;
             if (this.neuralVerseCache.has(nextKey)) {
               // Crisp 32ms natural breath articulation between cached verses (zero sluggish pause)
@@ -1678,7 +1821,7 @@ class SanskritAudioEngine {
     }
 
     this.state.isLoadingAudio = false;
-    this.state.activeModel = firstSeg.model;
+    this.state.activeModel = this.formatActiveNeuralModelLabel(firstSeg.model, this.state.mode);
     this.state.backendOnline = true;
     this.notify();
 
@@ -1710,8 +1853,16 @@ class SanskritAudioEngine {
       );
       let finalEndHardwareTime = verseStartTime + firstSeg.totalDurationSec;
 
-      const scheduleSegment = (segEntry: CachedNeuralVerse) => {
-        const buf = this.materializeAudioBuffer(ctx, segEntry);
+      const scheduleSegment = (segEntry: CachedNeuralVerse, segIdx: number) => {
+        const { buffer: buf, durationSec: segPlayDurSec } = this.materializeVersePlaybackBuffer(
+          ctx,
+          segEntry,
+          {
+            isStreamingSegment: true,
+            segIndex: segIdx,
+            segCount: segments.length,
+          }
+        );
         const src = ctx.createBufferSource();
         src.buffer = buf;
         src.connect(ctx.destination);
@@ -1730,8 +1881,8 @@ class SanskritAudioEngine {
         }
         resolvedSegments.push({ entry: segEntry, offsetSec: offsetFromVerseStart });
 
-        finalEndHardwareTime = segStart + segEntry.totalDurationSec;
-        nextHardwareStartSec = finalEndHardwareTime + interSegGapSec;
+        finalEndHardwareTime = segStart + segPlayDurSec;
+        nextHardwareStartSec = segStart + segEntry.totalDurationSec + interSegGapSec;
 
         src.onended = () => {
           this.scheduledStreamingSources.delete(src);
@@ -1810,7 +1961,7 @@ class SanskritAudioEngine {
       signal.addEventListener('abort', onAbort, { once: true });
 
       // Schedule Segment 0 immediately!
-      scheduleSegment(firstSeg);
+      scheduleSegment(firstSeg, 0);
 
       if (liveTimings.length > 0) {
         const first = liveTimings[0];
@@ -1836,7 +1987,7 @@ class SanskritAudioEngine {
               'high'
             );
             if (settled || signal.aborted) return;
-            scheduleSegment(seg);
+            scheduleSegment(seg, i);
             const doneFrac = (i + 1) / segments.length;
             const currentSpan = finalEndHardwareTime - verseStartTime;
             liveTotalDurationSec = Math.max(currentSpan, currentSpan / doneFrac);
@@ -1904,7 +2055,7 @@ class SanskritAudioEngine {
   }
 
   /**
-   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine:
+   * Plays a verse using the real 48,000 Hz ONNX Neural VITS engine (dry or with Sa-tonic Hall / Vedic Chant resonance):
    * - Uses Hugging Face Neural TTS API (`POST /api/tts`) immediately on first visit while
    *   local Browser ONNX caches in the background.
    * - Uses Dedicated Worker ONNX locally once cached & ready.
@@ -1943,9 +2094,15 @@ class SanskritAudioEngine {
     // 1. Instant < 2ms playback if full verse is already cached in RAM (from HF API prewarm or Worker prefetch!)
     const cachedVerse = this.neuralVerseCache.get(cacheKey);
     if (cachedVerse) {
-      const buf = this.materializeAudioBuffer(ctx, cachedVerse);
+      const { buffer: buf, durationSec: playDurSec } = this.materializeVersePlaybackBuffer(
+        ctx,
+        cachedVerse
+      );
       this.state.isLoadingAudio = false;
-      this.state.activeModel = cachedVerse.model;
+      this.state.activeModel = this.formatActiveNeuralModelLabel(
+        cachedVerse.model,
+        this.state.mode
+      );
       this.state.backendOnline = true;
       this.notify();
       this.prefetchUpcomingVerses(upcomingVerses, signal);
@@ -1953,7 +2110,7 @@ class SanskritAudioEngine {
         ctx,
         buf,
         cachedVerse.timings,
-        cachedVerse.totalDurationSec,
+        playDurSec,
         signal
       );
     }
@@ -1987,10 +2144,11 @@ class SanskritAudioEngine {
         signal,
         'high'
       );
-      audioBuffer = this.materializeAudioBuffer(ctx, neural);
+      const materialized = this.materializeVersePlaybackBuffer(ctx, neural);
+      audioBuffer = materialized.buffer;
       timings = neural.timings;
-      totalDurationSec = neural.totalDurationSec;
-      this.state.activeModel = neural.model;
+      totalDurationSec = materialized.durationSec;
+      this.state.activeModel = this.formatActiveNeuralModelLabel(neural.model, this.state.mode);
       this.state.backendOnline = true;
     } finally {
       this.state.isLoadingAudio = false;
@@ -2233,7 +2391,7 @@ class SanskritAudioEngine {
       const endSample = Math.min(totalSamples - 1, Math.floor(endSec * SAMPLE_RATE));
 
       const hasSibilant = /[śṣs]/.test(syl.iast);
-      const hasAspiration = /[kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh|h|ḥ]/.test(syl.iast);
+      const hasAspiration = /(?:kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh|h|ḥ)/.test(syl.iast);
       const hasNasal = /[ṃṁmnṇñṅ]/.test(syl.iast);
 
       // Vedic chanting pitch contour:
@@ -2400,8 +2558,16 @@ class SanskritAudioEngine {
     const effRate = Math.max(0.5, Math.min(2.0, rate || this.state.rate || 1.0));
     const voice = this.state.voice;
     const useFormantChant = this.state.mode === 'studio-vocal-chant';
+    const resonanceVariant = getNeuralResonanceVariant(this.state.mode);
+    const modeBucket = useFormantChant
+      ? 'chant'
+      : resonanceVariant === 'hall'
+        ? 'neural-hall'
+        : resonanceVariant === 'vedic-chant'
+          ? 'neural-vedic'
+          : 'neural';
     const versesSig = verses.map((v) => (v.iast || '').trim()).join('||');
-    const pcmCacheKey = `${useFormantChant ? 'chant' : 'neural'}|${voice}|${effRate.toFixed(2)}|${versesSig}`;
+    const pcmCacheKey = `${modeBucket}|${voice}|${effRate.toFixed(2)}|${versesSig}`;
 
     const cachedPcm = this.exportedPcmCache.get(pcmCacheKey);
     if (cachedPcm) {
@@ -2494,7 +2660,11 @@ class SanskritAudioEngine {
     }
 
     const concurrency = onnxReady ? 1 : Math.min(2, totalChunks);
-    const chunkResults = new Array<{ pcm: Float32Array; model: string }>(totalChunks);
+    const chunkResults = new Array<{
+      pcm: Float32Array;
+      timings: PlaybackSyllableTiming[];
+      model: string;
+    }>(totalChunks);
     let nextTaskIndex = 0;
 
     const runWorkerSlot = async () => {
@@ -2520,6 +2690,7 @@ class SanskritAudioEngine {
 
         chunkResults[currentIdx] = {
           pcm: pcmSlice,
+          timings: cachedVerse.timings,
           model: cachedVerse.model,
         };
         completedChunks++;
@@ -2535,6 +2706,7 @@ class SanskritAudioEngine {
     await Promise.all(Array.from({ length: concurrency }, () => runWorkerSlot()));
 
     const stitchedParts: Float32Array[] = [];
+    const stitchedTimings: PlaybackSyllableTiming[] = [];
     let totalSamples = 0;
     let resolvedModel =
       voice === 'female'
@@ -2546,6 +2718,14 @@ class SanskritAudioEngine {
       if (!item) continue;
       if (item.model) {
         resolvedModel = item.model;
+      }
+      const chunkStartSec = totalSamples / SAMPLE_RATE;
+      for (const t of item.timings) {
+        stitchedTimings.push({
+          ...t,
+          startSec: chunkStartSec + t.startSec,
+          endSec: chunkStartSec + t.endSec,
+        });
       }
       stitchedParts.push(item.pcm);
       totalSamples += item.pcm.length;
@@ -2567,12 +2747,36 @@ class SanskritAudioEngine {
       writeOffset += part.length;
     }
 
-    const res = {
-      channels: [fullPcm],
-      sampleRate: SAMPLE_RATE,
-      durationSec: fullPcm.length / SAMPLE_RATE,
-      model: resolvedModel,
+    let res: {
+      channels: Float32Array[];
+      sampleRate: number;
+      durationSec: number;
+      model: string;
     };
+
+    if (resonanceVariant) {
+      const stereoRes = renderNeuralResonanceStereoPcm(fullPcm, {
+        sampleRate: SAMPLE_RATE,
+        voice,
+        variant: resonanceVariant,
+        timings: stitchedTimings,
+        includeOpeningBell: true,
+        tailSec: 0.42,
+      });
+      res = {
+        channels: [stereoRes.left, stereoRes.right],
+        sampleRate: SAMPLE_RATE,
+        durationSec: stereoRes.durationSec,
+        model: this.formatActiveNeuralModelLabel(resolvedModel, this.state.mode),
+      };
+    } else {
+      res = {
+        channels: [fullPcm],
+        sampleRate: SAMPLE_RATE,
+        durationSec: fullPcm.length / SAMPLE_RATE,
+        model: resolvedModel,
+      };
+    }
     this.storeExportedPcmCache(pcmCacheKey, res);
     return res;
   }

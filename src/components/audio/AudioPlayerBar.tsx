@@ -385,8 +385,14 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                 <option value="neural-vits-48k">
                   48kHz 神经VITS (sa.onnx)
                 </option>
+                <option value="neural-resonance-hall">
+                  48kHz 神经共振 · 殿堂共鸣 (136.1Hz)
+                </option>
+                <option value="neural-vedic-chant">
+                  48kHz 神经共振 · 定调梵呗 (136.1Hz)
+                </option>
                 <option value="studio-vocal-chant">
-                  136.1Hz 共振峰梵音唱诵
+                  136.1Hz 纯共振峰电子合成
                 </option>
                 <option value="mandarin-phonetic-guide">
                   普通话谐音慢速领诵

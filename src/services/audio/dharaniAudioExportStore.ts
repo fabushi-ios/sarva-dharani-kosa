@@ -69,7 +69,14 @@ class DharaniAudioExportStore {
     rate: number;
     mode: string;
   }): string {
-    const modeBucket = params.mode === 'studio-vocal-chant' ? 'chant' : 'neural';
+    const modeBucket =
+      params.mode === 'studio-vocal-chant'
+        ? 'chant'
+        : params.mode === 'neural-resonance-hall'
+          ? 'neural-hall'
+          : params.mode === 'neural-vedic-chant'
+            ? 'neural-vedic'
+            : 'neural';
     return `${params.entryId}|${params.voice}|${params.rate.toFixed(2)}|${modeBucket}`;
   }
 
