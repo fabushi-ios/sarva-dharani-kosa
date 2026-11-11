@@ -51,7 +51,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -101,7 +101,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "引",
@@ -111,7 +111,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-AA65"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖿𑖨𑖹",
         "iast": "trai",
         "zh": "怛[口*束*頁]",
         "tangPronunciationNote": "二合、引",
@@ -151,7 +151,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A559"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖰",
         "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
@@ -261,7 +261,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -271,7 +271,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -291,7 +291,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -451,7 +451,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA57"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖝𑖯",
         "iast": "ntā",
         "zh": "跢",
         "tangPronunciationNote": "去引",
@@ -531,7 +531,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A559"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖰",
         "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
@@ -561,7 +561,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -632,7 +632,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -712,7 +712,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "哆",
         "tangPronunciationNote": "",
@@ -762,7 +762,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -772,7 +772,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -792,7 +792,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "去",
@@ -812,7 +812,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A675"
         ],
-        "siddham": "",
+        "siddham": "𑖬𑖹",
         "iast": "ṣai",
         "zh": "麗",
         "tangPronunciationNote": "",
@@ -822,7 +822,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A447"
         ],
-        "siddham": "",
+        "siddham": "𑖎𑖹",
         "iast": "kai",
         "zh": "罽",
         "tangPronunciationNote": "",
@@ -862,7 +862,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E0F5"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖝𑖿𑖨",
         "iast": "ntra",
         "zh": "怛羅",
         "tangPronunciationNote": "二合",
@@ -883,7 +883,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
           "SD-A576",
           "SD-D7C4"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖹",
         "iast": "dai",
         "zh": "乃",
         "tangPronunciationNote": "",
@@ -893,7 +893,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "去引",
@@ -923,7 +923,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "去引",
@@ -953,7 +953,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -983,7 +983,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA7B"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖠𑖯",
         "iast": "ndhā",
         "zh": "馱",
         "tangPronunciationNote": "引",
@@ -1093,7 +1093,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -1143,7 +1143,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E0C7"
         ],
-        "siddham": "",
+        "siddham": "𑖬𑖿𑖜𑖱",
         "iast": "ṣṇī",
         "zh": "瑟抳",
         "tangPronunciationNote": "二合",
@@ -1303,7 +1303,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -1333,7 +1333,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -1343,7 +1343,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -1363,7 +1363,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "去引",
@@ -1403,7 +1403,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5AB"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖰",
         "iast": "ni",
         "zh": "𩕳",
         "tangPronunciationNote": "",
@@ -1453,7 +1453,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "哆",
         "tangPronunciationNote": "去引",
@@ -1533,7 +1533,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -1543,7 +1543,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "去引",
@@ -1563,7 +1563,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -1623,7 +1623,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -1654,7 +1654,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
           "SD-A557",
           "SD-D7C4"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "哆",
         "tangPronunciationNote": "",
@@ -1764,7 +1764,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "哆",
         "tangPronunciationNote": "上",
@@ -1774,7 +1774,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -1893,8 +1893,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖨𑖰",
+        "iast": "ri",
         "zh": "哩",
         "tangPronunciationNote": "",
         "tangMeaningGloss": ""
@@ -1913,7 +1913,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A559"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖰",
         "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
@@ -1983,7 +1983,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A559"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖰",
         "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
@@ -1993,7 +1993,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5AB"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖰",
         "iast": "ni",
         "zh": "𩕳",
         "tangPronunciationNote": "",
@@ -2023,8 +2023,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-D7C4"
         ],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖝",
+        "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "二合",
         "tangMeaningGloss": ""
@@ -2043,7 +2043,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "去引",
@@ -2133,7 +2133,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -2223,7 +2223,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -2233,7 +2233,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "闥",
         "tangPronunciationNote": "",
@@ -2243,7 +2243,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "哆",
         "tangPronunciationNote": "去引",
@@ -2263,7 +2263,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -2283,7 +2283,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A4DC"
         ],
-        "siddham": "",
+        "siddham": "𑖘𑖰",
         "iast": "ṭi",
         "zh": "致",
         "tangPronunciationNote": "",
@@ -2343,7 +2343,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CDF5"
         ],
-        "siddham": "",
+        "siddham": "𑖭𑖿𑖣𑖲",
         "iast": "sphu",
         "zh": "娑普",
         "tangPronunciationNote": "二合",
@@ -2354,7 +2354,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
           "SD-A4DA",
           "SD-D7C4"
         ],
-        "siddham": "",
+        "siddham": "𑖘",
         "iast": "ṭa",
         "zh": "吒",
         "tangPronunciationNote": "",
@@ -2585,7 +2585,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -2635,7 +2635,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5AF"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖸",
         "iast": "ne",
         "zh": "寧",
         "tangPronunciationNote": "",
@@ -2645,7 +2645,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -2655,7 +2655,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -2675,7 +2675,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -2696,7 +2696,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -2736,7 +2736,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5AF"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖸",
         "iast": "ne",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -2746,7 +2746,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -2756,7 +2756,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -2776,7 +2776,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -2797,7 +2797,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -2847,7 +2847,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -2857,7 +2857,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -2877,7 +2877,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -2898,7 +2898,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -2968,7 +2968,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -2978,7 +2978,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -2998,7 +2998,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -3018,7 +3018,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -3048,7 +3048,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -3098,7 +3098,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -3108,7 +3108,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -3128,7 +3128,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -3148,7 +3148,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -3208,7 +3208,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -3218,7 +3218,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -3238,7 +3238,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -3259,7 +3259,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -3309,7 +3309,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5AB"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖰",
         "iast": "ni",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -3329,7 +3329,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -3339,7 +3339,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -3359,7 +3359,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -3379,7 +3379,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -3399,7 +3399,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -3449,7 +3449,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -3550,7 +3550,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -3780,7 +3780,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5B3"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖽",
         "iast": "naṃ",
         "zh": "難",
         "tangPronunciationNote": "上引",
@@ -3900,7 +3900,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A559"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖰",
         "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
@@ -3971,7 +3971,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -3981,7 +3981,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -4001,7 +4001,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A558"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖯",
         "iast": "tā",
         "zh": "多",
         "tangPronunciationNote": "去引",
@@ -4111,7 +4111,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -4121,7 +4121,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "去引",
@@ -4141,7 +4141,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -4211,7 +4211,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -4231,7 +4231,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E059"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "zh": "地野",
         "tangPronunciationNote": "二合",
@@ -4251,7 +4251,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E059"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "zh": "地野",
         "tangPronunciationNote": "二合",
@@ -4281,7 +4281,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E059"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "zh": "地野",
         "tangPronunciationNote": "二合",
@@ -4312,7 +4312,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
           "SD-E059",
           "SD-D7C4"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "zh": "地野",
         "tangPronunciationNote": "二合",
@@ -4483,7 +4483,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA56"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖝",
         "iast": "nta",
         "zh": "跛",
         "tangPronunciationNote": "",
@@ -4554,7 +4554,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -4564,7 +4564,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "去引",
@@ -4584,7 +4584,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -4644,7 +4644,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -4675,7 +4675,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
           "SD-A557",
           "SD-D7C4"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "多",
         "tangPronunciationNote": "",
@@ -4725,8 +4725,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-D7C4"
         ],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖨𑖰",
+        "iast": "ri",
         "zh": "哩",
         "tangPronunciationNote": "二合",
         "tangMeaningGloss": "大印，所謂如來大印。已上第九普證清淨門"
@@ -5277,7 +5277,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "南",
         "tangPronunciationNote": "",
@@ -5307,7 +5307,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B448"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖿𑖡",
         "iast": "tna",
         "zh": "怛那",
         "tangPronunciationNote": "",
@@ -5347,7 +5347,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "南",
         "tangPronunciationNote": "",
@@ -5367,7 +5367,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -5417,7 +5417,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -5587,7 +5587,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -5707,7 +5707,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -5737,7 +5737,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "南",
         "tangPronunciationNote": "",
@@ -5757,7 +5757,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E0CE"
         ],
-        "siddham": "",
+        "siddham": "𑖭𑖿𑖎𑖴",
         "iast": "skṛ",
         "zh": "悉吉㗚",
         "tangPronunciationNote": "",
@@ -5767,7 +5767,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "埵",
         "tangPronunciationNote": "",
@@ -5797,7 +5797,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -5827,7 +5827,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -5847,7 +5847,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -5897,7 +5897,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "南",
         "tangPronunciationNote": "",
@@ -5917,7 +5917,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -6047,7 +6047,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -6057,7 +6057,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "陀",
         "tangPronunciationNote": "",
@@ -6097,7 +6097,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -6157,7 +6157,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "哆",
         "tangPronunciationNote": "",
@@ -6167,7 +6167,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -6247,7 +6247,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -6267,7 +6267,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "",
@@ -6287,7 +6287,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -6347,7 +6347,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -6377,7 +6377,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -6397,7 +6397,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E2C4"
         ],
-        "siddham": "",
+        "siddham": "𑖮𑖴𑖊",
         "iast": "hṛe",
         "zh": "醯唎",
         "tangPronunciationNote": "",
@@ -6540,7 +6540,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E2C4"
         ],
-        "siddham": "",
+        "siddham": "𑖮𑖴𑖊",
         "iast": "hṛe",
         "zh": "醯唎",
         "tangPronunciationNote": "",
@@ -6580,7 +6580,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -6611,7 +6611,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B767"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖿𑖦𑖽",
         "iast": "rmaṃ",
         "zh": "蒙",
         "tangPronunciationNote": "",
@@ -6631,7 +6631,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -6682,7 +6682,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -6742,7 +6742,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -6933,7 +6933,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E16F"
         ],
-        "siddham": "",
+        "siddham": "𑖎𑖿𑖝𑖸",
         "iast": "kte",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -7003,7 +7003,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA6E"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖟",
         "iast": "nda",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -7024,7 +7024,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -7034,7 +7034,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B7C5"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖿𑖬𑖽",
         "iast": "rṣaṃ",
         "zh": "羅參",
         "tangPronunciationNote": "",
@@ -7154,7 +7154,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -7205,7 +7205,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -7308,7 +7308,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚧",
         "tangPronunciationNote": "",
@@ -7413,7 +7413,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5EC"
         ],
-        "siddham": "",
+        "siddham": "𑖦𑖹",
         "iast": "mai",
         "zh": "彌",
         "tangPronunciationNote": "",
@@ -7443,7 +7443,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -7473,7 +7473,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA70"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖟𑖰",
         "iast": "ndi",
         "zh": "墀",
         "tangPronunciationNote": "",
@@ -7493,7 +7493,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B7BD"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖿𑖬𑖰",
         "iast": "rṣi",
         "zh": "唎瑟",
         "tangPronunciationNote": "",
@@ -7513,7 +7513,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -7553,7 +7553,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -7803,7 +7803,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -7833,7 +7833,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA70"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖟𑖰",
         "iast": "ndi",
         "zh": "墀",
         "tangPronunciationNote": "",
@@ -7883,7 +7883,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -7953,7 +7953,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -8173,7 +8173,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-DAAF"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖿𑖦",
         "iast": "dma",
         "zh": "摩",
         "tangPronunciationNote": "",
@@ -8233,7 +8233,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "那",
         "tangPronunciationNote": "",
@@ -8263,7 +8263,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA70"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖟𑖰",
         "iast": "ndi",
         "zh": "墀",
         "tangPronunciationNote": "",
@@ -8413,7 +8413,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "南",
         "tangPronunciationNote": "",
@@ -8443,7 +8443,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B448"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖿𑖡",
         "iast": "tna",
         "zh": "怛那",
         "tangPronunciationNote": "",
@@ -8483,7 +8483,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "南",
         "tangPronunciationNote": "",
@@ -8503,7 +8503,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -8553,7 +8553,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "帝",
         "tangPronunciationNote": "",
@@ -9486,7 +9486,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -9516,7 +9516,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A65D"
         ],
-        "siddham": "",
+        "siddham": "𑖪𑖹",
         "iast": "vai",
         "zh": "尾",
         "tangPronunciationNote": "",
@@ -9546,7 +9546,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "曩",
         "tangPronunciationNote": "",
@@ -9584,8 +9584,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖨",
+        "iast": "ra",
         "zh": "囉",
         "tangPronunciationNote": "",
         "tangMeaningGloss": ""
@@ -9634,7 +9634,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E04A"
         ],
-        "siddham": "",
+        "siddham": "𑖕𑖿𑖪𑖯",
         "iast": "jvā",
         "zh": "入嚩",
         "tangPronunciationNote": "二合",
@@ -9907,7 +9907,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "娜",
         "tangPronunciationNote": "",
@@ -9937,7 +9937,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B448"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖿𑖡",
         "iast": "tna",
         "zh": "怛娜那可反",
         "tangPronunciationNote": "二合",
@@ -9977,7 +9977,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A5A9"
         ],
-        "siddham": "",
+        "siddham": "𑖡",
         "iast": "na",
         "zh": "娜",
         "tangPronunciationNote": "",
@@ -9997,7 +9997,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC6"
         ],
-        "siddham": "",
+        "siddham": "𑖁",
         "iast": "ā",
         "zh": "阿",
         "tangPronunciationNote": "",
@@ -10047,7 +10047,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A55D"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖸",
         "iast": "te",
         "zh": "諦",
         "tangPronunciationNote": "",
@@ -10217,7 +10217,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚕",
         "tangPronunciationNote": "",
@@ -10257,7 +10257,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A557"
         ],
-        "siddham": "",
+        "siddham": "𑖝",
         "iast": "ta",
         "zh": "怛",
         "tangPronunciationNote": "",
@@ -10277,7 +10277,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A564"
         ],
-        "siddham": "",
+        "siddham": "𑖞𑖯",
         "iast": "thā",
         "zh": "他",
         "tangPronunciationNote": "去",
@@ -10327,7 +10327,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E0EA"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖿𑖝𑖿𑖝𑖰",
         "iast": "rtti",
         "zh": "囉",
         "tangPronunciationNote": "二合",
@@ -10335,8 +10335,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖝𑖰",
+        "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
         "tangMeaningGloss": ""
@@ -10355,7 +10355,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA57"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖝𑖯",
         "iast": "ntā",
         "zh": "跢",
         "tangPronunciationNote": "",
@@ -10423,8 +10423,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖦𑖸",
+        "iast": "me",
         "zh": "謎",
         "tangPronunciationNote": "",
         "tangMeaningGloss": "十"
@@ -10433,7 +10433,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚕",
         "tangPronunciationNote": "",
@@ -10443,7 +10443,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A642"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖲",
         "iast": "ru",
         "zh": "嚕",
         "tangPronunciationNote": "",
@@ -10453,7 +10453,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-A559"
         ],
-        "siddham": "",
+        "siddham": "𑖝𑖰",
         "iast": "ti",
         "zh": "底",
         "tangPronunciationNote": "",
@@ -10493,7 +10493,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CFC5"
         ],
-        "siddham": "",
+        "siddham": "𑖀",
         "iast": "a",
         "zh": "阿",
         "tangPronunciationNote": "去",
@@ -10513,7 +10513,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-B7BB"
         ],
-        "siddham": "",
+        "siddham": "𑖨𑖿𑖬",
         "iast": "rṣa",
         "zh": "唎沙踈下反",
         "tangPronunciationNote": "",
@@ -10553,7 +10553,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-E046"
         ],
-        "siddham": "",
+        "siddham": "𑖘𑖿",
         "iast": "ṭ",
         "zh": "吒",
         "tangPronunciationNote": "",
@@ -10571,8 +10571,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖪𑖯",
+        "iast": "vā",
         "zh": "嚩",
         "tangPronunciationNote": "",
         "tangMeaningGloss": ""
@@ -10611,7 +10611,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-DAAF"
         ],
-        "siddham": "",
+        "siddham": "𑖟𑖿𑖦",
         "iast": "dma",
         "zh": "頭",
         "tangPronunciationNote": "",
@@ -10619,8 +10619,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖦",
+        "iast": "ma",
         "zh": "麼",
         "tangPronunciationNote": "",
         "tangMeaningGloss": "二"
@@ -10639,7 +10639,7 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
         "sdRefs": [
           "SD-CA57"
         ],
-        "siddham": "",
+        "siddham": "𑖡𑖿𑖝𑖯",
         "iast": "ntā",
         "zh": "跢",
         "tangPronunciationNote": "",
@@ -10667,8 +10667,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖦𑖮𑖯",
+        "iast": "mahā",
         "zh": "摩訶",
         "tangPronunciationNote": "",
         "tangMeaningGloss": ""
@@ -10765,8 +10765,8 @@ export const AUTHORITATIVE_CBETA_RECORDS: CbetaDharaniRecord[] = [
       },
       {
         "sdRefs": [],
-        "siddham": "",
-        "iast": "",
+        "siddham": "𑖦𑖸",
+        "iast": "me",
         "zh": "謎",
         "tangPronunciationNote": "",
         "tangMeaningGloss": "二"

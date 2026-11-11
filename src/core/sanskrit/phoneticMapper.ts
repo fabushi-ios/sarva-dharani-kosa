@@ -659,16 +659,18 @@ export function mapSyllableToChinesePhonetics(
   const isStandaloneSyllable =
     context === undefined || Boolean(context.isWordStart && context.isWordEnd);
 
-  if (UNIVERSAL_AKSARA_OVERRIDES[s]) {
+  const lookupKey = s.replace(/m\u0310/g, 'ṃ');
+
+  if (UNIVERSAL_AKSARA_OVERRIDES[lookupKey]) {
     return {
-      classicalZh: UNIVERSAL_AKSARA_OVERRIDES[s].tang,
-      modernZh: UNIVERSAL_AKSARA_OVERRIDES[s].modern,
+      classicalZh: UNIVERSAL_AKSARA_OVERRIDES[lookupKey].tang,
+      modernZh: UNIVERSAL_AKSARA_OVERRIDES[lookupKey].modern,
     };
   }
-  if (isStandaloneSyllable && STANDALONE_BIJA_OVERRIDES[s]) {
+  if (isStandaloneSyllable && STANDALONE_BIJA_OVERRIDES[lookupKey]) {
     return {
-      classicalZh: STANDALONE_BIJA_OVERRIDES[s].tang,
-      modernZh: STANDALONE_BIJA_OVERRIDES[s].modern,
+      classicalZh: STANDALONE_BIJA_OVERRIDES[lookupKey].tang,
+      modernZh: STANDALONE_BIJA_OVERRIDES[lookupKey].modern,
     };
   }
 
@@ -683,7 +685,7 @@ export function mapSyllableToChinesePhonetics(
       : parseStandaloneSyllableStructure(s);
 
   const { onset, vowel, modifiers, coda } = parsed;
-  const hasAnusvara = modifiers.includes('ṃ');
+  const hasAnusvara = modifiers.includes('ṃ') || modifiers.includes('m\u0310');
   const hasVisarga = modifiers.includes('ḥ');
 
   // Build onset cluster prefix + main consonant
@@ -1093,7 +1095,7 @@ export function generateVerseChinesePhonetics(
       /[|.,;!?—–]+/g,
       ''
     );
-    const dictKey = wordIast.replace(/-/g, '');
+    const dictKey = wordIast.replace(/-/g, '').replace(/m\u0310/g, 'ṃ');
 
     if (first.dandaBefore) {
       classicalPieces.push(first.dandaBefore);

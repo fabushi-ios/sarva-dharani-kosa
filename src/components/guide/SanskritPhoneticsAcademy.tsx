@@ -84,9 +84,9 @@ export const SanskritPhoneticsAcademy: React.FC<SanskritPhoneticsAcademyProps> =
             </div>
           </div>
           <div className="meta-box">
-            <div className="meta-box-label">四、空点（ṃ）与涅槃点（ḥ）</div>
+            <div className="meta-box-label">四、空点（ṃ / m̐）与涅槃点（ḥ）</div>
             <div>
-              悉昙字顶圆点 <strong>𑖼 (ṃ, Anusvāra)</strong> 称菩提点/空点，收于鼻腔共鸣；字侧双点 <strong>𑖾 (ḥ, Visarga)</strong> 称涅槃点/止声，于元音末送出清净气音。
+              悉昙字顶圆点 <strong>𑖽 (ṃ, Anusvāra 空点/菩提点)</strong> 与仰月点 <strong>𑖼 (m̐, Candrabindu 大空智点)</strong> 收于鼻腔共鸣；字侧双点 <strong>𑖾 (ḥ, Visarga 涅槃点/止声)</strong> 于元音末送出清净气音。
             </div>
           </div>
         </div>

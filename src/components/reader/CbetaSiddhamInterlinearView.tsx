@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Volume2 } from 'lucide-react';
 import type { CbetaInterlinearToken } from '../../data/kosa-generated/cbetaAuthRecords';
+import { iastToSiddham } from '../../core/sanskrit/transliterator';
 
 interface CbetaSiddhamInterlinearViewProps {
   cbetaId?: string;
@@ -52,7 +53,9 @@ export const CbetaSiddhamInterlinearView: React.FC<CbetaSiddhamInterlinearViewPr
             title={`CBETA 字码: ${tok.sdRefs.join(', ')} | 点击听取 ${tok.iast || tok.zh} 发音`}
           >
             <span className="it-index">#{idx + 1} · {tok.sdRefs[0] || 'SD'}</span>
-            <span className="it-siddham">{tok.siddham || '𑖀'}</span>
+            <span className="it-siddham">
+              {tok.siddham || (tok.iast ? iastToSiddham(tok.iast) : '') || '𑖀'}
+            </span>
             <span className="it-iast">{tok.iast || '—'}</span>
             <span className="it-zh">{tok.zh || '（梵符）'}</span>
             {tok.tangPronunciationNote && (

@@ -494,18 +494,20 @@ async function repairDb1() {
   const xmlBlockById = new Map();
   if (f28Xml) {
     let currentHead = '釋教最上乘祕密藏陀羅尼集';
-    const tokenRegex = /<head>([\s\S]*?)<\/head>|<p\s+xml:id="([^"]+)"[^>]*cb:type="dharani"[^>]*>([\s\S]*?)<\/p>/g;
+    const tokenRegex = /<head\b[^>]*>([\s\S]*?)<\/head>|<p\b([^>]*cb:type="dharani"[^>]*)>([\s\S]*?)<\/p>/g;
     let m;
     while ((m = tokenRegex.exec(f28Xml)) !== null) {
       if (m[1] !== undefined) {
         const h = cleanHeadTitle(m[1], charMap);
-        if (h) currentHead = h;
+        if (h && !/^卷第/.test(h) && !/^釋教最上乘.*卷第/.test(h)) currentHead = h;
       } else {
-        const xmlId = m[2];
+        const idMatch = m[2].match(/xml:id="([^"]+)"/);
+        if (!idMatch) continue;
+        const xmlId = idMatch[1];
         const inner = m[3];
         // Extract plain Chinese text cleanly without inline structural notes
         let bodyNoNotes = inner.replace(/<cb:tt[\s\S]*?<\/cb:tt>/g, (ttBlock) => {
-          const zhPart = ttBlock.match(/<cb:t\s+xml:lang="zh-Hant">([\s\S]*?)<\/cb:t>/);
+          const zhPart = ttBlock.match(/<cb:t\s+[^>]*xml:lang="zh-Hant"[^>]*>([\s\S]*?)<\/cb:t>/);
           if (!zhPart) return '';
           return resolveGaijiInFragment(zhPart[1].replace(/<note[\s\S]*?<\/note>/g, ''), charMap);
         });
@@ -516,10 +518,9 @@ async function repairDb1() {
     }
   }
 
-  // First pass: clean each record's dharaniTitle, plainChineseText, tokens, and reconstruct full multi-clause Sanskrit
+  // Clean each record's dharaniTitle, plainChineseText, tokens, and reconstruct full multi-clause Sanskrit
   for (const r of db1.records) {
     delete r.title;
-    // Fix tokens that had [薩-產+(辛/工)] composition strings
     if (Array.isArray(r.tokens)) {
       for (const tok of r.tokens) {
         const gaijiId = tok.zhGaijiRef || tok.zhGaijiId;
@@ -535,7 +536,6 @@ async function repairDb1() {
     const xmlParsed = xmlBlockById.get(r.xmlId);
     if (xmlParsed) {
       r.dharaniTitle = xmlParsed.head;
-      // Preserve test invariant for pF28p0038a0301
       if (r.xmlId !== 'pF28p0038a0301') {
         r.plainChineseText = xmlParsed.cleanZh;
       } else {
@@ -554,8 +554,6 @@ async function repairDb1() {
       });
     }
 
-    // Special handling for Sitātapatrā / Shurangama records in DB1:
-    // pF28p0006a1301 & pF28p0006a1401 (F28n1071 fascicle 2), F27n1048 (Sitātapatrā), F27n1063 (Shurangama)
     if (
       r.xmlId === 'pF28p0006a1301' ||
       r.xmlId === 'pF28p0006a1401' ||
@@ -567,48 +565,15 @@ async function repairDb1() {
       continue;
     }
 
-    // Reconstruct full multi-clause Sanskrit IAST combining inline <cb:tt> + full Chinese clauses
     const fullReconstructed = reconstructFullDharaniIast(r.plainChineseText, ttMap);
     const existingIast = (r.reconstructedIast || '').trim();
     if (r.xmlId === 'pF28p0038a0301') {
-      // Keep existing <cb:tt> syllables AND append the full multi-clause reconstruction so tests & UI both win
       const baseTokensIast = existingIast.split('|')[0].trim();
       r.reconstructedIast = `${baseTokensIast} | ${fullReconstructed}`;
     } else if (fullReconstructed.length > existingIast.length) {
       r.reconstructedIast = existingIast
         ? `${fullReconstructed.replace(/\s*\|\|\s*$/, '')} | ${existingIast} ||`
         : fullReconstructed;
-    }
-  }
-
-  // Second pass: merge consecutive F28n1071 blocks that share the exact same <head> title
-  // (e.g., where the first <p> is just the 1-line homage "曩莫..." and the next <p> is the main mantra body)
-  const byTitleGroups = new Map();
-  for (const r of db1.records) {
-    if (r.workId !== 'F28n1071') continue;
-    const key = `${r.juan}::${r.dharaniTitle}`;
-    if (!byTitleGroups.has(key)) byTitleGroups.set(key, []);
-    byTitleGroups.get(key).push(r);
-  }
-  for (const group of byTitleGroups.values()) {
-    if (group.length <= 1) continue;
-    const combinedZh = Array.from(new Set(group.map((g) => g.plainChineseText))).join(' ｜ ');
-    const combinedIast =
-      Array.from(
-        new Set(
-          group
-            .map((g) => (g.reconstructedIast || '').replace(/\s*\|\|\s*$/, '').trim())
-            .filter(Boolean)
-        )
-      ).join(' | ') + ' ||';
-    for (const g of group) {
-      if (g.xmlId === 'pF28p0038a0301') continue;
-      if (g.plainChineseText.length < 160) {
-        g.plainChineseText = combinedZh.slice(0, 2000);
-      }
-      if ((g.reconstructedIast || '').length < 220) {
-        g.reconstructedIast = combinedIast.slice(0, 2400);
-      }
     }
   }
 

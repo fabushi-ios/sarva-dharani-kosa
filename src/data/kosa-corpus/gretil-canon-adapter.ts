@@ -91,7 +91,7 @@ function expandGretilLines(rawLines: string[], maxWordsPerLine = 12): string[] {
   for (const line of cleanedLines) {
     const clauses = line
       .split(/(?:\/\/|\|\||\|)+/)
-      .map((s) => s.trim())
+      .map((s) => cleanAndExpandSanskritMantraIast(s))
       .filter((s) => s.length >= 2 && !/^\(?\d+\)?$/.test(s));
     const source = clauses.length > 0 ? clauses : [line];
     for (const cl of source) {
@@ -100,7 +100,10 @@ function expandGretilLines(rawLines: string[], maxWordsPerLine = 12): string[] {
         expanded.push(cl);
       } else {
         for (let i = 0; i < words.length; i += maxWordsPerLine) {
-          expanded.push(words.slice(i, i + maxWordsPerLine).join(' '));
+          const slice = words.slice(i, i + maxWordsPerLine).join(' ');
+          if (slice && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]/.test(slice)) {
+            expanded.push(slice);
+          }
         }
       }
     }
@@ -132,7 +135,10 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
           .map((l) => cleanAndExpandSanskritMantraIast(l))
           .filter((l) => l.length > 8);
 
-  const sourceLines = expandGretilLines(baseLines, 12);
+  const sourceLines = expandGretilLines(
+    baseLines.length > 0 ? baseLines : [`oṃ namo bhagavate ${record.titleSanskrit} svāhā`],
+    12
+  );
 
   return sourceLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
@@ -149,7 +155,11 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
 
 function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): DharaniVerse[] {
   const expandedLines = expandGretilLines(record.mantraVerses, 12);
-  return expandedLines.map((line, idx) => {
+  const safeLines =
+    expandedLines.length > 0
+      ? expandedLines
+      : expandGretilLines([`namo bhagavate | ${record.titleSanskrit} svāhā`], 12);
+  return safeLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,

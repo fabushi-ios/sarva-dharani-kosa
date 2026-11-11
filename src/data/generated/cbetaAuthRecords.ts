@@ -9,8 +9,8 @@ export const CBETA_TOTAL_TT_ALIGNMENTS = 916;
 export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   "RJ-C943": {
     "id": "RJ-C943",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀",
+    "siddhamUnicode": "𑖀",
     "iast": "a",
     "romanized": "a",
     "devanagari": "अ",
@@ -21,8 +21,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C944": {
     "id": "RJ-C944",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁",
+    "siddhamUnicode": "𑖁",
     "iast": "ā",
     "romanized": "ā",
     "devanagari": "आ",
@@ -33,8 +33,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C946": {
     "id": "RJ-C946",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀𑖾",
+    "siddhamUnicode": "𑖀𑖾",
     "iast": "aḥ",
     "romanized": "aḥ",
     "devanagari": "अः",
@@ -45,8 +45,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C947": {
     "id": "RJ-C947",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁𑖾",
+    "siddhamUnicode": "𑖁𑖾",
     "iast": "āḥ",
     "romanized": "āḥ",
     "devanagari": "आः",
@@ -57,8 +57,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C949": {
     "id": "RJ-C949",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀𑖽",
+    "siddhamUnicode": "𑖀𑖽",
     "iast": "aṃ",
     "romanized": "aṃ",
     "devanagari": "अं",
@@ -69,8 +69,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C94B": {
     "id": "RJ-C94B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤",
+    "siddhamUnicode": "𑖤",
     "iast": "ba",
     "romanized": "ba",
     "devanagari": "ब",
@@ -81,8 +81,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C954": {
     "id": "RJ-C954",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖯",
+    "siddhamUnicode": "𑖥𑖯",
     "iast": "bhā",
     "romanized": "bhā",
     "devanagari": "भा",
@@ -93,8 +93,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C959": {
     "id": "RJ-C959",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖸",
+    "siddhamUnicode": "𑖥𑖸",
     "iast": "bhe",
     "romanized": "bhe",
     "devanagari": "भे",
@@ -105,8 +105,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C963": {
     "id": "RJ-C963",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖥𑖿𑖨𑖳𑖽",
     "iast": "bhrūṃ",
     "romanized": "bhrūṃ",
     "devanagari": "भ्रूं",
@@ -117,8 +117,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C96F": {
     "id": "RJ-C96F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤𑖺",
+    "siddhamUnicode": "𑖤𑖺",
     "iast": "bo",
     "romanized": "bo",
     "devanagari": "बो",
@@ -129,8 +129,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C973": {
     "id": "RJ-C973",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤𑖲",
+    "siddhamUnicode": "𑖤𑖲",
     "iast": "bu",
     "romanized": "bu",
     "devanagari": "बु",
@@ -141,8 +141,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C977": {
     "id": "RJ-C977",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓",
+    "siddhamUnicode": "𑖓",
     "iast": "ca",
     "romanized": "ca",
     "devanagari": "च",
@@ -153,8 +153,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C97B": {
     "id": "RJ-C97B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖽",
+    "siddhamUnicode": "𑖓𑖽",
     "iast": "caṃ",
     "romanized": "caṃ",
     "devanagari": "चं",
@@ -165,8 +165,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9BD": {
     "id": "RJ-C9BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖲",
+    "siddhamUnicode": "𑖓𑖲",
     "iast": "cu",
     "romanized": "cu",
     "devanagari": "चु",
@@ -177,8 +177,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9BF": {
     "id": "RJ-C9BF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖲𑖽",
+    "siddhamUnicode": "𑖓𑖲𑖽",
     "iast": "cuṃ",
     "romanized": "cuṃ",
     "devanagari": "चुं",
@@ -189,8 +189,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9D2": {
     "id": "RJ-C9D2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖠",
+    "siddhamUnicode": "𑖟𑖿𑖠",
     "iast": "ddha",
     "romanized": "ddha",
     "devanagari": "द्ध",
@@ -201,8 +201,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9D3": {
     "id": "RJ-C9D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖠𑖯",
+    "siddhamUnicode": "𑖟𑖿𑖠𑖯",
     "iast": "ddhā",
     "romanized": "ddhā",
     "devanagari": "द्धा",
@@ -213,8 +213,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9D5": {
     "id": "RJ-C9D5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖸",
+    "siddhamUnicode": "𑖟𑖸",
     "iast": "de",
     "romanized": "de",
     "devanagari": "दे",
@@ -225,8 +225,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9D9": {
     "id": "RJ-C9D9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠",
+    "siddhamUnicode": "𑖠",
     "iast": "dha",
     "romanized": "dha",
     "devanagari": "ध",
@@ -237,8 +237,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9E7": {
     "id": "RJ-C9E7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖰",
+    "siddhamUnicode": "𑖠𑖰",
     "iast": "dhi",
     "romanized": "dhi",
     "devanagari": "धि",
@@ -249,8 +249,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9E8": {
     "id": "RJ-C9E8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖱",
+    "siddhamUnicode": "𑖠𑖱",
     "iast": "dhī",
     "romanized": "dhī",
     "devanagari": "धी",
@@ -261,8 +261,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-C9FA": {
     "id": "RJ-C9FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖲",
+    "siddhamUnicode": "𑖠𑖲",
     "iast": "dhu",
     "romanized": "dhu",
     "devanagari": "धु",
@@ -273,8 +273,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CA4C": {
     "id": "RJ-CA4C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖦𑖸",
+    "siddhamUnicode": "𑖟𑖿𑖦𑖸",
     "iast": "dme",
     "romanized": "dme",
     "devanagari": "द्मे",
@@ -285,8 +285,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CA57": {
     "id": "RJ-CA57",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖨𑖯",
+    "siddhamUnicode": "𑖟𑖿𑖨𑖯",
     "iast": "drā",
     "romanized": "drā",
     "devanagari": "द्रा",
@@ -297,8 +297,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CA5F": {
     "id": "RJ-CA5F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖧",
+    "siddhamUnicode": "𑖟𑖿𑖧",
     "iast": "dya",
     "romanized": "dya",
     "devanagari": "द्य",
@@ -309,8 +309,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CA62": {
     "id": "RJ-CA62",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐",
+    "siddhamUnicode": "𑖐",
     "iast": "ga",
     "romanized": "ga",
     "devanagari": "ग",
@@ -321,8 +321,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CA6C": {
     "id": "RJ-CA6C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑",
+    "siddhamUnicode": "𑖑",
     "iast": "gha",
     "romanized": "gha",
     "devanagari": "घ",
@@ -333,8 +333,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CA70": {
     "id": "RJ-CA70",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖽",
+    "siddhamUnicode": "𑖑𑖽",
     "iast": "ghaṃ",
     "romanized": "ghaṃ",
     "devanagari": "घं",
@@ -345,8 +345,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAAB": {
     "id": "RJ-CAAB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖲",
+    "siddhamUnicode": "𑖐𑖲",
     "iast": "gu",
     "romanized": "gu",
     "devanagari": "गु",
@@ -357,8 +357,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAAF": {
     "id": "RJ-CAAF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮",
+    "siddhamUnicode": "𑖮",
     "iast": "ha",
     "romanized": "ha",
     "devanagari": "ह",
@@ -369,8 +369,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAB0": {
     "id": "RJ-CAB0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖯",
+    "siddhamUnicode": "𑖮𑖯",
     "iast": "hā",
     "romanized": "hā",
     "devanagari": "हा",
@@ -381,8 +381,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAB3": {
     "id": "RJ-CAB3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖽",
+    "siddhamUnicode": "𑖮𑖽",
     "iast": "haṃ",
     "romanized": "haṃ",
     "devanagari": "हं",
@@ -393,8 +393,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAC5": {
     "id": "RJ-CAC5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖨𑖰",
+    "siddhamUnicode": "𑖮𑖿𑖨𑖰",
     "iast": "hri",
     "romanized": "hri",
     "devanagari": "ह्रि",
@@ -405,8 +405,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAC7": {
     "id": "RJ-CAC7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖨𑖱𑖾",
+    "siddhamUnicode": "𑖮𑖿𑖨𑖱𑖾",
     "iast": "hrīḥ",
     "romanized": "hrīḥ",
     "devanagari": "ह्रीः",
@@ -417,8 +417,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CACB": {
     "id": "RJ-CACB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖳𑖽",
+    "siddhamUnicode": "𑖮𑖳𑖽",
     "iast": "hūṃ",
     "romanized": "hūṃ",
     "devanagari": "हूं",
@@ -429,8 +429,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAD2": {
     "id": "RJ-CAD2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖾",
+    "siddhamUnicode": "𑖕𑖾",
     "iast": "jaḥ",
     "romanized": "jaḥ",
     "devanagari": "जः",
@@ -441,8 +441,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CAF3": {
     "id": "RJ-CAF3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖗",
+    "siddhamUnicode": "𑖕𑖿𑖗",
     "iast": "jña",
     "romanized": "jña",
     "devanagari": "ज्ञ",
@@ -453,8 +453,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB4B": {
     "id": "RJ-CB4B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖨",
+    "siddhamUnicode": "𑖕𑖿𑖨",
     "iast": "jra",
     "romanized": "jra",
     "devanagari": "ज्र",
@@ -465,8 +465,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB4E": {
     "id": "RJ-CB4E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖨𑖰𑖽",
+    "siddhamUnicode": "𑖕𑖿𑖨𑖰𑖽",
     "iast": "jriṃ",
     "romanized": "jriṃ",
     "devanagari": "ज्रिं",
@@ -477,8 +477,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB51": {
     "id": "RJ-CB51",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖪",
+    "siddhamUnicode": "𑖕𑖿𑖪",
     "iast": "jva",
     "romanized": "jva",
     "devanagari": "ज्व",
@@ -489,8 +489,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB54": {
     "id": "RJ-CB54",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎",
+    "siddhamUnicode": "𑖎",
     "iast": "ka",
     "romanized": "ka",
     "devanagari": "क",
@@ -501,8 +501,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB58": {
     "id": "RJ-CB58",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖽",
+    "siddhamUnicode": "𑖎𑖽",
     "iast": "kaṃ",
     "romanized": "kaṃ",
     "devanagari": "कं",
@@ -513,8 +513,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB5C": {
     "id": "RJ-CB5C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏",
+    "siddhamUnicode": "𑖏",
     "iast": "kha",
     "romanized": "kha",
     "devanagari": "ख",
@@ -525,8 +525,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB60": {
     "id": "RJ-CB60",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖽",
+    "siddhamUnicode": "𑖏𑖽",
     "iast": "khaṃ",
     "romanized": "khaṃ",
     "devanagari": "खं",
@@ -537,8 +537,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB70": {
     "id": "RJ-CB70",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖰",
+    "siddhamUnicode": "𑖎𑖰",
     "iast": "ki",
     "romanized": "ki",
     "devanagari": "कि",
@@ -549,8 +549,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CB77": {
     "id": "RJ-CB77",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖺",
+    "siddhamUnicode": "𑖎𑖺",
     "iast": "ko",
     "romanized": "ko",
     "devanagari": "को",
@@ -561,8 +561,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBA2": {
     "id": "RJ-CBA2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖭𑖽",
+    "siddhamUnicode": "𑖎𑖿𑖭𑖽",
     "iast": "ksaṃ",
     "romanized": "ksaṃ",
     "devanagari": "क्सं",
@@ -573,8 +573,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBA8": {
     "id": "RJ-CBA8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖬𑖰𑖽",
+    "siddhamUnicode": "𑖎𑖿𑖬𑖰𑖽",
     "iast": "kṣiṃ",
     "romanized": "kṣiṃ",
     "devanagari": "क्षिं",
@@ -585,8 +585,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBBC": {
     "id": "RJ-CBBC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩",
+    "siddhamUnicode": "𑖩",
     "iast": "la",
     "romanized": "la",
     "devanagari": "ल",
@@ -597,8 +597,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBC2": {
     "id": "RJ-CBC2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖸",
+    "siddhamUnicode": "𑖩𑖸",
     "iast": "le",
     "romanized": "le",
     "devanagari": "ले",
@@ -609,8 +609,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBC9": {
     "id": "RJ-CBC9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖺",
+    "siddhamUnicode": "𑖩𑖺",
     "iast": "lo",
     "romanized": "lo",
     "devanagari": "लो",
@@ -621,8 +621,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBD3": {
     "id": "RJ-CBD3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦",
+    "siddhamUnicode": "𑖦",
     "iast": "ma",
     "romanized": "ma",
     "devanagari": "म",
@@ -633,8 +633,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBD7": {
     "id": "RJ-CBD7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖽",
+    "siddhamUnicode": "𑖦𑖽",
     "iast": "maṃ",
     "romanized": "maṃ",
     "devanagari": "मं",
@@ -645,8 +645,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBE2": {
     "id": "RJ-CBE2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖺",
+    "siddhamUnicode": "𑖦𑖺",
     "iast": "mo",
     "romanized": "mo",
     "devanagari": "मो",
@@ -657,8 +657,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBE8": {
     "id": "RJ-CBE8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖲",
+    "siddhamUnicode": "𑖦𑖲",
     "iast": "mu",
     "romanized": "mu",
     "devanagari": "मु",
@@ -669,8 +669,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBEB": {
     "id": "RJ-CBEB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖧",
+    "siddhamUnicode": "𑖦𑖿𑖧",
     "iast": "mya",
     "romanized": "mya",
     "devanagari": "म्य",
@@ -681,8 +681,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBED": {
     "id": "RJ-CBED",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡",
+    "siddhamUnicode": "𑖡",
     "iast": "na",
     "romanized": "na",
     "devanagari": "न",
@@ -693,8 +693,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBEE": {
     "id": "RJ-CBEE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖯",
+    "siddhamUnicode": "𑖡𑖯",
     "iast": "nā",
     "romanized": "nā",
     "devanagari": "ना",
@@ -705,8 +705,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CBFE": {
     "id": "RJ-CBFE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖯𑖽",
+    "siddhamUnicode": "𑖡𑖯𑖽",
     "iast": "nāṃ",
     "romanized": "nāṃ",
     "devanagari": "नां",
@@ -717,8 +717,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CC4E": {
     "id": "RJ-CC4E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖸",
+    "siddhamUnicode": "𑖡𑖸",
     "iast": "ne",
     "romanized": "ne",
     "devanagari": "ने",
@@ -729,8 +729,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CC54": {
     "id": "RJ-CC54",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖰",
+    "siddhamUnicode": "𑖡𑖰",
     "iast": "ni",
     "romanized": "ni",
     "devanagari": "नि",
@@ -741,8 +741,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CC5A": {
     "id": "RJ-CC5A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖰",
+    "siddhamUnicode": "𑖜𑖰",
     "iast": "ṇi",
     "romanized": "ṇi",
     "devanagari": "णि",
@@ -753,8 +753,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCBA": {
     "id": "RJ-CCBA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖌𑖽",
+    "siddhamUnicode": "𑖌𑖽",
     "iast": "oṃ",
     "romanized": "oṃ",
     "devanagari": "ॐ",
@@ -765,8 +765,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCBB": {
     "id": "RJ-CCBB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢",
+    "siddhamUnicode": "𑖢",
     "iast": "pa",
     "romanized": "pa",
     "devanagari": "प",
@@ -777,8 +777,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCBF": {
     "id": "RJ-CCBF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖽",
+    "siddhamUnicode": "𑖢𑖽",
     "iast": "paṃ",
     "romanized": "paṃ",
     "devanagari": "पं",
@@ -789,8 +789,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCC2": {
     "id": "RJ-CCC2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖣",
+    "siddhamUnicode": "𑖣",
     "iast": "pha",
     "romanized": "pha",
     "devanagari": "फ",
@@ -801,8 +801,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCDE": {
     "id": "RJ-CCDE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖨",
+    "siddhamUnicode": "𑖢𑖿𑖨",
     "iast": "pra",
     "romanized": "pra",
     "devanagari": "प्र",
@@ -813,8 +813,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCDF": {
     "id": "RJ-CCDF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖝",
+    "siddhamUnicode": "𑖢𑖿𑖝",
     "iast": "pta",
     "romanized": "pta",
     "devanagari": "प्त",
@@ -825,8 +825,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCE1": {
     "id": "RJ-CCE1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖲",
+    "siddhamUnicode": "𑖢𑖲",
     "iast": "pu",
     "romanized": "pu",
     "devanagari": "पु",
@@ -837,8 +837,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCE7": {
     "id": "RJ-CCE7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨",
+    "siddhamUnicode": "𑖨",
     "iast": "ra",
     "romanized": "ra",
     "devanagari": "र",
@@ -849,8 +849,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCE8": {
     "id": "RJ-CCE8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖯",
+    "siddhamUnicode": "𑖨𑖯",
     "iast": "rā",
     "romanized": "rā",
     "devanagari": "रा",
@@ -861,8 +861,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCEB": {
     "id": "RJ-CCEB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖽",
+    "siddhamUnicode": "𑖨𑖽",
     "iast": "raṃ",
     "romanized": "raṃ",
     "devanagari": "रं",
@@ -873,8 +873,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCF7": {
     "id": "RJ-CCF7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖸",
+    "siddhamUnicode": "𑖨𑖸",
     "iast": "re",
     "romanized": "re",
     "devanagari": "रे",
@@ -885,8 +885,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CCFB": {
     "id": "RJ-CCFB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖰",
+    "siddhamUnicode": "𑖨𑖰",
     "iast": "ri",
     "romanized": "ri",
     "devanagari": "रि",
@@ -897,8 +897,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD4E": {
     "id": "RJ-CD4E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖺",
+    "siddhamUnicode": "𑖨𑖺",
     "iast": "ro",
     "romanized": "ro",
     "devanagari": "रो",
@@ -909,8 +909,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD5E": {
     "id": "RJ-CD5E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖲",
+    "siddhamUnicode": "𑖨𑖲",
     "iast": "ru",
     "romanized": "ru",
     "devanagari": "रु",
@@ -921,8 +921,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD63": {
     "id": "RJ-CD63",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖧",
+    "siddhamUnicode": "𑖨𑖿𑖧",
     "iast": "rya",
     "romanized": "rya",
     "devanagari": "र्य",
@@ -933,8 +933,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD64": {
     "id": "RJ-CD64",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭",
+    "siddhamUnicode": "𑖭",
     "iast": "sa",
     "romanized": "sa",
     "devanagari": "स",
@@ -945,8 +945,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD65": {
     "id": "RJ-CD65",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖯",
+    "siddhamUnicode": "𑖭𑖯",
     "iast": "sā",
     "romanized": "sā",
     "devanagari": "सा",
@@ -957,8 +957,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD66": {
     "id": "RJ-CD66",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫",
+    "siddhamUnicode": "𑖫",
     "iast": "śa",
     "romanized": "śa",
     "devanagari": "श",
@@ -969,8 +969,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD68": {
     "id": "RJ-CD68",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬",
+    "siddhamUnicode": "𑖬",
     "iast": "ṣa",
     "romanized": "ṣa",
     "devanagari": "ष",
@@ -981,8 +981,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD70": {
     "id": "RJ-CD70",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖽",
+    "siddhamUnicode": "𑖭𑖽",
     "iast": "saṃ",
     "romanized": "saṃ",
     "devanagari": "सं",
@@ -993,8 +993,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CD7C": {
     "id": "RJ-CD7C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿",
+    "siddhamUnicode": "𑖫𑖿",
     "iast": "ś?",
     "romanized": "ś?",
     "devanagari": "श्?",
@@ -1005,8 +1005,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDB9": {
     "id": "RJ-CDB9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖨",
+    "siddhamUnicode": "𑖭𑖿𑖨",
     "iast": "sra",
     "romanized": "sra",
     "devanagari": "स्र",
@@ -1017,8 +1017,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDC0": {
     "id": "RJ-CDC0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖘",
+    "siddhamUnicode": "𑖬𑖿𑖘",
     "iast": "ṣṭa",
     "romanized": "ṣṭa",
     "devanagari": "ष्ट",
@@ -1029,8 +1029,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDC2": {
     "id": "RJ-CDC2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖙",
+    "siddhamUnicode": "𑖬𑖿𑖙",
     "iast": "ṣṭha",
     "romanized": "ṣṭha",
     "devanagari": "ष्ठ",
@@ -1041,8 +1041,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDC3": {
     "id": "RJ-CDC3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖙𑖰",
+    "siddhamUnicode": "𑖬𑖿𑖙𑖰",
     "iast": "ṣṭhi",
     "romanized": "ṣṭhi",
     "devanagari": "ष्ठि",
@@ -1053,8 +1053,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDC5": {
     "id": "RJ-CDC5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖲",
+    "siddhamUnicode": "𑖭𑖲",
     "iast": "su",
     "romanized": "su",
     "devanagari": "सु",
@@ -1065,8 +1065,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDCC": {
     "id": "RJ-CDCC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖭𑖿𑖪𑖯",
     "iast": "svā",
     "romanized": "svā",
     "devanagari": "स्वा",
@@ -1077,8 +1077,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDCD": {
     "id": "RJ-CDCD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖪",
+    "siddhamUnicode": "𑖫𑖿𑖪",
     "iast": "śva",
     "romanized": "śva",
     "devanagari": "श्व",
@@ -1089,8 +1089,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDD3": {
     "id": "RJ-CDD3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿",
+    "siddhamUnicode": "𑖘𑖿",
     "iast": "ṭ",
     "romanized": "ṭ",
     "devanagari": "ट्",
@@ -1101,8 +1101,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDD4": {
     "id": "RJ-CDD4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝",
+    "siddhamUnicode": "𑖝",
     "iast": "ta",
     "romanized": "ta",
     "devanagari": "त",
@@ -1113,8 +1113,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDD5": {
     "id": "RJ-CDD5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖯",
+    "siddhamUnicode": "𑖝𑖯",
     "iast": "tā",
     "romanized": "tā",
     "devanagari": "ता",
@@ -1125,8 +1125,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDD6": {
     "id": "RJ-CDD6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘",
+    "siddhamUnicode": "𑖘",
     "iast": "ṭa",
     "romanized": "ṭa",
     "devanagari": "ट",
@@ -1137,8 +1137,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDE0": {
     "id": "RJ-CDE0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖸",
+    "siddhamUnicode": "𑖝𑖸",
     "iast": "te",
     "romanized": "te",
     "devanagari": "ते",
@@ -1149,8 +1149,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDE2": {
     "id": "RJ-CDE2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞",
+    "siddhamUnicode": "𑖞",
     "iast": "tha",
     "romanized": "tha",
     "devanagari": "थ",
@@ -1161,8 +1161,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDE3": {
     "id": "RJ-CDE3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖯",
+    "siddhamUnicode": "𑖞𑖯",
     "iast": "thā",
     "romanized": "thā",
     "devanagari": "था",
@@ -1173,8 +1173,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDE6": {
     "id": "RJ-CDE6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖯",
+    "siddhamUnicode": "𑖙𑖯",
     "iast": "ṭhā",
     "romanized": "ṭhā",
     "devanagari": "ठा",
@@ -1185,8 +1185,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDF3": {
     "id": "RJ-CDF3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖱",
+    "siddhamUnicode": "𑖞𑖱",
     "iast": "thī",
     "romanized": "thī",
     "devanagari": "थी",
@@ -1197,8 +1197,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CDFD": {
     "id": "RJ-CDFD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖺",
+    "siddhamUnicode": "𑖞𑖺",
     "iast": "tho",
     "romanized": "tho",
     "devanagari": "थो",
@@ -1209,8 +1209,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE52": {
     "id": "RJ-CE52",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖱",
+    "siddhamUnicode": "𑖘𑖱",
     "iast": "ṭī",
     "romanized": "ṭī",
     "devanagari": "टी",
@@ -1221,8 +1221,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE58": {
     "id": "RJ-CE58",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡",
+    "siddhamUnicode": "𑖝𑖿𑖡",
     "iast": "tna",
     "romanized": "tna",
     "devanagari": "त्न",
@@ -1233,8 +1233,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE5A": {
     "id": "RJ-CE5A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖺",
+    "siddhamUnicode": "𑖝𑖺",
     "iast": "to",
     "romanized": "to",
     "devanagari": "तो",
@@ -1245,8 +1245,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE61": {
     "id": "RJ-CE61",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨",
+    "siddhamUnicode": "𑖝𑖿𑖨",
     "iast": "tra",
     "romanized": "tra",
     "devanagari": "त्र",
@@ -1257,8 +1257,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE62": {
     "id": "RJ-CE62",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖯",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖯",
     "iast": "trā",
     "romanized": "trā",
     "devanagari": "त्रा",
@@ -1269,8 +1269,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE66": {
     "id": "RJ-CE66",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖽",
     "iast": "traṃ",
     "romanized": "traṃ",
     "devanagari": "त्रं",
@@ -1281,8 +1281,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CE7E": {
     "id": "RJ-CE7E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖝𑖿𑖪𑖯",
     "iast": "tvā",
     "romanized": "tvā",
     "devanagari": "त्वा",
@@ -1293,8 +1293,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEA6": {
     "id": "RJ-CEA6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪",
+    "siddhamUnicode": "𑖪",
     "iast": "va",
     "romanized": "va",
     "devanagari": "व",
@@ -1305,8 +1305,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEAA": {
     "id": "RJ-CEAA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖽",
+    "siddhamUnicode": "𑖪𑖽",
     "iast": "vaṃ",
     "romanized": "vaṃ",
     "devanagari": "वं",
@@ -1317,8 +1317,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEAE": {
     "id": "RJ-CEAE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖰",
+    "siddhamUnicode": "𑖪𑖰",
     "iast": "vi",
     "romanized": "vi",
     "devanagari": "वि",
@@ -1329,8 +1329,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEBC": {
     "id": "RJ-CEBC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧",
+    "siddhamUnicode": "𑖧",
     "iast": "ya",
     "romanized": "ya",
     "devanagari": "य",
@@ -1341,8 +1341,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEBD": {
     "id": "RJ-CEBD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧𑖯",
+    "siddhamUnicode": "𑖧𑖯",
     "iast": "yā",
     "romanized": "yā",
     "devanagari": "या",
@@ -1353,8 +1353,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CED0": {
     "id": "RJ-CED0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖔𑖿𑖨𑖱𑖽",
+    "siddhamUnicode": "𑖓𑖿𑖔𑖿𑖨𑖱𑖽",
     "iast": "cchrīṃ",
     "romanized": "cchrīṃ",
     "devanagari": "च्छ्रीं",
@@ -1365,8 +1365,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CED1": {
     "id": "RJ-CED1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖥𑖱",
+    "siddhamUnicode": "𑖦𑖿𑖥𑖱",
     "iast": "mbhī",
     "romanized": "mbhī",
     "devanagari": "म्भी",
@@ -1377,8 +1377,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CED4": {
     "id": "RJ-CED4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖽",
     "iast": "tnaṃ",
     "romanized": "tnaṃ",
     "devanagari": "त्नं",
@@ -1389,8 +1389,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CED5": {
     "id": "RJ-CED5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖯𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖯𑖽",
     "iast": "trāṃ",
     "romanized": "trāṃ",
     "devanagari": "त्रां",
@@ -1401,8 +1401,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CED6": {
     "id": "RJ-CED6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖽",
+    "siddhamUnicode": "𑖽",
     "iast": "ṃ",
     "romanized": "ṃ",
     "devanagari": "ं",
@@ -1413,8 +1413,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEDA": {
     "id": "RJ-CEDA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖯𑖽",
+    "siddhamUnicode": "𑖢𑖯𑖽",
     "iast": "pāṃ",
     "romanized": "pāṃ",
     "devanagari": "पां",
@@ -1425,8 +1425,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "RJ-CEDB": {
     "id": "RJ-CEDB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖙",
+    "siddhamUnicode": "𑖮𑖿𑖙",
     "iast": "hṭha",
     "romanized": "hṭha",
     "devanagari": "ह्ठ",
@@ -2086,8 +2086,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A447": {
     "id": "SD-A447",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖹",
+    "siddhamUnicode": "𑖎𑖹",
     "iast": "kai",
     "romanized": "kai",
     "devanagari": "कै",
@@ -2110,8 +2110,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A449": {
     "id": "SD-A449",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖻",
+    "siddhamUnicode": "𑖎𑖻",
     "iast": "kau",
     "romanized": "kau",
     "devanagari": "कौ",
@@ -2316,8 +2316,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A45F": {
     "id": "SD-A45F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖹",
+    "siddhamUnicode": "𑖐𑖹",
     "iast": "gai",
     "romanized": "gai",
     "devanagari": "गै",
@@ -2340,8 +2340,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A461": {
     "id": "SD-A461",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖻",
+    "siddhamUnicode": "𑖐𑖻",
     "iast": "gau",
     "romanized": "gau",
     "devanagari": "गौ",
@@ -2607,8 +2607,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4A5": {
     "id": "SD-A4A5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖹",
+    "siddhamUnicode": "𑖓𑖹",
     "iast": "cai",
     "romanized": "cai",
     "devanagari": "चै",
@@ -2631,8 +2631,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4A7": {
     "id": "SD-A4A7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖻",
+    "siddhamUnicode": "𑖓𑖻",
     "iast": "cau",
     "romanized": "cau",
     "devanagari": "चौ",
@@ -2802,8 +2802,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4C3": {
     "id": "SD-A4C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖖𑖯",
+    "siddhamUnicode": "𑖖𑖯",
     "iast": "jhā",
     "romanized": "jhā",
     "devanagari": "झा",
@@ -2875,8 +2875,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4CF": {
     "id": "SD-A4CF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖯",
+    "siddhamUnicode": "𑖗𑖯",
     "iast": "ñā",
     "romanized": "ñā",
     "devanagari": "ञा",
@@ -2911,8 +2911,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4DA": {
     "id": "SD-A4DA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘",
+    "siddhamUnicode": "𑖘",
     "iast": "ṭa",
     "romanized": "ṭa",
     "devanagari": "ट",
@@ -2923,8 +2923,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4DB": {
     "id": "SD-A4DB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖯",
+    "siddhamUnicode": "𑖘𑖯",
     "iast": "ṭā",
     "romanized": "ṭā",
     "devanagari": "टा",
@@ -2935,8 +2935,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4DC": {
     "id": "SD-A4DC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖰",
+    "siddhamUnicode": "𑖘𑖰",
     "iast": "ṭi",
     "romanized": "ṭi",
     "devanagari": "टि",
@@ -2947,8 +2947,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4DD": {
     "id": "SD-A4DD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖱",
+    "siddhamUnicode": "𑖘𑖱",
     "iast": "ṭī",
     "romanized": "ṭī",
     "devanagari": "टी",
@@ -2959,8 +2959,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4DE": {
     "id": "SD-A4DE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖲",
+    "siddhamUnicode": "𑖘𑖲",
     "iast": "ṭu",
     "romanized": "ṭu",
     "devanagari": "टु",
@@ -2971,8 +2971,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4DF": {
     "id": "SD-A4DF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖳",
+    "siddhamUnicode": "𑖘𑖳",
     "iast": "ṭū",
     "romanized": "ṭū",
     "devanagari": "टू",
@@ -2983,8 +2983,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E0": {
     "id": "SD-A4E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖸",
+    "siddhamUnicode": "𑖘𑖸",
     "iast": "ṭe",
     "romanized": "ṭe",
     "devanagari": "टे",
@@ -2995,8 +2995,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E1": {
     "id": "SD-A4E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖹",
+    "siddhamUnicode": "𑖘𑖹",
     "iast": "ṭai",
     "romanized": "ṭai",
     "devanagari": "टै",
@@ -3007,8 +3007,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E2": {
     "id": "SD-A4E2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖺",
+    "siddhamUnicode": "𑖘𑖺",
     "iast": "ṭo",
     "romanized": "ṭo",
     "devanagari": "टो",
@@ -3019,8 +3019,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E3": {
     "id": "SD-A4E3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖻",
+    "siddhamUnicode": "𑖘𑖻",
     "iast": "ṭau",
     "romanized": "ṭau",
     "devanagari": "टौ",
@@ -3031,8 +3031,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E4": {
     "id": "SD-A4E4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖽",
+    "siddhamUnicode": "𑖘𑖽",
     "iast": "ṭaṃ",
     "romanized": "ṭaṃ",
     "devanagari": "टं",
@@ -3043,8 +3043,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E5": {
     "id": "SD-A4E5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖾",
+    "siddhamUnicode": "𑖘𑖾",
     "iast": "ṭaḥ",
     "romanized": "ṭaḥ",
     "devanagari": "टः",
@@ -3055,8 +3055,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E6": {
     "id": "SD-A4E6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙",
+    "siddhamUnicode": "𑖙",
     "iast": "ṭha",
     "romanized": "ṭha",
     "devanagari": "ठ",
@@ -3067,8 +3067,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E7": {
     "id": "SD-A4E7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖯",
+    "siddhamUnicode": "𑖙𑖯",
     "iast": "ṭhā",
     "romanized": "ṭhā",
     "devanagari": "ठा",
@@ -3079,8 +3079,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4E8": {
     "id": "SD-A4E8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖰",
+    "siddhamUnicode": "𑖙𑖰",
     "iast": "ṭhi",
     "romanized": "ṭhi",
     "devanagari": "ठि",
@@ -3091,8 +3091,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4EA": {
     "id": "SD-A4EA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖲",
+    "siddhamUnicode": "𑖙𑖲",
     "iast": "ṭhu",
     "romanized": "ṭhu",
     "devanagari": "ठु",
@@ -3103,8 +3103,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4EC": {
     "id": "SD-A4EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖸",
+    "siddhamUnicode": "𑖙𑖸",
     "iast": "ṭhe",
     "romanized": "ṭhe",
     "devanagari": "ठे",
@@ -3115,8 +3115,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4F0": {
     "id": "SD-A4F0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖽",
+    "siddhamUnicode": "𑖙𑖽",
     "iast": "ṭhaṃ",
     "romanized": "ṭhaṃ",
     "devanagari": "ठं",
@@ -3127,8 +3127,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4F1": {
     "id": "SD-A4F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖾",
+    "siddhamUnicode": "𑖙𑖾",
     "iast": "ṭhaḥ",
     "romanized": "ṭhaḥ",
     "devanagari": "ठः",
@@ -3212,8 +3212,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4F9": {
     "id": "SD-A4F9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖚𑖹",
+    "siddhamUnicode": "𑖚𑖹",
     "iast": "ḍai",
     "romanized": "ḍai",
     "devanagari": "डै",
@@ -3260,8 +3260,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A4FE": {
     "id": "SD-A4FE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛",
+    "siddhamUnicode": "𑖛",
     "iast": "ḍha",
     "romanized": "ḍha",
     "devanagari": "ढ",
@@ -3272,8 +3272,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A540": {
     "id": "SD-A540",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖯",
+    "siddhamUnicode": "𑖛𑖯",
     "iast": "ḍhā",
     "romanized": "ḍhā",
     "devanagari": "ढा",
@@ -3284,8 +3284,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A541": {
     "id": "SD-A541",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖰",
+    "siddhamUnicode": "𑖛𑖰",
     "iast": "ḍhi",
     "romanized": "ḍhi",
     "devanagari": "ढि",
@@ -3296,8 +3296,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A545": {
     "id": "SD-A545",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖸",
+    "siddhamUnicode": "𑖛𑖸",
     "iast": "ḍhe",
     "romanized": "ḍhe",
     "devanagari": "ढे",
@@ -3308,8 +3308,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A547": {
     "id": "SD-A547",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖺",
+    "siddhamUnicode": "𑖛𑖺",
     "iast": "ḍho",
     "romanized": "ḍho",
     "devanagari": "ढो",
@@ -3320,8 +3320,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A549": {
     "id": "SD-A549",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖽",
+    "siddhamUnicode": "𑖛𑖽",
     "iast": "ḍhaṃ",
     "romanized": "ḍhaṃ",
     "devanagari": "ढं",
@@ -3332,8 +3332,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A54A": {
     "id": "SD-A54A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖾",
+    "siddhamUnicode": "𑖛𑖾",
     "iast": "ḍhaḥ",
     "romanized": "ḍhaḥ",
     "devanagari": "ढः",
@@ -3357,8 +3357,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A54C": {
     "id": "SD-A54C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖯",
+    "siddhamUnicode": "𑖜𑖯",
     "iast": "ṇā",
     "romanized": "ṇā",
     "devanagari": "णा",
@@ -3429,8 +3429,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A552": {
     "id": "SD-A552",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖹",
+    "siddhamUnicode": "𑖜𑖹",
     "iast": "ṇai",
     "romanized": "ṇai",
     "devanagari": "णै",
@@ -3441,8 +3441,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A553": {
     "id": "SD-A553",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖺",
+    "siddhamUnicode": "𑖜𑖺",
     "iast": "ṇo",
     "romanized": "ṇo",
     "devanagari": "णो",
@@ -3477,8 +3477,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A557": {
     "id": "SD-A557",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝",
+    "siddhamUnicode": "𑖝",
     "iast": "ta",
     "romanized": "ta",
     "devanagari": "त",
@@ -3489,8 +3489,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A558": {
     "id": "SD-A558",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖯",
+    "siddhamUnicode": "𑖝𑖯",
     "iast": "tā",
     "romanized": "tā",
     "devanagari": "ता",
@@ -3501,8 +3501,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A559": {
     "id": "SD-A559",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖰",
+    "siddhamUnicode": "𑖝𑖰",
     "iast": "ti",
     "romanized": "ti",
     "devanagari": "ति",
@@ -3513,8 +3513,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A55A": {
     "id": "SD-A55A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖱",
+    "siddhamUnicode": "𑖝𑖱",
     "iast": "tī",
     "romanized": "tī",
     "devanagari": "ती",
@@ -3549,8 +3549,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A55D": {
     "id": "SD-A55D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖸",
+    "siddhamUnicode": "𑖝𑖸",
     "iast": "te",
     "romanized": "te",
     "devanagari": "ते",
@@ -3561,8 +3561,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A55E": {
     "id": "SD-A55E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖹",
+    "siddhamUnicode": "𑖝𑖹",
     "iast": "tai",
     "romanized": "tai",
     "devanagari": "तै",
@@ -3573,8 +3573,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A55F": {
     "id": "SD-A55F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖺",
+    "siddhamUnicode": "𑖝𑖺",
     "iast": "to",
     "romanized": "to",
     "devanagari": "तो",
@@ -3585,8 +3585,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A561": {
     "id": "SD-A561",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖽",
+    "siddhamUnicode": "𑖝𑖽",
     "iast": "taṃ",
     "romanized": "taṃ",
     "devanagari": "तं",
@@ -3597,8 +3597,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A562": {
     "id": "SD-A562",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖾",
+    "siddhamUnicode": "𑖝𑖾",
     "iast": "taḥ",
     "romanized": "taḥ",
     "devanagari": "तः",
@@ -3609,8 +3609,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A563": {
     "id": "SD-A563",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞",
+    "siddhamUnicode": "𑖞",
     "iast": "tha",
     "romanized": "tha",
     "devanagari": "थ",
@@ -3621,8 +3621,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A564": {
     "id": "SD-A564",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖯",
+    "siddhamUnicode": "𑖞𑖯",
     "iast": "thā",
     "romanized": "thā",
     "devanagari": "था",
@@ -3633,8 +3633,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A565": {
     "id": "SD-A565",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖰",
+    "siddhamUnicode": "𑖞𑖰",
     "iast": "thi",
     "romanized": "thi",
     "devanagari": "थि",
@@ -3645,8 +3645,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A566": {
     "id": "SD-A566",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖱",
+    "siddhamUnicode": "𑖞𑖱",
     "iast": "thī",
     "romanized": "thī",
     "devanagari": "थी",
@@ -3657,8 +3657,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A569": {
     "id": "SD-A569",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖸",
+    "siddhamUnicode": "𑖞𑖸",
     "iast": "the",
     "romanized": "the",
     "devanagari": "थे",
@@ -3669,8 +3669,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A56B": {
     "id": "SD-A56B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖺",
+    "siddhamUnicode": "𑖞𑖺",
     "iast": "tho",
     "romanized": "tho",
     "devanagari": "थो",
@@ -3681,8 +3681,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A56D": {
     "id": "SD-A56D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖽",
+    "siddhamUnicode": "𑖞𑖽",
     "iast": "thaṃ",
     "romanized": "thaṃ",
     "devanagari": "थं",
@@ -3693,8 +3693,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A56E": {
     "id": "SD-A56E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖾",
+    "siddhamUnicode": "𑖞𑖾",
     "iast": "thaḥ",
     "romanized": "thaḥ",
     "devanagari": "थः",
@@ -3790,8 +3790,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A576": {
     "id": "SD-A576",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖹",
+    "siddhamUnicode": "𑖟𑖹",
     "iast": "dai",
     "romanized": "dai",
     "devanagari": "दै",
@@ -3814,8 +3814,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A578": {
     "id": "SD-A578",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖻",
+    "siddhamUnicode": "𑖟𑖻",
     "iast": "dau",
     "romanized": "dau",
     "devanagari": "दौ",
@@ -3911,8 +3911,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5A4": {
     "id": "SD-A5A4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖹",
+    "siddhamUnicode": "𑖠𑖹",
     "iast": "dhai",
     "romanized": "dhai",
     "devanagari": "धै",
@@ -3935,8 +3935,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5A6": {
     "id": "SD-A5A6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖻",
+    "siddhamUnicode": "𑖠𑖻",
     "iast": "dhau",
     "romanized": "dhau",
     "devanagari": "धौ",
@@ -3971,8 +3971,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5A9": {
     "id": "SD-A5A9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡",
+    "siddhamUnicode": "𑖡",
     "iast": "na",
     "romanized": "na",
     "devanagari": "न",
@@ -3983,8 +3983,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5AA": {
     "id": "SD-A5AA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖯",
+    "siddhamUnicode": "𑖡𑖯",
     "iast": "nā",
     "romanized": "nā",
     "devanagari": "ना",
@@ -3995,8 +3995,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5AB": {
     "id": "SD-A5AB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖰",
+    "siddhamUnicode": "𑖡𑖰",
     "iast": "ni",
     "romanized": "ni",
     "devanagari": "नि",
@@ -4007,8 +4007,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5AC": {
     "id": "SD-A5AC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖱",
+    "siddhamUnicode": "𑖡𑖱",
     "iast": "nī",
     "romanized": "nī",
     "devanagari": "नी",
@@ -4019,8 +4019,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5AD": {
     "id": "SD-A5AD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖲",
+    "siddhamUnicode": "𑖡𑖲",
     "iast": "nu",
     "romanized": "nu",
     "devanagari": "नु",
@@ -4031,8 +4031,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5AF": {
     "id": "SD-A5AF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖸",
+    "siddhamUnicode": "𑖡𑖸",
     "iast": "ne",
     "romanized": "ne",
     "devanagari": "ने",
@@ -4043,8 +4043,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5B0": {
     "id": "SD-A5B0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖹",
+    "siddhamUnicode": "𑖡𑖹",
     "iast": "nai",
     "romanized": "nai",
     "devanagari": "नै",
@@ -4055,8 +4055,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5B1": {
     "id": "SD-A5B1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖺",
+    "siddhamUnicode": "𑖡𑖺",
     "iast": "no",
     "romanized": "no",
     "devanagari": "नो",
@@ -4067,8 +4067,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5B2": {
     "id": "SD-A5B2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖻",
+    "siddhamUnicode": "𑖡𑖻",
     "iast": "nau",
     "romanized": "nau",
     "devanagari": "नौ",
@@ -4079,8 +4079,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5B3": {
     "id": "SD-A5B3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖽",
+    "siddhamUnicode": "𑖡𑖽",
     "iast": "naṃ",
     "romanized": "naṃ",
     "devanagari": "नं",
@@ -4091,8 +4091,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5B4": {
     "id": "SD-A5B4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖾",
+    "siddhamUnicode": "𑖡𑖾",
     "iast": "naḥ",
     "romanized": "naḥ",
     "devanagari": "नः",
@@ -4176,8 +4176,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5BC": {
     "id": "SD-A5BC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖹",
+    "siddhamUnicode": "𑖢𑖹",
     "iast": "pai",
     "romanized": "pai",
     "devanagari": "पै",
@@ -4200,8 +4200,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5BE": {
     "id": "SD-A5BE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖻",
+    "siddhamUnicode": "𑖢𑖻",
     "iast": "pau",
     "romanized": "pau",
     "devanagari": "पौ",
@@ -4394,8 +4394,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5D4": {
     "id": "SD-A5D4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤𑖹",
+    "siddhamUnicode": "𑖤𑖹",
     "iast": "bai",
     "romanized": "bai",
     "devanagari": "बै",
@@ -4527,8 +4527,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5E0": {
     "id": "SD-A5E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖹",
+    "siddhamUnicode": "𑖥𑖹",
     "iast": "bhai",
     "romanized": "bhai",
     "devanagari": "भै",
@@ -4551,8 +4551,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5E2": {
     "id": "SD-A5E2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖻",
+    "siddhamUnicode": "𑖥𑖻",
     "iast": "bhau",
     "romanized": "bhau",
     "devanagari": "भौ",
@@ -4648,8 +4648,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5EC": {
     "id": "SD-A5EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖹",
+    "siddhamUnicode": "𑖦𑖹",
     "iast": "mai",
     "romanized": "mai",
     "devanagari": "मै",
@@ -4672,8 +4672,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5EE": {
     "id": "SD-A5EE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖻",
+    "siddhamUnicode": "𑖦𑖻",
     "iast": "mau",
     "romanized": "mau",
     "devanagari": "मौ",
@@ -4781,8 +4781,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A5F8": {
     "id": "SD-A5F8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧𑖹",
+    "siddhamUnicode": "𑖧𑖹",
     "iast": "yai",
     "romanized": "yai",
     "devanagari": "यै",
@@ -4878,8 +4878,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A642": {
     "id": "SD-A642",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖲",
+    "siddhamUnicode": "𑖨𑖲",
     "iast": "ru",
     "romanized": "ru",
     "devanagari": "रु",
@@ -4914,8 +4914,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A645": {
     "id": "SD-A645",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖹",
+    "siddhamUnicode": "𑖨𑖹",
     "iast": "rai",
     "romanized": "rai",
     "devanagari": "रै",
@@ -4938,8 +4938,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A647": {
     "id": "SD-A647",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖻",
+    "siddhamUnicode": "𑖨𑖻",
     "iast": "rau",
     "romanized": "rau",
     "devanagari": "रौ",
@@ -5047,8 +5047,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A651": {
     "id": "SD-A651",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖹",
+    "siddhamUnicode": "𑖩𑖹",
     "iast": "lai",
     "romanized": "lai",
     "devanagari": "लै",
@@ -5168,8 +5168,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A65D": {
     "id": "SD-A65D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖹",
+    "siddhamUnicode": "𑖪𑖹",
     "iast": "vai",
     "romanized": "vai",
     "devanagari": "वै",
@@ -5301,8 +5301,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A669": {
     "id": "SD-A669",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖹",
+    "siddhamUnicode": "𑖫𑖹",
     "iast": "śai",
     "romanized": "śai",
     "devanagari": "शै",
@@ -5325,8 +5325,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A66B": {
     "id": "SD-A66B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖻",
+    "siddhamUnicode": "𑖫𑖻",
     "iast": "śau",
     "romanized": "śau",
     "devanagari": "शौ",
@@ -5422,8 +5422,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A675": {
     "id": "SD-A675",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖹",
+    "siddhamUnicode": "𑖬𑖹",
     "iast": "ṣai",
     "romanized": "ṣai",
     "devanagari": "षै",
@@ -5543,8 +5543,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6A3": {
     "id": "SD-A6A3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖹",
+    "siddhamUnicode": "𑖭𑖹",
     "iast": "sai",
     "romanized": "sai",
     "devanagari": "सै",
@@ -5567,8 +5567,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6A5": {
     "id": "SD-A6A5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖻",
+    "siddhamUnicode": "𑖭𑖻",
     "iast": "sau",
     "romanized": "sau",
     "devanagari": "सौ",
@@ -5664,8 +5664,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6AF": {
     "id": "SD-A6AF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖹",
+    "siddhamUnicode": "𑖮𑖹",
     "iast": "hai",
     "romanized": "hai",
     "devanagari": "है",
@@ -5688,8 +5688,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6B1": {
     "id": "SD-A6B1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖻",
+    "siddhamUnicode": "𑖮𑖻",
     "iast": "hau",
     "romanized": "hau",
     "devanagari": "हौ",
@@ -5880,8 +5880,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6C4": {
     "id": "SD-A6C4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖎𑖿𑖧𑖲",
     "iast": "kyu",
     "romanized": "kyu",
     "devanagari": "क्यु",
@@ -5904,8 +5904,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6C7": {
     "id": "SD-A6C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖧𑖹",
+    "siddhamUnicode": "𑖎𑖿𑖧𑖹",
     "iast": "kyai",
     "romanized": "kyai",
     "devanagari": "क्यै",
@@ -5928,8 +5928,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6C9": {
     "id": "SD-A6C9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖧𑖻",
+    "siddhamUnicode": "𑖎𑖿𑖧𑖻",
     "iast": "kyau",
     "romanized": "kyau",
     "devanagari": "क्यौ",
@@ -6012,8 +6012,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A6D3": {
     "id": "SD-A6D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖿𑖧𑖹",
+    "siddhamUnicode": "𑖏𑖿𑖧𑖹",
     "iast": "khyai",
     "romanized": "khyai",
     "devanagari": "ख्यै",
@@ -6096,8 +6096,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A741": {
     "id": "SD-A741",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖓𑖿𑖧𑖲",
     "iast": "cyu",
     "romanized": "cyu",
     "devanagari": "च्यु",
@@ -6120,8 +6120,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A759": {
     "id": "SD-A759",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖕𑖿𑖧𑖲",
     "iast": "jyu",
     "romanized": "jyu",
     "devanagari": "ज्यु",
@@ -6180,8 +6180,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A779": {
     "id": "SD-A779",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖧",
+    "siddhamUnicode": "𑖘𑖿𑖧",
     "iast": "ṭya",
     "romanized": "ṭya",
     "devanagari": "ट्य",
@@ -6192,8 +6192,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7A1": {
     "id": "SD-A7A1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖧𑖸",
+    "siddhamUnicode": "𑖘𑖿𑖧𑖸",
     "iast": "ṭye",
     "romanized": "ṭye",
     "devanagari": "ट्ये",
@@ -6204,8 +6204,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7AD": {
     "id": "SD-A7AD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖿𑖧𑖸",
+    "siddhamUnicode": "𑖙𑖿𑖧𑖸",
     "iast": "ṭhye",
     "romanized": "ṭhye",
     "devanagari": "ठ्ये",
@@ -6216,8 +6216,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7C9": {
     "id": "SD-A7C9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖿𑖧𑖽",
+    "siddhamUnicode": "𑖛𑖿𑖧𑖽",
     "iast": "ḍhyaṃ",
     "romanized": "ḍhyaṃ",
     "devanagari": "ढ्यं",
@@ -6300,8 +6300,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7DB": {
     "id": "SD-A7DB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖝𑖿𑖧𑖲",
     "iast": "tyu",
     "romanized": "tyu",
     "devanagari": "त्यु",
@@ -6324,8 +6324,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7DE": {
     "id": "SD-A7DE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖧𑖹",
+    "siddhamUnicode": "𑖝𑖿𑖧𑖹",
     "iast": "tyai",
     "romanized": "tyai",
     "devanagari": "त्यै",
@@ -6360,8 +6360,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7E3": {
     "id": "SD-A7E3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖿𑖧",
+    "siddhamUnicode": "𑖞𑖿𑖧",
     "iast": "thya",
     "romanized": "thya",
     "devanagari": "थ्य",
@@ -6372,8 +6372,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7E4": {
     "id": "SD-A7E4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖞𑖿𑖧𑖯",
     "iast": "thyā",
     "romanized": "thyā",
     "devanagari": "थ्या",
@@ -6408,8 +6408,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A7F3": {
     "id": "SD-A7F3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖟𑖿𑖧𑖲",
     "iast": "dyu",
     "romanized": "dyu",
     "devanagari": "द्यु",
@@ -6492,8 +6492,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A840": {
     "id": "SD-A840",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖠𑖿𑖧𑖲",
     "iast": "dhyu",
     "romanized": "dhyu",
     "devanagari": "ध्यु",
@@ -6540,8 +6540,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A848": {
     "id": "SD-A848",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖧",
+    "siddhamUnicode": "𑖡𑖿𑖧",
     "iast": "nya",
     "romanized": "nya",
     "devanagari": "न्य",
@@ -6552,8 +6552,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A849": {
     "id": "SD-A849",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖧𑖯",
     "iast": "nyā",
     "romanized": "nyā",
     "devanagari": "न्या",
@@ -6564,8 +6564,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A84C": {
     "id": "SD-A84C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖡𑖿𑖧𑖲",
     "iast": "nyu",
     "romanized": "nyu",
     "devanagari": "न्यु",
@@ -6576,8 +6576,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A84E": {
     "id": "SD-A84E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖧𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖧𑖸",
     "iast": "nye",
     "romanized": "nye",
     "devanagari": "न्ये",
@@ -6588,8 +6588,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A852": {
     "id": "SD-A852",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖧𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖧𑖽",
     "iast": "nyaṃ",
     "romanized": "nyaṃ",
     "devanagari": "न्यं",
@@ -6636,8 +6636,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A861": {
     "id": "SD-A861",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖣𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖣𑖿𑖧𑖯",
     "iast": "phyā",
     "romanized": "phyā",
     "devanagari": "फ्या",
@@ -6672,8 +6672,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A879": {
     "id": "SD-A879",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖥𑖿𑖧𑖯",
     "iast": "bhyā",
     "romanized": "bhyā",
     "devanagari": "भ्या",
@@ -6696,8 +6696,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A87C": {
     "id": "SD-A87C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖥𑖿𑖧𑖲",
     "iast": "bhyu",
     "romanized": "bhyu",
     "devanagari": "भ्यु",
@@ -6780,8 +6780,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A8AA": {
     "id": "SD-A8AA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖦𑖿𑖧𑖲",
     "iast": "myu",
     "romanized": "myu",
     "devanagari": "म्यु",
@@ -6900,8 +6900,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A8C2": {
     "id": "SD-A8C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖪𑖿𑖧𑖲",
     "iast": "vyu",
     "romanized": "vyu",
     "devanagari": "व्यु",
@@ -6924,8 +6924,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A8C5": {
     "id": "SD-A8C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖧𑖹",
+    "siddhamUnicode": "𑖪𑖿𑖧𑖹",
     "iast": "vyai",
     "romanized": "vyai",
     "devanagari": "व्यै",
@@ -7092,8 +7092,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A8E6": {
     "id": "SD-A8E6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖭𑖿𑖧𑖲",
     "iast": "syu",
     "romanized": "syu",
     "devanagari": "स्यु",
@@ -7236,8 +7236,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A94B": {
     "id": "SD-A94B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖎𑖿𑖨𑖲",
     "iast": "kru",
     "romanized": "kru",
     "devanagari": "क्रु",
@@ -7248,8 +7248,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A94C": {
     "id": "SD-A94C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖎𑖿𑖨𑖳",
     "iast": "krū",
     "romanized": "krū",
     "devanagari": "क्रू",
@@ -7284,8 +7284,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A950": {
     "id": "SD-A950",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖨𑖻",
+    "siddhamUnicode": "𑖎𑖿𑖨𑖻",
     "iast": "krau",
     "romanized": "krau",
     "devanagari": "क्रौ",
@@ -7536,8 +7536,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A9C4": {
     "id": "SD-A9C4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖨𑖹",
+    "siddhamUnicode": "𑖕𑖿𑖨𑖹",
     "iast": "jrai",
     "romanized": "jrai",
     "devanagari": "ज्रै",
@@ -7584,8 +7584,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A9E1": {
     "id": "SD-A9E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖨",
+    "siddhamUnicode": "𑖘𑖿𑖨",
     "iast": "ṭra",
     "romanized": "ṭra",
     "devanagari": "ट्र",
@@ -7596,8 +7596,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A9E5": {
     "id": "SD-A9E5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖘𑖿𑖨𑖲",
     "iast": "ṭru",
     "romanized": "ṭru",
     "devanagari": "ट्रु",
@@ -7608,8 +7608,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A9E9": {
     "id": "SD-A9E9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖨𑖺",
+    "siddhamUnicode": "𑖘𑖿𑖨𑖺",
     "iast": "ṭro",
     "romanized": "ṭro",
     "devanagari": "ट्रो",
@@ -7620,8 +7620,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-A9EB": {
     "id": "SD-A9EB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖨𑖽",
+    "siddhamUnicode": "𑖘𑖿𑖨𑖽",
     "iast": "ṭraṃ",
     "romanized": "ṭraṃ",
     "devanagari": "ट्रं",
@@ -7704,8 +7704,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AA62": {
     "id": "SD-AA62",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖲",
     "iast": "tru",
     "romanized": "tru",
     "devanagari": "त्रु",
@@ -7716,8 +7716,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AA63": {
     "id": "SD-AA63",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖳",
     "iast": "trū",
     "romanized": "trū",
     "devanagari": "त्रू",
@@ -7740,8 +7740,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AA65": {
     "id": "SD-AA65",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖹",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖹",
     "iast": "trai",
     "romanized": "trai",
     "devanagari": "त्रै",
@@ -7764,8 +7764,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AA67": {
     "id": "SD-AA67",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖻",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖻",
     "iast": "trau",
     "romanized": "trau",
     "devanagari": "त्रौ",
@@ -7848,8 +7848,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AA7A": {
     "id": "SD-AA7A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖟𑖿𑖨𑖲",
     "iast": "dru",
     "romanized": "dru",
     "devanagari": "द्रु",
@@ -7860,8 +7860,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AA7B": {
     "id": "SD-AA7B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖟𑖿𑖨𑖳",
     "iast": "drū",
     "romanized": "drū",
     "devanagari": "द्रू",
@@ -7944,8 +7944,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AAAD": {
     "id": "SD-AAAD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖨𑖻",
+    "siddhamUnicode": "𑖠𑖿𑖨𑖻",
     "iast": "dhrau",
     "romanized": "dhrau",
     "devanagari": "ध्रौ",
@@ -7956,8 +7956,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AAB0": {
     "id": "SD-AAB0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖨",
+    "siddhamUnicode": "𑖡𑖿𑖨",
     "iast": "nra",
     "romanized": "nra",
     "devanagari": "न्र",
@@ -8004,8 +8004,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AAC0": {
     "id": "SD-AAC0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖢𑖿𑖨𑖲",
     "iast": "pru",
     "romanized": "pru",
     "devanagari": "प्रु",
@@ -8016,8 +8016,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AAC1": {
     "id": "SD-AAC1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖢𑖿𑖨𑖳",
     "iast": "prū",
     "romanized": "prū",
     "devanagari": "प्रू",
@@ -8076,8 +8076,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AAD8": {
     "id": "SD-AAD8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖤𑖿𑖨𑖲",
     "iast": "bru",
     "romanized": "bru",
     "devanagari": "ब्रु",
@@ -8196,8 +8196,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AAF4": {
     "id": "SD-AAF4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖨𑖺",
+    "siddhamUnicode": "𑖦𑖿𑖨𑖺",
     "iast": "mro",
     "romanized": "mro",
     "devanagari": "म्रो",
@@ -8244,8 +8244,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AB56": {
     "id": "SD-AB56",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖪𑖿𑖨𑖳",
     "iast": "vrū",
     "romanized": "vrū",
     "devanagari": "व्रू",
@@ -8316,8 +8316,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AB61": {
     "id": "SD-AB61",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖫𑖿𑖨𑖲",
     "iast": "śru",
     "romanized": "śru",
     "devanagari": "श्रु",
@@ -8328,8 +8328,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AB62": {
     "id": "SD-AB62",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖫𑖿𑖨𑖳",
     "iast": "śrū",
     "romanized": "śrū",
     "devanagari": "श्रू",
@@ -8436,8 +8436,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AB79": {
     "id": "SD-AB79",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖭𑖿𑖨𑖲",
     "iast": "sru",
     "romanized": "sru",
     "devanagari": "स्रु",
@@ -8448,8 +8448,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AB7A": {
     "id": "SD-AB7A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖭𑖿𑖨𑖳",
     "iast": "srū",
     "romanized": "srū",
     "devanagari": "स्रू",
@@ -8880,8 +8880,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AEDC": {
     "id": "SD-AEDC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖪",
+    "siddhamUnicode": "𑖘𑖿𑖪",
     "iast": "ṭva",
     "romanized": "ṭva",
     "devanagari": "ट्व",
@@ -8892,8 +8892,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AEDD": {
     "id": "SD-AEDD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖘𑖿𑖪𑖯",
     "iast": "ṭvā",
     "romanized": "ṭvā",
     "devanagari": "ट्वा",
@@ -9000,8 +9000,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AF64": {
     "id": "SD-AF64",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖪𑖾",
+    "siddhamUnicode": "𑖝𑖿𑖪𑖾",
     "iast": "tvaḥ",
     "romanized": "tvaḥ",
     "devanagari": "त्वः",
@@ -9072,8 +9072,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AF78": {
     "id": "SD-AF78",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖪𑖹",
+    "siddhamUnicode": "𑖟𑖿𑖪𑖹",
     "iast": "dvai",
     "romanized": "dvai",
     "devanagari": "द्वै",
@@ -9156,8 +9156,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AFAB": {
     "id": "SD-AFAB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪",
+    "siddhamUnicode": "𑖡𑖿𑖪",
     "iast": "nva",
     "romanized": "nva",
     "devanagari": "न्व",
@@ -9168,8 +9168,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AFAC": {
     "id": "SD-AFAC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖪𑖯",
     "iast": "nvā",
     "romanized": "nvā",
     "devanagari": "न्वा",
@@ -9180,8 +9180,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AFAD": {
     "id": "SD-AFAD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖪𑖰",
     "iast": "nvi",
     "romanized": "nvi",
     "devanagari": "न्वि",
@@ -9192,8 +9192,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AFB1": {
     "id": "SD-AFB1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖪𑖸",
     "iast": "nve",
     "romanized": "nve",
     "devanagari": "न्वे",
@@ -9204,8 +9204,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AFB3": {
     "id": "SD-AFB3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖪𑖺",
     "iast": "nvo",
     "romanized": "nvo",
     "devanagari": "न्वो",
@@ -9216,8 +9216,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-AFB5": {
     "id": "SD-AFB5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖪𑖽",
     "iast": "nvaṃ",
     "romanized": "nvaṃ",
     "devanagari": "न्वं",
@@ -9492,8 +9492,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B071": {
     "id": "SD-B071",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖮𑖿𑖪𑖯",
     "iast": "hvā",
     "romanized": "hvā",
     "devanagari": "ह्वा",
@@ -9636,8 +9636,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B1CD": {
     "id": "SD-B1CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖿𑖦",
+    "siddhamUnicode": "𑖞𑖿𑖦",
     "iast": "thma",
     "romanized": "thma",
     "devanagari": "थ्म",
@@ -9732,8 +9732,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B1F1": {
     "id": "SD-B1F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖦",
+    "siddhamUnicode": "𑖡𑖿𑖦",
     "iast": "nma",
     "romanized": "nma",
     "devanagari": "न्म",
@@ -9744,8 +9744,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B1F3": {
     "id": "SD-B1F3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖦𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖦𑖰",
     "iast": "nmi",
     "romanized": "nmi",
     "devanagari": "न्मि",
@@ -9756,8 +9756,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B1F4": {
     "id": "SD-B1F4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖦𑖱",
+    "siddhamUnicode": "𑖡𑖿𑖦𑖱",
     "iast": "nmī",
     "romanized": "nmī",
     "devanagari": "न्मी",
@@ -9852,8 +9852,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B2BB": {
     "id": "SD-B2BB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖦𑖹",
+    "siddhamUnicode": "𑖫𑖿𑖦𑖹",
     "iast": "śmai",
     "romanized": "śmai",
     "devanagari": "श्मै",
@@ -9960,8 +9960,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B2D3": {
     "id": "SD-B2D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖦𑖹",
+    "siddhamUnicode": "𑖭𑖿𑖦𑖹",
     "iast": "smai",
     "romanized": "smai",
     "devanagari": "स्मै",
@@ -10092,8 +10092,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B2F1": {
     "id": "SD-B2F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖎𑖿𑖡𑖯",
     "iast": "knā",
     "romanized": "knā",
     "devanagari": "क्ना",
@@ -10104,8 +10104,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B2F6": {
     "id": "SD-B2F6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖡𑖸",
+    "siddhamUnicode": "𑖎𑖿𑖡𑖸",
     "iast": "kne",
     "romanized": "kne",
     "devanagari": "क्ने",
@@ -10116,8 +10116,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B349": {
     "id": "SD-B349",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖡",
+    "siddhamUnicode": "𑖐𑖿𑖡",
     "iast": "gna",
     "romanized": "gna",
     "devanagari": "ग्न",
@@ -10128,8 +10128,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B34B": {
     "id": "SD-B34B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖐𑖿𑖡𑖰",
     "iast": "gni",
     "romanized": "gni",
     "devanagari": "ग्नि",
@@ -10140,8 +10140,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B34C": {
     "id": "SD-B34C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖡𑖱",
+    "siddhamUnicode": "𑖐𑖿𑖡𑖱",
     "iast": "gnī",
     "romanized": "gnī",
     "devanagari": "ग्नी",
@@ -10152,8 +10152,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B34F": {
     "id": "SD-B34F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖡𑖸",
+    "siddhamUnicode": "𑖐𑖿𑖡𑖸",
     "iast": "gne",
     "romanized": "gne",
     "devanagari": "ग्ने",
@@ -10164,8 +10164,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B353": {
     "id": "SD-B353",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖡𑖽",
+    "siddhamUnicode": "𑖐𑖿𑖡𑖽",
     "iast": "gnaṃ",
     "romanized": "gnaṃ",
     "devanagari": "ग्नं",
@@ -10176,8 +10176,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B355": {
     "id": "SD-B355",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖿𑖡",
+    "siddhamUnicode": "𑖑𑖿𑖡",
     "iast": "ghna",
     "romanized": "ghna",
     "devanagari": "घ्न",
@@ -10188,8 +10188,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B356": {
     "id": "SD-B356",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖑𑖿𑖡𑖯",
     "iast": "ghnā",
     "romanized": "ghnā",
     "devanagari": "घ्ना",
@@ -10200,8 +10200,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B35D": {
     "id": "SD-B35D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖿𑖡𑖺",
+    "siddhamUnicode": "𑖑𑖿𑖡𑖺",
     "iast": "ghno",
     "romanized": "ghno",
     "devanagari": "घ्नो",
@@ -10212,8 +10212,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B35F": {
     "id": "SD-B35F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖿𑖡𑖽",
+    "siddhamUnicode": "𑖑𑖿𑖡𑖽",
     "iast": "ghnaṃ",
     "romanized": "ghnaṃ",
     "devanagari": "घ्नं",
@@ -10224,8 +10224,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B448": {
     "id": "SD-B448",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡",
+    "siddhamUnicode": "𑖝𑖿𑖡",
     "iast": "tna",
     "romanized": "tna",
     "devanagari": "त्न",
@@ -10236,8 +10236,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B449": {
     "id": "SD-B449",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖯",
     "iast": "tnā",
     "romanized": "tnā",
     "devanagari": "त्ना",
@@ -10248,8 +10248,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B44A": {
     "id": "SD-B44A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖰",
     "iast": "tni",
     "romanized": "tni",
     "devanagari": "त्नि",
@@ -10260,8 +10260,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B44E": {
     "id": "SD-B44E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖸",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖸",
     "iast": "tne",
     "romanized": "tne",
     "devanagari": "त्ने",
@@ -10272,8 +10272,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B450": {
     "id": "SD-B450",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖺",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖺",
     "iast": "tno",
     "romanized": "tno",
     "devanagari": "त्नो",
@@ -10284,8 +10284,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B452": {
     "id": "SD-B452",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖽",
     "iast": "tnaṃ",
     "romanized": "tnaṃ",
     "devanagari": "त्नं",
@@ -10296,8 +10296,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B454": {
     "id": "SD-B454",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖿𑖡",
+    "siddhamUnicode": "𑖞𑖿𑖡",
     "iast": "thna",
     "romanized": "thna",
     "devanagari": "थ्न",
@@ -10308,8 +10308,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B460": {
     "id": "SD-B460",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖡",
+    "siddhamUnicode": "𑖟𑖿𑖡",
     "iast": "dna",
     "romanized": "dna",
     "devanagari": "द्न",
@@ -10320,8 +10320,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B462": {
     "id": "SD-B462",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖟𑖿𑖡𑖰",
     "iast": "dni",
     "romanized": "dni",
     "devanagari": "द्नि",
@@ -10332,8 +10332,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B478": {
     "id": "SD-B478",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖡",
+    "siddhamUnicode": "𑖢𑖿𑖡",
     "iast": "pna",
     "romanized": "pna",
     "devanagari": "प्न",
@@ -10344,8 +10344,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B47A": {
     "id": "SD-B47A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖢𑖿𑖡𑖰",
     "iast": "pni",
     "romanized": "pni",
     "devanagari": "प्नि",
@@ -10356,8 +10356,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B4CA": {
     "id": "SD-B4CA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖡",
+    "siddhamUnicode": "𑖦𑖿𑖡",
     "iast": "mna",
     "romanized": "mna",
     "devanagari": "म्न",
@@ -10368,8 +10368,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B4CB": {
     "id": "SD-B4CB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖦𑖿𑖡𑖯",
     "iast": "mnā",
     "romanized": "mnā",
     "devanagari": "म्ना",
@@ -10380,8 +10380,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B4E2": {
     "id": "SD-B4E2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖿𑖡",
+    "siddhamUnicode": "𑖩𑖿𑖡",
     "iast": "lna",
     "romanized": "lna",
     "devanagari": "ल्न",
@@ -10392,8 +10392,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B4EE": {
     "id": "SD-B4EE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖡",
+    "siddhamUnicode": "𑖪𑖿𑖡",
     "iast": "vna",
     "romanized": "vna",
     "devanagari": "व्न",
@@ -10404,8 +10404,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B4FA": {
     "id": "SD-B4FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖡",
+    "siddhamUnicode": "𑖫𑖿𑖡",
     "iast": "śna",
     "romanized": "śna",
     "devanagari": "श्न",
@@ -10416,8 +10416,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B4FC": {
     "id": "SD-B4FC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖫𑖿𑖡𑖰",
     "iast": "śni",
     "romanized": "śni",
     "devanagari": "श्नि",
@@ -10428,8 +10428,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B547": {
     "id": "SD-B547",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖡",
+    "siddhamUnicode": "𑖬𑖿𑖡",
     "iast": "ṣna",
     "romanized": "ṣna",
     "devanagari": "ष्न",
@@ -10440,8 +10440,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B548": {
     "id": "SD-B548",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖬𑖿𑖡𑖯",
     "iast": "ṣnā",
     "romanized": "ṣnā",
     "devanagari": "ष्ना",
@@ -10452,8 +10452,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B553": {
     "id": "SD-B553",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖡",
+    "siddhamUnicode": "𑖭𑖿𑖡",
     "iast": "sna",
     "romanized": "sna",
     "devanagari": "स्न",
@@ -10464,8 +10464,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B554": {
     "id": "SD-B554",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖭𑖿𑖡𑖯",
     "iast": "snā",
     "romanized": "snā",
     "devanagari": "स्ना",
@@ -10476,8 +10476,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B55F": {
     "id": "SD-B55F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖡",
+    "siddhamUnicode": "𑖮𑖿𑖡",
     "iast": "hna",
     "romanized": "hna",
     "devanagari": "ह्न",
@@ -10512,8 +10512,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B579": {
     "id": "SD-B579",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖰",
     "iast": "rki",
     "romanized": "rki",
     "devanagari": "र्कि",
@@ -10560,8 +10560,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B57D": {
     "id": "SD-B57D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖸",
     "iast": "rke",
     "romanized": "rke",
     "devanagari": "र्के",
@@ -10572,8 +10572,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B57E": {
     "id": "SD-B57E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖹",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖹",
     "iast": "rkai",
     "romanized": "rkai",
     "devanagari": "र्कै",
@@ -10584,8 +10584,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5A1": {
     "id": "SD-B5A1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖺",
     "iast": "rko",
     "romanized": "rko",
     "devanagari": "र्को",
@@ -10596,8 +10596,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5A2": {
     "id": "SD-B5A2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖻",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖻",
     "iast": "rkau",
     "romanized": "rkau",
     "devanagari": "र्कौ",
@@ -10692,8 +10692,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5B7": {
     "id": "SD-B5B7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖐𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖐𑖸",
     "iast": "rge",
     "romanized": "rge",
     "devanagari": "र्गे",
@@ -10704,8 +10704,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5B9": {
     "id": "SD-B5B9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖐𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖐𑖺",
     "iast": "rgo",
     "romanized": "rgo",
     "devanagari": "र्गो",
@@ -10716,8 +10716,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5BD": {
     "id": "SD-B5BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖑",
+    "siddhamUnicode": "𑖨𑖿𑖑",
     "iast": "rgha",
     "romanized": "rgha",
     "devanagari": "र्घ",
@@ -10728,8 +10728,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5C5": {
     "id": "SD-B5C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖑𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖑𑖺",
     "iast": "rgho",
     "romanized": "rgho",
     "devanagari": "र्घो",
@@ -10740,8 +10740,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B5C7": {
     "id": "SD-B5C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖑𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖑𑖽",
     "iast": "rghaṃ",
     "romanized": "rghaṃ",
     "devanagari": "र्घं",
@@ -10800,8 +10800,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B65E": {
     "id": "SD-B65E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖙",
+    "siddhamUnicode": "𑖨𑖿𑖙",
     "iast": "rṭha",
     "romanized": "rṭha",
     "devanagari": "र्ठ",
@@ -10812,8 +10812,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6A4": {
     "id": "SD-B6A4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜",
+    "siddhamUnicode": "𑖨𑖿𑖜",
     "iast": "rṇa",
     "romanized": "rṇa",
     "devanagari": "र्ण",
@@ -10824,8 +10824,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6A5": {
     "id": "SD-B6A5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖯",
     "iast": "rṇā",
     "romanized": "rṇā",
     "devanagari": "र्णा",
@@ -10836,8 +10836,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6A6": {
     "id": "SD-B6A6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖰",
     "iast": "rṇi",
     "romanized": "rṇi",
     "devanagari": "र्णि",
@@ -10848,8 +10848,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6A7": {
     "id": "SD-B6A7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖱",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖱",
     "iast": "rṇī",
     "romanized": "rṇī",
     "devanagari": "र्णी",
@@ -10860,8 +10860,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6A8": {
     "id": "SD-B6A8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖲",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖲",
     "iast": "rṇu",
     "romanized": "rṇu",
     "devanagari": "र्णु",
@@ -10872,8 +10872,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6A9": {
     "id": "SD-B6A9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖳",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖳",
     "iast": "rṇū",
     "romanized": "rṇū",
     "devanagari": "र्णू",
@@ -10884,8 +10884,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6AE": {
     "id": "SD-B6AE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖽",
     "iast": "rṇaṃ",
     "romanized": "rṇaṃ",
     "devanagari": "र्णं",
@@ -10896,8 +10896,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6AF": {
     "id": "SD-B6AF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖾",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖾",
     "iast": "rṇaḥ",
     "romanized": "rṇaḥ",
     "devanagari": "र्णः",
@@ -10908,8 +10908,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6B0": {
     "id": "SD-B6B0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝",
+    "siddhamUnicode": "𑖨𑖿𑖝",
     "iast": "rta",
     "romanized": "rta",
     "devanagari": "र्त",
@@ -10920,8 +10920,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6B2": {
     "id": "SD-B6B2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖝𑖰",
     "iast": "rti",
     "romanized": "rti",
     "devanagari": "र्ति",
@@ -10932,8 +10932,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6BC": {
     "id": "SD-B6BC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞",
+    "siddhamUnicode": "𑖨𑖿𑖞",
     "iast": "rtha",
     "romanized": "rtha",
     "devanagari": "र्थ",
@@ -10944,8 +10944,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6BD": {
     "id": "SD-B6BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖞𑖯",
     "iast": "rthā",
     "romanized": "rthā",
     "devanagari": "र्था",
@@ -10956,8 +10956,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6BE": {
     "id": "SD-B6BE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖞𑖰",
     "iast": "rthi",
     "romanized": "rthi",
     "devanagari": "र्थि",
@@ -10968,8 +10968,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6BF": {
     "id": "SD-B6BF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞𑖱",
+    "siddhamUnicode": "𑖨𑖿𑖞𑖱",
     "iast": "rthī",
     "romanized": "rthī",
     "devanagari": "र्थी",
@@ -10980,8 +10980,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6C2": {
     "id": "SD-B6C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖞𑖸",
     "iast": "rthe",
     "romanized": "rthe",
     "devanagari": "र्थे",
@@ -10992,8 +10992,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6C4": {
     "id": "SD-B6C4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖞𑖺",
     "iast": "rtho",
     "romanized": "rtho",
     "devanagari": "र्थो",
@@ -11004,8 +11004,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6C6": {
     "id": "SD-B6C6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖞𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖞𑖽",
     "iast": "rthaṃ",
     "romanized": "rthaṃ",
     "devanagari": "र्थं",
@@ -11112,8 +11112,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6E0": {
     "id": "SD-B6E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖡",
+    "siddhamUnicode": "𑖨𑖿𑖡",
     "iast": "rna",
     "romanized": "rna",
     "devanagari": "र्न",
@@ -11124,8 +11124,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6E1": {
     "id": "SD-B6E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖡𑖯",
     "iast": "rnā",
     "romanized": "rnā",
     "devanagari": "र्ना",
@@ -11136,8 +11136,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6E2": {
     "id": "SD-B6E2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖡𑖰",
     "iast": "rni",
     "romanized": "rni",
     "devanagari": "र्नि",
@@ -11148,8 +11148,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6E6": {
     "id": "SD-B6E6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖡𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖡𑖸",
     "iast": "rne",
     "romanized": "rne",
     "devanagari": "र्ने",
@@ -11160,8 +11160,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6EC": {
     "id": "SD-B6EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖢",
+    "siddhamUnicode": "𑖨𑖿𑖢",
     "iast": "rpa",
     "romanized": "rpa",
     "devanagari": "र्प",
@@ -11172,8 +11172,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6ED": {
     "id": "SD-B6ED",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖢𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖢𑖯",
     "iast": "rpā",
     "romanized": "rpā",
     "devanagari": "र्पा",
@@ -11184,8 +11184,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6EE": {
     "id": "SD-B6EE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖢𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖢𑖰",
     "iast": "rpi",
     "romanized": "rpi",
     "devanagari": "र्पि",
@@ -11196,8 +11196,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6F2": {
     "id": "SD-B6F2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖢𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖢𑖸",
     "iast": "rpe",
     "romanized": "rpe",
     "devanagari": "र्पे",
@@ -11208,8 +11208,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6F6": {
     "id": "SD-B6F6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖢𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖢𑖽",
     "iast": "rpaṃ",
     "romanized": "rpaṃ",
     "devanagari": "र्पं",
@@ -11220,8 +11220,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B6FC": {
     "id": "SD-B6FC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖣𑖲",
+    "siddhamUnicode": "𑖨𑖿𑖣𑖲",
     "iast": "rphu",
     "romanized": "rphu",
     "devanagari": "र्फु",
@@ -11328,8 +11328,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B75D": {
     "id": "SD-B75D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦",
+    "siddhamUnicode": "𑖨𑖿𑖦",
     "iast": "rma",
     "romanized": "rma",
     "devanagari": "र्म",
@@ -11340,8 +11340,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B75E": {
     "id": "SD-B75E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖯",
     "iast": "rmā",
     "romanized": "rmā",
     "devanagari": "र्मा",
@@ -11352,8 +11352,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B75F": {
     "id": "SD-B75F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖰",
     "iast": "rmi",
     "romanized": "rmi",
     "devanagari": "र्मि",
@@ -11364,8 +11364,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B763": {
     "id": "SD-B763",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖸",
     "iast": "rme",
     "romanized": "rme",
     "devanagari": "र्मे",
@@ -11376,8 +11376,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B765": {
     "id": "SD-B765",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖺",
     "iast": "rmo",
     "romanized": "rmo",
     "devanagari": "र्मो",
@@ -11388,8 +11388,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B767": {
     "id": "SD-B767",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖽",
     "iast": "rmaṃ",
     "romanized": "rmaṃ",
     "devanagari": "र्मं",
@@ -11424,8 +11424,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B76D": {
     "id": "SD-B76D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖨𑖿𑖧𑖲",
     "iast": "ryu",
     "romanized": "ryu",
     "devanagari": "र्यु",
@@ -11448,8 +11448,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B770": {
     "id": "SD-B770",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖧𑖹",
+    "siddhamUnicode": "𑖨𑖿𑖧𑖹",
     "iast": "ryai",
     "romanized": "ryai",
     "devanagari": "र्यै",
@@ -11580,8 +11580,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7AA": {
     "id": "SD-B7AA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖪𑖹",
+    "siddhamUnicode": "𑖨𑖿𑖪𑖹",
     "iast": "rvai",
     "romanized": "rvai",
     "devanagari": "र्वै",
@@ -11616,8 +11616,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7AF": {
     "id": "SD-B7AF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖫",
+    "siddhamUnicode": "𑖨𑖿𑖫",
     "iast": "rśa",
     "romanized": "rśa",
     "devanagari": "र्श",
@@ -11628,8 +11628,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7B1": {
     "id": "SD-B7B1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖫𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖫𑖰",
     "iast": "rśi",
     "romanized": "rśi",
     "devanagari": "र्शि",
@@ -11640,8 +11640,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7BB": {
     "id": "SD-B7BB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬",
+    "siddhamUnicode": "𑖨𑖿𑖬",
     "iast": "rṣa",
     "romanized": "rṣa",
     "devanagari": "र्ष",
@@ -11652,8 +11652,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7BC": {
     "id": "SD-B7BC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖯",
     "iast": "rṣā",
     "romanized": "rṣā",
     "devanagari": "र्षा",
@@ -11664,8 +11664,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7BD": {
     "id": "SD-B7BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖰",
     "iast": "rṣi",
     "romanized": "rṣi",
     "devanagari": "र्षि",
@@ -11676,8 +11676,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7BE": {
     "id": "SD-B7BE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖱",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖱",
     "iast": "rṣī",
     "romanized": "rṣī",
     "devanagari": "र्षी",
@@ -11688,8 +11688,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7C1": {
     "id": "SD-B7C1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖸",
     "iast": "rṣe",
     "romanized": "rṣe",
     "devanagari": "र्षे",
@@ -11700,8 +11700,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7C2": {
     "id": "SD-B7C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖹",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖹",
     "iast": "rṣai",
     "romanized": "rṣai",
     "devanagari": "र्षै",
@@ -11712,8 +11712,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7C5": {
     "id": "SD-B7C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖽",
     "iast": "rṣaṃ",
     "romanized": "rṣaṃ",
     "devanagari": "र्षं",
@@ -11724,8 +11724,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7C7": {
     "id": "SD-B7C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖭",
+    "siddhamUnicode": "𑖨𑖿𑖭",
     "iast": "rsa",
     "romanized": "rsa",
     "devanagari": "र्स",
@@ -11736,8 +11736,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7C9": {
     "id": "SD-B7C9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖭𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖭𑖰",
     "iast": "rsi",
     "romanized": "rsi",
     "devanagari": "र्सि",
@@ -11748,8 +11748,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7CD": {
     "id": "SD-B7CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖭𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖭𑖸",
     "iast": "rse",
     "romanized": "rse",
     "devanagari": "र्से",
@@ -11760,8 +11760,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7D3": {
     "id": "SD-B7D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖮",
+    "siddhamUnicode": "𑖨𑖿𑖮",
     "iast": "rha",
     "romanized": "rha",
     "devanagari": "र्ह",
@@ -11772,8 +11772,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7D4": {
     "id": "SD-B7D4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖮𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖮𑖯",
     "iast": "rhā",
     "romanized": "rhā",
     "devanagari": "र्हा",
@@ -11784,8 +11784,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7D9": {
     "id": "SD-B7D9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖮𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖮𑖸",
     "iast": "rhe",
     "romanized": "rhe",
     "devanagari": "र्हे",
@@ -11796,8 +11796,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7DB": {
     "id": "SD-B7DB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖮𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖮𑖺",
     "iast": "rho",
     "romanized": "rho",
     "devanagari": "र्हो",
@@ -11808,8 +11808,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7EB": {
     "id": "SD-B7EB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖧",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖧",
     "iast": "rkya",
     "romanized": "rkya",
     "devanagari": "र्क्य",
@@ -11820,8 +11820,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B7EC": {
     "id": "SD-B7EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖧𑖯",
     "iast": "rkyā",
     "romanized": "rkyā",
     "devanagari": "र्क्या",
@@ -11856,8 +11856,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-B947": {
     "id": "SD-B947",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖨𑖿𑖝𑖿𑖧𑖲",
     "iast": "rtyu",
     "romanized": "rtyu",
     "devanagari": "र्त्यु",
@@ -11880,8 +11880,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-BA72": {
     "id": "SD-BA72",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖨",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖨",
     "iast": "rkra",
     "romanized": "rkra",
     "devanagari": "र्क्र",
@@ -11892,8 +11892,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-BA73": {
     "id": "SD-BA73",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖨𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖨𑖯",
     "iast": "rkrā",
     "romanized": "rkrā",
     "devanagari": "र्क्रा",
@@ -11904,8 +11904,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-BCE6": {
     "id": "SD-BCE6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖩",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖩",
     "iast": "rkla",
     "romanized": "rkla",
     "devanagari": "र्क्ल",
@@ -11916,8 +11916,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-BCE7": {
     "id": "SD-BCE7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖩𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖩𑖯",
     "iast": "rklā",
     "romanized": "rklā",
     "devanagari": "र्क्ला",
@@ -11928,8 +11928,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-BF6D": {
     "id": "SD-BF6D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖪",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖪",
     "iast": "rkva",
     "romanized": "rkva",
     "devanagari": "र्क्व",
@@ -11940,8 +11940,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-BF6E": {
     "id": "SD-BF6E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖪𑖯",
     "iast": "rkvā",
     "romanized": "rkvā",
     "devanagari": "र्क्वा",
@@ -12024,8 +12024,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C0D6": {
     "id": "SD-C0D6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖡𑖿𑖪",
+    "siddhamUnicode": "𑖨𑖿𑖡𑖿𑖪",
     "iast": "rnva",
     "romanized": "rnva",
     "devanagari": "र्न्व",
@@ -12036,8 +12036,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C0D8": {
     "id": "SD-C0D8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖡𑖿𑖪𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖡𑖿𑖪𑖰",
     "iast": "rnvi",
     "romanized": "rnvi",
     "devanagari": "र्न्वि",
@@ -12084,8 +12084,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C177": {
     "id": "SD-C177",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖫𑖿𑖪",
+    "siddhamUnicode": "𑖨𑖿𑖫𑖿𑖪",
     "iast": "rśva",
     "romanized": "rśva",
     "devanagari": "र्श्व",
@@ -12096,8 +12096,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C1A5": {
     "id": "SD-C1A5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖿𑖪",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖿𑖪",
     "iast": "rṣva",
     "romanized": "rṣva",
     "devanagari": "र्ष्व",
@@ -12108,8 +12108,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C1D5": {
     "id": "SD-C1D5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖦",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖦",
     "iast": "rkma",
     "romanized": "rkma",
     "devanagari": "र्क्म",
@@ -12120,8 +12120,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C1D6": {
     "id": "SD-C1D6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖦𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖦𑖯",
     "iast": "rkmā",
     "romanized": "rkmā",
     "devanagari": "र्क्मा",
@@ -12156,8 +12156,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C45C": {
     "id": "SD-C45C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖡",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖡",
     "iast": "rkna",
     "romanized": "rkna",
     "devanagari": "र्क्न",
@@ -12168,8 +12168,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C45D": {
     "id": "SD-C45D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖡𑖯",
     "iast": "rknā",
     "romanized": "rknā",
     "devanagari": "र्क्ना",
@@ -12180,8 +12180,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C573": {
     "id": "SD-C573",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝𑖿𑖡",
+    "siddhamUnicode": "𑖨𑖿𑖝𑖿𑖡",
     "iast": "rtna",
     "romanized": "rtna",
     "devanagari": "र्त्न",
@@ -12192,8 +12192,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C5B9": {
     "id": "SD-C5B9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖠𑖿𑖡",
+    "siddhamUnicode": "𑖨𑖿𑖠𑖿𑖡",
     "iast": "rdhna",
     "romanized": "rdhna",
     "devanagari": "र्ध्न",
@@ -12204,8 +12204,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C5BA": {
     "id": "SD-C5BA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖠𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖠𑖿𑖡𑖯",
     "iast": "rdhnā",
     "romanized": "rdhnā",
     "devanagari": "र्ध्ना",
@@ -12216,8 +12216,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C5BF": {
     "id": "SD-C5BF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖠𑖿𑖡𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖠𑖿𑖡𑖸",
     "iast": "rdhne",
     "romanized": "rdhne",
     "devanagari": "र्ध्ने",
@@ -12228,8 +12228,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C5C3": {
     "id": "SD-C5C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖠𑖿𑖡𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖠𑖿𑖡𑖽",
     "iast": "rdhnaṃ",
     "romanized": "rdhnaṃ",
     "devanagari": "र्ध्नं",
@@ -12324,8 +12324,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C96A": {
     "id": "SD-C96A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖎𑖹",
+    "siddhamUnicode": "𑖒𑖿𑖎𑖹",
     "iast": "ṅkai",
     "romanized": "ṅkai",
     "devanagari": "ङ्कै",
@@ -12348,8 +12348,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C96C": {
     "id": "SD-C96C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖎𑖻",
+    "siddhamUnicode": "𑖒𑖿𑖎𑖻",
     "iast": "ṅkau",
     "romanized": "ṅkau",
     "devanagari": "ङ्कौ",
@@ -12372,8 +12372,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C96E": {
     "id": "SD-C96E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖎𑖾",
+    "siddhamUnicode": "𑖒𑖿𑖎𑖾",
     "iast": "ṅkaḥ",
     "romanized": "ṅkaḥ",
     "devanagari": "ङ्कः",
@@ -12564,8 +12564,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9B6": {
     "id": "SD-C9B6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖓𑖯",
+    "siddhamUnicode": "𑖗𑖿𑖓𑖯",
     "iast": "ñcā",
     "romanized": "ñcā",
     "devanagari": "ञ्चा",
@@ -12588,8 +12588,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9BD": {
     "id": "SD-C9BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖓𑖺",
+    "siddhamUnicode": "𑖗𑖿𑖓𑖺",
     "iast": "ñco",
     "romanized": "ñco",
     "devanagari": "ञ्चो",
@@ -12612,8 +12612,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9C2": {
     "id": "SD-C9C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖔𑖯",
+    "siddhamUnicode": "𑖗𑖿𑖔𑖯",
     "iast": "ñchā",
     "romanized": "ñchā",
     "devanagari": "ञ्छा",
@@ -12624,8 +12624,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9CD": {
     "id": "SD-C9CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖕",
+    "siddhamUnicode": "𑖗𑖿𑖕",
     "iast": "ñja",
     "romanized": "ñja",
     "devanagari": "ञ्ज",
@@ -12636,8 +12636,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9CE": {
     "id": "SD-C9CE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖕𑖯",
+    "siddhamUnicode": "𑖗𑖿𑖕𑖯",
     "iast": "ñjā",
     "romanized": "ñjā",
     "devanagari": "ञ्जा",
@@ -12648,8 +12648,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9CF": {
     "id": "SD-C9CF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖕𑖰",
+    "siddhamUnicode": "𑖗𑖿𑖕𑖰",
     "iast": "ñji",
     "romanized": "ñji",
     "devanagari": "ञ्जि",
@@ -12660,8 +12660,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9D1": {
     "id": "SD-C9D1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖕𑖲",
+    "siddhamUnicode": "𑖗𑖿𑖕𑖲",
     "iast": "ñju",
     "romanized": "ñju",
     "devanagari": "ञ्जु",
@@ -12684,8 +12684,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9E6": {
     "id": "SD-C9E6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖘𑖯",
+    "siddhamUnicode": "𑖜𑖿𑖘𑖯",
     "iast": "ṇṭā",
     "romanized": "ṇṭā",
     "devanagari": "ण्टा",
@@ -12696,8 +12696,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9E8": {
     "id": "SD-C9E8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖘𑖱",
+    "siddhamUnicode": "𑖜𑖿𑖘𑖱",
     "iast": "ṇṭī",
     "romanized": "ṇṭī",
     "devanagari": "ण्टी",
@@ -12732,8 +12732,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9F2": {
     "id": "SD-C9F2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖙𑖯",
+    "siddhamUnicode": "𑖜𑖿𑖙𑖯",
     "iast": "ṇṭhā",
     "romanized": "ṇṭhā",
     "devanagari": "ण्ठा",
@@ -12780,8 +12780,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-C9FE": {
     "id": "SD-C9FE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖯",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖯",
     "iast": "ṇḍā",
     "romanized": "ṇḍā",
     "devanagari": "ण्डा",
@@ -12804,8 +12804,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA41": {
     "id": "SD-CA41",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖱",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖱",
     "iast": "ṇḍī",
     "romanized": "ṇḍī",
     "devanagari": "ण्डी",
@@ -12816,8 +12816,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA42": {
     "id": "SD-CA42",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖲",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖲",
     "iast": "ṇḍu",
     "romanized": "ṇḍu",
     "devanagari": "ण्डु",
@@ -12840,8 +12840,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA45": {
     "id": "SD-CA45",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖹",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖹",
     "iast": "ṇḍai",
     "romanized": "ṇḍai",
     "devanagari": "ण्डै",
@@ -12852,8 +12852,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA46": {
     "id": "SD-CA46",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖺",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖺",
     "iast": "ṇḍo",
     "romanized": "ṇḍo",
     "devanagari": "ण्डो",
@@ -12888,8 +12888,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA4A": {
     "id": "SD-CA4A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖛",
+    "siddhamUnicode": "𑖜𑖿𑖛",
     "iast": "ṇḍha",
     "romanized": "ṇḍha",
     "devanagari": "ण्ढ",
@@ -12900,8 +12900,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA4B": {
     "id": "SD-CA4B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖛𑖯",
+    "siddhamUnicode": "𑖜𑖿𑖛𑖯",
     "iast": "ṇḍhā",
     "romanized": "ṇḍhā",
     "devanagari": "ण्ढा",
@@ -12912,8 +12912,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA56": {
     "id": "SD-CA56",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝",
+    "siddhamUnicode": "𑖡𑖿𑖝",
     "iast": "nta",
     "romanized": "nta",
     "devanagari": "न्त",
@@ -12924,8 +12924,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA57": {
     "id": "SD-CA57",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖯",
     "iast": "ntā",
     "romanized": "ntā",
     "devanagari": "न्ता",
@@ -12936,8 +12936,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA58": {
     "id": "SD-CA58",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖰",
     "iast": "nti",
     "romanized": "nti",
     "devanagari": "न्ति",
@@ -12948,8 +12948,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA5A": {
     "id": "SD-CA5A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖲",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖲",
     "iast": "ntu",
     "romanized": "ntu",
     "devanagari": "न्तु",
@@ -12960,8 +12960,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA5C": {
     "id": "SD-CA5C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖸",
     "iast": "nte",
     "romanized": "nte",
     "devanagari": "न्ते",
@@ -12972,8 +12972,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA5E": {
     "id": "SD-CA5E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖺",
     "iast": "nto",
     "romanized": "nto",
     "devanagari": "न्तो",
@@ -12984,8 +12984,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA60": {
     "id": "SD-CA60",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖽",
     "iast": "ntaṃ",
     "romanized": "ntaṃ",
     "devanagari": "न्तं",
@@ -12996,8 +12996,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA62": {
     "id": "SD-CA62",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖞",
+    "siddhamUnicode": "𑖡𑖿𑖞",
     "iast": "ntha",
     "romanized": "ntha",
     "devanagari": "न्थ",
@@ -13008,8 +13008,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA63": {
     "id": "SD-CA63",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖞𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖞𑖯",
     "iast": "nthā",
     "romanized": "nthā",
     "devanagari": "न्था",
@@ -13020,8 +13020,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA64": {
     "id": "SD-CA64",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖞𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖞𑖰",
     "iast": "nthi",
     "romanized": "nthi",
     "devanagari": "न्थि",
@@ -13032,8 +13032,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA6E": {
     "id": "SD-CA6E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟",
+    "siddhamUnicode": "𑖡𑖿𑖟",
     "iast": "nda",
     "romanized": "nda",
     "devanagari": "न्द",
@@ -13044,8 +13044,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA6F": {
     "id": "SD-CA6F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖯",
     "iast": "ndā",
     "romanized": "ndā",
     "devanagari": "न्दा",
@@ -13056,8 +13056,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA70": {
     "id": "SD-CA70",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖰",
     "iast": "ndi",
     "romanized": "ndi",
     "devanagari": "न्दि",
@@ -13068,8 +13068,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA71": {
     "id": "SD-CA71",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖱",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖱",
     "iast": "ndī",
     "romanized": "ndī",
     "devanagari": "न्दी",
@@ -13080,8 +13080,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA72": {
     "id": "SD-CA72",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖲",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖲",
     "iast": "ndu",
     "romanized": "ndu",
     "devanagari": "न्दु",
@@ -13092,8 +13092,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA74": {
     "id": "SD-CA74",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖸",
     "iast": "nde",
     "romanized": "nde",
     "devanagari": "न्दे",
@@ -13104,8 +13104,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA76": {
     "id": "SD-CA76",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖺",
     "iast": "ndo",
     "romanized": "ndo",
     "devanagari": "न्दो",
@@ -13116,8 +13116,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA7A": {
     "id": "SD-CA7A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠",
+    "siddhamUnicode": "𑖡𑖿𑖠",
     "iast": "ndha",
     "romanized": "ndha",
     "devanagari": "न्ध",
@@ -13128,8 +13128,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA7B": {
     "id": "SD-CA7B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖯",
     "iast": "ndhā",
     "romanized": "ndhā",
     "devanagari": "न्धा",
@@ -13140,8 +13140,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA7C": {
     "id": "SD-CA7C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖰",
     "iast": "ndhi",
     "romanized": "ndhi",
     "devanagari": "न्धि",
@@ -13152,8 +13152,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CA7E": {
     "id": "SD-CA7E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖲",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖲",
     "iast": "ndhu",
     "romanized": "ndhu",
     "devanagari": "न्धु",
@@ -13164,8 +13164,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CAA2": {
     "id": "SD-CAA2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖸",
     "iast": "ndhe",
     "romanized": "ndhe",
     "devanagari": "न्धे",
@@ -13176,8 +13176,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CAA4": {
     "id": "SD-CAA4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖺",
     "iast": "ndho",
     "romanized": "ndho",
     "devanagari": "न्धो",
@@ -13188,8 +13188,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CAA6": {
     "id": "SD-CAA6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖽",
     "iast": "ndhaṃ",
     "romanized": "ndhaṃ",
     "devanagari": "न्धं",
@@ -13200,8 +13200,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CAA7": {
     "id": "SD-CAA7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖾",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖾",
     "iast": "ndhaḥ",
     "romanized": "ndhaḥ",
     "devanagari": "न्धः",
@@ -13212,8 +13212,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CAA8": {
     "id": "SD-CAA8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖢",
+    "siddhamUnicode": "𑖦𑖿𑖢",
     "iast": "mpa",
     "romanized": "mpa",
     "devanagari": "म्प",
@@ -13224,8 +13224,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CAA9": {
     "id": "SD-CAA9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖢𑖯",
+    "siddhamUnicode": "𑖦𑖿𑖢𑖯",
     "iast": "mpā",
     "romanized": "mpā",
     "devanagari": "म्पा",
@@ -13764,8 +13764,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CBF3": {
     "id": "SD-CBF3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖴",
+    "siddhamUnicode": "𑖡𑖴",
     "iast": "nṛ",
     "romanized": "nṛ",
     "devanagari": "नृ",
@@ -13836,8 +13836,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CC49": {
     "id": "SD-CC49",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖵",
+    "siddhamUnicode": "𑖦𑖵",
     "iast": "mṝ",
     "romanized": "mṝ",
     "devanagari": "मॄ",
@@ -13920,8 +13920,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CC65": {
     "id": "SD-CC65",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖵",
+    "siddhamUnicode": "𑖭𑖵",
     "iast": "sṝ",
     "romanized": "sṝ",
     "devanagari": "सॄ",
@@ -14220,8 +14220,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CD52": {
     "id": "SD-CD52",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖘𑖹",
+    "siddhamUnicode": "𑖬𑖿𑖘𑖹",
     "iast": "ṣṭai",
     "romanized": "ṣṭai",
     "devanagari": "ष्टै",
@@ -14232,8 +14232,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CD53": {
     "id": "SD-CD53",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖘𑖺",
+    "siddhamUnicode": "𑖬𑖿𑖘𑖺",
     "iast": "ṣṭo",
     "romanized": "ṣṭo",
     "devanagari": "ष्टो",
@@ -14280,8 +14280,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CD5E": {
     "id": "SD-CD5E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖙𑖹",
+    "siddhamUnicode": "𑖬𑖿𑖙𑖹",
     "iast": "ṣṭhai",
     "romanized": "ṣṭhai",
     "devanagari": "ष्ठै",
@@ -14328,8 +14328,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CD6F": {
     "id": "SD-CD6F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖛",
+    "siddhamUnicode": "𑖟𑖿𑖛",
     "iast": "dḍha",
     "romanized": "dḍha",
     "devanagari": "द्ढ",
@@ -14388,8 +14388,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDA1": {
     "id": "SD-CDA1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜𑖲",
+    "siddhamUnicode": "𑖬𑖿𑖜𑖲",
     "iast": "ṣṇu",
     "romanized": "ṣṇu",
     "devanagari": "ष्णु",
@@ -14508,8 +14508,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDB5": {
     "id": "SD-CDB5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖞",
+    "siddhamUnicode": "𑖭𑖿𑖞",
     "iast": "stha",
     "romanized": "stha",
     "devanagari": "स्थ",
@@ -14520,8 +14520,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDB6": {
     "id": "SD-CDB6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖞𑖯",
+    "siddhamUnicode": "𑖭𑖿𑖞𑖯",
     "iast": "sthā",
     "romanized": "sthā",
     "devanagari": "स्था",
@@ -14532,8 +14532,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDB7": {
     "id": "SD-CDB7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖞𑖰",
+    "siddhamUnicode": "𑖭𑖿𑖞𑖰",
     "iast": "sthi",
     "romanized": "sthi",
     "devanagari": "स्थि",
@@ -14544,8 +14544,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDBD": {
     "id": "SD-CDBD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖞𑖺",
+    "siddhamUnicode": "𑖭𑖿𑖞𑖺",
     "iast": "stho",
     "romanized": "stho",
     "devanagari": "स्थो",
@@ -14556,8 +14556,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDC0": {
     "id": "SD-CDC0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖞𑖾",
+    "siddhamUnicode": "𑖭𑖿𑖞𑖾",
     "iast": "sthaḥ",
     "romanized": "sthaḥ",
     "devanagari": "स्थः",
@@ -14580,8 +14580,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDCD": {
     "id": "SD-CDCD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖠",
+    "siddhamUnicode": "𑖪𑖿𑖠",
     "iast": "vdha",
     "romanized": "vdha",
     "devanagari": "व्ध",
@@ -14592,8 +14592,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDD9": {
     "id": "SD-CDD9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝𑖿𑖭𑖿𑖡",
+    "siddhamUnicode": "𑖨𑖿𑖝𑖿𑖭𑖿𑖡",
     "iast": "rtsna",
     "romanized": "rtsna",
     "devanagari": "र्त्स्न",
@@ -14604,8 +14604,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDE5": {
     "id": "SD-CDE5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖢",
+    "siddhamUnicode": "𑖭𑖿𑖢",
     "iast": "spa",
     "romanized": "spa",
     "devanagari": "स्प",
@@ -14652,8 +14652,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDF5": {
     "id": "SD-CDF5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖣𑖲",
+    "siddhamUnicode": "𑖭𑖿𑖣𑖲",
     "iast": "sphu",
     "romanized": "sphu",
     "devanagari": "स्फु",
@@ -14664,8 +14664,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CDF6": {
     "id": "SD-CDF6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖣𑖳",
+    "siddhamUnicode": "𑖭𑖿𑖣𑖳",
     "iast": "sphū",
     "romanized": "sphū",
     "devanagari": "स्फू",
@@ -14820,8 +14820,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CEC0": {
     "id": "SD-CEC0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖬",
+    "siddhamUnicode": "𑖘𑖿𑖬",
     "iast": "ṭṣa",
     "romanized": "ṭṣa",
     "devanagari": "ट्ष",
@@ -14940,8 +14940,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CEF0": {
     "id": "SD-CEF0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖎",
+    "siddhamUnicode": "𑖘𑖿𑖎",
     "iast": "ṭka",
     "romanized": "ṭka",
     "devanagari": "ट्क",
@@ -14952,8 +14952,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CEF1": {
     "id": "SD-CEF1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖎𑖯",
+    "siddhamUnicode": "𑖘𑖿𑖎𑖯",
     "iast": "ṭkā",
     "romanized": "ṭkā",
     "devanagari": "ट्का",
@@ -14976,8 +14976,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF49": {
     "id": "SD-CF49",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖬𑖿𑖔𑖿𑖨",
+    "siddhamUnicode": "𑖘𑖿𑖬𑖿𑖔𑖿𑖨",
     "iast": "ṭṣchra",
     "romanized": "ṭṣchra",
     "devanagari": "ट्ष्छ्र",
@@ -15060,8 +15060,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF5C": {
     "id": "SD-CF5C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖝𑖹",
+    "siddhamUnicode": "𑖝𑖿𑖝𑖹",
     "iast": "ttai",
     "romanized": "ttai",
     "devanagari": "त्तै",
@@ -15096,8 +15096,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF6D": {
     "id": "SD-CF6D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖘",
+    "siddhamUnicode": "𑖘𑖿𑖘",
     "iast": "ṭṭa",
     "romanized": "ṭṭa",
     "devanagari": "ट्ट",
@@ -15108,8 +15108,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF6E": {
     "id": "SD-CF6E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖘𑖯",
+    "siddhamUnicode": "𑖘𑖿𑖘𑖯",
     "iast": "ṭṭā",
     "romanized": "ṭṭā",
     "devanagari": "ट्टा",
@@ -15120,8 +15120,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF6F": {
     "id": "SD-CF6F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖘𑖰",
+    "siddhamUnicode": "𑖘𑖿𑖘𑖰",
     "iast": "ṭṭi",
     "romanized": "ṭṭi",
     "devanagari": "ट्टि",
@@ -15132,8 +15132,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF70": {
     "id": "SD-CF70",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖘𑖱",
+    "siddhamUnicode": "𑖘𑖿𑖘𑖱",
     "iast": "ṭṭī",
     "romanized": "ṭṭī",
     "devanagari": "ट्टी",
@@ -15144,8 +15144,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF73": {
     "id": "SD-CF73",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖘𑖸",
+    "siddhamUnicode": "𑖘𑖿𑖘𑖸",
     "iast": "ṭṭe",
     "romanized": "ṭṭe",
     "devanagari": "ट्टे",
@@ -15168,8 +15168,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CF7A": {
     "id": "SD-CF7A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖜𑖯",
+    "siddhamUnicode": "𑖜𑖿𑖜𑖯",
     "iast": "ṇṇā",
     "romanized": "ṇṇā",
     "devanagari": "ण्णा",
@@ -15180,8 +15180,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFA7": {
     "id": "SD-CFA7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖡",
+    "siddhamUnicode": "𑖡𑖿𑖡",
     "iast": "nna",
     "romanized": "nna",
     "devanagari": "न्न",
@@ -15192,8 +15192,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFA8": {
     "id": "SD-CFA8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖡𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖡𑖯",
     "iast": "nnā",
     "romanized": "nnā",
     "devanagari": "न्ना",
@@ -15204,8 +15204,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFA9": {
     "id": "SD-CFA9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖡𑖰",
     "iast": "nni",
     "romanized": "nni",
     "devanagari": "न्नि",
@@ -15216,8 +15216,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFAD": {
     "id": "SD-CFAD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖡𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖡𑖸",
     "iast": "nne",
     "romanized": "nne",
     "devanagari": "न्ने",
@@ -15228,8 +15228,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFB2": {
     "id": "SD-CFB2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖡𑖾",
+    "siddhamUnicode": "𑖡𑖿𑖡𑖾",
     "iast": "nnaḥ",
     "romanized": "nnaḥ",
     "devanagari": "न्नः",
@@ -15240,8 +15240,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFB3": {
     "id": "SD-CFB3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖒𑖿𑖎",
+    "siddhamUnicode": "𑖦𑖿𑖒𑖿𑖎",
     "iast": "mṅka",
     "romanized": "mṅka",
     "devanagari": "म्ङ्क",
@@ -15288,11 +15288,11 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFC3": {
     "id": "SD-CFC3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
-    "iast": "",
-    "romanized": "",
-    "devanagari": "",
+    "unicodeChar": "𑖕𑖿𑖗",
+    "siddhamUnicode": "𑖕𑖿𑖗",
+    "iast": "jña",
+    "romanized": "jña",
+    "devanagari": "ज्ञ",
     "scriptType": "Siddham",
     "script": "Siddham",
     "cbetaChar": "狪",
@@ -15312,8 +15312,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFC5": {
     "id": "SD-CFC5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀",
+    "siddhamUnicode": "𑖀",
     "iast": "a",
     "romanized": "a",
     "devanagari": "अ",
@@ -15324,8 +15324,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFC6": {
     "id": "SD-CFC6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁",
+    "siddhamUnicode": "𑖁",
     "iast": "ā",
     "romanized": "ā",
     "devanagari": "आ",
@@ -15492,8 +15492,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFD3": {
     "id": "SD-CFD3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀𑖽",
+    "siddhamUnicode": "𑖀𑖽",
     "iast": "aṃ",
     "romanized": "aṃ",
     "devanagari": "अं",
@@ -15504,8 +15504,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFD4": {
     "id": "SD-CFD4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀𑖾",
+    "siddhamUnicode": "𑖀𑖾",
     "iast": "aḥ",
     "romanized": "aḥ",
     "devanagari": "अः",
@@ -15516,8 +15516,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFD5": {
     "id": "SD-CFD5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎",
+    "siddhamUnicode": "𑖎",
     "iast": "ka",
     "romanized": "ka",
     "devanagari": "क",
@@ -15528,8 +15528,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFD6": {
     "id": "SD-CFD6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏",
+    "siddhamUnicode": "𑖏",
     "iast": "kha",
     "romanized": "kha",
     "devanagari": "ख",
@@ -15540,8 +15540,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFD7": {
     "id": "SD-CFD7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐",
+    "siddhamUnicode": "𑖐",
     "iast": "ga",
     "romanized": "ga",
     "devanagari": "ग",
@@ -15552,8 +15552,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFD8": {
     "id": "SD-CFD8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑",
+    "siddhamUnicode": "𑖑",
     "iast": "gha",
     "romanized": "gha",
     "devanagari": "घ",
@@ -15564,8 +15564,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFDA": {
     "id": "SD-CFDA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓",
+    "siddhamUnicode": "𑖓",
     "iast": "ca",
     "romanized": "ca",
     "devanagari": "च",
@@ -15576,8 +15576,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFDB": {
     "id": "SD-CFDB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖔",
+    "siddhamUnicode": "𑖔",
     "iast": "cha",
     "romanized": "cha",
     "devanagari": "छ",
@@ -15588,8 +15588,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFDC": {
     "id": "SD-CFDC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕",
+    "siddhamUnicode": "𑖕",
     "iast": "ja",
     "romanized": "ja",
     "devanagari": "ज",
@@ -15600,8 +15600,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFDE": {
     "id": "SD-CFDE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗",
+    "siddhamUnicode": "𑖗",
     "iast": "ña",
     "romanized": "ña",
     "devanagari": "ञ",
@@ -15612,8 +15612,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFDF": {
     "id": "SD-CFDF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘",
+    "siddhamUnicode": "𑖘",
     "iast": "ṭa",
     "romanized": "ṭa",
     "devanagari": "ट",
@@ -15624,8 +15624,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE0": {
     "id": "SD-CFE0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙",
+    "siddhamUnicode": "𑖙",
     "iast": "ṭha",
     "romanized": "ṭha",
     "devanagari": "ठ",
@@ -15636,8 +15636,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE1": {
     "id": "SD-CFE1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖚",
+    "siddhamUnicode": "𑖚",
     "iast": "ḍa",
     "romanized": "ḍa",
     "devanagari": "ड",
@@ -15648,8 +15648,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE3": {
     "id": "SD-CFE3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜",
+    "siddhamUnicode": "𑖜",
     "iast": "ṇa",
     "romanized": "ṇa",
     "devanagari": "ण",
@@ -15660,8 +15660,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE4": {
     "id": "SD-CFE4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝",
+    "siddhamUnicode": "𑖝",
     "iast": "ta",
     "romanized": "ta",
     "devanagari": "त",
@@ -15672,8 +15672,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE5": {
     "id": "SD-CFE5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞",
+    "siddhamUnicode": "𑖞",
     "iast": "tha",
     "romanized": "tha",
     "devanagari": "थ",
@@ -15684,8 +15684,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE6": {
     "id": "SD-CFE6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟",
+    "siddhamUnicode": "𑖟",
     "iast": "da",
     "romanized": "da",
     "devanagari": "द",
@@ -15696,8 +15696,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE8": {
     "id": "SD-CFE8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡",
+    "siddhamUnicode": "𑖡",
     "iast": "na",
     "romanized": "na",
     "devanagari": "न",
@@ -15708,8 +15708,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFE9": {
     "id": "SD-CFE9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢",
+    "siddhamUnicode": "𑖢",
     "iast": "pa",
     "romanized": "pa",
     "devanagari": "प",
@@ -15720,8 +15720,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFEA": {
     "id": "SD-CFEA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖣",
+    "siddhamUnicode": "𑖣",
     "iast": "pha",
     "romanized": "pha",
     "devanagari": "फ",
@@ -15732,8 +15732,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFEB": {
     "id": "SD-CFEB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤",
+    "siddhamUnicode": "𑖤",
     "iast": "ba",
     "romanized": "ba",
     "devanagari": "ब",
@@ -15744,8 +15744,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFEC": {
     "id": "SD-CFEC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥",
+    "siddhamUnicode": "𑖥",
     "iast": "bha",
     "romanized": "bha",
     "devanagari": "भ",
@@ -15756,8 +15756,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFED": {
     "id": "SD-CFED",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦",
+    "siddhamUnicode": "𑖦",
     "iast": "ma",
     "romanized": "ma",
     "devanagari": "म",
@@ -15768,8 +15768,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFEE": {
     "id": "SD-CFEE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧",
+    "siddhamUnicode": "𑖧",
     "iast": "ya",
     "romanized": "ya",
     "devanagari": "य",
@@ -15780,8 +15780,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFEF": {
     "id": "SD-CFEF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨",
+    "siddhamUnicode": "𑖨",
     "iast": "ra",
     "romanized": "ra",
     "devanagari": "र",
@@ -15792,8 +15792,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFF0": {
     "id": "SD-CFF0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩",
+    "siddhamUnicode": "𑖩",
     "iast": "la",
     "romanized": "la",
     "devanagari": "ल",
@@ -15804,8 +15804,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFF1": {
     "id": "SD-CFF1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪",
+    "siddhamUnicode": "𑖪",
     "iast": "va",
     "romanized": "va",
     "devanagari": "व",
@@ -15816,8 +15816,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFF2": {
     "id": "SD-CFF2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫",
+    "siddhamUnicode": "𑖫",
     "iast": "śa",
     "romanized": "śa",
     "devanagari": "श",
@@ -15828,8 +15828,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFF4": {
     "id": "SD-CFF4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭",
+    "siddhamUnicode": "𑖭",
     "iast": "sa",
     "romanized": "sa",
     "devanagari": "स",
@@ -15840,8 +15840,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-CFF7": {
     "id": "SD-CFF7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖬",
+    "siddhamUnicode": "𑖎𑖿𑖬",
     "iast": "kṣa",
     "romanized": "kṣa",
     "devanagari": "क्ष",
@@ -15865,8 +15865,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D0F3": {
     "id": "SD-D0F3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀",
+    "siddhamUnicode": "𑖀",
     "iast": "a",
     "romanized": "a",
     "devanagari": "अ",
@@ -15903,8 +15903,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D167": {
     "id": "SD-D167",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀",
+    "siddhamUnicode": "𑖀",
     "iast": "a",
     "romanized": "a",
     "devanagari": "अ",
@@ -15941,8 +15941,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D1F0": {
     "id": "SD-D1F0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁",
+    "siddhamUnicode": "𑖁",
     "iast": "ā",
     "romanized": "ā",
     "devanagari": "आ",
@@ -15966,8 +15966,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D1F4": {
     "id": "SD-D1F4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖅",
+    "siddhamUnicode": "𑖅",
     "iast": "ū",
     "romanized": "ū",
     "devanagari": "ऊ",
@@ -16004,8 +16004,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D5F1": {
     "id": "SD-D5F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁",
+    "siddhamUnicode": "𑖁",
     "iast": "ā",
     "romanized": "ā",
     "devanagari": "आ",
@@ -16016,8 +16016,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D5F4": {
     "id": "SD-D5F4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖂",
+    "siddhamUnicode": "𑖂",
     "iast": "i",
     "romanized": "i",
     "devanagari": "इ",
@@ -16028,8 +16028,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D5F5": {
     "id": "SD-D5F5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖂",
+    "siddhamUnicode": "𑖂",
     "iast": "i",
     "romanized": "i",
     "devanagari": "इ",
@@ -16040,8 +16040,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D5F8": {
     "id": "SD-D5F8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖂",
+    "siddhamUnicode": "𑖂",
     "iast": "i",
     "romanized": "i",
     "devanagari": "इ",
@@ -16052,8 +16052,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D5FA": {
     "id": "SD-D5FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖃",
+    "siddhamUnicode": "𑖃",
     "iast": "ī",
     "romanized": "ī",
     "devanagari": "ई",
@@ -16077,8 +16077,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D64E": {
     "id": "SD-D64E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖌",
+    "siddhamUnicode": "𑖌",
     "iast": "o",
     "romanized": "o",
     "devanagari": "ओ",
@@ -16089,8 +16089,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D650": {
     "id": "SD-D650",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖍",
+    "siddhamUnicode": "𑖍",
     "iast": "au",
     "romanized": "au",
     "devanagari": "औ",
@@ -16101,8 +16101,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D657": {
     "id": "SD-D657",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒",
+    "siddhamUnicode": "𑖒",
     "iast": "ṅa",
     "romanized": "ṅa",
     "devanagari": "ङ",
@@ -16113,8 +16113,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D663": {
     "id": "SD-D663",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛",
+    "siddhamUnicode": "𑖛",
     "iast": "ḍha",
     "romanized": "ḍha",
     "devanagari": "ढ",
@@ -16337,8 +16337,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-D9FD": {
     "id": "SD-D9FD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖗",
+    "siddhamUnicode": "𑖕𑖿𑖗",
     "iast": "jña",
     "romanized": "jña",
     "devanagari": "ज्ञ",
@@ -16469,8 +16469,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DA4B": {
     "id": "SD-DA4B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡",
+    "siddhamUnicode": "𑖝𑖿𑖡",
     "iast": "tna",
     "romanized": "tna",
     "devanagari": "त्न",
@@ -16517,8 +16517,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DA50": {
     "id": "SD-DA50",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖘𑖸",
+    "siddhamUnicode": "𑖘𑖿𑖘𑖸",
     "iast": "ṭṭe",
     "romanized": "ṭṭe",
     "devanagari": "ट्टे",
@@ -16529,8 +16529,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DA53": {
     "id": "SD-DA53",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿",
+    "siddhamUnicode": "𑖎𑖿",
     "iast": "k",
     "romanized": "k",
     "devanagari": "क्",
@@ -16601,8 +16601,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DA77": {
     "id": "SD-DA77",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦",
+    "siddhamUnicode": "𑖨𑖿𑖦",
     "iast": "rma",
     "romanized": "rma",
     "devanagari": "र्म",
@@ -16721,8 +16721,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DAAA": {
     "id": "SD-DAAA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝",
+    "siddhamUnicode": "𑖡𑖿𑖝",
     "iast": "nta",
     "romanized": "nta",
     "devanagari": "न्त",
@@ -16733,8 +16733,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DAAC": {
     "id": "SD-DAAC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖸",
     "iast": "nte",
     "romanized": "nte",
     "devanagari": "न्ते",
@@ -16769,8 +16769,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-DAAF": {
     "id": "SD-DAAF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖦",
+    "siddhamUnicode": "𑖟𑖿𑖦",
     "iast": "dma",
     "romanized": "dma",
     "devanagari": "द्म",
@@ -16829,8 +16829,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E042": {
     "id": "SD-E042",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖳",
+    "siddhamUnicode": "𑖢𑖳",
     "iast": "pū",
     "romanized": "pū",
     "devanagari": "पू",
@@ -16853,8 +16853,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E044": {
     "id": "SD-E044",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖧",
+    "siddhamUnicode": "𑖜𑖿𑖧",
     "iast": "ṇya",
     "romanized": "ṇya",
     "devanagari": "ण्य",
@@ -16877,8 +16877,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E046": {
     "id": "SD-E046",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿",
+    "siddhamUnicode": "𑖘𑖿",
     "iast": "ṭ",
     "romanized": "ṭ",
     "devanagari": "ट्",
@@ -16889,8 +16889,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E047": {
     "id": "SD-E047",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖺",
     "iast": "ndho",
     "romanized": "ndho",
     "devanagari": "न्धो",
@@ -16901,8 +16901,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E048": {
     "id": "SD-E048",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖨𑖿𑖧",
+    "siddhamUnicode": "𑖦𑖿𑖨𑖿𑖧",
     "iast": "mrya",
     "romanized": "mrya",
     "devanagari": "म्र्य",
@@ -16925,8 +16925,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E04A": {
     "id": "SD-E04A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖕𑖿𑖪𑖯",
     "iast": "jvā",
     "romanized": "jvā",
     "devanagari": "ज्वा",
@@ -16937,8 +16937,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E04B": {
     "id": "SD-E04B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨",
     "iast": "ndra",
     "romanized": "ndra",
     "devanagari": "न्द्र",
@@ -17033,8 +17033,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E053": {
     "id": "SD-E053",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖱𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖱𑖽",
     "iast": "trīṃ",
     "romanized": "trīṃ",
     "devanagari": "त्रीं",
@@ -17081,8 +17081,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E057": {
     "id": "SD-E057",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖰𑖽",
+    "siddhamUnicode": "𑖝𑖰𑖽",
     "iast": "tiṃ",
     "romanized": "tiṃ",
     "devanagari": "तिं",
@@ -17093,8 +17093,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E058": {
     "id": "SD-E058",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖘𑖿",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖘𑖿",
     "iast": "traṭ",
     "romanized": "traṭ",
     "devanagari": "त्रट्",
@@ -17105,8 +17105,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E059": {
     "id": "SD-E059",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖠𑖿𑖧",
+    "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧",
     "iast": "ddhya",
     "romanized": "ddhya",
     "devanagari": "द्ध्य",
@@ -17117,8 +17117,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E05A": {
     "id": "SD-E05A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖽",
+    "siddhamUnicode": "𑖭𑖽",
     "iast": "saṃ",
     "romanized": "saṃ",
     "devanagari": "सं",
@@ -17129,8 +17129,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E05B": {
     "id": "SD-E05B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖯𑖾",
+    "siddhamUnicode": "𑖝𑖯𑖾",
     "iast": "tāḥ",
     "romanized": "tāḥ",
     "devanagari": "ताः",
@@ -17165,8 +17165,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E05E": {
     "id": "SD-E05E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖯𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖯𑖽",
     "iast": "tnāṃ",
     "romanized": "tnāṃ",
     "devanagari": "त्नां",
@@ -17213,8 +17213,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E062": {
     "id": "SD-E062",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖺",
     "iast": "ndro",
     "romanized": "ndro",
     "devanagari": "न्द्रो",
@@ -17249,8 +17249,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E065": {
     "id": "SD-E065",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖲𑖽",
+    "siddhamUnicode": "𑖘𑖲𑖽",
     "iast": "ṭuṃ",
     "romanized": "ṭuṃ",
     "devanagari": "टुं",
@@ -17285,8 +17285,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E068": {
     "id": "SD-E068",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖝𑖲",
+    "siddhamUnicode": "𑖭𑖿𑖝𑖲",
     "iast": "stu",
     "romanized": "stu",
     "devanagari": "स्तु",
@@ -17345,8 +17345,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E06D": {
     "id": "SD-E06D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖴𑖊",
+    "siddhamUnicode": "𑖬𑖴𑖊",
     "iast": "ṣṛe",
     "romanized": "ṣṛe",
     "devanagari": "षृए",
@@ -17369,8 +17369,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E070": {
     "id": "SD-E070",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖽",
+    "siddhamUnicode": "𑖜𑖽",
     "iast": "ṇaṃ",
     "romanized": "ṇaṃ",
     "devanagari": "णं",
@@ -17381,8 +17381,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E071": {
     "id": "SD-E071",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖬𑖿𑖜",
+    "siddhamUnicode": "𑖎𑖿𑖬𑖿𑖜",
     "iast": "kṣṇa",
     "romanized": "kṣṇa",
     "devanagari": "क्ष्ण",
@@ -17405,8 +17405,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E073": {
     "id": "SD-E073",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖜",
+    "siddhamUnicode": "𑖕𑖿𑖜",
     "iast": "jṇa",
     "romanized": "jṇa",
     "devanagari": "ज्ण",
@@ -17429,8 +17429,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E075": {
     "id": "SD-E075",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖬𑖿𑖜",
+    "siddhamUnicode": "𑖎𑖿𑖬𑖿𑖜",
     "iast": "kṣṇa",
     "romanized": "kṣṇa",
     "devanagari": "क्ष्ण",
@@ -17441,8 +17441,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E076": {
     "id": "SD-E076",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖘𑖿",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖘𑖿",
     "iast": "traṭ",
     "romanized": "traṭ",
     "devanagari": "त्रट्",
@@ -17525,8 +17525,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E07D": {
     "id": "SD-E07D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖿𑖏𑖸",
+    "siddhamUnicode": "𑖏𑖿𑖏𑖸",
     "iast": "khkhe",
     "romanized": "khkhe",
     "devanagari": "ख्खे",
@@ -17549,8 +17549,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0A1": {
     "id": "SD-E0A1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧𑖹𑖾",
+    "siddhamUnicode": "𑖧𑖹𑖾",
     "iast": "yaiḥ",
     "romanized": "yaiḥ",
     "devanagari": "यैः",
@@ -17561,8 +17561,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0A2": {
     "id": "SD-E0A2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖳",
+    "siddhamUnicode": "𑖡𑖳",
     "iast": "nū",
     "romanized": "nū",
     "devanagari": "नू",
@@ -17573,8 +17573,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0A3": {
     "id": "SD-E0A3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖗𑖸",
+    "siddhamUnicode": "𑖕𑖿𑖗𑖸",
     "iast": "jñe",
     "romanized": "jñe",
     "devanagari": "ज्ञे",
@@ -17585,8 +17585,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0A4": {
     "id": "SD-E0A4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖗𑖯",
+    "siddhamUnicode": "𑖕𑖿𑖗𑖯",
     "iast": "jñā",
     "romanized": "jñā",
     "devanagari": "ज्ञा",
@@ -17729,8 +17729,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0B4": {
     "id": "SD-E0B4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖴𑖘𑖿",
+    "siddhamUnicode": "𑖎𑖴𑖘𑖿",
     "iast": "kṛṭ",
     "romanized": "kṛṭ",
     "devanagari": "कृट्",
@@ -17789,8 +17789,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0B9": {
     "id": "SD-E0B9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖢𑖿𑖩𑖱",
+    "siddhamUnicode": "𑖭𑖿𑖢𑖿𑖩𑖱",
     "iast": "splī",
     "romanized": "splī",
     "devanagari": "स्प्ली",
@@ -17801,8 +17801,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0BA": {
     "id": "SD-E0BA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖲𑖽",
+    "siddhamUnicode": "𑖓𑖲𑖽",
     "iast": "cuṃ",
     "romanized": "cuṃ",
     "devanagari": "चुं",
@@ -17897,8 +17897,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0C2": {
     "id": "SD-E0C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖚𑖺",
+    "siddhamUnicode": "𑖚𑖺",
     "iast": "ḍo",
     "romanized": "ḍo",
     "devanagari": "डो",
@@ -17921,8 +17921,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0C4": {
     "id": "SD-E0C4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖯𑖽",
+    "siddhamUnicode": "𑖜𑖯𑖽",
     "iast": "ṇāṃ",
     "romanized": "ṇāṃ",
     "devanagari": "णां",
@@ -17957,8 +17957,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0C7": {
     "id": "SD-E0C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜𑖱",
+    "siddhamUnicode": "𑖬𑖿𑖜𑖱",
     "iast": "ṣṇī",
     "romanized": "ṣṇī",
     "devanagari": "ष्णी",
@@ -17993,8 +17993,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0CA": {
     "id": "SD-E0CA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖢𑖿𑖨",
+    "siddhamUnicode": "𑖎𑖿𑖢𑖿𑖨",
     "iast": "kpra",
     "romanized": "kpra",
     "devanagari": "क्प्र",
@@ -18029,8 +18029,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0CD": {
     "id": "SD-E0CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖦",
+    "siddhamUnicode": "𑖫𑖿𑖦",
     "iast": "śma",
     "romanized": "śma",
     "devanagari": "श्म",
@@ -18041,8 +18041,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0CE": {
     "id": "SD-E0CE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖎𑖴",
+    "siddhamUnicode": "𑖭𑖿𑖎𑖴",
     "iast": "skṛ",
     "romanized": "skṛ",
     "devanagari": "स्कृ",
@@ -18089,8 +18089,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0D2": {
     "id": "SD-E0D2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖙𑖿𑖡",
+    "siddhamUnicode": "𑖜𑖿𑖙𑖿𑖡",
     "iast": "ṇṭhna",
     "romanized": "ṇṭhna",
     "devanagari": "ण्ठ्न",
@@ -18161,8 +18161,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0D8": {
     "id": "SD-E0D8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖯𑖾",
+    "siddhamUnicode": "𑖡𑖯𑖾",
     "iast": "nāḥ",
     "romanized": "nāḥ",
     "devanagari": "नाः",
@@ -18173,8 +18173,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0D9": {
     "id": "SD-E0D9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖱",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖱",
     "iast": "ṇḍī",
     "romanized": "ṇḍī",
     "devanagari": "ण्डी",
@@ -18293,8 +18293,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0E4": {
     "id": "SD-E0E4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖧𑖲𑖽",
+    "siddhamUnicode": "𑖟𑖿𑖧𑖲𑖽",
     "iast": "dyuṃ",
     "romanized": "dyuṃ",
     "devanagari": "द्युं",
@@ -18305,8 +18305,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0E5": {
     "id": "SD-E0E5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖎𑖴",
+    "siddhamUnicode": "𑖭𑖿𑖎𑖴",
     "iast": "skṛ",
     "romanized": "skṛ",
     "devanagari": "स्कृ",
@@ -18317,8 +18317,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0E6": {
     "id": "SD-E0E6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖯",
     "iast": "ndrā",
     "romanized": "ndrā",
     "devanagari": "न्द्रा",
@@ -18329,8 +18329,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0E7": {
     "id": "SD-E0E7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜𑖸",
+    "siddhamUnicode": "𑖬𑖿𑖜𑖸",
     "iast": "ṣṇe",
     "romanized": "ṣṇe",
     "devanagari": "ष्णे",
@@ -18353,8 +18353,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0E9": {
     "id": "SD-E0E9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖠",
+    "siddhamUnicode": "𑖠𑖿𑖠",
     "iast": "dhdha",
     "romanized": "dhdha",
     "devanagari": "ध्ध",
@@ -18365,8 +18365,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0EA": {
     "id": "SD-E0EA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝𑖿𑖝𑖰",
+    "siddhamUnicode": "𑖨𑖿𑖝𑖿𑖝𑖰",
     "iast": "rtti",
     "romanized": "rtti",
     "devanagari": "र्त्ति",
@@ -18425,8 +18425,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0EF": {
     "id": "SD-E0EF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖥𑖿𑖨𑖳𑖽",
     "iast": "bhrūṃ",
     "romanized": "bhrūṃ",
     "devanagari": "भ्रूं",
@@ -18485,8 +18485,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0F4": {
     "id": "SD-E0F4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖢",
+    "siddhamUnicode": "𑖘𑖿𑖢",
     "iast": "ṭpa",
     "romanized": "ṭpa",
     "devanagari": "ट्प",
@@ -18497,8 +18497,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0F5": {
     "id": "SD-E0F5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖿𑖨",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖨",
     "iast": "ntra",
     "romanized": "ntra",
     "devanagari": "न्त्र",
@@ -18509,8 +18509,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0F6": {
     "id": "SD-E0F6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖢𑖯",
+    "siddhamUnicode": "𑖒𑖿𑖢𑖯",
     "iast": "ṅpā",
     "romanized": "ṅpā",
     "devanagari": "ङ्पा",
@@ -18546,8 +18546,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0FA": {
     "id": "SD-E0FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖝𑖿𑖪𑖽",
+    "siddhamUnicode": "𑖭𑖿𑖝𑖿𑖪𑖽",
     "iast": "stvaṃ",
     "romanized": "stvaṃ",
     "devanagari": "स्त्वं",
@@ -18558,8 +18558,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0FB": {
     "id": "SD-E0FB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢𑖲𑖽",
+    "siddhamUnicode": "𑖬𑖿𑖢𑖲𑖽",
     "iast": "ṣpuṃ",
     "romanized": "ṣpuṃ",
     "devanagari": "ष्पुं",
@@ -18582,8 +18582,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E0FD": {
     "id": "SD-E0FD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖯𑖽",
+    "siddhamUnicode": "𑖦𑖯𑖽",
     "iast": "māṃ",
     "romanized": "māṃ",
     "devanagari": "मां",
@@ -18594,8 +18594,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E140": {
     "id": "SD-E140",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖴𑖌",
+    "siddhamUnicode": "𑖭𑖴𑖌",
     "iast": "sṛo",
     "romanized": "sṛo",
     "devanagari": "सृओ",
@@ -18606,8 +18606,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E141": {
     "id": "SD-E141",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖞𑖯",
+    "siddhamUnicode": "𑖟𑖿𑖞𑖯",
     "iast": "dthā",
     "romanized": "dthā",
     "devanagari": "द्था",
@@ -18678,8 +18678,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E147": {
     "id": "SD-E147",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖡𑖲",
+    "siddhamUnicode": "𑖝𑖿𑖡𑖲",
     "iast": "tnu",
     "romanized": "tnu",
     "devanagari": "त्नु",
@@ -18690,8 +18690,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E148": {
     "id": "SD-E148",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖲",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖲",
     "iast": "ntu",
     "romanized": "ntu",
     "devanagari": "न्तु",
@@ -18774,8 +18774,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E151": {
     "id": "SD-E151",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖰𑖾",
+    "siddhamUnicode": "𑖝𑖰𑖾",
     "iast": "tiḥ",
     "romanized": "tiḥ",
     "devanagari": "तिः",
@@ -18822,8 +18822,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E155": {
     "id": "SD-E155",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖢𑖿𑖨",
+    "siddhamUnicode": "𑖎𑖿𑖢𑖿𑖨",
     "iast": "kpra",
     "romanized": "kpra",
     "devanagari": "क्प्र",
@@ -18882,8 +18882,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E15B": {
     "id": "SD-E15B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖮𑖳𑖽",
+    "siddhamUnicode": "𑖮𑖿𑖮𑖳𑖽",
     "iast": "hhūṃ",
     "romanized": "hhūṃ",
     "devanagari": "ह्हूं",
@@ -18906,8 +18906,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E15D": {
     "id": "SD-E15D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿",
+    "siddhamUnicode": "𑖎𑖿",
     "iast": "k",
     "romanized": "k",
     "devanagari": "क्",
@@ -18991,8 +18991,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E164": {
     "id": "SD-E164",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖿𑖟𑖰",
+    "siddhamUnicode": "𑖏𑖿𑖟𑖰",
     "iast": "khdi",
     "romanized": "khdi",
     "devanagari": "ख्दि",
@@ -19003,8 +19003,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E165": {
     "id": "SD-E165",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖴𑖊",
+    "siddhamUnicode": "𑖠𑖴𑖊",
     "iast": "dhṛe",
     "romanized": "dhṛe",
     "devanagari": "धृए",
@@ -19015,8 +19015,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E166": {
     "id": "SD-E166",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖎𑖰𑖽",
+    "siddhamUnicode": "𑖓𑖿𑖎𑖰𑖽",
     "iast": "ckiṃ",
     "romanized": "ckiṃ",
     "devanagari": "च्किं",
@@ -19051,8 +19051,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E169": {
     "id": "SD-E169",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖔",
+    "siddhamUnicode": "𑖭𑖿𑖔",
     "iast": "scha",
     "romanized": "scha",
     "devanagari": "स्छ",
@@ -19075,8 +19075,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E16B": {
     "id": "SD-E16B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖓𑖿𑖧",
+    "siddhamUnicode": "𑖓𑖿𑖓𑖿𑖧",
     "iast": "ccya",
     "romanized": "ccya",
     "devanagari": "च्च्य",
@@ -19099,8 +19099,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E16F": {
     "id": "SD-E16F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖝𑖸",
+    "siddhamUnicode": "𑖎𑖿𑖝𑖸",
     "iast": "kte",
     "romanized": "kte",
     "devanagari": "क्ते",
@@ -19123,8 +19123,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E171": {
     "id": "SD-E171",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖿𑖚",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖿𑖚",
     "iast": "rṇḍa",
     "romanized": "rṇḍa",
     "devanagari": "र्ण्ड",
@@ -19171,8 +19171,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E176": {
     "id": "SD-E176",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖜𑖾",
+    "siddhamUnicode": "𑖜𑖿𑖜𑖾",
     "iast": "ṇṇaḥ",
     "romanized": "ṇṇaḥ",
     "devanagari": "ण्णः",
@@ -19207,8 +19207,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E179": {
     "id": "SD-E179",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖿𑖮𑖿𑖧𑖱𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖿𑖮𑖿𑖧𑖱𑖽",
     "iast": "trhyīṃ",
     "romanized": "trhyīṃ",
     "devanagari": "त्र्ह्यीं",
@@ -19219,8 +19219,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E17A": {
     "id": "SD-E17A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀𑖾",
+    "siddhamUnicode": "𑖀𑖾",
     "iast": "aḥ",
     "romanized": "aḥ",
     "devanagari": "अः",
@@ -19231,8 +19231,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E17B": {
     "id": "SD-E17B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖙",
+    "siddhamUnicode": "𑖡𑖿𑖙",
     "iast": "nṭha",
     "romanized": "nṭha",
     "devanagari": "न्ठ",
@@ -19255,8 +19255,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E17D": {
     "id": "SD-E17D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖘",
+    "siddhamUnicode": "𑖢𑖿𑖘",
     "iast": "pṭa",
     "romanized": "pṭa",
     "devanagari": "प्ट",
@@ -19291,8 +19291,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1A2": {
     "id": "SD-E1A2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖦𑖿𑖦𑖯𑖽",
+    "siddhamUnicode": "𑖮𑖿𑖦𑖿𑖦𑖯𑖽",
     "iast": "hmmāṃ",
     "romanized": "hmmāṃ",
     "devanagari": "ह्म्मां",
@@ -19339,8 +19339,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1A6": {
     "id": "SD-E1A6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖯",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖯",
     "iast": "ndrā",
     "romanized": "ndrā",
     "devanagari": "न्द्रा",
@@ -19351,8 +19351,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1A7": {
     "id": "SD-E1A7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖢𑖰",
+    "siddhamUnicode": "𑖠𑖿𑖢𑖰",
     "iast": "dhpi",
     "romanized": "dhpi",
     "devanagari": "ध्पि",
@@ -19399,8 +19399,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1AB": {
     "id": "SD-E1AB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖣𑖲",
+    "siddhamUnicode": "𑖭𑖿𑖣𑖲",
     "iast": "sphu",
     "romanized": "sphu",
     "devanagari": "स्फु",
@@ -19411,8 +19411,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1AC": {
     "id": "SD-E1AC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖺",
+    "siddhamUnicode": "𑖎𑖺",
     "iast": "ko",
     "romanized": "ko",
     "devanagari": "को",
@@ -19435,8 +19435,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1AE": {
     "id": "SD-E1AE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖪𑖽",
+    "siddhamUnicode": "𑖠𑖿𑖪𑖽",
     "iast": "dhvaṃ",
     "romanized": "dhvaṃ",
     "devanagari": "ध्वं",
@@ -19447,8 +19447,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1AF": {
     "id": "SD-E1AF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖽",
+    "siddhamUnicode": "𑖪𑖽",
     "iast": "vaṃ",
     "romanized": "vaṃ",
     "devanagari": "वं",
@@ -19459,8 +19459,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1B0": {
     "id": "SD-E1B0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖀𑖽",
+    "siddhamUnicode": "𑖀𑖽",
     "iast": "aṃ",
     "romanized": "aṃ",
     "devanagari": "अं",
@@ -19519,8 +19519,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1B5": {
     "id": "SD-E1B5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢",
+    "siddhamUnicode": "𑖬𑖿𑖢",
     "iast": "ṣpa",
     "romanized": "ṣpa",
     "devanagari": "ष्प",
@@ -19531,8 +19531,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1B6": {
     "id": "SD-E1B6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢𑖸",
+    "siddhamUnicode": "𑖬𑖿𑖢𑖸",
     "iast": "ṣpe",
     "romanized": "ṣpe",
     "devanagari": "ष्पे",
@@ -19555,8 +19555,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1B8": {
     "id": "SD-E1B8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖘",
+    "siddhamUnicode": "𑖡𑖿𑖘",
     "iast": "nṭa",
     "romanized": "nṭa",
     "devanagari": "न्ट",
@@ -19675,8 +19675,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1C2": {
     "id": "SD-E1C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖳𑖽",
+    "siddhamUnicode": "𑖩𑖳𑖽",
     "iast": "lūṃ",
     "romanized": "lūṃ",
     "devanagari": "लूं",
@@ -19687,8 +19687,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1C3": {
     "id": "SD-E1C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖥𑖿𑖨𑖳𑖽",
     "iast": "bhrūṃ",
     "romanized": "bhrūṃ",
     "devanagari": "भ्रूं",
@@ -19747,8 +19747,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1C9": {
     "id": "SD-E1C9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖸",
     "iast": "ndre",
     "romanized": "ndre",
     "devanagari": "न्द्रे",
@@ -19759,8 +19759,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1CA": {
     "id": "SD-E1CA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖹",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖹",
     "iast": "ndrai",
     "romanized": "ndrai",
     "devanagari": "न्द्रै",
@@ -19783,8 +19783,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1CC": {
     "id": "SD-E1CC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫",
+    "siddhamUnicode": "𑖫",
     "iast": "śa",
     "romanized": "śa",
     "devanagari": "श",
@@ -19795,8 +19795,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1CD": {
     "id": "SD-E1CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖗𑖯𑖽",
+    "siddhamUnicode": "𑖕𑖿𑖗𑖯𑖽",
     "iast": "jñāṃ",
     "romanized": "jñāṃ",
     "devanagari": "ज्ञां",
@@ -19807,8 +19807,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1CE": {
     "id": "SD-E1CE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖺",
+    "siddhamUnicode": "𑖫𑖺",
     "iast": "śo",
     "romanized": "śo",
     "devanagari": "शो",
@@ -19819,8 +19819,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1CF": {
     "id": "SD-E1CF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖮𑖿𑖧𑖯",
     "iast": "hyā",
     "romanized": "hyā",
     "devanagari": "ह्या",
@@ -19843,8 +19843,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1D1": {
     "id": "SD-E1D1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧𑖿𑖭",
+    "siddhamUnicode": "𑖧𑖿𑖭",
     "iast": "ysa",
     "romanized": "ysa",
     "devanagari": "य्स",
@@ -19903,8 +19903,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1D6": {
     "id": "SD-E1D6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖨𑖰",
+    "siddhamUnicode": "𑖫𑖿𑖨𑖰",
     "iast": "śri",
     "romanized": "śri",
     "devanagari": "श्रि",
@@ -19963,8 +19963,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1DB": {
     "id": "SD-E1DB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖱𑖽",
+    "siddhamUnicode": "𑖡𑖱𑖽",
     "iast": "nīṃ",
     "romanized": "nīṃ",
     "devanagari": "नीं",
@@ -19987,8 +19987,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1DD": {
     "id": "SD-E1DD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖱",
+    "siddhamUnicode": "𑖝𑖱",
     "iast": "tī",
     "romanized": "tī",
     "devanagari": "ती",
@@ -20023,8 +20023,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1E0": {
     "id": "SD-E1E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖦𑖯𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖦𑖯𑖽",
     "iast": "nmāṃ",
     "romanized": "nmāṃ",
     "devanagari": "न्मां",
@@ -20035,8 +20035,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1E1": {
     "id": "SD-E1E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜",
+    "siddhamUnicode": "𑖬𑖿𑖜",
     "iast": "ṣṇa",
     "romanized": "ṣṇa",
     "devanagari": "ष्ण",
@@ -20059,8 +20059,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1E3": {
     "id": "SD-E1E3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖠𑖿𑖧𑖽",
+    "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧𑖽",
     "iast": "ddhyaṃ",
     "romanized": "ddhyaṃ",
     "devanagari": "द्ध्यं",
@@ -20119,8 +20119,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1E8": {
     "id": "SD-E1E8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖎𑖿𑖎",
+    "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖎",
     "iast": "rkka",
     "romanized": "rkka",
     "devanagari": "र्क्क",
@@ -20131,8 +20131,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1E9": {
     "id": "SD-E1E9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖲",
+    "siddhamUnicode": "𑖞𑖲",
     "iast": "thu",
     "romanized": "thu",
     "devanagari": "थु",
@@ -20167,8 +20167,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1EC": {
     "id": "SD-E1EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖝𑖿𑖝𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖝𑖿𑖝𑖯",
     "iast": "rttā",
     "romanized": "rttā",
     "devanagari": "र्त्ता",
@@ -20215,8 +20215,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1F1": {
     "id": "SD-E1F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖯",
+    "siddhamUnicode": "𑖜𑖯",
     "iast": "ṇā",
     "romanized": "ṇā",
     "devanagari": "णा",
@@ -20252,8 +20252,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1F4": {
     "id": "SD-E1F4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖪𑖿𑖧",
+    "siddhamUnicode": "𑖡𑖿𑖪𑖿𑖧",
     "iast": "nvya",
     "romanized": "nvya",
     "devanagari": "न्व्य",
@@ -20312,8 +20312,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1F9": {
     "id": "SD-E1F9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖳",
+    "siddhamUnicode": "𑖫𑖳",
     "iast": "śū",
     "romanized": "śū",
     "devanagari": "शू",
@@ -20324,8 +20324,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1FA": {
     "id": "SD-E1FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖣𑖲",
+    "siddhamUnicode": "𑖢𑖿𑖣𑖲",
     "iast": "pphu",
     "romanized": "pphu",
     "devanagari": "प्फु",
@@ -20360,8 +20360,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E1FD": {
     "id": "SD-E1FD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖹𑖾",
+    "siddhamUnicode": "𑖎𑖹𑖾",
     "iast": "kaiḥ",
     "romanized": "kaiḥ",
     "devanagari": "कैः",
@@ -20372,8 +20372,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E240": {
     "id": "SD-E240",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖪𑖰",
+    "siddhamUnicode": "𑖠𑖿𑖪𑖰",
     "iast": "dhvi",
     "romanized": "dhvi",
     "devanagari": "ध्वि",
@@ -20384,8 +20384,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E241": {
     "id": "SD-E241",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖃",
+    "siddhamUnicode": "𑖃",
     "iast": "ī",
     "romanized": "ī",
     "devanagari": "ई",
@@ -20420,8 +20420,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E244": {
     "id": "SD-E244",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜𑖰",
+    "siddhamUnicode": "𑖬𑖿𑖜𑖰",
     "iast": "ṣṇi",
     "romanized": "ṣṇi",
     "devanagari": "ष्णि",
@@ -20468,8 +20468,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E248": {
     "id": "SD-E248",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖐𑖿𑖡𑖰",
     "iast": "gni",
     "romanized": "gni",
     "devanagari": "ग्नि",
@@ -20576,8 +20576,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E251": {
     "id": "SD-E251",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖹𑖾",
+    "siddhamUnicode": "𑖟𑖹𑖾",
     "iast": "daiḥ",
     "romanized": "daiḥ",
     "devanagari": "दैः",
@@ -20588,8 +20588,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E252": {
     "id": "SD-E252",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖜𑖸",
+    "siddhamUnicode": "𑖕𑖿𑖜𑖸",
     "iast": "jṇe",
     "romanized": "jṇe",
     "devanagari": "ज्णे",
@@ -20624,8 +20624,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E256": {
     "id": "SD-E256",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖂",
+    "siddhamUnicode": "𑖂",
     "iast": "i",
     "romanized": "i",
     "devanagari": "इ",
@@ -20648,8 +20648,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E259": {
     "id": "SD-E259",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖰",
     "iast": "ndri",
     "romanized": "ndri",
     "devanagari": "न्द्रि",
@@ -20720,8 +20720,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E25F": {
     "id": "SD-E25F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖑𑖺",
+    "siddhamUnicode": "𑖨𑖿𑖑𑖺",
     "iast": "rgho",
     "romanized": "rgho",
     "devanagari": "र्घो",
@@ -20756,8 +20756,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E262": {
     "id": "SD-E262",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖨𑖸𑖾",
+    "siddhamUnicode": "𑖭𑖿𑖨𑖸𑖾",
     "iast": "sreḥ",
     "romanized": "sreḥ",
     "devanagari": "स्रेः",
@@ -20816,8 +20816,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E268": {
     "id": "SD-E268",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖦𑖿𑖧𑖸",
+    "siddhamUnicode": "𑖫𑖿𑖦𑖿𑖧𑖸",
     "iast": "śmye",
     "romanized": "śmye",
     "devanagari": "श्म्ये",
@@ -20828,8 +20828,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E269": {
     "id": "SD-E269",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖝𑖿𑖨𑖹",
+    "siddhamUnicode": "𑖝𑖿𑖝𑖿𑖨𑖹",
     "iast": "ttrai",
     "romanized": "ttrai",
     "devanagari": "त्त्रै",
@@ -20840,8 +20840,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E26A": {
     "id": "SD-E26A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖯",
+    "siddhamUnicode": "𑖗𑖯",
     "iast": "ñā",
     "romanized": "ñā",
     "devanagari": "ञा",
@@ -20900,8 +20900,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E26F": {
     "id": "SD-E26F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖝𑖿𑖟𑖰",
+    "siddhamUnicode": "𑖎𑖿𑖝𑖿𑖟𑖰",
     "iast": "ktdi",
     "romanized": "ktdi",
     "devanagari": "क्त्दि",
@@ -20924,8 +20924,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E271": {
     "id": "SD-E271",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖟𑖱",
+    "siddhamUnicode": "𑖟𑖿𑖟𑖱",
     "iast": "ddī",
     "romanized": "ddī",
     "devanagari": "द्दी",
@@ -20936,8 +20936,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E272": {
     "id": "SD-E272",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖲𑖾",
+    "siddhamUnicode": "𑖩𑖲𑖾",
     "iast": "luḥ",
     "romanized": "luḥ",
     "devanagari": "लुः",
@@ -20984,8 +20984,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E276": {
     "id": "SD-E276",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖞",
+    "siddhamUnicode": "𑖟𑖿𑖞",
     "iast": "dtha",
     "romanized": "dtha",
     "devanagari": "द्थ",
@@ -21008,8 +21008,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E278": {
     "id": "SD-E278",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖯𑖾",
+    "siddhamUnicode": "𑖞𑖯𑖾",
     "iast": "thāḥ",
     "romanized": "thāḥ",
     "devanagari": "थाः",
@@ -21032,8 +21032,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E27A": {
     "id": "SD-E27A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖹𑖾",
+    "siddhamUnicode": "𑖨𑖹𑖾",
     "iast": "raiḥ",
     "romanized": "raiḥ",
     "devanagari": "रैः",
@@ -21044,8 +21044,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E27B": {
     "id": "SD-E27B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖹𑖾",
+    "siddhamUnicode": "𑖝𑖹𑖾",
     "iast": "taiḥ",
     "romanized": "taiḥ",
     "devanagari": "तैः",
@@ -21068,8 +21068,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E27D": {
     "id": "SD-E27D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖹𑖾",
+    "siddhamUnicode": "𑖩𑖹𑖾",
     "iast": "laiḥ",
     "romanized": "laiḥ",
     "devanagari": "लैः",
@@ -21176,8 +21176,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2A8": {
     "id": "SD-E2A8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖢𑖯",
+    "siddhamUnicode": "𑖘𑖿𑖢𑖯",
     "iast": "ṭpā",
     "romanized": "ṭpā",
     "devanagari": "ट्पा",
@@ -21188,8 +21188,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2A9": {
     "id": "SD-E2A9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖿𑖨𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖨𑖸",
     "iast": "ntre",
     "romanized": "ntre",
     "devanagari": "न्त्रे",
@@ -21200,8 +21200,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2AA": {
     "id": "SD-E2AA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖿𑖦𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖿𑖦𑖯",
     "iast": "rmmā",
     "romanized": "rmmā",
     "devanagari": "र्म्मा",
@@ -21212,8 +21212,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2AB": {
     "id": "SD-E2AB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖰",
+    "siddhamUnicode": "𑖜𑖰",
     "iast": "ṇi",
     "romanized": "ṇi",
     "devanagari": "णि",
@@ -21224,8 +21224,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2AC": {
     "id": "SD-E2AC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖥𑖯",
+    "siddhamUnicode": "𑖦𑖿𑖥𑖯",
     "iast": "mbhā",
     "romanized": "mbhā",
     "devanagari": "म्भा",
@@ -21236,8 +21236,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2AD": {
     "id": "SD-E2AD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖝𑖿𑖨𑖹",
+    "siddhamUnicode": "𑖭𑖿𑖝𑖿𑖨𑖹",
     "iast": "strai",
     "romanized": "strai",
     "devanagari": "स्त्रै",
@@ -21285,8 +21285,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2B1": {
     "id": "SD-E2B1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖌",
+    "siddhamUnicode": "𑖌",
     "iast": "o",
     "romanized": "o",
     "devanagari": "ओ",
@@ -21297,8 +21297,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2B2": {
     "id": "SD-E2B2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖟𑖰",
+    "siddhamUnicode": "𑖭𑖿𑖟𑖰",
     "iast": "sdi",
     "romanized": "sdi",
     "devanagari": "स्दि",
@@ -21309,8 +21309,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2B4": {
     "id": "SD-E2B4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖐𑖿𑖐",
+    "siddhamUnicode": "𑖐𑖿𑖐",
     "iast": "gga",
     "romanized": "gga",
     "devanagari": "ग्ग",
@@ -21357,8 +21357,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2B8": {
     "id": "SD-E2B8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖨𑖱",
+    "siddhamUnicode": "𑖫𑖿𑖨𑖱",
     "iast": "śrī",
     "romanized": "śrī",
     "devanagari": "श्री",
@@ -21393,8 +21393,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2BB": {
     "id": "SD-E2BB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖫𑖿𑖨𑖳𑖽",
     "iast": "śrūṃ",
     "romanized": "śrūṃ",
     "devanagari": "श्रूं",
@@ -21477,8 +21477,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2C2": {
     "id": "SD-E2C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖓𑖸",
+    "siddhamUnicode": "𑖗𑖿𑖓𑖸",
     "iast": "ñce",
     "romanized": "ñce",
     "devanagari": "ञ्चे",
@@ -21489,8 +21489,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2C3": {
     "id": "SD-E2C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖰𑖽",
+    "siddhamUnicode": "𑖡𑖰𑖽",
     "iast": "niṃ",
     "romanized": "niṃ",
     "devanagari": "निं",
@@ -21501,8 +21501,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2C4": {
     "id": "SD-E2C4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖴𑖊",
+    "siddhamUnicode": "𑖮𑖴𑖊",
     "iast": "hṛe",
     "romanized": "hṛe",
     "devanagari": "हृए",
@@ -21513,8 +21513,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2C5": {
     "id": "SD-E2C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖟𑖰",
+    "siddhamUnicode": "𑖟𑖿𑖟𑖰",
     "iast": "ddi",
     "romanized": "ddi",
     "devanagari": "द्दि",
@@ -21537,8 +21537,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2C7": {
     "id": "SD-E2C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖧𑖲",
+    "siddhamUnicode": "𑖥𑖿𑖧𑖲",
     "iast": "bhyu",
     "romanized": "bhyu",
     "devanagari": "भ्यु",
@@ -21597,8 +21597,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2CD": {
     "id": "SD-E2CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖗𑖯",
+    "siddhamUnicode": "𑖕𑖿𑖗𑖯",
     "iast": "jñā",
     "romanized": "jñā",
     "devanagari": "ज्ञा",
@@ -21645,8 +21645,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2D1": {
     "id": "SD-E2D1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖽",
+    "siddhamUnicode": "𑖘𑖽",
     "iast": "ṭaṃ",
     "romanized": "ṭaṃ",
     "devanagari": "टं",
@@ -21669,8 +21669,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2D3": {
     "id": "SD-E2D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖬𑖿𑖘𑖿𑖨𑖱",
+    "siddhamUnicode": "𑖎𑖿𑖬𑖿𑖘𑖿𑖨𑖱",
     "iast": "kṣṭrī",
     "romanized": "kṣṭrī",
     "devanagari": "क्ष्ट्री",
@@ -21717,8 +21717,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2D7": {
     "id": "SD-E2D7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖴𑖂",
+    "siddhamUnicode": "𑖠𑖴𑖂",
     "iast": "dhṛi",
     "romanized": "dhṛi",
     "devanagari": "धृइ",
@@ -21753,8 +21753,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2DA": {
     "id": "SD-E2DA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖿𑖜𑖰",
+    "siddhamUnicode": "𑖑𑖿𑖜𑖰",
     "iast": "ghṇi",
     "romanized": "ghṇi",
     "devanagari": "घ्णि",
@@ -21825,8 +21825,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2E0": {
     "id": "SD-E2E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖪𑖿𑖧",
+    "siddhamUnicode": "𑖬𑖿𑖪𑖿𑖧",
     "iast": "ṣvya",
     "romanized": "ṣvya",
     "devanagari": "ष्व्य",
@@ -21933,8 +21933,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2E9": {
     "id": "SD-E2E9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖑",
+    "siddhamUnicode": "𑖨𑖿𑖑",
     "iast": "rgha",
     "romanized": "rgha",
     "devanagari": "र्घ",
@@ -21945,8 +21945,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2EA": {
     "id": "SD-E2EA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖿𑖦𑖯𑖾",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖿𑖦𑖯𑖾",
     "iast": "rmmāḥ",
     "romanized": "rmmāḥ",
     "devanagari": "र्म्माः",
@@ -21981,8 +21981,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2ED": {
     "id": "SD-E2ED",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖱𑖽",
+    "siddhamUnicode": "𑖝𑖱𑖽",
     "iast": "tīṃ",
     "romanized": "tīṃ",
     "devanagari": "तीं",
@@ -22029,8 +22029,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2F1": {
     "id": "SD-E2F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖘𑖿𑖨𑖳𑖽",
     "iast": "ṭrūṃ",
     "romanized": "ṭrūṃ",
     "devanagari": "ट्रूं",
@@ -22041,8 +22041,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2F2": {
     "id": "SD-E2F2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖹",
+    "siddhamUnicode": "𑖟𑖹",
     "iast": "dai",
     "romanized": "dai",
     "devanagari": "दै",
@@ -22125,8 +22125,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2F9": {
     "id": "SD-E2F9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖞",
+    "siddhamUnicode": "𑖝𑖿𑖞",
     "iast": "ttha",
     "romanized": "ttha",
     "devanagari": "त्थ",
@@ -22137,8 +22137,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2FA": {
     "id": "SD-E2FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖻",
+    "siddhamUnicode": "𑖏𑖻",
     "iast": "khau",
     "romanized": "khau",
     "devanagari": "खौ",
@@ -22161,8 +22161,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E2FD": {
     "id": "SD-E2FD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖢",
+    "siddhamUnicode": "𑖟𑖿𑖢",
     "iast": "dpa",
     "romanized": "dpa",
     "devanagari": "द्प",
@@ -22245,8 +22245,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E345": {
     "id": "SD-E345",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖘",
+    "siddhamUnicode": "𑖭𑖿𑖘",
     "iast": "sṭa",
     "romanized": "sṭa",
     "devanagari": "स्ट",
@@ -22294,8 +22294,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E350": {
     "id": "SD-E350",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖫𑖿𑖨𑖳𑖽",
     "iast": "śrūṃ",
     "romanized": "śrūṃ",
     "devanagari": "श्रूं",
@@ -22318,8 +22318,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E352": {
     "id": "SD-E352",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖲𑖽",
+    "siddhamUnicode": "𑖓𑖲𑖽",
     "iast": "cuṃ",
     "romanized": "cuṃ",
     "devanagari": "चुं",
@@ -22366,8 +22366,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E356": {
     "id": "SD-E356",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖯",
+    "siddhamUnicode": "𑖕𑖯",
     "iast": "jā",
     "romanized": "jā",
     "devanagari": "जा",
@@ -22391,8 +22391,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E358": {
     "id": "SD-E358",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗",
+    "siddhamUnicode": "𑖗",
     "iast": "ña",
     "romanized": "ña",
     "devanagari": "ञ",
@@ -22403,8 +22403,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E359": {
     "id": "SD-E359",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜",
+    "siddhamUnicode": "𑖜",
     "iast": "ṇa",
     "romanized": "ṇa",
     "devanagari": "ण",
@@ -22477,8 +22477,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E35F": {
     "id": "SD-E35F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖳",
+    "siddhamUnicode": "𑖝𑖳",
     "iast": "tū",
     "romanized": "tū",
     "devanagari": "तू",
@@ -22489,8 +22489,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E360": {
     "id": "SD-E360",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝",
+    "siddhamUnicode": "𑖝",
     "iast": "ta",
     "romanized": "ta",
     "devanagari": "त",
@@ -22527,8 +22527,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E363": {
     "id": "SD-E363",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖧𑖳",
+    "siddhamUnicode": "𑖎𑖿𑖧𑖳",
     "iast": "kyū",
     "romanized": "kyū",
     "devanagari": "क्यू",
@@ -22686,8 +22686,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E371": {
     "id": "SD-E371",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒",
+    "siddhamUnicode": "𑖒",
     "iast": "ṅa",
     "romanized": "ṅa",
     "devanagari": "ङ",
@@ -22698,8 +22698,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E372": {
     "id": "SD-E372",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒",
+    "siddhamUnicode": "𑖒",
     "iast": "ṅa",
     "romanized": "ṅa",
     "devanagari": "ङ",
@@ -22710,8 +22710,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E373": {
     "id": "SD-E373",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗",
+    "siddhamUnicode": "𑖗",
     "iast": "ña",
     "romanized": "ña",
     "devanagari": "ञ",
@@ -22746,8 +22746,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E376": {
     "id": "SD-E376",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖫",
+    "siddhamUnicode": "𑖘𑖿𑖫",
     "iast": "ṭśa",
     "romanized": "ṭśa",
     "devanagari": "ट्श",
@@ -22794,8 +22794,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E37A": {
     "id": "SD-E37A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖢𑖿𑖨",
+    "siddhamUnicode": "𑖭𑖿𑖢𑖿𑖨",
     "iast": "spra",
     "romanized": "spra",
     "devanagari": "स्प्र",
@@ -22818,8 +22818,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E37C": {
     "id": "SD-E37C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖜",
+    "siddhamUnicode": "𑖜𑖿𑖜",
     "iast": "ṇṇa",
     "romanized": "ṇṇa",
     "devanagari": "ण्ण",
@@ -22854,8 +22854,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3A1": {
     "id": "SD-E3A1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖿𑖢",
+    "siddhamUnicode": "𑖩𑖿𑖢",
     "iast": "lpa",
     "romanized": "lpa",
     "devanagari": "ल्प",
@@ -22914,8 +22914,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3A6": {
     "id": "SD-E3A6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖿𑖫",
+    "siddhamUnicode": "𑖫𑖿𑖫",
     "iast": "śśa",
     "romanized": "śśa",
     "devanagari": "श्श",
@@ -22938,8 +22938,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3A8": {
     "id": "SD-E3A8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖘𑖲",
+    "siddhamUnicode": "𑖒𑖿𑖘𑖲",
     "iast": "ṅṭu",
     "romanized": "ṅṭu",
     "devanagari": "ङ्टु",
@@ -22986,8 +22986,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3AC": {
     "id": "SD-E3AC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖧𑖳",
+    "siddhamUnicode": "𑖪𑖿𑖧𑖳",
     "iast": "vyū",
     "romanized": "vyū",
     "devanagari": "व्यू",
@@ -23046,8 +23046,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3B1": {
     "id": "SD-E3B1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖞𑖰",
+    "siddhamUnicode": "𑖝𑖿𑖞𑖰",
     "iast": "tthi",
     "romanized": "tthi",
     "devanagari": "त्थि",
@@ -23058,8 +23058,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3B2": {
     "id": "SD-E3B2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖿𑖝𑖲",
+    "siddhamUnicode": "𑖮𑖿𑖝𑖲",
     "iast": "htu",
     "romanized": "htu",
     "devanagari": "ह्तु",
@@ -23070,8 +23070,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3B3": {
     "id": "SD-E3B3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖨𑖻𑖾",
+    "siddhamUnicode": "𑖟𑖿𑖨𑖻𑖾",
     "iast": "drauḥ",
     "romanized": "drauḥ",
     "devanagari": "द्रौः",
@@ -23082,8 +23082,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3B4": {
     "id": "SD-E3B4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖎𑖹",
+    "siddhamUnicode": "𑖎𑖿𑖎𑖹",
     "iast": "kkai",
     "romanized": "kkai",
     "devanagari": "क्कै",
@@ -23094,8 +23094,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3B5": {
     "id": "SD-E3B5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢𑖿𑖨𑖱",
+    "siddhamUnicode": "𑖬𑖿𑖢𑖿𑖨𑖱",
     "iast": "ṣprī",
     "romanized": "ṣprī",
     "devanagari": "ष्प्री",
@@ -23142,8 +23142,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3B9": {
     "id": "SD-E3B9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖕",
+    "siddhamUnicode": "𑖡𑖿𑖕",
     "iast": "nja",
     "romanized": "nja",
     "devanagari": "न्ज",
@@ -23217,8 +23217,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3BF": {
     "id": "SD-E3BF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖈",
+    "siddhamUnicode": "𑖈",
     "iast": "ḷ",
     "romanized": "ḷ",
     "devanagari": "ऌ",
@@ -23241,8 +23241,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3C1": {
     "id": "SD-E3C1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖆",
+    "siddhamUnicode": "𑖆",
     "iast": "ṛ",
     "romanized": "ṛ",
     "devanagari": "ऋ",
@@ -23253,8 +23253,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3C2": {
     "id": "SD-E3C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿",
+    "siddhamUnicode": "𑖝𑖿",
     "iast": "t",
     "romanized": "t",
     "devanagari": "त्",
@@ -23265,8 +23265,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3C3": {
     "id": "SD-E3C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖮𑖲𑖾",
+    "siddhamUnicode": "𑖮𑖲𑖾",
     "iast": "huḥ",
     "romanized": "huḥ",
     "devanagari": "हुः",
@@ -23289,8 +23289,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3C5": {
     "id": "SD-E3C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖟𑖿𑖧𑖯",
     "iast": "dyā",
     "romanized": "dyā",
     "devanagari": "द्या",
@@ -23313,8 +23313,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3C7": {
     "id": "SD-E3C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖳",
+    "siddhamUnicode": "𑖟𑖳",
     "iast": "dū",
     "romanized": "dū",
     "devanagari": "दू",
@@ -23349,8 +23349,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3CA": {
     "id": "SD-E3CA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖪𑖯",
+    "siddhamUnicode": "𑖘𑖿𑖪𑖯",
     "iast": "ṭvā",
     "romanized": "ṭvā",
     "devanagari": "ट्वा",
@@ -23361,8 +23361,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3CB": {
     "id": "SD-E3CB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖝",
+    "siddhamUnicode": "𑖠𑖿𑖝",
     "iast": "dhta",
     "romanized": "dhta",
     "devanagari": "ध्त",
@@ -23373,8 +23373,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3CC": {
     "id": "SD-E3CC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖭𑖿𑖭",
+    "siddhamUnicode": "𑖝𑖿𑖭𑖿𑖭",
     "iast": "tssa",
     "romanized": "tssa",
     "devanagari": "त्स्स",
@@ -23385,8 +23385,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3CD": {
     "id": "SD-E3CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖿𑖛",
+    "siddhamUnicode": "𑖛𑖿𑖛",
     "iast": "ḍhḍha",
     "romanized": "ḍhḍha",
     "devanagari": "ढ्ढ",
@@ -23397,8 +23397,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3CE": {
     "id": "SD-E3CE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠",
+    "siddhamUnicode": "𑖡𑖿𑖠",
     "iast": "ndha",
     "romanized": "ndha",
     "devanagari": "न्ध",
@@ -23421,8 +23421,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D0": {
     "id": "SD-E3D0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖕",
+    "siddhamUnicode": "𑖦𑖿𑖕",
     "iast": "mja",
     "romanized": "mja",
     "devanagari": "म्ज",
@@ -23445,8 +23445,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D2": {
     "id": "SD-E3D2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖳",
+    "siddhamUnicode": "𑖕𑖳",
     "iast": "jū",
     "romanized": "jū",
     "devanagari": "जू",
@@ -23457,8 +23457,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D3": {
     "id": "SD-E3D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖓",
+    "siddhamUnicode": "𑖦𑖿𑖓",
     "iast": "mca",
     "romanized": "mca",
     "devanagari": "म्च",
@@ -23469,8 +23469,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D4": {
     "id": "SD-E3D4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜𑖯",
+    "siddhamUnicode": "𑖬𑖿𑖜𑖯",
     "iast": "ṣṇā",
     "romanized": "ṣṇā",
     "devanagari": "ष्णा",
@@ -23481,8 +23481,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D5": {
     "id": "SD-E3D5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖑𑖯",
+    "siddhamUnicode": "𑖭𑖿𑖑𑖯",
     "iast": "sghā",
     "romanized": "sghā",
     "devanagari": "स्घा",
@@ -23493,8 +23493,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D6": {
     "id": "SD-E3D6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖪𑖻",
+    "siddhamUnicode": "𑖟𑖿𑖪𑖻",
     "iast": "dvau",
     "romanized": "dvau",
     "devanagari": "द्वौ",
@@ -23517,8 +23517,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D8": {
     "id": "SD-E3D8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖪𑖿𑖨𑖱",
+    "siddhamUnicode": "𑖬𑖿𑖪𑖿𑖨𑖱",
     "iast": "ṣvrī",
     "romanized": "ṣvrī",
     "devanagari": "ष्व्री",
@@ -23529,8 +23529,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3D9": {
     "id": "SD-E3D9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖻",
+    "siddhamUnicode": "𑖫𑖻",
     "iast": "śau",
     "romanized": "śau",
     "devanagari": "शौ",
@@ -23553,8 +23553,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3DB": {
     "id": "SD-E3DB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖕",
+    "siddhamUnicode": "𑖒𑖿𑖕",
     "iast": "ṅja",
     "romanized": "ṅja",
     "devanagari": "ङ्ज",
@@ -23565,8 +23565,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3DC": {
     "id": "SD-E3DC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖓",
+    "siddhamUnicode": "𑖒𑖿𑖓",
     "iast": "ṅca",
     "romanized": "ṅca",
     "devanagari": "ङ्च",
@@ -23577,8 +23577,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3DD": {
     "id": "SD-E3DD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖭𑖯",
+    "siddhamUnicode": "𑖝𑖿𑖭𑖯",
     "iast": "tsā",
     "romanized": "tsā",
     "devanagari": "त्सा",
@@ -23601,8 +23601,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3DF": {
     "id": "SD-E3DF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖲",
     "iast": "tru",
     "romanized": "tru",
     "devanagari": "त्रु",
@@ -23625,8 +23625,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3E1": {
     "id": "SD-E3E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚𑖿𑖎",
+    "siddhamUnicode": "𑖜𑖿𑖚𑖿𑖎",
     "iast": "ṇḍka",
     "romanized": "ṇḍka",
     "devanagari": "ण्ड्क",
@@ -23637,8 +23637,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3E2": {
     "id": "SD-E3E2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖲𑖽",
+    "siddhamUnicode": "𑖕𑖲𑖽",
     "iast": "juṃ",
     "romanized": "juṃ",
     "devanagari": "जुं",
@@ -23649,8 +23649,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3E3": {
     "id": "SD-E3E3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖟𑖿𑖨",
+    "siddhamUnicode": "𑖥𑖿𑖟𑖿𑖨",
     "iast": "bhdra",
     "romanized": "bhdra",
     "devanagari": "भ्द्र",
@@ -23697,8 +23697,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3E7": {
     "id": "SD-E3E7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖧𑖯𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖧𑖯𑖽",
     "iast": "tyāṃ",
     "romanized": "tyāṃ",
     "devanagari": "त्यां",
@@ -23733,8 +23733,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3EA": {
     "id": "SD-E3EA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖣",
+    "siddhamUnicode": "𑖭𑖿𑖣",
     "iast": "spha",
     "romanized": "spha",
     "devanagari": "स्फ",
@@ -23745,8 +23745,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3EB": {
     "id": "SD-E3EB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖲",
+    "siddhamUnicode": "𑖜𑖲",
     "iast": "ṇu",
     "romanized": "ṇu",
     "devanagari": "णु",
@@ -23757,8 +23757,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3EC": {
     "id": "SD-E3EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖫",
+    "siddhamUnicode": "𑖟𑖿𑖫",
     "iast": "dśa",
     "romanized": "dśa",
     "devanagari": "द्श",
@@ -23769,8 +23769,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3ED": {
     "id": "SD-E3ED",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖭𑖲",
+    "siddhamUnicode": "𑖨𑖿𑖭𑖲",
     "iast": "rsu",
     "romanized": "rsu",
     "devanagari": "र्सु",
@@ -23817,8 +23817,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3F1": {
     "id": "SD-E3F1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖭",
+    "siddhamUnicode": "𑖟𑖿𑖭",
     "iast": "dsa",
     "romanized": "dsa",
     "devanagari": "द्स",
@@ -23841,8 +23841,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3F3": {
     "id": "SD-E3F3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖥",
+    "siddhamUnicode": "𑖝𑖿𑖥",
     "iast": "tbha",
     "romanized": "tbha",
     "devanagari": "त्भ",
@@ -23853,8 +23853,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3F4": {
     "id": "SD-E3F4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖐𑖰",
+    "siddhamUnicode": "𑖢𑖿𑖐𑖰",
     "iast": "pgi",
     "romanized": "pgi",
     "devanagari": "प्गि",
@@ -23889,8 +23889,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3F7": {
     "id": "SD-E3F7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖬𑖸",
+    "siddhamUnicode": "𑖢𑖿𑖬𑖸",
     "iast": "pṣe",
     "romanized": "pṣe",
     "devanagari": "प्षे",
@@ -23949,8 +23949,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E3FC": {
     "id": "SD-E3FC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖅",
+    "siddhamUnicode": "𑖅",
     "iast": "ū",
     "romanized": "ū",
     "devanagari": "ऊ",
@@ -24107,8 +24107,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E467": {
     "id": "SD-E467",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖑𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖑𑖽",
     "iast": "rghaṃ",
     "romanized": "rghaṃ",
     "devanagari": "र्घं",
@@ -24143,8 +24143,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E46A": {
     "id": "SD-E46A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖝𑖰𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖝𑖰𑖽",
     "iast": "ttiṃ",
     "romanized": "ttiṃ",
     "devanagari": "त्तिं",
@@ -24263,8 +24263,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E47A": {
     "id": "SD-E47A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿",
+    "siddhamUnicode": "𑖡𑖿",
     "iast": "n",
     "romanized": "n",
     "devanagari": "न्",
@@ -24299,8 +24299,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E47D": {
     "id": "SD-E47D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖿",
+    "siddhamUnicode": "𑖩𑖿",
     "iast": "l",
     "romanized": "l",
     "devanagari": "ल्",
@@ -24323,11 +24323,11 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4A1": {
     "id": "SD-E4A1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
-    "iast": "",
-    "romanized": "",
-    "devanagari": "",
+    "unicodeChar": "𑖦𑖿𑖦𑖯",
+    "siddhamUnicode": "𑖦𑖿𑖦𑖯",
+    "iast": "mmā",
+    "romanized": "mmā",
+    "devanagari": "म्मा",
     "scriptType": "Siddham",
     "script": "Siddham",
     "cbetaChar": "銦",
@@ -24335,8 +24335,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4A2": {
     "id": "SD-E4A2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖿𑖟",
+    "siddhamUnicode": "𑖦𑖿𑖟",
     "iast": "mda",
     "romanized": "mda",
     "devanagari": "म्द",
@@ -24359,8 +24359,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4A4": {
     "id": "SD-E4A4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖙𑖲",
+    "siddhamUnicode": "𑖭𑖿𑖙𑖲",
     "iast": "sṭhu",
     "romanized": "sṭhu",
     "devanagari": "स्ठु",
@@ -24383,8 +24383,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4A6": {
     "id": "SD-E4A6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖥𑖿𑖧𑖺",
+    "siddhamUnicode": "𑖥𑖿𑖧𑖺",
     "iast": "bhyo",
     "romanized": "bhyo",
     "devanagari": "भ्यो",
@@ -24431,8 +24431,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4AA": {
     "id": "SD-E4AA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖘",
+    "siddhamUnicode": "𑖭𑖿𑖘",
     "iast": "sṭa",
     "romanized": "sṭa",
     "devanagari": "स्ट",
@@ -24479,8 +24479,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4AE": {
     "id": "SD-E4AE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖧",
+    "siddhamUnicode": "𑖨𑖿𑖧",
     "iast": "rya",
     "romanized": "rya",
     "devanagari": "र्य",
@@ -24491,8 +24491,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4AF": {
     "id": "SD-E4AF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖦𑖴𑖊",
+    "siddhamUnicode": "𑖦𑖴𑖊",
     "iast": "mṛe",
     "romanized": "mṛe",
     "devanagari": "मृए",
@@ -24503,8 +24503,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4B0": {
     "id": "SD-E4B0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖘",
+    "siddhamUnicode": "𑖎𑖿𑖘",
     "iast": "kṭa",
     "romanized": "kṭa",
     "devanagari": "क्ट",
@@ -24515,8 +24515,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4B1": {
     "id": "SD-E4B1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖓𑖿𑖧𑖯",
     "iast": "cyā",
     "romanized": "cyā",
     "devanagari": "च्या",
@@ -24551,8 +24551,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4B4": {
     "id": "SD-E4B4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖿𑖝𑖺",
+    "siddhamUnicode": "𑖏𑖿𑖝𑖺",
     "iast": "khto",
     "romanized": "khto",
     "devanagari": "ख्तो",
@@ -24563,8 +24563,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4B5": {
     "id": "SD-E4B5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢𑖱",
+    "siddhamUnicode": "𑖬𑖿𑖢𑖱",
     "iast": "ṣpī",
     "romanized": "ṣpī",
     "devanagari": "ष्पी",
@@ -24575,8 +24575,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4B6": {
     "id": "SD-E4B6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢𑖯",
+    "siddhamUnicode": "𑖬𑖿𑖢𑖯",
     "iast": "ṣpā",
     "romanized": "ṣpā",
     "devanagari": "ष्पा",
@@ -24647,8 +24647,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4BC": {
     "id": "SD-E4BC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖠𑖹",
+    "siddhamUnicode": "𑖟𑖿𑖠𑖹",
     "iast": "ddhai",
     "romanized": "ddhai",
     "devanagari": "द्धै",
@@ -24659,8 +24659,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4BD": {
     "id": "SD-E4BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖠𑖯",
+    "siddhamUnicode": "𑖝𑖿𑖠𑖯",
     "iast": "tdhā",
     "romanized": "tdhā",
     "devanagari": "त्धा",
@@ -24683,8 +24683,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4BF": {
     "id": "SD-E4BF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖘𑖿𑖧𑖳",
+    "siddhamUnicode": "𑖡𑖿𑖘𑖿𑖧𑖳",
     "iast": "nṭyū",
     "romanized": "nṭyū",
     "devanagari": "न्ट्यू",
@@ -24695,8 +24695,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C0": {
     "id": "SD-E4C0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖔𑖲",
+    "siddhamUnicode": "𑖬𑖿𑖔𑖲",
     "iast": "ṣchu",
     "romanized": "ṣchu",
     "devanagari": "ष्छु",
@@ -24707,8 +24707,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C1": {
     "id": "SD-E4C1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖓𑖰",
+    "siddhamUnicode": "𑖜𑖿𑖓𑖰",
     "iast": "ṇci",
     "romanized": "ṇci",
     "devanagari": "ण्चि",
@@ -24719,8 +24719,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C2": {
     "id": "SD-E4C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖓",
+    "siddhamUnicode": "𑖜𑖿𑖓",
     "iast": "ṇca",
     "romanized": "ṇca",
     "devanagari": "ण्च",
@@ -24731,8 +24731,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C3": {
     "id": "SD-E4C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖞𑖿𑖟𑖯",
+    "siddhamUnicode": "𑖞𑖿𑖟𑖯",
     "iast": "thdā",
     "romanized": "thdā",
     "devanagari": "थ्दा",
@@ -24743,8 +24743,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C4": {
     "id": "SD-E4C4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖯𑖽",
+    "siddhamUnicode": "𑖩𑖯𑖽",
     "iast": "lāṃ",
     "romanized": "lāṃ",
     "devanagari": "लां",
@@ -24755,8 +24755,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C5": {
     "id": "SD-E4C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖽",
+    "siddhamUnicode": "𑖫𑖽",
     "iast": "śaṃ",
     "romanized": "śaṃ",
     "devanagari": "शं",
@@ -24803,8 +24803,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4C9": {
     "id": "SD-E4C9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖧",
+    "siddhamUnicode": "𑖕𑖿𑖧",
     "iast": "jya",
     "romanized": "jya",
     "devanagari": "ज्य",
@@ -24815,8 +24815,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4CA": {
     "id": "SD-E4CA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖝𑖿𑖪",
+    "siddhamUnicode": "𑖬𑖿𑖝𑖿𑖪",
     "iast": "ṣtva",
     "romanized": "ṣtva",
     "devanagari": "ष्त्व",
@@ -24839,8 +24839,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4CC": {
     "id": "SD-E4CC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁𑖾",
+    "siddhamUnicode": "𑖁𑖾",
     "iast": "āḥ",
     "romanized": "āḥ",
     "devanagari": "आः",
@@ -24851,8 +24851,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4CD": {
     "id": "SD-E4CD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖰",
+    "siddhamUnicode": "𑖜𑖰",
     "iast": "ṇi",
     "romanized": "ṇi",
     "devanagari": "णि",
@@ -24875,8 +24875,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4CF": {
     "id": "SD-E4CF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖜𑖿𑖚",
+    "siddhamUnicode": "𑖬𑖿𑖜𑖿𑖚",
     "iast": "ṣṇḍa",
     "romanized": "ṣṇḍa",
     "devanagari": "ष्ण्ड",
@@ -24899,8 +24899,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4D1": {
     "id": "SD-E4D1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖜",
+    "siddhamUnicode": "𑖕𑖿𑖜",
     "iast": "jṇa",
     "romanized": "jṇa",
     "devanagari": "ज्ण",
@@ -24911,8 +24911,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4D2": {
     "id": "SD-E4D2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖹",
+    "siddhamUnicode": "𑖜𑖹",
     "iast": "ṇai",
     "romanized": "ṇai",
     "devanagari": "णै",
@@ -25031,8 +25031,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4DC": {
     "id": "SD-E4DC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖁𑖾",
+    "siddhamUnicode": "𑖁𑖾",
     "iast": "āḥ",
     "romanized": "āḥ",
     "devanagari": "आः",
@@ -25043,8 +25043,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4DD": {
     "id": "SD-E4DD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖸",
+    "siddhamUnicode": "𑖜𑖸",
     "iast": "ṇe",
     "romanized": "ṇe",
     "devanagari": "णे",
@@ -25067,8 +25067,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4DF": {
     "id": "SD-E4DF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖽",
+    "siddhamUnicode": "𑖜𑖽",
     "iast": "ṇaṃ",
     "romanized": "ṇaṃ",
     "devanagari": "णं",
@@ -25079,8 +25079,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E0": {
     "id": "SD-E4E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖾",
+    "siddhamUnicode": "𑖜𑖾",
     "iast": "ṇaḥ",
     "romanized": "ṇaḥ",
     "devanagari": "णः",
@@ -25091,8 +25091,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E1": {
     "id": "SD-E4E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖚",
+    "siddhamUnicode": "𑖜𑖿𑖚",
     "iast": "ṇḍa",
     "romanized": "ṇḍa",
     "devanagari": "ण्ड",
@@ -25103,8 +25103,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E2": {
     "id": "SD-E4E2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖒𑖰",
+    "siddhamUnicode": "𑖒𑖿𑖒𑖰",
     "iast": "ṅṅi",
     "romanized": "ṅṅi",
     "devanagari": "ङ्ङि",
@@ -25127,8 +25127,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E4": {
     "id": "SD-E4E4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖿𑖥",
+    "siddhamUnicode": "𑖩𑖿𑖥",
     "iast": "lbha",
     "romanized": "lbha",
     "devanagari": "ल्भ",
@@ -25163,8 +25163,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E7": {
     "id": "SD-E4E7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖵",
+    "siddhamUnicode": "𑖎𑖵",
     "iast": "kṝ",
     "romanized": "kṝ",
     "devanagari": "कॄ",
@@ -25175,8 +25175,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E8": {
     "id": "SD-E4E8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖩𑖴",
+    "siddhamUnicode": "𑖎𑖿𑖩𑖴",
     "iast": "kḷ",
     "romanized": "kḷ",
     "devanagari": "कॢ",
@@ -25187,8 +25187,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4E9": {
     "id": "SD-E4E9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖩𑖵",
+    "siddhamUnicode": "𑖎𑖿𑖩𑖵",
     "iast": "kḹ",
     "romanized": "kḹ",
     "devanagari": "कॣ",
@@ -25223,8 +25223,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4EC": {
     "id": "SD-E4EC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖯",
+    "siddhamUnicode": "𑖘𑖯",
     "iast": "ṭā",
     "romanized": "ṭā",
     "devanagari": "टा",
@@ -25247,8 +25247,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4EE": {
     "id": "SD-E4EE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖓",
+    "siddhamUnicode": "𑖜𑖿𑖓",
     "iast": "ṇca",
     "romanized": "ṇca",
     "devanagari": "ण्च",
@@ -25307,8 +25307,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4F7": {
     "id": "SD-E4F7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖲",
+    "siddhamUnicode": "𑖡𑖲",
     "iast": "nu",
     "romanized": "nu",
     "devanagari": "नु",
@@ -25331,8 +25331,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4F9": {
     "id": "SD-E4F9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖳𑖽",
+    "siddhamUnicode": "𑖘𑖳𑖽",
     "iast": "ṭūṃ",
     "romanized": "ṭūṃ",
     "devanagari": "टूं",
@@ -25343,8 +25343,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4FA": {
     "id": "SD-E4FA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖝𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖝𑖿𑖨𑖳𑖽",
     "iast": "trūṃ",
     "romanized": "trūṃ",
     "devanagari": "त्रूं",
@@ -25355,8 +25355,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4FB": {
     "id": "SD-E4FB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖓𑖺",
+    "siddhamUnicode": "𑖜𑖿𑖓𑖺",
     "iast": "ṇco",
     "romanized": "ṇco",
     "devanagari": "ण्चो",
@@ -25379,8 +25379,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E4FD": {
     "id": "SD-E4FD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖣𑖘𑖿",
+    "siddhamUnicode": "𑖣𑖘𑖿",
     "iast": "phaṭ",
     "romanized": "phaṭ",
     "devanagari": "फट्",
@@ -25415,8 +25415,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E541": {
     "id": "SD-E541",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖘𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖘𑖿𑖨𑖳𑖽",
     "iast": "ṭrūṃ",
     "romanized": "ṭrūṃ",
     "devanagari": "ट्रूं",
@@ -25427,8 +25427,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E542": {
     "id": "SD-E542",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖨𑖳𑖽",
+    "siddhamUnicode": "𑖟𑖿𑖨𑖳𑖽",
     "iast": "drūṃ",
     "romanized": "drūṃ",
     "devanagari": "द्रूं",
@@ -25451,8 +25451,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E544": {
     "id": "SD-E544",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖢𑖿𑖨",
+    "siddhamUnicode": "𑖬𑖿𑖢𑖿𑖨",
     "iast": "ṣpra",
     "romanized": "ṣpra",
     "devanagari": "ष्प्र",
@@ -25475,8 +25475,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E546": {
     "id": "SD-E546",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖳",
+    "siddhamUnicode": "𑖬𑖳",
     "iast": "ṣū",
     "romanized": "ṣū",
     "devanagari": "षू",
@@ -25511,8 +25511,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E549": {
     "id": "SD-E549",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖿𑖧",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖿𑖧",
     "iast": "ndhya",
     "romanized": "ndhya",
     "devanagari": "न्ध्य",
@@ -25571,8 +25571,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E54E": {
     "id": "SD-E54E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖜𑖿𑖓𑖲",
+    "siddhamUnicode": "𑖜𑖿𑖓𑖲",
     "iast": "ṇcu",
     "romanized": "ṇcu",
     "devanagari": "ण्चु",
@@ -25595,8 +25595,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E550": {
     "id": "SD-E550",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖧𑖳",
+    "siddhamUnicode": "𑖧𑖳",
     "iast": "yū",
     "romanized": "yū",
     "devanagari": "यू",
@@ -25643,8 +25643,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E554": {
     "id": "SD-E554",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖞",
+    "siddhamUnicode": "𑖬𑖿𑖞",
     "iast": "ṣtha",
     "romanized": "ṣtha",
     "devanagari": "ष्थ",
@@ -25655,8 +25655,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E555": {
     "id": "SD-E555",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖜𑖰",
+    "siddhamUnicode": "𑖕𑖿𑖜𑖰",
     "iast": "jṇi",
     "romanized": "jṇi",
     "devanagari": "ज्णि",
@@ -25679,8 +25679,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E557": {
     "id": "SD-E557",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖏𑖳",
+    "siddhamUnicode": "𑖏𑖳",
     "iast": "khū",
     "romanized": "khū",
     "devanagari": "खू",
@@ -25691,8 +25691,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E558": {
     "id": "SD-E558",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖗𑖿𑖛",
+    "siddhamUnicode": "𑖗𑖿𑖛",
     "iast": "ñḍha",
     "romanized": "ñḍha",
     "devanagari": "ञ्ढ",
@@ -25727,8 +25727,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E55B": {
     "id": "SD-E55B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖔𑖿𑖩𑖿𑖮𑖱𑖽",
+    "siddhamUnicode": "𑖓𑖿𑖔𑖿𑖩𑖿𑖮𑖱𑖽",
     "iast": "cchlhīṃ",
     "romanized": "cchlhīṃ",
     "devanagari": "च्छ्ल्हीं",
@@ -25739,8 +25739,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E55C": {
     "id": "SD-E55C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖔𑖿𑖡",
+    "siddhamUnicode": "𑖓𑖿𑖔𑖿𑖡",
     "iast": "cchna",
     "romanized": "cchna",
     "devanagari": "च्छ्न",
@@ -25775,8 +25775,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E55F": {
     "id": "SD-E55F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖿𑖔𑖳",
+    "siddhamUnicode": "𑖓𑖿𑖔𑖳",
     "iast": "cchū",
     "romanized": "cchū",
     "devanagari": "च्छू",
@@ -25799,8 +25799,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E561": {
     "id": "SD-E561",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖓𑖳",
+    "siddhamUnicode": "𑖓𑖳",
     "iast": "cū",
     "romanized": "cū",
     "devanagari": "चू",
@@ -25811,8 +25811,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E562": {
     "id": "SD-E562",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖓",
+    "siddhamUnicode": "𑖟𑖿𑖓",
     "iast": "dca",
     "romanized": "dca",
     "devanagari": "द्च",
@@ -25835,8 +25835,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E564": {
     "id": "SD-E564",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖳𑖾",
+    "siddhamUnicode": "𑖠𑖳𑖾",
     "iast": "dhūḥ",
     "romanized": "dhūḥ",
     "devanagari": "धूः",
@@ -25859,8 +25859,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E566": {
     "id": "SD-E566",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖠𑖿𑖧𑖳",
+    "siddhamUnicode": "𑖠𑖿𑖧𑖳",
     "iast": "dhyū",
     "romanized": "dhyū",
     "devanagari": "ध्यू",
@@ -25871,8 +25871,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E567": {
     "id": "SD-E567",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖏𑖺",
+    "siddhamUnicode": "𑖟𑖿𑖏𑖺",
     "iast": "dkho",
     "romanized": "dkho",
     "devanagari": "द्खो",
@@ -25907,8 +25907,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E56A": {
     "id": "SD-E56A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖳",
+    "siddhamUnicode": "𑖑𑖳",
     "iast": "ghū",
     "romanized": "ghū",
     "devanagari": "घू",
@@ -25919,8 +25919,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E56B": {
     "id": "SD-E56B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖑𑖲𑖽",
+    "siddhamUnicode": "𑖑𑖲𑖽",
     "iast": "ghuṃ",
     "romanized": "ghuṃ",
     "devanagari": "घुं",
@@ -25955,8 +25955,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E56E": {
     "id": "SD-E56E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖨𑖱𑖾",
+    "siddhamUnicode": "𑖕𑖿𑖨𑖱𑖾",
     "iast": "jrīḥ",
     "romanized": "jrīḥ",
     "devanagari": "ज्रीः",
@@ -25967,8 +25967,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E56F": {
     "id": "SD-E56F",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖎𑖿𑖨𑖲𑖽",
+    "siddhamUnicode": "𑖎𑖿𑖨𑖲𑖽",
     "iast": "kruṃ",
     "romanized": "kruṃ",
     "devanagari": "क्रुं",
@@ -26015,8 +26015,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E573": {
     "id": "SD-E573",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖳𑖽",
+    "siddhamUnicode": "𑖩𑖳𑖽",
     "iast": "lūṃ",
     "romanized": "lūṃ",
     "devanagari": "लूं",
@@ -26051,8 +26051,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E576": {
     "id": "SD-E576",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖧",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖧",
     "iast": "ndya",
     "romanized": "ndya",
     "devanagari": "न्द्य",
@@ -26063,8 +26063,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E577": {
     "id": "SD-E577",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖧𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖧𑖸",
     "iast": "ndye",
     "romanized": "ndye",
     "devanagari": "न्द्ये",
@@ -26075,8 +26075,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E578": {
     "id": "SD-E578",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖧𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖧𑖺",
     "iast": "ndyo",
     "romanized": "ndyo",
     "devanagari": "न्द्यो",
@@ -26087,8 +26087,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E579": {
     "id": "SD-E579",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖎",
+    "siddhamUnicode": "𑖡𑖿𑖎",
     "iast": "nka",
     "romanized": "nka",
     "devanagari": "न्क",
@@ -26099,8 +26099,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E57A": {
     "id": "SD-E57A",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖎𑖲",
+    "siddhamUnicode": "𑖡𑖿𑖎𑖲",
     "iast": "nku",
     "romanized": "nku",
     "devanagari": "न्कु",
@@ -26111,8 +26111,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E57B": {
     "id": "SD-E57B",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖢𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖢𑖰",
     "iast": "npi",
     "romanized": "npi",
     "devanagari": "न्पि",
@@ -26123,8 +26123,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E57C": {
     "id": "SD-E57C",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖢𑖿𑖨𑖰",
+    "siddhamUnicode": "𑖡𑖿𑖢𑖿𑖨𑖰",
     "iast": "npri",
     "romanized": "npri",
     "devanagari": "न्प्रि",
@@ -26135,8 +26135,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E57D": {
     "id": "SD-E57D",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖢𑖳",
+    "siddhamUnicode": "𑖡𑖿𑖢𑖳",
     "iast": "npū",
     "romanized": "npū",
     "devanagari": "न्पू",
@@ -26147,8 +26147,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E57E": {
     "id": "SD-E57E",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖿𑖨𑖯𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖨𑖯𑖽",
     "iast": "ntrāṃ",
     "romanized": "ntrāṃ",
     "devanagari": "न्त्रां",
@@ -26195,8 +26195,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5A4": {
     "id": "SD-E5A4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖢𑖿𑖨𑖲𑖽",
+    "siddhamUnicode": "𑖢𑖿𑖨𑖲𑖽",
     "iast": "pruṃ",
     "romanized": "pruṃ",
     "devanagari": "प्रुं",
@@ -26231,8 +26231,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5A7": {
     "id": "SD-E5A7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖓𑖳",
+    "siddhamUnicode": "𑖨𑖿𑖓𑖳",
     "iast": "rcū",
     "romanized": "rcū",
     "devanagari": "र्चू",
@@ -26243,8 +26243,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5A8": {
     "id": "SD-E5A8",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖦𑖿𑖦𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖦𑖿𑖦𑖸",
     "iast": "rmme",
     "romanized": "rmme",
     "devanagari": "र्म्मे",
@@ -26267,8 +26267,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5AA": {
     "id": "SD-E5AA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖿𑖜𑖱",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖿𑖜𑖱",
     "iast": "rṇṇī",
     "romanized": "rṇṇī",
     "devanagari": "र्ण्णी",
@@ -26303,8 +26303,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5AD": {
     "id": "SD-E5AD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖭𑖿𑖣𑖲𑖾",
+    "siddhamUnicode": "𑖭𑖿𑖣𑖲𑖾",
     "iast": "sphuḥ",
     "romanized": "sphuḥ",
     "devanagari": "स्फुः",
@@ -26339,8 +26339,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5B0": {
     "id": "SD-E5B0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖬𑖿𑖘𑖿𑖨𑖽",
+    "siddhamUnicode": "𑖬𑖿𑖘𑖿𑖨𑖽",
     "iast": "ṣṭraṃ",
     "romanized": "ṣṭraṃ",
     "devanagari": "ष्ट्रं",
@@ -26363,8 +26363,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5B2": {
     "id": "SD-E5B2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖙𑖳",
+    "siddhamUnicode": "𑖙𑖳",
     "iast": "ṭhū",
     "romanized": "ṭhū",
     "devanagari": "ठू",
@@ -26495,8 +26495,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5BD": {
     "id": "SD-E5BD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖐𑖿𑖡𑖰",
+    "siddhamUnicode": "𑖒𑖿𑖐𑖿𑖡𑖰",
     "iast": "ṅgni",
     "romanized": "ṅgni",
     "devanagari": "ङ्ग्नि",
@@ -26519,8 +26519,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5BF": {
     "id": "SD-E5BF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖐𑖿𑖨",
+    "siddhamUnicode": "𑖒𑖿𑖐𑖿𑖨",
     "iast": "ṅgra",
     "romanized": "ṅgra",
     "devanagari": "ङ्ग्र",
@@ -26543,8 +26543,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C1": {
     "id": "SD-E5C1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖎𑖴",
+    "siddhamUnicode": "𑖒𑖿𑖎𑖴",
     "iast": "ṅkṛ",
     "romanized": "ṅkṛ",
     "devanagari": "ङ्कृ",
@@ -26555,8 +26555,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C2": {
     "id": "SD-E5C2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖎𑖿𑖨𑖲",
+    "siddhamUnicode": "𑖒𑖿𑖎𑖿𑖨𑖲",
     "iast": "ṅkru",
     "romanized": "ṅkru",
     "devanagari": "ङ्क्रु",
@@ -26567,8 +26567,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C3": {
     "id": "SD-E5C3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖫𑖲",
+    "siddhamUnicode": "𑖫𑖲",
     "iast": "śu",
     "romanized": "śu",
     "devanagari": "शु",
@@ -26591,8 +26591,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C5": {
     "id": "SD-E5C5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖛𑖯𑖽",
+    "siddhamUnicode": "𑖛𑖯𑖽",
     "iast": "ḍhāṃ",
     "romanized": "ḍhāṃ",
     "devanagari": "ढां",
@@ -26603,8 +26603,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C6": {
     "id": "SD-E5C6",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖳",
+    "siddhamUnicode": "𑖡𑖳",
     "iast": "nū",
     "romanized": "nū",
     "devanagari": "नू",
@@ -26615,8 +26615,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C7": {
     "id": "SD-E5C7",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖤𑖳",
+    "siddhamUnicode": "𑖤𑖳",
     "iast": "bū",
     "romanized": "bū",
     "devanagari": "बू",
@@ -26639,8 +26639,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5C9": {
     "id": "SD-E5C9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖩𑖳",
+    "siddhamUnicode": "𑖩𑖳",
     "iast": "lū",
     "romanized": "lū",
     "devanagari": "लू",
@@ -26651,8 +26651,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5CA": {
     "id": "SD-E5CA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖿𑖧𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖧𑖸",
     "iast": "ntye",
     "romanized": "ntye",
     "devanagari": "न्त्ये",
@@ -26663,8 +26663,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5CB": {
     "id": "SD-E5CB",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖠𑖯𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖠𑖯𑖽",
     "iast": "ndhāṃ",
     "romanized": "ndhāṃ",
     "devanagari": "न्धां",
@@ -26699,8 +26699,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5CE": {
     "id": "SD-E5CE",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖿𑖨𑖺",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖨𑖺",
     "iast": "ntro",
     "romanized": "ntro",
     "devanagari": "न्त्रो",
@@ -26711,8 +26711,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5CF": {
     "id": "SD-E5CF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖒𑖿𑖎𑖿𑖧",
+    "siddhamUnicode": "𑖒𑖿𑖎𑖿𑖧",
     "iast": "ṅkya",
     "romanized": "ṅkya",
     "devanagari": "ङ्क्य",
@@ -26723,8 +26723,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5D0": {
     "id": "SD-E5D0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖪𑖿𑖧𑖳",
+    "siddhamUnicode": "𑖪𑖿𑖧𑖳",
     "iast": "vyū",
     "romanized": "vyū",
     "devanagari": "व्यू",
@@ -26747,8 +26747,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5D2": {
     "id": "SD-E5D2",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖡𑖯𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖡𑖯𑖽",
     "iast": "nnāṃ",
     "romanized": "nnāṃ",
     "devanagari": "न्नां",
@@ -26759,8 +26759,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5D3": {
     "id": "SD-E5D3",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖎𑖸",
+    "siddhamUnicode": "𑖡𑖿𑖎𑖸",
     "iast": "nke",
     "romanized": "nke",
     "devanagari": "न्के",
@@ -26771,8 +26771,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5D4": {
     "id": "SD-E5D4",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖜𑖺",
+    "siddhamUnicode": "𑖕𑖿𑖜𑖺",
     "iast": "jṇo",
     "romanized": "jṇo",
     "devanagari": "ज्णो",
@@ -26783,8 +26783,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5D5": {
     "id": "SD-E5D5",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖕𑖿𑖜𑖸",
+    "siddhamUnicode": "𑖕𑖿𑖜𑖸",
     "iast": "jṇe",
     "romanized": "jṇe",
     "devanagari": "ज्णे",
@@ -26831,8 +26831,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5D9": {
     "id": "SD-E5D9",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖜𑖿𑖜𑖯",
+    "siddhamUnicode": "𑖨𑖿𑖜𑖿𑖜𑖯",
     "iast": "rṇṇā",
     "romanized": "rṇṇā",
     "devanagari": "र्ण्णा",
@@ -26843,8 +26843,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5DA": {
     "id": "SD-E5DA",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖕𑖿𑖕𑖸",
+    "siddhamUnicode": "𑖨𑖿𑖕𑖿𑖕𑖸",
     "iast": "rjje",
     "romanized": "rjje",
     "devanagari": "र्ज्जे",
@@ -26867,8 +26867,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5DC": {
     "id": "SD-E5DC",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖏𑖳",
+    "siddhamUnicode": "𑖟𑖿𑖏𑖳",
     "iast": "dkhū",
     "romanized": "dkhū",
     "devanagari": "द्खू",
@@ -26879,8 +26879,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5DD": {
     "id": "SD-E5DD",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖟𑖿𑖨𑖯𑖽",
+    "siddhamUnicode": "𑖡𑖿𑖟𑖿𑖨𑖯𑖽",
     "iast": "ndrāṃ",
     "romanized": "ndrāṃ",
     "devanagari": "न्द्रां",
@@ -26903,8 +26903,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5DF": {
     "id": "SD-E5DF",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖨𑖿𑖬𑖯𑖽",
+    "siddhamUnicode": "𑖨𑖿𑖬𑖯𑖽",
     "iast": "rṣāṃ",
     "romanized": "rṣāṃ",
     "devanagari": "र्षां",
@@ -26915,8 +26915,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5E0": {
     "id": "SD-E5E0",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖡𑖿𑖝𑖿𑖨𑖳",
+    "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖨𑖳",
     "iast": "ntrū",
     "romanized": "ntrū",
     "devanagari": "न्त्रू",
@@ -26927,8 +26927,8 @@ export const CBETA_GAIJI_MAP: Record<string, CbetaGaijiEntry> = {
   },
   "SD-E5E1": {
     "id": "SD-E5E1",
-    "unicodeChar": "",
-    "siddhamUnicode": "",
+    "unicodeChar": "𑖟𑖿𑖠𑖿𑖧𑖯",
+    "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧𑖯",
     "iast": "ddhyā",
     "romanized": "ddhyā",
     "devanagari": "द्ध्या",
@@ -27619,7 +27619,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5E5",
           "SD-CEE4"
         ],
-        "siddhamUnicodeText": "𑗁𑖦𑖺𑖥𑖐𑖪𑖩𑖺𑖎𑖿𑖧𑖯𑖢𑖿𑖨𑖪𑖰𑖫𑖰𑖬𑖿𑖘𑖧𑖤𑗜𑖟𑖿𑖠𑖯𑖧𑖥𑖐𑖪𑖟𑖿𑖧𑖌𑖽𑖪𑖰𑖫𑖺𑖠𑖧𑖪𑖰𑖫𑖺𑖠𑖧𑖭𑖦𑖭𑖦𑖭𑖦𑖪𑖥𑖭𑖭𑖿𑖣𑖨𑖜𑖐𑖐𑖮𑖯𑖭𑖿𑖪𑖯𑖥𑖯𑖪𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖥𑖰𑖬𑖰𑖽𑖓𑖝𑖲𑖦𑖯𑖽𑖭𑗜𑖐𑖪𑖨𑖪𑖓𑖦𑖴𑖥𑖰𑖦𑖮𑖯𑖦𑖢𑖮𑖨𑖮𑖨𑖧𑗜𑖾𑖭𑖨𑖜𑖰𑖫𑖺𑖠𑖧𑖫𑖺𑖠𑖧𑖐𑖐𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖄𑖬𑖪𑖰𑖕𑖧𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖮𑖭𑖿𑖨𑖨𑖭𑖿𑖦𑖰𑖭𑖽𑖓𑖺𑖟𑖰𑖭𑖨𑖿𑖪𑖐𑖪𑖩𑖺𑖎𑖬𑖟𑖿𑖠𑖯𑖨𑖦𑖰𑖢𑖨𑖰𑖢𑖿𑖨𑖨𑖜𑖰𑖭𑖨𑖿𑖪𑖐𑖮𑖴𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖠𑖰𑖬𑖿𑖘𑖰𑖦𑖮𑖯𑖦𑗜𑖟𑖿𑖨𑖰𑖪𑖕𑖿𑖨𑖎𑖯𑖧𑖭𑖽𑖮𑖯𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖪𑖨𑖜𑖰𑖢𑖧𑖟𑖿𑖨𑖨𑖿𑖐𑖢𑖨𑖰𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖢𑖿𑖨𑖪𑖨𑖿𑖝𑖿𑖝𑖧𑖧𑗜𑖾𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖦𑖧𑖠𑖰𑖬𑖿𑖘𑖦𑖜𑖰𑖦𑖜𑖰𑖦𑖮𑖯𑖦𑖜𑖰𑖥𑖳𑖎𑖺𑖢𑖨𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖰𑖤𑗜𑖟𑖿𑖠𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖕𑖧𑖕𑖧𑖪𑖰𑖕𑖧𑖪𑖰𑖕𑖧𑖭𑖿𑖦𑖨𑖭𑖿𑖦𑖨𑖭𑖨𑖿𑖪𑖤𑗜𑖟𑖿𑖠𑖯𑖦𑖺𑖪𑖰𑖢𑖫𑖿𑖧𑖐𑖧𑖦𑖺𑖫𑖰𑖏𑖰𑖐𑖧𑖦𑖺𑖪𑖰𑖫𑖥𑖳𑖐𑖧𑖦𑖺𑖎𑖿𑖨𑖎𑖭𑖽𑖠𑖧𑖐𑖧𑖦𑖺𑖎𑖎𑖦𑗜𑖜𑖰𑖧𑖸𑖐𑖧𑖦𑖺𑖎𑖫𑖿𑖧𑖢𑖧𑖯𑖐𑖧𑖦𑖺𑖫𑖎𑖿𑖧𑖦𑗜𑖧𑖸𑖐𑖧𑖦𑖺𑖨𑖿𑖧𑖪𑖩𑖺𑖎𑖰𑖫𑖿𑖪𑖨𑖧𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖠𑖰𑖬𑖿𑖘𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖕𑖿𑖨𑖰𑖪𑖕𑖿𑖨𑖐𑖨𑖿𑖥𑖸𑖪𑖕𑖿𑖨𑖯𑖽𑖥𑖯𑖪𑖝𑖲𑖦𑖦𑖫𑖨𑖰𑖨𑖽𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖓𑖎𑖧𑖢𑖨𑖰𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖐𑖢𑖨𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖐𑖫𑖿𑖓𑖦𑖸𑖭𑖦𑖫𑖿𑖪𑖭𑖧𑖽𑖝𑖲𑖭𑖨𑖿𑖪𑖐𑖭𑖦𑖯𑖫𑖿𑖪𑖭𑖯𑖠𑖰𑖬𑖿𑖘𑖤𑗜𑖤𑗜𑖪𑖰𑖤𑗜𑖪𑖰𑖤𑗜𑖤𑖺𑖠𑖧𑖤𑖺𑖠𑖧𑖪𑖰𑖤𑖺𑖠𑖧𑖪𑖰𑖤𑖺𑖠𑖧𑖭𑖦𑖢𑖨𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖐𑖮𑖴𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖠𑖰𑖬𑖿𑖘𑖦𑖮𑖯𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑗊𑖭𑖦𑖢𑖿𑖝",
+        "siddhamUnicodeText": "𑗁𑖡𑖦𑖺𑖥𑖐𑖪𑖝𑖸𑖝𑖿𑖨𑖹𑖩𑖺𑖎𑖿𑖧𑖯𑖢𑖿𑖨𑖝𑖰𑖪𑖰𑖫𑖰𑖬𑖿𑖘𑖧𑖤𑗜𑖟𑖿𑖠𑖯𑖧𑖥𑖐𑖪𑖝𑖸𑖝𑖟𑖿𑖧𑖞𑖯𑖌𑖽𑖪𑖰𑖫𑖺𑖠𑖧𑖪𑖰𑖫𑖺𑖠𑖧𑖭𑖦𑖭𑖦𑖭𑖦𑖡𑖿𑖝𑖯𑖪𑖥𑖭𑖭𑖿𑖣𑖨𑖜𑖐𑖝𑖰𑖐𑖮𑖯𑖡𑖭𑖿𑖪𑖯𑖥𑖯𑖪𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖀𑖥𑖰𑖬𑖰𑖽𑖓𑖝𑖲𑖦𑖯𑖽𑖭𑗜𑖐𑖝𑖪𑖨𑖪𑖓𑖡𑖀𑖦𑖴𑖝𑖯𑖥𑖰𑖬𑖹𑖎𑖹𑖦𑖮𑖯𑖦𑖡𑖿𑖝𑖿𑖨𑖢𑖟𑖹𑖁𑖮𑖨𑖀𑖮𑖨𑖁𑖧𑗜𑖾𑖭𑖡𑖿𑖠𑖯𑖨𑖜𑖰𑖫𑖺𑖠𑖧𑖫𑖺𑖠𑖧𑖐𑖐𑖡𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖄𑖬𑖿𑖜𑖱𑖬𑖪𑖰𑖕𑖧𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖮𑖭𑖿𑖨𑖨𑖭𑖿𑖦𑖰𑖭𑖽𑖓𑖺𑖟𑖰𑖝𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖪𑖩𑖺𑖎𑖡𑖰𑖬𑖟𑖿𑖠𑖯𑖨𑖦𑖰𑖝𑖯𑖢𑖨𑖰𑖢𑖿𑖨𑖨𑖜𑖰𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖡𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖦𑖮𑖯𑖦𑗜𑖟𑖿𑖨𑖰𑖪𑖕𑖿𑖨𑖎𑖯𑖧𑖭𑖽𑖮𑖯𑖝𑖡𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖪𑖨𑖜𑖰𑖢𑖧𑖟𑖿𑖨𑖨𑖿𑖐𑖝𑖰𑖢𑖨𑖰𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖢𑖿𑖨𑖝𑖰𑖡𑖰𑖪𑖨𑖿𑖝𑖿𑖝𑖧𑖁𑖧𑗜𑖾𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖦𑖧𑖠𑖰𑖬𑖿𑖘𑖝𑖸𑖦𑖜𑖰𑖦𑖜𑖰𑖦𑖮𑖯𑖦𑖜𑖰𑖝𑖞𑖯𑖝𑖯𑖥𑖳𑖝𑖎𑖺𑖘𑖰𑖢𑖨𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖰𑖭𑖿𑖣𑖲𑖘𑖤𑗜𑖟𑖿𑖠𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖕𑖧𑖕𑖧𑖪𑖰𑖕𑖧𑖪𑖰𑖕𑖧𑖭𑖿𑖦𑖨𑖭𑖿𑖦𑖨𑖭𑖨𑖿𑖪𑖤𑗜𑖟𑖿𑖠𑖯𑖡𑖦𑖺𑖪𑖰𑖢𑖫𑖿𑖧𑖡𑖸𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖫𑖰𑖏𑖰𑖡𑖸𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖪𑖰𑖫𑖥𑖳𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖎𑖿𑖨𑖎𑖭𑖽𑖠𑖧𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖎𑖡𑖎𑖦𑗜𑖜𑖰𑖧𑖸𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖎𑖫𑖿𑖧𑖢𑖧𑖯𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖫𑖎𑖿𑖧𑖦𑗜𑖡𑖰𑖧𑖸𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖡𑖦𑖺𑖁𑖨𑖿𑖧𑖪𑖩𑖺𑖎𑖰𑖝𑖸𑖫𑖿𑖪𑖨𑖧𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖕𑖿𑖨𑖰𑖪𑖕𑖿𑖨𑖐𑖨𑖿𑖥𑖸𑖪𑖕𑖿𑖨𑖯𑖽𑖥𑖯𑖪𑖝𑖲𑖦𑖦𑖫𑖨𑖰𑖨𑖽𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖡𑖽𑖓𑖎𑖧𑖢𑖨𑖰𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖐𑖝𑖰𑖢𑖨𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖫𑖿𑖓𑖦𑖸𑖭𑖦𑖫𑖿𑖪𑖭𑖧𑖽𑖝𑖲𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖭𑖦𑖯𑖫𑖿𑖪𑖭𑖯𑖠𑖰𑖬𑖿𑖘𑖝𑖸𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑖪𑖰𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑖪𑖰𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑖤𑖺𑖠𑖧𑖤𑖺𑖠𑖧𑖪𑖰𑖤𑖺𑖠𑖧𑖪𑖰𑖤𑖺𑖠𑖧𑖭𑖦𑖡𑖿𑖝𑖢𑖨𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖡𑖠𑖰𑖬𑖿𑖘𑖝𑖦𑖮𑖯𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑗊𑖭𑖦𑖢𑖿𑖝",
         "iastReconstruction": "na mo bha ga va te trai lo kyā pra ti vi śi ṣṭa ya bu ddhā ya bha ga va te ta dya thā oṃ vi śo dha ya vi śo dha ya sa ma sa ma sa ma ntā va bha sa spha ra ṇa ga ti ga hā na svā bhā va vi śu ddhe a bhi ṣiṃ ca tu māṃ su ga ta va ra va ca na a mṛ tā bhi ṣai kai ma hā ma ntra pa dai ā ha ra a ha ra ā yuḥ sa ndhā ra ṇi śo dha ya śo dha ya ga ga na vi śu ddhe u ṣṇī ṣa vi ja ya vi śu ddhe sa ha sra ra smi saṃ co di te sa rva ta thā ga tā va lo ka ni ṣa ddhā ra mi tā pa ri pra ra ṇi sa rva ta thā ga ta hṛ da yā dhi ṣṭa na dhi ṣṭi ta ma hā mu dri va jra kā ya saṃ hā ta na vi śu ddhe sa rva va ra ṇi pa ya dra rga ti pa ri vi śu ddhe pra ti ni va rtta ya ā yuḥ śu ddhe sa ma ya dhi ṣṭa te ma ṇi ma ṇi ma hā ma ṇi ta thā tā bhū ta ko ṭi pa ri śu ddhe vi sphu ṭa bu ddhi śu ddhe ja ya ja ya vi ja ya vi ja ya sma ra sma ra sa rva bu ddhā na mo vi pa śya ne ta thā ga tā ya na mo śi khi ne ta thā ga tā ya na mo vi śa bhū ta thā ga tā ya na mo kra ka saṃ dha ya ta thā ga tā ya na mo ka na ka mu ṇi ye ta thā ga tā ya na mo ka śya pa yā ta thā ga tā ya na mo śa kya mu ni ye ta thā ga tā ya na mo ā rya va lo ki te śva ra ya bo dhi sa tva dhi ṣṭi ta śu ddhe va jri va jra ga rbhe va jrāṃ bhā va tu ma ma śa ri raṃ sa rva sa tva naṃ ca ka ya pa ri vi śu ddhe sa rva ga ti pa ri śu ddhe sa rva ta thā ga tā śca me sa ma śva sa yaṃ tu sa rva ta thā ga ta sa mā śva sā dhi ṣṭa te bu ddhya bu ddhya vi bu ddhya vi bu ddhya bo dha ya bo dha ya vi bo dha ya vi bo dha ya sa ma nta pa ri śu ddhe sa rva ta thā ga ta hṛ da yā dhi ṣṭa na dhi ṣṭa ta ma hā mu dri svā hā sa ma pta"
       }
     ],
@@ -27648,7 +27648,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -27727,7 +27727,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -27749,7 +27749,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-AA65"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖿𑖨𑖹",
         "iast": "trai",
         "devanagari": "त्रै",
         "chineseText": "怛𡃤",
@@ -27824,7 +27824,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A559"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖰",
         "iast": "ti",
         "devanagari": "ति",
         "chineseText": "底",
@@ -27999,7 +27999,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -28017,7 +28017,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -28051,7 +28051,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -28312,7 +28312,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA57"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖝𑖯",
         "iast": "ntā",
         "devanagari": "न्ता",
         "chineseText": "跢",
@@ -28454,7 +28454,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A559"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖰",
         "iast": "ti",
         "devanagari": "ति",
         "chineseText": "底",
@@ -28499,7 +28499,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -28619,7 +28619,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -28746,7 +28746,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "哆",
@@ -28824,7 +28824,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -28842,7 +28842,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -28876,7 +28876,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -28910,7 +28910,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A675"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖬𑖹",
         "iast": "ṣai",
         "devanagari": "षै",
         "chineseText": "麗",
@@ -28925,7 +28925,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A447"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖎𑖹",
         "iast": "kai",
         "devanagari": "कै",
         "chineseText": "罽",
@@ -28985,7 +28985,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E0F5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖝𑖿𑖨",
         "iast": "ntra",
         "devanagari": "न्त्र",
         "chineseText": "怛羅",
@@ -29020,7 +29020,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A576",
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖹",
         "iast": "dai",
         "devanagari": "दै",
         "chineseText": "乃",
@@ -29038,7 +29038,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -29087,7 +29087,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -29139,7 +29139,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -29184,7 +29184,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA7B"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖠𑖯",
         "iast": "ndhā",
         "devanagari": "न्धा",
         "chineseText": "馱",
@@ -29364,7 +29364,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -29442,7 +29442,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E0C7"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖬𑖿𑖜𑖱",
         "iast": "ṣṇī",
         "devanagari": "ष्णी",
         "chineseText": "瑟抳",
@@ -29703,7 +29703,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -29751,7 +29751,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -29766,7 +29766,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "多",
@@ -29796,7 +29796,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -29864,7 +29864,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5AB"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖰",
         "iast": "ni",
         "devanagari": "नि",
         "chineseText": "𩕳",
@@ -29947,7 +29947,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "哆",
@@ -30071,7 +30071,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -30086,7 +30086,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -30120,7 +30120,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "多",
@@ -30222,7 +30222,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -30272,7 +30272,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A557",
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "哆",
@@ -30455,7 +30455,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "哆",
@@ -30474,7 +30474,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -30664,9 +30664,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 186,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖨𑖰",
+        "iast": "ri",
+        "devanagari": "रि",
         "chineseText": "哩",
         "chineseZi": "哩",
         "yinNotes": [],
@@ -30698,7 +30698,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A559"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖰",
         "iast": "ti",
         "devanagari": "ति",
         "chineseText": "底",
@@ -30810,7 +30810,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A559"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖰",
         "iast": "ti",
         "devanagari": "ति",
         "chineseText": "底",
@@ -30825,7 +30825,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5AB"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖰",
         "iast": "ni",
         "devanagari": "नि",
         "chineseText": "𩕳",
@@ -30870,9 +30870,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖝",
+        "iast": "ta",
+        "devanagari": "त",
         "chineseText": "多",
         "chineseZi": "多",
         "yinNotes": [
@@ -30904,7 +30904,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -31054,7 +31054,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -31195,7 +31195,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -31210,7 +31210,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "闥",
@@ -31225,7 +31225,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "哆",
@@ -31259,7 +31259,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "多",
@@ -31289,7 +31289,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A4DC"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖘𑖰",
         "iast": "ṭi",
         "devanagari": "टि",
         "chineseText": "致",
@@ -31382,7 +31382,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CDF5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖭𑖿𑖣𑖲",
         "iast": "sphu",
         "devanagari": "स्फु",
         "chineseText": "娑普",
@@ -31402,7 +31402,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A4DA",
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖘",
         "iast": "ṭa",
         "devanagari": "ट",
         "chineseText": "吒",
@@ -31772,7 +31772,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -31847,7 +31847,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5AF"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖸",
         "iast": "ne",
         "devanagari": "ने",
         "chineseText": "寧",
@@ -31862,7 +31862,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -31877,7 +31877,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -31907,7 +31907,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -31941,7 +31941,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32001,7 +32001,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5AF"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖸",
         "iast": "ne",
         "devanagari": "ने",
         "chineseText": "曩",
@@ -32016,7 +32016,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -32031,7 +32031,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -32061,7 +32061,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -32095,7 +32095,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32170,7 +32170,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -32185,7 +32185,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -32215,7 +32215,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -32249,7 +32249,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32354,7 +32354,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -32369,7 +32369,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -32399,7 +32399,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -32432,7 +32432,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32477,7 +32477,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32552,7 +32552,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -32567,7 +32567,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -32597,7 +32597,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -32630,7 +32630,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32720,7 +32720,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -32735,7 +32735,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -32765,7 +32765,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -32799,7 +32799,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -32874,7 +32874,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5AB"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖰",
         "iast": "ni",
         "devanagari": "नि",
         "chineseText": "曩",
@@ -32904,7 +32904,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -32919,7 +32919,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -32949,7 +32949,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -32982,7 +32982,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -33012,7 +33012,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -33091,7 +33091,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -33253,7 +33253,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "多",
@@ -33630,7 +33630,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5B3"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖽",
         "iast": "naṃ",
         "devanagari": "नं",
         "chineseText": "難",
@@ -33817,7 +33817,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A559"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖰",
         "iast": "ti",
         "devanagari": "ति",
         "chineseText": "底",
@@ -33926,7 +33926,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -33941,7 +33941,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -33971,7 +33971,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A558"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖯",
         "iast": "tā",
         "devanagari": "ता",
         "chineseText": "多",
@@ -34152,7 +34152,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -34167,7 +34167,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -34201,7 +34201,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "多",
@@ -34322,7 +34322,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -34355,7 +34355,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E059"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "devanagari": "द्ध्य",
         "chineseText": "地野",
@@ -34389,7 +34389,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E059"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "devanagari": "द्ध्य",
         "chineseText": "地野",
@@ -34438,7 +34438,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E059"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "devanagari": "द्ध्य",
         "chineseText": "地野",
@@ -34488,7 +34488,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-E059",
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖿𑖠𑖿𑖧",
         "iast": "ddhya",
         "devanagari": "द्ध्य",
         "chineseText": "地野",
@@ -34754,7 +34754,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA56"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖝",
         "iast": "nta",
         "devanagari": "न्त",
         "chineseText": "跛",
@@ -34863,7 +34863,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -34878,7 +34878,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -34912,7 +34912,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "多",
@@ -35014,7 +35014,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -35064,7 +35064,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A557",
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "多",
@@ -35146,9 +35146,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-D7C4"
         ],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖨𑖰",
+        "iast": "ri",
+        "devanagari": "रि",
         "chineseText": "哩",
         "chineseZi": "哩",
         "yinNotes": [
@@ -37458,7 +37458,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5F2",
           "SD-A5F1"
         ],
-        "siddhamUnicodeText": "𑖦𑖺𑖨𑖝𑖿𑖨𑖧𑖯𑖧",
+        "siddhamUnicodeText": "𑖡𑖦𑖺𑖨𑖝𑖿𑖡𑖝𑖿𑖨𑖧𑖯𑖧",
         "iastReconstruction": "na mo ra tna tra yā ya"
       },
       {
@@ -37474,7 +37474,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-CFC6",
           "SD-B76A"
         ],
-        "siddhamUnicodeText": "𑖦𑖺𑖨𑖿𑖧𑖯",
+        "siddhamUnicodeText": "𑖡𑖦𑖺𑖁𑖨𑖿𑖧𑖯",
         "iastReconstruction": "na mo ā ryā"
       },
       {
@@ -37493,7 +37493,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5FE",
           "SD-A5F1"
         ],
-        "siddhamUnicodeText": "𑖪𑖩𑖺𑖎𑖰𑖫𑖿𑖪𑖨𑖯𑖧",
+        "siddhamUnicodeText": "𑖪𑖩𑖺𑖎𑖰𑖝𑖸𑖫𑖿𑖪𑖨𑖯𑖧",
         "iastReconstruction": "va lo ki te śva rā ya"
       },
       {
@@ -37546,7 +37546,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A441",
           "SD-A5F1"
         ],
-        "siddhamUnicodeText": "𑖦𑖮𑖯𑖎𑖯𑖜𑖰𑖎𑖯𑖧",
+        "siddhamUnicodeText": "𑖦𑖮𑖯𑖎𑖯𑖨𑖲𑖜𑖰𑖎𑖯𑖧",
         "iastReconstruction": "ma hā kā ru ṇi kā ya"
       },
       {
@@ -37593,7 +37593,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A56F",
           "SD-A8E2"
         ],
-        "siddhamUnicodeText": "𑖫𑖲𑖠𑖟𑖭𑖿𑖧",
+        "siddhamUnicodeText": "𑖫𑖲𑖠𑖡𑖟𑖭𑖿𑖧",
         "iastReconstruction": "śu dha na da sya"
       },
       {
@@ -37613,7 +37613,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-CFC5",
           "SD-DA48"
         ],
-        "siddhamUnicodeText": "𑖦𑖺𑖃𑖦𑖺𑖨𑖿𑖧𑖯",
+        "siddhamUnicodeText": "𑖡𑖦𑖺𑖭𑖿𑖎𑖴𑖝𑖃𑖦𑖺𑖀𑖨𑖿𑖧𑖯",
         "iastReconstruction": "na mo skṛ ta ī mo a ryā"
       },
       {
@@ -37633,7 +37633,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-E361",
           "SD-A656"
         ],
-        "siddhamUnicodeText": "𑖤𑖎𑖰𑖫𑖿𑖪𑖨𑖽𑖠𑖪",
+        "siddhamUnicodeText": "𑖤𑖨𑖲𑖎𑖰𑖝𑖸𑖫𑖿𑖪𑖨𑖽𑖠𑖪",
         "iastReconstruction": "ba ru ki te śva raṃ dha va"
       },
       {
@@ -37651,7 +37651,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A442",
           "SD-A57D"
         ],
-        "siddhamUnicodeText": "𑖦𑖺𑖨𑖎𑖰𑖠𑖰",
+        "siddhamUnicodeText": "𑖡𑖦𑖺𑖡𑖨𑖎𑖰𑖠𑖰",
         "iastReconstruction": "na mo na ra ki dhi"
       },
       {
@@ -37689,7 +37689,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A666",
           "SD-E04E"
         ],
-        "siddhamUnicodeText": "𑖭𑖨𑖿𑖪𑖟𑗜𑖫𑖲𑖝𑖲𑖽",
+        "siddhamUnicodeText": "𑖭𑖨𑖿𑖪𑖀𑖞𑖯𑖟𑗜𑖫𑖲𑖝𑖲𑖽",
         "iastReconstruction": "sa rva a thā du śu tuṃ"
       },
       {
@@ -37704,7 +37704,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A4BC",
           "SD-A5FB"
         ],
-        "siddhamUnicodeText": "𑖕𑖸𑖧𑖽",
+        "siddhamUnicodeText": "𑖀𑖕𑖸𑖧𑖽",
         "iastReconstruction": "a je yaṃ"
       },
       {
@@ -37724,7 +37724,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A656",
           "SD-A458"
         ],
-        "siddhamUnicodeText": "𑖭𑖨𑖿𑖪𑖥𑖲𑖦𑖪𑖐",
+        "siddhamUnicodeText": "𑖭𑖨𑖿𑖪𑖥𑖲𑖝𑖡𑖦𑖪𑖐",
         "iastReconstruction": "sa rva bhu ta na ma va ga"
       },
       {
@@ -37756,7 +37756,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A564",
           "SD-DA42"
         ],
-        "siddhamUnicodeText": "𑖟𑖿𑖧𑖌𑖽",
+        "siddhamUnicodeText": "𑖝𑖟𑖿𑖧𑖞𑖯𑖌𑖽",
         "iastReconstruction": "ta dya thā oṃ"
       },
       {
@@ -37775,7 +37775,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A440",
           "SD-A55D"
         ],
-        "siddhamUnicodeText": "𑖪𑖩𑖺𑖎𑖩𑖺𑖎",
+        "siddhamUnicodeText": "𑖀𑖪𑖩𑖺𑖎𑖩𑖺𑖎𑖝𑖸",
         "iastReconstruction": "a va lo ka lo ka te"
       },
       {
@@ -37790,7 +37790,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5FD",
           "SD-A55D"
         ],
-        "siddhamUnicodeText": "𑖎𑖨",
+        "siddhamUnicodeText": "𑖎𑖨𑖝𑖸",
         "iastReconstruction": "ka ra te"
       },
       {
@@ -37804,7 +37804,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-CFCF",
           "SD-E2C4"
         ],
-        "siddhamUnicodeText": "𑖊",
+        "siddhamUnicodeText": "𑖊𑖮𑖴𑖊",
         "iastReconstruction": "e hṛe"
       },
       {
@@ -37860,7 +37860,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A56F",
           "SD-A5FB"
         ],
-        "siddhamUnicodeText": "𑖦𑖩𑖦𑖩𑖦𑖦𑖟𑖧𑖽",
+        "siddhamUnicodeText": "𑖦𑖩𑖦𑖩𑖦𑖦𑖮𑖴𑖊𑖟𑖧𑖽",
         "iastReconstruction": "ma la ma la ma ma hṛe da yaṃ"
       },
       {
@@ -37878,7 +37878,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A440",
           "SD-B767"
         ],
-        "siddhamUnicodeText": "𑖎𑖲𑖎𑖲𑖎",
+        "siddhamUnicodeText": "𑖎𑖲𑖨𑖲𑖎𑖲𑖨𑖲𑖎𑖨𑖿𑖦𑖽",
         "iastReconstruction": "ku ru ku ru ka rmaṃ"
       },
       {
@@ -37898,7 +37898,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5F1",
           "SD-A55D"
         ],
-        "siddhamUnicodeText": "𑖠𑗜𑖠𑗜𑖪𑖕𑖧",
+        "siddhamUnicodeText": "𑖠𑗜𑖨𑖲𑖠𑗜𑖨𑖲𑖪𑖕𑖧𑖝𑖸",
         "iastReconstruction": "dhu ru dhu ru va ja ya te"
       },
       {
@@ -37917,7 +37917,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5F1",
           "SD-A55D"
         ],
-        "siddhamUnicodeText": "𑖦𑖮𑖪𑖕𑖧",
+        "siddhamUnicodeText": "𑖦𑖮𑖪𑖕𑖧𑖝𑖸",
         "iastReconstruction": "ma ha va ja ya te"
       },
       {
@@ -38022,7 +38022,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-E16F",
           "SD-A650"
         ],
-        "siddhamUnicodeText": "𑖭𑗜𑖩𑖸",
+        "siddhamUnicodeText": "𑖭𑗜𑖎𑖿𑖝𑖸𑖩𑖸",
         "iastReconstruction": "su kte le"
       },
       {
@@ -38055,7 +38055,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A47E",
           "SD-CA6E"
         ],
-        "siddhamUnicodeText": "𑖓𑖰𑖓𑖰",
+        "siddhamUnicodeText": "𑖓𑖰𑖡𑖿𑖟𑖓𑖰𑖡𑖿𑖟",
         "iastReconstruction": "ci nda ci nda"
       },
       {
@@ -38072,7 +38072,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A47C",
           "SD-A64C"
         ],
-        "siddhamUnicodeText": "𑖢𑖿𑖨𑖓𑖩𑖰",
+        "siddhamUnicodeText": "𑖀𑖨𑖿𑖬𑖽𑖢𑖿𑖨𑖓𑖩𑖰",
         "iastReconstruction": "a rṣaṃ pra ca li"
       },
       {
@@ -38109,7 +38109,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5E5",
           "SD-A5FD"
         ],
-        "siddhamUnicodeText": "𑖮𑗜𑖮𑗜𑖦𑖨",
+        "siddhamUnicodeText": "𑖮𑗜𑖨𑖲𑖮𑗜𑖨𑖲𑖦𑖨",
         "iastReconstruction": "hu ru hu ru ma ra"
       },
       {
@@ -38127,7 +38127,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A642",
           "SD-ABA5"
         ],
-        "siddhamUnicodeText": "𑖮𑗜𑖮𑗜𑖮𑖿𑖨𑖰",
+        "siddhamUnicodeText": "𑖮𑗜𑖨𑖲𑖮𑗜𑖨𑖲𑖮𑖿𑖨𑖰",
         "iastReconstruction": "hu ru hu ru hri"
       },
       {
@@ -38164,7 +38164,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-E0BC",
           "SD-A642"
         ],
-        "siddhamUnicodeText": "𑖭𑖰𑖨𑖰𑖭𑖰𑖨𑖰𑖭𑗜𑖭𑗜",
+        "siddhamUnicodeText": "𑖭𑖰𑖨𑖰𑖭𑖰𑖨𑖰𑖭𑗜𑖨𑖲𑖭𑗜𑖨𑖲",
         "iastReconstruction": "si ri si ri su ru su ru"
       },
       {
@@ -38215,7 +38215,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-AA60",
           "SD-A5F1"
         ],
-        "siddhamUnicodeText": "𑖝𑖿𑖨𑖰𑖧",
+        "siddhamUnicodeText": "𑖦𑖹𑖝𑖿𑖨𑖰𑖧",
         "iastReconstruction": "mai tri ya"
       },
       {
@@ -38231,7 +38231,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A442",
           "SD-CA70"
         ],
-        "siddhamUnicodeText": "𑖨𑖎𑖰",
+        "siddhamUnicodeText": "𑖡𑖨𑖎𑖰𑖡𑖿𑖟𑖰",
         "iastReconstruction": "na ra ki ndi"
       },
       {
@@ -38251,7 +38251,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5E5",
           "SD-A5A9"
         ],
-        "siddhamUnicodeText": "𑖠𑖜𑖰𑖢𑖧𑖦",
+        "siddhamUnicodeText": "𑖠𑖨𑖿𑖬𑖰𑖜𑖰𑖡𑖢𑖧𑖦𑖡",
         "iastReconstruction": "dha rṣi ṇi na pa ya ma na"
       },
       {
@@ -38350,7 +38350,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5A9",
           "SD-A5FD"
         ],
-        "siddhamUnicodeText": "𑖨𑖎𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖨𑖨",
+        "siddhamUnicodeText": "𑖡𑖨𑖎𑖰𑖡𑖿𑖟𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖨𑖡𑖨",
         "iastReconstruction": "na ra ki ndi svā hā ma ra na ra"
       },
       {
@@ -38373,7 +38373,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A44D",
           "SD-A5F1"
         ],
-        "siddhamUnicodeText": "𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖰𑖨𑖭𑖽𑖦𑗜𑖏𑖯𑖧",
+        "siddhamUnicodeText": "𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖰𑖨𑖭𑖽𑖁𑖦𑗜𑖏𑖯𑖧",
         "iastReconstruction": "svā hā si ra saṃ ā mu khā ya"
       },
       {
@@ -38449,7 +38449,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-CDA9",
           "SD-A5F1"
         ],
-        "siddhamUnicodeText": "𑖢𑖎𑖭𑖿𑖝𑖧",
+        "siddhamUnicodeText": "𑖢𑖟𑖿𑖦𑖎𑖭𑖿𑖝𑖧",
         "iastReconstruction": "pa dma ka sta ya"
       },
       {
@@ -38526,7 +38526,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-B065",
           "SD-A6A9"
         ],
-        "siddhamUnicodeText": "𑖨𑖎𑖰𑖪𑖐𑖨𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖪𑖨𑖰𑖫𑖒𑖿𑖎𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖺𑖨𑖝𑖿𑖨𑖧𑖯𑖧𑖦𑖺𑖨𑖿𑖧𑖯𑖪𑖨𑖺𑖎𑖰𑖫𑖿𑖪𑖨𑖧𑖤𑖺𑖠𑖰𑖭𑖿𑖪𑖯𑖮𑖯",
+        "siddhamUnicodeText": "𑖡𑖨𑖎𑖰𑖡𑖿𑖟𑖰𑖪𑖐𑖨𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖪𑖨𑖰𑖫𑖒𑖿𑖎𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖡𑖦𑖺𑖨𑖝𑖿𑖡𑖝𑖿𑖨𑖧𑖯𑖧𑖡𑖦𑖺𑖁𑖨𑖿𑖧𑖯𑖪𑖨𑖺𑖎𑖰𑖝𑖸𑖫𑖿𑖪𑖨𑖧𑖤𑖺𑖠𑖰𑖭𑖿𑖪𑖯𑖮𑖯",
         "iastReconstruction": "na ra ki ndi va ga ra ya svā hā ma va ri śa ṅka ya svā hā na mo ra tna tra yā ya na mo ā ryā va ro ki te śva ra ya bo dhi svā hā"
       }
     ],
@@ -38598,7 +38598,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "南",
@@ -38643,7 +38643,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B448"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖿𑖡",
         "iast": "tna",
         "devanagari": "त्न",
         "chineseText": "怛那",
@@ -38706,7 +38706,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "南",
@@ -38736,7 +38736,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -38814,7 +38814,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -39078,7 +39078,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -39267,7 +39267,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -39315,7 +39315,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "南",
@@ -39345,7 +39345,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E0CE"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖭𑖿𑖎𑖴",
         "iast": "skṛ",
         "devanagari": "स्कृ",
         "chineseText": "悉吉㗚",
@@ -39360,7 +39360,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "埵",
@@ -39405,7 +39405,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -39453,7 +39453,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -39483,7 +39483,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -39561,7 +39561,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "南",
@@ -39591,7 +39591,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -39792,7 +39792,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -39807,7 +39807,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "陀",
@@ -39870,7 +39870,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -39963,7 +39963,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "哆",
@@ -39978,7 +39978,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -40104,7 +40104,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -40134,7 +40134,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -40167,7 +40167,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -40257,7 +40257,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -40305,7 +40305,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -40338,7 +40338,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E2C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖮𑖴𑖊",
         "iast": "hṛe",
         "devanagari": "हृए",
         "chineseText": "醯唎",
@@ -40560,7 +40560,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E2C4"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖮𑖴𑖊",
         "iast": "hṛe",
         "devanagari": "हृए",
         "chineseText": "醯唎",
@@ -40624,7 +40624,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -40670,7 +40670,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B767"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖿𑖦𑖽",
         "iast": "rmaṃ",
         "devanagari": "र्मं",
         "chineseText": "蒙",
@@ -40703,7 +40703,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -40779,7 +40779,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -40872,7 +40872,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -41180,7 +41180,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E16F"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖎𑖿𑖝𑖸",
         "iast": "kte",
         "devanagari": "क्ते",
         "chineseText": "帝",
@@ -41291,7 +41291,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA6E"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖟",
         "iast": "nda",
         "devanagari": "न्द",
         "chineseText": "那",
@@ -41326,7 +41326,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -41341,7 +41341,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B7C5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖿𑖬𑖽",
         "iast": "rṣaṃ",
         "devanagari": "र्षं",
         "chineseText": "羅參",
@@ -41527,7 +41527,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -41606,7 +41606,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -41769,7 +41769,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚧",
@@ -41933,7 +41933,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5EC"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖦𑖹",
         "iast": "mai",
         "devanagari": "मै",
         "chineseText": "彌",
@@ -41981,7 +41981,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -42026,7 +42026,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA70"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖟𑖰",
         "iast": "ndi",
         "devanagari": "न्दि",
         "chineseText": "墀",
@@ -42059,7 +42059,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B7BD"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖿𑖬𑖰",
         "iast": "rṣi",
         "devanagari": "र्षि",
         "chineseText": "唎瑟",
@@ -42089,7 +42089,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -42149,7 +42149,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -42543,7 +42543,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -42588,7 +42588,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA70"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖟𑖰",
         "iast": "ndi",
         "devanagari": "न्दि",
         "chineseText": "墀",
@@ -42670,7 +42670,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -42782,7 +42782,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -43134,7 +43134,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-DAAF"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖿𑖦",
         "iast": "dma",
         "devanagari": "द्म",
         "chineseText": "摩",
@@ -43231,7 +43231,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "那",
@@ -43276,7 +43276,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA70"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖟𑖰",
         "iast": "ndi",
         "devanagari": "न्दि",
         "chineseText": "墀",
@@ -43516,7 +43516,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "南",
@@ -43561,7 +43561,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B448"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖿𑖡",
         "iast": "tna",
         "devanagari": "त्न",
         "chineseText": "怛那",
@@ -43624,7 +43624,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "南",
@@ -43654,7 +43654,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -43732,7 +43732,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "帝",
@@ -44325,7 +44325,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-B065",
           "SD-A6A9"
         ],
-        "siddhamUnicodeText": "𑖦𑖾𑖭𑖿𑖝𑖿𑖨𑖿𑖧𑖰𑖎𑖡𑖯𑖽𑖭𑖨𑖿𑖪𑖐𑖡𑖯𑖽𑖌𑖽𑖥𑖲𑖪𑖰𑖥𑖪𑖟𑖪𑖨𑖰𑖪𑖓𑖨𑖰𑖪𑖓𑖭𑗜𑗆𑖠𑖨𑗆𑖭𑖨𑖿𑖪𑖐𑖠𑖯𑖝𑖲𑖠𑖨𑖰𑖢𑖟𑖿𑖦𑖽𑖥𑖪𑖕𑖧𑖪𑖨𑖰𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖿𑖦𑖨𑖐𑖠𑖨𑖿𑖦𑖿𑖦𑖓𑖎𑖿𑖨𑖢𑖿𑖨𑖪𑖨𑖿𑖝𑖿𑖝𑖪𑖕𑖿𑖨𑖰𑖤𑖺𑖠𑖰𑖪𑖜𑖩𑗜𑖽𑖎𑖨𑖩𑗜𑖽𑖎𑖴𑖭𑖨𑖿𑖪𑖐𑖠𑖰𑖬𑖿𑖘𑖰𑖤𑖺𑖠𑖧𑗆𑖤𑖺𑖠𑖰𑗆𑖤𑗜𑗆𑖭𑖽𑖤𑖺𑖠𑖭𑖽𑖤𑖺𑖠𑖧𑖓𑖩𑗆𑖓𑖩𑖽𑖝𑖲𑖭𑖨𑖿𑖪𑖯𑖪𑖨𑖜𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖐𑖮𑗜𑗆𑖭𑖨𑖿𑖪𑖫𑖺𑖎𑖪𑖰𑖐𑖭𑖨𑖿𑖪𑖐𑖮𑖴𑖟𑖧𑖪𑖕𑖿𑖨𑖜𑖰𑖭𑖽𑖥𑖨𑗆𑖭𑖨𑖿𑖪𑖐𑖐𑖲𑖮𑖿𑖧𑖠𑖨𑖜𑖰𑖦𑗜𑖟𑖿𑖨𑖰𑖤𑗜𑖭𑗜𑖤𑗜𑖭𑖨𑖿𑖪𑖐𑖠𑖰𑖬𑖿𑖘𑖰𑖠𑖯𑖝𑖲𑖐𑖨𑖿𑖥𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖦𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖮𑖴𑖟𑖧𑖠𑖯𑖝𑖲𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑗜𑖢𑖿𑖨𑖭𑖿𑖝𑖲𑖥𑖸𑖐𑖠𑖰𑖬𑖿𑖘𑖰𑖮𑗜𑗆𑖮𑗝𑖼𑖮𑗝𑖼𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖭𑖨𑖿𑖪𑖐𑗛𑖬𑖠𑖯𑖝𑖲𑖦𑗜𑖟𑖿𑖨𑖯𑖜𑖰𑖭𑖨𑖿𑖪𑖐𑖭𑖠𑖝𑖲𑖪𑖰𑖥𑖺𑖬𑖰𑖠𑖰𑖬𑖿𑖘𑖰𑖮𑗝𑖼𑖮𑗝𑖼𑖭𑖿𑖪𑖯𑖮𑖯",
+        "siddhamUnicodeText": "𑖡𑖦𑖾𑖭𑖿𑖝𑖿𑖨𑖿𑖧𑖰𑖠𑖿𑖪𑖰𑖎𑖡𑖯𑖽𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖡𑖯𑖽𑖌𑖽𑖥𑖲𑖪𑖰𑖥𑖪𑖟𑖪𑖨𑖰𑖪𑖓𑖨𑖰𑖪𑖓𑖘𑖹𑖭𑗜𑖨𑖲𑗆𑖠𑖨𑗆𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖠𑖯𑖝𑖲𑖠𑖨𑖰𑖢𑖟𑖿𑖦𑖽𑖥𑖪𑖝𑖰𑖕𑖧𑖪𑖨𑖰𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖿𑖦𑖨𑖝𑖞𑖯𑖐𑖝𑖠𑖨𑖿𑖦𑖿𑖦𑖓𑖎𑖿𑖨𑖢𑖿𑖨𑖪𑖨𑖿𑖝𑖿𑖝𑖡𑖪𑖕𑖿𑖨𑖰𑖤𑖺𑖠𑖰𑖪𑖜𑖩𑗜𑖽𑖎𑖨𑖩𑗜𑖽𑖎𑖴𑖝𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖤𑖺𑖠𑖧𑗆𑖤𑖺𑖠𑖰𑗆𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑗆𑖭𑖽𑖤𑖺𑖠𑖡𑖰𑖭𑖽𑖤𑖺𑖠𑖧𑖓𑖩𑗆𑖓𑖩𑖽𑖝𑖲𑖭𑖨𑖿𑖪𑖯𑖪𑖨𑖜𑖡𑖰𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖐𑖝𑖸𑖮𑗜𑖨𑖲𑗆𑖭𑖨𑖿𑖪𑖫𑖺𑖎𑖪𑖰𑖐𑖝𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖪𑖕𑖿𑖨𑖜𑖰𑖭𑖽𑖥𑖨𑗆𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖐𑖲𑖮𑖿𑖧𑖠𑖨𑖜𑖰𑖦𑗜𑖟𑖿𑖨𑖰𑖤𑗜𑖝𑖸𑖭𑗜𑖤𑗜𑖝𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖠𑖯𑖝𑖲𑖐𑖨𑖿𑖥𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖦𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖠𑖯𑖝𑖲𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑗜𑖢𑖿𑖨𑖝𑖰𑖭𑖿𑖝𑖲𑖥𑖸𑖝𑖞𑖯𑖐𑖝𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖮𑗜𑖨𑖲𑗆𑖮𑗝𑖼𑖮𑗝𑖼𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑗛𑖬𑖿𑖜𑖱𑖬𑖠𑖯𑖝𑖲𑖦𑗜𑖟𑖿𑖨𑖯𑖜𑖰𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖽𑖭𑖠𑖝𑖲𑖪𑖰𑖥𑖺𑖬𑖰𑖝𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖮𑗝𑖼𑖮𑗝𑖼𑖭𑖿𑖪𑖯𑖮𑖯",
         "iastReconstruction": "na maḥ stryi dhvi ka nāṃ sa rva ta thā ga ta nāṃ oṃ bhu vi bha va da va ri va ca ri va ca ṭai su ru dha ra sa rva ta thā ga ta dhā tu dha ri pa dmaṃ bha va ti ja ya va ri mu dri sma ra ta thā ga ta dha rmma ca kra pra va rtta na va jri bo dhi va ṇa luṃ ka ra luṃ kṛ te sa rva ta thā ga tā dhi ṣṭi te bo dha ya bo dhi bu ddhya saṃ bo dha ni saṃ bo dha ya ca la ca laṃ tu sa rvā va ra ṇa ni sa rva pā pa vi ga te hu ru sa rva śo ka vi ga te sa rva ta thā ga ta hṛ da ya va jra ṇi saṃ bha ra sa rva ta thā ga ta gu hya dha ra ṇi mu dri bu te su bu te sa rva ta thā ga tā dhi ṣṭi ta dhā tu ga rbhe svā hā sa ma yā dhi ṣṭi te svā hā sa rva ta thā ga ta hṛ da ya dhā tu mu dri svā hā su pra ti stu bhe ta thā ga tā dhi ṣṭi te hu ru hūm̐ hūm̐ svā hā oṃ sa rva ta thā ga ta u ṣṇī ṣa dhā tu mu drā ṇi sa rva ta thā ga taṃ sa dha tu vi bho ṣi tā dhi ṣṭi te hūm̐ hūm̐ svā hā"
       }
     ],
@@ -46005,7 +46005,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5F1",
           "SD-E17C"
         ],
-        "siddhamUnicodeText": "𑖌𑖼𑖦𑖺𑖑𑖨𑖺𑖓𑖦𑖮𑖯𑖢𑖿𑖨𑖺𑖦𑖜𑖰𑖢𑖟𑖿𑖦𑖸𑖩𑖢𑖿𑖨𑖪𑖨𑖿𑖟𑖧𑖮𑗝𑖼",
+        "siddhamUnicodeText": "𑖌𑖼𑖀𑖦𑖺𑖑𑖪𑖹𑖨𑖺𑖓𑖡𑖦𑖮𑖯𑖢𑖿𑖨𑖺𑖦𑖜𑖰𑖢𑖟𑖿𑖦𑖸𑖕𑖿𑖪𑖯𑖩𑖢𑖿𑖨𑖪𑖨𑖿𑖟𑖧𑖮𑗝𑖼",
         "iastReconstruction": "om̐ a mo gha vai ro ca na ma hā pro ma ṇi pa dme jvā la pra va rda ya hūm̐"
       }
     ],
@@ -46034,7 +46034,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -46079,7 +46079,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A65D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖪𑖹",
         "iast": "vai",
         "devanagari": "वै",
         "chineseText": "尾",
@@ -46124,7 +46124,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "曩",
@@ -46182,9 +46182,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 12,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖨",
+        "iast": "ra",
+        "devanagari": "र",
         "chineseText": "囉",
         "chineseZi": "囉",
         "yinNotes": [
@@ -46265,7 +46265,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E04A"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖕𑖿𑖪𑖯",
         "iast": "jvā",
         "devanagari": "ज्वा",
         "chineseText": "入嚩",
@@ -46924,7 +46924,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-B065",
           "SD-A6A9"
         ],
-        "siddhamUnicodeText": "𑖦𑖺𑖨𑖝𑖿𑖨𑖧𑖯𑖧𑖦𑖨𑖿𑖧𑖯𑖪𑖩𑖺𑖎𑖰𑖫𑖿𑖪𑖨𑖯𑖧𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖯𑖧𑖦𑖮𑖯𑖭𑖝𑖿𑖪𑖧𑖦𑖮𑖯𑖎𑖯𑖜𑖰𑖎𑖯𑖧𑖟𑖿𑖧𑖌𑖼𑖓𑖎𑖿𑖨𑖪𑖓𑖰𑖦𑖜𑖰𑖦𑖮𑖯𑖢𑖟𑖿𑖦𑖸𑖬𑖿𑖘𑖕𑖿𑖪𑖩𑖎𑖧𑖮𑗝𑖼𑖣𑖭𑖿𑖪𑖯𑖮𑖯",
+        "siddhamUnicodeText": "𑖡𑖦𑖺𑖨𑖝𑖿𑖡𑖝𑖿𑖨𑖧𑖯𑖧𑖡𑖦𑖁𑖨𑖿𑖧𑖯𑖪𑖩𑖺𑖎𑖰𑖝𑖸𑖫𑖿𑖪𑖨𑖯𑖧𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖯𑖧𑖦𑖮𑖯𑖭𑖝𑖿𑖪𑖧𑖦𑖮𑖯𑖎𑖯𑖨𑖲𑖜𑖰𑖎𑖯𑖧𑖝𑖟𑖿𑖧𑖞𑖯𑖌𑖼𑖓𑖎𑖿𑖨𑖪𑖨𑖿𑖝𑖿𑖝𑖰𑖓𑖰𑖡𑖿𑖝𑖯𑖦𑖜𑖰𑖦𑖮𑖯𑖢𑖟𑖿𑖦𑖸𑖨𑖲𑖨𑖲𑖝𑖰𑖬𑖿𑖘𑖕𑖿𑖪𑖩𑖀𑖎𑖨𑖿𑖬𑖧𑖮𑗝𑖼𑖣𑖘𑖿 𑖭𑖿𑖪𑖯𑖮𑖯",
         "iastReconstruction": "na mo ra tna tra yā ya na ma ā ryā va lo ki te śva rā ya bo dhi sa tvā ya ma hā sa tva ya ma hā kā ru ṇi kā ya ta dya thā om̐ ca kra va rtti ci ntā ma ṇi ma hā pa dme ru ru ti ṣṭa jva la a ka rṣa ya hūm̐ pha ṭ svā hā"
       },
       {
@@ -46956,7 +46956,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A64A",
           "SD-E17C"
         ],
-        "siddhamUnicodeText": "𑖌𑖼𑖢𑖓𑖰𑖦𑖜𑖰𑖕𑖿𑖪𑖩𑖮𑗝𑖼",
+        "siddhamUnicodeText": "𑖌𑖼𑖢𑖟𑖿𑖦𑖓𑖰𑖡𑖿𑖝𑖯𑖦𑖜𑖰𑖕𑖿𑖪𑖩𑖮𑗝𑖼",
         "iastReconstruction": "om̐ pa dma ci ntā ma ṇi jva la hūm̐"
       },
       {
@@ -47544,7 +47544,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "娜",
@@ -47589,7 +47589,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B448"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖿𑖡",
         "iast": "tna",
         "devanagari": "त्न",
         "chineseText": "怛娜",
@@ -47665,7 +47665,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A5A9"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡",
         "iast": "na",
         "devanagari": "न",
         "chineseText": "娜",
@@ -47695,7 +47695,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC6"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖁",
         "iast": "ā",
         "devanagari": "आ",
         "chineseText": "阿",
@@ -47785,7 +47785,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A55D"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖸",
         "iast": "te",
         "devanagari": "ते",
         "chineseText": "諦",
@@ -48063,7 +48063,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚕",
@@ -48126,7 +48126,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A557"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝",
         "iast": "ta",
         "devanagari": "त",
         "chineseText": "怛",
@@ -48160,7 +48160,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A564"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖞𑖯",
         "iast": "thā",
         "devanagari": "था",
         "chineseText": "他",
@@ -48253,7 +48253,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E0EA"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖿𑖝𑖿𑖝𑖰",
         "iast": "rtti",
         "devanagari": "र्त्ति",
         "chineseText": "囉",
@@ -48270,9 +48270,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 44,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖝𑖰",
+        "iast": "ti",
+        "devanagari": "ति",
         "chineseText": "底",
         "chineseZi": "底",
         "yinNotes": [],
@@ -48300,7 +48300,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA57"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖝𑖯",
         "iast": "ntā",
         "devanagari": "न्ता",
         "chineseText": "跢",
@@ -48410,9 +48410,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 53,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖦𑖸",
+        "iast": "me",
+        "devanagari": "मे",
         "chineseText": "謎",
         "chineseZi": "謎",
         "yinNotes": [],
@@ -48428,7 +48428,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚕",
@@ -48443,7 +48443,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A642"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖲",
         "iast": "ru",
         "devanagari": "रु",
         "chineseText": "嚕",
@@ -48461,7 +48461,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-A559"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖝𑖰",
         "iast": "ti",
         "devanagari": "ति",
         "chineseText": "底",
@@ -48537,7 +48537,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CFC5"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖀",
         "iast": "a",
         "devanagari": "अ",
         "chineseText": "阿",
@@ -48571,7 +48571,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-B7BB"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖨𑖿𑖬",
         "iast": "rṣa",
         "devanagari": "र्ष",
         "chineseText": "唎沙",
@@ -48645,7 +48645,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-E046"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖘𑖿",
         "iast": "ṭ",
         "devanagari": "ट्",
         "chineseText": "吒",
@@ -48684,9 +48684,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 68,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖪𑖯",
+        "iast": "vā",
+        "devanagari": "वा",
         "chineseText": "嚩",
         "chineseZi": "嚩",
         "yinNotes": [
@@ -48759,7 +48759,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-DAAF"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖟𑖿𑖦",
         "iast": "dma",
         "devanagari": "द्म",
         "chineseText": "頭",
@@ -48775,9 +48775,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 73,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖦",
+        "iast": "ma",
+        "devanagari": "म",
         "chineseText": "麼",
         "chineseZi": "麼",
         "yinNotes": [],
@@ -48808,7 +48808,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "sdCodes": [
           "SD-CA57"
         ],
-        "siddhamUnicode": "",
+        "siddhamUnicode": "𑖡𑖿𑖝𑖯",
         "iast": "ntā",
         "devanagari": "न्ता",
         "chineseText": "跢",
@@ -48854,9 +48854,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 78,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖦𑖮𑖯",
+        "iast": "mahā",
+        "devanagari": "महा",
         "chineseText": "摩訶",
         "chineseZi": "摩訶",
         "yinNotes": [],
@@ -49033,9 +49033,9 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
         "index": 88,
         "siddhamRef": "",
         "sdCodes": [],
-        "siddhamUnicode": "",
-        "iast": "",
-        "devanagari": "",
+        "siddhamUnicode": "𑖦𑖸",
+        "iast": "me",
+        "devanagari": "मे",
         "chineseText": "謎",
         "chineseZi": "謎",
         "yinNotes": [],
@@ -56094,7 +56094,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-A5FD",
           "SD-A4B6"
         ],
-        "siddhamUnicodeText": "𑖤𑗜𑖟𑖿𑖠𑖯𑖥𑖬𑖰𑖡𑖯𑖽𑖭𑖦𑖩𑖦𑖯𑖩𑖯𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖨𑖰𑖎𑖴𑖓𑖰𑖦𑖜𑖰𑖦𑗜𑖟𑖿𑖨𑖮𑖿𑖩𑖟𑖧𑖢𑖿𑖨𑖕𑖰𑖠𑖨𑖜𑖰𑖢𑖿𑖨𑖭𑖨𑖾𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖨𑖕",
+        "siddhamUnicodeText": "𑖤𑗜𑖟𑖿𑖠𑖯𑖥𑖬𑖰𑖡𑖯𑖽𑖭𑖦𑖡𑖿𑖝𑖩𑖦𑖯𑖩𑖯𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖿𑖣𑖲𑖨𑖰𑖎𑖴𑖝𑖓𑖰𑖡𑖿𑖝𑖯𑖦𑖜𑖰𑖦𑗜𑖟𑖿𑖨𑖮𑖿𑖩𑖟𑖧𑖀𑖢𑖿𑖨𑖕𑖰𑖝𑖠𑖨𑖜𑖰𑖢𑖿𑖨𑖝𑖰𑖭𑖨𑖾𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖨𑖕",
         "iastReconstruction": "bu ddhā bha ṣi nāṃ sa ma nta la mā lā vi śu ddhe sphu ri kṛ ta ci ntā ma ṇi mu dra hla da ya a pra ji ta dha ra ṇi pra ti sa raḥ ma hā vi dya ra ja"
       },
       {
@@ -59045,7 +59045,7 @@ export const CBETA_AUTH_RECORDS: CbetaAuthRecord[] = [
           "SD-B065",
           "SD-A6A9"
         ],
-        "siddhamUnicodeText": "𑖦𑖾𑖭𑖨𑖿𑖪𑖐𑖡𑖯𑖽𑖦𑖺𑖦𑖾𑖭𑖨𑖿𑖪𑖤𑗜𑖟𑖿𑖠𑖯𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖸𑖥𑖿𑖧𑖾𑖤𑗜𑖟𑖿𑖠𑖯𑖠𑖨𑖿𑖦𑖿𑖦𑖭𑖽𑖑𑖸𑖥𑖿𑖧𑖾𑖟𑖿𑖧𑖌𑖽𑖪𑖰𑖢𑗜𑖩𑖐𑖨𑖿𑖥𑖸𑖪𑖰𑖢𑗜𑖩𑖪𑖰𑖦𑖩𑖸𑖕𑖧𑖐𑖨𑖿𑖥𑖸𑖪𑖕𑖿𑖨𑖕𑖿𑖪𑖩𑖐𑖨𑖿𑖥𑖸𑖐𑖐𑖮𑖐𑖐𑖪𑖰𑖫𑖺𑖠𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖺𑖠𑖌𑖽𑖐𑖲𑖜𑖪𑖐𑖐𑖨𑖰𑖜𑖰𑖐𑖰𑖨𑖰𑖐𑖰𑖨𑖰𑖐𑖦𑖨𑖰𑗆𑖐𑖮𑗆𑖐𑖨𑖿𑖐𑖯𑖨𑖰𑗆𑖐𑖐𑖨𑖰𑗆𑖐𑖦𑖿𑖥𑖨𑖰𑗆𑖐𑗆𑖐𑖦𑖐𑖨𑖸𑖐𑖲𑗆𑖐𑖲𑖓𑖩𑖸𑖓𑖩𑖸𑖦𑗜𑖓𑖩𑖸𑖕𑖧𑖸𑖪𑖰𑖕𑖧𑖸𑖭𑖨𑖿𑖪𑖥𑖧𑖪𑖰𑖐𑖐𑖨𑖿𑖥𑖭𑖽𑖥𑖨𑖜𑖰𑖭𑖰𑖨𑗆𑖦𑖰𑖨𑖰𑗆𑖐𑖰𑖨𑖰𑗆𑖭𑖦𑖎𑖜𑖰𑖭𑖨𑖿𑖪𑖫𑖢𑖿𑖨𑖦𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖦𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖽𑖓𑖪𑖰𑖨𑖰𑗆𑖪𑖰𑖐𑖪𑖨𑖜𑖥𑖧𑖫𑖭𑗜𑖨𑖰𑗆𑖓𑖰𑖨𑖰𑖓𑖰𑖨𑖰𑖎𑖦𑖩𑖸𑖪𑖰𑖦𑖩𑖸𑖕𑖩𑖸𑖕𑖧𑖯𑖪𑖮𑖸𑖕𑖧𑖪𑖥𑖐𑖪𑖨𑖦𑖎𑖲𑖦𑖯𑖩𑖯𑖠𑖯𑖨𑖰𑖜𑖰𑖪𑖮𑗜𑖪𑖰𑖪𑖰𑖠𑖪𑖰𑖓𑖰𑖝𑖿𑖨𑖪𑖸𑖬𑖨𑖳𑖢𑖠𑖯𑖨𑖰𑖜𑖰𑖥𑖐𑖪𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖯𑖟𑖸𑖪𑖰𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖦𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖽𑖓𑖭𑖦𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖺𑖠𑖮𑗜𑗆𑖎𑖿𑖬𑖝𑖿𑖨𑖦𑖯𑖩𑖯𑖠𑖯𑖨𑖰𑖜𑖰𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖯𑖽𑖦𑖦𑖭𑖿𑖧𑖯𑖝𑖿𑖨𑖯𑖜𑖢𑖨𑖯𑖧𑖜𑖭𑖿𑖧𑖢𑖨𑖰𑖦𑖺𑖓𑖧𑖦𑖸𑖭𑖨𑖿𑖪𑖟𑗜𑖾𑖏𑖸𑖥𑖿𑖧𑖾𑖓𑖜𑖿𑖚𑖰𑗆𑖓𑖜𑖿𑖚𑖰𑖪𑖸𑖐𑖪𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖯𑖪𑖯𑖨𑖜𑖰𑖫𑖢𑖎𑖿𑖬𑖢𑖿𑖨𑖦𑖪𑖰𑖕𑖧𑖪𑖯𑖮𑖰𑖮𑗜𑗆𑖦𑗆𑖓𑗜𑗆𑖧𑗜𑖾𑖢𑖯𑖨𑖭𑗜𑖨𑖪𑖨𑖦𑖭𑖨𑖿𑖪𑖟𑖸𑖪𑖢𑗜𑖕𑖠𑖰𑖨𑖰𑗆𑖭𑖦𑖪𑖩𑖺𑖎𑖰𑖢𑖿𑖨𑖥𑖸𑗆𑖭𑗜𑖢𑖿𑖨𑖥𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖺𑖠𑖠𑖨𑖠𑖨𑖠𑖨𑖜𑖰𑖠𑖨𑖠𑖨𑖸𑖭𑗜𑖦𑗜𑖭𑗜𑖦𑗜𑖓𑖩𑖸𑖓𑖯𑖩𑖧𑖟𑗜𑖬𑖿𑖘𑖯𑖢𑗜𑖨𑖧𑖦𑖸𑖫𑖯𑖽𑖫𑖿𑖨𑖱𑖪𑖢𑗜𑖠𑖡𑖯𑖽𑖕𑖧𑖎𑖦𑖩𑖸𑖎𑖿𑖬𑖰𑖜𑖰𑖎𑖿𑖬𑖰𑖜𑖰𑖪𑖨𑖟𑖸𑖪𑖨𑖟𑖯𑖽𑖎𑖲𑖫𑖸𑖌𑖽𑖢𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖫𑖺𑖠𑖧𑗆𑖫𑖲𑖟𑖿𑖠𑖸𑖥𑖨𑗆𑖥𑖰𑖨𑖰𑖥𑖰𑖨𑖰𑖥𑖲𑖥𑖲𑖦𑖽𑖐𑖩𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖢𑖪𑖰𑖝𑖿𑖨𑖦𑗜𑖏𑖰𑖏𑖨𑖿𑖐𑖰𑖜𑖰𑗆𑖏𑖨𑗆𑖕𑖿𑖪𑖩𑖰𑖫𑖰𑖨𑖸𑖭𑖦𑖢𑖿𑖨𑖭𑖨𑖰𑖪𑖯𑖥𑖯𑖭𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖕𑖿𑖪𑖩𑗆𑖭𑖨𑖿𑖪𑖟𑖸𑖪𑖐𑖜𑖭𑖦𑖯𑖎𑖜𑖰𑖭𑖝𑖿𑖧𑖪𑖨𑗆𑖨𑖧𑖦𑖯𑖽𑖐𑖪𑖰𑖩𑖺𑖎𑖰𑖩𑖮𑗜𑗆𑖮𑗜𑗆𑖎𑖿𑖬𑖰𑖜𑖰𑗆𑖭𑖨𑖿𑖪𑖐𑖿𑖨𑖮𑖥𑖎𑖿𑖬𑖜𑖰𑖢𑖰𑖽𑖐𑗆𑖓𑗜𑖭𑗜𑗆𑖭𑗜𑖦𑗜𑗆𑖓𑗜𑖪𑖰𑖓𑖨𑖸𑖨𑗆𑖐𑖪𑖰𑖩𑖺𑖎𑖰𑖨𑖧𑖝𑖲𑖦𑖯𑖽𑖥𑖐𑖪𑖬𑖿𑖘𑖦𑖮𑖯𑖟𑖯𑖨𑖳𑖜𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖽𑖦𑗜𑖟𑖿𑖨𑖭𑖯𑖐𑖨𑖢𑖨𑖿𑖧𑖡𑖿𑖝𑖯𑖽𑖢𑖯𑖩𑖐𑖐𑖩𑖽𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖦𑖟𑖰𑖫𑖯𑖪𑖪𑖕𑖿𑖨𑖢𑖿𑖨𑖎𑖯𑖨𑖪𑖕𑖿𑖨𑖢𑖯𑖫𑖪𑖪𑖕𑖿𑖨𑖕𑖿𑖪𑖩𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖥𑖲𑖨𑖰𑗆𑖐𑖨𑖿𑖥𑖪𑖐𑖨𑖿𑖥𑖪𑖰𑖫𑖺𑖠𑖎𑖲𑖎𑖿𑖬𑖰𑖭𑖽𑖢𑗜𑖨𑖜𑖰𑖕𑖿𑖪𑖩𑗆𑖓𑖩𑖓𑖩𑖕𑖿𑖪𑖩𑖰𑖜𑖰𑖢𑖿𑖨𑖪𑖝𑖲𑖟𑖸𑖪𑖭𑖦𑖟𑖰𑖪𑖿𑖧𑖺𑖟𑖎𑖸𑖦𑖴𑖪𑖜𑖰𑖟𑖸𑖪𑗆𑖠𑖨𑖜𑖰𑖥𑖰𑖬𑖰𑖓𑖝𑖲𑖦𑖸𑖭𑗜𑖐𑖪𑖨𑖪𑖓𑖦𑖴𑖪𑖨𑖪𑖢𑗜𑖬𑖸𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖦𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖽𑖓𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖟𑖯𑖭𑖨𑖿𑖪𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖺𑖢𑖟𑖿𑖨𑖪𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖺𑖢𑖭𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖥𑖧𑖥𑖱𑖭𑖿𑖧𑖭𑖨𑖿𑖪𑖎𑖩𑖰𑖎𑖩𑖯𑖮𑖪𑖰𑖐𑖿𑖨𑖮𑖪𑖰𑖪𑖯𑖟𑖟𑗜𑖾𑖭𑖿𑖪𑖟𑗜𑖦𑖰𑖝𑖿𑖝𑖯𑖦𑖽𑖐𑖩𑖿𑖧𑖢𑖯𑖢𑖪𑖰𑖫𑖭𑖨𑖿𑖪𑖧𑖎𑖿𑖬𑖨𑖯𑖎𑖿𑖬𑖭𑖐𑖪𑖯𑖨𑖜𑖰𑖭𑖨𑖜𑖰𑖭𑖨𑖸𑖪𑖩𑖪𑖩𑖪𑖩𑖪𑖕𑖧𑖕𑖧𑖕𑖧𑖝𑖲𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖎𑖯𑖩𑖽𑖭𑖰𑖝𑖲𑖦𑖸𑖦𑖯𑖽𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖽𑖭𑖯𑖠𑖧𑗆𑖭𑖨𑖿𑖪𑖦𑖜𑖿𑖚𑖩𑖭𑖯𑖠𑖑𑖺𑖧𑖭𑖨𑖿𑖪𑖪𑖰𑖕𑖧𑗆𑖭𑖰𑖟𑖿𑖠𑖸𑗆𑖭𑗜𑖭𑖰𑖟𑖿𑖠𑖸𑖭𑖰𑗆𑖤𑗜𑗆𑖪𑖺𑖠𑖧𑗆𑖨𑖧𑗆𑖨𑖜𑖰𑗆𑖢𑗜𑖨𑖧𑖦𑖸𑖫𑖯𑖽𑖭𑖨𑖿𑖪𑖪𑖰𑖟𑖿𑖧𑖯𑖠𑖰𑖐𑖦𑗝𑖨𑖿𑖝𑖿𑖝𑖸𑖕𑖧𑖺𑖝𑖿𑖝𑖨𑖰𑖕𑖧𑖪𑖬𑖿𑖘𑗆𑖭𑖦𑖧𑖦𑖢𑖯𑖩𑖧𑖐𑖮𑖴𑖟𑖧𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖿𑖧𑖪𑖩𑖺𑖎𑖧𑖝𑖲𑖦𑖯𑖽𑖬𑖿𑖘𑖥𑖰𑖦𑖮𑖯𑖟𑖜𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑗆𑖢𑖿𑖨𑖭𑖨𑗆𑖭𑖨𑖿𑖪𑖯𑖪𑖨𑖜𑖪𑖰𑖫𑖺𑖠𑖭𑖦𑖎𑖨𑖦𑖜𑖿𑖚𑖩𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖰𑖐𑗆𑖪𑖰𑖐𑖦𑖩𑖪𑖰𑖫𑖺𑖠𑖎𑖿𑖬𑖰𑖜𑖰𑗆𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖦𑖩𑖪𑖰𑖐𑖐𑖪𑖪𑖕𑖿𑖨𑖪𑖩𑖺𑖎𑖿𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖦𑗝𑖥𑖰𑖬𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖯𑖥𑖰𑖬𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖟𑖸𑖪𑖥𑖰𑖬𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖮𑖴𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖮𑖴𑖟𑖧𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖭𑖦𑖧𑖭𑖰𑖟𑖿𑖠𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖪𑖿𑖧𑖪𑖩𑖺𑖎𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖿𑖨𑖮𑖿𑖦𑖸𑖪𑖿𑖨𑖬𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖦𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖸𑖫𑖿𑖪𑖨𑖪𑖕𑖰𑖧𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖕𑖿𑖨𑖠𑖨𑖪𑖕𑖿𑖨𑖢𑖯𑖜𑖰𑖪𑖩𑖪𑖱𑖨𑖿𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖠𑖴𑖨𑖯𑖬𑖿𑖘𑖿𑖨𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖨𑖳𑖎𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖨𑖳𑖢𑖯𑖎𑖿𑖬𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖿𑖨𑖪𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖝𑖲𑖮𑖯𑖨𑖯𑖕𑖦𑖾𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖽𑖦𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖽𑖦𑖕𑖰𑖦𑖾𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖯𑖦𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖪𑖰𑖩𑖺𑖎𑖰𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖸𑖪𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖎𑖿𑖬𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖨𑖯𑖎𑖿𑖬𑖭𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖨𑖿𑖪𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑗜𑖨𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖚𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖎𑖰𑖨𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖺𑖨𑖐𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖬𑖿𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖬𑖿𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖿𑖨𑖮𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖎𑖿𑖬𑖝𑖿𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖥𑖲𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖿𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖰𑖫𑖯𑖓𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖭𑖿𑖦𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖎𑖲𑖦𑖿𑖥𑖯𑖜𑖿𑖚𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖠𑗜𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖝𑖲𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖦𑗜𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖮𑖯𑗆𑖭𑖨𑖿𑖪𑖫𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖮𑗆𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖢𑖿𑖨𑖟𑗜𑖬𑖿𑖘𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖓𑗆𑖭𑖨𑖿𑖪𑖢𑖿𑖨𑖝𑖿𑖧𑖎𑖢𑖿𑖨𑖝𑖿𑖧𑖯𑖦𑖰𑖝𑖿𑖨𑖯𑖧𑖸𑖦𑖦𑖮𑖰𑖬𑖰𑖜𑖾𑖬𑖯𑖭𑖨𑖿𑖪𑖸𑖬𑖯𑖫𑖨𑖱𑖨𑖽𑖕𑖿𑖪𑖩𑖧𑖟𑗜𑖬𑖿𑖘𑖓𑖰𑖝𑖿𑖝𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖕𑖿𑖪𑖩𑖰𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖿𑖨𑖩𑖰𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖱𑖢𑖿𑖝𑖕𑖿𑖪𑖩𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖦𑖩𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖯𑖜𑖰𑖥𑖟𑖿𑖨𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖟𑖿𑖨𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖯𑖎𑖯𑖩𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖝𑖴𑖐𑖜𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖎𑖿𑖬𑖰𑖜𑖱𑖭𑖿𑖪𑖯𑖮𑖯𑖨𑖯𑖎𑖿𑖬𑖭𑖱𑖭𑖿𑖪𑖯𑖮𑖯𑖎𑖯𑖫𑖦𑖯𑖝𑖿𑖨𑖱𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖦𑗜𑖟𑖿𑖨𑖪𑖯𑖭𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖨𑖯𑖝𑖴𑖓𑖨𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖰𑖪𑖭𑖓𑖨𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖝𑖿𑖨𑖰𑖭𑖓𑖨𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖸𑖩𑖯𑖓𑖯𑖨𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖸𑖩𑖯𑖓𑖨𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖨𑖿𑖥𑖯𑖮𑖯𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖨𑖿𑖥𑖭𑖨𑖯𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖮𑗜𑖩𑗜𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖳𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖲𑖪𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖥𑖳𑖨𑖿𑖥𑖲𑖪𑖾𑖭𑖿𑖪𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖰𑖓𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖪𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖠𑖯𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖠𑖯𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖕𑖺𑖪𑖢𑗜𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖰𑖩𑖰𑖓𑖰𑖩𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖰𑖩𑖰𑖭𑖰𑖩𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖤𑗜𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖰𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖜𑖿𑖚𑖩𑖭𑖰𑖟𑖿𑖠𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖜𑖿𑖚𑖩𑖪𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖱𑖦𑖯𑖪𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖫𑖡𑖯𑖽𑖕𑖦𑖿𑖥𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖝𑖦𑖿𑖥𑖧𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖿𑖔𑖰𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖰𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖺𑖮𑖧𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖜𑖰𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑗝𑖨𑖿𑖧𑖸𑗆𑖭𑗝𑖨𑖿𑖧𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖰𑖫𑖺𑖠𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖭𑗜𑖓𑖢𑗜𑖓𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖿𑖨𑖮𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖎𑖿𑖬𑖝𑖿𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖰𑖪𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖭𑖿𑖧𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖰𑖎𑖨𑖰𑖫𑖯𑖎𑖨𑖰𑖢𑗜𑖬𑖿𑖘𑖰𑖎𑖨𑖰𑖪𑖩𑖪𑖨𑖿𑖠𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖿𑖨𑖱𑖎𑖨𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖪𑖨𑖿𑖠𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖿𑖨𑖱𑖧𑖕𑖿𑖪𑖯𑖩𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑗜𑖓𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖓𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖸𑖐𑖪𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖭𑖨𑖿𑖪𑖐𑖦𑗝𑖨𑖿𑖝𑖿𑖝𑖸𑖢𑖿𑖨𑖪𑖨𑖪𑖰𑖐𑖥𑖧𑖸𑖫𑖦𑖧𑖭𑖿𑖪𑖦𑖸𑖥𑖐𑖪𑖭𑖨𑖿𑖪𑖯𑖢𑖯𑖢𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖭𑖿𑖝𑖰𑖨𑖿𑖥𑖪𑖝𑖲𑖦𑗜𑗆𑖪𑖰𑖦𑗜𑖓𑖨𑖸𑖓𑖩𑖥𑖧𑖪𑖰𑖐𑖥𑖧𑖮𑖯𑖨𑖜𑖰𑖤𑖺𑖠𑖰𑗆𑖪𑖺𑖠𑖧𑗆𑖤𑗜𑖟𑖿𑖠𑖰𑖩𑖰𑗆𑖭𑖨𑖿𑖪𑖐𑖮𑖴𑖟𑖧𑖕𑗜𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖪𑖕𑖿𑖨𑖪𑖪𑖕𑖿𑖨𑖢𑖿𑖨𑖬𑖿𑖘𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖐𑖦𑗜𑖟𑖿𑖨𑖯𑖠𑖰𑖬𑖿𑖘𑖯𑖡𑖯𑖽𑖠𑖰𑖬𑖿𑖘𑖰𑖦𑖮𑖯𑖦𑗜𑖟𑖿𑖨𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖦𑗜𑗆𑖦𑗜𑖪𑖨𑖸𑖥𑖰𑖬𑖰𑖽𑖓𑖝𑖲𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖐𑖭𑖨𑖿𑖪𑖪𑖰𑖟𑖿𑖧𑖯𑖥𑖰𑖦𑖮𑖯𑖪𑖕𑖿𑖨𑖎𑖪𑖓𑖦𑗜𑖟𑖿𑖨𑖯𑖦𑗜𑖟𑖿𑖨𑖰𑖭𑖨𑖿𑖪𑖐𑖮𑖿𑖩𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖪𑖕𑖿𑖨𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖦𑖴𑖪𑖨𑖸𑖪𑖨𑗆𑖢𑖿𑖨𑖪𑖨𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖮𑗝𑖽𑖮𑗝𑖽𑖣𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖦𑖴𑖪𑖰𑖩𑖺𑖎𑖰𑖐𑖨𑖿𑖥𑖭𑗜𑖽𑖨𑖎𑖿𑖬𑖜𑖰𑖎𑖜𑖰𑖮𑗝𑖼𑖮𑗝𑖼𑖣𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖪𑖰𑖦𑖩𑖸𑖐𑖧𑖪𑖨𑖸𑖦𑖴𑖮𑗝𑖽𑖮𑗝𑖽𑖮𑗝𑖼𑖮𑗝𑖼𑖣𑖣𑖣𑖣𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖥𑖨𑗆𑖭𑖽𑖥𑖨𑗆𑖧𑖪𑖰𑖫𑖲𑖠𑖮𑗝𑖼𑖮𑗝𑖼𑖓𑖩𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖺𑖤𑗜𑖟𑖿𑖠𑖯𑖧𑖦𑖺𑖠𑖧𑖦𑖾𑖭𑖽𑖫𑖯𑖧𑖦𑖺𑖥𑖯𑖐𑖪𑖫𑖯𑖎𑖿𑖧𑖦𑗜𑖧𑖸𑖦𑖮𑖯𑖎𑖯𑖜𑖰𑖎𑖯𑖧𑖐𑖧𑖯𑖭𑖦𑖿𑖧𑖎𑖿𑖭𑖽𑖤𑗜𑖟𑖿𑖠𑖯𑖧𑖦𑖾𑖭𑖢𑖿𑖝𑖥𑖿𑖧𑖾𑖭𑖦𑖿𑖧𑖎𑖿𑖭𑖽𑖤𑗜𑖟𑖿𑖠𑖸𑖥𑖿𑖧𑖾𑖊𑖬𑖯𑖽𑖦𑖾𑖝𑖿𑖪𑖯𑖤𑗜𑖟𑖿𑖠𑖫𑖯𑖭𑖪𑖴𑖠𑖧𑖸𑖮𑖦𑖰𑖟𑖯𑖡𑖿𑖧𑖯𑖽𑖭𑖽𑖢𑖿𑖨𑖪𑖎𑖿𑖬𑖦𑖸𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖎𑖽𑖢𑖧𑖯𑖂𑖦𑖯𑖽𑖪𑖰𑖟𑖿𑖧𑖯𑖽𑖦𑖮𑖯𑖕𑖱𑖦𑖮𑖯𑖦𑖩𑖢𑖨𑖯𑖎𑖿𑖨𑖦𑖯𑖽𑖧𑖸𑖭𑖿𑖧𑖯𑖽𑖥𑖬𑖰𑖦𑖯𑖝𑖿𑖨𑖯𑖧𑖽𑖪𑖕𑖿𑖨𑖯𑖭𑖦𑖬𑖰𑖥𑖰𑖐𑖿𑖨𑖮𑖭𑖨𑖿𑖪𑖸𑖪𑖰𑖧𑖎𑖫𑖿𑖓𑖯𑖪𑖝𑖿𑖎𑖿𑖬𑖜𑖪𑖰𑖨𑖧𑖽𑖐𑖟𑖿𑖧𑖐𑖰𑖨𑗆𑖐𑖰𑖨𑖰𑖜𑖰𑖐𑖰𑖨𑖰𑖪𑖐𑖲𑖜𑖪𑖎𑖯𑖨𑖪𑖎𑖯𑖨𑖫𑖲𑖟𑖿𑖠𑖸𑖢𑖯𑖢𑖪𑖰𑖐𑖎𑖯𑖫𑖸𑖐𑖐𑖩𑖸𑖎𑖯𑖫𑖪𑖰𑖓𑖯𑖨𑖰𑖜𑖰𑖕𑖿𑖪𑖩𑖰𑖫𑖰𑖨𑖸𑖦𑖜𑖰𑖦𑗜𑖎𑖿𑖝𑖰𑖏𑖓𑖰𑖪𑖺𑖩𑖰𑖠𑖨𑖸𑖭𑗜𑖎𑖸𑖫𑖸𑖭𑗜𑖪𑖎𑖿𑖝𑖿𑖨𑖸𑖭𑗜𑖝𑖿𑖨𑖱𑖭𑗜𑖪𑖪𑖺𑖩𑖰𑖜𑖝𑖿𑖢𑖽𑖦𑖐𑖢𑖿𑖨𑖝𑖿𑖢𑖽𑖦𑖾𑖭𑖨𑖿𑖪𑖸𑖬𑖯𑖽𑖤𑗜𑖟𑖿𑖠𑖯𑖡𑖯𑖽𑖕𑖿𑖪𑖩𑖰𑖕𑖯𑖭𑖽𑖤𑗜𑖟𑖿𑖠𑖸𑖭𑗜𑖤𑗜𑖟𑖿𑖠𑖸𑖥𑖐𑖪𑖭𑗜𑖨𑖎𑖿𑖬𑖜𑖰𑖭𑗜𑖎𑖿𑖬𑖦𑖸𑖭𑗜𑖢𑖿𑖨𑖥𑖸𑖭𑗜𑖟𑖦𑖸𑖭𑗜𑖡𑖯𑖽𑖓𑖨𑖸𑖥𑖯𑖐𑖪𑖥𑖟𑖿𑖨𑖪𑖥𑖟𑖿𑖨𑖸𑖭𑗜𑖥𑖟𑖿𑖨𑖸𑖪𑖰𑖦𑖩𑖸𑖕𑖧𑖥𑖟𑖿𑖨𑖸𑖢𑖿𑖨𑖓𑖜𑖿𑖚𑖓𑖜𑖿𑖚𑖰𑖪𑖕𑖿𑖨𑖓𑖜𑖿𑖚𑖰𑖦𑖮𑖯𑖓𑖜𑖿𑖚𑖰𑖨𑖰𑖐𑖨𑖰𑖓𑖸𑖨𑖰𑖓𑖜𑖿𑖚𑖩𑖰𑖦𑖯𑖐𑖰𑖢𑗜𑖎𑖭𑖰𑖫𑖪𑖨𑖰𑖟𑖿𑖨𑖦𑖰𑖜𑖿𑖚𑖰𑖨𑖺𑖽𑖟𑖿𑖨𑖰𑖜𑖰𑖭𑖨𑖿𑖪𑖯𑖭𑖠𑖮𑗆𑖭𑖨𑖿𑖪𑖫𑖡𑖯𑖽𑖟𑖮𑗆𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖡𑖯𑖽𑖦𑖿𑖨𑖸𑖢𑖰𑖫𑖯𑖓𑖚𑖯𑖎𑖰𑖡𑖯𑖽𑖦𑖬𑖿𑖧𑖯𑖦𑖬𑖿𑖧𑖡𑖯𑖽𑖢𑖓𑗆𑖮𑖴𑖟𑖧𑖽𑖪𑖰𑖭𑖧𑖕𑖱𑖪𑖰𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖐𑖿𑖨𑖮𑖯𑖡𑖯𑖽𑖫𑖧𑗆𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖦𑖸𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖓𑖭𑖨𑖿𑖪𑖥𑖧𑖺𑖢𑖟𑖿𑖨𑖪𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖯𑖡𑖯𑖽𑖪𑖟𑖽𑖎𑖲𑖭𑖨𑖿𑖪𑖎𑖰𑖩𑖿𑖪𑖰𑖬𑖫𑖦𑖯𑖜𑖿𑖚𑖰𑖦𑖯𑖓𑖩𑖸𑖝𑖲𑖑𑖺𑖨𑖜𑖰𑖪𑖱𑖨𑖜𑖰𑖢𑖿𑖨𑖪𑖨𑖭𑖽𑖦𑖨𑖸𑖓𑖜𑖿𑖚𑖨𑖰𑖦𑖐𑖰𑖪𑖓𑖭𑖰𑖭𑗜𑖦𑗜𑖢𑗜𑖎𑖭𑖰𑖫𑖪𑖨𑖰𑖫𑖽𑖎𑖨𑖰𑖟𑖿𑖨𑖪𑖰𑖜𑖿𑖚𑖰𑖟𑖮𑖢𑖓𑖦𑖟𑖭𑖨𑖩𑖭𑖨𑖩𑖸𑖭𑖨𑖩𑖽𑖥𑖸𑖮𑖱𑖦𑖠𑖿𑖧𑖺𑖝𑖿𑖎𑖴𑖬𑖿𑖘𑖪𑖰𑖟𑖯𑖨𑖰𑖜𑖰𑖪𑖰𑖠𑖯𑖨𑖰𑖜𑖰𑖦𑖮𑖱𑖩𑖰𑖦𑖮𑖺𑖦𑖮𑖺𑖩𑖰𑖐𑖜𑖸𑖐𑖜𑖢𑖓𑖸𑖪𑖪𑖪𑖪𑖎𑖿𑖨𑖎𑖰𑖕𑖩𑖸𑖓𑗜𑖩𑖸𑖫𑖪𑖰𑖨𑖰𑖫𑖦𑖨𑖰𑖫𑖯𑖪𑖨𑖰𑖭𑖨𑖿𑖪𑖪𑖿𑖧𑖠𑖰𑖮𑖨𑖜𑖰𑖓𑖺𑖜𑖿𑖚𑖰𑗆𑖦𑖰𑗆𑖦𑖰𑖽𑖠𑖨𑖰𑖝𑖿𑖨𑖰𑖩𑖺𑖎𑖕𑖮𑖝𑖿𑖨𑖰𑖩𑖺𑖎𑖩𑖺𑖎𑖎𑖨𑖰𑖠𑖯𑖝𑖲𑖎𑖪𑖿𑖧𑖪𑖸𑖩𑖺𑖎𑖰𑖪𑖕𑖿𑖨𑖢𑖨𑖫𑖲𑖢𑖯𑖫𑖏𑖨𑖿𑖐𑖓𑖎𑖿𑖨𑖝𑖿𑖨𑖰𑖫𑖯𑖩𑖓𑖰𑖦𑖜𑖰𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖯𑖠𑖯𑖨𑖜𑖰𑖨𑖎𑖿𑖬𑗆𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖓𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖐𑖭𑖿𑖧𑖭𑖨𑖿𑖪𑖟𑖲𑖬𑖿𑖘𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖦𑖬𑖿𑖧𑖯𑖦𑖬𑖿𑖧𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖪𑖿𑖧𑖠𑖰𑖥𑖿𑖧𑖾𑖪𑖕𑖿𑖨𑖸𑖪𑖕𑖿𑖨𑖪𑖪𑖕𑖿𑖨𑖢𑖯𑖜𑖰𑖠𑖨𑖸𑖮𑖰𑖩𑖰𑗆𑖦𑖰𑖩𑖰𑗆𑖓𑖰𑖩𑖰𑗆𑖭𑖰𑖩𑖰𑖪𑖨𑗆𑖪𑖨𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖕𑖧𑖩𑖽𑖪𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖯𑖢𑖪𑖰𑖟𑖯𑖨𑖜𑖰𑖭𑖨𑖿𑖪𑖪𑖿𑖧𑖠𑖰𑖮𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖥𑖧𑖮𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑗜𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖭𑖿𑖝𑖰𑖨𑖿𑖥𑖪𑖝𑖲𑖦𑖦𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖯𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑗜𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖕𑖧𑖝𑖲𑖕𑖧𑖸𑖕𑖧𑖪𑖕𑖧𑖪𑖰𑖢𑗜𑖩𑖪𑖰𑖦𑖩𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖠𑖰𑖬𑖿𑖘𑖢𑗜𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖥𑖲𑖨𑖰𑗆𑖪𑖕𑖿𑖨𑖪𑖐𑖮𑖴𑖟𑖧𑖢𑗜𑖨𑖜𑖰𑖭𑖽𑖠𑖯𑖨𑖜𑖰𑖪𑖩𑗆𑖕𑖧𑖪𑖰𑖟𑖿𑖧𑖸𑖮𑗝𑖼𑖮𑗝𑖼𑖣𑗆𑖭𑖿𑖪𑖯𑖮𑖯",
+        "siddhamUnicodeText": "𑖡𑖦𑖾𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖡𑖯𑖽𑖡𑖦𑖺𑖡𑖦𑖾𑖭𑖨𑖿𑖪𑖤𑗜𑖟𑖿𑖠𑖯𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖸𑖥𑖿𑖧𑖾𑖤𑗜𑖟𑖿𑖠𑖯𑖠𑖨𑖿𑖦𑖿𑖦𑖭𑖽𑖑𑖸𑖥𑖿𑖧𑖾𑖝𑖟𑖿𑖧𑖞𑖯𑖌𑖽𑖪𑖰𑖢𑗜𑖩𑖐𑖨𑖿𑖥𑖸𑖪𑖰𑖢𑗜𑖩𑖪𑖰𑖦𑖩𑖸𑖕𑖧𑖐𑖨𑖿𑖥𑖸𑖪𑖕𑖿𑖨𑖕𑖿𑖪𑖩𑖐𑖨𑖿𑖥𑖸𑖐𑖝𑖰𑖐𑖮𑖡𑖸𑖐𑖐𑖡𑖪𑖰𑖫𑖺𑖠𑖡𑖸𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖺𑖠𑖡𑖸𑖌𑖽𑖐𑖲𑖜𑖪𑖝𑖰𑖐𑖐𑖨𑖰𑖜𑖰𑖐𑖰𑖨𑖰𑖐𑖰𑖨𑖰𑖐𑖦𑖨𑖰𑗆𑖐𑖮𑗆𑖐𑖨𑖿𑖐𑖯𑖨𑖰𑗆𑖐𑖐𑖨𑖰𑗆𑖐𑖦𑖿𑖥𑖨𑖰𑗆𑖐𑖝𑖰𑗆𑖐𑖦𑖡𑖸𑖐𑖨𑖸𑖐𑖲𑖨𑖲𑗆𑖐𑖲𑖨𑖲𑖡𑖸𑖓𑖩𑖸𑖀𑖓𑖩𑖸𑖦𑗜𑖓𑖩𑖸𑖕𑖧𑖸𑖪𑖰𑖕𑖧𑖸𑖭𑖨𑖿𑖪𑖥𑖧𑖪𑖰𑖐𑖝𑖸𑖐𑖨𑖿𑖥𑖭𑖽𑖥𑖨𑖜𑖰𑖭𑖰𑖨𑗆𑖦𑖰𑖨𑖰𑗆𑖐𑖰𑖨𑖰𑗆𑖭𑖦𑖡𑖿𑖝𑖯𑖎𑖨𑖿𑖬𑖜𑖰𑖭𑖨𑖿𑖪𑖫𑖝𑖿𑖨𑖳𑖢𑖿𑖨𑖦𑖞𑖡𑖰𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖦𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖽𑖓𑖪𑖰𑖨𑖰𑗆𑖪𑖰𑖐𑖝𑖯𑖪𑖨𑖜𑖥𑖧𑖡𑖯𑖫𑖡𑖰𑖭𑗜𑖨𑖰𑗆𑖓𑖰𑖨𑖰𑖓𑖰𑖨𑖰𑖎𑖦𑖩𑖸𑖪𑖰𑖦𑖩𑖸𑖕𑖩𑖸𑖕𑖧𑖯𑖪𑖮𑖸𑖕𑖧𑖪𑖝𑖰𑖥𑖐𑖪𑖝𑖰𑖨𑖝𑖿𑖡𑖦𑖎𑖲𑖘𑖦𑖯𑖩𑖯𑖠𑖯𑖨𑖰𑖜𑖰𑖪𑖮𑗜𑖪𑖰𑖪𑖰𑖠𑖪𑖰𑖓𑖰𑖝𑖿𑖨𑖪𑖸𑖬𑖨𑖳𑖢𑖠𑖯𑖨𑖰𑖜𑖰𑖥𑖐𑖪𑖝𑖰𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖯𑖟𑖸𑖪𑖰𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖦𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖽𑖓𑖭𑖦𑖡𑖿𑖝𑖯𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖺𑖠𑖡𑖸𑖮𑗜𑖨𑖲𑗆𑖡𑖎𑖿𑖬𑖝𑖿𑖨𑖦𑖯𑖩𑖯𑖠𑖯𑖨𑖰𑖜𑖰𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖯𑖽𑖦𑖦𑖀𑖡𑖯𑖞𑖭𑖿𑖧𑖯𑖝𑖿𑖨𑖯𑖜𑖢𑖨𑖯𑖧𑖜𑖭𑖿𑖧𑖢𑖨𑖰𑖦𑖺𑖓𑖧𑖦𑖸𑖭𑖨𑖿𑖪𑖟𑗜𑖾𑖏𑖸𑖥𑖿𑖧𑖾𑖓𑖜𑖿𑖚𑖰𑗆𑖓𑖜𑖿𑖚𑖰𑖡𑖰𑖪𑖸𑖐𑖪𑖝𑖰𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖯𑖡𑖰𑖪𑖯𑖨𑖜𑖰𑖫𑖝𑖿𑖨𑖳𑖢𑖎𑖿𑖬𑖢𑖿𑖨𑖦𑖞𑖡𑖰𑖪𑖰𑖕𑖧𑖪𑖯𑖮𑖰𑖡𑖰𑖮𑗜𑖨𑖲𑗆𑖦𑖨𑖲𑗆𑖓𑗜𑖨𑖲𑗆𑖁𑖧𑗜𑖾𑖢𑖯𑖨𑖡𑖰𑖭𑗜𑖨𑖪𑖨𑖦𑖞𑖡𑖰𑖭𑖨𑖿𑖪𑖟𑖸𑖪𑖝𑖸𑖢𑗜𑖕𑖝𑖸𑖠𑖰𑖨𑖰𑗆𑖭𑖦𑖡𑖿𑖝𑖯𑖪𑖩𑖺𑖎𑖰𑖝𑖸𑖢𑖿𑖨𑖥𑖸𑗆𑖭𑗜𑖢𑖿𑖨𑖥𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖺𑖠𑖡𑖸𑖠𑖨𑖠𑖨𑖠𑖨𑖜𑖰𑖠𑖨𑖠𑖨𑖸𑖭𑗜𑖦𑗜𑖭𑗜𑖦𑗜𑖨𑖲𑖨𑖲𑖓𑖩𑖸𑖓𑖯𑖩𑖧𑖟𑗜𑖬𑖿𑖘𑖯𑖢𑗜𑖨𑖧𑖦𑖸𑖁𑖫𑖯𑖽𑖫𑖿𑖨𑖱𑖪𑖢𑗜𑖠𑖡𑖯𑖽𑖕𑖧𑖎𑖦𑖩𑖸𑖎𑖿𑖬𑖰𑖜𑖰𑖎𑖿𑖬𑖰𑖜𑖰𑖪𑖨𑖟𑖸𑖪𑖨𑖟𑖯𑖽𑖎𑖲𑖫𑖸𑖌𑖽𑖢𑖟𑖿𑖦𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖫𑖺𑖠𑖧𑗆𑖫𑖲𑖟𑖿𑖠𑖸𑖥𑖨𑗆𑖥𑖰𑖨𑖰𑖥𑖰𑖨𑖰𑖥𑖲𑖨𑖲𑖥𑖲𑖨𑖲𑖦𑖽𑖐𑖩𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖢𑖪𑖰𑖝𑖿𑖨𑖦𑗜𑖏𑖰𑖏𑖨𑖿𑖐𑖰𑖜𑖰𑗆𑖏𑖨𑗆𑖕𑖿𑖪𑖩𑖰𑖝𑖫𑖰𑖨𑖸𑖭𑖦𑖡𑖿𑖝𑖢𑖿𑖨𑖭𑖨𑖰𑖝𑖯𑖪𑖯𑖥𑖯𑖭𑖰𑖝𑖫𑖲𑖟𑖿𑖠𑖸𑖕𑖿𑖪𑖩𑗆𑖭𑖨𑖿𑖪𑖟𑖸𑖪𑖐𑖜𑖭𑖦𑖯𑖎𑖨𑖿𑖬𑖜𑖰𑖭𑖝𑖿𑖧𑖪𑖝𑖸𑖝𑖨𑗆𑖝𑖯𑖨𑖧𑖦𑖯𑖽𑖡𑖯𑖐𑖪𑖰𑖩𑖺𑖎𑖰𑖝𑖸𑖩𑖮𑗜𑗆𑖮𑗜𑖡𑖲𑗆𑖎𑖿𑖬𑖰𑖜𑖰𑗆𑖭𑖨𑖿𑖪𑖐𑖿𑖨𑖮𑖥𑖎𑖿𑖬𑖜𑖰𑖢𑖰𑖽𑖐𑗆𑖓𑗜𑖭𑗜𑗆𑖭𑗜𑖦𑗜𑗆𑖓𑗜𑖪𑖰𑖓𑖨𑖸𑖝𑖨𑗆𑖡𑖯𑖐𑖪𑖰𑖩𑖺𑖎𑖰𑖡𑖰𑖝𑖯𑖨𑖧𑖝𑖲𑖦𑖯𑖽𑖥𑖐𑖪𑖝𑖰𑖀𑖬𑖿𑖘𑖦𑖮𑖯𑖟𑖯𑖨𑖳𑖜𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖽𑖦𑗜𑖟𑖿𑖨𑖭𑖯𑖐𑖨𑖢𑖨𑖿𑖧𑖡𑖿𑖝𑖯𑖽𑖢𑖯𑖝𑖯𑖩𑖐𑖐𑖡𑖝𑖩𑖽𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖦𑖡𑖿𑖝𑖸𑖡𑖟𑖰𑖫𑖯𑖪𑖡𑖿𑖪𑖸𑖡𑖪𑖕𑖿𑖨𑖢𑖿𑖨𑖎𑖯𑖨𑖪𑖕𑖿𑖨𑖢𑖯𑖫𑖪𑖡𑖿𑖠𑖡𑖸𑖡𑖪𑖕𑖿𑖨𑖕𑖿𑖪𑖩𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖥𑖲𑖨𑖰𑗆𑖐𑖨𑖿𑖥𑖪𑖝𑖰𑖐𑖨𑖿𑖥𑖪𑖰𑖫𑖺𑖠𑖡𑖰𑖎𑖲𑖎𑖿𑖬𑖰𑖭𑖽𑖢𑗜𑖨𑖜𑖰𑖕𑖿𑖪𑖩𑗆𑖓𑖩𑖓𑖩𑖕𑖿𑖪𑖩𑖰𑖜𑖰𑖢𑖿𑖨𑖪𑖨𑖿𑖬𑖝𑖲𑖟𑖸𑖪𑖭𑖦𑖡𑖿𑖝𑖸𑖡𑖟𑖰𑖪𑖿𑖧𑖺𑖟𑖎𑖸𑖡𑖀𑖦𑖴𑖝𑖪𑖨𑖿𑖬𑖜𑖰𑖟𑖸𑖪𑖝𑖯𑗆𑖠𑖨𑖜𑖰𑖀𑖥𑖰𑖬𑖰𑖓𑖝𑖲𑖦𑖸𑖭𑗜𑖐𑖝𑖪𑖨𑖪𑖓𑖡𑖯𑖦𑖴𑖝𑖪𑖨𑖪𑖢𑗜𑖬𑖸𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖦𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖽𑖓𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖟𑖯𑖭𑖨𑖿𑖪𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖺𑖢𑖟𑖿𑖨𑖪𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖺𑖢𑖭𑖨𑖿𑖐𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖥𑖧𑖥𑖱𑖝𑖭𑖿𑖧𑖭𑖨𑖿𑖪𑖎𑖩𑖰𑖎𑖩𑖯𑖮𑖪𑖰𑖐𑖿𑖨𑖮𑖪𑖰𑖪𑖯𑖟𑖟𑗜𑖾𑖭𑖿𑖪𑖬𑖿𑖡𑖯𑖟𑗜𑖨𑖿𑖡𑖰𑖦𑖰𑖝𑖿𑖝𑖯𑖦𑖽𑖐𑖩𑖿𑖧𑖢𑖯𑖢𑖪𑖰𑖡𑖯𑖫𑖡𑖰𑖭𑖨𑖿𑖪𑖧𑖎𑖿𑖬𑖨𑖯𑖎𑖿𑖬𑖭𑖡𑖯𑖐𑖡𑖰𑖪𑖯𑖨𑖜𑖰𑖭𑖨𑖜𑖰𑖭𑖨𑖸𑖪𑖩𑖪𑖩𑖪𑖩𑖪𑖝𑖰𑖕𑖧𑖕𑖧𑖕𑖧𑖝𑖲𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖎𑖯𑖩𑖽𑖭𑖰𑖟𑖿𑖠𑖿𑖧𑖝𑖲𑖦𑖸𑖂𑖦𑖯𑖽𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖽𑖭𑖯𑖠𑖧𑗆𑖭𑖨𑖿𑖪𑖦𑖜𑖿𑖚𑖩𑖭𑖯𑖠𑖡𑖰𑖑𑖺𑖝𑖯𑖧𑖭𑖨𑖿𑖪𑖪𑖰𑖑𑖿𑖡𑖯𑖕𑖧𑗆𑖭𑖰𑖟𑖿𑖠𑖸𑗆𑖭𑗜𑖭𑖰𑖟𑖿𑖠𑖸𑖭𑖰𑖟𑖿𑖠𑖿𑖧𑗆𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑗆𑖪𑖺𑖠𑖧𑗆𑖢𑖳𑖨𑖧𑗆𑖢𑖳𑖨𑖜𑖰𑗆𑖢𑗜𑖨𑖧𑖦𑖸𑖀𑖫𑖯𑖽𑖭𑖨𑖿𑖪𑖪𑖰𑖟𑖿𑖧𑖯𑖠𑖰𑖐𑖝𑖦𑗝𑖨𑖿𑖝𑖿𑖝𑖸𑖕𑖧𑖺𑖝𑖿𑖝𑖨𑖰𑖕𑖧𑖪𑖝𑖰𑖝𑖰𑖬𑖿𑖘𑗆𑖭𑖦𑖧𑖦𑖡𑖲𑖢𑖯𑖩𑖧𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖿𑖧𑖪𑖩𑖺𑖎𑖧𑖝𑖲𑖦𑖯𑖽𑖀𑖬𑖿𑖘𑖥𑖰𑖦𑖮𑖯𑖟𑖨𑖲𑖜𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑗆𑖢𑖿𑖨𑖭𑖨𑗆𑖭𑖨𑖿𑖪𑖯𑖪𑖨𑖜𑖪𑖰𑖫𑖺𑖠𑖡𑖸𑖭𑖦𑖡𑖿𑖝𑖯𑖎𑖨𑖦𑖜𑖿𑖚𑖩𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖰𑖐𑖝𑖸𑗆𑖪𑖰𑖐𑖝𑖦𑖩𑖪𑖰𑖫𑖺𑖠𑖡𑖰𑖎𑖿𑖬𑖰𑖜𑖰𑗆𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖦𑖩𑖪𑖰𑖐𑖝𑖸𑖝𑖸𑖐𑖪𑖝𑖰𑖪𑖕𑖿𑖨𑖪𑖝𑖰𑖝𑖿𑖨𑖹𑖩𑖺𑖎𑖿𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖦𑗝𑖨𑖿𑖠𑖿𑖡𑖯𑖥𑖰𑖬𑖰𑖎𑖿𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖤𑖺𑖠𑖰𑖭𑖝𑖿𑖪𑖯𑖥𑖰𑖬𑖰𑖎𑖿𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖟𑖸𑖪𑖝𑖯𑖥𑖰𑖬𑖰𑖎𑖿𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖞𑖐𑖝𑖮𑖴𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖮𑖴𑖟𑖧𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖭𑖦𑖧𑖭𑖰𑖟𑖿𑖠𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖂𑖡𑖿𑖟𑖿𑖨𑖸𑖡𑖿𑖟𑖿𑖨𑖪𑖝𑖰𑖂𑖡𑖿𑖟𑖿𑖨𑖪𑖿𑖧𑖪𑖩𑖺𑖎𑖰𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖿𑖨𑖮𑖿𑖦𑖸𑖪𑖿𑖨𑖮𑖿𑖧𑖯𑖠𑖿𑖧𑖲𑖬𑖰𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖬𑖿𑖜𑖱𑖡𑖦𑖾𑖭𑖿𑖎𑖴𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖸𑖫𑖿𑖪𑖨𑖪𑖡𑖿𑖦𑖰𑖝𑖢𑖳𑖕𑖰𑖝𑖯𑖧𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖕𑖿𑖨𑖠𑖨𑖪𑖕𑖿𑖨𑖢𑖯𑖜𑖰𑖪𑖩𑖪𑖱𑖨𑖿𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖠𑖴𑖝𑖸𑖨𑖯𑖬𑖿𑖘𑖿𑖨𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖨𑖳𑖛𑖎𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖨𑖳𑖢𑖯𑖎𑖿𑖬𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖹𑖫𑖿𑖨𑖪𑖜𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖝𑖲𑖨𑖿𑖦𑖮𑖯𑖨𑖯𑖕𑖡𑖦𑖾𑖭𑖿𑖎𑖴𑖝𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖽𑖦𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖽𑖦𑖢𑖳𑖕𑖰𑖝𑖡𑖦𑖾𑖭𑖿𑖎𑖴𑖝𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖨𑖲𑖡𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖨𑖲𑖝𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖯𑖦𑖯𑖨𑖲𑖝𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖀𑖐𑖿𑖡𑖧𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖡𑖯𑖐𑖪𑖰𑖩𑖺𑖎𑖰𑖝𑖸𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖸𑖪𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖡𑖐𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖎𑖿𑖬𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖨𑖯𑖎𑖿𑖬𑖭𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖡𑖿𑖠𑖨𑖿𑖪𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖀𑖭𑗜𑖨𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖨𑖲𑖚𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖎𑖰𑖡𑖿𑖟𑖨𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖺𑖨𑖐𑖐𑖜𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖡𑖲𑖬𑖿𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖀𑖦𑖡𑖲𑖬𑖿𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖐𑖿𑖨𑖮𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖡𑖎𑖿𑖬𑖝𑖿𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖥𑖲𑖝𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖿𑖨𑖸𑖝𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖰𑖫𑖯𑖓𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖀𑖢𑖭𑖿𑖦𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖎𑖲𑖦𑖿𑖥𑖯𑖜𑖿𑖚𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖠𑗜𑖨𑖲𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖝𑖲𑖨𑖲𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖦𑗜𑖨𑖲𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖮𑖯𑖡𑗆𑖭𑖨𑖿𑖪𑖫𑖝𑖿𑖨𑖳𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖮𑗆𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖢𑖿𑖨𑖟𑗜𑖬𑖿𑖘𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖓𑗆𑖭𑖨𑖿𑖪𑖢𑖿𑖨𑖝𑖿𑖧𑖨𑖿𑖞𑖰𑖎𑖢𑖿𑖨𑖝𑖿𑖧𑖯𑖦𑖰𑖝𑖿𑖨𑖯𑖜𑖯𑖽𑖧𑖸𑖦𑖦𑖀𑖮𑖰𑖝𑖸𑖬𑖰𑖜𑖾𑖝𑖸𑖬𑖯𑖭𑖨𑖿𑖪𑖸𑖬𑖯𑖫𑖨𑖱𑖨𑖽𑖕𑖿𑖪𑖩𑖧𑖟𑗜𑖬𑖿𑖘𑖓𑖰𑖝𑖿𑖝𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖕𑖿𑖪𑖩𑖰𑖝𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖿𑖨𑖕𑖿𑖪𑖯𑖩𑖰𑖝𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖱𑖢𑖿𑖝𑖕𑖿𑖪𑖩𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖦𑖡𑖿𑖝𑖕𑖿𑖪𑖯𑖩𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖯𑖜𑖰𑖥𑖟𑖿𑖨𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖳𑖨𑖿𑖜𑖿𑖚𑖥𑖟𑖿𑖨𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖮𑖯𑖎𑖯𑖩𑖯𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖝𑖴𑖐𑖜𑖧𑖭𑖿𑖪𑖯𑖮𑖯𑖧𑖎𑖿𑖬𑖰𑖜𑖱𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖨𑖯𑖎𑖿𑖬𑖭𑖱𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖁𑖎𑖯𑖫𑖦𑖯𑖝𑖿𑖨𑖱𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖦𑗜𑖟𑖿𑖨𑖪𑖯𑖭𑖰𑖡𑖱𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖨𑖯𑖝𑖴𑖓𑖨𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖟𑖰𑖪𑖭𑖓𑖨𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖝𑖿𑖨𑖰𑖭𑖡𑖿𑖪𑖿𑖧𑖓𑖨𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖸𑖩𑖯𑖓𑖯𑖨𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖀𑖪𑖸𑖩𑖯𑖓𑖨𑖯𑖜𑖯𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖨𑖿𑖥𑖯𑖮𑖯𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖨𑖿𑖥𑖭𑖡𑖿𑖪𑖯𑖨𑖯𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖮𑗜𑖩𑗜𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖳𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖲𑖪𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖥𑖳𑖨𑖿𑖥𑖲𑖪𑖾𑖭𑖿𑖪𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖰𑖘𑖰𑖓𑖰𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖰𑖘𑖰𑖪𑖰𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖠𑖯𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖠𑖯𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖀𑖐𑖿𑖡𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖝𑖸𑖕𑖺𑖪𑖢𑗜𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖰𑖩𑖰𑖓𑖰𑖩𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖰𑖩𑖰𑖭𑖰𑖩𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖤𑗜𑖟𑖿𑖠𑖿𑖧𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖰𑖟𑖿𑖠𑖿𑖧𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖜𑖿𑖚𑖩𑖭𑖰𑖟𑖿𑖠𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖜𑖿𑖚𑖩𑖪𑖡𑖿𑖪𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖱𑖦𑖯𑖪𑖡𑖿𑖪𑖡𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖫𑖝𑖿𑖨𑖳𑖡𑖯𑖽𑖕𑖦𑖿𑖥𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖝𑖦𑖿𑖥𑖧𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖿𑖔𑖰𑖡𑖿𑖟𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖰𑖡𑖿𑖟𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖥𑖗𑖿𑖕𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖡𑖿𑖪𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖺𑖮𑖧𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖜𑖰𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑗝𑖨𑖿𑖧𑖸𑗆𑖭𑗝𑖨𑖿𑖧𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖪𑖰𑖫𑖺𑖠𑖡𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖓𑖡𑖿𑖟𑖿𑖨𑖸𑖭𑗜𑖓𑖡𑖿𑖟𑖿𑖨𑖸𑖢𑗜𑖨𑖿𑖜𑖿𑖚𑖓𑖡𑖿𑖟𑖿𑖨𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖐𑖿𑖨𑖮𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖡𑖎𑖿𑖬𑖝𑖿𑖨𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖰𑖪𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖯𑖡𑖿𑖝𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖭𑖿𑖧𑖧𑖡𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖰𑖪𑖽𑖎𑖨𑖰𑖫𑖯𑖡𑖿𑖝𑖰𑖎𑖨𑖰𑖢𑗜𑖬𑖿𑖘𑖰𑖎𑖨𑖰𑖪𑖩𑖪𑖨𑖿𑖠𑖡𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖿𑖨𑖱𑖎𑖨𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖿𑖨𑖰𑖧𑖪𑖨𑖿𑖠𑖡𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖿𑖨𑖱𑖧𑖕𑖿𑖪𑖯𑖩𑖡𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖡𑖦𑗜𑖓𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖦𑖨𑖲𑖓𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖪𑖸𑖐𑖪𑖝𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖦𑗝𑖨𑖿𑖝𑖿𑖝𑖸𑖢𑖿𑖨𑖪𑖨𑖪𑖰𑖐𑖝𑖥𑖧𑖸𑖫𑖦𑖧𑖭𑖿𑖪𑖦𑖸𑖥𑖐𑖪𑖝𑖰𑖭𑖨𑖿𑖪𑖯𑖢𑖯𑖢𑖸𑖥𑖿𑖧𑖾𑖭𑖿𑖪𑖭𑖿𑖝𑖰𑖨𑖿𑖥𑖪𑖝𑖲𑖦𑗜𑖡𑖰𑗆𑖪𑖰𑖦𑗜𑖡𑖰𑖓𑖨𑖸𑖓𑖩𑖡𑖸𑖥𑖧𑖪𑖰𑖐𑖝𑖸𑖥𑖧𑖮𑖯𑖨𑖜𑖰𑖤𑖺𑖠𑖰𑗆𑖪𑖺𑖠𑖧𑗆𑖤𑗜𑖟𑖿𑖠𑖰𑖩𑖰𑗆𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖕𑗜𑖬𑖿𑖘𑖹𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖪𑖕𑖿𑖨𑖪𑖝𑖰𑖪𑖕𑖿𑖨𑖢𑖿𑖨𑖝𑖰𑖬𑖿𑖘𑖰𑖝𑖫𑖲𑖟𑖿𑖠𑖸𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖦𑗜𑖟𑖿𑖨𑖯𑖠𑖰𑖬𑖿𑖘𑖯𑖡𑖯𑖽𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖸𑖦𑖮𑖯𑖦𑗜𑖟𑖿𑖨𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖦𑗜𑖡𑖰𑗆𑖦𑗜𑖡𑖰𑖪𑖨𑖸𑖀𑖥𑖰𑖬𑖰𑖽𑖓𑖝𑖲𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖭𑖨𑖿𑖪𑖪𑖰𑖟𑖿𑖧𑖯𑖥𑖰𑖬𑖹𑖎𑖹𑖦𑖮𑖯𑖪𑖕𑖿𑖨𑖎𑖪𑖓𑖦𑗜𑖟𑖿𑖨𑖯𑖦𑗜𑖟𑖿𑖨𑖰𑖝𑖹𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖮𑖿𑖩𑖟𑖧𑖯𑖠𑖰𑖬𑖿𑖘𑖰𑖝𑖪𑖕𑖿𑖨𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖀𑖦𑖴𑖝𑖪𑖨𑖸𑖪𑖨𑗆𑖢𑖿𑖨𑖪𑖨𑖪𑖰𑖫𑖲𑖟𑖿𑖠𑖸𑖮𑗝𑖽𑖮𑗝𑖽𑖣𑖘𑖿 𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖀𑖦𑖴𑖝𑖪𑖰𑖩𑖺𑖎𑖰𑖡𑖰𑖐𑖨𑖿𑖥𑖭𑗜𑖽𑖨𑖎𑖿𑖬𑖜𑖰𑖁𑖎𑖨𑖿𑖬𑖜𑖰𑖮𑗝𑖼𑖮𑗝𑖼𑖣𑖘𑖳𑗆𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖪𑖰𑖦𑖩𑖸𑖐𑖧𑖪𑖨𑖸𑖀𑖦𑖴𑖝𑖸𑖮𑗝𑖽𑖮𑗝𑖽𑖮𑗝𑖼𑖮𑗝𑖼𑖣𑖘𑖿 𑖣𑖘𑖿 𑖣𑖘𑖿 𑖣𑖘𑖿 𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖥𑖨𑗆𑖭𑖽𑖥𑖨𑗆𑖂𑖡𑖿𑖟𑖿𑖨𑖰𑖧𑖪𑖰𑖫𑖲𑖠𑖡𑖰𑖮𑗝𑖼𑖮𑗝𑖼𑖨𑖲𑖨𑖲𑖓𑖩𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖡𑖦𑖺𑖤𑗜𑖟𑖿𑖠𑖯𑖧𑖡𑖦𑖺𑖠𑖨𑖿𑖦𑖯𑖧𑖡𑖦𑖾𑖭𑖽𑖫𑖯𑖧𑖡𑖦𑖺𑖥𑖯𑖐𑖪𑖝𑖸𑖫𑖯𑖎𑖿𑖧𑖦𑗜𑖡𑖧𑖸𑖦𑖮𑖯𑖎𑖯𑖨𑖲𑖜𑖰𑖎𑖯𑖧𑖝𑖞𑖯𑖐𑖝𑖯𑖧𑖯𑖨𑖿𑖮𑖝𑖸𑖭𑖦𑖿𑖧𑖎𑖿𑖭𑖽𑖤𑗜𑖟𑖿𑖠𑖯𑖧𑖡𑖦𑖾𑖭𑖢𑖿𑖝𑖥𑖿𑖧𑖾𑖭𑖦𑖿𑖧𑖎𑖿𑖭𑖽𑖤𑗜𑖟𑖿𑖠𑖸𑖥𑖿𑖧𑖾𑖊𑖬𑖯𑖽𑖡𑖦𑖾𑖭𑖿𑖎𑖴𑖝𑖿𑖪𑖯𑖤𑗜𑖟𑖿𑖠𑖫𑖯𑖭𑖡𑖪𑖴𑖠𑖧𑖸𑖀𑖮𑖦𑖰𑖟𑖯𑖡𑖿𑖧𑖯𑖽𑖭𑖽𑖢𑖿𑖨𑖪𑖎𑖿𑖬𑖦𑖸𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖲𑖎𑖽𑖢𑖧𑖯𑖂𑖦𑖯𑖽𑖪𑖰𑖟𑖿𑖧𑖯𑖽𑖦𑖮𑖯𑖝𑖸𑖕𑖱𑖦𑖮𑖯𑖦𑖩𑖢𑖨𑖯𑖎𑖿𑖨𑖦𑖯𑖽𑖧𑖸𑖭𑖿𑖧𑖯𑖽𑖥𑖬𑖰𑖝𑖽𑖦𑖯𑖝𑖿𑖨𑖯𑖧𑖽𑖪𑖕𑖿𑖨𑖯𑖭𑖡𑖦𑖡𑖱𑖬𑖰𑖥𑖰𑖐𑖿𑖨𑖮𑖭𑖨𑖿𑖪𑖸𑖪𑖰𑖡𑖯𑖧𑖎𑖫𑖿𑖓𑖯𑖪𑖝𑖝𑖿𑖎𑖿𑖬𑖜𑖪𑖰𑖨𑖧𑖽𑖐𑖝𑖝𑖟𑖿𑖧𑖞𑖯𑖐𑖰𑖨𑗆𑖐𑖰𑖨𑖰𑖜𑖰𑖐𑖰𑖨𑖰𑖪𑖝𑖰𑖐𑖲𑖜𑖪𑖝𑖰𑖁𑖎𑖯𑖨𑖪𑖝𑖰𑖁𑖎𑖯𑖨𑖫𑖲𑖟𑖿𑖠𑖸𑖢𑖯𑖢𑖪𑖰𑖐𑖝𑖸𑖁𑖎𑖯𑖫𑖸𑖐𑖐𑖡𑖝𑖩𑖸𑖁𑖎𑖯𑖫𑖪𑖰𑖓𑖯𑖨𑖰𑖜𑖰𑖕𑖿𑖪𑖩𑖰𑖝𑖯𑖫𑖰𑖨𑖸𑖦𑖜𑖰𑖦𑗜𑖎𑖿𑖝𑖰𑖏𑖓𑖰𑖝𑖪𑖺𑖩𑖰𑖠𑖨𑖸𑖭𑗜𑖎𑖸𑖫𑖸𑖭𑗜𑖪𑖎𑖿𑖝𑖿𑖨𑖸𑖭𑗜𑖡𑖱𑖝𑖿𑖨𑖱𑖭𑗜𑖪𑖨𑖿𑖜𑖿𑖚𑖪𑖺𑖩𑖰𑖀𑖝𑖱𑖝𑖸𑖀𑖜𑖝𑖿𑖢𑖽𑖡𑖰𑖦𑖡𑖐𑖝𑖸𑖢𑖿𑖨𑖝𑖿𑖧𑖲𑖝𑖿𑖢𑖽𑖡𑖰𑖡𑖦𑖾𑖭𑖨𑖿𑖪𑖸𑖬𑖯𑖽𑖤𑗜𑖟𑖿𑖠𑖯𑖡𑖯𑖽𑖕𑖿𑖪𑖩𑖰𑖝𑖝𑖸𑖕𑖯𑖭𑖽𑖤𑗜𑖟𑖿𑖠𑖸𑖭𑗜𑖤𑗜𑖟𑖿𑖠𑖸𑖥𑖐𑖪𑖝𑖰𑖭𑗜𑖨𑖎𑖿𑖬𑖜𑖰𑖭𑗜𑖎𑖿𑖬𑖦𑖸𑖭𑗜𑖢𑖿𑖨𑖥𑖸𑖭𑗜𑖟𑖦𑖸𑖭𑗜𑖡𑖯𑖽𑖝𑖸𑖓𑖨𑖸𑖥𑖯𑖐𑖪𑖝𑖰𑖥𑖟𑖿𑖨𑖪𑖝𑖰𑖥𑖟𑖿𑖨𑖸𑖭𑗜𑖥𑖟𑖿𑖨𑖸𑖪𑖰𑖦𑖩𑖸𑖕𑖧𑖥𑖟𑖿𑖨𑖸𑖢𑖿𑖨𑖓𑖜𑖿𑖚𑖓𑖜𑖿𑖚𑖰𑖪𑖕𑖿𑖨𑖓𑖜𑖿𑖚𑖰𑖦𑖮𑖯𑖓𑖜𑖿𑖚𑖰𑖐𑖻𑖨𑖰𑖐𑖡𑖿𑖪𑖯𑖨𑖰𑖓𑖸𑖨𑖰𑖓𑖜𑖿𑖚𑖩𑖰𑖦𑖯𑖝𑖽𑖐𑖰𑖢𑗜𑖎𑖭𑖰𑖫𑖪𑖨𑖰𑖟𑖿𑖨𑖦𑖰𑖜𑖿𑖚𑖰𑖨𑖺𑖽𑖟𑖿𑖨𑖰𑖜𑖰𑖭𑖨𑖿𑖪𑖯𑖨𑖿𑖞𑖭𑖠𑖡𑖸𑖮𑖡𑗆𑖭𑖨𑖿𑖪𑖫𑖝𑖿𑖨𑖳𑖡𑖯𑖽𑖟𑖮𑗆𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖡𑖯𑖽𑖦𑖿𑖨𑖸𑖝𑖢𑖰𑖫𑖯𑖓𑖚𑖯𑖎𑖰𑖡𑖱𑖡𑖯𑖽𑖦𑖡𑖲𑖬𑖿𑖧𑖯𑖦𑖡𑖲𑖬𑖿𑖧𑖡𑖯𑖽𑖢𑖓𑗆𑖮𑖴𑖟𑖧𑖽𑖪𑖰𑖠𑖿𑖪𑖽𑖭𑖧𑖕𑖱𑖪𑖰𑖝𑖽𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖐𑖿𑖨𑖮𑖯𑖡𑖯𑖽𑖡𑖯𑖫𑖧𑗆𑖭𑖨𑖿𑖪𑖢𑖯𑖢𑖡𑖰𑖦𑖸𑖨𑖎𑖿𑖬𑖨𑖎𑖿𑖬𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖽𑖓𑖭𑖨𑖿𑖪𑖥𑖧𑖺𑖢𑖟𑖿𑖨𑖪𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖟𑗜𑖬𑖿𑖘𑖯𑖡𑖯𑖽𑖪𑖡𑖿𑖠𑖟𑖽𑖎𑖲𑖨𑖲𑖭𑖨𑖿𑖪𑖎𑖰𑖩𑖿𑖪𑖰𑖬𑖡𑖯𑖫𑖡𑖰𑖦𑖯𑖝𑖡𑖜𑖿𑖚𑖰𑖦𑖯𑖡𑖰𑖡𑖰𑖓𑖩𑖸𑖝𑖰𑖘𑖰𑖝𑖰𑖘𑖰𑖡𑖰𑖝𑖲𑖘𑖹𑖑𑖺𑖨𑖜𑖰𑖪𑖱𑖨𑖜𑖰𑖢𑖿𑖨𑖪𑖨𑖭𑖽𑖦𑖨𑖸𑖓𑖜𑖿𑖚𑖨𑖰𑖦𑖝𑖽𑖐𑖰𑖪𑖓𑖭𑖰𑖭𑗜𑖦𑗜𑖨𑖲𑖢𑗜𑖎𑖭𑖰𑖫𑖪𑖨𑖰𑖫𑖽𑖎𑖨𑖰𑖟𑖿𑖨𑖪𑖰𑖜𑖿𑖚𑖰𑖟𑖮𑖡𑖰𑖢𑖓𑖡𑖰𑖦𑖟𑖡𑖰𑖭𑖨𑖩𑖭𑖨𑖩𑖸𑖭𑖨𑖩𑖽𑖥𑖸𑖮𑖱𑖡𑖦𑖠𑖿𑖧𑖺𑖝𑖿𑖎𑖴𑖬𑖿𑖘𑖪𑖰𑖟𑖯𑖨𑖰𑖜𑖰𑖪𑖰𑖠𑖯𑖨𑖰𑖜𑖰𑖦𑖮𑖱𑖩𑖰𑖦𑖮𑖺𑖦𑖮𑖺𑖩𑖰𑖡𑖰𑖐𑖜𑖸𑖡𑖰𑖐𑖜𑖢𑖓𑖸𑖪𑖝𑖸𑖪𑖝𑖰𑖡𑖰𑖪𑖝𑖸𑖪𑖎𑖿𑖨𑖎𑖰𑖡𑖰𑖕𑖩𑖸𑖓𑗜𑖩𑖸𑖫𑖪𑖰𑖨𑖰𑖫𑖦𑖨𑖰𑖫𑖯𑖪𑖨𑖰𑖭𑖨𑖿𑖪𑖪𑖿𑖧𑖠𑖰𑖮𑖨𑖜𑖰𑖓𑖺𑖜𑖿𑖚𑖰𑗆𑖡𑖰𑖡𑖰𑖦𑖰𑗆𑖡𑖰𑖦𑖰𑖽𑖠𑖨𑖰𑖝𑖿𑖨𑖰𑖩𑖺𑖎𑖕𑖮𑖡𑖰𑖝𑖿𑖨𑖰𑖩𑖺𑖎𑖩𑖺𑖎𑖎𑖨𑖰𑖝𑖿𑖨𑖹𑖠𑖯𑖝𑖲𑖎𑖪𑖿𑖧𑖪𑖸𑖩𑖺𑖎𑖰𑖡𑖰𑖪𑖕𑖿𑖨𑖢𑖨𑖫𑖲𑖢𑖯𑖫𑖏𑖨𑖿𑖐𑖓𑖎𑖿𑖨𑖝𑖿𑖨𑖰𑖫𑖯𑖩𑖓𑖰𑖡𑖿𑖝𑖯𑖦𑖜𑖰𑖦𑖮𑖯𑖪𑖰𑖟𑖿𑖧𑖯𑖠𑖯𑖨𑖜𑖰𑖨𑖎𑖿𑖬𑗆𑖦𑖯𑖽𑖭𑖨𑖿𑖪𑖭𑖝𑖿𑖪𑖯𑖡𑖯𑖓𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖭𑖨𑖿𑖪𑖭𑖿𑖞𑖡𑖐𑖝𑖭𑖿𑖧𑖭𑖨𑖿𑖪𑖟𑖲𑖬𑖿𑖘𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖦𑖡𑖲𑖬𑖿𑖧𑖯𑖦𑖡𑖲𑖬𑖿𑖧𑖥𑖧𑖸𑖥𑖿𑖧𑖾𑖭𑖨𑖿𑖪𑖪𑖿𑖧𑖠𑖰𑖥𑖿𑖧𑖾𑖪𑖕𑖿𑖨𑖸𑖪𑖕𑖿𑖨𑖪𑖝𑖰𑖪𑖕𑖿𑖨𑖢𑖯𑖜𑖰𑖠𑖨𑖸𑖮𑖰𑖩𑖰𑗆𑖦𑖰𑖩𑖰𑗆𑖓𑖰𑖩𑖰𑗆𑖭𑖰𑖩𑖰𑖪𑖨𑗆𑖪𑖨𑖡𑖸𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖕𑖧𑖩𑖽𑖪𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑖯𑖢𑖪𑖰𑖟𑖯𑖨𑖜𑖰𑖭𑖨𑖿𑖪𑖪𑖿𑖧𑖠𑖰𑖮𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖿𑖨𑖥𑖧𑖮𑖨𑖜𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑗜𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖿𑖪𑖭𑖿𑖝𑖰𑖨𑖿𑖥𑖪𑖝𑖲𑖦𑖦𑖭𑖿𑖪𑖯𑖮𑖯𑖫𑖯𑖡𑖿𑖝𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖢𑗜𑖬𑖿𑖘𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖕𑖧𑖝𑖲𑖕𑖧𑖸𑖕𑖧𑖪𑖝𑖰𑖕𑖧𑖪𑖰𑖢𑗜𑖩𑖪𑖰𑖦𑖩𑖸𑖭𑖿𑖪𑖯𑖮𑖯𑖭𑖨𑖿𑖪𑖝𑖞𑖯𑖐𑖝𑖯𑖠𑖰𑖬𑖿𑖘𑖡𑖢𑗜𑖨𑖿𑖝𑖰𑖭𑖿𑖪𑖯𑖮𑖯𑖌𑖽𑖥𑖲𑖨𑖰𑗆𑖪𑖕𑖿𑖨𑖪𑖝𑖰𑖝𑖞𑖯𑖐𑖝𑖮𑖴𑖟𑖧𑖢𑗜𑖨𑖜𑖰𑖭𑖽𑖠𑖯𑖨𑖜𑖰𑖪𑖩𑗆𑖕𑖧𑖪𑖰𑖟𑖿𑖧𑖸𑖮𑗝𑖼𑖮𑗝𑖼𑖣𑖘𑖿 𑗆𑖭𑖿𑖪𑖯𑖮𑖯",
         "iastReconstruction": "na maḥ sa rva ta thā ga tā nāṃ na mo na maḥ sa rva bu ddhā bo dhi sa tve bhyaḥ bu ddhā dha rmma saṃ ghe bhyaḥ ta dya thā oṃ vi pu la ga rbhe vi pu la vi ma le ja ya ga rbhe va jra jva la ga rbhe ga ti ga ha ne ga ga na vi śo dha ne sa rva pā pa vi śo dha ne oṃ gu ṇa va ti ga ga ri ṇi gi ri gi ri ga ma ri ga ha ga rgā ri ga ga ri ga mbha ri ga ti ga ma ne ga re gu ru gu ru ne ca le a ca le mu ca le ja ye vi ja ye sa rva bha ya vi ga te ga rbha saṃ bha ra ṇi si ra mi ri gi ri sa ma ntā ka rṣa ṇi sa rva śa trū pra ma tha ni ra kṣa ra kṣa ma ma sa rva sa tvā nāṃ ca vi ri vi ga tā va ra ṇa bha ya nā śa ni su ri ci ri ci ri ka ma le vi ma le ja le ja yā va he ja ya va ti bha ga va ti ra tna ma ku ṭa mā lā dhā ri ṇi va hu vi vi dha vi ci tra ve ṣa rū pa dhā ri ṇi bha ga va ti ma hā vi dyā de vi ra kṣa ra kṣa ma ma sa rva sa tvā nāṃ ca sa ma ntā sa rva tra sa rva pā pa vi śo dha ne hu ru na kṣa tra mā lā dhā ri ṇi ra kṣa ra kṣa māṃ ma ma a nā tha syā trā ṇa pa rā ya ṇa sya pa ri mo ca ya me sa rva duḥ khe bhyaḥ ca ṇḍi ca ṇḍi ni ve ga va ti sa rva du ṣṭā ni vā ra ṇi śa trū pa kṣa pra ma tha ni vi ja ya vā hi ni hu ru ma ru cu ru ā yuḥ pā ra ni su ra va ra ma tha ni sa rva de va te pu ja te dhi ri sa ma ntā va lo ki te pra bhe su pra bha vi śu ddhe sa rva pā pa vi śo dha ne dha ra dha ra dha ra ṇi dha ra dha re su mu su mu ru ru ca le cā la ya du ṣṭā pu ra ya me ā śāṃ śrī va pu dha nāṃ ja ya ka ma le kṣi ṇi kṣi ṇi va ra de va ra dāṃ ku śe oṃ pa dma vi śu ddhe śo dha ya śu ddhe bha ra bhi ri bhi ri bhu ru bhu ru maṃ ga la vi śu ddhe pa vi tra mu khi kha rgi ṇi kha ra jva li ta śi re sa ma nta pra sa ri tā vā bhā si ta śu ddhe jva la sa rva de va ga ṇa sa mā ka rṣa ṇi sa tya va te ta ra tā ra ya māṃ nā ga vi lo ki te la hu hu nu kṣi ṇi sa rva gra ha bha kṣa ṇi piṃ ga cu su su mu cu vi ca re ta ra nā ga vi lo ki ni tā ra ya tu māṃ bha ga va ti a ṣṭa ma hā dā rū ṇa bha ye bhyaḥ saṃ mu dra sā ga ra pa rya ntāṃ pā tā la ga ga na ta laṃ sa rva tra sa ma nte na di śā va nve na va jra pra kā ra va jra pā śa va ndha ne na va jra jva la vi śu ddhe bhu ri ga rbha va ti ga rbha vi śo dha ni ku kṣi saṃ pu ra ṇi jva la ca la ca la jva li ṇi pra va rṣa tu de va sa ma nte na di vyo da ke na a mṛ ta va rṣa ṇi de va tā dha ra ṇi a bhi ṣi ca tu me su ga ta va ra va ca nā mṛ ta va ra va pu ṣe ra kṣa ra kṣa ma ma sa rva sa tvā nāṃ ca sa rva tra sa rva dā sa rva bha ye bhyaḥ sa rvo pa dra ve bhyaḥ sa rvo pa sa rge bhyaḥ sa rva du ṣṭa bha ya bhī ta sya sa rva ka li ka lā ha vi gra ha vi vā da duḥ sva ṣnā du rni mi ttā maṃ ga lya pā pa vi nā śa ni sa rva ya kṣa rā kṣa sa nā ga ni vā ra ṇi sa ra ṇi sa re va la va la va la va ti ja ya ja ya ja ya tu māṃ sa rva tra sa rva kā laṃ si ddhya tu me i māṃ ma hā vi dyaṃ sā dha ya sa rva ma ṇḍa la sā dha ni gho tā ya sa rva vi ghnā ja ya si ddhe su si ddhe si ddhya bu ddhya vo dha ya pū ra ya pū ra ṇi pu ra ya me a śāṃ sa rva vi dyā dhi ga ta mū rtte ja yo tta ri ja ya va ti ti ṣṭa sa ma ya ma nu pā la ya ta thā ga ta hṛ da ya śu ddhe vya va lo ka ya tu māṃ a ṣṭa bhi ma hā da ru ṇa bha ye bhyaḥ sa ra pra sa ra sa rvā va ra ṇa vi śo dha ne sa ma ntā ka ra ma ṇḍa la vi śu ddhe vi ga te vi ga ta ma la vi śo dha ni kṣi ṇi sa rva pā pa vi śu ddhe ma la vi ga te te ga va ti va jra va ti trai lo kyā dhi ṣṭi te svā hā sa rva ta thā ga ta mū rdhnā bhi ṣi kte svā hā sa rva bo dhi sa tvā bhi ṣi kte svā hā sa rva de va tā bhi ṣi kte svā hā sa rva ta tha ga ta hṛ da yā dhi ṣṭi ta hṛ da ye svā hā sa rva ta thā ga ta sa ma ya si ddhe svā hā i ndre ndra va ti i ndra vya va lo ki te svā hā vra hme vra hyā dhyu ṣi te svā hā vi ṣṇī na maḥ skṛ te svā hā ma he śva ra va nmi ta pū ji tā ye svā hā va jra dha ra va jra pā ṇi va la vī ryā dhi ṣṭi te svā hā dhṛ te rā ṣṭrā ya svā hā vi rū ḍha kā ya svā hā vi rū pā kṣā ya svā hā vai śra va ṇā ya svā hā ca tu rma hā rā ja na maḥ skṛ tā ya svā hā yaṃ mā ya svā hā yaṃ ma pū ji ta na maḥ skṛ tā ya svā hā va ru nā ya svā hā ma ru tā ya svā hā ma hā mā ru tā ya svā hā a gna ye svā hā nā ga vi lo ki te ya svā hā de va ga ṇe bhyaḥ svā hā na ga ga ṇe bhyaḥ svā hā ya kṣa ga ṇe bhyaḥ svā hā rā kṣa sa ga ṇe bhyaḥ svā hā ga ndha rva ga ṇe bhyaḥ svā hā a su ra ga ṇe bhyaḥ svā hā ga ru ḍa ga ṇe bhyaḥ svā hā ki nda ra ga ṇe bhyaḥ svā hā ma ho ra ga ga ṇe bhyaḥ svā hā ma nu ṣye bhyaḥ svā hā a ma nu ṣye bhyaḥ svā hā sa rva gra he bhyaḥ svā hā sa rva na kṣa tre bhyaḥ svā hā sa rva bhu te bhyaḥ svā hā pre te bhyaḥ svā hā pi śā ce bhyaḥ svā hā a pa sma re bhyaḥ svā hā ku mbhā ṇḍe bhyaḥ svā hā oṃ dhu ru svā hā oṃ tu ru svā hā oṃ mu ru svā hā hā na sa rva śa trū ṇāṃ svā hā da ha sa rva du ṣṭa pra du ṣṭā ṇāṃ svā hā pa ca sa rva pra tya rthi ka pra tyā mi trā ṇāṃ ye ma ma a hi te ṣi ṇaḥ te ṣā sa rve ṣā śa rī raṃ jva la ya du ṣṭa ci ttā ṇāṃ svā hā jva li tā ya svā hā pra jvā li tā ya svā hā dī pta jva lā ya svā hā sa ma nta jvā lā ya svā hā mā ṇi bha drā ya svā hā pū rṇḍa bha drā ya svā hā ma hā kā lā ya svā hā ma tṛ ga ṇa ya svā hā ya kṣi ṇī ṇāṃ svā hā rā kṣa sī ṇāṃ svā hā ā kā śa mā trī ṇāṃ svā hā sa mu dra vā si nī ṇāṃ svā hā rā tṛ ca rā ṇāṃ svā hā di va sa ca rā ṇāṃ svā hā tri sa nvya ca rā ṇāṃ svā hā ve lā cā rā ṇāṃ svā hā a ve lā ca rā ṇāṃ svā hā ga rbhā hā re bhyaḥ svā hā ga rbha sa nvā rā ṇi svā hā hu lu svā hā oṃ svā hā svaḥ svā hā bhūḥ svā hā bhu vaḥ svā hā oṃ bhū rbhu vaḥ svaḥ svā hā ci ṭi ci ṭi svā hā vi ṭi vi ṭi svā hā dhā ra ṇi svā hā dhā ra ṇi svā hā a gni svā hā te jo va pu svā hā ci li ci li svā hā si li si li svā hā bu ddhya svā hā si ddhya svā hā ma ṇḍa la si ddhe svā hā ma ṇḍa la va nve svā hā sī mā va nva ni svā hā sa rva śa trū nāṃ ja mbha svā hā sta mbha ya svā hā cchi nda svā hā bhi nda svā hā bha ñja svā hā va nva svā hā mo ha ya svā hā ma ṇi vi śu ddhe svā hā sū rye sū rya vi śu ddhe vi śo dha ni svā hā ca ndre su ca ndre pu rṇḍa ca ndre svā hā gra he bhyaḥ svā hā na kṣa tre bhyaḥ svā hā śi ve svā hā śā nti svā hā sva sya ya ne svā hā śi vaṃ ka ri śā nti ka ri pu ṣṭi ka ri va la va rdha ni svā hā śrī ka ri svā hā śri ya va rdha ni svā hā śrī ya jvā la ni svā hā na mu ci svā hā ma ru ci svā hā ve ga va ti svā hā oṃ sa rva ta thā ga ta mū rtte pra va ra vi ga ta bha ye śa ma ya sva me bha ga va ti sa rvā pā pe bhyaḥ sva sti rbha va tu mu ni vi mu ni ca re ca la ne bha ya vi ga te bha ya hā ra ṇi bo dhi vo dha ya bu ddhi li sa rva ta thā ga ta hṛ da ya ju ṣṭai svā hā oṃ va jra va ti va jra pra ti ṣṭi ta śu ddhe sa rva ta thā ga tā mu drā dhi ṣṭā nāṃ dhi ṣṭi te ma hā mu dre svā hā oṃ mu ni mu ni va re a bhi ṣiṃ ca tu māṃ sa rva ta thā ga ta sa rva vi dyā bhi ṣai kai ma hā va jra ka va ca mu drā mu dri tai sa rva ta thā ga ta hla da yā dhi ṣṭi ta va jre svā hā oṃ a mṛ ta va re va ra pra va ra vi śu ddhe hūṃ hūṃ pha ṭ svā hā oṃ a mṛ ta vi lo ki ni ga rbha suṃ ra kṣa ṇi ā ka rṣa ṇi hūm̐ hūm̐ pha ṭū svā hā oṃ vi ma le ga ya va re a mṛ te hūṃ hūṃ hūm̐ hūm̐ pha ṭ pha ṭ pha ṭ pha ṭ svā hā oṃ bha ra saṃ bha ra i ndri ya vi śu dha ni hūm̐ hūm̐ ru ru ca le svā hā na mo bu ddhā ya na mo dha rmā ya na maḥ saṃ śā ya na mo bhā ga va te śā kya mu na ye ma hā kā ru ṇi kā ya ta thā ga tā yā rha te sa mya ksaṃ bu ddhā ya na maḥ sa pta bhyaḥ sa mya ksaṃ bu ddhe bhyaḥ e ṣāṃ na maḥ skṛ tvā bu ddha śā sa na vṛ dha ye a ha mi dā nyāṃ saṃ pra va kṣa me sa rva sa tvā nu kaṃ pa yā i māṃ vi dyāṃ ma hā te jī ma hā ma la pa rā kra māṃ ye syāṃ bha ṣi taṃ mā trā yaṃ va jrā sa na ma nī ṣi bhi gra ha sa rve vi nā ya ka ścā va ta tkṣa ṇa vi ra yaṃ ga ta ta dya thā gi ra gi ri ṇi gi ri va ti gu ṇa va ti ā kā ra va ti ā kā ra śu ddhe pā pa vi ga te ā kā śe ga ga na ta le ā kā śa vi cā ri ṇi jva li tā śi re ma ṇi mu kti kha ci ta vo li dha re su ke śe su va ktre su nī trī su va rṇḍa vo li a tī te a ṇa tpaṃ ni ma na ga te pra tyu tpaṃ ni na maḥ sa rve ṣāṃ bu ddhā nāṃ jva li ta te jā saṃ bu ddhe su bu ddhe bha ga va ti su ra kṣa ṇi su kṣa me su pra bhe su da me su nāṃ te ca re bhā ga va ti bha dra va ti bha dre su bha dre vi ma le ja ya bha dre pra ca ṇḍa ca ṇḍi va jra ca ṇḍi ma hā ca ṇḍi gau ri ga nvā ri ce ri ca ṇḍa li mā taṃ gi pu ka si śa va ri dra mi ṇḍi roṃ dri ṇi sa rvā rtha sa dha ne ha na sa rva śa trū nāṃ da ha sa rva du ṣṭa nāṃ mre ta pi śā ca ḍā ki nī nāṃ ma nu ṣyā ma nu ṣya nāṃ pa ca hṛ da yaṃ vi dhvaṃ sa ya jī vi taṃ sa rva du ṣṭa gra hā nāṃ nā śa ya sa rva pā pa ni me ra kṣa ra kṣa māṃ sa rva sa tvā naṃ ca sa rva bha yo pa dra ve bhyaḥ sa rva du ṣṭā nāṃ va ndha daṃ ku ru sa rva ki lvi ṣa nā śa ni mā ta na ṇḍi mā ni ni ca le ti ṭi ti ṭi ni tu ṭai gho ra ṇi vī ra ṇi pra va ra saṃ ma re ca ṇḍa ri ma taṃ gi va ca si su mu ru pu ka si śa va ri śaṃ ka ri dra vi ṇḍi da ha ni pa ca ni ma da ni sa ra la sa ra le sa ra laṃ bhe hī na ma dhyo tkṛ ṣṭa vi dā ri ṇi vi dhā ri ṇi ma hī li ma ho ma ho li ni ga ṇe ni ga ṇa pa ce va te va ti ni va te va kra ki ni ja le cu le śa vi ri śa ma ri śā va ri sa rva vya dhi ha ra ṇi co ṇḍi ni ni mi ni miṃ dha ri tri lo ka ja ha ni tri lo ka lo ka ka ri trai dhā tu ka vya ve lo ki ni va jra pa ra śu pā śa kha rga ca kra tri śā la ci ntā ma ṇi ma hā vi dyā dhā ra ṇi ra kṣa māṃ sa rva sa tvā nā ca sa rva tra sa rva stha na ga ta sya sa rva du ṣṭa bha ye bhyaḥ sa rva ma nu ṣyā ma nu ṣya bha ye bhyaḥ sa rva vya dhi bhyaḥ va jre va jra va ti va jra pā ṇi dha re hi li mi li ci li si li va ra va ra ne sa rva tra ja ya laṃ vi svā hā pā pa vi dā ra ṇi sa rva vya dhi ha ra ṇi svā hā sa rva tra bha ya ha ra ṇi svā hā pu ṣṭi svā hā sva sti rbha va tu ma ma svā hā śā nti svā hā pu ṣṭi svā hā ja ya tu ja ye ja ya va ti ja ya vi pu la vi ma le svā hā sa rva ta thā ga tā dhi ṣṭa na pu rti svā hā oṃ bhu ri va jra va ti ta thā ga ta hṛ da ya pu ra ṇi saṃ dhā ra ṇi va la ja ya vi dye hūm̐ hūm̐ pha ṭ svā hā"
       }
     ],

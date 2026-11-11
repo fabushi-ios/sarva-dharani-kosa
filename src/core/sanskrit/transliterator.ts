@@ -161,8 +161,10 @@ const SIDDHAM_MATRAS: Record<string, string> = {
   ū: '𑖳',
   ṛ: '𑖴',
   ṝ: '𑖵',
-  ḷ: '𑖴',
-  ḹ: '𑖵',
+  // Unicode Standard Ch. 15 (Siddham): U+115B6..U+115B7 are reserved;
+  // post-consonantal vocalic ḷ / ḹ are represented as virāma + la + vocalic r/rr sign
+  ḷ: '𑖿𑖩𑖴',
+  ḹ: '𑖿𑖩𑖵',
   e: '𑖸',
   ai: '𑖹',
   o: '𑖺',
@@ -206,6 +208,170 @@ const SIDDHAM_CONSONANTS: Record<string, string> = {
 };
 
 const SIDDHAM_VIRAMA = '𑖿';
+
+const DEVANAGARI_TO_IAST_VOWELS: Record<string, string> = Object.fromEntries(
+  Object.entries(DEVANAGARI_INDEPENDENT_VOWELS).map(([iast, deva]) => [deva, iast])
+);
+
+const DEVANAGARI_TO_IAST_MATRAS: Record<string, string> = Object.fromEntries(
+  Object.entries(DEVANAGARI_MATRAS)
+    .filter(([, deva]) => deva.length > 0)
+    .map(([iast, deva]) => [deva, iast])
+);
+
+const DEVANAGARI_TO_IAST_CONSONANTS: Record<string, string> = {
+  ...Object.fromEntries(
+    Object.entries(DEVANAGARI_CONSONANTS).map(([iast, deva]) => [deva, iast])
+  ),
+  ळ: 'ḷ',
+  क़: 'k',
+  ख़: 'kh',
+  ग़: 'g',
+  ज़: 'j',
+  ड़: 'ḍ',
+  ढ़: 'ḍh',
+  फ़: 'ph',
+};
+
+const SIDDHAM_TO_IAST_VOWELS: Record<string, string> = Object.fromEntries(
+  Object.entries(SIDDHAM_INDEPENDENT_VOWELS).map(([iast, sid]) => [sid, iast])
+);
+
+const SIDDHAM_TO_IAST_MATRAS: Record<string, string> = {
+  '𑖯': 'ā',
+  '𑖰': 'i',
+  '𑖱': 'ī',
+  '𑖲': 'u',
+  '𑖳': 'ū',
+  '𑖴': 'ṛ',
+  '𑖵': 'ṝ',
+  '𑖸': 'e',
+  '𑖹': 'ai',
+  '𑖺': 'o',
+  '𑖻': 'au',
+  '\u{115DC}': 'u',
+  '\u{115DD}': 'ū',
+};
+
+const SIDDHAM_TO_IAST_CONSONANTS: Record<string, string> = Object.fromEntries(
+  Object.entries(SIDDHAM_CONSONANTS).map(([iast, sid]) => [sid, iast])
+);
+
+/**
+ * Convert embedded Devanāgarī script (U+0900..U+097F) to standard IAST
+ */
+export function devanagariToIast(text: string): string {
+  const norm = text.normalize('NFC');
+  let out = '';
+  for (let i = 0; i < norm.length; i++) {
+    const ch = norm[i];
+    if (
+      ch === '\u0951' ||
+      ch === '\u0952' ||
+      ch === '\u0953' ||
+      ch === '\u0954' ||
+      ch === '\u0970' ||
+      ch === '\u200c' ||
+      ch === '\u200d' ||
+      (ch >= '\u0966' && ch <= '\u096F')
+    ) {
+      continue;
+    }
+    const next = norm[i + 1];
+    if (DEVANAGARI_TO_IAST_CONSONANTS[ch]) {
+      out += DEVANAGARI_TO_IAST_CONSONANTS[ch];
+      if (next === DEVANAGARI_VIRAMA) {
+        i++;
+      } else if (next && DEVANAGARI_TO_IAST_MATRAS[next]) {
+        out += DEVANAGARI_TO_IAST_MATRAS[next];
+        i++;
+      } else if (next === '\u093C') {
+        // Combining Nukta followed by optional Virāma or Matra
+        i++;
+        const afterNukta = norm[i + 1];
+        if (afterNukta === DEVANAGARI_VIRAMA) {
+          i++;
+        } else if (afterNukta && DEVANAGARI_TO_IAST_MATRAS[afterNukta]) {
+          out += DEVANAGARI_TO_IAST_MATRAS[afterNukta];
+          i++;
+        } else {
+          out += 'a';
+        }
+      } else {
+        out += 'a';
+      }
+    } else if (DEVANAGARI_TO_IAST_VOWELS[ch]) {
+      out += DEVANAGARI_TO_IAST_VOWELS[ch];
+    } else if (ch === 'ं') {
+      out += 'ṃ';
+    } else if (ch === 'ः') {
+      out += 'ḥ';
+    } else if (ch === 'ँ') {
+      out += 'm\u0310';
+    } else if (ch === 'ऽ') {
+      out += "'";
+    } else if (ch === 'ॐ') {
+      out += 'oṃ';
+    } else if (ch === '॥') {
+      out += ' || ';
+    } else if (ch === '।') {
+      out += ' | ';
+    } else if (ch !== '\u093C' && ch !== DEVANAGARI_VIRAMA) {
+      out += ch;
+    }
+  }
+  return out;
+}
+
+/**
+ * Convert embedded Siddhaṃ script (U+11580..U+115FF) to standard IAST
+ */
+export function siddhamToIast(text: string): string {
+  const chars = Array.from(text);
+  let out = '';
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i];
+    const next = chars[i + 1];
+    if (SIDDHAM_TO_IAST_CONSONANTS[ch]) {
+      out += SIDDHAM_TO_IAST_CONSONANTS[ch];
+      if (
+        next === SIDDHAM_VIRAMA &&
+        chars[i + 2] === '𑖩' &&
+        (chars[i + 3] === '𑖴' || chars[i + 3] === '𑖵')
+      ) {
+        out += chars[i + 3] === '𑖴' ? 'ḷ' : 'ḹ';
+        i += 3;
+        continue;
+      }
+      if (next === SIDDHAM_VIRAMA) {
+        i++;
+      } else if (next && SIDDHAM_TO_IAST_MATRAS[next]) {
+        out += SIDDHAM_TO_IAST_MATRAS[next];
+        i++;
+      } else {
+        out += 'a';
+      }
+    } else if (SIDDHAM_TO_IAST_VOWELS[ch]) {
+      out += SIDDHAM_TO_IAST_VOWELS[ch];
+    } else if (ch === '𑖼') {
+      out += 'm\u0310';
+    } else if (ch === '𑖽') {
+      out += 'ṃ';
+    } else if (ch === '𑖾') {
+      out += 'ḥ';
+    } else if (ch === '𑗃') {
+      out += ' || ';
+    } else if (ch === '𑗂') {
+      out += ' | ';
+    } else {
+      const cp = ch.codePointAt(0) ?? 0;
+      if (cp < 0x11580 || cp > 0x115ff) {
+        out += ch;
+      }
+    }
+  }
+  return out;
+}
 
 const IPA_MAP: Record<string, string> = {
   a: 'ɐ',
@@ -261,25 +427,73 @@ const IPA_MAP: Record<string, string> = {
 };
 
 /**
- * Clean GRETIL editorial brackets/notes while preserving pure Sanskrit IAST
+ * Clean GRETIL / SARIT / manuscript editorial brackets & apparatus while normalizing
+ * embedded Devanāgarī / Siddhaṃ / Candrabindu (`m̐`, `U+0310`) into pure Sanskrit IAST.
  */
 export function cleanEditorialIast(raw: string): string {
-  return raw
-    .replace(/\\var\{.*?\}/g, '')
+  if (!raw) return '';
+  let s = raw.normalize('NFC').replace(/[\x00-\x1f\x7f\u00AD]/g, ' ');
+
+  if (/[\u0900-\u097F]/.test(s)) {
+    s = s.replace(/[\u0900-\u097F\u200c\u200d]+/g, (m) => devanagariToIast(m));
+  }
+  if (/[\u{11580}-\u{115FF}]/u.test(s)) {
+    s = s.replace(/[\u{11580}-\u{115FF}]+/gu, (m) => siddhamToIast(m));
+  }
+
+  // Canonicalize Candrabindu (`m̐`, `ṃ̐`, `ṁ̐`, `ँ`, or post-vocalic `\u0310` as in `hū̐`)
+  if (/[\u0310\u0901]/.test(s)) {
+    s = s.replace(/(?:[mṃṁ]\u0310|\u0901|\u0310)/gi, 'm\u0310');
+  }
+
+  return s
+    .replace(/\\var\{[^}]*(?:\}|$)/g, '')
+    .replace(/\\[A-Za-z]+\s*\}?/g, '')
+    .replace(/\{\\[^}\s]*\}?/g, '')
+    .replace(/<<[^>]*>>/g, '')
+    .replace(/@[^@]*@@/g, '')
+    .replace(/〚[^〛]*〛/g, '')
+    .replace(/\bCMP\d+\.\d+\/?/g, '')
+    .replace(/\(?\b[A-Z][A-Za-z0-9]{1,8}_\d+(?:\.\d+)*\b\)?/g, '')
+    .replace(
+      /\[(?:\s*\d+[rv]\d*\s*|\s*fol\.[^\]]*|\s*p\.[^\]]*|\s*missing\b[^\]]*|\s*lacuna\b[^\]]*|\s*explicit\b[^\]]*|\s*illegible\b[^\]]*|\s*\?+\s*|\s*\.+\s*)\]/gi,
+      ''
+    )
     .replace(/ñ\d+\.\d+/g, '')
     .replace(/\[([^\]]*)\]/g, '$1')
     .replace(/\{([^}]*)\}/g, '')
     .replace(/<([^>]*)>/g, '$1')
-    .replace(/\*/g, '')
+    .replace(
+      /(^|[^|/\d\s]\s+|\s+)([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ']{2,})\s+2(?=\s*(?:[|/,;.]|$|\s+[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]))/g,
+      '$1$2 $2'
+    )
+    .replace(/[@#*+$^&%=_\\§"“”«»]/g, ' ')
+    .replace(/[ōŌ]/g, 'o')
+    .replace(/[ēĒ]/g, 'e')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+function normalizeForeignSanskritLoans(lowerIast: string): string {
+  return lowerIast
+    .replace(/ö/g, 'o')
+    .replace(/ä/g, 'a')
+    .replace(/ù/g, 'u')
+    .replace(/ź/g, 'ś')
+    .replace(/ń/g, 'ṅ')
+    .replace(/dz/g, 'j')
+    .replace(/f/g, 'ph')
+    .replace(/w/g, 'v')
+    .replace(/z/g, 'j')
+    .replace(/q/g, 'k')
+    .replace(/x/g, 'kṣ');
 }
 
 /**
  * Convert IAST string to Devanāgarī script
  */
 export function iastToDevanagari(rawInput: string): string {
-  const input = cleanEditorialIast(rawInput).toLowerCase();
+  const input = normalizeForeignSanskritLoans(cleanEditorialIast(rawInput).toLowerCase());
   let out = '';
   let i = 0;
   let afterConsonant = false;
@@ -289,7 +503,7 @@ export function iastToDevanagari(rawInput: string): string {
     const prevChar = i === 0 ? ' ' : input[i - 1];
     const rest = input.slice(i);
     if (/[\s|/.,;!-]/.test(prevChar)) {
-      const omMatch = rest.match(/^(oṃ|oṁ|om)(?=[\s|/.,;!-]|$)/);
+      const omMatch = rest.match(/^(om\u0310|oṃ|oṁ|om)(?=[\s|/.,;!-]|$)/);
       if (omMatch) {
         out += 'ॐ';
         i += omMatch[0].length;
@@ -329,12 +543,15 @@ export function iastToDevanagari(rawInput: string): string {
       continue;
     }
 
-    // Anusvara & Visarga
+    // Candrabindu (`m̐`), Anusvāra (`ṃ`/`ṁ`), & Visarga (`ḥ`)
+    if (rest.startsWith('m\u0310')) {
+      afterConsonant = false;
+      out += 'ँ';
+      i += 2;
+      continue;
+    }
     if (rest[0] === 'ṃ' || rest[0] === 'ṁ') {
-      if (afterConsonant) {
-        // Should not normally happen directly after consonant without vowel, but handle gracefully
-        afterConsonant = false;
-      }
+      afterConsonant = false;
       out += 'ं';
       i += 1;
       continue;
@@ -400,10 +617,12 @@ export function iastToDevanagari(rawInput: string): string {
 }
 
 /**
- * Convert IAST string to Siddhaṃ script (Unicode U+11580..U+115FF)
+ * Convert IAST string to Siddhaṃ script (Unicode U+11580..U+115FF).
+ * Every emitted codepoint is strictly within NotoSansSiddham-Regular.woff2's mapped cmap
+ * (`U+11580..U+115B5`, `U+115B8..U+115DD`, and `U+0020` space), guaranteeing zero `.notdef` tofu boxes.
  */
 export function iastToSiddham(rawInput: string): string {
-  const input = cleanEditorialIast(rawInput).toLowerCase();
+  const input = normalizeForeignSanskritLoans(cleanEditorialIast(rawInput).toLowerCase());
   let out = '';
   let i = 0;
   let afterConsonant = false;
@@ -417,7 +636,7 @@ export function iastToSiddham(rawInput: string): string {
         out += SIDDHAM_VIRAMA;
         afterConsonant = false;
       }
-      out += '𑗃';
+      out += ' 𑗃 ';
       i += 2;
       continue;
     }
@@ -426,11 +645,12 @@ export function iastToSiddham(rawInput: string): string {
         out += SIDDHAM_VIRAMA;
         afterConsonant = false;
       }
-      out += '𑗂';
+      out += ' 𑗂 ';
       i += 1;
       continue;
     }
 
+    // Avagraha (silent elision in Siddhaṃ orthography)
     if (rest[0] === "'" || rest[0] === '’') {
       if (afterConsonant) {
         out += SIDDHAM_VIRAMA;
@@ -440,10 +660,16 @@ export function iastToSiddham(rawInput: string): string {
       continue;
     }
 
-    // Anusvara & Visarga
-    if (rest[0] === 'ṃ' || rest[0] === 'ṁ') {
+    // Candrabindu (`m̐` -> U+115BC 𑖼), Anusvāra (`ṃ`/`ṁ` -> U+115BD 𑖽), & Visarga (`ḥ` -> U+115BE 𑖾)
+    if (rest.startsWith('m\u0310')) {
       afterConsonant = false;
       out += '𑖼';
+      i += 2;
+      continue;
+    }
+    if (rest[0] === 'ṃ' || rest[0] === 'ṁ') {
+      afterConsonant = false;
+      out += '𑖽';
       i += 1;
       continue;
     }
@@ -491,11 +717,12 @@ export function iastToSiddham(rawInput: string): string {
       continue;
     }
 
+    // Word/compound separators, punctuation, or unmapped characters -> close virāma & emit clean space
     if (afterConsonant) {
       out += SIDDHAM_VIRAMA;
       afterConsonant = false;
     }
-    out += rest[0];
+    out += ' ';
     i += 1;
   }
 
@@ -503,7 +730,7 @@ export function iastToSiddham(rawInput: string): string {
     out += SIDDHAM_VIRAMA;
   }
 
-  return out;
+  return out.replace(/\s+/g, ' ').trim();
 }
 
 /**
@@ -533,9 +760,11 @@ export function iastToIpa(rawInput: string): string {
       continue;
     }
 
-    if (rest[0] === 'ṃ' || rest[0] === 'ṁ') {
+    const isCandrabindu = rest.startsWith('m\u0310');
+    if (isCandrabindu || rest[0] === 'ṃ' || rest[0] === 'ṁ') {
+      const stepLen = isCandrabindu ? 2 : 1;
       // Context-sensitive Pāṇinian Anusvāra assimilation (parasavarṇa)
-      const lookahead = rest.slice(1).replace(/^[\s\-—–']+/g, '');
+      const lookahead = rest.slice(stepLen).replace(/^[\s\-—–']+/g, '');
       let nextCons: string | null = null;
       for (const c of CONSONANT_TOKENS) {
         if (lookahead.startsWith(c)) {
@@ -561,7 +790,7 @@ export function iastToIpa(rawInput: string): string {
       } else {
         out += 'm̃';
       }
-      i += 1;
+      i += stepLen;
       continue;
     }
 
@@ -631,12 +860,15 @@ export const SIDDHAM_VARNAMALA_VOWELS: VarnamalaLetter[] = [
   { iast: 'ū', devanagari: 'ऊ', siddham: '𑖅', ipa: 'uː', tangTranslitZh: '污 (长引)', articulationPlaceZh: '唇音 (Oṣṭhya)', articulationMethodZh: '长元音 (Dīrgha · 2拍)', bijaMeaningZh: '损减不可得门' },
   { iast: 'ṛ', devanagari: 'ऋ', siddham: '𑖆', ipa: 'r̩', tangTranslitZh: '哩 (弹舌短)', articulationPlaceZh: '顶音/卷舌 (Mūrdhanya)', articulationMethodZh: '卷舌成音节元音 (1拍)', bijaMeaningZh: '神通变化远离门' },
   { iast: 'ṝ', devanagari: 'ॠ', siddham: '𑖇', ipa: 'r̩ː', tangTranslitZh: '哩 (弹舌长)', articulationPlaceZh: '顶音/卷舌 (Mūrdhanya)', articulationMethodZh: '长卷舌元音 (2拍)', bijaMeaningZh: '类例不可得门' },
+  { iast: 'ḷ', devanagari: 'ऌ', siddham: '𑖈', ipa: 'l̩', tangTranslitZh: '里 (边音短)', articulationPlaceZh: '齿音 (Dantya)', articulationMethodZh: '齿边成音节元音 (1拍)', bijaMeaningZh: '一切法相染着不可得门' },
+  { iast: 'ḹ', devanagari: 'ॡ', siddham: '𑖉', ipa: 'l̩ː', tangTranslitZh: '里 (边音长)', articulationPlaceZh: '齿音 (Dantya)', articulationMethodZh: '长齿边成音节元音 (2拍)', bijaMeaningZh: '世间流转相断灭门' },
   { iast: 'e', devanagari: 'ए', siddham: '𑖊', ipa: 'eː', tangTranslitZh: '翳 (长)', articulationPlaceZh: '喉腭合音 (Kaṇṭhatālavya)', articulationMethodZh: '复合长元音 (Guṇa · 2拍)', bijaMeaningZh: '求不可得门' },
   { iast: 'ai', devanagari: 'ऐ', siddham: '𑖋', ipa: 'ɐi̯', tangTranslitZh: '爱 (二合长)', articulationPlaceZh: '喉腭合音 (Kaṇṭhatālavya)', articulationMethodZh: '强化复合元音 (Vṛddhi · 2拍)', bijaMeaningZh: '大威德自在门' },
   { iast: 'o', devanagari: 'ओ', siddham: '𑖌', ipa: 'oː', tangTranslitZh: '污/奥 (长)', articulationPlaceZh: '喉唇合音 (Kaṇṭhoṣṭhya)', articulationMethodZh: '复合长元音 (Guṇa · 2拍)', bijaMeaningZh: '瀑流远离门' },
   { iast: 'au', devanagari: 'औ', siddham: '𑖍', ipa: 'ɐu̯', tangTranslitZh: '奥 (二合长)', articulationPlaceZh: '喉唇合音 (Kaṇṭhoṣṭhya)', articulationMethodZh: '强化复合元音 (Vṛddhi · 2拍)', bijaMeaningZh: '化生不可得门' },
-  { iast: 'aṃ', devanagari: 'अं', siddham: '𑖀𑖼', ipa: 'ɐm̃', tangTranslitZh: '暗 (空点)', articulationPlaceZh: '鼻音随韵 (Anusvāra)', articulationMethodZh: '菩提点 · 重音 (Guru)', bijaMeaningZh: '发菩提心究竟空性门' },
-  { iast: 'aḥ', devanagari: 'अः', siddham: '𑖀𑖾', ipa: 'ɐh', tangTranslitZh: '恶 (涅槃点)', articulationPlaceZh: '喉擦止韵 (Visarga)', articulationMethodZh: '涅槃点 · 重音 (Guru)', bijaMeaningZh: '大般涅槃寂灭门' },
+  { iast: 'aṃ', devanagari: 'अं', siddham: '𑖀𑖽', ipa: 'ɐm̃', tangTranslitZh: '暗 (空点)', articulationPlaceZh: '鼻音随韵 (Anusvāra)', articulationMethodZh: '菩提点 U+115BD · 重音 (Guru)', bijaMeaningZh: '发菩提心究竟空性门' },
+  { iast: 'am̐', devanagari: 'अँ', siddham: '𑖀𑖼', ipa: 'ɐ̃', tangTranslitZh: '仰月空点', articulationPlaceZh: '鼻化仰月点 (Candrabindu)', articulationMethodZh: '大空智点 U+115BC · 重音 (Guru)', bijaMeaningZh: '大空智月轮摄持一切三昧门' },
+  { iast: 'aḥ', devanagari: 'अः', siddham: '𑖀𑖾', ipa: 'ɐh', tangTranslitZh: '恶 (涅槃点)', articulationPlaceZh: '喉擦止韵 (Visarga)', articulationMethodZh: '涅槃点 U+115BE · 重音 (Guru)', bijaMeaningZh: '大般涅槃寂灭门' },
 ];
 
 export interface VargaRow {

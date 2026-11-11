@@ -8,6 +8,7 @@ import {
   TAISHO_MIKKYO_INDEX,
 } from '../data/unifiedCorpusRegistry';
 import { sanskritAudioEngine, speakSanskrit } from '../services/sanskritAudioEngine';
+import { iastToSiddham } from '../core/sanskrit/transliterator';
 
 export function FangshanTaishoInterlinearStudio() {
   const [subMode, setSubMode] = useState<'fangshan' | 't54' | 'cbeta_tt' | 'taisho_gretil'>('fangshan');
@@ -216,14 +217,18 @@ export function FangshanTaishoInterlinearStudio() {
                 </h4>
                 <div className="syllable-grid">
                   {selectedFangshan.tokens.map((tok, tokIdx) => {
-                    const gaiji = tok.siddhamRef ? CBETA_GAIJI_MAP[tok.siddhamRef] : undefined;
+                    const gaijiKey = tok.siddhamRef?.replace(/^#/, '') || '';
+                    const gaiji = gaijiKey ? CBETA_GAIJI_MAP[gaijiKey] : undefined;
+                    const resolvedIast = tok.iast || gaiji?.iast || '';
+                    const rawSid = tok.siddhamUnicode || gaiji?.siddhamUnicode || '';
+                    const hasSiddhamGlyph = /[\u{11580}-\u{115FF}]/u.test(rawSid);
                     return (
                       <div key={tokIdx} className="syllable-card">
                         <div className="siddham-script">
-                          {tok.siddhamUnicode || gaiji?.siddhamUnicode || '𑖀'}
+                          {(hasSiddhamGlyph ? rawSid : resolvedIast ? iastToSiddham(resolvedIast) : '') || '𑖀'}
                         </div>
                         <div className="syl-iast">
-                          {tok.iast || gaiji?.iast || tok.siddhamRef || `#${tokIdx + 1}`}
+                          {resolvedIast || tok.siddhamRef || `#${tokIdx + 1}`}
                         </div>
                         <div className="syl-phonetics">{tok.textZh}</div>
                         {tok.phoneticTags && tok.phoneticTags.length > 0 && (
@@ -266,7 +271,9 @@ export function FangshanTaishoInterlinearStudio() {
                   </button>
                 </div>
                 <div className="siddham-script" style={{ fontSize: '1.35rem' }}>
-                  {entry.siddhamUnicode}
+                  {/[\u{11580}-\u{115FF}]/u.test(entry.siddhamUnicode)
+                    ? entry.siddhamUnicode
+                    : iastToSiddham(entry.iast)}
                 </div>
                 <div className="hit-snippet">
                   IAST: <strong>{entry.iast}</strong> ({entry.devanagari}) · 撰者: {entry.author} ·{' '}
@@ -306,7 +313,10 @@ export function FangshanTaishoInterlinearStudio() {
                 </div>
                 {rec.dharaniBlocks[0] && (
                   <div className="hit-snippet">
-                    <div className="siddham-script">{rec.dharaniBlocks[0].siddhamUnicodeText}</div>
+                    <div className="siddham-script">
+                      {iastToSiddham(rec.dharaniBlocks[0].iastReconstruction) ||
+                        rec.dharaniBlocks[0].siddhamUnicodeText}
+                    </div>
                     <div>IAST: {rec.dharaniBlocks[0].iastReconstruction}</div>
                     <div>漢音: {rec.dharaniBlocks[0].chineseText}</div>
                   </div>

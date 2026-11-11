@@ -207,7 +207,7 @@ async function loadCbetaGaijiMap() {
     const iast = (entry.romanized || entry.symbol || '').trim();
     map[id] = {
       id,
-      siddhamUnicode: unicodeChar || iast,
+      siddhamUnicode: unicodeChar || '',
       iast,
       romanized: iast,
       devanagari: iast ? iastToDevanagari(iast) : '',

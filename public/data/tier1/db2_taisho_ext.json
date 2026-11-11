@@ -40,7 +40,7 @@
       "siddhamRefs": [
         "#SD-CFC5"
       ],
-      "siddhamUnicode": "a",
+      "siddhamUnicode": "𑖀",
       "iast": "a",
       "devanagari": "अ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -58,7 +58,7 @@
       "siddhamRefs": [
         "#SD-CFC6"
       ],
-      "siddhamUnicode": "ā",
+      "siddhamUnicode": "𑖁",
       "iast": "ā",
       "devanagari": "आ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -244,7 +244,7 @@
       "siddhamRefs": [
         "#SD-CDCD"
       ],
-      "siddhamUnicode": "vdha",
+      "siddhamUnicode": "𑖪𑖿𑖠",
       "iast": "vdha",
       "devanagari": "व्ध",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -292,9 +292,9 @@
       "siddhamRefs": [
         "#SD-CFC3"
       ],
-      "siddhamUnicode": "",
-      "iast": "",
-      "devanagari": "",
+      "siddhamUnicode": "𑖕𑖿𑖗",
+      "iast": "jña",
+      "devanagari": "ज्ञ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
     },
     {
@@ -542,7 +542,7 @@
       "siddhamRefs": [
         "#SD-A5A9"
       ],
-      "siddhamUnicode": "na",
+      "siddhamUnicode": "𑖡",
       "iast": "na",
       "devanagari": "न",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -574,7 +574,7 @@
       "siddhamRefs": [
         "#SD-B2F1"
       ],
-      "siddhamUnicode": "knā",
+      "siddhamUnicode": "𑖎𑖿𑖡𑖯",
       "iast": "knā",
       "devanagari": "क्ना",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -622,7 +622,7 @@
       "siddhamRefs": [
         "#SD-B7EB"
       ],
-      "siddhamUnicode": "rkya",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖧",
       "iast": "rkya",
       "devanagari": "र्क्य",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -638,7 +638,7 @@
       "siddhamRefs": [
         "#SD-B7EC"
       ],
-      "siddhamUnicode": "rkyā",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖧𑖯",
       "iast": "rkyā",
       "devanagari": "र्क्या",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -654,7 +654,7 @@
       "siddhamRefs": [
         "#SD-BA72"
       ],
-      "siddhamUnicode": "rkra",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖨",
       "iast": "rkra",
       "devanagari": "र्क्र",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -670,7 +670,7 @@
       "siddhamRefs": [
         "#SD-BA73"
       ],
-      "siddhamUnicode": "rkrā",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖨𑖯",
       "iast": "rkrā",
       "devanagari": "र्क्रा",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -686,7 +686,7 @@
       "siddhamRefs": [
         "#SD-BCE6"
       ],
-      "siddhamUnicode": "rkla",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖩",
       "iast": "rkla",
       "devanagari": "र्क्ल",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -702,7 +702,7 @@
       "siddhamRefs": [
         "#SD-BCE7"
       ],
-      "siddhamUnicode": "rklā",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖩𑖯",
       "iast": "rklā",
       "devanagari": "र्क्ला",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -718,7 +718,7 @@
       "siddhamRefs": [
         "#SD-BF6D"
       ],
-      "siddhamUnicode": "rkva",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖪",
       "iast": "rkva",
       "devanagari": "र्क्व",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -734,7 +734,7 @@
       "siddhamRefs": [
         "#SD-BF6E"
       ],
-      "siddhamUnicode": "rkvā",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖪𑖯",
       "iast": "rkvā",
       "devanagari": "र्क्वा",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -750,7 +750,7 @@
       "siddhamRefs": [
         "#SD-C1D5"
       ],
-      "siddhamUnicode": "rkma",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖦",
       "iast": "rkma",
       "devanagari": "र्क्म",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -766,7 +766,7 @@
       "siddhamRefs": [
         "#SD-C1D6"
       ],
-      "siddhamUnicode": "rkmā",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖦𑖯",
       "iast": "rkmā",
       "devanagari": "र्क्मा",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -782,7 +782,7 @@
       "siddhamRefs": [
         "#SD-C45C"
       ],
-      "siddhamUnicode": "rkna",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖡",
       "iast": "rkna",
       "devanagari": "र्क्न",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -798,7 +798,7 @@
       "siddhamRefs": [
         "#SD-C45D"
       ],
-      "siddhamUnicode": "rknā",
+      "siddhamUnicode": "𑖨𑖿𑖎𑖿𑖡𑖯",
       "iast": "rknā",
       "devanagari": "र्क्ना",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -846,7 +846,7 @@
       "siddhamRefs": [
         "#SD-A4DA"
       ],
-      "siddhamUnicode": "ṭa",
+      "siddhamUnicode": "𑖘",
       "iast": "ṭa",
       "devanagari": "ट",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -862,7 +862,7 @@
       "siddhamRefs": [
         "#SD-A557"
       ],
-      "siddhamUnicode": "ta",
+      "siddhamUnicode": "𑖝",
       "iast": "ta",
       "devanagari": "त",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -942,7 +942,7 @@
       "siddhamRefs": [
         "#SD-CA56"
       ],
-      "siddhamUnicode": "nta",
+      "siddhamUnicode": "𑖡𑖿𑖝",
       "iast": "nta",
       "devanagari": "न्त",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -958,7 +958,7 @@
       "siddhamRefs": [
         "#SD-CAA8"
       ],
-      "siddhamUnicode": "mpa",
+      "siddhamUnicode": "𑖦𑖿𑖢",
       "iast": "mpa",
       "devanagari": "म्प",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -1022,7 +1022,7 @@
       "siddhamRefs": [
         "#SD-A5A9"
       ],
-      "siddhamUnicode": "na",
+      "siddhamUnicode": "𑖡",
       "iast": "na",
       "devanagari": "न",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -1093,7 +1093,7 @@
       "siddhamRefs": [
         "#SD-E0A4"
       ],
-      "siddhamUnicode": "jñā",
+      "siddhamUnicode": "𑖕𑖿𑖗𑖯",
       "iast": "jñā",
       "devanagari": "ज्ञा",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2132.xml"
@@ -1130,7 +1130,7 @@
         "#SD-A5D0",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖢𑖴thi𑖤𑖱",
+      "siddhamUnicode": "𑖢𑖴𑖞𑖰𑖤𑖱",
       "iast": "pṛthibī",
       "devanagari": "पृथिबी",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1166,7 +1166,7 @@
         "#SD-E04B",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖓ndra",
+      "siddhamUnicode": "𑖓𑖡𑖿𑖟𑖿𑖨",
       "iast": "candra",
       "devanagari": "चन्द्र",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1188,7 +1188,7 @@
         "#SD-A5C0",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖓𑖿𑖔𑖯𑖧𑖯𑗄āta𑖢𑖾",
+      "siddhamUnicode": "𑖓𑖿𑖔𑖯𑖧𑖯 𑖁𑖝𑖢𑖾",
       "iast": "cchāyā‧ātapaḥ",
       "devanagari": "च्छाया‧आतपः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1208,7 +1208,7 @@
         "#SD-E35C",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖢𑖨𑖰pū𑖨𑖿𑖜𑖲",
+      "siddhamUnicode": "𑖢𑖨𑖰𑖢𑖳𑖨𑖿𑖜𑖲",
       "iast": "paripūrṇu",
       "devanagari": "परिपूर्णु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1227,7 +1227,7 @@
         "#SD-A662",
         "#SD-E355"
       ],
-      "siddhamUnicode": "a𑖟𑖸𑖫",
+      "siddhamUnicode": "𑖀𑖟𑖸𑖫",
       "iast": "adeśa",
       "devanagari": "अदेश",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1246,7 +1246,7 @@
         "#SD-CFD4",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖟𑖰𑖪𑖯aḥ",
+      "siddhamUnicode": "𑖟𑖰𑖪𑖯𑖀𑖾",
       "iast": "divāaḥ",
       "devanagari": "दिवाअः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1283,7 +1283,7 @@
         "#SD-A44B",
         "#SD-E355"
       ],
-      "siddhamUnicode": "ā𑖩𑖺𑖎𑖾",
+      "siddhamUnicode": "𑖁𑖩𑖺𑖎𑖾",
       "iast": "ālokaḥ",
       "devanagari": "आलोकः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1303,7 +1303,7 @@
         "#SD-A649",
         "#SD-E355"
       ],
-      "siddhamUnicode": "andha𑖎𑖨𑖾",
+      "siddhamUnicode": "𑖀𑖡𑖿𑖠𑖎𑖨𑖾",
       "iast": "andhakaraḥ",
       "devanagari": "अन्धकरः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1324,7 +1324,7 @@
         "#SD-A559",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖟𑖸𑖪𑖐𑖨𑖿𑖕ti",
+      "siddhamUnicode": "𑖟𑖸𑖪𑖐𑖨𑖿𑖕𑖝𑖰",
       "iast": "devagarjati",
       "devanagari": "देवगर्जति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1342,7 +1342,7 @@
         "#SD-A8AA",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖤𑖰myu",
+      "siddhamUnicode": "𑖤𑖰𑖦𑖿𑖧𑖲",
       "iast": "bimyu",
       "devanagari": "बिम्यु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1378,7 +1378,7 @@
         "#SD-B7BB",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖪rṣa",
+      "siddhamUnicode": "𑖪𑖨𑖿𑖬",
       "iast": "varṣa",
       "devanagari": "वर्ष",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1397,7 +1397,7 @@
         "#SD-A440",
         "#SD-E355"
       ],
-      "siddhamUnicode": "tā𑖨𑖎",
+      "siddhamUnicode": "𑖝𑖯𑖨𑖎",
       "iast": "tāraka",
       "devanagari": "तारक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1415,7 +1415,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖭𑖿𑖨𑖺ta",
+      "siddhamUnicode": "𑖭𑖿𑖨𑖺𑖝",
       "iast": "srota",
       "devanagari": "स्रोत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1455,7 +1455,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖤𑖰𑖟nita",
+      "siddhamUnicode": "𑖤𑖰𑖟𑖡𑖰𑖝",
       "iast": "bidanita",
       "devanagari": "बिदनित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1473,7 +1473,7 @@
         "#SD-A559",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖧ti",
+      "siddhamUnicode": "𑖧𑖝𑖰",
       "iast": "yati",
       "devanagari": "यति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1492,7 +1492,7 @@
         "#SD-A662",
         "#SD-E355"
       ],
-      "siddhamUnicode": "ā𑖂𑖫",
+      "siddhamUnicode": "𑖁𑖂𑖫",
       "iast": "āiśa",
       "devanagari": "आइश",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1510,7 +1510,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖐ta",
+      "siddhamUnicode": "𑖐𑖝",
       "iast": "gata",
       "devanagari": "गत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1548,7 +1548,7 @@
         "#SD-E369",
         "#SD-E355"
       ],
-      "siddhamUnicode": "pū𑖨𑖿𑖪",
+      "siddhamUnicode": "𑖢𑖳𑖨𑖿𑖪",
       "iast": "pūrva",
       "devanagari": "पूर्व",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1682,7 +1682,7 @@
         "#SD-D9F9",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖢𑖿𑖨ti𑖪𑖟𑖿𑖠",
+      "siddhamUnicode": "𑖢𑖿𑖨𑖝𑖰𑖪𑖟𑖿𑖠",
       "iast": "prativaddha",
       "devanagari": "प्रतिवद्ध",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1778,7 +1778,7 @@
         "#SD-E2E9",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖦𑖮rgha",
+      "siddhamUnicode": "𑖦𑖮𑖨𑖿𑖑",
       "iast": "mahargha",
       "devanagari": "महर्घ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1797,7 +1797,7 @@
         "#SD-E2E9",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖭𑖦rgha",
+      "siddhamUnicode": "𑖭𑖦𑖨𑖿𑖑",
       "iast": "samargha",
       "devanagari": "समर्घ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1857,7 +1857,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "ni𑖧ta",
+      "siddhamUnicode": "𑖡𑖰𑖧𑖝",
       "iast": "niyata",
       "devanagari": "नियत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1875,7 +1875,7 @@
         "#SD-CA56",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖫𑖯nta",
+      "siddhamUnicode": "𑖫𑖯𑖡𑖿𑖝",
       "iast": "śānta",
       "devanagari": "शान्त",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1933,7 +1933,7 @@
         "#SD-A440",
         "#SD-E355"
       ],
-      "siddhamUnicode": "a𑖥𑖰𑖬𑖸𑖎",
+      "siddhamUnicode": "𑖀𑖥𑖰𑖬𑖸𑖎",
       "iast": "abhiṣeka",
       "devanagari": "अभिषेक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1951,7 +1951,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "sthita",
+      "siddhamUnicode": "𑖭𑖿𑖞𑖰𑖝",
       "iast": "sthita",
       "devanagari": "स्थित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -1974,7 +1974,7 @@
         "#SD-A5FD",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖦𑖮𑖯na𑖐𑖨",
+      "siddhamUnicode": "𑖦𑖮𑖯𑖡𑖐𑖨",
       "iast": "mahānagara",
       "devanagari": "महानगर",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2012,7 +2012,7 @@
         "#SD-A559",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖭𑖨𑖭𑖿𑖪ti",
+      "siddhamUnicode": "𑖭𑖨𑖭𑖿𑖪𑖝𑖰",
       "iast": "sarasvati",
       "devanagari": "सरस्वति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2049,7 +2049,7 @@
         "#SD-A559",
         "#SD-E355"
       ],
-      "siddhamUnicode": "nīti",
+      "siddhamUnicode": "𑖡𑖱𑖝𑖰",
       "iast": "nīti",
       "devanagari": "नीति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2086,7 +2086,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "sthā𑖢𑖰ta",
+      "siddhamUnicode": "𑖭𑖿𑖞𑖯𑖢𑖰𑖝",
       "iast": "sthāpita",
       "devanagari": "स्थापित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2104,7 +2104,7 @@
         "#SD-A642",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖄ru",
+      "siddhamUnicode": "𑖄𑖨𑖲",
       "iast": "uru",
       "devanagari": "उरु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2142,7 +2142,7 @@
         "#SD-A5E5",
         "#SD-E355"
       ],
-      "siddhamUnicode": "ni𑖐𑖦",
+      "siddhamUnicode": "𑖡𑖰𑖐𑖦",
       "iast": "nigama",
       "devanagari": "निगम",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2160,7 +2160,7 @@
         "#SD-A558",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖢𑖰tā",
+      "siddhamUnicode": "𑖢𑖰𑖝𑖯",
       "iast": "pitā",
       "devanagari": "पिता",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2178,7 +2178,7 @@
         "#SD-A558",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖦𑖯tā",
+      "siddhamUnicode": "𑖦𑖯𑖝𑖯",
       "iast": "mātā",
       "devanagari": "माता",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2198,7 +2198,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖕𑖿𑖧𑖸𑖬𑖿𑖘𑖥𑖿𑖨𑖯ta",
+      "siddhamUnicode": "𑖕𑖿𑖧𑖸𑖬𑖿𑖘𑖥𑖿𑖨𑖯𑖝",
       "iast": "jyeṣṭabhrāta",
       "devanagari": "ज्येष्टभ्रात",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2219,7 +2219,7 @@
         "#SD-A557",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖎nya𑖦𑖯𑖥𑖿𑖨𑖯ta",
+      "siddhamUnicode": "𑖎𑖡𑖿𑖧𑖦𑖯𑖥𑖿𑖨𑖯𑖝",
       "iast": "kanyamābhrāta",
       "devanagari": "कन्यमाभ्रात",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2255,7 +2255,7 @@
         "#SD-B6BC",
         "#SD-E355"
       ],
-      "siddhamUnicode": "artha",
+      "siddhamUnicode": "𑖀𑖨𑖿𑖞",
       "iast": "artha",
       "devanagari": "अर्थ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2274,7 +2274,7 @@
         "#SD-E35F",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖪𑖴𑖮tū",
+      "siddhamUnicode": "𑖪𑖴𑖮𑖝𑖳",
       "iast": "vṛhatū",
       "devanagari": "वृहतू",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2313,7 +2313,7 @@
         "#SD-A5F1",
         "#SD-E355"
       ],
-      "siddhamUnicode": "𑖥𑖯𑖐𑖰ne𑖧",
+      "siddhamUnicode": "𑖥𑖯𑖐𑖰𑖡𑖸𑖧",
       "iast": "bhāgineya",
       "devanagari": "भागिनेय",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133A.xml"
@@ -2372,7 +2372,7 @@
         "#SD-A565",
         "#SD-A5CF"
       ],
-      "siddhamUnicode": "𑖢𑖴thi𑖤𑖰",
+      "siddhamUnicode": "𑖢𑖴𑖞𑖰𑖤𑖰",
       "iast": "pṛthibi",
       "devanagari": "पृथिबि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2411,7 +2411,7 @@
         "#SD-A47C",
         "#SD-E3E3"
       ],
-      "siddhamUnicode": "𑖓bhdra",
+      "siddhamUnicode": "𑖓𑖥𑖿𑖟𑖿𑖨",
       "iast": "cabhdra",
       "devanagari": "चभ्द्र",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2452,7 +2452,7 @@
         "#SD-A557",
         "#SD-A5C0"
       ],
-      "siddhamUnicode": "āta𑖢𑖾",
+      "siddhamUnicode": "𑖁𑖝𑖢𑖾",
       "iast": "ātapaḥ",
       "devanagari": "आतपः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2489,7 +2489,7 @@
         "#SD-A575",
         "#SD-A662"
       ],
-      "siddhamUnicode": "a𑖟𑖸𑖫",
+      "siddhamUnicode": "𑖀𑖟𑖸𑖫",
       "iast": "adeśa",
       "devanagari": "अदेश",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2509,7 +2509,7 @@
         "#SD-A656",
         "#SD-CFD4"
       ],
-      "siddhamUnicode": "𑖟𑖰𑖪aḥ",
+      "siddhamUnicode": "𑖟𑖰𑖪𑖀𑖾",
       "iast": "divaaḥ",
       "devanagari": "दिवअः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2549,7 +2549,7 @@
         "#SD-A652",
         "#SD-A44B"
       ],
-      "siddhamUnicode": "ā𑖩𑖺𑖎𑖾",
+      "siddhamUnicode": "𑖁𑖩𑖺𑖎𑖾",
       "iast": "ālokaḥ",
       "devanagari": "आलोकः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2568,7 +2568,7 @@
         "#SD-A440",
         "#SD-A649"
       ],
-      "siddhamUnicode": "a𑖟𑖿𑖠𑖎𑖨𑖾",
+      "siddhamUnicode": "𑖀𑖟𑖿𑖠𑖎𑖨𑖾",
       "iast": "addhakaraḥ",
       "devanagari": "अद्धकरः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2590,7 +2590,7 @@
         "#SD-B5ED",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖟𑖸𑖪𑖐𑖨𑖿𑖕ti",
+      "siddhamUnicode": "𑖟𑖸𑖪𑖐𑖨𑖿𑖕𑖝𑖰",
       "iast": "devagarjati",
       "devanagari": "देवगर्जति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2609,7 +2609,7 @@
         "#SD-A5CF",
         "#SD-A8AA"
       ],
-      "siddhamUnicode": "𑖤𑖰myu",
+      "siddhamUnicode": "𑖤𑖰𑖦𑖿𑖧𑖲",
       "iast": "bimyu",
       "devanagari": "बिम्यु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2645,7 +2645,7 @@
         "#SD-A656",
         "#SD-B7BB"
       ],
-      "siddhamUnicode": "𑖪rṣa",
+      "siddhamUnicode": "𑖪𑖨𑖿𑖬",
       "iast": "varṣa",
       "devanagari": "वर्ष",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2665,7 +2665,7 @@
         "#SD-A5FD",
         "#SD-A440"
       ],
-      "siddhamUnicode": "tā𑖨𑖎",
+      "siddhamUnicode": "𑖝𑖯𑖨𑖎",
       "iast": "tāraka",
       "devanagari": "तारक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2684,7 +2684,7 @@
         "#SD-AB7D",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖭𑖿𑖨𑖺ta",
+      "siddhamUnicode": "𑖭𑖿𑖨𑖺𑖝",
       "iast": "srota",
       "devanagari": "स्रोत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2720,7 +2720,7 @@
         "#SD-A5AB",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖪𑖰𑖟nita",
+      "siddhamUnicode": "𑖪𑖰𑖟𑖡𑖰𑖝",
       "iast": "vidanita",
       "devanagari": "विदनित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2739,7 +2739,7 @@
         "#SD-A5F1",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖧ti",
+      "siddhamUnicode": "𑖧𑖝𑖰",
       "iast": "yati",
       "devanagari": "यति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2757,7 +2757,7 @@
         "#SD-CFC7",
         "#SD-A662"
       ],
-      "siddhamUnicode": "a𑖂𑖫",
+      "siddhamUnicode": "𑖋𑖫",
       "iast": "aiśa",
       "devanagari": "ऐश",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2774,7 +2774,7 @@
         "#SD-A458",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖐ta",
+      "siddhamUnicode": "𑖐𑖝",
       "iast": "gata",
       "devanagari": "गत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -2955,7 +2955,7 @@
         "#SD-A656",
         "#SD-D9F9"
       ],
-      "siddhamUnicode": "𑖢𑖿𑖨ti𑖪𑖟𑖿𑖠",
+      "siddhamUnicode": "𑖢𑖿𑖨𑖝𑖰𑖪𑖟𑖿𑖠",
       "iast": "prativaddha",
       "devanagari": "प्रतिवद्ध",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3052,7 +3052,7 @@
         "#SD-A6A8",
         "#SD-E2E9"
       ],
-      "siddhamUnicode": "𑖦𑖮rgha",
+      "siddhamUnicode": "𑖦𑖮𑖨𑖿𑖑",
       "iast": "mahargha",
       "devanagari": "महर्घ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3070,7 +3070,7 @@
         "#SD-A5E5",
         "#SD-E2E9"
       ],
-      "siddhamUnicode": "𑖭𑖦rgha",
+      "siddhamUnicode": "𑖭𑖦𑖨𑖿𑖑",
       "iast": "samargha",
       "devanagari": "समर्घ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3124,7 +3124,7 @@
         "#SD-A5F1",
         "#SD-A557"
       ],
-      "siddhamUnicode": "ni𑖧ta",
+      "siddhamUnicode": "𑖡𑖰𑖧𑖝",
       "iast": "niyata",
       "devanagari": "नियत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3143,7 +3143,7 @@
         "#SD-A663",
         "#SD-CA56"
       ],
-      "siddhamUnicode": "𑖫𑖯nta",
+      "siddhamUnicode": "𑖫𑖯𑖡𑖿𑖝",
       "iast": "śānta",
       "devanagari": "शान्त",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3201,7 +3201,7 @@
         "#SD-A674",
         "#SD-A440"
       ],
-      "siddhamUnicode": "a𑖥𑖰𑖬𑖸𑖎",
+      "siddhamUnicode": "𑖀𑖥𑖰𑖬𑖸𑖎",
       "iast": "abhiṣeka",
       "devanagari": "अभिषेक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3220,7 +3220,7 @@
         "#SD-CDB7",
         "#SD-A557"
       ],
-      "siddhamUnicode": "sthita",
+      "siddhamUnicode": "𑖭𑖿𑖞𑖰𑖝",
       "iast": "sthita",
       "devanagari": "स्थित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3240,7 +3240,7 @@
         "#SD-A458",
         "#SD-A5FD"
       ],
-      "siddhamUnicode": "𑖦𑖮𑖯na𑖐𑖨",
+      "siddhamUnicode": "𑖦𑖮𑖯𑖡𑖐𑖨",
       "iast": "mahānagara",
       "devanagari": "महानगर",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3281,7 +3281,7 @@
         "#SD-B064",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖭𑗜𑖨𑖭𑖿𑖪ti",
+      "siddhamUnicode": "𑖭𑖲𑖨𑖭𑖿𑖪𑖝𑖰",
       "iast": "surasvati",
       "devanagari": "सुरस्वति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3321,7 +3321,7 @@
         "#SD-A5AB",
         "#SD-A559"
       ],
-      "siddhamUnicode": "niti",
+      "siddhamUnicode": "𑖡𑖰𑖝𑖰",
       "iast": "niti",
       "devanagari": "निति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3362,7 +3362,7 @@
         "#SD-A5B7",
         "#SD-A562"
       ],
-      "siddhamUnicode": "𑖭𑖿𑖪𑖯𑖢𑖰taḥ",
+      "siddhamUnicode": "𑖭𑖿𑖪𑖯𑖢𑖰𑖝𑖾",
       "iast": "svāpitaḥ",
       "devanagari": "स्वापितः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3379,7 +3379,7 @@
         "#SD-CFC9",
         "#SD-A642"
       ],
-      "siddhamUnicode": "𑖄ru",
+      "siddhamUnicode": "𑖄𑖨𑖲",
       "iast": "uru",
       "devanagari": "उरु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3416,7 +3416,7 @@
         "#SD-A458",
         "#SD-A5F0"
       ],
-      "siddhamUnicode": "ni𑖐𑖦𑖾",
+      "siddhamUnicode": "𑖡𑖰𑖐𑖦𑖾",
       "iast": "nigamaḥ",
       "devanagari": "निगमः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3435,7 +3435,7 @@
         "#SD-A5B7",
         "#SD-A558"
       ],
-      "siddhamUnicode": "𑖢𑖰tā",
+      "siddhamUnicode": "𑖢𑖰𑖝𑖯",
       "iast": "pitā",
       "devanagari": "पिता",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3454,7 +3454,7 @@
         "#SD-A5E5",
         "#SD-A558"
       ],
-      "siddhamUnicode": "𑖦tā",
+      "siddhamUnicode": "𑖦𑖝𑖯",
       "iast": "matā",
       "devanagari": "मता",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3476,7 +3476,7 @@
         "#SD-AAE1",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖕𑖿𑖧𑖸𑖬𑖿𑖘𑖥𑖿𑖨𑖯ta",
+      "siddhamUnicode": "𑖕𑖿𑖧𑖸𑖬𑖿𑖘𑖥𑖿𑖨𑖯𑖝",
       "iast": "jyeṣṭabhrāta",
       "devanagari": "ज्येष्टभ्रात",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3501,7 +3501,7 @@
         "#SD-AAE1",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖎nya𑖭𑖯𑖥𑖿𑖨𑖯ta",
+      "siddhamUnicode": "𑖎𑖡𑖿𑖧𑖭𑖯𑖥𑖿𑖨𑖯𑖝",
       "iast": "kanyasābhrāta",
       "devanagari": "कन्यसाभ्रात",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3535,7 +3535,7 @@
         "#SD-CFC5",
         "#SD-B6BC"
       ],
-      "siddhamUnicode": "artha",
+      "siddhamUnicode": "𑖀𑖨𑖿𑖞",
       "iast": "artha",
       "devanagari": "अर्थ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3556,7 +3556,7 @@
         "#SD-A6A8",
         "#SD-E3C2"
       ],
-      "siddhamUnicode": "𑖪𑖴𑖮t",
+      "siddhamUnicode": "𑖪𑖴𑖮𑖝𑖿",
       "iast": "vṛhat",
       "devanagari": "वृहत्",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3598,7 +3598,7 @@
         "#SD-A5AF",
         "#SD-A5F1"
       ],
-      "siddhamUnicode": "𑖥𑖯𑖐𑖰ne𑖧",
+      "siddhamUnicode": "𑖥𑖯𑖐𑖰𑖡𑖸𑖧",
       "iast": "bhāgineya",
       "devanagari": "भागिनेय",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2133B.xml"
@@ -3615,7 +3615,7 @@
         "#SD-A47E",
         "#SD-A5A9"
       ],
-      "siddhamUnicode": "𑖓𑖰na",
+      "siddhamUnicode": "𑖓𑖰𑖡",
       "iast": "cina",
       "devanagari": "चिन",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3648,7 +3648,7 @@
       "siddhamRefs": [
         "#SD-AF78"
       ],
-      "siddhamUnicode": "dvai",
+      "siddhamUnicode": "𑖟𑖿𑖪𑖹",
       "iast": "dvai",
       "devanagari": "द्वै",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3736,7 +3736,7 @@
         "#SD-A6B4",
         "#SD-A5FD"
       ],
-      "siddhamUnicode": "a𑖎𑖿𑖬𑖨",
+      "siddhamUnicode": "𑖀𑖎𑖿𑖬𑖨",
       "iast": "akṣara",
       "devanagari": "अक्षर",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3807,7 +3807,7 @@
         "#SD-A565",
         "#SD-A5CF"
       ],
-      "siddhamUnicode": "𑖢𑖴thi𑖤𑖰",
+      "siddhamUnicode": "𑖢𑖴𑖞𑖰𑖤𑖰",
       "iast": "pṛthibi",
       "devanagari": "पृथिबि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3841,7 +3841,7 @@
         "#SD-A47C",
         "#SD-E04B"
       ],
-      "siddhamUnicode": "𑖓ndra",
+      "siddhamUnicode": "𑖓𑖡𑖿𑖟𑖿𑖨",
       "iast": "candra",
       "devanagari": "चन्द्र",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3876,7 +3876,7 @@
         "#SD-A557",
         "#SD-A5C0"
       ],
-      "siddhamUnicode": "āta𑖢𑖾",
+      "siddhamUnicode": "𑖁𑖝𑖢𑖾",
       "iast": "ātapaḥ",
       "devanagari": "आतपः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3895,7 +3895,7 @@
         "#SD-E042",
         "#SD-E35C"
       ],
-      "siddhamUnicode": "𑖢𑖨𑖰pū𑖨𑖿𑖜𑖲",
+      "siddhamUnicode": "𑖢𑖨𑖰𑖢𑖳𑖨𑖿𑖜𑖲",
       "iast": "paripūrṇu",
       "devanagari": "परिपूर्णु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3913,7 +3913,7 @@
         "#SD-A575",
         "#SD-A662"
       ],
-      "siddhamUnicode": "a𑖟𑖸𑖫",
+      "siddhamUnicode": "𑖀𑖟𑖸𑖫",
       "iast": "adeśa",
       "devanagari": "अदेश",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3931,7 +3931,7 @@
         "#SD-A657",
         "#SD-CFD4"
       ],
-      "siddhamUnicode": "𑖟𑖰𑖪𑖯aḥ",
+      "siddhamUnicode": "𑖟𑖰𑖪𑖯𑖀𑖾",
       "iast": "divāaḥ",
       "devanagari": "दिवाअः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3966,7 +3966,7 @@
         "#SD-A652",
         "#SD-A44B"
       ],
-      "siddhamUnicode": "ā𑖩𑖺𑖎𑖾",
+      "siddhamUnicode": "𑖁𑖩𑖺𑖎𑖾",
       "iast": "ālokaḥ",
       "devanagari": "आलोकः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -3985,7 +3985,7 @@
         "#SD-A440",
         "#SD-A649"
       ],
-      "siddhamUnicode": "andha𑖎𑖨𑖾",
+      "siddhamUnicode": "𑖀𑖡𑖿𑖠𑖎𑖨𑖾",
       "iast": "andhakaraḥ",
       "devanagari": "अन्धकरः",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4005,7 +4005,7 @@
         "#SD-B5ED",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖟𑖸𑖪𑖐𑖨𑖿𑖕ti",
+      "siddhamUnicode": "𑖟𑖸𑖪𑖐𑖨𑖿𑖕𑖝𑖰",
       "iast": "devagarjati",
       "devanagari": "देवगर्जति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4022,7 +4022,7 @@
         "#SD-A5CF",
         "#SD-A8AA"
       ],
-      "siddhamUnicode": "𑖤𑖰myu",
+      "siddhamUnicode": "𑖤𑖰𑖦𑖿𑖧𑖲",
       "iast": "bimyu",
       "devanagari": "बिम्यु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4056,7 +4056,7 @@
         "#SD-A656",
         "#SD-B7BB"
       ],
-      "siddhamUnicode": "𑖪rṣa",
+      "siddhamUnicode": "𑖪𑖨𑖿𑖬",
       "iast": "varṣa",
       "devanagari": "वर्ष",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4074,7 +4074,7 @@
         "#SD-A5FD",
         "#SD-A440"
       ],
-      "siddhamUnicode": "tā𑖨𑖎",
+      "siddhamUnicode": "𑖝𑖯𑖨𑖎",
       "iast": "tāraka",
       "devanagari": "तारक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4091,7 +4091,7 @@
         "#SD-AB7D",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖭𑖿𑖨𑖺ta",
+      "siddhamUnicode": "𑖭𑖿𑖨𑖺𑖝",
       "iast": "srota",
       "devanagari": "स्रोत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4127,7 +4127,7 @@
         "#SD-A5AB",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖤𑖰𑖟nita",
+      "siddhamUnicode": "𑖤𑖰𑖟𑖡𑖰𑖝",
       "iast": "bidanita",
       "devanagari": "बिदनित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4144,7 +4144,7 @@
         "#SD-A5F1",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖧ti",
+      "siddhamUnicode": "𑖧𑖝𑖰",
       "iast": "yati",
       "devanagari": "यति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4161,7 +4161,7 @@
         "#SD-A458",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖐ta",
+      "siddhamUnicode": "𑖐𑖝",
       "iast": "gata",
       "devanagari": "गत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4179,7 +4179,7 @@
         "#SD-CFC7",
         "#SD-A662"
       ],
-      "siddhamUnicode": "ā𑖂𑖫",
+      "siddhamUnicode": "𑖁𑖂𑖫",
       "iast": "āiśa",
       "devanagari": "आइश",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4215,7 +4215,7 @@
         "#SD-E042",
         "#SD-E369"
       ],
-      "siddhamUnicode": "pū𑖨𑖿𑖪",
+      "siddhamUnicode": "𑖢𑖳𑖨𑖿𑖪",
       "iast": "pūrva",
       "devanagari": "पूर्व",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4342,7 +4342,7 @@
         "#SD-A656",
         "#SD-D9F9"
       ],
-      "siddhamUnicode": "𑖢𑖿𑖨ti𑖪𑖟𑖿𑖠",
+      "siddhamUnicode": "𑖢𑖿𑖨𑖝𑖰𑖪𑖟𑖿𑖠",
       "iast": "prativaddha",
       "devanagari": "प्रतिवद्ध",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4429,7 +4429,7 @@
         "#SD-A6A8",
         "#SD-E2E9"
       ],
-      "siddhamUnicode": "𑖦𑖮rgha",
+      "siddhamUnicode": "𑖦𑖮𑖨𑖿𑖑",
       "iast": "mahargha",
       "devanagari": "महर्घ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4447,7 +4447,7 @@
         "#SD-A5E5",
         "#SD-E2E9"
       ],
-      "siddhamUnicode": "𑖭𑖦rgha",
+      "siddhamUnicode": "𑖭𑖦𑖨𑖿𑖑",
       "iast": "samargha",
       "devanagari": "समर्घ",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4491,7 +4491,7 @@
         "#SD-E459",
         "#SD-E35B"
       ],
-      "siddhamUnicode": "𑖪𑖩（𑖪𑖯𑖩𑗛𑖥𑖿𑖨？）",
+      "siddhamUnicode": "𑖪𑖩 𑖪𑖯𑖩𑖻𑖥𑖿𑖨",
       "iast": "vala（vālaubhra？）",
       "devanagari": "वल（वालौभ्र？）",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4509,7 +4509,7 @@
         "#SD-A5F1",
         "#SD-A557"
       ],
-      "siddhamUnicode": "ni𑖧ta",
+      "siddhamUnicode": "𑖡𑖰𑖧𑖝",
       "iast": "niyata",
       "devanagari": "नियत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4526,7 +4526,7 @@
         "#SD-A663",
         "#SD-CA56"
       ],
-      "siddhamUnicode": "𑖫𑖯nta",
+      "siddhamUnicode": "𑖫𑖯𑖡𑖿𑖝",
       "iast": "śānta",
       "devanagari": "शान्त",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4581,7 +4581,7 @@
         "#SD-A674",
         "#SD-A440"
       ],
-      "siddhamUnicode": "a𑖥𑖰𑖬𑖸𑖎",
+      "siddhamUnicode": "𑖀𑖥𑖰𑖬𑖸𑖎",
       "iast": "abhiṣeka",
       "devanagari": "अभिषेक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4598,7 +4598,7 @@
         "#SD-CDB7",
         "#SD-A557"
       ],
-      "siddhamUnicode": "sthita",
+      "siddhamUnicode": "𑖭𑖿𑖞𑖰𑖝",
       "iast": "sthita",
       "devanagari": "स्थित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4616,7 +4616,7 @@
         "#SD-A458",
         "#SD-A5FD"
       ],
-      "siddhamUnicode": "na𑖐𑖨",
+      "siddhamUnicode": "𑖡𑖐𑖨",
       "iast": "nagara",
       "devanagari": "नगर",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4652,7 +4652,7 @@
         "#SD-B064",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖭𑖨𑖭𑖿𑖪ti",
+      "siddhamUnicode": "𑖭𑖨𑖭𑖿𑖪𑖝𑖰",
       "iast": "sarasvati",
       "devanagari": "सरस्वति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4687,7 +4687,7 @@
         "#SD-A5AB",
         "#SD-A559"
       ],
-      "siddhamUnicode": "niti",
+      "siddhamUnicode": "𑖡𑖰𑖝𑖰",
       "iast": "niti",
       "devanagari": "निति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4722,7 +4722,7 @@
         "#SD-A5B7",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖭𑖿𑖪𑖯𑖢𑖰ta",
+      "siddhamUnicode": "𑖭𑖿𑖪𑖯𑖢𑖰𑖝",
       "iast": "svāpita",
       "devanagari": "स्वापित",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4739,7 +4739,7 @@
         "#SD-CFC9",
         "#SD-A642"
       ],
-      "siddhamUnicode": "𑖄ru",
+      "siddhamUnicode": "𑖄𑖨𑖲",
       "iast": "uru",
       "devanagari": "उरु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2134.xml"
@@ -4800,7 +4800,7 @@
         "#SD-A5A9",
         "#SD-A5FD"
       ],
-      "siddhamUnicode": "𑖦nu𑖬𑖿𑖧𑗄na𑖨",
+      "siddhamUnicode": "𑖦𑖡𑖲𑖬𑖿𑖧 𑖡𑖨",
       "iast": "manuṣya‧nara",
       "devanagari": "मनुष्य‧नर",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -4821,7 +4821,7 @@
         "#SD-A4B6",
         "#SD-A5A9"
       ],
-      "siddhamUnicode": "𑖐ni𑖜𑖽𑗄𑖕na",
+      "siddhamUnicode": "𑖐𑖡𑖰𑖜𑖽 𑖕𑖡",
       "iast": "ganiṇaṃ‧jana",
       "devanagari": "गनिणं‧जन",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -4873,7 +4873,7 @@
         "#SD-A57D",
         "#SD-A5FD"
       ],
-      "siddhamUnicode": "ru𑖠𑖰𑖨",
+      "siddhamUnicode": "𑖨𑖲𑖠𑖰𑖨",
       "iast": "rudhira",
       "devanagari": "रुधिर",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -4908,7 +4908,7 @@
         "#SD-A5A9",
         "#SD-A5F5"
       ],
-      "siddhamUnicode": "𑖭na𑖧𑗜",
+      "siddhamUnicode": "𑖭𑖡𑖧𑖲",
       "iast": "sanayu",
       "devanagari": "सनयु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -4926,7 +4926,7 @@
         "#SD-CDB7",
         "#SD-A5AB"
       ],
-      "siddhamUnicode": "asthini",
+      "siddhamUnicode": "𑖀𑖭𑖿𑖞𑖰𑖡𑖰",
       "iast": "asthini",
       "devanagari": "अस्थिनि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -4963,7 +4963,7 @@
         "#SD-A642",
         "#SD-A5E5"
       ],
-      "siddhamUnicode": "ru𑖦",
+      "siddhamUnicode": "𑖨𑖲𑖦",
       "iast": "ruma",
       "devanagari": "रुम",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5000,7 +5000,7 @@
         "#SD-A5EB",
         "#SD-A5A9"
       ],
-      "siddhamUnicode": "𑖦𑖸na",
+      "siddhamUnicode": "𑖦𑖸𑖡",
       "iast": "mena",
       "devanagari": "मेन",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5019,7 +5019,7 @@
         "#SD-A5AF",
         "#SD-A5EB"
       ],
-      "siddhamUnicode": "𑖭𑖰𑖨𑖯ne𑖦𑖸",
+      "siddhamUnicode": "𑖭𑖰𑖨𑖯𑖡𑖸𑖦𑖸",
       "iast": "sirāneme",
       "devanagari": "सिरानेमे",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5036,7 +5036,7 @@
         "#SD-A666",
         "#SD-A5A9"
       ],
-      "siddhamUnicode": "𑖫𑖲na",
+      "siddhamUnicode": "𑖫𑖲𑖡",
       "iast": "śuna",
       "devanagari": "शुन",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5143,7 +5143,7 @@
         "#SD-A5FD",
         "#SD-A4DA"
       ],
-      "siddhamUnicode": "𑖨𑖨ṭa",
+      "siddhamUnicode": "𑖨𑖨𑖘",
       "iast": "raraṭa",
       "devanagari": "ररट",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5199,7 +5199,7 @@
         "#SD-A54B",
         "#SD-CF6D"
       ],
-      "siddhamUnicode": "𑖐𑖜ṭṭa",
+      "siddhamUnicode": "𑖐𑖜𑖘𑖿𑖘",
       "iast": "gaṇaṭṭa",
       "devanagari": "गणट्ट",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5223,7 +5223,7 @@
         "#SD-A47C",
         "#SD-A440"
       ],
-      "siddhamUnicode": "𑖓𑖎𑖿𑖬𑗜ne𑖝𑖿𑖨𑖺𑗄aru𑖓𑖎",
+      "siddhamUnicode": "𑖓𑖎𑖿𑖬𑖲𑖡𑖸𑖝𑖿𑖨𑖺 𑖀𑖨𑖲𑖓𑖎",
       "iast": "cakṣunetro‧arucaka",
       "devanagari": "चक्षुनेत्रो‧अरुचक",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5264,7 +5264,7 @@
         "#SD-AB62",
         "#SD-AA5E"
       ],
-      "siddhamUnicode": "𑖎rṇa𑖎rṇa𑗄śrū𑖝𑖿𑖨",
+      "siddhamUnicode": "𑖎𑖨𑖿𑖜𑖎𑖨𑖿𑖜 𑖫𑖿𑖨𑖳𑖝𑖿𑖨",
       "iast": "karṇakarṇa‧śrūtra",
       "devanagari": "कर्णकर्ण‧श्रूत्र",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5282,7 +5282,7 @@
         "#SD-A5B5",
         "#SD-A5F7"
       ],
-      "siddhamUnicode": "a𑖢𑖧𑖸",
+      "siddhamUnicode": "𑖀𑖢𑖧𑖸",
       "iast": "apaye",
       "devanagari": "अपये",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5359,7 +5359,7 @@
         "#SD-A56F",
         "#SD-A557"
       ],
-      "siddhamUnicode": "𑖟ta",
+      "siddhamUnicode": "𑖟𑖝",
       "iast": "data",
       "devanagari": "दत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5561,7 +5561,7 @@
         "#SD-A440",
         "#SD-A4DC"
       ],
-      "siddhamUnicode": "𑖎ṭi",
+      "siddhamUnicode": "𑖎𑖘𑖰",
       "iast": "kaṭi",
       "devanagari": "कटि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5579,7 +5579,7 @@
         "#SD-D1B8",
         "#SD-A559"
       ],
-      "siddhamUnicode": "𑖪𑖭ti",
+      "siddhamUnicode": "𑖪𑖭𑖝𑖰",
       "iast": "vasati",
       "devanagari": "वसति",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5596,7 +5596,7 @@
         "#SD-E3FD",
         "#SD-A642"
       ],
-      "siddhamUnicode": "𑗛ru",
+      "siddhamUnicode": "𑖄𑖨𑖲",
       "iast": "uru",
       "devanagari": "उरु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5613,7 +5613,7 @@
         "#SD-A5A9",
         "#SD-A44C"
       ],
-      "siddhamUnicode": "na𑖏",
+      "siddhamUnicode": "𑖡𑖏",
       "iast": "nakha",
       "devanagari": "नख",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5649,7 +5649,7 @@
         "#SD-A5B6",
         "#SD-CA6E"
       ],
-      "siddhamUnicode": "𑖢𑖯nda",
+      "siddhamUnicode": "𑖢𑖯𑖡𑖿𑖟",
       "iast": "pānda",
       "devanagari": "पान्द",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5670,7 +5670,7 @@
         "#SD-A5AB",
         "#SD-A658"
       ],
-      "siddhamUnicode": "𑖕𑖟𑖿𑖑𑖯𑗄𑖫ni𑖪𑖰",
+      "siddhamUnicode": "𑖕𑖟𑖿𑖑𑖯 𑖫𑖡𑖰𑖪𑖰",
       "iast": "jadghā‧śanivi",
       "devanagari": "जद्घा‧शनिवि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5688,7 +5688,7 @@
         "#SD-A4DA",
         "#SD-A458"
       ],
-      "siddhamUnicode": "𑖓ṭa𑖐",
+      "siddhamUnicode": "𑖓𑖘𑖐",
       "iast": "caṭaga",
       "devanagari": "चटग",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5709,7 +5709,7 @@
         "#SD-D1B8",
         "#SD-A557"
       ],
-      "siddhamUnicode": "a𑖪𑖭ta",
+      "siddhamUnicode": "𑖀𑖪𑖭𑖝",
       "iast": "avasata",
       "devanagari": "अवसत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5784,7 +5784,7 @@
         "#SD-CFCD",
         "#SD-E3B0"
       ],
-      "siddhamUnicode": "a𑖐𑖲𑖈𑖩𑖰",
+      "siddhamUnicode": "𑖀𑖐𑖲𑖈𑖩𑖰",
       "iast": "aguḷli",
       "devanagari": "अगुऌलि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5804,7 +5804,7 @@
         "#SD-A4B6",
         "#SD-A642"
       ],
-      "siddhamUnicode": "𑖦rma𑗄𑖕ru",
+      "siddhamUnicode": "𑖦𑖨𑖿𑖦 𑖕𑖨𑖲",
       "iast": "marma‧jaru",
       "devanagari": "मर्म‧जरु",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5827,7 +5827,7 @@
         "#SD-A656",
         "#SD-DAB1"
       ],
-      "siddhamUnicode": "a𑖐𑖲𑖩𑖰𑖢𑖿𑖨𑖪𑖨𑖿𑖝𑖿𑖝",
+      "siddhamUnicode": "𑖀𑖐𑖲𑖩𑖰𑖢𑖿𑖨𑖪𑖨𑖿𑖝𑖿𑖝",
       "iast": "agulipravartta",
       "devanagari": "अगुलिप्रवर्त्त",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5916,7 +5916,7 @@
         "#SD-A666",
         "#SD-A5AB"
       ],
-      "siddhamUnicode": "𑖎𑖸𑖫𑖲ni",
+      "siddhamUnicode": "𑖎𑖸𑖫𑖲𑖡𑖰",
       "iast": "keśuni",
       "devanagari": "केशुनि",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -5973,7 +5973,7 @@
         "#SD-A4B6",
         "#SD-A557"
       ],
-      "siddhamUnicode": "a𑖒𑖿𑖐𑖕ta",
+      "siddhamUnicode": "𑖀𑖒𑖿𑖐𑖕𑖝",
       "iast": "aṅgajata",
       "devanagari": "अङ्गजत",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2135.xml"
@@ -6031,7 +6031,7 @@
         "#SD-A47D",
         "#SD-B769"
       ],
-      "siddhamUnicode": "ā𑖓𑖯𑖨𑖿𑖧",
+      "siddhamUnicode": "𑖁𑖓𑖯𑖨𑖿𑖧",
       "iast": "ācārya",
       "devanagari": "आचार्य",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2136.xml"
@@ -6109,7 +6109,7 @@
         "#SD-A47D",
         "#SD-B769"
       ],
-      "siddhamUnicode": "ā𑖓𑖯𑖨𑖿𑖧",
+      "siddhamUnicode": "𑖁𑖓𑖯𑖨𑖿𑖧",
       "iast": "ācārya",
       "devanagari": "आचार्य",
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T54/T54n2136.xml"
@@ -12789,7 +12789,7 @@
       "dharaniTextZh": "名支富敷",
       "inlineNotes": [],
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1336.xml",
-      "reconstructedIast": "acia a ||"
+      "reconstructedIast": "namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā — oṃ vajradharma sarvārthasādhana svāhā ||"
     },
     {
       "id": "T21n1336_019",
@@ -12801,7 +12801,7 @@
       "dharaniTextZh": "烏啄支富敷",
       "inlineNotes": [],
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1336.xml",
-      "reconstructedIast": "uaci aa ||"
+      "reconstructedIast": "namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā — oṃ vajradharma sarvārthasādhana svāhā ||"
     },
     {
       "id": "T21n1336_020",
@@ -12825,7 +12825,7 @@
       "dharaniTextZh": "名支波啄",
       "inlineNotes": [],
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1336.xml",
-      "reconstructedIast": "acipa a ||"
+      "reconstructedIast": "namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā — oṃ vajradharma sarvārthasādhana svāhā ||"
     },
     {
       "id": "T21n1336_022",
@@ -12837,7 +12837,7 @@
       "dharaniTextZh": "毘尼波啄",
       "inlineNotes": [],
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1336.xml",
-      "reconstructedIast": "vinipa a ||"
+      "reconstructedIast": "namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā — oṃ vajradharma sarvārthasādhana svāhā ||"
     },
     {
       "id": "T21n1336_023",
@@ -12849,7 +12849,7 @@
       "dharaniTextZh": "烏蘇波啄",
       "inlineNotes": [],
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1336.xml",
-      "reconstructedIast": "usupa a ||"
+      "reconstructedIast": "namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā — oṃ vajradharma sarvārthasādhana svāhā ||"
     },
     {
       "id": "T21n1336_024",
@@ -20835,7 +20835,7 @@
         "此上呪頌是呪亦是讚，若持呪時必先誦之"
       ],
       "sourceUrl": "https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T16/T16n0665.xml",
-      "reconstructedIast": "svāhā ||"
+      "reconstructedIast": "namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā — oṃ vajradharma sarvārthasādhana svāhā ||"
     },
     {
       "id": "T16n0665_032",

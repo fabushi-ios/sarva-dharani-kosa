@@ -20,39 +20,105 @@ import {
   generateVerseChinesePhonetics,
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
+import {
+  devanagariToIast,
+  iastToSiddham,
+} from '../../core/sanskrit/transliterator';
+
+const NON_SANSKRIT_BOILERPLATE_RE =
+  /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|\btadyathāpi\s*nāma|source\s*:\s*hidas|tibetan\s*:\s*d\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?)\b|^mpvv\s*=|^##\s*=|^§\s*=/i;
 
 export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
   if (!rawIast) return '';
+  if (/\bPermanent\s+link\s+http|\$\(\s*["']#|\bfunction\s*\(/i.test(rawIast)) {
+    return '';
+  }
   let text = rawIast
     .replace(/\u00AD/g, '')
-    // Strip editorial page/folio/section brackets like [14], (Pkdh_141), (@1a)
+    .replace(/^§\s*\d+[a-z]?\b\s*/gi, '')
+    .replace(/(?:^|\|\s*)(?:Final\s+)?Rubric(?:,\s*section)?\s*:\s*(?:\[[^\]]*\])?\s*/gi, ' | ')
+    .replace(/\b(?:Incipit|Explicit|Colophon)\s*:\s*/gi, '')
+    .replace(/\[\s*space\s+left\s+blank[^\]]*\]/gi, ' ')
+    .replace(/¦\s*\[\s*miniature\s*\]\s*/gi, '')
+    .replace(/¦\s*miniature\s*/gi, '')
+    .replace(/([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ])\s+\[\s*miniature\s*\]\s+([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ])/gi, '$1$2')
+    .replace(/\[\s*miniature\s*\]/gi, ' ')
+    .replace(/\bminiature\b/gi, '')
+    .replace(/¦/g, '')
+    .replace(/\[\s*final\s+file\s+input\s+by[^\]]*(?:\]|$)/gi, '')
+    .replace(/\((?:MS-|PR-)[A-Z0-9-]+:[^)]*\)/g, '')
+    .replace(/〚[^〛]*〛/g, '')
+    .replace(/@[^@]*@@/g, '')
+    .replace(/\\\s*\d+\s*\//g, ' ')
+    .replace(/\\\s*([^/\\]{1,24}?)\s*\//g, ' $1 ')
+    .replace(/\\[A-Za-z]+\s*\}?/g, ' ')
+    // Strip inline folio brackets like [48v2] without splitting surrounding Sanskrit word
+    .replace(/\[\s*\d+(?:bis)?[rv]\d*\s*\]/gi, '')
+    // Strip editorial page/folio/section brackets & sigla like [14], (Pkdh_141), (Sukhs_11)
     .replace(/\[\s*\d+[a-zA-Z]*\s*\]/g, ' ')
-    .replace(/\(\s*(?:Pkdh|GRETIL|MS|fol\.?|p\.?)[^)]*\)/gi, ' ')
-    .replace(/[*+]/g, '')
+    .replace(/\(\s*(?:Pkdh|Mādh|Hgv|Bagchi|Dutt|Vaidya|Svalp|Trip|MDh|GBM|Vajraṭ|GRETIL|MS|fol\.?|p\.?|pp\.?)[^)]*\)/gi, ' ')
+    .replace(/\(?\b[A-Z][A-Za-z0-9]{1,10}_\d+(?:\.\d+)*\b\)?/g, ' ')
+    // Strip inline 84000 English translation insertions without truncating subsequent Sanskrit clauses
+    .replace(/\bI\s+and\s+all\s+sentient\s+beings\b/gi, ' ')
+    .replace(/\bLook\s+at\s+us,\s*save\s+us,\s*and\s+emancipate\s+us\s+from\s+all\s+sufferings\s*\.\s*/gi, ' ')
+    .replace(/\bMake\s+us\s+turn\s+in\s+the\s+direction\s+of\s+all\s+collections\s+of\s+merits,?\s*/gi, ' ')
+    .replace(/\bAccomplish\s+all\s+my\s+aims\s+in\s+this\s+place\s*\.\s*/gi, ' ')
+    .replace(/\bProtect\s+(?:me|us|myself)(?:\s+and\s+[^|.!]+)?(?:\s+from\s+[^|.!]+)?\s*[.!]?\s*/gi, ' ')
+    .replace(/\b(?:May\s+whatever|Grant\s+peace|Pacify\s+every)[^|]*?(?=\||$)/gi, ' ')
+    .replace(/\bThus\s*:\s*/gi, ' | ')
+    .replace(/\bS\s+Subject\(s\):[\s\S]*$/i, '')
+    .replace(/ṛī/g, 'ṛ');
+
+  if (/[\u0900-\u097F]/.test(text)) {
+    text = text.replace(/[\u0900-\u097F\u200c\u200d]+/g, (m) => devanagariToIast(m));
+  }
+
+  text = text
+    .replace(/[*+≀◎_¯˘^≈#§@]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 
-  if (
-    !text ||
-    /no data available/i.test(text) ||
-    /this gretil text file is for reference/i.test(text) ||
-    /multibyte sequence/i.test(text) ||
-    /^s\.n\.\s*book\s*links/i.test(text) ||
-    /\btadyathāpi\s*nāma/i.test(text)
-  ) {
+  if (!text || NON_SANSKRIT_BOILERPLATE_RE.test(text)) {
     return '';
+  }
+
+  // If multi-clause string contains '|', filter English prose at clause granularity so valid Sanskrit clauses survive
+  if (text.includes('|')) {
+    const keptClauses = text
+      .split(/\s*\|\s*/)
+      .map((c) => c.trim())
+      .filter((c) => {
+        if (!c || NON_SANSKRIT_BOILERPLATE_RE.test(c)) return false;
+        const hits =
+          c.match(
+            /\b(?:the|from|and|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners)\b/gi
+          ) || [];
+        return hits.length < 3 && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(c);
+      });
+    text = keptClauses.join(' | ');
+    if (!text) return '';
+  } else {
+    const englishStopHits =
+      text.match(
+        /\b(?:the|from|and|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners)\b/gi
+      ) || [];
+    if (englishStopHits.length >= 3) {
+      return '';
+    }
   }
 
   // Expand critical-edition repetition numerals: e.g. "giri 2" -> "giri giri", "hūṃ 3" -> "hūṃ hūṃ hūṃ"
   text = text.replace(
-    /(^|[\s|—-])([a-zA-Zāīūṛṝḷḹēōṃḥṅñṭḍṇśṣm̐'-]{2,})\s+([23])(?=$|[\s|.,;!/])/g,
+    /(^|[\s|—-])([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣm\u0310'-]{2,})\s+([23])(?=$|[\s|.,;!/])/g,
     (_m, prefix: string, word: string, countStr: string) => {
       const count = Number(countStr);
       return `${prefix}${Array(count).fill(word).join(' ')}`;
     }
   );
 
-  return text.replace(/\s+/g, ' ').trim();
+  text = text.replace(/\s+/g, ' ').replace(/^[|/\s.,;:()-]+|[|/\s.,;:()-]+$/g, '').trim();
+  if (!/[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(text)) return '';
+  return text;
 }
 
 function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 12): string[] {
@@ -67,7 +133,7 @@ function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 12): string[
   // Split by dandas (||, |, //) preserving every genuine Sanskrit clause without any 16-line cap
   const rawClauses = cleaned
     .split(/(?:\|\||\|+|\/\/)+/)
-    .map((s) => s.trim())
+    .map((s) => cleanAndExpandSanskritMantraIast(s))
     .filter((s) => s.length >= 2 && !/^\(?\d+\)?$/.test(s));
 
   const expandedLines: string[] = [];
@@ -80,7 +146,9 @@ function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 12): string[
     } else {
       for (let i = 0; i < words.length; i += maxWordsPerLine) {
         const slice = words.slice(i, i + maxWordsPerLine).join(' ');
-        if (slice) expandedLines.push(slice);
+        if (slice && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]/.test(slice)) {
+          expandedLines.push(slice);
+        }
       }
     }
   }
@@ -265,7 +333,7 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
     .filter((t) => t.tokenType === 'cb_tt' && t.iast)
     .map((t) => ({
       sdRefs: [t.siddhamRef || '#SD-A5A9'],
-      siddham: t.siddhamUnicode || '',
+      siddham: t.siddhamUnicode || (t.iast ? iastToSiddham(t.iast) : ''),
       iast: t.iast || '',
       zh: t.textZh,
       tangPronunciationNote: t.phoneticTags?.join('、') || '',
@@ -757,18 +825,32 @@ const DB7_ENTRIES: DharaniEntry[] = [
 // DB8: 奥斯陆大学 Bibliotheca Polyglotta 四语平行对勘库 (16本心经等)
 // ============================================================================
 const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): DharaniEntry => {
-  const verses: DharaniVerse[] = vol.alignedRows.map((row, idx) => {
-    const sktCell =
-      row.cells.find((c) => c.lang === 'Sanskrit') ||
-      row.cells[0];
+  const validRows: Array<{
+    row: (typeof vol.alignedRows)[number];
+    iastLine: string;
+  }> = [];
+
+  for (const row of vol.alignedRows) {
+    const sktCell = row.cells.find((c) => c.lang === 'Sanskrit') || row.cells[0];
+    if (sktCell && /\bPermanent\s+link\s+http|\$\(\s*["']#|\bfunction\s*\(/i.test(sktCell.text)) {
+      continue;
+    }
+    if (sktCell && sktCell.lang === 'Sanskrit') {
+      const cleanedSkt = cleanAndExpandSanskritMantraIast(sktCell.text);
+      if (!cleanedSkt) continue;
+      validRows.push({ row, iastLine: cleanedSkt });
+    } else {
+      validRows.push({
+        row,
+        iastLine: 'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā',
+      });
+    }
+  }
+
+  const verses: DharaniVerse[] = validRows.map(({ row, iastLine }, idx) => {
     const zhCell = row.cells.find((c) => c.lang === 'Chinese');
     const tibCell = row.cells.find((c) => c.lang === 'Tibetan');
     const enCell = row.cells.find((c) => c.lang === 'English');
-
-    const iastLine =
-      sktCell && sktCell.lang === 'Sanskrit'
-        ? sktCell.text
-        : 'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā';
 
     return createLazyVerse({
       id: `db8-polyglotta-${vol.vid}-v${idx + 1}`,

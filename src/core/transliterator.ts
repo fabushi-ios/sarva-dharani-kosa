@@ -123,6 +123,19 @@ export function iastToSlp1(chunk: string, mode: InputMode = 'strict'): string {
       return word;
     });
   }
+  // Normalize non-IAST Latin loan chars BEFORE SLP1 substitution so 'f','w','z','q','x' never collide with SLP1 codes
+  s = s
+    .replace(/ö/g, 'o')
+    .replace(/ä/g, 'a')
+    .replace(/ù/g, 'u')
+    .replace(/ź/g, 'ś')
+    .replace(/ń/g, 'ṅ')
+    .replace(/dz/g, 'j')
+    .replace(/f/g, 'ph')
+    .replace(/w/g, 'v')
+    .replace(/z/g, 'j')
+    .replace(/q/g, 'k')
+    .replace(/x/g, 'kṣ');
   for (const [iast, slp] of IAST_TO_SLP1_RULES) {
     s = s.split(iast).join(slp);
   }
@@ -234,20 +247,27 @@ export function slp1ToSiddhamUnicode(slp: string): string {
       out += '\u{115BE}';
     } else if (ch === '~') {
       out += '\u{115BC}';
-    } else if (ch === '|' && next === '|') {
+    } else if ((ch === '|' && next === '|') || (ch === '/' && next === '/')) {
       out += '\u{115C3}';
       i++;
-    } else if (ch === '|') {
+    } else if (ch === '|' || ch === '/') {
       out += '\u{115C2}';
+    } else if (ch === "'" || ch === '’') {
+      // Avagraha is silent/unwritten in classical Siddhaṃ orthography
+    } else if (/[\s\-–—.,;:!?()[\]]/.test(ch)) {
+      out += ' ';
     } else {
-      out += ch;
+      const cp = ch.codePointAt(0) ?? 0;
+      if (cp >= 0x11580 && cp <= 0x115dd && cp !== 0x115b6 && cp !== 0x115b7) {
+        out += ch;
+      }
     }
   }
-  return out;
+  return out.replace(/ +/g, ' ').trim();
 }
 
 export function iastToSiddhamUnicode(iast: string): string {
-  return slp1ToSiddhamUnicode(iastToSlp1(iast, 'strict'));
+  return slp1ToSiddhamUnicode(inputToSlp1(iast, 'strict'));
 }
 
 export function siddhamUnicodeToSlp1(siddhamText: string): string {

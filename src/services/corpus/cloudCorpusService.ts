@@ -33,7 +33,7 @@ import {
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v4';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v5';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -76,6 +76,7 @@ async function openCorpusCache(): Promise<Cache | null> {
       window.caches.delete('sarva-dharani-corpus-v1').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v2').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v3').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v4').catch(() => {});
     }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {
@@ -124,14 +125,14 @@ export async function fetchCachedJsonShard<T>(
 
   if (supportsGzipStream) {
     candidateSources.push(
-      { url: `/corpus/${fileName}.gz`, isGz: true, source: 'local-shard' },
-      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz`, isGz: true, source: 'cloud-cdn' }
+      { url: `/corpus/${fileName}.gz?v=5`, isGz: true, source: 'local-shard' },
+      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=5`, isGz: true, source: 'cloud-cdn' }
     );
   }
   candidateSources.push(
-    { url: `/corpus/${fileName}`, isGz: false, source: 'local-shard' },
-    { url: `/api/corpus/${fileName}`, isGz: false, source: 'local-shard' },
-    { url: `${HF_CORPUS_CDN_BASE}/${fileName}`, isGz: false, source: 'cloud-cdn' }
+    { url: `/corpus/${fileName}?v=5`, isGz: false, source: 'local-shard' },
+    { url: `/api/corpus/${fileName}?v=5`, isGz: false, source: 'local-shard' },
+    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=5`, isGz: false, source: 'cloud-cdn' }
   );
 
   let lastErr: unknown = null;

@@ -154,6 +154,16 @@ export function tokenizeWordPhonemes(word: string): PhonemeToken[] {
 
   while (i < s.length) {
     const rest = s.slice(i);
+    if (rest.startsWith('m\u0310') || rest.startsWith('ṃ\u0310') || rest.startsWith('ṁ\u0310')) {
+      tokens.push({ type: 'M', val: 'm\u0310' });
+      i += 2;
+      continue;
+    }
+    if (rest[0] === '\u0310' || rest[0] === 'ँ') {
+      tokens.push({ type: 'M', val: 'm\u0310' });
+      i += 1;
+      continue;
+    }
     if (rest[0] === 'ṃ' || rest[0] === 'ṁ' || rest[0] === 'ḥ') {
       tokens.push({ type: 'M', val: rest[0] === 'ṁ' ? 'ṃ' : rest[0] });
       i += 1;
@@ -442,7 +452,7 @@ export function analyzeSanskritProsody(rawIast: string): SyllableAnalysis[] {
     const nextConsHint =
       !acrossPause && nextSyl && nextSyl.onset.length > 0 ? nextSyl.onset[0] : '';
     const ipaRaw =
-      syl.modifiers.includes('ṃ') && nextConsHint
+      (syl.modifiers.includes('ṃ') || syl.modifiers.includes('m\u0310')) && nextConsHint
         ? iastToIpa(`${iastSyl}${nextConsHint}`).slice(
             0,
             Math.max(1, iastToIpa(`${iastSyl}${nextConsHint}`).length - iastToIpa(nextConsHint).length)
@@ -511,6 +521,12 @@ export function analyzeSanskritProsody(rawIast: string): SyllableAnalysis[] {
         code: 'anusvara',
         labelZh: '随韵空点 (ṃ)',
         tipZh: '鼻腔共鸣收尾（Anusvāra），随后续辅音部位同化为 ŋ/ɲ/ɳ/n/m',
+      });
+    } else if (syl.modifiers.includes('m\u0310')) {
+      features.push({
+        code: 'anusvara',
+        labelZh: '仰月空点 (m̐)',
+        tipZh: '仰月鼻化共鸣收尾（Candrabindu / Anunāsika），元音与鼻音圆融摄持',
       });
     }
     if (syl.modifiers.includes('ḥ')) {
