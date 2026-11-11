@@ -3,7 +3,7 @@
  * scripts/hf-keepalive.mjs
  *
  * Automated Keep-Alive, Auto-Wake & Inference Warmup Script for Sarva-Dhāraṇī-Kośa on Hugging Face:
- * - Neural TTS API Docker Space: bhrum108/sarva-dharani-kosa-tts-api
+ * - Neural TTS API ZeroGPU Space: bhrum108/sarva-dharani-kosa-tts-api
  *   (https://bhrum108-sarva-dharani-kosa-tts-api.hf.space)
  * - Frontend Static Space: bhrum108/sarva-dharani-kosa
  *   (https://bhrum108-sarva-dharani-kosa.static.hf.space)
@@ -95,11 +95,11 @@ async function checkAndWakeAll() {
     `=== Sarva-Dhāraṇī-Kośa Hugging Face Auto Keep-Alive (${new Date().toISOString()}) ===`
   );
 
-  // 1. Check & auto-wake both Hugging Face Spaces first (especially the Docker Neural TTS API Space)
-  await checkAndAutoWakeSpace(TTS_SPACE_ID, 'Neural TTS API Docker Space');
+  // 1. Check & auto-wake both Hugging Face Spaces first (especially the ZeroGPU Neural TTS API Space)
+  await checkAndAutoWakeSpace(TTS_SPACE_ID, 'Neural TTS API ZeroGPU Space');
   await checkAndAutoWakeSpace(SPACE_ID, 'Static Web App Space');
 
-  // 2. Ping & warm up the Live 48kHz Classical Sanskrit Neural VITS API Docker Space
+  // 2. Ping & warm up the Live 48kHz Classical Sanskrit Neural VITS API ZeroGPU Space
   await pingEndpoint('Neural TTS API Root', `${TTS_API_URL}/`, 'GET');
   await pingEndpoint('Neural TTS API /api/health', `${TTS_API_URL}/api/health`, 'GET');
   await pingEndpoint(

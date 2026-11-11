@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ==============================================================================
 # 一键部署脚本：
-#   1. Hugging Face Docker Space (托管 48kHz 古典梵文神经 VITS 实时推理 API，供首次访问零等待发音)
+#   1. Hugging Face ZeroGPU Space (托管 48kHz 古典梵文神经 VITS 实时推理 API，供首次访问零等待发音)
 #   2. Hugging Face Model Hub CDN (托管 48kHz 梵文神经 VITS ONNX 模型与全量云端语料检索分片，供浏览器后台缓存)
 #   3. Hugging Face Static Space (免费托管完整前端与后台 WebAssembly 神经缓存引擎)
 #   4. Cloudflare Pages (全球边缘 CDN 部署，可选)
