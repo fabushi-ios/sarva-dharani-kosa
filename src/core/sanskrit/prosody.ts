@@ -4,8 +4,8 @@
  * Sanskrit Śikṣā & Chandas (Prosody / Meter) Analysis Engine
  * Segments Sanskrit IAST verses into Akṣaras / phonological syllables,
  * determines Guru (— Heavy, 2 Mātrā) vs Laghu (⌣ Light, 1 Mātrā) prosodic weight,
- * detects phonetic articulation features, and computes acoustic formant targets
- * for the Web Audio API Sanskrit Chant Synthesizer.
+ * preserves word/compound/danda structural metadata for Sandhi & phonetic coarticulation,
+ * detects phonetic articulation features, and computes acoustic formant targets.
  */
 
 import { cleanEditorialIast, iastToDevanagari, iastToIpa, iastToSiddham } from './transliterator';
@@ -30,6 +30,18 @@ export interface SyllableAnalysis {
   weightReasonZh: string;
   features: PhoneticFeatureBadge[];
   formantHz: { f1: number; f2: number };
+  // Phonological structure & word-boundary metadata for context-aware Sandhi
+  onset?: string[];
+  modifiers?: string[];
+  coda?: string[];
+  wordIndex?: number;
+  subwordIndex?: number;
+  wordIast?: string;
+  isWordStart?: boolean;
+  isWordEnd?: boolean;
+  hyphenBefore?: boolean;
+  dandaBefore?: '|' | '||';
+  dandaAfter?: '|' | '||';
 }
 
 const LONG_VOWELS = new Set(['ā', 'ī', 'ū', 'ṝ', 'ḹ', 'e', 'ai', 'o', 'au']);
@@ -88,13 +100,46 @@ const CONSONANT_LIST = [
   'h',
 ];
 
-// Valid 2-consonant syllable-initial onset clusters in Sanskrit
-const VALID_INITIAL_CLUSTERS = new Set([
-  'pr', 'pl', 'br', 'bhr', 'tr', 'tv', 'ty', 'dr', 'dv', 'dy', 'dhr', 'dhv', 'dhy',
-  'kr', 'kl', 'kv', 'ky', 'kṣ', 'khy', 'gr', 'gl', 'gy', 'ghr',
-  'cy', 'jy', 'jv', 'jñ',
-  'śr', 'śl', 'śv', 'śy', 'ṣṭ', 'ṣṭh', 'ṣṇ', 'st', 'sth', 'sn', 'sm', 'sv', 'sy', 'sr', 'sk', 'sp', 'sph',
-  'vy', 'vr', 'ny', 'ny', 'my', 'ly', 'hy', 'hr', 'hl', 'hv',
+/**
+ * Rising-sonority 2-consonant Sanskrit Akṣara onset clusters (kept together intervocalically,
+ * while triggering Pāṇini 1.4.11 `saṃyoge guru` positional heaviness on preceding short vowels).
+ *
+ * Includes:
+ * - Inseparable ligatures: kṣ, jñ
+ * - Stop / Aspirate / Sibilant + r (excluding rr)
+ * - Stop / Aspirate / Sibilant + l (excluding rl, ll)
+ * - Stop / Nasal / Sibilant / Aspirate / Glide + y (excluding ry, yy — `r+y` splits as Vr-yV)
+ * - Stop / Nasal / Sibilant / Aspirate + v (excluding rv, vv — `r+v` splits as Vr-vV)
+ */
+const RISING_SONORITY_ONSET_PAIRS = new Set([
+  // Inseparable ligatures
+  'kṣ', 'jñ',
+  // + r
+  'kr', 'khr', 'gr', 'ghr', 'jr', 'ṭr', 'ṭhr', 'ḍr', 'ḍhr',
+  'tr', 'thr', 'dr', 'dhr', 'pr', 'phr', 'br', 'bhr',
+  'vr', 'śr', 'sr', 'hr',
+  // + l
+  'kl', 'khl', 'gl', 'pl', 'phl', 'bl', 'bhl', 'śl', 'hl',
+  // + y (note: 'ry' and 'yy' intentionally excluded so ār-ya, vai-ḍūr-ya split cleanly)
+  'ky', 'khy', 'gy', 'ghy', 'cy', 'chy', 'jy', 'jhy',
+  'ṭy', 'ṭhy', 'ḍy', 'ḍhy', 'ṇy',
+  'ty', 'thy', 'dy', 'dhy', 'ny',
+  'py', 'phy', 'by', 'bhy', 'my',
+  'ly', 'vy', 'śy', 'ṣy', 'sy', 'hy',
+  // + v (note: 'rv' and 'vv' intentionally excluded so sar-va splits cleanly)
+  'kv', 'khv', 'gv', 'ghv', 'jv',
+  'ṭv', 'ḍv', 'tv', 'thv', 'dv', 'dhv', 'nv',
+  'bhv', 'śv', 'ṣv', 'sv', 'hv',
+]);
+
+/**
+ * Rising-sonority 3-consonant Sanskrit Akṣara onset clusters
+ */
+const RISING_SONORITY_ONSET_TRIPLES = new Set([
+  'kṣṇ', 'kṣm', 'kṣv', 'kṣy', 'jñy',
+  'str', 'sthy', 'sthr', 'sphr', 'sphy',
+  'ṣṭr', 'ṣṭhr', 'ṣṭy', 'ṣṭhy',
+  'try', 'dry', 'dhry', 'kry', 'gry', 'pry', 'bhry', 'śry',
 ]);
 
 interface PhonemeToken {
@@ -102,7 +147,7 @@ interface PhonemeToken {
   val: string;
 }
 
-function tokenizeWordPhonemes(word: string): PhonemeToken[] {
+export function tokenizeWordPhonemes(word: string): PhonemeToken[] {
   const s = word.toLowerCase().trim();
   const tokens: PhonemeToken[] = [];
   let i = 0;
@@ -147,15 +192,29 @@ function tokenizeWordPhonemes(word: string): PhonemeToken[] {
   return tokens;
 }
 
-interface RawSyllable {
+export interface RawSyllable {
   onset: string[];
   vowel: string;
   modifiers: string[];
   coda: string[];
+  wordIndex: number;
+  subwordIndex: number;
+  wordIast: string;
+  isWordStart: boolean;
+  isWordEnd: boolean;
+  hyphenBefore: boolean;
+  dandaBefore?: '|' | '||';
+  dandaAfter?: '|' | '||';
 }
 
-function syllabifySingleWord(word: string): RawSyllable[] {
-  const tokens = tokenizeWordPhonemes(word);
+function syllabifySingleSubword(
+  subword: string,
+  wordIndex: number,
+  subwordIndex: number,
+  wordIast: string,
+  hyphenBefore: boolean
+): RawSyllable[] {
+  const tokens = tokenizeWordPhonemes(subword);
   if (tokens.length === 0) return [];
 
   const syllables: RawSyllable[] = [];
@@ -177,47 +236,74 @@ function syllabifySingleWord(word: string): RawSyllable[] {
         i++;
       }
 
-      // If there is a previous syllable in this same word and cluster has >= 2 consonants,
-      // split off the first consonant(s) into the previous syllable's coda unless the cluster
-      // is an inseparable Sanskrit initial onset (like kṣ, jñ, pr, tr, śr, sv, tv).
       let onset = cluster;
       if (syllables.length > 0 && cluster.length >= 2) {
         const prevSyl = syllables[syllables.length - 1];
         if (prevSyl.modifiers.length === 0) {
+          const lastThree = cluster.length >= 3 ? cluster.slice(-3).join('') : '';
           const lastTwo = cluster.slice(-2).join('');
-          if (cluster.length >= 3) {
-            if (VALID_INITIAL_CLUSTERS.has(lastTwo)) {
-              prevSyl.coda.push(...cluster.slice(0, -2));
-              onset = cluster.slice(-2);
+
+          if (cluster.length >= 3 && RISING_SONORITY_ONSET_TRIPLES.has(lastThree)) {
+            // Note: intervocalic 'str' / 'ṣṭr' splits sibilant to coda (śās-tra, rāṣ-ṭra)
+            // whereas after nasal (man-tra, daṃ-ṣṭrā) or kṣm/kṣṇ keeps valid onset
+            if ((lastThree === 'str' || lastThree === 'ṣṭr') && cluster.length === 3) {
+              prevSyl.coda.push(cluster[0]);
+              onset = cluster.slice(1);
             } else {
-              prevSyl.coda.push(...cluster.slice(0, -1));
-              onset = cluster.slice(-1);
+              prevSyl.coda.push(...cluster.slice(0, -3));
+              onset = cluster.slice(-3);
             }
-          } else {
-            // 2 consonants between vowels: e.g. rat-na, pad-ma, sar-va, dhar-ma, sam-an-ta, bud-dha
-            // Only keep together if it is kṣ, jñ, or stop+glide (pr, tr, kr, śr, sv, tv, dv, vy, dhy)
-            const keepTogether = new Set([
-              'kṣ', 'jñ', 'pr', 'tr', 'kr', 'gr', 'dr', 'bhr', 'dhr', 'śr',
-              'sv', 'tv', 'dv', 'jv', 'vy', 'ty', 'dy', 'dhy', 'ky', 'gy', 'śy', 'sy', 'ny',
-            ]);
-            if (keepTogether.has(lastTwo)) {
-              onset = cluster;
-            } else {
+          } else if (RISING_SONORITY_ONSET_PAIRS.has(lastTwo)) {
+            // Note: in 'samyak' ('sam-' prefix + 'yak'), keep 'sam-yak' if followed by coda/sibilant,
+            // or split 'm+y' only when 'sam-' prefix is detected at start of subword ('samyak...')
+            if (
+              cluster.length === 2 &&
+              lastTwo === 'my' &&
+              syllables.length === 1 &&
+              subword.startsWith('samyak')
+            ) {
               prevSyl.coda.push(cluster[0]);
               onset = [cluster[1]];
+            } else {
+              prevSyl.coda.push(...cluster.slice(0, -2));
+              onset = cluster.slice(-2);
             }
+          } else {
+            prevSyl.coda.push(...cluster.slice(0, -1));
+            onset = cluster.slice(-1);
           }
         }
       }
 
-      syllables.push({ onset, vowel, modifiers, coda: [] });
+      syllables.push({
+        onset,
+        vowel,
+        modifiers,
+        coda: [],
+        wordIndex,
+        subwordIndex,
+        wordIast,
+        isWordStart: false,
+        isWordEnd: false,
+        hyphenBefore: syllables.length === 0 && hyphenBefore,
+      });
     } else if (cluster.length > 0) {
-      // Word-final consonant(s) (e.g. "nam", "phaṭ", "buddhānām", "sam")
+      // Word-final consonant(s) (e.g. "nam", "phaṭ", "buddhānām", "samyak", "sattvāṃś")
       if (syllables.length > 0) {
         syllables[syllables.length - 1].coda.push(...cluster);
       } else {
-        // Standalone vowelless consonant token
-        syllables.push({ onset: cluster, vowel: 'a', modifiers: [], coda: [] });
+        syllables.push({
+          onset: cluster,
+          vowel: 'a',
+          modifiers: [],
+          coda: [],
+          wordIndex,
+          subwordIndex,
+          wordIast,
+          isWordStart: false,
+          isWordEnd: false,
+          hyphenBefore,
+        });
       }
     } else {
       i++;
@@ -228,29 +314,140 @@ function syllabifySingleWord(word: string): RawSyllable[] {
 }
 
 /**
- * Segment a Sanskrit IAST verse into syllables (Akṣaras) respecting word boundaries
- * and compute Śikṣā prosodic weights.
+ * Segment a Sanskrit IAST verse into syllables (Akṣaras) respecting word, compound,
+ * and danda boundaries, and compute Śikṣā prosodic weights.
  */
 export function analyzeSanskritProsody(rawIast: string): SyllableAnalysis[] {
   const cleaned = cleanEditorialIast(rawIast);
-  // Split into words on whitespace and punctuation so word-final consonants (like -m in "nam")
-  // never jump across word boundaries!
-  const words = cleaned
-    .toLowerCase()
-    .split(/[\s|/.,;!?—–\-()[\]'’\d]+/)
-    .filter(Boolean);
+  const spaceTokens = cleaned.split(/\s+/).filter(Boolean);
 
   const rawSyllables: RawSyllable[] = [];
-  for (const w of words) {
-    rawSyllables.push(...syllabifySingleWord(w));
+  let wordCounter = 0;
+  let subwordCounter = 0;
+  let pendingDandaBefore: '|' | '||' | undefined;
+
+  for (const rawTok of spaceTokens) {
+    const trimmed = rawTok.trim();
+    if (!trimmed) continue;
+
+    // Pure danda / punctuation token
+    if (/^(?:\|\||\/\/|॥)$/.test(trimmed)) {
+      if (rawSyllables.length > 0) {
+        rawSyllables[rawSyllables.length - 1].dandaAfter = '||';
+      } else {
+        pendingDandaBefore = '||';
+      }
+      continue;
+    }
+    if (/^(?:\||\/|।|—|–)$/.test(trimmed)) {
+      if (rawSyllables.length > 0) {
+        if (!rawSyllables[rawSyllables.length - 1].dandaAfter) {
+          rawSyllables[rawSyllables.length - 1].dandaAfter = '|';
+        }
+      } else {
+        pendingDandaBefore = '|';
+      }
+      continue;
+    }
+
+    // Check leading or trailing danda attached to word token
+    let tokCore = trimmed;
+    let attachedBefore: '|' | '||' | undefined = pendingDandaBefore;
+    let attachedAfter: '|' | '||' | undefined;
+
+    if (/^(?:\|\||\/\/|॥)/.test(tokCore)) {
+      attachedBefore = '||';
+      tokCore = tokCore.replace(/^(?:\|\||\/\/|॥)+/, '');
+    } else if (/^(?:\||\/|।)/.test(tokCore)) {
+      attachedBefore = '|';
+      tokCore = tokCore.replace(/^(?:\||\/|।)+/, '');
+    }
+
+    if (/(?:\|\||\/\/|॥)$/.test(tokCore)) {
+      attachedAfter = '||';
+      tokCore = tokCore.replace(/(?:\|\||\/\/|॥)+$/, '');
+    } else if (/(?:\||\/|।)$/.test(tokCore)) {
+      attachedAfter = '|';
+      tokCore = tokCore.replace(/(?:\||\/|।)+$/, '');
+    }
+
+    // Strip editorial digits/brackets/punctuation; strip word-internal avagraha so attached sandhi
+    // like `śiro'rtiṃ` or `so'ham` syllabifies naturally (`śi-ror-tiṃ`, `so-ham`), while keeping `-` as subword hyphen.
+    const cleanWordDisplay = tokCore
+      .replace(/[,;!?()[\]\d]+/g, '')
+      .replace(/^['’]+/, '')
+      .replace(/(['’])/g, '')
+      .trim();
+    if (!cleanWordDisplay) {
+      if (attachedAfter && rawSyllables.length > 0) {
+        rawSyllables[rawSyllables.length - 1].dandaAfter = attachedAfter;
+      }
+      continue;
+    }
+
+    pendingDandaBefore = undefined;
+    const subParts = cleanWordDisplay
+      .toLowerCase()
+      .split(/[-—–]+/)
+      .filter(Boolean);
+
+    if (subParts.length === 0) continue;
+
+    const currentWordIdx = wordCounter++;
+    const wordStartSylIdx = rawSyllables.length;
+    const hadExplicitHyphen = /[-—–]/.test(cleanWordDisplay);
+
+    for (let sIdx = 0; sIdx < subParts.length; sIdx++) {
+      let sub = subParts[sIdx];
+      // Vowelless external yaṇ-sandhi clitic after elided vowel (e.g. `'py` from `api`, `'tv` from `tu`)
+      if (!/[aāiīuūṛṝḷḹeo]/.test(sub)) {
+        if (sub.endsWith('y') && sub.length > 1) {
+          sub = sub.slice(0, -1) + 'i';
+        } else if (sub.endsWith('v') && sub.length > 1) {
+          sub = sub.slice(0, -1) + 'u';
+        }
+      }
+      const subSyls = syllabifySingleSubword(
+        sub,
+        currentWordIdx,
+        subwordCounter++,
+        cleanWordDisplay.toLowerCase(),
+        sIdx > 0 && hadExplicitHyphen
+      );
+      rawSyllables.push(...subSyls);
+    }
+
+    if (rawSyllables.length > wordStartSylIdx) {
+      rawSyllables[wordStartSylIdx].isWordStart = true;
+      rawSyllables[rawSyllables.length - 1].isWordEnd = true;
+      if (attachedBefore) {
+        rawSyllables[wordStartSylIdx].dandaBefore = attachedBefore;
+      }
+      if (attachedAfter) {
+        rawSyllables[rawSyllables.length - 1].dandaAfter = attachedAfter;
+      }
+    }
   }
 
   return rawSyllables.map((syl, idx) => {
     const nextSyl = rawSyllables[idx + 1];
-    const nextOnsetCount = nextSyl ? nextSyl.onset.length : 0;
+    // Positional Guru (saṃyogapūrva) applies within words and across continuous sandhi (unless separated by danda pause)
+    const acrossPause = Boolean(syl.dandaAfter || nextSyl?.dandaBefore);
+    const nextOnsetCount = !acrossPause && nextSyl ? nextSyl.onset.length : 0;
 
     const iastSyl =
       syl.onset.join('') + syl.vowel + syl.modifiers.join('') + syl.coda.join('');
+
+    // Pass next consonant context for Anusvāra IPA assimilation when in continuous flow
+    const nextConsHint =
+      !acrossPause && nextSyl && nextSyl.onset.length > 0 ? nextSyl.onset[0] : '';
+    const ipaRaw =
+      syl.modifiers.includes('ṃ') && nextConsHint
+        ? iastToIpa(`${iastSyl}${nextConsHint}`).slice(
+            0,
+            Math.max(1, iastToIpa(`${iastSyl}${nextConsHint}`).length - iastToIpa(nextConsHint).length)
+          )
+        : iastToIpa(iastSyl);
 
     const isLongVowel = LONG_VOWELS.has(syl.vowel);
     const hasModifier = syl.modifiers.length > 0;
@@ -271,13 +468,17 @@ export function analyzeSanskritProsody(rawIast: string): SyllableAnalysis[] {
       weightReasonZh = `闭音节收尾 (-${syl.coda.join('')}) · 重音 (Guru, 2拍)`;
     } else if (beforeConjunct) {
       weight = 'guru';
-      weightReasonZh = `后接双辅音丛 (${nextSyl.onset.join('')}-) · 位置重音 (Saṃyogapūrva Guru, 2拍)`;
+      weightReasonZh = `后接双辅音丛 (${nextSyl!.onset.join('')}-) · 位置重音 (Saṃyogapūrva Guru, 2拍)`;
     }
 
     const features: PhoneticFeatureBadge[] = [];
     const allConsonants = [...syl.onset, ...syl.coda];
 
-    if (allConsonants.some((c) => ['ṭ', 'ṭh', 'ḍ', 'ḍh', 'ṇ', 'ṣ'].includes(c)) || syl.vowel === 'ṛ') {
+    if (
+      allConsonants.some((c) => ['ṭ', 'ṭh', 'ḍ', 'ḍh', 'ṇ', 'ṣ'].includes(c)) ||
+      syl.vowel === 'ṛ' ||
+      syl.vowel === 'ṝ'
+    ) {
       features.push({
         code: 'retroflex',
         labelZh: '卷舌顶音',
@@ -325,13 +526,24 @@ export function analyzeSanskritProsody(rawIast: string): SyllableAnalysis[] {
       iast: iastSyl,
       devanagari: iastToDevanagari(iastSyl),
       siddham: iastToSiddham(iastSyl),
-      ipa: iastToIpa(iastSyl),
+      ipa: ipaRaw,
       vowel: syl.vowel,
       weight,
       matraCount: weight === 'guru' ? 2 : 1,
       weightReasonZh,
       features,
       formantHz: VOWEL_FORMANTS[syl.vowel] || { f1: 650, f2: 1200 },
+      onset: syl.onset,
+      modifiers: syl.modifiers,
+      coda: syl.coda,
+      wordIndex: syl.wordIndex,
+      subwordIndex: syl.subwordIndex,
+      wordIast: syl.wordIast,
+      isWordStart: syl.isWordStart,
+      isWordEnd: syl.isWordEnd,
+      hyphenBefore: syl.hyphenBefore,
+      dandaBefore: syl.dandaBefore,
+      dandaAfter: syl.dandaAfter,
     };
   });
 }

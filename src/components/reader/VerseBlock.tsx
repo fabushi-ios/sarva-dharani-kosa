@@ -8,9 +8,9 @@ import {
 } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
+  enrichSyllablesWithPhonetics,
   formatModernPhoneticWithIastOption,
   generateVerseChinesePhonetics,
-  mapSyllableToChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 
 interface VerseBlockProps {
@@ -41,7 +41,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
   const ipaText = useMemo(() => iastToIpa(verse.iast), [verse.iast]);
   const syllables = useMemo(() => analyzeSanskritProsody(verse.iast), [verse.iast]);
 
-  // Ensure every single verse has a rich Classical Chinese Transliteration & Modern Phonetic Guide
+  // Unified phonological single-source-of-truth for both verse-level and syllable-level phonetics
   const autoPhonetics = useMemo(
     () => generateVerseChinesePhonetics(verse.iast, config.showPhoneticIastBracket),
     [verse.iast, config.showPhoneticIastBracket]
@@ -52,32 +52,20 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       ? verse.classicalTranslitZh
       : autoPhonetics.classicalTranslitZh;
 
-  const rawModernPhoneticZh =
-    verse.modernPhoneticZh && !verse.modernPhoneticZh.startsWith('基于上方')
-      ? verse.modernPhoneticZh
-      : autoPhonetics.modernPhoneticZh;
-
   const effectiveModernPhoneticZh = useMemo(
     () =>
+      autoPhonetics.modernPhoneticZh ||
       formatModernPhoneticWithIastOption(
-        rawModernPhoneticZh,
+        verse.modernPhoneticZh || '',
         verse.iast,
         config.showPhoneticIastBracket
       ),
-    [rawModernPhoneticZh, verse.iast, config.showPhoneticIastBracket]
+    [autoPhonetics.modernPhoneticZh, verse.modernPhoneticZh, verse.iast, config.showPhoneticIastBracket]
   );
 
-  // Enrich each syllable with its individual 古汉语 & 梵音拼读
+  // Enrich each syllable with full inter-syllable Sandhi, Abhinidhāna, Parasavarṇa & Samāsa context
   const enrichedSyllables = useMemo(
-    () =>
-      syllables.map((syl) => {
-        const mapped = mapSyllableToChinesePhonetics(syl.iast);
-        return {
-          ...syl,
-          classicalZh: mapped.classicalZh,
-          modernZh: mapped.modernZh,
-        };
-      }),
+    () => enrichSyllablesWithPhonetics(syllables),
     [syllables]
   );
 
@@ -347,21 +335,39 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           </span>
           {isVersePlaying && enrichedSyllables.length > 0 ? (
             <div className="script-content-phonetic-zh inline-syl-strip">
-              {enrichedSyllables.map((syl) => {
+              {enrichedSyllables.map((syl, sIdx) => {
                 const isSpoken = effectiveActiveSylIndex === syl.index;
                 const isPast =
                   effectiveActiveSylIndex !== null && syl.index < effectiveActiveSylIndex;
+                const isLastSyl = sIdx === enrichedSyllables.length - 1;
                 return (
-                  <span
-                    key={`${verse.id}-mod-${syl.index}`}
-                    className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
-                    onClick={() => onPlaySyllable(syl.iast)}
-                    title={`梵音: ${syl.iast} · 现代拼读: ${syl.modernZh}`}
-                  >
-                    {config.showPhoneticIastBracket
-                      ? `${syl.modernZh}(${syl.iast})`
-                      : syl.modernZh}
-                  </span>
+                  <React.Fragment key={`${verse.id}-mod-${syl.index}`}>
+                    {syl.dandaBefore && (
+                      <span style={{ opacity: 0.55, padding: '0 0.15rem' }}>{syl.dandaBefore}</span>
+                    )}
+                    {!syl.isWordStart && syl.compoundHyphenBefore && (
+                      <span style={{ opacity: 0.55, margin: '0 -0.2rem' }}>-</span>
+                    )}
+                    <span
+                      className={`inline-syl-token ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                      style={
+                        !syl.isWordStart && !syl.compoundHyphenBefore
+                          ? { marginLeft: '-0.22rem' }
+                          : sIdx > 0 && syl.isWordStart
+                          ? { marginLeft: '0.18rem' }
+                          : undefined
+                      }
+                      onClick={() => onPlaySyllable(syl.iast)}
+                      title={`梵音: ${syl.iast} · 现代拼读: ${syl.modernZh}${syl.wordIast ? ` · 所属词: ${syl.wordIast}` : ''}`}
+                    >
+                      {config.showPhoneticIastBracket
+                        ? `${syl.modernZh}(${syl.iast})`
+                        : syl.modernZh}
+                    </span>
+                    {syl.dandaAfter && !isLastSyl && (
+                      <span style={{ opacity: 0.55, padding: '0 0.15rem' }}>{syl.dandaAfter}</span>
+                    )}
+                  </React.Fragment>
                 );
               })}
             </div>
@@ -444,8 +450,13 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                   ref={isSpoken ? activePillRef : null}
                   type="button"
                   className={`syllable-pill ${syl.weight} ${isSpoken ? 'active-spoken' : isPast ? 'past-spoken' : ''}`}
+                  style={
+                    syl.index > 1 && syl.isWordStart
+                      ? { marginLeft: '0.32rem' }
+                      : undefined
+                  }
                   onClick={() => onPlaySyllable(syl.iast)}
-                  title={`梵音: ${syl.iast} [${syl.ipa}] | 梵音拼读: ${syl.modernZh} | 古汉语: ${syl.classicalZh} | ${
+                  title={`梵音: ${syl.iast} [${syl.ipa}]${syl.wordIast ? ` (所属词: ${syl.wordIast})` : ''} | 梵音拼读: ${syl.modernZh} | 古汉语: ${syl.classicalZh} | ${
                     syl.weight === 'guru' ? 'Guru 重音 (2摩多)' : 'Laghu 轻音 (1摩多)'
                   }`}
                 >

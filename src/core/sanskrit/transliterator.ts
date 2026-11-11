@@ -533,6 +533,38 @@ export function iastToIpa(rawInput: string): string {
       continue;
     }
 
+    if (rest[0] === 'ṃ' || rest[0] === 'ṁ') {
+      // Context-sensitive Pāṇinian Anusvāra assimilation (parasavarṇa)
+      const lookahead = rest.slice(1).replace(/^[\s\-—–']+/g, '');
+      let nextCons: string | null = null;
+      for (const c of CONSONANT_TOKENS) {
+        if (lookahead.startsWith(c)) {
+          nextCons = c;
+          break;
+        }
+      }
+      const prevSlice = input.slice(Math.max(0, i - 4), i);
+      const isLabialBija = /(^|[\s|/.,;!-])(o|hū|hu|bhrū|bhru|trū|ṭrū)$/.test(prevSlice);
+
+      if (isLabialBija && !nextCons) {
+        out += 'm';
+      } else if (nextCons && ['k', 'kh', 'g', 'gh', 'ṅ'].includes(nextCons)) {
+        out += 'ŋ';
+      } else if (nextCons && ['c', 'ch', 'j', 'jh', 'ñ'].includes(nextCons)) {
+        out += 'ɲ';
+      } else if (nextCons && ['ṭ', 'ṭh', 'ḍ', 'ḍh', 'ṇ'].includes(nextCons)) {
+        out += 'ɳ';
+      } else if (nextCons && ['t', 'th', 'd', 'dh', 'n'].includes(nextCons)) {
+        out += 'n̪';
+      } else if (nextCons && ['p', 'ph', 'b', 'bh', 'm'].includes(nextCons)) {
+        out += 'm';
+      } else {
+        out += 'm̃';
+      }
+      i += 1;
+      continue;
+    }
+
     let matched: string | null = null;
     for (const v of VOWEL_TOKENS) {
       if (rest.startsWith(v)) {
@@ -548,8 +580,8 @@ export function iastToIpa(rawInput: string): string {
         }
       }
     }
-    if (!matched && (rest[0] === 'ṃ' || rest[0] === 'ṁ' || rest[0] === 'ḥ')) {
-      matched = rest[0];
+    if (!matched && rest[0] === 'ḥ') {
+      matched = 'ḥ';
     }
 
     if (matched && IPA_MAP[matched]) {

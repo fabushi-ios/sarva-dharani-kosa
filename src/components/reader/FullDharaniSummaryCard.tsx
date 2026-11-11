@@ -42,16 +42,13 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
         config.showPhoneticIastBracket
       );
 
-      const rawModern =
-        v.modernPhoneticZh && !v.modernPhoneticZh.startsWith('基于上方')
-          ? v.modernPhoneticZh
-          : autoPhon.modernPhoneticZh;
-
-      const formattedModern = formatModernPhoneticWithIastOption(
-        rawModern,
-        v.iast,
-        config.showPhoneticIastBracket
-      );
+      const formattedModern =
+        autoPhon.modernPhoneticZh ||
+        formatModernPhoneticWithIastOption(
+          v.modernPhoneticZh || '',
+          v.iast,
+          config.showPhoneticIastBracket
+        );
 
       const effectiveClassical =
         v.classicalTranslitZh && !v.classicalTranslitZh.startsWith('【GRETIL')

@@ -8,8 +8,8 @@ import {
 } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
+  enrichSyllablesWithPhonetics,
   generateVerseChinesePhonetics,
-  mapSyllableToChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 
 interface CustomDharaniCompilerProps {
@@ -69,6 +69,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
   const devanagariOut = useMemo(() => iastToDevanagari(iastInput), [iastInput]);
   const ipaOut = useMemo(() => iastToIpa(iastInput), [iastInput]);
   const prosodyOut = useMemo(() => analyzeSanskritProsody(iastInput), [iastInput]);
+  const enrichedProsody = useMemo(() => enrichSyllablesWithPhonetics(prosodyOut), [prosodyOut]);
   const autoPhonetics = useMemo(
     () => generateVerseChinesePhonetics(iastInput, showBracketIast),
     [iastInput, showBracketIast]
@@ -277,23 +278,20 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
               实时摩多轻重音律切分（点击任意音节试听合成梵音）：
             </div>
             <div className="prosody-syllables-strip">
-              {prosodyOut.map((syl) => {
-                const mapped = mapSyllableToChinesePhonetics(syl.iast);
-                return (
-                  <button
-                    key={`comp-syl-${syl.index}`}
-                    type="button"
-                    className={`syllable-pill ${syl.weight}`}
-                    onClick={() => onPlaySyllable(syl.iast)}
-                  >
-                    <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
-                    <span className="syl-iast">{syl.iast}</span>
-                    <span className="syl-modern-zh">{mapped.modernZh}</span>
-                    <span className="syl-tang-zh">{mapped.classicalZh}</span>
-                    <span className="syl-ipa">[{syl.ipa}]</span>
-                  </button>
-                );
-              })}
+              {enrichedProsody.map((syl) => (
+                <button
+                  key={`comp-syl-${syl.index}`}
+                  type="button"
+                  className={`syllable-pill ${syl.weight}`}
+                  onClick={() => onPlaySyllable(syl.iast)}
+                >
+                  <span className="syl-meter">{syl.weight === 'guru' ? '—' : '⌣'}</span>
+                  <span className="syl-iast">{syl.iast}</span>
+                  <span className="syl-modern-zh">{syl.modernZh}</span>
+                  <span className="syl-tang-zh">{syl.classicalZh}</span>
+                  <span className="syl-ipa">[{syl.ipa}]</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>

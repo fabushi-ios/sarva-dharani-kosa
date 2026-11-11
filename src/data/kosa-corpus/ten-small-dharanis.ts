@@ -48,7 +48,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '南无佛驮耶 南无达摩耶 南无僧伽耶 南无观自在菩萨摩诃萨 具大悲心者',
         modernPhoneticZh:
-          '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀 | 拿摩 阿利亚-瓦洛给帝-湿瓦啦呀 博地萨特瓦呀 玛哈萨特瓦呀 玛哈嘎鲁尼嘎呀',
+          '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀 | 拿摩 阿哩呀-瓦洛给帝-湿瓦啦呀 博地-萨特瓦呀 玛哈-萨特瓦呀 玛哈-嘎鲁尼嘎呀',
         meaningZh: '归命佛陀！归命正法！归命圣僧！归命圣观自在菩萨摩诃萨、具足大悲心者！',
         meaningEn:
           'Homage to the Buddha! Homage to the Dharma! Homage to the Saṃgha! Homage to Noble Avalokiteśvara, Bodhisattva Mahāsattva, the Greatly Compassionate One!',
@@ -63,7 +63,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '怛侄他 唵 斫羯啰伐底 震多末尼 摩诃钵蹬谜 噜噜噜噜 底瑟姹 篅啰阿羯利沙也 吽 癹 莎诃 | 唵 钵蹋摩 震多末尼 篅攞 吽 | 唵 跋喇陀 钵亶谜 吽 ||',
         modernPhoneticZh:
-          '达地呀他 | 嗡 佳克啦-瓦尔帝 津达-玛尼 玛哈-帕德美 鲁鲁 帝什他 吉瓦啦 阿嘎尔沙呀 吽 帕特 斯瓦哈 | 嗡 帕德玛-津达-玛尼 吉瓦啦 吽 | 嗡 瓦啦达 帕德美 吽',
+          '达地呀他 | 嗡 佳克啦瓦尔帝-津达玛尼 玛哈帕德美 鲁鲁 帝什他 吉瓦啦 阿嘎尔沙呀 吽 帕特 斯瓦哈 | 嗡 帕德玛-津达-玛尼 吉瓦啦 吽 | 嗡 瓦啦达 帕德美 吽',
         meaningZh:
           '即说咒曰：嗡！转轮圣王如意宝珠、大红莲华尊！流注妙光、安住不动，放智慧火焰钩召摄受一切善法，吽、泮、娑婆诃！嗡，红莲如意宝珠放光，吽！嗡，施愿红莲尊，吽！',
         meaningEn:
@@ -108,7 +108,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '曩谟三满多母驮喃 阿钵啰(二合)底贺多舍娑曩喃 | 怛侄他 | 唵 佉佉 佉呬佉呬 吽吽 入嚩(二合)攞入嚩攞 钵啰(二合)入嚩攞钵啰入嚩攞 |',
         modernPhoneticZh:
-          '拿玛赫 萨曼达-布达囊 阿普啦帝哈达-沙萨拿囊 | 达地呀他 | 嗡 卡呬 卡呬 吽 吽 吉瓦啦 吉瓦啦 普啦吉瓦啦 普啦吉瓦啦',
+          '拿玛赫 萨曼达-布达南 阿普啦帝哈达-沙萨拿南 | 达地呀他 | 嗡 卡嘿 卡嘿 空 空 吉瓦啦 吉瓦啦 普啦吉瓦啦 普啦吉瓦啦',
         meaningZh:
           '【初段·归敬与炽盛光焰印】顶礼普遍十方一切诸佛、具无能障碍教敕者！即说咒曰：嗡！吞啖（一切灾障）、吞啖！吽吽！放光炽盛、极炽盛放光！',
         meaningEn:
@@ -126,7 +126,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '底瑟姹(二合)底瑟姹 瑟致(二合)哩瑟致哩 娑癹(二合)吒娑癹吒 扇底迦 室哩(二合)曳 娑嚩(二合)诃 ||',
         modernPhoneticZh:
-          '帝什他 帝什他 什特里 什特里 斯坡达 斯坡达 善帝嘎 什里耶 斯瓦哈',
+          '帝什他 帝什他 什特哩 什特哩 斯坡达 斯坡达 善帝嘎 什哩耶 斯瓦哈',
         meaningZh:
           '【末段·摧破星厄息灾吉祥】安住、安住！坚固不坏！摧裂、粉碎（一切恶星灾厄）！愿息灾寂静（扇底迦）、大吉祥圆满（室哩曳），娑婆诃！',
         meaningEn:
@@ -182,7 +182,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '唵 悉帝护嚧噜 悉都噜 只利波 吉利婆 悉达哩 布嚧哩 娑嚩诃 ||',
         modernPhoneticZh:
-          '嗡 悉dei 呼鲁 呼鲁 悉图鲁 | 克里帕 克里帕 悉达尼 布鲁尼 斯瓦哈',
+          '嗡 悉叠 呼鲁 呼鲁 悉杜鲁 | 克哩巴 克哩巴 悉达尼 布鲁尼 斯瓦哈',
         meaningZh:
           '【末段·大悲圆成功德宝山】嗡！成就妙尊，速疾作法、妙善成就！大悲垂悯、慈悲摄受，令一切悉地功德皆得圆满具足，娑婆诃！',
         meaningEn:
@@ -230,7 +230,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '稽首皈依苏悉帝 头面顶礼七俱胝 我今称赞大准提 唯愿慈悲垂加护 | 南无飒哆喃 三藐三勃陀 俱胝喃 | 怛侄他 | 唵 折戾 主戾 准提 娑婆诃 ||',
         modernPhoneticZh:
-          '拿玛赫 萨普达囊 萨姆呀克-桑布达-俱帝囊 | 达地呀他 | 嗡 佳咧 主咧 准dei 斯瓦哈',
+          '拿玛赫 萨普达南 萨姆呀克-桑布达果蒂南 | 达地呀他 | 嗡 佳咧 主咧 准叠 斯瓦哈',
         meaningZh:
           '顶礼七俱胝（七千万）正遍知诸佛！即说咒曰：嗡！游行起用尊（折戾）、升起觉树尊（主戾）、清净最胜佛母尊（准提），吉祥圆满成就，娑婆诃！',
         meaningEn:
@@ -251,7 +251,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '【显密圆通准提合诵一字大轮咒】唵 部林 ||',
         modernPhoneticZh:
-          '嗡 布隆— (bhrūṃ)',
+          '嗡 部隆',
         meaningZh:
           '【大轮一字明王咒（准提圆满护持真言）】嗡！一字金轮佛顶最胜种子字（部林 bhrūṃ），令所诵准提真言速得圆满成就！',
         meaningEn:
@@ -297,7 +297,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '唵 捺摩巴葛瓦帝 阿巴啰密沓 阿优哩阿纳 苏必你实执沓 牒左啰宰也 怛塔哿达也 阿啰诃帝 三药三不达也 |',
         modernPhoneticZh:
-          '拿摩 帕嘎瓦帝 阿帕里米达-尤尔-吉尼亚拿-苏维尼什吉达-帝久-啦佳呀 达他嘎达呀 阿尔哈帝 萨姆呀克-桑布达呀',
+          '拿摩 巴嘎瓦帝 阿巴哩米达尤尔-吉尼亚拿-苏维尼什吉达-帝久-啦佳呀 达他嘎达-呀尔哈帝 萨姆呀克-桑布达呀',
         meaningZh:
           '【初段·无量寿智如来归命文】归命世尊、无量寿智决定光明王如来、应供、正遍知！',
         meaningEn:
@@ -315,7 +315,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '怛你也塔 | 唵 萨哩巴 桑斯葛哩 叭哩述沓 达哩马帝 哿哿捺 萨穆得哿帝 莎巴瓦 比述帝 马喝捺也 叭哩瓦哩 娑喝 ||',
         modernPhoneticZh:
-          '达地呀他 | 嗡 萨尔瓦-桑斯嘎啦-帕里舒达 达尔玛帝 嘎嘎拿-萨穆德嘎帝 斯瓦帕瓦-维舒dei 玛哈-拿呀-帕里瓦咧 斯瓦哈',
+          '达地呀他 | 嗡 萨尔瓦-桑斯嘎啦-巴哩-舒达 达尔玛帝 嘎嘎拿-萨穆德嘎帝 斯瓦巴瓦-维舒叠 玛哈-拿呀巴哩瓦咧 斯瓦哈',
         meaningZh:
           '【末段·法界清净延寿咒心】即说咒曰：嗡！一切诸行究竟清净之法性尊、如虚空般超越出生尊、自性无垢清净尊、大乘妙理圆满眷属围绕尊，圆满成就，娑婆诃！',
         meaningEn:
@@ -362,7 +362,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '南谟薄伽伐帝 鞞杀社窭噜 薛琉璃 钵喇婆 喝啰阇也 怛他揭多也 阿啰喝帝 三藐三勃陀也 |',
         modernPhoneticZh:
-          '拿摩 帕嘎瓦帝 排沙吉呀-古鲁 歪杜里呀-普啦帕-啦佳呀 达他嘎达呀 阿尔哈帝 萨姆呀克-桑布达呀',
+          '拿摩 巴嘎瓦帝 拜沙吉呀-古鲁-歪杜哩呀-普啦巴-啦佳呀 达他嘎达-呀尔哈帝 萨姆呀克-桑布达呀',
         meaningZh:
           '【初段·药师琉璃光王佛归敬】归命世尊、药师琉璃光王如来、应供、正遍知！',
         meaningEn:
@@ -380,7 +380,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '怛侄他 | 唵 鞞杀逝 鞞杀逝 鞞杀社 三没揭帝 莎诃 ||',
         modernPhoneticZh:
-          '达地呀他 | 嗡 排沙杰 排沙杰 玛哈-排沙杰 排沙吉呀-萨穆德嘎帝 斯瓦哈',
+          '达地呀他 | 嗡 拜沙吉耶 拜沙吉耶 玛哈-拜沙吉耶 拜沙吉呀-萨穆德嘎帝 斯瓦哈',
         meaningZh:
           '【末段·药师心咒】即说咒曰：嗡！妙药、妙药、无上大法药！由无上医王法药普度升起尊，圆满成就，娑婆诃！',
         meaningEn:
@@ -419,7 +419,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '唵 嘛呢叭咪吽 | 麻曷倪牙纳 积都特巴达 积特些纳 微达哩葛 |',
         modernPhoneticZh:
-          '嗡 玛尼 帕德美 吽 | 玛哈-吉尼亚拿 吉多特帕达 吉达-沙呀拿 维达尔嘎',
+          '嗡 玛尼 帕德美 吽 | 玛哈吉尼亚拿 吉多特巴达 吉达-沙呀拿 维达尔嘎',
         meaningZh:
           '【初段·六字大明与发菩提心印】嗡！莲华摩尼宝珠，吽！大智慧尊、发起无上菩提心、令心寂静安住、超离分别寻伺！',
         meaningEn:
@@ -437,7 +437,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '萨而斡而塔 卜哩悉塔葛 纳补啰纳 | 纳卜哩 丢忒班纳 | 捺麻嚧吉 说啰耶 娑诃 ||',
         modernPhoneticZh:
-          '萨尔瓦尔他 菩里 悉达 嘎玛 拿嘎-布啦拿 | 菩里 菩里 乌达玛 | 拿摩 洛给湿瓦啦呀 斯瓦哈',
+          '萨尔瓦尔他 布哩 悉达 嘎玛 拿嘎-布啦拿 | 布哩 布哩 乌达玛 | 拿摩 洛给-湿瓦啦呀 斯瓦哈',
         meaningZh:
           '【末段·满愿救苦归命世自在王】成就一切广大义利、圆满龙天所求善愿！广大复广大、无上最胜！归命世间自在王（观世音菩萨），娑婆诃！',
         meaningEn:
@@ -478,7 +478,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '离婆离婆帝 求诃求诃帝 陀罗尼帝 尼诃啰帝 |',
         modernPhoneticZh:
-          '利帕 利帕帝 | 古哈 古哈帝 | 特啦帝 特啦帝帝 | 尼尔嘎啦帝',
+          '利巴 利巴帝 | 古哈 古哈帝 | 特啦蒂 特啦蒂帝 | 尼尔嘎啦帝',
         meaningZh:
           '【初段·涤垢拔罪】涂香清净、离诸染污尊！深密窟藏、破除覆藏尊！总持护念、坚固任持尊！拔除一切罪根尊！',
         meaningEn:
@@ -495,7 +495,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '毗黎你帝 摩诃伽帝 真陵乾帝 莎婆诃 ||',
         modernPhoneticZh:
-          '维玛啦帝 玛哈-嘎地耶 | 善顶嘎咧 斯瓦哈',
+          '维玛啦帝 玛哈嘎蒂耶 | 善定嘎咧 斯瓦哈',
         meaningZh:
           '【末段·清净寂灭】无垢清净光明、趣向大乘正道尊！作大寂静安隐尊，圆满成就，娑婆诃！',
         meaningEn:
@@ -540,7 +540,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '南无阿弥多婆夜 哆他伽多夜 哆地夜他 | 阿弥利都婆毗 阿弥利哆 悉耽婆毗 |',
         modernPhoneticZh:
-          '拿摩 阿弥达帕呀 达他嘎达呀 | 达地呀他 | 嗡 阿姆里多德帕威 阿姆里达-悉当帕威',
+          '拿摩 阿米达巴呀 达他嘎达呀 | 达地呀他 | 嗡 阿姆哩多德巴威 阿姆哩达-悉当巴威',
         meaningZh:
           '【初段·归命无量光佛与甘露出生】归命无量光如来！即说咒曰：嗡！不死甘露出生尊、甘露圆满成就尊！',
         meaningEn:
@@ -558,7 +558,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '阿弥唎哆 毗迦兰帝 阿弥唎哆 毗迦兰多 伽弥腻 伽伽那 枳多迦利 娑婆诃 ||',
         modernPhoneticZh:
-          '阿姆里达-维克啦帝 阿姆里达-维克啦达-嘎米尼 嘎嘎拿 给尔帝-嘎咧 斯瓦哈',
+          '阿姆哩达-维克兰帝 阿姆哩达-维克兰达嘎米尼 嘎嘎拿 给尔帝嘎咧 斯瓦哈',
         meaningZh:
           '【末段·甘露神通遍满虚空往生净土】甘露神通大力超越尊、以甘露大力周遍游行救度尊！令赞叹名声遍满虚空者，圆满成就，娑婆诃！',
         meaningEn:
@@ -604,7 +604,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '南无佛陀 南无达摩 南无僧伽 南无室利摩诃提鼻耶 | 怛你也他 | 波利富楼那遮利 三曼陀达舍尼 摩诃毗诃罗伽帝 三曼陀毗尼伽帝 |',
         modernPhoneticZh:
-          '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀 | 拿玛赫 什里-玛哈-dei维呀呀 | 达地呀他 | 帕里布啦拿-佳咧 萨曼达-达尔沙内 玛哈-维哈啦-嘎帝 萨曼达-维达玛内',
+          '拿摩 布达呀 | 拿摩 达尔玛呀 | 拿玛赫 桑嘎呀 | 拿玛赫 什哩玛哈叠维呀呀 | 达地呀他 | 巴哩布啦拿-佳咧 萨曼达-达尔沙内 玛哈-维哈啦嘎帝 萨曼达-维达玛内',
         meaningZh:
           '归命佛陀！归命正法！归命圣僧！归命大吉祥天女！即说咒曰：圆满一切善行尊、普门照见尊、安住广大禅悦梵住尊、普遍破除贫匮暗障尊！',
         meaningEn:
@@ -623,7 +623,7 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         classicalTranslitZh:
           '摩诃迦梨野 波祢婆啰 波祢萨哩嚩栗他 三曼陀修钵黎帝 富隶那 阿利那 达摩帝 摩诃毗鼓毕帝 摩诃弥勒帝 娄簸僧祇帝 醯帝簁 僧祇醯帝 三曼陀阿他阿耨婆罗尼 娑婆诃 ||',
         modernPhoneticZh:
-          '玛哈-嘎尔呀-普啦帝什他帕内 萨尔瓦尔他-萨达内 苏普啦帝布咧 阿呀拿-达尔玛达 玛哈-维古尔维帝 玛哈-麦特里-乌帕桑呬帝 玛哈-克咧沙-苏普啦帝什提帝 斯瓦哈',
+          '玛哈-嘎哩呀普啦帝什他巴内 萨尔瓦尔他萨达内 苏普啦帝布咧 阿呀拿达尔玛达 玛哈-维古尔维帝 玛哈麦特哩-乌巴桑-嘿帝 玛哈-克咧沙苏普啦帝什提帝 斯瓦哈',
         meaningZh:
           '善能安立广大佛事尊、成就一切义利尊、极善充满尊、契入不生法性尊、现大神通变化尊、大慈心恒常相应摄持尊、于烦恼世间善安立正法尊，圆满成就，娑婆诃！',
         meaningEn:

@@ -27,7 +27,10 @@
 
 import { analyzeSanskritProsody, type SyllableAnalysis } from '../../core/sanskrit/prosody';
 import { iastToDevanagari } from '../../core/sanskrit/transliterator';
-import { mapSyllableToChinesePhonetics } from '../../core/sanskrit/phoneticMapper';
+import {
+  enrichSyllablesWithPhonetics,
+  mapSyllableToChinesePhonetics,
+} from '../../core/sanskrit/phoneticMapper';
 import type { DharaniVerse } from '../../types/kosaTypes';
 import {
   isBrowserOnnxReady,
@@ -377,13 +380,20 @@ class SanskritAudioEngine {
       };
 
     if (this.state.mode === 'mandarin-phonetic-guide') {
-      const mapped = mapSyllableToChinesePhonetics(syl.iast);
-      this.speakUtteranceOnce(mapped.modernZh.replace(/—/g, ''), 'zh-CN');
+      const enriched = enrichSyllablesWithPhonetics(prosody);
+      const spokenZh =
+        enriched.length > 0
+          ? enriched.map((s) => s.modernZh).join('')
+          : mapSyllableToChinesePhonetics(syl.iast).modernZh;
+      this.speakUtteranceOnce(spokenZh.replace(/—/g, ''), 'zh-CN');
       return;
     }
 
     if (this.state.mode === 'indic-devanagari-tts' && this.hasIndicVoice()) {
-      this.speakUtteranceOnce(syl.devanagari, 'hi-IN');
+      this.speakUtteranceOnce(
+        prosody.length > 1 ? iastToDevanagari(cleanText) : syl.devanagari,
+        'hi-IN'
+      );
       return;
     }
 
@@ -523,6 +533,7 @@ class SanskritAudioEngine {
     chunkSpans?: AcousticChunkSpan[]
   ): PlaybackSyllableTiming[] {
     if (syllables.length === 0) return [];
+    const enriched = enrichSyllablesWithPhonetics(syllables);
 
     // If acoustic breath-chunk spans are available from Browser ONNX VITS,
     // align syllables directly into each breath-chunk's non-silent speech window [speechStartSec, speechEndSec].
@@ -535,15 +546,15 @@ class SanskritAudioEngine {
         const span = chunkSpans[cIdx];
         const isLast = cIdx === chunkSpans.length - 1;
         const targetCount = isLast
-          ? syllables.length - sylCursor
+          ? enriched.length - sylCursor
           : Math.max(
               1,
               Math.min(
-                syllables.length - sylCursor - (chunkSpans.length - 1 - cIdx),
-                Math.round((span.charCount / totalChars) * syllables.length)
+                enriched.length - sylCursor - (chunkSpans.length - 1 - cIdx),
+                Math.round((span.charCount / totalChars) * enriched.length)
               )
             );
-        const chunkSyls = syllables.slice(sylCursor, sylCursor + Math.max(0, targetCount));
+        const chunkSyls = enriched.slice(sylCursor, sylCursor + Math.max(0, targetCount));
         sylCursor += chunkSyls.length;
 
         if (chunkSyls.length === 0) continue;
@@ -556,11 +567,10 @@ class SanskritAudioEngine {
         for (const syl of chunkSyls) {
           const w = syl.weight === 'guru' ? 1.75 : 1.0;
           const dur = (w / chunkMatras) * activeSpanSec;
-          const mapped = mapSyllableToChinesePhonetics(syl.iast);
           timings.push({
             syl,
-            classicalZh: mapped.classicalZh,
-            modernZh: mapped.modernZh,
+            classicalZh: syl.classicalZh,
+            modernZh: syl.modernZh,
             startSec: cursor,
             endSec: cursor + dur,
           });
@@ -568,7 +578,7 @@ class SanskritAudioEngine {
         }
       }
 
-      if (timings.length === syllables.length) {
+      if (timings.length === enriched.length) {
         return timings;
       }
     }
@@ -578,16 +588,15 @@ class SanskritAudioEngine {
     const tailSec = Math.min(0.08, totalDurationSec * 0.06);
     const activeDurationSec = Math.max(0.1, totalDurationSec - leadSec - tailSec);
     const totalMatras =
-      syllables.reduce((acc, s) => acc + (s.weight === 'guru' ? 1.75 : 1.0), 0) || 1;
+      enriched.reduce((acc, s) => acc + (s.weight === 'guru' ? 1.75 : 1.0), 0) || 1;
     let cursor = leadSec;
-    for (const syl of syllables) {
+    for (const syl of enriched) {
       const w = syl.weight === 'guru' ? 1.75 : 1.0;
       const dur = (w / totalMatras) * activeDurationSec;
-      const mapped = mapSyllableToChinesePhonetics(syl.iast);
       timings.push({
         syl,
-        classicalZh: mapped.classicalZh,
-        modernZh: mapped.modernZh,
+        classicalZh: syl.classicalZh,
+        modernZh: syl.modernZh,
         startSec: cursor,
         endSec: cursor + dur,
       });
@@ -751,21 +760,21 @@ class SanskritAudioEngine {
       }
 
       let timings: PlaybackSyllableTiming[] = [];
+      const enriched = enrichSyllablesWithPhonetics(syllables);
 
-      if (serverTimings.length === syllables.length && syllables.length > 0) {
-        for (let i = 0; i < syllables.length; i++) {
-          const syl = syllables[i];
+      if (serverTimings.length === enriched.length && enriched.length > 0) {
+        for (let i = 0; i < enriched.length; i++) {
+          const syl = enriched[i];
           const st = serverTimings[i];
-          const mapped = mapSyllableToChinesePhonetics(syl.iast);
           timings.push({
             syl,
-            classicalZh: mapped.classicalZh,
-            modernZh: mapped.modernZh,
+            classicalZh: syl.classicalZh,
+            modernZh: syl.modernZh,
             startSec: Math.max(0, (st.startMs || 0) / 1000),
             endSec: Math.min(totalDurationSec, Math.max(0.04, (st.endMs || 100) / 1000)),
           });
         }
-      } else if (serverTimings.length > 0 && syllables.length > 0) {
+      } else if (serverTimings.length > 0 && enriched.length > 0) {
         const firstStartSec = Math.max(0, (serverTimings[0].startMs || 0) / 1000);
         const lastEndSec = Math.min(
           totalDurationSec,
@@ -775,21 +784,20 @@ class SanskritAudioEngine {
           )
         );
         const activeSpanSec = Math.max(0.15, lastEndSec - firstStartSec);
-        const totalMatras = syllables.reduce(
+        const totalMatras = enriched.reduce(
           (acc, s) => acc + (s.weight === 'guru' ? 1.85 : 1.0),
           0
         );
 
         let cursor = firstStartSec;
-        for (let i = 0; i < syllables.length; i++) {
-          const syl = syllables[i];
+        for (let i = 0; i < enriched.length; i++) {
+          const syl = enriched[i];
           const w = syl.weight === 'guru' ? 1.85 : 1.0;
           const dur = (w / totalMatras) * activeSpanSec;
-          const mapped = mapSyllableToChinesePhonetics(syl.iast);
           timings.push({
             syl,
-            classicalZh: mapped.classicalZh,
-            modernZh: mapped.modernZh,
+            classicalZh: syl.classicalZh,
+            modernZh: syl.modernZh,
             startSec: cursor,
             endSec: cursor + dur,
           });
@@ -867,13 +875,13 @@ class SanskritAudioEngine {
     }
 
     // Immediately highlight the first syllable of the verse so the user sees exact focus right away
-    const firstSyl = syllables[0];
+    const enriched = enrichSyllablesWithPhonetics(syllables);
+    const firstSyl = enriched[0];
     if (firstSyl) {
-      const mappedFirst = mapSyllableToChinesePhonetics(firstSyl.iast);
       this.state.currentSyllableIndex = firstSyl.index;
       this.state.currentSyllableInfo = firstSyl;
-      this.state.currentSyllableClassicalZh = mappedFirst.classicalZh;
-      this.state.currentSyllableModernZh = mappedFirst.modernZh;
+      this.state.currentSyllableClassicalZh = firstSyl.classicalZh;
+      this.state.currentSyllableModernZh = firstSyl.modernZh;
       this.state.syllableProgress = 0;
     }
 
@@ -1095,16 +1103,16 @@ class SanskritAudioEngine {
   } {
     const timings: PlaybackSyllableTiming[] = [];
     let cursorSec = includeBellAndDrone ? 0.18 : 0.02;
+    const enriched = enrichSyllablesWithPhonetics(syllables);
 
     // Comfortable human chanting pace: Laghu = 0.36s, Guru = 0.64s at 1.0x
-    for (const syl of syllables) {
+    for (const syl of enriched) {
       const baseDur = syl.weight === 'guru' ? 0.62 : 0.36;
       const dur = baseDur / rate;
-      const mapped = mapSyllableToChinesePhonetics(syl.iast);
       timings.push({
         syl,
-        classicalZh: mapped.classicalZh,
-        modernZh: mapped.modernZh,
+        classicalZh: syl.classicalZh,
+        modernZh: syl.modernZh,
         startSec: cursorSec,
         endSec: cursorSec + dur,
       });
@@ -1450,24 +1458,24 @@ class SanskritAudioEngine {
   ) {
     const syllables = analyzeSanskritProsody(verse.iast);
     if (syllables.length === 0) return;
+    const enriched = enrichSyllablesWithPhonetics(syllables);
 
-    // Speak syllable-by-syllable or phrase-by-phrase for exact visual sync
-    for (let i = 0; i < syllables.length; i++) {
+    // Speak syllable-by-phrase with full Sandhi context for exact visual sync
+    for (let i = 0; i < enriched.length; i++) {
       if (signal.aborted) break;
-      const syl = syllables[i];
-      const mapped = mapSyllableToChinesePhonetics(syl.iast);
+      const syl = enriched[i];
 
       this.state.currentSyllableIndex = syl.index;
       this.state.currentSyllableInfo = syl;
-      this.state.currentSyllableClassicalZh = mapped.classicalZh;
-      this.state.currentSyllableModernZh = mapped.modernZh;
+      this.state.currentSyllableClassicalZh = syl.classicalZh;
+      this.state.currentSyllableModernZh = syl.modernZh;
       this.state.syllableProgress = 0.5;
-      this.state.verseProgress = (i + 1) / syllables.length;
+      this.state.verseProgress = (i + 1) / enriched.length;
       this.notify();
 
       const textToSpeak =
         langMode === 'zh-CN'
-          ? mapped.modernZh.replace(/—/g, '')
+          ? syl.modernZh.replace(/—/g, '')
           : syl.devanagari;
 
       this.speakUtteranceOnce(textToSpeak, langMode);
