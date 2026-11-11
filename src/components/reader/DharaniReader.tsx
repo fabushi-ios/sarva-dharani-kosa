@@ -35,6 +35,12 @@ import {
   TRACKABLE_FIELD_LABELS_ZH,
 } from '../../core/provenance/fieldProvenance';
 
+export interface ReaderNavigationRequest {
+  target: 'hero' | 'summary' | 'interlinear' | 'concordance' | 'verse';
+  verseArrayIndex?: number;
+  nonce: number;
+}
+
 interface DharaniReaderProps {
   entry: DharaniEntry;
   scriptConfig: ScriptVisibilityConfig;
@@ -47,6 +53,7 @@ interface DharaniReaderProps {
   onPlaySingleVerse: (verseArrayIdx: number) => void;
   onPlaySingleSyllable: (iastSyl: string) => void;
   onNavigateTab?: (tab: ActiveWorkspaceTab) => void;
+  navigationRequest?: ReaderNavigationRequest | null;
 }
 
 const FAST_BIJA_DEFAULTS: Record<
@@ -181,6 +188,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   onPlaySingleVerse,
   onPlaySingleSyllable,
   onNavigateTab,
+  navigationRequest = null,
 }) => {
   const [readerSubMode, setReaderSubMode] = useState<'verses' | 'cbeta-interlinear'>('verses');
   const [showProvenanceModal, setShowProvenanceModal] = useState(false);
@@ -240,6 +248,72 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     setVisibleVerseLimit(80);
   }, [entry.id]);
 
+  // Execute section or verse jump requested from the left sidebar outline
+  useEffect(() => {
+    if (!navigationRequest || typeof document === 'undefined' || typeof window === 'undefined') {
+      return;
+    }
+
+    const scrollToTargetId = (domId: string, highlight = false) => {
+      const el = document.getElementById(domId);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const targetTop = Math.max(0, window.scrollY + rect.top - 116);
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      if (highlight) {
+        el.classList.remove('is-jump-highlighted');
+        void el.offsetWidth;
+        el.classList.add('is-jump-highlighted');
+        window.setTimeout(() => {
+          el.classList.remove('is-jump-highlighted');
+        }, 1700);
+      }
+    };
+
+    if (navigationRequest.target === 'interlinear' && hasSiddhamInterlinear) {
+      setReaderSubMode('cbeta-interlinear');
+      const timer = window.setTimeout(() => scrollToTargetId('reader-interlinear-section'), 40);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (navigationRequest.target === 'summary') {
+      setReaderSubMode('verses');
+      if (!scriptConfig.showFullCombinedSummary) {
+        onScriptConfigChange({ ...scriptConfig, showFullCombinedSummary: true });
+      }
+      const timer = window.setTimeout(() => scrollToTargetId('full-dharani-combined-summary', true), 45);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (navigationRequest.target === 'hero') {
+      const timer = window.setTimeout(() => scrollToTargetId('reader-hero-section'), 20);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (navigationRequest.target === 'concordance') {
+      const timer = window.setTimeout(() => scrollToTargetId('reader-concordance-section'), 20);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (
+      navigationRequest.target === 'verse' &&
+      typeof navigationRequest.verseArrayIndex === 'number'
+    ) {
+      const idx = navigationRequest.verseArrayIndex;
+      const targetVerse = entry.verses[idx];
+      if (!targetVerse) return;
+      setReaderSubMode('verses');
+      if (idx + 1 > visibleVerseLimit) {
+        setVisibleVerseLimit(Math.min(entry.verses.length, idx + 32));
+      }
+      const timer = window.setTimeout(
+        () => scrollToTargetId(`verse-card-${targetVerse.id}`, true),
+        55
+      );
+      return () => window.clearTimeout(timer);
+    }
+  }, [navigationRequest]);
+
   const effectiveVerseLimit =
     playbackState.isPlaying &&
     playbackState.currentVerseIndex !== null &&
@@ -249,7 +323,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
   return (
     <main className="reader-main" aria-label="梵文陀罗尼多体对照阅读区">
-      <section className="dharani-hero-card">
+      <section id="reader-hero-section" className="dharani-hero-card">
         <div className="hero-top-bar">
           <div className="hero-badges-row">
             <span className="taisho-pill">{entry.taishoNo}</span>
@@ -827,12 +901,14 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       )}
 
       {readerSubMode === 'cbeta-interlinear' && hasSiddhamInterlinear ? (
-        <CbetaSiddhamInterlinearView
-          cbetaId={entry.provenance.cbetaId}
-          titleZh={entry.titleZh}
-          tokens={interlinearTokens}
-          onPlaySyllable={onPlaySingleSyllable}
-        />
+        <div id="reader-interlinear-section">
+          <CbetaSiddhamInterlinearView
+            cbetaId={entry.provenance.cbetaId}
+            titleZh={entry.titleZh}
+            tokens={interlinearTokens}
+            onPlaySyllable={onPlaySingleSyllable}
+          />
+        </div>
       ) : (
         <div className="verses-stack">
           <FullDharaniSummaryCard
@@ -916,6 +992,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       {/* 跨 12 大权威数据库同源见证与平行对勘面板 */}
       {matchedConcordanceCluster && (
         <section
+          id="reader-concordance-section"
           className="dharani-hero-card"
           style={{ marginTop: '0.35rem' }}
           aria-label="全球12大梵文陀罗尼数据库同源见证"

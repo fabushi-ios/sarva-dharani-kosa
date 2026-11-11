@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
-import { BookOpen, ChevronLeft, ChevronRight, Bookmark } from 'lucide-react';
+import { BookOpen, ChevronLeft, ChevronRight, Bookmark, ListOrdered } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
   DharaniCategoryId,
@@ -32,8 +32,8 @@ import {
   saveTheme,
 } from './services/storage/storageService';
 import { Header } from './components/layout/Header';
-import { SidebarFilter } from './components/layout/SidebarFilter';
-import { DharaniReader } from './components/reader/DharaniReader';
+import { SidebarFilter, type SidebarViewMode } from './components/layout/SidebarFilter';
+import { DharaniReader, type ReaderNavigationRequest } from './components/reader/DharaniReader';
 import { AudioPlayerBar } from './components/audio/AudioPlayerBar';
 
 const TaishoCanonExplorer = lazy(() =>
@@ -82,6 +82,9 @@ export const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => loadTheme());
   const [activeTab, setActiveTab] = useState<ActiveWorkspaceTab>('canon-reader');
   const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
+  const [sidebarMode, setSidebarMode] = useState<SidebarViewMode>('catalog');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
+  const [readerNavRequest, setReaderNavRequest] = useState<ReaderNavigationRequest | null>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
@@ -138,27 +141,31 @@ export const App: React.FC = () => {
     return combined;
   }, [cloudCorpusEntries]);
 
-  const filteredEntries = useMemo(() => {
+  const preCategoryFilteredEntries = useMemo(() => {
     const base = filterDharanis(allEntries, {
       query: searchQuery,
-      categoryId: selectedCategory,
+      categoryId: 'all',
       onlyBookmarked,
       bookmarkedIds,
       sourceFilter,
     });
-    if (sourceFilter === 'global-12db' && selectedDbSubFilter !== 'all') {
+    if (selectedDbSubFilter !== 'all') {
       return base.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
     }
     return base;
   }, [
     allEntries,
     searchQuery,
-    selectedCategory,
     onlyBookmarked,
     bookmarkedIds,
     sourceFilter,
     selectedDbSubFilter,
   ]);
+
+  const filteredEntries = useMemo(() => {
+    if (selectedCategory === 'all') return preCategoryFilteredEntries;
+    return preCategoryFilteredEntries.filter((e) => e.categoryId === selectedCategory);
+  }, [preCategoryFilteredEntries, selectedCategory]);
 
   const [selectedEntryId, setSelectedEntryId] = useState<string>(
     FIRST_SCREEN_CORPUS[0]?.id || ''
@@ -390,17 +397,40 @@ export const App: React.FC = () => {
         )}
 
         {isUnifiedReaderTab && activeEntry && (
-          <div className="canon-reader-grid">
-            {/* Mobile Quick Catalog Drawer Trigger & Prev/Next Scripture Stepper */}
+          <div
+            className={`canon-reader-grid ${
+              sidebarCollapsed ? 'is-sidebar-collapsed' : ''
+            }`}
+          >
+            {/* Mobile Quick Catalog / Verse Outline Drawer Trigger & Prev/Next Stepper */}
             <div className="mobile-catalog-bar">
-              <button
-                type="button"
-                className="mobile-catalog-trigger-btn"
-                onClick={() => setMobileCatalogOpen(true)}
-              >
-                <BookOpen size={15} />
-                <span>经咒目录 · {filteredEntries.length}部</span>
-              </button>
+              <div className="mobile-catalog-trigger-group">
+                <button
+                  id="mobile-catalog-trigger-btn"
+                  type="button"
+                  className="mobile-catalog-trigger-btn"
+                  onClick={() => {
+                    setSidebarMode('catalog');
+                    setMobileCatalogOpen(true);
+                  }}
+                >
+                  <BookOpen size={14} />
+                  <span>选经咒 · {filteredEntries.length}部</span>
+                </button>
+
+                <button
+                  id="mobile-outline-trigger-btn"
+                  type="button"
+                  className="mobile-outline-trigger-btn"
+                  onClick={() => {
+                    setSidebarMode('outline');
+                    setMobileCatalogOpen(true);
+                  }}
+                >
+                  <ListOrdered size={14} />
+                  <span>本篇句目 · {activeEntry.verses.length}句</span>
+                </button>
+              </div>
 
               <div className="mobile-catalog-nav-group">
                 <button
@@ -461,9 +491,13 @@ export const App: React.FC = () => {
 
             <SidebarFilter
               entries={filteredEntries}
-              totalCorpusCount={Math.max(allEntries.length, 2051)}
+              preCategoryEntries={preCategoryFilteredEntries}
+              totalCorpusCount={allEntries.length}
               selectedId={activeEntry.id}
+              activeEntry={activeEntry}
               onSelectEntry={(id) => handleSelectEntry(id)}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
               selectedCategory={selectedCategory}
               onSelectCategory={setSelectedCategory}
               sourceFilter={sourceFilter}
@@ -474,10 +508,36 @@ export const App: React.FC = () => {
                 }
               }}
               selectedDbSubFilter={selectedDbSubFilter}
-              onSelectDbSubFilter={handleSelectAdapterDbId}
+              onSelectDbSubFilter={(dbId) => {
+                setSelectedDbSubFilter(dbId);
+                if (dbId !== 'all') {
+                  setSourceFilter('global-12db');
+                }
+              }}
               onlyBookmarked={onlyBookmarked}
               onToggleOnlyBookmarked={() => setOnlyBookmarked((b) => !b)}
               bookmarkedIds={bookmarkedIds}
+              onToggleBookmark={handleToggleBookmark}
+              playbackState={playbackState}
+              onPlayAllVerses={() => sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)}
+              onStopPlayback={() => sanskritAudioEngine.stop()}
+              onPlaySingleVerse={(verseIdx) =>
+                sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
+              }
+              onJumpToSection={(target) =>
+                setReaderNavRequest({ target, nonce: Date.now() })
+              }
+              onJumpToVerse={(verseArrayIndex) =>
+                setReaderNavRequest({
+                  target: 'verse',
+                  verseArrayIndex,
+                  nonce: Date.now(),
+                })
+              }
+              sidebarMode={sidebarMode}
+              onSidebarModeChange={setSidebarMode}
+              sidebarCollapsed={sidebarCollapsed}
+              onToggleSidebarCollapsed={() => setSidebarCollapsed((c) => !c)}
               mobileOpen={mobileCatalogOpen}
               onCloseMobile={() => setMobileCatalogOpen(false)}
             />
@@ -496,6 +556,7 @@ export const App: React.FC = () => {
               }
               onPlaySingleSyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
               onNavigateTab={handleTabChange}
+              navigationRequest={readerNavRequest}
             />
           </div>
         )}
