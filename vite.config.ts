@@ -320,6 +320,50 @@ export default defineConfig({
       configurePreviewServer(server) {
         attachApiMiddleware(server.middlewares);
       },
+      closeBundle() {
+        // Cloudflare Pages enforces a 25 MiB per-file limit.
+        // Prune uncompressed .json shards > 24 MiB from dist/corpus/ when their .json.gz twin exists.
+        const distCorpusDir = path.join(process.cwd(), 'dist', 'corpus');
+        const cfMaxBytes = 24 * 1024 * 1024;
+        if (fs.existsSync(distCorpusDir)) {
+          for (const entry of fs.readdirSync(distCorpusDir)) {
+            if (!entry.endsWith('.json')) continue;
+            const fullPath = path.join(distCorpusDir, entry);
+            const gzTwin = `${fullPath}.gz`;
+            try {
+              const stat = fs.statSync(fullPath);
+              if (stat.size > cfMaxBytes && fs.existsSync(gzTwin)) {
+                fs.unlinkSync(fullPath);
+                console.log(
+                  `[cloudflare-pages] Pruned oversized uncompressed shard dist/corpus/${entry} (${(stat.size / 1024 / 1024).toFixed(1)} MiB); keeping ${entry}.gz + HF CDN fallback.`
+                );
+              }
+            } catch {
+              // ignore stat/unlink error
+            }
+          }
+        }
+
+        // Generate dist/_headers for Cloudflare Pages edge caching & CORS
+        const distDir = path.join(process.cwd(), 'dist');
+        if (fs.existsSync(distDir)) {
+          const headersContent = [
+            '/assets/*',
+            '  Cache-Control: public, max-age=31536000, immutable',
+            '/fonts/*',
+            '  Cache-Control: public, max-age=31536000, immutable',
+            '  Access-Control-Allow-Origin: *',
+            '/corpus/*.gz',
+            '  Cache-Control: public, max-age=86400',
+            '  Access-Control-Allow-Origin: *',
+            '/corpus/*.json',
+            '  Cache-Control: public, max-age=86400',
+            '  Access-Control-Allow-Origin: *',
+            '',
+          ].join('\n');
+          fs.writeFileSync(path.join(distDir, '_headers'), headersContent, 'utf8');
+        }
+      },
     },
   ],
   base: '/',

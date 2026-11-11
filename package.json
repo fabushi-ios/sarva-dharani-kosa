@@ -13,6 +13,8 @@
     "fetch:tier1": "node scripts/fetch-tier1-databases.mjs",
     "fetch:tier23": "node scripts/fetch-tier23-databases.mjs",
     "build:corpus": "tsx scripts/build_cloud_corpus_shards.ts",
+    "deploy:staging": "bash scripts/deploy-hf-and-cf.sh --hf-only",
+    "deploy:prod": "bash scripts/deploy-cf-prod.sh",
     "kosa-cli": "node scripts/kosa-cli.mjs"
   },
   "dependencies": {

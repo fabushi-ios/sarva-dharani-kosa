@@ -209,17 +209,26 @@ api.upload_folder(
 print(f"✅ 成功部署至 https://huggingface.co/spaces/{space_id}")
 EOF
 
-echo "=== [5/5] 使用 Cloudflare Wrangler CLI 部署至 Cloudflare Pages ==="
-if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
-  echo "⚠️ 未检测到 CLOUDFLARE_API_TOKEN，跳过 Cloudflare Pages 推送（Hugging Face Space 已上线：${HF_STATIC_URL}，神经语音 API：${HF_TTS_API_URL}）。"
+if [ "${SKIP_CLOUDFLARE:-0}" = "1" ] || [ "${1:-}" = "--hf-only" ]; then
+  echo "🎉 Hugging Face 测试版 (Staging) 部署完成！（已按配置跳过 Cloudflare 正式版推送）"
+  echo "  • Hugging Face 测试版站点: ${HF_STATIC_URL}"
+  echo "  • Hugging Face 48kHz 梵文神经 API: ${HF_TTS_API_URL}"
+  echo "  • Hugging Face Space 主页: https://huggingface.co/spaces/${SPACE_ID}"
   exit 0
 fi
 
+echo "=== [5/5] 使用 Cloudflare Wrangler CLI 部署至 Cloudflare Pages ==="
+if [ -z "${CLOUDFLARE_API_TOKEN:-}" ]; then
+  echo "⚠️ 未检测到 CLOUDFLARE_API_TOKEN，跳过 Cloudflare Pages 推送（Hugging Face 测试版已上线：${HF_STATIC_URL}，神经语音 API：${HF_TTS_API_URL}）。"
+  exit 0
+fi
+
+find dist -type f -size +24M -delete || true
 npx --yes wrangler pages project create "${CF_PROJECT_NAME}" --production-branch=main 2>/dev/null || true
 npx --yes wrangler pages deploy dist --project-name="${CF_PROJECT_NAME}" --branch=main --commit-dirty=true
 
 echo "🎉 部署全部完成！"
 echo "  • Hugging Face 48kHz 梵文神经 API: ${HF_TTS_API_URL}"
-echo "  • Hugging Face 完整在线站点: ${HF_STATIC_URL}"
+echo "  • Hugging Face 测试版在线站点: ${HF_STATIC_URL}"
 echo "  • Hugging Face Space 主页: https://huggingface.co/spaces/${SPACE_ID}"
-echo "  • Cloudflare Pages 全球边缘站点: https://${CF_PROJECT_NAME}.pages.dev"
+echo "  • Cloudflare Pages 正式版全球边缘站点: https://${CF_PROJECT_NAME}.pages.dev"

@@ -1,4 +1,4 @@
-name: Deploy Neural TTS API, Cloud Corpus & Static Space to Hugging Face
+name: Deploy Staging (测试版) to Hugging Face
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-hf:
-    name: Build & Deploy 48kHz Neural TTS API + Cloud Corpus + Static Space to Hugging Face
+    name: Build & Deploy Staging (测试版) + 48kHz Neural TTS API to Hugging Face
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -31,7 +31,8 @@ jobs:
           npm ci
           pip install -U -q "huggingface_hub>=0.26.0"
 
-      - name: Deploy 48kHz Neural TTS API ZeroGPU Space, Cloud Corpus & Static Space to Hugging Face
+      - name: Deploy Staging Static Space, 48kHz Neural TTS API & Cloud Corpus to Hugging Face
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: bash scripts/deploy-hf-and-cf.sh
+          SKIP_CLOUDFLARE: '1'
+        run: bash scripts/deploy-hf-and-cf.sh --hf-only
