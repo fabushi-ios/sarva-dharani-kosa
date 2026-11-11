@@ -6,8 +6,9 @@ export type DharaniCategoryId =
   | 'buddhas-bodhisattvas'  // 诸佛菩萨心咒与本尊真言
   | 'vidyarajas-protectors' // 五大明王、五护陀罗尼与护法天部
   | 'prajna-sutra-hrdaya'   // 般若与经典总持门
+  | 'vedic-tantra-siddhanta'// 世界梵咒·吠陀奥义书与诸宗部
   | 'global-12db-canon'     // 全球12大权威数据库梵本专集 (DB1–DB12)
-  | 'gretil-canonical'      // GRETIL/DSBC 现存梵文贝叶经原典专集 (200部)
+  | 'gretil-canonical'      // GRETIL/DSBC 世界梵文原典专集 (297部)
   | 'custom';               // 用户导入/实时编译模块
 
 export interface CategoryMeta {

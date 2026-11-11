@@ -51,7 +51,7 @@ echo "🧠 48kHz ONNX 模型仓库: https://huggingface.co/${MODEL_ID}"
 echo "🚀 目标 Hugging Face Space: https://huggingface.co/spaces/${SPACE_ID}"
 echo "🌐 独立直连访问地址: ${HF_STATIC_URL}"
 
-echo "=== [2/4] 编译全量 2,051 部陀罗尼云端分片与检索索引，并同步至 Hugging Face Hub CDN ==="
+echo "=== [2/4] 编译全量世界梵文真言陀罗尼云端分片与检索索引，并同步至 Hugging Face Hub CDN ==="
 if [ ! -d "node_modules" ]; then
   npm ci
 fi
@@ -78,7 +78,7 @@ api.upload_folder(
     path_in_repo="corpus",
     repo_id=model_id,
     repo_type="model",
-    commit_message="Upload Cloud Corpus Shards & Pre-computed Search Index (2,051 Dharanis + 12 Global DBs + 614 Taisho Scriptures)",
+    commit_message="Upload Untruncated World Sanskrit Mantra & Dharani Cloud Corpus Shards (2,482 Entries + 12 Global DBs + 297 GRETIL Canons)",
 )
 print(f"✅ 模型与云端语料检索分片已同步至 https://huggingface.co/{model_id}")
 EOF

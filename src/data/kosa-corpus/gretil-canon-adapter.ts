@@ -11,6 +11,7 @@ import {
   generateVerseChinesePhonetics,
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
+import { cleanAndExpandSanskritMantraIast } from './twelve-databases-adapter';
 
 function makeLazyGretilVerse(params: {
   id: string;
@@ -83,22 +84,19 @@ const SITATAPATRA_GRETIL_FULL_VERSES: string[] = [
 
 function expandGretilLines(rawLines: string[], maxWordsPerLine = 12): string[] {
   const cleanedLines = rawLines
-    .map((l) => l.replace(/\[[^\]]*\]/g, '').replace(/\s+/g, ' ').trim())
+    .map((l) => cleanAndExpandSanskritMantraIast(l))
     .filter((l) => l.length >= 3);
-
-  if (cleanedLines.length >= 3) {
-    return cleanedLines.slice(0, 14);
-  }
 
   const expanded: string[] = [];
   for (const line of cleanedLines) {
     const clauses = line
       .split(/(?:\/\/|\|\||\|)+/)
       .map((s) => s.trim())
-      .filter((s) => s.length >= 3);
-    for (const cl of clauses) {
+      .filter((s) => s.length >= 2 && !/^\(?\d+\)?$/.test(s));
+    const source = clauses.length > 0 ? clauses : [line];
+    for (const cl of source) {
       const words = cl.split(/\s+/).filter(Boolean);
-      if (words.length <= Math.ceil(maxWordsPerLine * 1.4)) {
+      if (words.length <= Math.ceil(maxWordsPerLine * 1.5)) {
         expanded.push(cl);
       } else {
         for (let i = 0; i < words.length; i += maxWordsPerLine) {
@@ -116,24 +114,27 @@ function expandGretilLines(rawLines: string[], maxWordsPerLine = 12): string[] {
     }
   }
 
-  return expanded.length > 0 ? expanded.slice(0, 14) : cleanedLines;
+  return expanded.length > 0 ? expanded : cleanedLines;
 }
 
 function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse[] {
+  const validExtracted = record.extractedVerses
+    .map((v) => cleanAndExpandSanskritMantraIast(v))
+    .filter((v) => v.length >= 3);
+
   const baseLines =
-    record.file === 'bsu004_u.htm'
+    record.file === 'bsu004_u.htm' && validExtracted.length < 10
       ? SITATAPATRA_GRETIL_FULL_VERSES
-      : record.extractedVerses.length > 0
-      ? record.extractedVerses
+      : validExtracted.length > 0
+      ? validExtracted
       : record.rawSnippet
           .split('\n')
-          .map((l) => l.trim())
-          .filter((l) => l.length > 10)
-          .slice(0, 8);
+          .map((l) => cleanAndExpandSanskritMantraIast(l))
+          .filter((l) => l.length > 8);
 
   const sourceLines = expandGretilLines(baseLines, 12);
 
-  return sourceLines.slice(0, 14).map((line, idx) => {
+  return sourceLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,
@@ -155,8 +156,8 @@ function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): Dhar
       index: idx + 1,
       iast: cleanLine,
       meaningZh: `出自哥廷根大学 GRETIL 梵文原典《${record.titleZh}》（档案：${record.file} 第 ${idx + 1} 段真言/礼赞），已自动对齐唐宋古汉语音译与现代梵音拼读参考。`,
-      meaningEn: `Sanskrit mantra/verse extracted from GRETIL Buddhist Sanskrit manuscript ${record.file} (${record.titleSanskrit}).`,
-      tangNoteZh: `GRETIL 梵文佛典库档案：${record.file}（全书共 ${record.totalLines} 行）`,
+      meaningEn: `Sanskrit mantra/verse extracted from GRETIL Sanskrit manuscript ${record.file} (${record.titleSanskrit}).`,
+      tangNoteZh: `GRETIL 梵文原典档案：${record.file}（全书共 ${record.totalLines} 行）`,
     });
   });
 }
@@ -170,6 +171,8 @@ const PRIMARY_GRETIL_DHARANIS: DharaniEntry[] = AUTHORITATIVE_GRETIL_RECORDS.map
       .map((s) => s.trim())
       .find((s) => s.length > 4 && !s.startsWith('(')) || record.titleSanskrit;
 
+  const verses = buildVersesFromGretilRecord(record);
+
   return {
     id: `canonical-${record.id}`,
     titleZh: `【梵本原典】${record.titleZh}`,
@@ -180,7 +183,7 @@ const PRIMARY_GRETIL_DHARANIS: DharaniEntry[] = AUTHORITATIVE_GRETIL_RECORDS.map
     translatorZh: `哥廷根大学 GRETIL / 尼泊尔 DSBC 梵文贝叶经校勘本 (${firstHeaderLine})`,
     sutraSourceZh: `GRETIL 梵文佛典库 (${record.file}) · 汉译对勘：${record.taishoNo}`,
     deityZh: record.deityZh,
-    meritsAndSummaryZh: `本条目直接构建自德国哥廷根大学 GRETIL 梵语原典档案「${record.file}」（共 ${record.totalLinesInSource} 行，提取核心真言与经句 ${record.extractedVerses.length} 段）。系统已自动将其原始 IAST 梵文实时转写为天城文、唐代悉昙梵字、唐宋古汉语音译、现代梵音拼读参考、国际音标 (IPA) 及摩多轻重音律。`,
+    meritsAndSummaryZh: `本条目直接构建自德国哥廷根大学 GRETIL 梵语原典档案「${record.file}」（共 ${record.totalLinesInSource} 行，完整提取核心真言与经句共 ${verses.length} 句）。系统已自动将其原始 IAST 梵文实时转写为天城文、唐代悉昙梵字、唐宋古汉语音译、现代梵音拼读参考、国际音标 (IPA) 及摩多轻重音律。`,
     recitationTipsZh: `此为学术校勘梵文写本原貌，每一句均配备「梵音拼读参考」与「唐宋古汉语音译」平行对照，且每个音节胶囊内均同时展示梵文、古汉语与现代拼读。`,
     provenance: {
       sourceType: 'GRETIL/DSBC',
@@ -189,39 +192,50 @@ const PRIMARY_GRETIL_DHARANIS: DharaniEntry[] = AUTHORITATIVE_GRETIL_RECORDS.map
       gretilFile: record.file,
       gretilRawUrl: record.gretilRawUrl,
       editionCitation: record.headerCitation.split('\n').slice(0, 6).join(' | '),
-      manuscriptNotesZh: `已从 github.com/INDOLOGY/GRETIL-mirror 完整下载 ${record.file}（共 ${record.totalLinesInSource} 行）并抽取陀罗尼段落。`,
+      manuscriptNotesZh: `已从 github.com/INDOLOGY/GRETIL-mirror 完整下载 ${record.file}（共 ${record.totalLinesInSource} 行）并抽取全部 ${verses.length} 句陀罗尼段落。`,
       rawSnippet: record.rawSnippet,
     },
-    verses: buildVersesFromGretilRecord(record),
+    verses,
   };
 });
 
 const EXPANDED_GRETIL_DHARANIS: DharaniEntry[] = ALL_GRETIL_MANTRA_RECORDS.filter(
   (r) => !primaryFilesSet.has(r.file)
-).map((record) => ({
-  id: record.id,
-  titleZh: `【梵本】${record.titleZh}`,
-  titleSanskritIast: record.titleSanskrit,
-  titleEnglish: `GRETIL Sanskrit Buddhist Text (${record.file})`,
-  categoryId: 'gretil-canonical',
-  taishoNo: `GRETIL ${record.file}`,
-  translatorZh: '德国哥廷根大学 GRETIL 梵文贝叶经电子校勘库',
-  sutraSourceZh: `GRETIL 1_sanskr/4_rellit/buddh/${record.file}（共 ${record.totalLines} 行）`,
-  deityZh: '十方三世佛菩萨 · 梵本原典总持',
-  meritsAndSummaryZh: `自动抽取自德国哥廷根大学 GRETIL 佛教梵文库「${record.file}」（原书共 ${record.totalLines} 行），包含原典内出现之梵文真言（oṃ / tadyathā / svāhā / hūṃ / namaḥ 等）与礼赞偈颂，支持天城文、悉昙体、梵音拼读参考与唐宋古汉语音译四重对照。`,
-  recitationTipsZh: '每一句梵文原典均已自动生成「梵音拼读参考」与「古汉语音译」，点击即可播放合成梵音或导出 WAV 音频。',
-  provenance: {
-    sourceType: 'GRETIL/DSBC',
-    gretilFile: record.file,
-    gretilRawUrl: record.gretilUrl,
-    editionCitation: `Göttingen Register of Electronic Texts in Indian Languages (GRETIL): ${record.file}`,
-    manuscriptNotesZh: `源自哥廷根大学 GRETIL 佛教梵文文献库（共 ${record.totalLines} 行），抽取 ${record.mantraVerses.length} 段核心真言与礼赞句。`,
-    rawSnippet: record.mantraVerses.join('\n'),
-  },
-  verses: buildVersesFromExpandedGretil(record),
-}));
+).map((record) => {
+  const recExt = record as GretilExpandedMantraRecord & {
+    deityZh?: string;
+    traditionLabelZh?: string;
+    subcorpusPath?: string;
+  };
+  const verses = buildVersesFromExpandedGretil(record);
+  const subPath = recExt.subcorpusPath || `1_sanskr/4_rellit/buddh/${record.file}`;
+  const traditionZh = recExt.traditionLabelZh || '佛教梵文文献库';
+  return {
+    id: record.id,
+    titleZh: `【梵本】${record.titleZh}`,
+    titleSanskritIast: record.titleSanskrit,
+    titleEnglish: `GRETIL Sanskrit Canonical Text (${record.file})`,
+    categoryId: 'gretil-canonical',
+    taishoNo: `GRETIL ${record.file}`,
+    translatorZh: `德国哥廷根大学 GRETIL 梵文电子校勘库（${traditionZh}）`,
+    sutraSourceZh: `GRETIL ${subPath}（共 ${record.totalLines} 行）`,
+    deityZh: recExt.deityZh || '十方三世诸尊 · 梵本原典总持',
+    meritsAndSummaryZh: `直接抽取自德国哥廷根大学 GRETIL ${traditionZh}「${record.file}」（原书共 ${record.totalLines} 行，共提取 ${verses.length} 句核心梵文真言与礼赞颂），支持天城文、悉昙体、梵音拼读参考与唐宋古汉语音译六体对照。`,
+    recitationTipsZh: '每一句梵文原典均已自动生成「梵音拼读参考」与「古汉语音译」，点击即可播放合成梵音或导出 WAV 音频。',
+    provenance: {
+      sourceType: 'GRETIL/DSBC',
+      gretilFile: record.file,
+      gretilRawUrl: record.gretilUrl,
+      editionCitation: `Göttingen Register of Electronic Texts in Indian Languages (GRETIL): ${record.file}`,
+      manuscriptNotesZh: `源自哥廷根大学 GRETIL ${traditionZh}（共 ${record.totalLines} 行），抽取 ${verses.length} 句核心真言与礼赞句。`,
+      rawSnippet: record.mantraVerses.join('\n'),
+    },
+    verses,
+  };
+});
 
 export const GRETIL_CANONICAL_DHARANIS: DharaniEntry[] = [
   ...PRIMARY_GRETIL_DHARANIS,
   ...EXPANDED_GRETIL_DHARANIS,
 ];
+

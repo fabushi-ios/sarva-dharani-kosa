@@ -187,8 +187,8 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="search-dropdown-header">
                   <span>
                     {searchQuery.trim()
-                      ? `全库检索「${searchQuery}」：已连入 12 大国际数据库 (DB1–DB12) 与 1,419 部梵本，匹配 ${suggestions.length} 条`
-                      : '已接入全球 12 大梵典数据库 (DB1 房山石经 · DB3 DSBC · DB4 84000 · DB7 剑桥CUDL · DB8 奥斯陆 · DB12 牛津OCHS)'}
+                      ? `全库检索「${searchQuery}」：已连入全球 12 大梵典库与世界梵咒总集 (${allEntries.length} 部)，匹配 ${suggestions.length} 条`
+                      : '已接入全球 12 大梵典数据库与世界全传统梵文真言库（佛陀显密 · 唐密 · 藏密 · 尼泊尔梵本 · 吠陀 · 奥义书 · 湿婆/毗湿奴/性力派 · 耆那教）'}
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
                     <CornerDownLeft size={12} />
@@ -208,23 +208,25 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                 >
                   {[
+                    { label: '🔥 大随求陀罗尼', q: '大随求' },
                     { label: '🔥 大悲咒', q: '大悲咒' },
                     { label: '🔥 楞严咒', q: '楞严咒' },
                     { label: '🔥 尊胜陀罗尼', q: '尊胜' },
                     { label: '🔥 心经咒', q: '心经' },
                     { label: '✨ 六字大明咒', q: '嗡嘛呢呗美吽' },
                     { label: '✨ 绿度母', q: '绿度母' },
+                    { label: '✨ 孔雀明王', q: '孔雀明王' },
                     { label: '✨ 药师咒', q: '药师' },
                     { label: '✨ 准提咒', q: '准提' },
-                    { label: '✨ 秽迹金刚', q: '秽迹' },
+                    { label: '🕉️ 吠陀伽耶特黎', q: '伽耶特黎' },
+                    { label: '🕉️ 湿婆大死胜咒', q: '湿婆' },
+                    { label: '🕉️ 毗湿奴/吉祥天', q: '毗湿奴' },
                     { label: '🌐 DB1 房山石经', q: '房山' },
-                    { label: '🌐 DB2 T54悉昙字书', q: 'T54' },
                     { label: '🌐 DB3 尼泊尔DSBC', q: 'DSBC' },
                     { label: '🌐 DB4 84000藏密', q: 'TOH' },
                     { label: '🌐 DB7 剑桥CUDL贝叶经', q: 'CUDL' },
                     { label: '🌐 DB8 奥斯陆心经', q: '奥斯陆' },
                     { label: '🌐 DB9 德格rKTs', q: 'rKTs' },
-                    { label: '🌐 DB11 西域丝路', q: '丝路' },
                     { label: '🌐 DB12 牛津OCHS种子字', q: 'OCHS' },
                   ].map((chip) => (
                     <button

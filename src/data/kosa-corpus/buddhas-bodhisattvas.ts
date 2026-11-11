@@ -772,18 +772,18 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
   },
   {
     id: 'mahapratisara-hrdaya',
-    titleZh: '普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼（心咒与梵本）',
-    titleSanskritIast: 'Ārya-Mahāpratisarā-mahāvidyārājñī',
-    titleEnglish: 'Great Wish-Fulfilling Queen Mahāpratisarā Dhāraṇī (Pañcarakṣā I)',
+    titleZh: '普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼（根本心咒与随心真言精要）',
+    titleSanskritIast: 'Ārya-Mahāpratisarā-hṛdaya-upahṛdaya-mantra',
+    titleEnglish: 'Heart & Upahṛdaya Mantras of Mahāpratisarā Vidyārājñī (Pañcarakṣā I)',
     categoryId: 'vidyarajas-protectors',
-    taishoNo: 'T20n1153 / GRETIL psarkdhu',
-    translatorZh: '（唐）不空 译 · 尼泊尔《五护陀罗尼（Pañcarakṣā）》梵文贝叶本（GRETIL psarkdhu.htm）对勘',
-    sutraSourceZh: '《普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼经》(T20n1153) / GRETIL psarkdhu.htm',
+    taishoNo: 'T20n1153 / GRETIL mahpratu & psarkdhu',
+    translatorZh: '（唐）不空 译 · 牛津 Hidas (2012) 校勘梵本（mahpratu.htm）及尼泊尔《五护陀罗尼》梵本对勘',
+    sutraSourceZh: '《普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼经》(T20n1153) / GRETIL mahpratu.htm',
     deityZh: '大随求菩萨 (Mahāpratisarā)',
     meritsAndSummaryZh:
-      '印度与尼泊尔佛教最受尊崇之《五护陀罗尼（Pañcarakṣā）》第一部。唐代与辽代塔葬常置大随求陀罗尼经幢或佩带梵字坛城，随众生所求皆令圆满，灭一切重罪。',
+      '《五护陀罗尼（Pañcarakṣā）》第一部之日常修诵两道核心短咒（护身随心咒与摩尼金刚心咒）。全本 445 句长咒（含第一大品 282 句根本长咒、第二品护身咒、第三至四品无能胜心真言）已完整收录于「四大咒与根本长咒」之《大随求陀罗尼（全本445句）》及「DB1·房山石经卷八 pF28p0053a1701」「GRETIL mahpratu.htm」。',
     recitationTipsZh:
-      '随求心咒「oṃ bhara bhara saṃbhara saṃbhara indriyabalaviśodhani hūṃ hūṃ ruru cale svāhā」兼具福智资粮聚集（saṃbhara）与诸根力清净（indriyabalaviśodhani）。',
+      '随求心咒「oṃ bhara bhara saṃbhara saṃbhara indriyabalaviśodhani hūṃ hūṃ ruru cale svāhā」兼具福智资粮聚集（saṃbhara）与诸根力清净（indriyabalaviśodhani）；如需受持四百余句根本长咒全本，请检索「大随求陀罗尼（全本445句）」。',
     provenance: {
       sourceType: 'GRETIL/DSBC',
       cbetaId: 'T20n1153',
@@ -792,10 +792,10 @@ export const BUDDHAS_AND_PROTECTORS_DHARANIS: DharaniEntry[] = [
       gretilRawUrl: gretilPratisara?.rawUrl,
       editionCitation:
         gretilPratisara?.editionInfo ||
-        'Pañcarakṣā: Mahāpratisarāvidyārājñī (Digital Sanskrit Buddhist Canon / GRETIL psarkdhu.htm).',
+        'Gergely Hidas (2012), Mahāpratisarā-Mahāvidyārājñī, The Great Amulet, Great Queen of Spells (GRETIL mahpratu.htm / psarkdhu.htm).',
       manuscriptNotesZh:
-        '直接关联自 GRETIL 下载之《Pañcarakṣā》大随求部梵本（psarkdhu.htm）。',
-      rawSnippet: gretilPratisara?.extractedMantras.slice(0, 2).join('\n\n'),
+        '日常持诵心咒与随心咒精要本；全本 445 句梵本见 mahapratisara-mahavidyarajni-complete 与房山石经 F28n1071 卷八。',
+      rawSnippet: gretilPratisara?.extractedMantras.slice(0, 6).join(' | '),
     },
     verses: [
       {

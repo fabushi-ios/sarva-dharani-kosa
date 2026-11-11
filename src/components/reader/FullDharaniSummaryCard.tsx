@@ -29,6 +29,23 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const combined = useMemo(() => {
+    if (!config.showFullCombinedSummary) {
+      return {
+        siddhamList: [] as string[],
+        modernPhoneticList: [] as string[],
+        devanagariList: [] as string[],
+        iastList: [] as string[],
+        classicalZhList: [] as string[],
+        ipaList: [] as string[],
+        siddhamFull: '',
+        modernPhoneticFull: '',
+        devanagariFull: '',
+        iastFull: '',
+        classicalZhFull: '',
+        ipaFull: '',
+      };
+    }
+
     const siddhamList: string[] = [];
     const modernPhoneticList: string[] = [];
     const devanagariList: string[] = [];
@@ -36,31 +53,42 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
     const classicalZhList: string[] = [];
     const ipaList: string[] = [];
 
+    const needPhonetics = config.showModernPhoneticZh || config.showClassicalZh;
+
     for (const v of entry.verses) {
-      const autoPhon = generateVerseChinesePhonetics(
-        v.iast,
-        config.showPhoneticIastBracket
-      );
+      const autoPhon = needPhonetics
+        ? generateVerseChinesePhonetics(v.iast, config.showPhoneticIastBracket)
+        : null;
 
-      const formattedModern =
-        autoPhon.modernPhoneticZh ||
-        formatModernPhoneticWithIastOption(
-          v.modernPhoneticZh || '',
-          v.iast,
-          config.showPhoneticIastBracket
-        );
-
-      const effectiveClassical =
-        v.classicalTranslitZh && !v.classicalTranslitZh.startsWith('【GRETIL')
-          ? v.classicalTranslitZh
-          : autoPhon.classicalTranslitZh;
-
-      siddhamList.push(iastToSiddham(v.iast));
-      modernPhoneticList.push(formattedModern);
-      devanagariList.push(iastToDevanagari(v.iast));
-      iastList.push(v.iast);
-      classicalZhList.push(effectiveClassical);
-      ipaList.push(iastToIpa(v.iast));
+      if (config.showSiddham) {
+        siddhamList.push(iastToSiddham(v.iast));
+      }
+      if (config.showModernPhoneticZh && autoPhon) {
+        const formattedModern =
+          autoPhon.modernPhoneticZh ||
+          formatModernPhoneticWithIastOption(
+            v.modernPhoneticZh || '',
+            v.iast,
+            config.showPhoneticIastBracket
+          );
+        modernPhoneticList.push(formattedModern);
+      }
+      if (config.showDevanagari) {
+        devanagariList.push(iastToDevanagari(v.iast));
+      }
+      if (config.showIast) {
+        iastList.push(v.iast);
+      }
+      if (config.showClassicalZh && autoPhon) {
+        const effectiveClassical =
+          v.classicalTranslitZh && !v.classicalTranslitZh.startsWith('【GRETIL')
+            ? v.classicalTranslitZh
+            : autoPhon.classicalTranslitZh;
+        classicalZhList.push(effectiveClassical);
+      }
+      if (config.showIpa) {
+        ipaList.push(iastToIpa(v.iast));
+      }
     }
 
     return {
@@ -75,9 +103,19 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
       devanagariFull: devanagariList.join(' । '),
       iastFull: iastList.join(' | '),
       classicalZhFull: classicalZhList.join(' ｜ '),
-      ipaFull: `/${ipaList.join(' | ')}/`,
+      ipaFull: ipaList.length > 0 ? `/${ipaList.join(' | ')}/` : '',
     };
-  }, [entry.verses, config.showPhoneticIastBracket]);
+  }, [
+    entry.verses,
+    config.showFullCombinedSummary,
+    config.showSiddham,
+    config.showModernPhoneticZh,
+    config.showDevanagari,
+    config.showIast,
+    config.showClassicalZh,
+    config.showIpa,
+    config.showPhoneticIastBracket,
+  ]);
 
   const handleCopy = (key: string, text: string) => {
     navigator.clipboard?.writeText(text);
@@ -86,14 +124,37 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
   };
 
   const handleCopyAllSix = () => {
+    const siddhamFull =
+      combined.siddhamFull || entry.verses.map((v) => iastToSiddham(v.iast)).join('  ');
+    const devanagariFull =
+      combined.devanagariFull || entry.verses.map((v) => iastToDevanagari(v.iast)).join(' । ');
+    const iastFull = combined.iastFull || entry.verses.map((v) => v.iast).join(' | ');
+    const ipaFull =
+      combined.ipaFull || `/${entry.verses.map((v) => iastToIpa(v.iast)).join(' | ')}/`;
+    const modernFull =
+      combined.modernPhoneticFull ||
+      entry.verses
+        .map((v) => generateVerseChinesePhonetics(v.iast, config.showPhoneticIastBracket).modernPhoneticZh)
+        .join(' ｜ ');
+    const classicalFull =
+      combined.classicalZhFull ||
+      entry.verses
+        .map((v) => {
+          const auto = generateVerseChinesePhonetics(v.iast, false);
+          return v.classicalTranslitZh && !v.classicalTranslitZh.startsWith('【GRETIL')
+            ? v.classicalTranslitZh
+            : auto.classicalTranslitZh;
+        })
+        .join(' ｜ ');
+
     const allText = [
-      `《${entry.titleZh}》(${entry.taishoNo}) 全咒六体汇总`,
-      `【悉昙梵字】\n${combined.siddhamFull}`,
-      `【梵音拼读参考】\n${combined.modernPhoneticFull}`,
-      `【天城梵文】\n${combined.devanagariFull}`,
-      `【梵文 IAST】\n${combined.iastFull}`,
-      `【古汉语音译】\n${combined.classicalZhFull}`,
-      `【国际音标 IPA】\n${combined.ipaFull}`,
+      `《${entry.titleZh}》(${entry.taishoNo}) 全咒六体汇总（共 ${entry.verses.length} 句）`,
+      `【悉昙梵字】\n${siddhamFull}`,
+      `【梵音拼读参考】\n${modernFull}`,
+      `【天城梵文】\n${devanagariFull}`,
+      `【梵文 IAST】\n${iastFull}`,
+      `【古汉语音译】\n${classicalFull}`,
+      `【国际音标 IPA】\n${ipaFull}`,
     ].join('\n\n');
     handleCopy('all-six', allText);
   };

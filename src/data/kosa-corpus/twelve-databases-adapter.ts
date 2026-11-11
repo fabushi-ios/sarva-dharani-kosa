@@ -21,12 +21,42 @@ import {
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
 
-function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 10): string[] {
-  const cleaned = (rawIast || '')
+export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
+  if (!rawIast) return '';
+  let text = rawIast
     .replace(/\u00AD/g, '')
-    .replace(/\[\d+\]/g, '')
+    // Strip editorial page/folio/section brackets like [14], (Pkdh_141), (@1a)
+    .replace(/\[\s*\d+[a-zA-Z]*\s*\]/g, ' ')
+    .replace(/\(\s*(?:Pkdh|GRETIL|MS|fol\.?|p\.?)[^)]*\)/gi, ' ')
+    .replace(/[*+]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
+
+  if (
+    !text ||
+    /no data available/i.test(text) ||
+    /this gretil text file is for reference/i.test(text) ||
+    /multibyte sequence/i.test(text) ||
+    /^s\.n\.\s*book\s*links/i.test(text) ||
+    /\btadyathāpi\s*nāma/i.test(text)
+  ) {
+    return '';
+  }
+
+  // Expand critical-edition repetition numerals: e.g. "giri 2" -> "giri giri", "hūṃ 3" -> "hūṃ hūṃ hūṃ"
+  text = text.replace(
+    /(^|[\s|—-])([a-zA-Zāīūṛṝḷḹēōṃḥṅñṭḍṇśṣm̐'-]{2,})\s+([23])(?=$|[\s|.,;!/])/g,
+    (_m, prefix: string, word: string, countStr: string) => {
+      const count = Number(countStr);
+      return `${prefix}${Array(count).fill(word).join(' ')}`;
+    }
+  );
+
+  return text.replace(/\s+/g, ' ').trim();
+}
+
+function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 12): string[] {
+  const cleaned = cleanAndExpandSanskritMantraIast(rawIast);
   if (!cleaned) {
     return [
       'namaḥ sarvabuddhabodhisattvebhyaḥ',
@@ -34,29 +64,18 @@ function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 10): string[
     ];
   }
 
-  // If text has explicit double-danda (||) verse boundaries with >= 6 verses, preserve them 1-to-1
-  if (cleaned.includes('||')) {
-    const byDoubleDanda = cleaned
-      .split(/\s*\|\|\s*/)
-      .map((s) => s.trim())
-      .filter((s) => s.length >= 3 && !/^\(\d+\)$/.test(s));
-    if (byDoubleDanda.length >= 6) {
-      return byDoubleDanda.slice(0, 16);
-    }
-  }
-
-  // Otherwise split by dandas (||, |, //) or explicit em-dash pauses if present
+  // Split by dandas (||, |, //) preserving every genuine Sanskrit clause without any 16-line cap
   const rawClauses = cleaned
     .split(/(?:\|\||\|+|\/\/)+/)
     .map((s) => s.trim())
-    .filter((s) => s.length >= 2 && !/^\(\d+\)$/.test(s));
+    .filter((s) => s.length >= 2 && !/^\(?\d+\)?$/.test(s));
 
   const expandedLines: string[] = [];
   const sourceClauses = rawClauses.length > 0 ? rawClauses : [cleaned];
 
   for (const clause of sourceClauses) {
     const words = clause.split(/\s+/).filter(Boolean);
-    if (words.length <= Math.ceil(maxWordsPerLine * 1.4)) {
+    if (words.length <= Math.ceil(maxWordsPerLine * 1.5)) {
       expandedLines.push(clause);
     } else {
       for (let i = 0; i < words.length; i += maxWordsPerLine) {
@@ -80,7 +99,7 @@ function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 10): string[
     }
   }
 
-  return expandedLines.slice(0, 16);
+  return expandedLines;
 }
 
 function splitChineseIntoVerseLines(
@@ -90,32 +109,48 @@ function splitChineseIntoVerseLines(
   if (!rawZh) return undefined;
   const cleaned = rawZh.replace(/\s+/g, ' ').trim();
   if (!cleaned) return undefined;
+  if (targetVerseCount <= 1) return [cleaned];
 
-  // If already separated by ｜ or |, check if it matches or can be mapped
+  // Check explicit clause delimiters (｜, |, 。, ；, ;)
   const explicitParts = cleaned
     .split(/[｜|。；;]+/)
     .map((s) => s.trim())
     .filter(Boolean);
-  if (explicitParts.length >= targetVerseCount) {
-    return explicitParts.slice(0, targetVerseCount);
+
+  if (explicitParts.length === targetVerseCount) {
+    return explicitParts;
   }
 
-  const tokens = cleaned.split(/\s+/).filter(Boolean);
-  if (tokens.length >= targetVerseCount && targetVerseCount > 1) {
+  if (explicitParts.length > targetVerseCount) {
+    // Proportionally group all explicit parts into targetVerseCount buckets so zero trailing Chinese clauses are dropped
+    const grouped: string[] = [];
+    for (let b = 0; b < targetVerseCount; b++) {
+      const start = Math.floor((b * explicitParts.length) / targetVerseCount);
+      const end = Math.floor(((b + 1) * explicitParts.length) / targetVerseCount);
+      const slice = explicitParts.slice(start, Math.max(start + 1, end)).join(' ｜ ');
+      if (slice) grouped.push(slice);
+    }
+    return grouped;
+  }
+
+  const tokens = cleaned.replace(/[｜|]/g, ' ').split(/\s+/).filter(Boolean);
+  if (tokens.length >= targetVerseCount) {
     const lines: string[] = [];
-    const chunkSize = Math.max(1, Math.ceil(tokens.length / targetVerseCount));
-    for (let i = 0; i < tokens.length; i += chunkSize) {
-      lines.push(tokens.slice(i, i + chunkSize).join(' '));
+    for (let b = 0; b < targetVerseCount; b++) {
+      const start = Math.floor((b * tokens.length) / targetVerseCount);
+      const end = Math.floor(((b + 1) * tokens.length) / targetVerseCount);
+      lines.push(tokens.slice(start, Math.max(start + 1, end)).join(' '));
     }
     return lines;
   }
 
-  if (targetVerseCount > 1 && cleaned.length >= targetVerseCount * 4) {
-    const chars = Array.from(cleaned);
+  if (cleaned.length >= targetVerseCount * 2) {
+    const chars = Array.from(cleaned.replace(/\s+/g, ''));
     const lines: string[] = [];
-    const chunkSize = Math.max(1, Math.ceil(chars.length / targetVerseCount));
-    for (let i = 0; i < chars.length; i += chunkSize) {
-      lines.push(chars.slice(i, i + chunkSize).join('').trim());
+    for (let b = 0; b < targetVerseCount; b++) {
+      const start = Math.floor((b * chars.length) / targetVerseCount);
+      const end = Math.floor(((b + 1) * chars.length) / targetVerseCount);
+      lines.push(chars.slice(start, Math.max(start + 1, end)).join('').trim());
     }
     return lines;
   }
@@ -195,7 +230,7 @@ function buildStandardVerses(
   tangNoteZh?: string,
   customChineseLines?: string[]
 ): DharaniVerse[] {
-  return iastLines.slice(0, 16).map((line, idx) => {
+  return iastLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     const customZh = customChineseLines?.[idx]?.trim();
     return createLazyVerse({
@@ -209,6 +244,7 @@ function buildStandardVerses(
     });
   });
 }
+
 
 // ============================================================================
 // DB1: CBETA《房山石经》陀罗尼专集 (F28n1071 30卷 & 辽宋密咒)
@@ -450,10 +486,20 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
       englishTranslation?: string;
       criticalNotes?: string[];
     }> = [];
-    for (const m of rec.mantras.slice(0, 12)) {
-      const cleanLine = m.sanskritIast.replace(/\u00AD/g, '').replace(/\s+/g, ' ').trim();
+    for (const m of rec.mantras) {
+      const cleanLine = cleanAndExpandSanskritMantraIast(m.sanskritIast);
+      if (!cleanLine) continue;
       const wordCount = cleanLine.split(/\s+/).filter(Boolean).length;
       if (rec.mantras.length <= 2 && wordCount > 14) {
+        const subLines = splitIastIntoVerseLines(cleanLine, 12);
+        for (const sub of subLines) {
+          expandedMantraItems.push({
+            iast: sub,
+            englishTranslation: m.englishTranslation,
+            criticalNotes: m.criticalNotes,
+          });
+        }
+      } else if (cleanLine.includes('|') && wordCount > 16) {
         const subLines = splitIastIntoVerseLines(cleanLine, 12);
         for (const sub of subLines) {
           expandedMantraItems.push({
@@ -471,7 +517,7 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
       }
     }
 
-    const verses: DharaniVerse[] = expandedMantraItems.slice(0, 16).map((m, idx) => {
+    const verses: DharaniVerse[] = expandedMantraItems.map((m, idx) => {
       return createLazyVerse({
         id: `db4-84000-${rec.utId}-v${idx + 1}`,
         index: idx + 1,
@@ -520,10 +566,10 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
 // DB5: BuddhaNexus 分词梵文与 DharmaMitra 跨语种神经平行库
 // ============================================================================
 const DB5_ENTRIES: DharaniEntry[] = DB5_BUDDHANEXUS_CORPUS.records.map((rec): DharaniEntry => {
-  const segLines = rec.sampleSegments.map((s) => s.text).filter(Boolean);
+  const segLines = rec.sampleSegments.map((s) => cleanAndExpandSanskritMantraIast(s.text)).filter(Boolean);
   const rawLines =
     segLines.length >= 2
-      ? segLines.slice(0, 10)
+      ? segLines
       : splitIastIntoVerseLines(
           segLines[0] || 'namaḥ sarvabuddhabodhisattvebhyaḥ | oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā',
           11
@@ -573,8 +619,9 @@ const DB6_ENTRIES: DharaniEntry[] = DB6_SARIT_CORPUS.records.map((rec): DharaniE
     criticalApparatus: string[];
   }> = [];
 
-  for (const u of rec.featuredUnits.slice(0, 8)) {
-    const cleanText = u.cleanSanskritIast.replace(/[*+]/g, '').replace(/\s+/g, ' ').trim();
+  for (const u of rec.featuredUnits) {
+    const cleanText = cleanAndExpandSanskritMantraIast(u.cleanSanskritIast);
+    if (!cleanText) continue;
     if (rec.featuredUnits.length === 1) {
       const subLines = splitIastIntoVerseLines(cleanText, 12);
       subLines.forEach((sub, sIdx) => {
@@ -613,7 +660,7 @@ const DB6_ENTRIES: DharaniEntry[] = DB6_SARIT_CORPUS.records.map((rec): DharaniE
       manuscriptNotesZh: `写本叶码：${rec.featuredUnits.flatMap((u) => u.manuscriptLoci).slice(0, 6).join(', ') || 'TEI-P5 Critical Apparatus'}`,
       rawSnippet: iastLines.join('\n'),
     },
-    verses: expandedUnits.slice(0, 12).map((u, idx) => {
+    verses: expandedUnits.map((u, idx) => {
       return createLazyVerse({
         id: `db6-sarit-${rec.xmlId}-v${idx + 1}`,
         index: idx + 1,
@@ -710,7 +757,7 @@ const DB7_ENTRIES: DharaniEntry[] = [
 // DB8: 奥斯陆大学 Bibliotheca Polyglotta 四语平行对勘库 (16本心经等)
 // ============================================================================
 const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): DharaniEntry => {
-  const verses: DharaniVerse[] = vol.alignedRows.slice(0, 16).map((row, idx) => {
+  const verses: DharaniVerse[] = vol.alignedRows.map((row, idx) => {
     const sktCell =
       row.cells.find((c) => c.lang === 'Sanskrit') ||
       row.cells[0];

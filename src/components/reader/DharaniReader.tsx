@@ -182,6 +182,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 }) => {
   const [readerSubMode, setReaderSubMode] = useState<'verses' | 'cbeta-interlinear'>('verses');
   const [showProvenanceModal, setShowProvenanceModal] = useState(false);
+  const [visibleVerseLimit, setVisibleVerseLimit] = useState<number>(80);
   const [generatedWav, setGeneratedWav] = useState<{
     url: string;
     durationSec: number;
@@ -207,11 +208,20 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
   useEffect(() => {
     setReaderSubMode('verses');
+    setVisibleVerseLimit(80);
     setGeneratedWav((prev) => {
       if (prev?.url) URL.revokeObjectURL(prev.url);
       return null;
     });
   }, [entry.id]);
+
+  const effectiveVerseLimit =
+    playbackState.isPlaying &&
+    playbackState.currentVerseIndex !== null &&
+    playbackState.currentVerseIndex > visibleVerseLimit - 5
+      ? Math.min(entry.verses.length, playbackState.currentVerseIndex + 40)
+      : visibleVerseLimit;
+
 
   const handleGenerateWavAudio = async () => {
     if (isGeneratingWav) return;
@@ -605,7 +615,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
             }
           />
 
-          {entry.verses.map((verse, idx) => (
+          {entry.verses.slice(0, effectiveVerseLimit).map((verse, idx) => (
             <VerseBlock
               key={verse.id}
               verse={verse}
@@ -625,6 +635,48 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onPlaySyllable={onPlaySingleSyllable}
             />
           ))}
+
+          {entry.verses.length > effectiveVerseLimit && (
+            <div
+              className="verse-card"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '0.75rem',
+                padding: '0.85rem 1.1rem',
+                border: '1px dashed var(--accent-gold-border)',
+                background: 'var(--bg-elevated)',
+              }}
+            >
+              <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                上方「全咒六体汇总总览」已完整呈现全部 <strong>{entry.verses.length}</strong> 句全文；下方逐音节精解卡片当前已展开第{' '}
+                <strong>1–{effectiveVerseLimit}</strong> 句（剩余{' '}
+                <strong>{entry.verses.length - effectiveVerseLimit}</strong> 句）。
+              </span>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <button
+                  id="btn-expand-more-verses"
+                  type="button"
+                  className="btn-scholarly gold"
+                  onClick={() =>
+                    setVisibleVerseLimit((prev) => Math.min(entry.verses.length, prev + 120))
+                  }
+                >
+                  <span>继续展开后续 120 句</span>
+                </button>
+                <button
+                  id="btn-expand-all-verses"
+                  type="button"
+                  className="btn-scholarly primary"
+                  onClick={() => setVisibleVerseLimit(entry.verses.length)}
+                >
+                  <span>一键展开全部 {entry.verses.length} 句逐音节精解</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

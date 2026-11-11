@@ -22,6 +22,7 @@ import {
   FIRST_SCREEN_CORPUS,
   attachLazyWordsToEntries,
 } from '../../data/firstScreenCorpus';
+import { CORPUS_AUTHORITATIVE_STATS } from '../../data/corpusStats';
 import {
   hydrateCloudSearchIndex,
   hydrateTaishoSearchIndex,
@@ -32,7 +33,7 @@ import {
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v2';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v4';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -48,7 +49,7 @@ let currentEntries: DharaniEntry[] = FIRST_SCREEN_CORPUS;
 let currentStatus: CloudCorpusStatus = {
   phase: 'first-screen',
   loadedCount: FIRST_SCREEN_CORPUS.length,
-  totalCount: 2247,
+  totalCount: CORPUS_AUTHORITATIVE_STATS.totalCuratedAndCanonicalEntries,
   searchIndexReady: false,
   source: 'memory',
 };
@@ -73,6 +74,8 @@ async function openCorpusCache(): Promise<Cache | null> {
     if (!didPurgeLegacyCache) {
       didPurgeLegacyCache = true;
       window.caches.delete('sarva-dharani-corpus-v1').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v2').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v3').catch(() => {});
     }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {

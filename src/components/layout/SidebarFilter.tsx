@@ -178,7 +178,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               onSourceFilterChange('gretil-sanskrit');
             }}
           >
-            GRETIL(200)
+            GRETIL梵本
           </button>
         </div>
 

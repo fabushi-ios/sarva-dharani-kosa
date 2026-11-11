@@ -26,7 +26,7 @@ interface CompactMantraSeed {
 
 function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
   const verses: DharaniVerse[] = seed.verses.map((v, idx) => {
-    const autoPhonetics = generateVerseChinesePhonetics(v.iast);
+    const autoPhonetics = generateVerseChinesePhonetics(v.iast, false);
     return {
       id: `${seed.id}-v${idx + 1}`,
       index: idx + 1,
@@ -737,6 +737,464 @@ const WORLD_MANTRA_SEEDS: CompactMantraSeed[] = [
         modernPhoneticZh: '嗡 阿赫 古鲁 瓦吉啦达啦 苏玛帝给尔帝 悉地 吽 吽',
         meaningZh: '【宗喀巴大师（善慧名称吉祥）祈请心咒】观音、文殊、金刚手三尊合一宗喀巴大师之智慧心咒（配合《密集嘛》祈请颂持诵）。',
         meaningEn: 'Heart Mantra of Je Tsongkhapa (Sumatikīrti).',
+      },
+    ],
+  },
+  // ==================== 12. 无上瑜伽续部（时轮金刚·密集·胜乐·喜金刚·大威德·作明佛母） ====================
+  {
+    id: 'anuttarayoga-tantra-root-mantras',
+    titleZh: '无上瑜伽密续根本真言总集（时轮十相自在·密集·胜乐·喜金刚·作明佛母）',
+    aliasesZh: '时轮金刚心咒,十相自在咒,密集金刚心咒,胜乐金刚心咒,喜金刚心咒,呼金刚咒,作明佛母心咒,咕噜咕列佛母心咒,金刚瑜伽母心咒,空行母心咒',
+    titleSanskritIast: 'Anuttarayoga-Tantra-Mūla-Mantra-Saṃgraha',
+    titleEnglish: 'Root Mantras of the Anuttarayoga Tantras (Kālacakra, Guhyasamāja, Cakrasaṃvara, Hevajra, Kurukullā)',
+    categoryId: 'vidyarajas-protectors',
+    taishoNo: 'T18n0885 / T18n0892 (SARIT & GRETIL 梵本无上续对勘)',
+    translatorZh: '宋·施护 / 法贤 译 · 梵文无上续贝叶经（Kālacakra / Hevajra / Guhyasamāja）校勘',
+    sutraSourceZh: '《吉祥时轮根本略续》《一切如来真实摄密集根本续》《吉祥喜金刚本续王》《圣多罗作明佛母续》',
+    deityZh: '时轮金刚 · 密集金刚 · 胜乐轮金刚 · 喜金刚 · 咕噜咕列作明佛母 · 金刚亥母',
+    meritsAndSummaryZh:
+      '汇集印度晚期梵文无上瑜伽续（父续、母续、无二续）现存贝叶经原典核心真言：时轮金刚十相自在根本咒、密集金刚三金刚咒、胜乐轮黑鲁迦根本心咒、喜金刚心咒、金刚亥母（多罗三嗡咒）与作明佛母怀爱摄受心咒。',
+    verses: [
+      {
+        iast: 'oṃ haṃ kṣa ma la va ra yaṃ svāhā',
+        classicalTranslitZh: '唵 憾 叉 摩 攞 嚩 啰 焰 娑嚩贺（时轮金刚十相自在根本心咒）',
+        meaningZh: '【时轮金刚（Kālacakra）十相自在根本心咒】统摄外内别三时轮与地水火风空识智七界圆满坛城。',
+        meaningEn: 'Kālacakra Ten-Fold Powerful Syllable Mantra (Daśākṣarī) from the Vimalaprabhā.',
+      },
+      {
+        iast: 'oṃ āḥ vajradhṛk hūṃ hūṃ',
+        classicalTranslitZh: '唵 阿 嚩日啰特哩克 吽 吽（密集金刚根本心咒）',
+        meaningZh: '【密集金刚（Guhyasamāja Akṣobhyavajra）根本心咒】父续之王《密集根本续》执持五智金刚心印。',
+        meaningEn: 'Root Mantra of Guhyasamāja Akṣobhyavajra (Guhyasamājatantra).',
+      },
+      {
+        iast: 'oṃ śrī vajra he he ru ru kaṃ huṃ hūṃ phaṭ ḍākinījālasaṃvaraṃ svāhā',
+        classicalTranslitZh: '唵 室哩 嚩日啰 醯醯 噜噜 剑 吽 吽 泮吒 荼吉尼惹攞三嚩啰 娑嚩贺',
+        meaningZh: '【胜乐金刚（Cakrasaṃvara Heruka）根本心咒】母续之王胜乐轮黑鲁迦空行网大乐总摄心咒。',
+        meaningEn: 'Root Mantra of Śrī Cakrasaṃvara Heruka (Laghusaṃvaratantra).',
+      },
+      {
+        iast: 'oṃ deva picu vajra hūṃ hūṃ hūṃ phaṭ svāhā',
+        classicalTranslitZh: '唵 提嚩 必祖 嚩日啰 吽 吽 吽 泮吒 娑嚩贺（《佛说大悲空智金刚大教王经》卷二）',
+        meaningZh: '【喜金刚（Hevajra / 呼金刚）八字根本心咒】《喜金刚本续王》悲智双运摧破四魔根本真言。',
+        meaningEn: 'Root Heart Mantra of Śrī Hevajra (Hevajratantra I.2).',
+      },
+      {
+        iast: 'oṃ oṃ oṃ sarvabuddhaḍākinīye vajravarṇanīye vajravairocanīye hūṃ hūṃ hūṃ phaṭ phaṭ phaṭ svāhā',
+        classicalTranslitZh: '唵 唵 唵 萨嚩没驮荼吉尼曳 嚩日啰嚩啰拏尼曳 嚩日啰吠路左尼曳 吽吽吽 泮吒泮吒泮吒 娑嚩贺',
+        meaningZh: '【金刚瑜伽母 / 金刚亥母「三嗡咒」根本真言】诸佛空行母、金刚严饰母、金刚遍照母三身空乐智慧总持。',
+        meaningEn: 'Three-Oṃ Mantra of Vajrayoginī / Vajravārāhī (Sarvabuddhaḍākinī).',
+      },
+      {
+        iast: 'oṃ kurukulle hrīḥ svāhā',
+        classicalTranslitZh: '唵 俱噜俱梨 纥哩 娑嚩贺（作明佛母 / 咕噜咕列佛母根本心咒）',
+        meaningZh: '【作明佛母（Kurukullā / 咕噜咕列佛母）心咒】怀柔六道众生、圆满善缘人缘与智慧威德之红度母真言。',
+        meaningEn: 'Heart Mantra of Goddess Kurukullā (Kalpokta-Kurukullā-Sādhana).',
+      },
+    ],
+  },
+  // ==================== 13. 四吠陀本集根本圣咒 · 伽耶特黎咒与太阳神赞 ====================
+  {
+    id: 'rgveda-gayatri-savitr-mantras',
+    titleZh: '《梨俱吠陀》根本圣咒 · 娑维特里伽耶特黎咒（Gāyatrī）与吠陀晨祷总集',
+    aliasesZh: '伽耶特黎咒,吠陀之母,太阳神咒,萨维特里真言,梨俱吠陀开篇阿耆尼赞,同心同德咒,Gayatri Mantra,Savitri Mantra,Rigveda',
+    titleSanskritIast: 'Ṛgveda-Sāvitrī-Gāyatrī-Saṃjñāna-Mantra',
+    titleEnglish: 'The Vedic Gāyatrī Mantra (Ṛgveda 3.62.10), Agni Opening & Saṃjñāna Unity Mantras',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Ṛgveda 3.62.10 / 1.1.1 / 10.191 (GRETIL rv_au_u.htm)',
+    translatorZh: '众友仙人（Viśvāmitra Ṛṣi）等古吠陀圣仙 传诵 · Aufrecht / van Nooten 校勘本',
+    sutraSourceZh: '《梨俱吠陀本集（Ṛgveda-Saṃhitā）》第 3 卷 62 首 10 颂、第 1 卷 1 首、第 10 卷 191 首',
+    deityZh: '太阳创造神娑维特里 (Savitar) · 圣火阿耆尼 (Agni)',
+    meritsAndSummaryZh:
+      '人类现存最古老梵文圣典《梨俱吠陀》之最高核心真言。伽耶特黎咒（Gāyatrī Mantra）被尊为「一切吠陀之母（Vedamātā）」，含三界大宣说词（Mahāvyāhṛti: oṃ bhūr bhuvaḥ svaḥ）与二十四音节娑维特里光明祈请文，启迪无上觉性智慧；并收录《梨俱吠陀》第一颂圣火赞及全本压卷之《同心和合颂》。',
+    verses: [
+      {
+        iast: 'oṃ bhūr bhuvaḥ svaḥ | tat savitur vareṇyaṃ bhargo devasya dhīmahi | dhiyo yo naḥ pracodayāt',
+        classicalTranslitZh: '唵 婆卢 婆嚩 娑嚩 | 怛 萨尾睹哩 嚩隶尼也 婆啰伽 提嚩写 提摩醯 | 提瑜 瑜 那 钵啰祖那夜',
+        meaningZh: '【吠陀之母·伽耶特黎根本圣咒（Ṛgveda 3.62.10）】嗡！遍满地界、空界、天界！我等至心禅思彼太阳创造神娑维特里最胜崇高之神圣净光，愿彼圣光启发并引导我等之灵性智慧！',
+        meaningEn: 'Oṃ Bhūr Bhuvaḥ Svaḥ! We meditate upon that supreme, adorable effulgence of the divine Vivifier Savitar; may He illuminate and inspire our intellects! (Ṛgveda 3.62.10)',
+      },
+      {
+        iast: 'agnim īḷe purohitaṃ yajñasya devam ṛtvijam | hotāraṃ ratnadhātamam',
+        classicalTranslitZh: '阿耆尼 伊礼 补噜醯多 夜若写 提嚩 讫哩得尾瞻 | 呼多蓝 啰怛那陀多摩',
+        meaningZh: '【《梨俱吠陀》全书开篇第一颂（Ṛgveda 1.1.1）】我礼赞圣火阿耆尼——祭礼之首座导师、神圣之主祭司、召请诸神且最富妙宝之施主！',
+        meaningEn: 'I praise Agni, the household priest, the divine minister of the sacrifice, the invoker who bestows supreme treasures. (Ṛgveda 1.1.1)',
+      },
+      {
+        iast: 'viśvāni deva savitar duritāni parāsuva | yad bhadraṃ tan na āsuva',
+        classicalTranslitZh: '尾室嚩尼 提嚩 萨尾怛 度哩多尼 波啰苏嚩 | 也 跋捺蓝 怛 那 阿苏嚩',
+        meaningZh: '【《白夜柔吠陀》娑维特里净障祈福咒（VS 30.3 / RV 5.82.5）】神圣太阳神娑维特里啊！愿你遣除我等一切恶业与灾障；凡属吉祥善妙者，悉愿赐予我等！',
+        meaningEn: 'O Divine Savitar, drive away all afflictions and evil; bestow upon us whatever is auspicious and good! (Śukla-Yajurveda 30.3 / Ṛgveda 5.82.5)',
+      },
+      {
+        iast: 'saṃ gacchadhvaṃ saṃ vadadhvaṃ saṃ vo manāṃsi jānatām | samāno mantraḥ samitiḥ samānī samānaṃ manaḥ saha cittam eṣām',
+        classicalTranslitZh: '三 伽车特嚩 三 嚩那特嚩 三 嚩 摩难悉 惹那担 | 三摩奴 曼怛啰 三弥底 三摩尼 三摩南 摩那 萨诃 质多 翳衫',
+        meaningZh: '【《梨俱吠陀》压卷之《同心和合真言》（Ṛgveda 10.191.2–3）】愿尔等偕行共进，和合共语，心意相通如一！同持真言，同聚圣会，心志合一，慧念融通！',
+        meaningEn: 'Walk together in harmony, speak together in harmony, let your minds know unity; united be your mantra, united your assembly, united your mind and consciousness! (Ṛgveda 10.191.2–3)',
+      },
+    ],
+  },
+  // ==================== 14. 梨俱吠陀与夜柔吠陀 · 大胜死咒（Mahāmṛtyuñjaya）与楼陀罗圣咒 ====================
+  {
+    id: 'rgveda-mahamrtyunjaya-rudra-mantras',
+    titleZh: '《梨俱吠陀》大胜死咒（Mahāmṛtyuñjaya 三目尊长寿解脱真言）与《夜柔吠陀》楼陀罗圣赞',
+    aliasesZh: '大胜死咒,三目湿婆长寿咒,摩诃木提云佳亚咒,超越死亡真言,楼陀罗伽耶特黎咒,Mahamrityunjaya Mantra,Tryambakam Mantra,Sri Rudram',
+    titleSanskritIast: 'Mahāmṛtyuñjaya-Tryambaka-Śrī-Rudra-Mantra',
+    titleEnglish: 'The Great Death-Conquering Mantra (Ṛgveda 7.59.12) & Śrī Rudram Invocations',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Ṛgveda 7.59.12 / Taittirīya Saṃhitā 4.5 (GRETIL rv_au_u / ts_u)',
+    translatorZh: '婆私吒仙人（Vasiṣṭha Ṛṣi）传诵 · 黑夜柔吠陀《Śrī Rudram》对勘',
+    sutraSourceZh: '《梨俱吠陀》第 7 卷 59 首 12 颂 ·《黑夜柔吠陀·泰帝利耶本集》4.5《Śrī Rudram》',
+    deityZh: '三目尊湿婆 · 甘露胜死尊 (Tryambaka Rudra-Śiva)',
+    meritsAndSummaryZh:
+      '印度与伽耶特黎咒并列之两大最高吠陀圣咒之一。出自《梨俱吠陀》7.59.12，礼敬三目慈尊（Tryambaka），喻如熟瓜自然脱离藤蔓之束缚，祈愿众生远离疾病横死、证入不死甘露解脱。',
+    verses: [
+      {
+        iast: 'tryambakaṃ yajāmahe sugandhiṃ puṣṭivardhanam | urvārukam iva bandhanān mṛtyor mukṣīya māmṛtāt',
+        classicalTranslitZh: '怛哩焰婆剑 也惹摩醯 苏健廷 补瑟置嚩啰陀南 | 乌啰嚩噜剑 伊嚩 盘陀难 蜜栗底瑜 目吃史也 摩蜜栗多',
+        meaningZh: '【《梨俱吠陀》7.59.12 大胜死咒原典本颂】我等虔诚礼敬三目圣尊——芬芳遍满、增益生命福德滋养者！愿我如成熟甜瓜自然脱离瓜藤般，从死亡束缚中解脱，而永不远离不死甘露自性！',
+        meaningEn: 'We worship the Three-Eyed One (Tryambaka), fragrant and nourishing all beings; like a ripe cucumber effortlessly released from its stem, may I be liberated from death, never from immortality! (Ṛgveda 7.59.12)',
+      },
+      {
+        iast: 'oṃ hrauṃ jūṃ saḥ | oṃ bhūr bhuvaḥ svaḥ | tryambakaṃ yajāmahe sugandhiṃ puṣṭivardhanam | urvārukam iva bandhanān mṛtyor mukṣīya māmṛtāt | oṃ svaḥ bhuvaḥ bhūḥ | oṃ saḥ jūṃ hrauṃ oṃ',
+        classicalTranslitZh: '唵 诃哢 戎 萨 | 唵 婆卢 婆嚩 娑嚩 | 怛哩焰婆剑 也惹摩醯... | 唵 萨 戎 诃哢 唵',
+        meaningZh: '【坦陀罗甘露护身全轨·包裹种子字大胜死全咒（Saṃpuṭita Mahāmṛtyuñjaya）】前后以甘露长寿种子字「oṃ hrauṃ jūṃ saḥ」及三界大宣说词双向结界护持，专用于疗愈重疾、延寿消灾。',
+        meaningEn: 'Full Tantric Encased (Saṃpuṭita) Mahāmṛtyuñjaya Mantra with the immortalizing bīja-cluster Oṃ Hrauṃ Jūṃ Saḥ.',
+      },
+      {
+        iast: 'namas te astu bhagavan viśveśvarāya mahādevāya tryambakāya tripurāntakāya trikālāgnikālāya kālāgnirudrāya nīlakaṇṭhāya mṛtyuñjayāya sarveśvarāya sadāśivāya śrīmanmahādevāya namaḥ',
+        classicalTranslitZh: '曩莫 娑帝 阿娑睹 婆誐梵 尾室吠室嚩啰也 摩诃提嚩也 怛哩焰婆迦也... 尼攞建侘也 蜜栗底匀惹也也 萨嚩伊室嚩啰也 萨陀尸嚩也 曩莫',
+        meaningZh: '【《夜柔吠陀·Śrī Rudram》十一尊号顶礼总咒】顶礼世尊、宇宙之主、大天、三目尊、破三城尊、三时劫火尊、青颈尊、胜死尊、一切自在尊、常住吉祥湿婆大天！',
+        meaningEn: 'Śrī Rudram / Namakam Eleven-Epithet Salutation to Viśveśvara, Mahādeva, Tryambaka, Nīlakaṇṭha, Mṛtyuñjaya, and Sadāśiva.',
+      },
+      {
+        iast: 'oṃ tatpuruṣāya vidmahe mahādevāya dhīmahi | tan no rudraḥ pracodayāt',
+        classicalTranslitZh: '唵 怛补噜沙也 尾捺摩醯 摩诃提嚩也 提摩醯 | 怛 奴 噜捺啰 钵啰祖那夜',
+        meaningZh: '【楼陀罗伽耶特黎咒（Rudra Gāyatrī ·《泰帝利耶森林书》10.1）】嗡！我等证知彼至高原人，禅思大天湿婆；愿楼陀罗尊启发我等之灵明觉性！',
+        meaningEn: 'Rudra Gāyatrī Mantra from Taittirīya Āraṇyaka 10.1 (Mahānārāyaṇa Upaniṣad).',
+      },
+    ],
+  },
+  // ==================== 15. 十三大奥义书 · 吉祥和平咒（Śānti-Mantra）与四大梵我格言 ====================
+  {
+    id: 'upanisad-santi-mahavakya-mantras',
+    titleZh: '十三大《奥义书（Upaniṣad）》吉祥和平咒（Śānti-Mantra）与四大梵我格言全集',
+    aliasesZh: '奥义书和平咒,帕瓦玛纳咒,导我向真实咒,圆满咒,师生共修和平咒,四大格言,梵我一如真言,Pavamana Mantra,Asato Ma Sad Gamaya,Purnam Adah,Saha Nav Avatu,Shanti Mantra',
+    titleSanskritIast: 'Upaniṣad-Pañca-Śānti-Mantra-Mahāvākya-Saṃgraha',
+    titleEnglish: 'Upaniṣadic Peace Mantras (Śānti-Pāṭha: Pavamāna, Pūrṇam Adaḥ, Saha Nāv Avatu) & Four Mahāvākyas',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Bṛhadāraṇyaka / Īśā / Taittirīya / Kaṭha / Muṇḍaka / Chāndogya (GRETIL upanisad)',
+    translatorZh: '古印度森林哲人仙人 传授 · Olivelle / Limaye-Vadekar 梵本奥义书校勘',
+    sutraSourceZh: '《广林奥义书》《伊沙奥义书》《泰帝利耶奥义书》《卡塔奥义书》《蒙达卡奥义书》《歌者奥义书》',
+    deityZh: '最高梵 (Parabrahman) · 内在真我 (Ātman)',
+    meritsAndSummaryZh:
+      '完整汇集印度吠檀多哲学源头《十三大奥义书》开篇与结诵必诵之五大吉祥和平咒（Śānti-Pāṭha）——净心升华咒（Asato mā sad gamaya）、圆满自性咒（Pūrṇam adaḥ）、师徒同修护佑咒（Saha nāv avatu）、诸天吉祥祈愿咒（Śaṃ no mitraḥ / Bhadraṃ karṇebhiḥ），以及四部吠陀各自凝练之四大究竟格言（Mahāvākya）。',
+    verses: [
+      {
+        iast: 'oṃ asato mā sad gamaya | tamaso mā jyotir gamaya | mṛtyor mā amṛtaṃ gamaya | oṃ śāntiḥ śāntiḥ śāntiḥ',
+        classicalTranslitZh: '唵 阿萨睹 摩 萨 伽摩也 | 多摩苏 摩 殊底 伽摩也 | 蜜栗底瑜 摩 阿蜜栗多 伽摩也 | 唵 扇底 扇底 扇底',
+        meaningZh: '【《广林奥义书》1.3.28 净心升华圣咒（Pavamāna Mantra）】嗡！祈导我从虚妄走向真实，导我从黑暗走向光明，导我从死亡走向不死甘露！嗡，寂静、寂静、寂静（息灭天灾、外患、内惑三重苦厄）！',
+        meaningEn: 'Oṃ! Lead me from the unreal to the Real; lead me from darkness to Light; lead me from death to Immortality! Oṃ Peace, Peace, Peace! (Bṛhadāraṇyaka Upaniṣad 1.3.28)',
+      },
+      {
+        iast: 'oṃ pūrṇam adaḥ pūrṇam idaṃ pūrṇāt pūrṇam udacyate | pūrṇasya pūrṇam ādāya pūrṇam evāvaśiṣyate | oṃ śāntiḥ śāntiḥ śāntiḥ',
+        classicalTranslitZh: '唵 补啰拏 阿那 补啰拏 伊南 补啰拏 补啰拏 乌那遮帝 | 补啰拏写 补啰拏 阿陀也 补啰拏 翳嚩嚩尸沙帝 | 唵 扇底 扇底 扇底',
+        meaningZh: '【《伊沙奥义书》暨《广林奥义书》5.1.1 圆满不二和平咒】嗡！彼（超越界）是圆满，此（显现界）亦是圆满；由圆满中生起圆满；即便从圆满中取走圆满，所余依然纯粹圆满！嗡，寂静、寂静、寂静！',
+        meaningEn: 'Oṃ! That is Full; this is Full; from Fullness, Fullness arises. When Fullness is taken from Fullness, Fullness alone remains! Oṃ Peace, Peace, Peace! (Īśā / Bṛhadāraṇyaka 5.1.1)',
+      },
+      {
+        iast: 'oṃ saha nāv avatu | saha nau bhunaktu | saha vīryaṃ karavāvahai | tejasvi nāv adhītam astu mā vidviṣāvahai | oṃ śāntiḥ śāntiḥ śāntiḥ',
+        classicalTranslitZh: '唵 萨诃 脑 阿嚩睹 | 萨诃 脑 婆那讫睹 | 萨诃 尾哩也 迦啰嚩嚩海 | 帝惹娑尾 脑 阿提多 阿娑睹 摩 尾捺尾沙嚩海 | 唵 扇底 扇底 扇底',
+        meaningZh: '【《卡塔奥义书》暨《泰帝利耶奥义书》师生共修和平咒】嗡！愿圣道同护我师徒二人，同赐资养，同发勇猛精进；愿我等所学光明辉煌，永不生丝毫乖违嗔嫌！嗡，寂静、寂静、寂静！',
+        meaningEn: 'Oṃ! May It protect us both together; may It nourish us both; may we work together with great vigor; may our study be luminous and effective; may we never harbor animosity! (Taittirīya / Kaṭha Śānti-pāṭha)',
+      },
+      {
+        iast: 'oṃ bhadraṃ karṇebhiḥ śṛṇuyāma devāḥ | bhadraṃ paśyemākṣabhir yajatrāḥ | sthirair aṅgais tuṣṭuvāṃsas tanūbhir vyaśema devahitaṃ yad āyuḥ | oṃ śāntiḥ śāntiḥ śāntiḥ',
+        classicalTranslitZh: '唵 跋捺蓝 羯尼毗 室哩努夜摩 提嚩 | 跋捺蓝 钵尸摩叉毗 也惹怛啰... | 唵 扇底 扇底 扇底',
+        meaningZh: '【《蒙达卡奥义书》暨《蛙氏奥义书》吉祥听闻和平咒】嗡！诸天圣众啊，愿我等双耳唯闻吉祥正音，双目唯见善妙瑞相；肢体康健赞咏圣德，圆满享有天赐慧命！嗡，寂静、寂静、寂静！',
+        meaningEn: 'Oṃ! O Gods, may we hear with our ears what is auspicious; O Worshipful Ones, may we see with our eyes what is auspicious; with firm limbs may we enjoy our divinely allotted life! (Ṛgveda 1.89.8 / Muṇḍaka Śānti)',
+      },
+      {
+        iast: 'oṃ śaṃ no mitraḥ śaṃ varuṇaḥ | śaṃ no bhavatv aryamā | śaṃ na indro bṛhaspatiḥ | śaṃ no viṣṇur urukramaḥ | namo brahmaṇe | namas te vāyo | tvam eva pratyakṣaṃ brahmāsi',
+        classicalTranslitZh: '唵 苫 奴 弥怛啰 苫 嚩噜拏 | 苫 奴 婆嚩睹 阿哩也摩 | 苫 那 因捺噜 毗哩诃娑钵底 | 苫 奴 尾瑟努 乌噜讫啰摩 | 曩莫 婆啰憾摩尼',
+        meaningZh: '【《泰帝利耶奥义书》1.1 开篇诸天吉祥祝祷咒】嗡！愿密多罗赐吉祥，伐楼拿赐吉祥，阿梨耶磨赐吉祥，因陀罗与祭主仙赐吉祥，广步毗湿奴赐吉祥！顶礼大梵，顶礼生命气息之神，你即是现前可证之梵！',
+        meaningEn: 'Oṃ! May Mitra be propitious to us, may Varuṇa be propitious, may Aryaman, Indra, Bṛhaspati, and wide-striding Viṣṇu be propitious! Homage to Brahman! (Taittirīya Upaniṣad 1.1)',
+      },
+      {
+        iast: 'prajñānaṃ brahma | ahaṃ brahmāsmi | tat tvam asi | ayam ātmā brahma | satyaṃ jñānam anantaṃ brahma',
+        classicalTranslitZh: '钵啰若南 婆啰憾摩 | 阿憾 婆啰憾摩娑弥 | 怛 得嚩 阿悉 | 阿阎 阿怛摩 婆啰憾摩 | 萨底也 若南 阿难多 婆啰憾摩',
+        meaningZh: '【四吠陀四大究竟格言（Mahāvākyāni）】般若灵知即是梵（梨俱·爱达罗氏）；我即是梵（夜柔·广林）；汝即是彼（娑摩·歌者）；此真我即是梵（阿闼婆·蛙氏）；真实、明觉、无限即是梵（泰帝利耶）！',
+        meaningEn: 'The Four Great Upaniṣadic Mahāvākyas: Consciousness is Brahman (Aitareya 3.3); I am Brahman (Bṛhadāraṇyaka 1.4.10); That Thou Art (Chāndogya 6.8.7); This Self is Brahman (Māṇḍūkya 2).',
+      },
+    ],
+  },
+  // ==================== 16. 象头神脑顶奥义书（Gaṇapati Atharvaśīrṣa） ====================
+  {
+    id: 'ganapati-atharvasirsa-mantras',
+    titleZh: '《象头神脑顶奥义书》伽那钵底（大圣欢喜天/象头财神）根本真言全集',
+    aliasesZh: '象头神心咒,伽那钵底真言,除障神咒,象头财神咒,大圣欢喜天梵咒,Ganesh Mantra,Om Gam Ganapataye Namah,Vakratunda Mahakaya,Ganapati Atharvasirsa',
+    titleSanskritIast: 'Śrī-Gaṇapati-Atharvaśīrṣa-Mūla-Mantra',
+    titleEnglish: 'Sacred Mantras of Śrī Gaṇeśa (Gaṇapati Atharvaśīrṣa Upaniṣad & Vakratuṇḍa Stotra)',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Gaṇapati Atharvaśīrṣa Upaniṣad / Mudgala Purāṇa (GRETIL)',
+    translatorZh: '阿闼婆仙人（Atharvan Ṛṣi）传诵 · 汉传参校唐·不空译《大圣欢喜双身毗那夜迦法》',
+    sutraSourceZh: '《阿闼婆吠陀·象头神脑顶奥义书（Gaṇapatyatharvaśīrṣopaniṣad）》',
+    deityZh: '群主象头神 · 毗那夜迦除障尊 (Śrī Mahāgaṇapati / Gaṇeśa)',
+    meritsAndSummaryZh:
+      '印度一切修法、庆典、经典开篇最先礼敬之除障与智慧之神伽那钵底（Gaṇapati，佛教尊为毗那夜迦/大圣欢喜天）之根本梵咒。完整收录一字种子根本咒、象头神伽耶特黎咒、千万日光曲鼻除障颂及《象头神脑顶奥义书》核心赞真言。',
+    verses: [
+      {
+        iast: 'oṃ śrī gaṇeśāya namaḥ | oṃ gaṃ gaṇapataye namaḥ',
+        classicalTranslitZh: '唵 室哩 誐尼舍也 曩莫 | 唵 颔 誐拏钵底曳 曩莫',
+        meaningZh: '【象头神根本种子心咒（Gaṇapati Mūla-Mantra）】嗡！顶礼吉祥群主尊！嗡，颔（gaṃ 除障种子音），顶礼一切圣众之主伽那钵底！',
+        meaningEn: 'Oṃ! Homage to auspicious Śrī Gaṇeśa! Oṃ Gaṃ, homage to Lord Gaṇapati! (Gaṇapati Atharvaśīrṣa 7)',
+      },
+      {
+        iast: 'vakratuṇḍa mahākāya sūryakoṭisamaprabha | nirvighnaṃ kuru me deva sarvakāryeṣu sarvadā',
+        classicalTranslitZh: '嚩讫啰顿拏 摩诃迦也 苏哩也俱胝三摩钵啰婆 | 尼啰尾伽南 俱噜 弥 提嚩 萨嚩迦哩曳数 萨嚩陀',
+        meaningZh: '【曲鼻大身千万日光明除障祈请咒】具妙曲象鼻、巍峨大身、光明犹如千万太阳之天尊啊！祈愿恒时于我一切善业修持中，净除一切违缘障碍！',
+        meaningEn: 'O Lord with the curved trunk and mighty form, whose splendor equals ten million suns, make all my undertakings ever free of obstacles! (Traditional Opening Prārthanā)',
+      },
+      {
+        iast: 'oṃ ekadantāya vidmahe vakratuṇḍāya dhīmahi | tan no dantiḥ pracodayāt',
+        classicalTranslitZh: '唵 翳迦难多也 尾捺摩醯 嚩讫啰顿拏也 提摩醯 | 怛 奴 难底 钵啰祖那夜',
+        meaningZh: '【《象头神脑顶奥义书》第8节 · 象头神伽耶特黎咒（Gaṇeśa Gāyatrī）】嗡！我等证知独牙一相尊，禅思曲鼻除障尊；愿象牙圣尊启发我等之无碍智慧！',
+        meaningEn: 'Gaṇeśa Gāyatrī Mantra: Oṃ! We know the Single-Tusked One, we meditate upon the Curved-Trunked One; may that Tusked Lord inspire us! (Gaṇapati Atharvaśīrṣa 8)',
+      },
+      {
+        iast: 'oṃ namas te gaṇapataye | tvam eva pratyakṣaṃ tattvam asi | tvam eva kevalaṃ kartāsi | tvam eva kevalaṃ dhartāsi | tvam eva kevalaṃ hartāsi | tvam eva sarvaṃ khalv idaṃ brahmāsi',
+        classicalTranslitZh: '唵 曩莫 娑帝 誐拏钵底曳 | 得嚩 翳嚩 钵啰底也叉 怛得嚩 阿悉... 得嚩 翳嚩 萨嚩 佉卢 伊南 婆啰憾摩悉',
+        meaningZh: '【《象头神脑顶奥义书》开篇真谛宣说文】嗡，顶礼伽那钵底！你即是现量真如实相，唯你是创造者，唯你是任持者，唯你是收摄者，你实即是此宇宙万有一切大梵！',
+        meaningEn: 'Opening invocation of the Gaṇapati Atharvaśīrṣa Upaniṣad (1–2): Homage to Gaṇapati! Thou alone art the manifest Truth, Creator, Sustainer, Dissolver, and verily all this Brahman!',
+      },
+    ],
+  },
+  // ==================== 17. 湿婆阿笈摩与克什米尔三元论（Śaiva Āgama & Kashmir Trika） ====================
+  {
+    id: 'saiva-agama-trika-mantras',
+    titleZh: '湿婆阿笈摩与克什米尔三元论圣咒总集（五字大明·净眼续甘露咒·樟脑白颂·天鹅呼吸咒）',
+    aliasesZh: '湿婆五字真言,湿婆六字心咒,嗡拿玛希瓦亚,净眼密续胜死咒,樟脑白悲心化身颂,商羯罗湿婆五字赞,克什米尔湿婆派真言,Om Namah Shivaya,Panchakshara Mantra,Karpuragauram,So Ham',
+    titleSanskritIast: 'Śaiva-Āgama-Pañcākṣara-Netratantra-Trika-Mantra',
+    titleEnglish: 'Śaiva Āgama & Kashmir Trika Mantras (Pañcākṣara, Netratantra Mṛtyuñjaya, Karpūragauraṃ & Haṃsa)',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'TS 4.5.8 / Netratantra 7 / Vijñānabhairava (GRETIL saiva)',
+    translatorZh: '《夜柔吠陀》与克什米尔《净眼续》《识怖畏续》阿阇梨 传授 · 商羯罗大师 赞颂',
+    sutraSourceZh: '《泰帝利耶本集》4.5.8 · 克什米尔《净眼密续（Netratantra）》·《识怖畏续（Vijñānabhairava）》',
+    deityZh: '大自在天湿婆 · 甘露主尊 (Sadāśiva / Amṛteśvara / Parameśvara)',
+    meritsAndSummaryZh:
+      '完整收录印度湿婆派（Śaivism）与克什米尔非二元三元论（Trika）原典真言：出自《夜柔吠陀》正中心之湿婆五字/六字根本真言（Pañcākṣara）、克什米尔《净眼密续》三字甘露胜死咒（Oṃ Juṃ Saḥ）、家喻户晓之《樟脑白大悲化身赞》、商羯罗《湿婆五字赞》首颂以及自然呼吸观修之《天鹅梵我真言（Haṃsa So\'ham）》。',
+    verses: [
+      {
+        iast: 'namaḥ śivāya | oṃ namaḥ śivāya | śivāya nama oṃ',
+        classicalTranslitZh: '曩莫 尸嚩也 | 唵 曩莫 尸嚩也 | 尸嚩也 曩莫 唵（湿婆五字/六字根本大明咒）',
+        meaningZh: '【湿婆五字真言（Pañcākṣara）与六字心咒（Ṣaḍakṣara）】顶礼吉祥寂静大自在尊湿婆！na-maḥ-śi-vā-ya 五音节统摄地水火风空五大元素与纯净觉识。',
+        meaningEn: 'The Five-Syllable (Pañcākṣara, Yajurveda TS 4.5.8) and Six-Syllable (Ṣaḍakṣara) Root Mantra of Lord Śiva.',
+      },
+      {
+        iast: 'oṃ juṃ saḥ | oṃ hrauṃ juṃ saḥ amṛteśvarāya mṛtyuñjayāya svāhā',
+        classicalTranslitZh: '唵 戎 萨 | 唵 诃哢 戎 萨 阿蜜栗帝室嚩啰也 蜜栗底匀惹也也 娑嚩贺',
+        meaningZh: '【克什米尔《净眼密续（Netratantra）》三字甘露胜死心王咒】《净眼续》核心甘露主尊（Amṛteśvara）三字真言「oṃ juṃ saḥ」，灌注生命甘露、超越老病死苦。',
+        meaningEn: 'The Three-Syllable Netra-Mṛtyuñjaya Mantra (Oṃ Juṃ Saḥ) of Amṛteśvara Bhairava from the Kashmirian Netratantra.',
+      },
+      {
+        iast: 'karpūragauraṃ karuṇāvatāraṃ saṃsārasāraṃ bhujagendrahāram | sadā vasantaṃ hṛdayāravinde bhavaṃ bhavānīsahitaṃ namāmi',
+        classicalTranslitZh: '羯补啰高蓝 迦噜拏嚩多蓝 三娑啰娑蓝 婆惹健捺啰诃蓝 | 萨陀 嚩散多 纥哩那也啰尾泥 婆嚩 婆嚩尼萨醯多 曩摩弥',
+        meaningZh: '【《樟脑白大悲化身颂（Karpūragauraṃ）》】皎洁如纯白樟脑、大悲之化身、轮回之真实精髓、以龙王为璎珞，恒常安住于心莲之中——我顶礼偕同帕尔瓦蒂圣母之湿婆世尊！',
+        meaningEn: 'Pure white like camphor, the incarnation of compassion, the essence of existence, garlanded with the serpent-king, ever dwelling in the lotus of the heart—I bow to Bhava together with Bhavānī!',
+      },
+      {
+        iast: 'nāgendrahārāya trilocanāya bhasmāṅgarāgāya maheśvarāya | nityāya śuddhāya digambarāya tasmai nakārāya namaḥ śivāya',
+        classicalTranslitZh: '那健捺啰诃啰也 怛哩路遮那也 婆娑莽伽啰伽也 摩醯室嚩啰也 | 尼底也也 戍陀也 地甘婆啰也 怛娑迈 那迦啰也 曩莫 尸嚩也',
+        meaningZh: '【商羯罗《湿婆五字赞（Śivapañcākṣarastotra）》首颂】佩龙王璎珞者、具三慧眼者、圣灰涂身者、大自在主、常住清净以十方虚空为衣者——礼敬彼「na」字表征之湿婆尊！',
+        meaningEn: 'First verse of Ādi Śaṅkara’s Śivapañcākṣarastotra honoring the syllable Na of Namaḥ Śivāya.',
+      },
+      {
+        iast: "so 'ham | haṃsaḥ śivo 'ham | cidanandarūpaḥ śivo 'ham śivo 'ham",
+        classicalTranslitZh: '苏 憾 | 憾萨 尸嚩 憾 | 质陀难陀噜波 尸嚩 憾 尸嚩 憾',
+        meaningZh: '【《识怖畏续》天鹅自然呼吸真言暨商羯罗《涅槃六颂》心印】吸气「so（彼）」、呼气「ham（我）」自然成天鹅真言（Haṃsa）；纯知妙乐自性，我即是吉祥觉性湿婆！',
+        meaningEn: 'Ajapā-Gāyatrī Breath Mantra (So ’ham / Haṃsaḥ, Vijñānabhairava 24 & 156) and Śaṅkara’s Nirvāṇaṣaṭkam refrain (Cidānandarūpaḥ Śivo ’ham).',
+      },
+    ],
+  },
+  // ==================== 18. 毗湿奴派五夜教、薄伽梵往世书与摩诃真言 ====================
+  {
+    id: 'vaisnava-pancaratra-rama-krsna-mantras',
+    titleZh: '毗湿奴派圣咒总集（那罗延八字咒·婆苏提婆十二字咒·妙见神轮大咒·罗摩与哈瑞奎师那大咒）',
+    aliasesZh: '那罗延八字真言,婆苏提婆十二字真言,薄伽梵往世书真言,毗湿奴禅定颂,妙翅善见神轮咒,罗摩渡海真言,哈瑞奎师那摩诃曼陀罗,Om Namo Narayanaya,Om Namo Bhagavate Vasudevaya,Hare Krishna Mahamantra,Sudarshana Mantra',
+    titleSanskritIast: 'Vaiṣṇava-Aṣṭākṣara-Dvādaśākṣara-Mahāmantra-Saṃgraha',
+    titleEnglish: 'Vaiṣṇava Sacred Mantras (Aṣṭākṣara, Dvādaśākṣara, Śāntākāraṃ, Sudarśana, Rāma Tāraka & Hare Kṛṣṇa Mahāmantra)',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Nārāyaṇa Upaniṣad / Bhāgavata Purāṇa / Kali-Santaraṇa Upaniṣad (GRETIL)',
+    translatorZh: '那罗陀仙人（Nārada）与五夜教（Pañcarātra）圣传 · GRETIL 梵本往世书校勘',
+    sutraSourceZh: '《那罗延奥义书》《薄伽梵往世书》《阿酰耶布达尼本集》《度越诤世奥义书》',
+    deityZh: '遍入天毗湿奴 · 那罗延 · 罗摩 · 奎师那 (Śrīmān Nārāyaṇa / Vāsudeva / Rāma / Kṛṣṇa)',
+    meritsAndSummaryZh:
+      '全面汇集印度毗湿奴派（Vaiṣṇavism）四大传承与五夜教阿笈摩（Pañcarātra Āgama）核心梵文真言：那罗延八字根本大咒、婆苏提婆十二字解脱咒、《毗湿奴千名赞》禅定观想颂、善见金轮辟邪护身真言、罗摩渡苦海真言及十六词三十二音节《哈瑞奎师那摩诃曼陀罗》。',
+    verses: [
+      {
+        iast: 'oṃ namo nārāyaṇāya | oṃ namo bhagavate vāsudevāya',
+        classicalTranslitZh: '唵 曩莫 那啰也拏也 | 唵 曩莫 婆誐嚩帝 嚩苏提嚩也',
+        meaningZh: '【那罗延八字根本真言（Aṣṭākṣara）暨婆苏提婆十二字解脱真言（Dvādaśākṣara）】嗡，顶礼宇宙万有依止处那罗延尊！嗡，顶礼遍住一切众生心间之世尊婆苏提婆！',
+        meaningEn: 'The Eight-Syllable Nārāyaṇa Mantra (Tāra-sāra / Nārāyaṇa Upaniṣad) and Twelve-Syllable Vāsudeva Liberation Mantra (Bhāgavata Purāṇa 4.8.54).',
+      },
+      {
+        iast: 'śāntākāraṃ bhujagaśayanaṃ padmanābhaṃ sureśaṃ viśvādhāraṃ gaganasadṛśaṃ meghavarṇaṃ śubhāṅgam | lakṣmīkāntaṃ kamalanayanaṃ yogibhir dhyānagamyaṃ vande viṣṇuṃ bhavabhayaharaṃ sarvalokaikanātham',
+        classicalTranslitZh: '扇多迦蓝 婆惹伽舍也南 钵纳摩那婆 苏隶苫 尾室嚩陀蓝 伽伽那萨捺哩苫 迷伽嚩啰南 戍旁甘 | 攞吃瑟弥建多 迦摩攞那也南... 嚩泥 尾瑟努',
+        meaningZh: '【《毗湿奴千名赞（Viṣṇusahasranāma）》经典禅观礼赞颂】寂静庄严相、安卧千头蛇床、脐生妙莲、诸天之主、宇宙所依、广大如虚空、肤若青云、吉祥天女挚爱、莲花妙目、瑜伽行者禅定所证——我顶礼净除轮回怖畏之三界唯一依怙毗湿奴尊！',
+        meaningEn: 'Meditation Verse (Dhyāna-Śloka) of the Viṣṇusahasranāma Stotra praising Peaceful Viṣṇu reclining upon Ananta-Śeṣa.',
+      },
+      {
+        iast: 'oṃ sahasrāra huṃ phaṭ | oṃ śrīṃ hrīṃ klīṃ kṛṣṇāya govindāya gopījanavallabhāya svāhā',
+        classicalTranslitZh: '唵 萨诃娑啰啰 吽 泮吒 | 唵 室哩 纥哩 讫哩 讫哩瑟拏也 瞿尾那也 瞿比惹那嚩攞婆也 娑嚩贺',
+        meaningZh: '【五夜教《阿酰耶布达尼本集》善见千辐金轮真言（Sudarśana）暨《瞿波罗前热奥义书》十八字奎师那根本咒】千辐妙轮摧破一切暗障，成就清净妙爱与解脱智慧！',
+        meaningEn: 'Sudarśana Cakra Six-Syllable Mantra (Ahirbudhnya Saṃhitā) & Eighteen-Syllable Gopāla Mantra (Gopālatāpanīya Upaniṣad).',
+      },
+      {
+        iast: 'oṃ śrī rāmāya namaḥ | śrī rāma jaya rāma jaya jaya rāma | rāma rāmeti rāmeti rame rāme manorame sahasranāma tattulyaṃ rāmanāma varānane',
+        classicalTranslitZh: '唵 室哩 啰摩也 曩莫 | 室哩 啰摩 惹也 啰摩 惹也 惹也 啰摩 | 啰摩 啰迷底 啰迷底 啰迷 啰迷 摩奴啰迷...',
+        meaningZh: '【罗摩渡海真言（Rāma Tāraka Mantra）暨《莲花往世书》千名等持偈】顶礼吉祥罗摩尊！湿婆开示帕尔瓦蒂：一称罗摩圣号，功德等同持诵毗湿奴千名全卷。',
+        meaningEn: 'Śrī Rāma Tāraka Mantra (Rāmarahasya Upaniṣad) and the Sahasranāma-equivalence verse from the Padma Purāṇa.',
+      },
+      {
+        iast: 'hare kṛṣṇa hare kṛṣṇa kṛṣṇa kṛṣṇa hare hare | hare rāma hare rāma rāma rāma hare hare',
+        classicalTranslitZh: '诃隶 讫哩瑟拏 诃隶 讫哩瑟拏 讫哩瑟拏 讫哩瑟拏 诃隶 诃隶 | 诃隶 啰摩 诃隶 啰摩 啰摩 啰摩 诃隶 诃隶',
+        meaningZh: '【《度越诤世奥义书（Kali-Santaraṇa Upaniṣad）》十六词三十二音摩诃曼陀罗】大梵天传授那罗陀仙人之度越末法障垢至高唱诵圣名大咒（Mahāmantra），唤醒本具灵性大爱（Bhakti）。',
+        meaningEn: 'The Sixteen-Word, Thirty-Two-Syllable Hare Kṛṣṇa Mahāmantra from the Kali-Santaraṇa Upaniṣad.',
+      },
+    ],
+  },
+  // ==================== 19. 性力派《女神颂》与室利明妃派（Śākta Devī & Śrīvidyā） ====================
+  {
+    id: 'sakta-devi-srividya-mantras',
+    titleZh: '性力派《女神颂（Devī-Māhātmya）》与室利明妃派圣咒全集（九字真言·吉祥天女·十五音根本咒）',
+    aliasesZh: '难近母九字真言,旃陀利九音咒,女神颂真言,大吉祥天女招财梵咒,室利明妃十五音咒,巴拉三字明,时母卡莉真言,Navarna Mantra,Om Aim Hrim Klim,Mahalakshmi Mantra,Sri Vidya Pancadasi,Ya Devi Sarvabhuteshu',
+    titleSanskritIast: 'Śākta-Caṇḍī-Navārṇa-Mahālakṣmī-Śrīvidyā-Pañcadaśī-Mantra',
+    titleEnglish: 'Śākta & Śrīvidyā Mantras (Caṇḍī Navārṇa, Devī-Māhātmya Hymns, Mahālakṣmī & Śrīvidyā Pañcadaśākṣarī)',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Mārkaṇḍeya Purāṇa 81–93 / Tripurātāpinī Upaniṣad (GRETIL markp_u)',
+    translatorZh: '摩根德耶仙人（Mārkaṇḍeya）与室利明妃派阿阇梨 传授 · GRETIL 梵本校勘',
+    sutraSourceZh: '《摩根德耶往世书·女神颂（Devī-Māhātmya / Durgā-Saptaśatī）》·《三城热奥义书》',
+    deityZh: '难近母杜尔迦 · 大吉祥天女 · 大辩才天女 · 丽三城圣母 (Durgā / Mahālakṣmī / Lalitā Tripurasundarī)',
+    meritsAndSummaryZh:
+      '完整收录印度性力派（Śāktism）最高圣典《女神颂（七百颂）》与南方室利轮（Śrīcakra）传承之核心真言：统摄三大天女（大黑、大吉祥、大辩才）之九音节旃陀利根本真言（Navārṇa Mantra）、《一切吉祥中之吉祥颂》、《遍住众生圣力礼赞》、莲花大吉祥天女真言，以及室利明妃派秘传之三城圣母十五音根本大明（Pañcadaśākṣarī）。',
+    verses: [
+      {
+        iast: 'oṃ aiṃ hrīṃ klīṃ cāmuṇḍāyai vicce',
+        classicalTranslitZh: '唵 盎 纥哩 讫哩 左闷拏裔 尾制（《女神颂》九字根本真言 Navārṇa Mantra）',
+        meaningZh: '【难近母旃陀利九音根本真言（Navārṇa Mantra）】aiṃ（大辩才天女般若智慧）、hrīṃ（大吉祥天女清净妙有）、klīṃ（大黑天女摄伏大悲），归命降魔圣母遮文荼，圆满觉照！',
+        meaningEn: 'The Nine-Syllable (Navārṇa) Root Mantra of Caṇḍī / Durgā uniting Mahāsarasvatī (Aiṃ), Mahālakṣmī (Hrīṃ), and Mahākālī (Klīṃ).',
+      },
+      {
+        iast: "sarvamaṅgalamāṅgalye śive sarvārthasādhike | śaraṇye tryambake gauri nārāyaṇi namo 'stu te",
+        classicalTranslitZh: '萨嚩莽伽攞莽伽梨 尸吠 萨嚩曷他娑地计 | 舍啰尼 怛哩焰婆计 高哩 那啰也抳 曩莫 娑睹 帝',
+        meaningZh: '【《女神颂》第11章第10颂 · 一切吉祥中之至极吉祥赞】一切吉祥中之吉祥母、寂静善妙母、成办一切所求母、归依救护母、三慧眼皎洁母那罗延尼啊，顶礼于你！',
+        meaningEn: 'Auspiciousness of all that is auspicious, O Śivā, accomplisher of all aims, refuge, three-eyed Gaurī, O Nārāyaṇī, salutations to Thee! (Devī-Māhātmya 11.10)',
+      },
+      {
+        iast: 'yā devī sarvabhūteṣu śaktirūpeṇa saṃsthitā | yā devī sarvabhūteṣu mātṛrūpeṇa saṃsthitā | namas tasyai namas tasyai namas tasyai namo namaḥ',
+        classicalTranslitZh: '也 提尾 萨嚩部帝数 铄讫底噜闭拏 三娑体多 | 曩莫 怛写裔 曩莫 怛写裔 曩莫 怛写裔 曩莫 曩莫',
+        meaningZh: '【《女神颂》第5章 · 遍住一切众生圣力与慈母礼赞】彼以神圣能量与慈母之相遍住于一切众生心间之天女圣母啊，再三至诚顶礼于彼！',
+        meaningEn: 'To that Goddess who abides in all beings in the form of Power (Śakti) and Divine Mother—salutations to Her again and again! (Devī-Māhātmya 5.32 & 5.74)',
+      },
+      {
+        iast: 'oṃ śrīṃ hrīṃ śrīṃ kamale kamalālaye prasīda prasīda śrīṃ hrīṃ śrīṃ oṃ mahālakṣmyai namaḥ',
+        classicalTranslitZh: '唵 室哩 纥哩 室哩 迦摩隶 迦摩攞攞曳 钵啰悉陀 钵啰悉陀 室哩 纥哩 室哩 唵 摩诃攞吃瑟弭裔 曩莫',
+        meaningZh: '【大吉祥天女（Mahālakṣmī）二十四音丰饶赐福根本真言】嗡！安住妙莲宫殿之莲花吉祥圣母啊，愿垂慈悲欢喜加持，赐予内外福慧丰饶！',
+        meaningEn: 'Classic Tantric Mantra of Goddess Mahālakṣmī residing in the lotus, bestowing spiritual and material abundance.',
+      },
+      {
+        iast: 'oṃ aiṃ klīṃ sauḥ | ka e ī la hrīṃ | ha sa ka ha la hrīṃ | sa ka la hrīṃ',
+        classicalTranslitZh: '唵 盎 讫哩 骚 | 迦 翳 伊 攞 纥哩 | 诃 萨 迦 诃 攞 纥哩 | 萨 迦 攞 纥哩',
+        meaningZh: '【室利明妃派（Śrīvidyā）巴拉三字明暨丽三城圣母十五音根本大明（Pañcadaśākṣarī）】分三聚（语聚 Vāgbhava、爱聚 Kāmarāja、力聚 Śakti），与室利轮九重坛城严密对应之最高秘密真言。',
+        meaningEn: 'Bālā Tripurasundarī Mantra (Aiṃ Klīṃ Sauḥ) and the Three-Peak Fifteen-Syllable Mantra (Kādi Pañcadaśākṣarī) of Lalitā Tripurasundarī.',
+      },
+    ],
+  },
+  // ==================== 20. 医神檀梵陀利真言、太阳心咒（Āditya-Hṛdaya）、九曜与普世祈福真言 ====================
+  {
+    id: 'surya-navagraha-dhanvantari-universal-mantras',
+    titleZh: '阿育吠陀医神檀梵陀利真言·《罗摩衍那》太阳心咒·九曜星宿梵咒与普世和平祈愿颂',
+    aliasesZh: '阿育吠陀医神咒,檀梵陀利疗愈真言,太阳心咒,阿底提亚心咒,九曜总咒,愿一切众生安乐咒,Dhanvantari Mantra,Aditya Hridayam,Navagraha Stotra,Sarve Bhavantu Sukhinah,Lokah Samastah Sukhino Bhavantu',
+    titleSanskritIast: 'Dhanvantari-Ādityahṛdaya-Navagraha-Sarvamaṅgala-Mantra',
+    titleEnglish: 'Āyurvedic Dhanvantari Healing Mantra, Āditya-Hṛdaya, Navagraha Mantra & Universal Peace Prayers',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Rāmāyaṇa 6.105 / Brahmāṇḍa Purāṇa (GRETIL ram_06u)',
+    translatorZh: '阿伽斯底耶仙人（Agastya Ṛṣi）与毗耶娑仙人 传授 · GRETIL《罗摩衍那》校勘本',
+    sutraSourceZh: '《罗摩衍那·战斗篇》第105章《太阳心咒》·《阿育吠陀医典》·《九曜赞》',
+    deityZh: '医神檀梵陀利 (Dhanvantari) · 太阳神苏利耶 (Sūrya Āditya) · 九曜星神 (Navagraha)',
+    meritsAndSummaryZh:
+      '汇集印度医学、天文历算与普世慈悲祈祷四大传统经典真言：阿育吠陀医学鼻祖手持甘露宝瓶之檀梵陀利医神疗愈大咒、《罗摩衍那》投山仙人传授罗摩之《太阳心咒（Āditya-Hṛdayam）》、九曜星宿吉祥晨祷总咒，以及流传全球之《愿一切众生安乐无病祈愿真言》。',
+    verses: [
+      {
+        iast: 'oṃ namo bhagavate vāsudevāya dhanvantaraye amṛtakalaśahastāya sarvāmayavināśanāya trailokyanāthāya śrīmahāviṣṇave namaḥ',
+        classicalTranslitZh: '唵 曩莫 婆誐嚩帝 嚩苏提嚩也 檀嚩多啰曳 阿蜜栗多迦攞舍诃娑多也 萨嚩摩也尾那舍那也 怛赖路枳也那他也 室哩摩诃尾瑟拏吠 曩莫',
+        meaningZh: '【阿育吠陀医神檀梵陀利（Dhanvantari）疗愈大咒】嗡！顶礼世尊婆苏提婆化现之医王檀梵陀利——手持不死甘露宝瓶、净除一切身心疾疫病苦、三界依怙吉祥大毗湿奴尊！',
+        meaningEn: 'The Great Āyurvedic Healing Mantra of Lord Dhanvantari holding the nectar-jar (amṛta-kalaśa), destroyer of all diseases.',
+      },
+      {
+        iast: 'oṃ ghṛṇiḥ sūrya ādityaḥ | santāpanāśakaraṃ jayakaraṃ akṣayyaṃ paramaṃ śivam | oṃ bhāskarāya vidmahe mahādyutikarāya dhīmahi | tan no ādityaḥ pracodayāt',
+        classicalTranslitZh: '唵 伽哩抳 苏哩也 阿你底也 | 散多波那舍迦蓝 惹也迦蓝... | 唵 婆娑迦啰也 尾捺摩醯 摩诃你逾底迦啰也 提摩醯 | 怛 奴 阿你底也 钵啰祖那夜',
+        meaningZh: '【八音节太阳神根本咒、《罗摩衍那》太阳心咒精要暨太阳伽耶特黎咒】除灭一切热恼忧患、赐予胜利与无尽吉祥，愿大光明太阳世尊阿底提亚照亮我等心识！',
+        meaningEn: 'Vedic Eight-Syllable Sūrya Mantra, Āditya-Hṛdaya essence (Rāmāyaṇa 6.105), and Sūrya Gāyatrī Mantra.',
+      },
+      {
+        iast: 'brahmā murāris tripurāntakārī bhānuḥ śaśī bhūmisuto budhaś ca | guruś ca śukraḥ śanirāhuhetavaḥ kurvantu sarve mama suprabhātam',
+        classicalTranslitZh: '婆啰憾摩 亩啰哩 怛哩补烂多迦哩 婆努 舍尸 部弥苏睹 没陀 遮 | 具噜 遮 戍讫啰 舍尼啰怙醯多嚩 俱啰嚩睹 萨嚩 摩摩 苏钵啰婆多',
+        meaningZh: '【印度天文《九曜吉祥晨祷总咒（Navagraha Suprabhāta Mantra）》】梵天、毗湿奴、湿婆三尊，以及日曜、月曜、火曜、水曜、木曜、金曜、土曜、罗睺、计都九曜星神，愿悉赐予我吉祥光明之良辰！',
+        meaningEn: 'Traditional Navagraha (Nine Celestial Deities: Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn, Rāhu, Ketu) auspicious invocation.',
+      },
+      {
+        iast: 'sarve bhavantu sukhinaḥ sarve santu nirāmayāḥ | sarve bhadrāṇi paśyantu mā kaścid duḥkhabhāg bhavet | lokāḥ samastāḥ sukhino bhavantu',
+        classicalTranslitZh: '萨嚩 婆嚩睹 苏企那 萨嚩 三睹 尼啰摩夜 | 萨嚩 跋捺啰抳 钵尸演睹 摩 迦室质 度佉薄 婆吠 | 路迦 三摩娑多 苏企奴 婆嚩睹',
+        meaningZh: '【普世慈悲和平祈愿真言（Sarve Bhavantu Sukhinaḥ & Lokāḥ Samastāḥ）】愿一切众生皆得安乐，愿一切众生远离病苦；愿一切众生皆见吉祥善妙，愿无有一人遭受苦厄！愿十方世界一切众生皆得幸福安乐！',
+        meaningEn: 'May all beings be happy; may all be free from illness; may all behold what is auspicious; may none suffer sorrow! May all worlds be happy and free!',
+      },
+    ],
+  },
+  // ==================== 21. 耆那教最高圣咒《五敬礼真言（Namokāra）》与帕坦伽利瑜伽祈请颂 ====================
+  {
+    id: 'jaina-namokara-patanjali-yoga-mantras',
+    titleZh: '耆那教最高圣咒《五敬礼真言（Pañca-Namaskāra）》· 上师梵赞与帕坦伽利瑜伽祈请咒',
+    aliasesZh: '耆那教五敬礼咒,那摩卡拉真言,五尊礼赞咒,不害最高法印,上师三宝梵赞,帕坦伽利瑜伽经开篇祈请颂,Namokar Mantra,Navkar Mantra,Panca Namaskara,Gurur Brahma,Yogena Cittasya',
+    titleSanskritIast: 'Jaina-Pañca-Namaskāra-Patañjali-Yoga-Guru-Mantra',
+    titleEnglish: 'Jaina Supreme Namokāra Mantra (Sanskrit & Prakrit), Guru Stotra & Patañjali Yoga Invocation',
+    categoryId: 'vedic-tantra-siddhanta',
+    taishoNo: 'Ṣaṭkhaṇḍāgama 1.1 / Tattvārthasūtra / Skanda Purāṇa (GRETIL jaina)',
+    translatorZh: '大雄尊者（Mahāvīra）传承圣众 · 乌玛斯瓦蒂《谛义证得经》与帕坦伽利传统',
+    sutraSourceZh: '耆那教《六分阿笈摩》开篇根本咒 ·《谛义证得经（Tattvārthasūtra）》·《上师歌（Guru-Gītā）》',
+    deityZh: '耆那五圣尊（阿罗汉·悉达·阿阇梨·亲教师·一切圣僧）· 瑜伽祖师帕坦伽利 (Patañjali)',
+    meritsAndSummaryZh:
+      '完整收录印度沙门传统另一瑰宝——耆那教（Jainism）跨越两千五百年之最高根本圣咒《五敬礼真言（Pañca-Namaskāra / Namokāra Mantra）》（梵文标准本与俗语古音本对勘，不求世间神祇恩宠而纯粹礼敬五阶解脱觉者之清净德行），并附印度全宗派共通之《上师礼赞咒（Gurur Brahmā）》及全球瑜伽行者课前必诵之《帕坦伽利祈请颂》。',
+    verses: [
+      {
+        iast: 'namo arhadbhyaḥ | namo siddhebhyaḥ | namo ācāryebhyaḥ | namo upādhyāyebhyaḥ | namo loke sarvasādhubhyaḥ | eṣa pañcanamaskāraḥ sarvapāpapraṇāśanaḥ | maṅgalānāṃ ca sarveṣāṃ prathamaṃ bhavati maṅgalam',
+        classicalTranslitZh: '曩莫 阿啰诃毗也 | 曩莫 悉提毗也 | 曩莫 阿遮哩曳毗也 | 曩莫 乌波提夜曳毗也 | 曩莫 路计 萨嚩娑度毗也...',
+        meaningZh: '【耆那教《五敬礼真言（Pañca-Namaskāra）》标准梵文本】顶礼诸阿罗汉（断尽业障胜者）！顶礼诸成就悉达（究竟解脱灵明者）！顶礼诸轨范师阿阇梨！顶礼诸亲教师邬波驮耶！顶礼世间一切清净修行沙门！此五重敬礼灭除一切罪障，于一切吉祥中为第一至高吉祥！',
+        meaningEn: 'The Supreme Jaina Pañca-Namaskāra Mantra in Sanskrit: Homage to the Arhats, Siddhas, Ācāryas, Upādhyāyas, and all Sādhus in the universe! This fivefold salutation destroys all karma and is the foremost of all auspiciousness.',
+      },
+      {
+        iast: 'namo arihantāṇaṃ | namo siddhāṇaṃ | namo āyariyāṇaṃ | namo uvajjhāyāṇaṃ | namo loe savvasāhūṇaṃ',
+        classicalTranslitZh: '那摩 阿里汉达南 | 那摩 悉达南 | 那摩 阿亚里亚南 | 那摩 乌瓦迦亚南 | 那摩 洛耶 萨瓦萨胡南（古俗语传诵音）',
+        meaningZh: '【《六分阿笈摩》开篇古俗语（Prakrit）原典本五敬礼咒】公元前二世纪哈提古姆帕石刻（Hāthīgumphā）与《六分阿笈摩》所载最古老原音传诵本。',
+        meaningEn: 'Original Ardhamāgadhī / Śaurasenī Prakrit Namokāra Mantra opening the Ṣaṭkhaṇḍāgama.',
+      },
+      {
+        iast: 'ahiṃsā paramo dharmaḥ | parasparopagraho jīvānām | samyagdarśanajñānacāritrāṇi mokṣamārgaḥ',
+        classicalTranslitZh: '阿呬娑 波啰摩 达摩 | 波啰娑波噜波伽啰怙 耆嚩南 | 三藐捺啰舍那若那遮哩怛啰抳 目叉摩啰伽',
+        meaningZh: '【耆那教《谛义证得经（Tattvārthasūtra）》三大法印格言】不害（慈悲不伤生）为至高正法；众生本性相依互济（Tattvārthasūtra 5.21）；正见、正智、正行三宝合一即解脱之道（1.1）！',
+        meaningEn: 'Supreme Non-Violence (Ahiṃsā) and the opening & ecological sutras of Umāsvāti’s Tattvārthasūtra (1.1 & 5.21, GRETIL uuztatsu.htm).',
+      },
+      {
+        iast: 'gurur brahmā gurur viṣṇur gurur devo maheśvaraḥ | guruḥ sākṣāt paraṃ brahma tasmai śrīgurave namaḥ',
+        classicalTranslitZh: '具噜 婆啰憾摩 具噜 尾瑟努 具噜 提嚩 摩醯室嚩啰 | 具噜 娑叉 波蓝 婆啰憾摩 怛娑迈 室哩具啰吠 曩莫',
+        meaningZh: '【《塞建陀往世书·上师歌（Guru-Gītā）》上师三尊根本赞咒】上师即创造智慧梵天，上师即护持慈悲毗湿奴，上师即破惑自在湿婆；上师现前即是无上最高梵，顶礼彼吉祥尊贵上师！',
+        meaningEn: 'Guru Stotra (Guru-Gītā 32): The Guru is Brahmā, Viṣṇu, and Maheśvara; the Guru is verily the Supreme Brahman—salutations to that revered Guru!',
+      },
+      {
+        iast: "yogena cittasya padena vācāṃ malaṃ śarīrasya ca vaidyakena | yo 'pākarot taṃ pravaraṃ munīnāṃ patañjaliṃ prāñjalir ānato 'smi",
+        classicalTranslitZh: '瑜祇那 质多写 波提那 嚩瞻 摩蓝 舍哩啰写 遮 吠你也计那 | 瑜 波迦路 担 钵啰嚩蓝 牟尼南 钵檀惹林 钵烂惹哩 阿那睹 娑弥',
+        meaningZh: '【全球瑜伽传承课前必诵《帕坦伽利大仙祈请颂》】以《瑜伽经》净除心识之垢、以《语法大疏》净除语言之垢、以《医典》净除身体之垢——我合十虔敬顶礼彼牟尼中之最胜尊帕坦伽利！',
+        meaningEn: 'Traditional Sanskrit invocation to Sage Patañjali, purifier of mind through Yoga, speech through Grammar (Mahābhāṣya), and body through Āyurveda.',
       },
     ],
   },

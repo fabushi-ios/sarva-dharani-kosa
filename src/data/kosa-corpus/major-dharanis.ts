@@ -1,6 +1,7 @@
-import type { DharaniEntry } from '../../types/kosaTypes';
+import type { DharaniEntry, DharaniVerse } from '../../types/kosaTypes';
 import { AUTHORITATIVE_CBETA_RECORDS } from '../kosa-generated/cbetaAuthRecords';
 import { AUTHORITATIVE_GRETIL_RECORDS } from '../kosa-generated/gretilAuthRecords';
+import { generateVerseChinesePhonetics } from '../../core/sanskrit/phoneticMapper';
 
 const cbetaT19n0974B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n0974B');
 const cbetaT20n1113B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1113B');
@@ -8,6 +9,39 @@ const cbetaT20n1064 = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1064
 const cbetaT19n1022A = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n1022A');
 const cbetaT19n1002 = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n1002');
 const gretilSitatapatra = AUTHORITATIVE_GRETIL_RECORDS.find((r) => r.id === 'gretil-sitatapatra');
+const gretilMahapratisaraHidas = AUTHORITATIVE_GRETIL_RECORDS.find(
+  (r) => r.id === 'gretil-mahapratisara-hidas' || r.file === 'mahpratu.htm'
+);
+
+function buildCompleteMahapratisaraVerses(): DharaniVerse[] {
+  const clauses = gretilMahapratisaraHidas?.extractedVerses || [];
+  return clauses.map((clause, idx) => {
+    const cleanClause = clause.replace(/\s*\|\|?\s*$/, '').trim();
+    const phonetics = generateVerseChinesePhonetics(cleanClause, false);
+    const sectionTag =
+      idx < 282
+        ? `【第一大品 [14] · 根本大明王大随求长咒 · 第 ${idx + 1}/282 句】`
+        : idx < 286
+          ? `【第二品 [35] · 护身结界随心真言 · 第 ${idx - 281}/4 句】`
+          : `【第三至四品 [45–46] · 无能胜心真言与秘密心印 · 第 ${idx - 285}/${clauses.length - 286} 句】`;
+    const sectionTagEn =
+      idx < 282
+        ? `[Section 14 · Root Mahāvidyārājñī Dhāraṇī · Clause ${idx + 1}/282]`
+        : idx < 286
+          ? `[Section 35 · Protective Upahṛdaya Mantra · Clause ${idx - 281}/4]`
+          : `[Sections 45–46 · Aparājitā Hṛdaya & Secret Mudrā Mantra · Clause ${idx - 285}/${clauses.length - 286}]`;
+    return {
+      id: `mahapratisara-full-${idx + 1}`,
+      index: idx + 1,
+      iast: cleanClause,
+      classicalTranslitZh: phonetics.classicalTranslitZh,
+      modernPhoneticZh: phonetics.modernPhoneticZh,
+      meaningZh: `${sectionTag} 牛津大学 Gergely Hidas (2012)《Mahāpratisarā-Mahāvidyārājñī》梵文贝叶经校勘全本原典章句。`,
+      meaningEn: `${sectionTagEn} Critical Sanskrit edition of Mahāpratisarā-Mahāvidyārājñī (Gergely Hidas, 2012).`,
+      words: [],
+    };
+  });
+}
 
 export const MAJOR_DHARANIS: DharaniEntry[] = [
   {
@@ -934,5 +968,37 @@ export const MAJOR_DHARANIS: DharaniEntry[] = [
         ],
       },
     ],
+  },
+  {
+    id: 'mahapratisara-mahavidyarajni-complete',
+    titleZh: '普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼（梵本全卷445句校勘全本）',
+    titleSanskritIast: 'Ārya-Mahāpratisarā-Mahāvidyārājñī (Complete Critical Edition)',
+    titleEnglish: 'Complete Mahāpratisarā-Mahāvidyārājñī Dhāraṇī (445 Clauses, Gergely Hidas Edition)',
+    categoryId: 'supreme-mantras',
+    taishoNo: 'T20n1153 / F28n1071 (卷八) / F27n1061 / GRETIL mahpratu',
+    translatorZh: '唐·不空三藏 译《大随求陀罗尼经》/ 辽·觉苑编《释教最上乘秘密藏陀罗尼集》卷八 / 牛津 Gergely Hidas (2012) 梵本校勘',
+    sutraSourceZh:
+      '《普遍光明清净炽盛如意宝印心无能胜大明王大随求陀罗尼经》(T20n1153) ·《房山石经》(F28n1071 卷八) · Hidas 梵文贝叶经校勘本 (mahpratu.htm)',
+    deityZh: '大随求大明王菩萨 (Mahāpratisarā-Mahāvidyārājñī)',
+    bijaIast: 'prāṃ',
+    meritsAndSummaryZh:
+      '唐密、辽密与尼泊尔《五护陀罗尼（Pañcarakṣā）》之首、汉传佛教最尊崇之根本长咒全本。全卷完整收录牛津大学 Gergely Hidas 教授（2012）据剑桥与尼泊尔古贝叶经校勘之全部四大咒品共 445 句梵文原典：含第一大品 [14] 普遍光明清净炽盛大明王根本长咒（282句，对应房山石经卷八 pF28p0053a1701 全部 439 节）、第二品 [35] 护身结界随心真言（4句）、第三至四品 [45–46] 无能胜大明王心真言及秘密心印（159句），无任何删节或截断。',
+    recitationTipsZh:
+      '全咒共 445 句，初修可先诵第一品前 12 句毗卢遮那与三宝归敬赞，或先持随求心咒「oṃ bhara bhara saṃbhara saṃbhara indriyabalaviśodhani hūṃ hūṃ ruru cale svāhā」；专修长咒时可依每品句序逐句跟读梵音。',
+    provenance: {
+      sourceType: 'GRETIL/DSBC',
+      cbetaId: 'T20n1153',
+      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1153',
+      gretilFile: 'mahpratu.htm',
+      gretilRawUrl:
+        gretilMahapratisaraHidas?.gretilRawUrl ||
+        'https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mahpratu.htm',
+      editionCitation:
+        'Gergely Hidas, Mahapratisara-Mahavidyarajni, The Great Amulet, Great Queen of Spells: Introduction, Critical Editions and Annotated Translation, New Delhi 2012 (Śata-Piṭaka Series 636); GRETIL mahpratu.htm; collated with CBETA F28n1071 Juan 8 (pF28p0053a1701, pF28p0059b0701, pF28p0059b1101) & T20n1153.',
+      manuscriptNotesZh:
+        '全量提取自 GRETIL mahpratu.htm 正文 [14]、[35]、[45]、[46] 四品陀罗尼原典并展开古写本「×2」重诵标记（如 giri 2 -> giri giri），共 445 句完整无截断。',
+      rawSnippet: gretilMahapratisaraHidas?.rawSnippet,
+    },
+    verses: buildCompleteMahapratisaraVerses(),
   },
 ];
