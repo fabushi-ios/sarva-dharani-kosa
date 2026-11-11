@@ -390,7 +390,7 @@ interface IastAksharaPiece {
 
 const IAST_WORD_SPLIT_RE = /(\s+|\|\||\|)|(-)|(['’.,;:!?()[\]/]+)/g;
 const IAST_AKSHARA_RE =
-  /(?:kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh|[kgṅcjñṭḍṇtdnpbmyrlvśṣshḻ])*(?:ai|au|[aāiīuūṛṝḷḹeēoō])[ṃṁḥँ]?(?:(?:kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh|[kgṅcjñṭḍṇtdnpbmyrlvśṣshḻ])+(?=$))?/gi;
+  /(?:kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh|[kgṅcjñṭḍṇtdnpbmyrlvśṣshḻ])*(?:ai|au|[aāiīuūṛṝḷḹeēoō])(?:m\u0310|[ṃṁḥँ])?(?:(?:kh|gh|ch|jh|ṭh|ḍh|th|dh|ph|bh|[kgṅcjñṭḍṇtdnpbmyrlvśṣshḻ])+(?=$))?/gi;
 const SIDDHAM_AKSHARA_RE =
   /[\u{11580}-\u{115AE}\u{115D8}-\u{115DB}]\u{115C0}?(?:\u{115BF}[\u{1158E}-\u{115AE}\u{115D8}-\u{115DB}]\u{115C0}?)*[\u{115AF}-\u{115BE}\u{115C0}\u{115DC}-\u{115DD}]*/gu;
 const DEVANAGARI_AKSHARA_RE =
@@ -399,7 +399,8 @@ const DEVANAGARI_AKSHARA_RE =
 function normalizeExactIast(s: string): string {
   return s
     .toLowerCase()
-    .replace(/ṁ/g, 'ṃ')
+    .replace(/m\u0310/g, 'ṃ')
+    .replace(/[ṁँ]/g, 'ṃ')
     .replace(/ē/g, 'e')
     .replace(/ō/g, 'o')
     .replace(/[^a-zāīūṛṝḷḹeēoōṃḥṅñṭḍṇśṣḻ]/g, '');
@@ -408,12 +409,14 @@ function normalizeExactIast(s: string): string {
 function normalizeSkeletonIast(s: string): string {
   return s
     .toLowerCase()
-    .replace(/[ṁṃṅñṇ]/g, 'n')
+    .replace(/m\u0310/g, 'n')
+    .replace(/[ṁṃँṅñṇ]/g, 'n')
     .replace(/[śṣ]/g, 's')
     .replace(/v/g, 'b')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z]/g, '');
+    .replace(/[^a-z]/g, '')
+    .replace(/([kgcjtdnpbmyrls])\1+/g, '$1');
 }
 
 function findFirstVowelOffset(norm: string): number {
@@ -555,6 +558,39 @@ export function matchIastOriginalAksharaFlags(
     if (tokAk.length === 1) {
       const targetExact = tokAk[0].normExact;
       const targetSkel = tokAk[0].normSkel;
+
+      // 0. Open-syllable + virāma-coda <cb:tt> pair (e.g. ["pha", "ṭ"] -> "phaṭ", ["dhṛ", "k"] -> "dhṛk")
+      if (tokAk[0].vowelRelOffset >= 0 && tIdx + 1 < originalTokens.length) {
+        const nextRaw = originalTokens[tIdx + 1]?.trim();
+        const nextAk = nextRaw
+          ? splitIastIntoAksharaPieces(nextRaw).filter((p) => p.isAkshara)
+          : [];
+        if (nextAk.length === 1 && nextAk[0].vowelRelOffset === -1 && nextAk[0].normExact) {
+          const fusedExact = targetExact + nextAk[0].normExact;
+          const fusedSkel = normalizeSkeletonIast(fusedExact);
+          for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
+            const startA = pass === 0 ? seqCursor : 0;
+            const endA = pass === 0 ? A : seqCursor;
+            for (let a = startA; a < endA; a++) {
+              const cand = pieces[aksharaIndices[a]];
+              if (
+                !aksharaFlags[a] &&
+                (cand.normExact === fusedExact || (fusedSkel && cand.normSkel === fusedSkel))
+              ) {
+                aksharaFlags[a] = true;
+                matchedTokenIndices.push(tIdx, tIdx + 1);
+                seqCursor = a + 1;
+                tIdx++;
+                matchedAt = a;
+                matchedEnd = a + 1;
+                break;
+              }
+            }
+          }
+          if (matchedAt >= 0) continue;
+        }
+      }
+
       // 1. Exact akṣara match from sequential cursor, then fallback from 0 (preferring unmatched)
       for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
         const startA = pass === 0 ? seqCursor : 0;
@@ -567,7 +603,7 @@ export function matchIastOriginalAksharaFlags(
           }
         }
       }
-      // 2. Phonetic skeleton match on full akṣara boundary (e.g. lā vs la, ksaṃ vs kṣaṃ)
+      // 2. Phonetic skeleton match on full akṣara boundary (e.g. lā vs la, ksaṃ vs kṣaṃ, rmma vs rma)
       if (matchedAt < 0 && targetSkel.length > 0) {
         for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
           const startA = pass === 0 ? seqCursor : 0;
@@ -577,6 +613,114 @@ export function matchIastOriginalAksharaFlags(
               matchedAt = a;
               matchedEnd = a + 1;
               break;
+            }
+          }
+        }
+      }
+      // 2b. Pāṇinian homorganic anusvāra assimilation (e.g. stone <cb:tt> "saṃ" + "ṅghe" -> "saṅghe",
+      //     or closed syllable coda absorbed into next onset like "rhat" + "sa" -> "rha"+"tsa")
+      if (matchedAt < 0 && tokAk[0].vowelRelOffset >= 0 && targetExact.length >= 2) {
+        if (targetExact.endsWith('ṃ')) {
+          const openExact = targetExact.slice(0, -1);
+          const openSkel = normalizeSkeletonIast(openExact);
+          for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
+            const startA = pass === 0 ? seqCursor : 0;
+            const endA = pass === 0 ? A - 1 : Math.min(seqCursor, A - 1);
+            for (let a = startA; a < endA; a++) {
+              if (aksharaFlags[a]) continue;
+              const cand = pieces[aksharaIndices[a]];
+              const nextCand = pieces[aksharaIndices[a + 1]];
+              if (
+                (cand.normExact === openExact || (openSkel && cand.normSkel === openSkel)) &&
+                /^[ṅñṇnm][kgcjṭḍtdnpbmśṣshvyr]/.test(nextCand.normExact)
+              ) {
+                matchedAt = a;
+                matchedEnd = a + 1;
+                break;
+              }
+            }
+          }
+        } else if (/[kgṅcjñṭḍṇtdnpbmrlvśṣsh]$/.test(targetExact)) {
+          for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
+            const startA = pass === 0 ? seqCursor : 0;
+            const endA = pass === 0 ? A : seqCursor;
+            for (let a = startA; a < endA; a++) {
+              if (!aksharaFlags[a] && exactStream.startsWith(targetExact, exactSpans[a].start)) {
+                matchedAt = a;
+                matchedEnd = a + 1;
+                break;
+              }
+            }
+          }
+        }
+      }
+      // 3. Standalone consonant-only virāma coda <cb:tt> (e.g. "ṭ" on "traṭ"/"phaṭ", "k" on "dhṛk")
+      if (matchedAt < 0 && tokAk[0].vowelRelOffset === -1 && targetExact.length > 0) {
+        for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
+          const startA = pass === 0 ? seqCursor : 0;
+          const endA = pass === 0 ? A : seqCursor;
+          for (let a = startA; a < endA; a++) {
+            const cand = pieces[aksharaIndices[a]];
+            if (
+              cand.normExact.endsWith(targetExact) ||
+              (targetSkel && cand.normSkel.endsWith(targetSkel)) ||
+              (a + 1 < A &&
+                /[aāiīuūṛṝḷḹeēoō]$/.test(cand.normExact) &&
+                pieces[aksharaIndices[a + 1]].normExact.startsWith(targetExact))
+            ) {
+              matchedAt = a;
+              matchedEnd = a + 1;
+              break;
+            }
+          }
+        }
+      }
+      // 4. Medial nasal/liquid coda absorbed across syllable boundary (e.g. ca+nḍa for ḍa, sa+rrva for rva, ṣ+ṇu;
+      //    restricted strictly so oral stops/palatal sibilants like padma/raśmi never false-match)
+      if (matchedAt < 0 && tokAk[0].vowelRelOffset >= 0 && targetExact.length >= 2) {
+        for (let pass = 0; pass < 2 && matchedAt < 0; pass++) {
+          const startA = Math.max(1, pass === 0 ? seqCursor : 1);
+          const endA = pass === 0 ? A : seqCursor;
+          for (let a = startA; a < endA; a++) {
+            if (aksharaFlags[a]) continue;
+            const prevPiece = pieces[aksharaIndices[a - 1]];
+            const cand = pieces[aksharaIndices[a]];
+            if (
+              /[aāiīuūṛṝḷḹeēoō]$/.test(prevPiece.normExact) &&
+              (cand.normExact.endsWith(targetExact) || (targetSkel && cand.normSkel.endsWith(targetSkel)))
+            ) {
+              const leadLen = cand.normExact.endsWith(targetExact)
+                ? cand.normExact.length - targetExact.length
+                : cand.normSkel.length - targetSkel.length;
+              const lead = cand.normExact.endsWith(targetExact)
+                ? cand.normExact.slice(0, leadLen)
+                : cand.normSkel.slice(0, leadLen);
+              if (
+                lead.length > 0 &&
+                (/^[ṅñṇnmr]+$/.test(lead) || (lead === 'ṣ' && /^ṇ/.test(targetExact)))
+              ) {
+                matchedAt = a;
+                matchedEnd = a + 1;
+                break;
+              }
+            }
+          }
+        }
+
+        // Step 5: Clause-initial external-sandhi Siddhaṃ ligature (e.g. stone <cb:tt> "ṅka", "rvi",
+        // "rgha", "nta", "nde", "nda" where the sandhi nasal/repha belongs to the preceding clause's
+        // final -ṃ/-ḥ while the base akṣara begins this clause at a === 0)
+        if (matchedAt < 0 && A > 0 && !aksharaFlags[0]) {
+          const extSandhi = targetExact.match(/^[ṅñṇnmr]([kgcjṭḍtdnpbmyvlśṣsh].*)$/);
+          if (extSandhi) {
+            const strippedExact = extSandhi[1];
+            const firstCand = pieces[aksharaIndices[0]];
+            if (
+              firstCand.normExact === strippedExact ||
+              firstCand.normExact.replace(/[ṃṁḥ]$/, '') === strippedExact
+            ) {
+              matchedAt = 0;
+              matchedEnd = 1;
             }
           }
         }
@@ -643,38 +787,43 @@ export function matchIastOriginalAksharaFlags(
 /**
  * Extracts diplomatic Sanskrit words/stems preserved on a CEToM Brāhmī fragment line,
  * stripping line numbers (`[a1]`), lacuna markers (`///`, `..`, `–`), editorial restorations `(kā)`,
- * and non-verse parallel apparatus notes.
+ * illegible-vowel akṣara markers (`n·`, `j·`), and non-verse parallel apparatus notes.
  */
 export function extractDiplomaticSanskritCandidates(diplomaticText: string): string[] {
   if (!diplomaticText) return [];
   const mainPart = diplomaticText.split(/\[parallel_note\]/i)[0] || '';
-  // Remove editorial conjectures in parentheses (...) and line labels [a1] / [transcription]
+  // Replace line labels, editorial restorations (...), deletions {...}, illegible akṣaras (n·, j·),
+  // and lacuna markers with hard run boundaries (' | ') so sliding windows never bridge across lacunae!
   const cleaned = mainPart
-    .replace(/\[(?:[ab]\d+[a-z]*|transcription|\d+)\]/gi, ' ')
-    .replace(/\([^)]*\)/g, ' ')
-    .replace(/\{[^}]*\}/g, ' ')
+    .replace(/\[(?:[ab]\d+[a-z]*|transcription|\d+)\]/gi, ' | ')
+    .replace(/\([^)]*\)/g, ' | ')
+    .replace(/\{[^}]*\}/g, ' | ')
     .replace(/\[|\]/g, '') // damaged but visible aksaras on the leaf like [ru] [ṇi] kā ya ARE preserved on manuscript
-    .replace(/[¯•·*+|/–—―-]+/g, ' ')
-    .replace(/\bblank\b/gi, ' ')
-    .replace(/\bn\d+\b/gi, ' ');
+    .replace(/\S*[¯•·]\S*/g, ' | ')
+    .replace(/\.\.+/g, ' | ')
+    .replace(/[*+|/–—―-]+/g, ' | ')
+    .replace(/\bblank\b/gi, ' | ')
+    .replace(/\bn\d+\b/gi, ' | ');
 
   // Collapse single-aksara spaced diplomatic transliteration (e.g. "u da ke na" or "ru ṇi kā ya")
-  // into both individual ≥4-char tokens and sliding 2..4-aksara phrases so spaced Brāhmī matches normalized words!
-  const rawTokens = cleaned
-    .split(/\s+/)
-    .map((w) => w.trim())
-    .filter((w) => w.length > 0 && /[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]/i.test(w));
-
+  // into both individual ≥4-char tokens and sliding 2..4-aksara phrases WITHIN each contiguous run!
   const candidates: string[] = [];
-  for (let i = 0; i < rawTokens.length; i++) {
-    if (normalizeExactIast(rawTokens[i]).length >= 4) {
-      candidates.push(rawTokens[i]);
-    }
-    for (let win = 4; win >= 2; win--) {
-      if (i + win <= rawTokens.length) {
-        const joined = rawTokens.slice(i, i + win).join('');
-        if (normalizeExactIast(joined).length >= 4) {
-          candidates.push(joined);
+  for (const segment of cleaned.split('|')) {
+    const rawTokens = segment
+      .split(/\s+/)
+      .map((w) => w.trim())
+      .filter((w) => w.length > 0 && /[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]/i.test(w));
+
+    for (let i = 0; i < rawTokens.length; i++) {
+      if (normalizeExactIast(rawTokens[i]).length >= 4) {
+        candidates.push(rawTokens[i]);
+      }
+      for (let win = 4; win >= 2; win--) {
+        if (i + win <= rawTokens.length) {
+          const joined = rawTokens.slice(i, i + win).join('');
+          if (normalizeExactIast(joined).length >= 4) {
+            candidates.push(joined);
+          }
         }
       }
     }

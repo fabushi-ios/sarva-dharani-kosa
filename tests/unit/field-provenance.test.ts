@@ -9,6 +9,7 @@ import {
   generateVerseChinesePhonetics,
 } from '../../src/core/sanskrit/phoneticMapper';
 import {
+  matchIastOriginalAksharaFlags,
   resolveEffectiveVerseFields,
   resolveEffectiveWordGlosses,
   resolveVerseFieldOrigin,
@@ -510,5 +511,60 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
       text: '𑖦',
       origin: 'db-original',
     });
+  });
+
+  it('enforces corpus-wide philological & provenance Golden Invariants across all 2,482 entries', () => {
+    expect(BUILTIN_DHARANI_CORPUS.length).toBe(2482);
+
+    let db1MixedTtTotal = 0;
+    let db1MixedTtMatched = 0;
+    const commentaryLeakRe = /[（(][^）)]*(?:切|反|去声|上声|平声|入声)[）)]/;
+    const bmpCompatRe = /[\uF900-\uFAFF]/;
+
+    for (const entry of BUILTIN_DHARANI_CORPUS) {
+      const dbKey = entry.provenance.databaseId || entry.categoryId;
+      expect(bmpCompatRe.test(entry.titleZh), `BMP compat char in titleZh of ${entry.id}`).toBe(
+        false
+      );
+
+      for (const verse of entry.verses) {
+        const eff = resolveEffectiveVerseFields(verse, false);
+
+        // 1. 100% stone <cb:tt> token alignment across all DB1 Fangshan mixed verses
+        if (dbKey === 'db1_fangshan' && verse.originalIastTokens?.length) {
+          db1MixedTtTotal += verse.originalIastTokens.length;
+          const res = matchIastOriginalAksharaFlags(verse.iast, verse.originalIastTokens);
+          db1MixedTtMatched += res.matchedTokenIndices.length;
+        }
+
+        // 2. Zero parenthetical fanqie/tone commentary leaks in classicalTranslitZh
+        expect(
+          commentaryLeakRe.test(eff.classicalTranslitZh),
+          `commentary leak in classicalTranslitZh of ${entry.id}#${verse.index}: ${eff.classicalTranslitZh}`
+        ).toBe(false);
+
+        // 3. Zero modern/erroneous Tang transliteration artifacts in derived classicalTranslitZh
+        if (eff.classicalTranslitOrigin === 'derived-reference') {
+          expect(eff.classicalTranslitZh).not.toMatch(/拿喃|毗耶入/);
+        }
+
+        // 4. Zero Tibetan EWTS transliteration artifacts in DB9 (RKTS) Sanskrit IAST
+        if (dbKey === 'db9_rkts') {
+          expect(verse.iast).not.toMatch(/\bye\s+ṅharmā\b|\bsarba|\bbidyā|\bbadzra/i);
+        }
+
+        // 5. Zero BMP compatibility ideographs and zero folio-break yaḥkṣa artifacts across all 2,482 entries
+        expect(
+          bmpCompatRe.test(eff.classicalTranslitZh),
+          `BMP compat char in ${entry.id}#${verse.index}`
+        ).toBe(false);
+        expect(verse.iast, `yaḥkṣa artifact in ${entry.id}#${verse.index}`).not.toMatch(
+          /yaḥkṣa/i
+        );
+      }
+    }
+
+    expect(db1MixedTtTotal).toBeGreaterThan(7500);
+    expect(db1MixedTtMatched).toBe(db1MixedTtTotal);
   });
 });

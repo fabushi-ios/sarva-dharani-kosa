@@ -32,25 +32,40 @@ function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
   const cbetaId = cbetaMatch ? cbetaMatch[0] : undefined;
 
   const verses: DharaniVerse[] = seed.verses.map((v, idx) => {
-    const hasDbClassical = Boolean(v.classicalTranslitZh && v.classicalTranslitZh.trim());
+    let rawClassical = v.classicalTranslitZh ? v.classicalTranslitZh.trim() : '';
+    let extractedTrailingNote = '';
+    const trailingNoteMatch = rawClassical.match(/\s*[（(]([^）)]+)[）)]\s*$/);
+    if (
+      trailingNoteMatch &&
+      !/^(?:引|二合|三合|四合|半音|切身|上|去|入|轻|重)$/.test(trailingNoteMatch[1].trim())
+    ) {
+      extractedTrailingNote = trailingNoteMatch[1].trim();
+      rawClassical = rawClassical.slice(0, trailingNoteMatch.index).trim();
+    }
+
+    const hasDbClassical = Boolean(rawClassical);
     const hasDbModern = Boolean(v.modernPhoneticZh && v.modernPhoneticZh.trim());
     const autoPhonetics =
       !hasDbClassical || !hasDbModern
         ? generateVerseChinesePhonetics(v.iast, false)
         : null;
+    const mergedTangNote =
+      v.tangNoteZh && extractedTrailingNote && !v.tangNoteZh.includes(extractedTrailingNote)
+        ? `${v.tangNoteZh} · ${extractedTrailingNote}`
+        : v.tangNoteZh || extractedTrailingNote || undefined;
     return {
       id: `${seed.id}-v${idx + 1}`,
       index: idx + 1,
       iast: v.iast,
       classicalTranslitZh: hasDbClassical
-        ? v.classicalTranslitZh!.trim()
+        ? rawClassical
         : autoPhonetics!.classicalTranslitZh,
       modernPhoneticZh: hasDbModern
         ? v.modernPhoneticZh!.trim()
         : autoPhonetics!.modernPhoneticZh,
       meaningZh: v.meaningZh,
       meaningEn: v.meaningEn,
-      tangNoteZh: v.tangNoteZh,
+      tangNoteZh: mergedTangNote,
       words: buildWordGlossesFromIast(v.iast),
       fieldSources: {
         iast: 'db-original',

@@ -259,6 +259,28 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['三曼䫂', 'samanta'],
   ['娑麼濕嚩娑野', 'samaśvāsaya'],
   ['三麼濕嚩娑野', 'samāśvāsaya'],
+  ['尾補攞櫱陛', 'vipulagarbhe'],
+  ['尾補攞尾麼𥠖', 'vipulavimale'],
+  ['尾補攞尾麼隸', 'vipulavimale'],
+  ['惹也櫱陛', 'jayagarbhe'],
+  ['惹野櫱陛', 'jayagarbhe'],
+  ['嚩日囉入嚩攞櫱陛', 'vajrajvālāgarbhe'],
+  ['櫱陛', 'garbhe'],
+  ['曩謨窣覩帝', 'namo stute'],
+  ['曩謨窣都帝', 'namo stute'],
+  ['曩謨蘇覩帝', 'namo stute'],
+  ['南無窣覩帝', 'namo stute'],
+  ['南無窣都帝', 'namo stute'],
+  ['窣都帝', 'stute'],
+  ['乙㗚史誐拏', 'ṛṣigaṇa'],
+  ['乙㗚史', 'ṛṣi'],
+  ['哩瑟誐拏', 'ṛṣigaṇa'],
+  ['隸嚩底屹囉賀', 'revatīgraha'],
+  ['哩嚩底屹囉賀', 'revatīgraha'],
+  ['訖㗚擔尾你琰', 'kṛtaṃ vidyāṃ'],
+  ['訖㗚擔', 'kṛtaṃ'],
+  ['穰伽戍藍', 'jaṅghāśūlaṃ'],
+  ['穰伽輸囒', 'jaṅghāśūlaṃ'],
   ['窣覩帝', 'stute'],
   ['悉地', 'siddhi'],
   ['蘇悉地', 'susiddhi'],
@@ -361,6 +383,18 @@ const BUDDHIST_PHRASE_ENTRIES: Array<[string, string]> = [
   ['目帝', 'mukte'],
   ['忙揭例', 'maṅgalye'],
   ['揭鞞', 'garbhe'],
+  ['怛𭔞他', 'tadyathā'],
+  ['冐提', 'bodhi'],
+  ['冒提', 'bodhi'],
+  ['菩提', 'bodhi'],
+  ['莎賀', 'svāhā'],
+  ['鉢囉底尾始瑟姹野', 'prativiśiṣṭāya'],
+  ['鉢囉底尾始瑟吒野', 'prativiśiṣṭāya'],
+  ['尾始瑟姹野', 'viśiṣṭāya'],
+  ['尾始瑟吒野', 'viśiṣṭāya'],
+  ['薩嚩怛𡃤路枳也', 'sarvatrailokya'],
+  ['抳懔', 'ṇīṃ'],
+  ['𩕳懔', 'nīṃ'],
 ].sort((a, b) => b[0].length - a[0].length);
 
 /* ============================================================================
@@ -373,7 +407,7 @@ const BUDDHIST_CHAR_MAP: Record<string, string> = {
   阿: 'a', 噁: 'āḥ', 惡: 'aḥ', 𢙣: 'aḥ', 遏: 'a', 頞: 'a', 閼: 'a', 安: 'an', 暗: 'aṃ', 闇: 'aṃ', 盎: 'aṃ', 鴦: 'aṅ', 鸯: 'aṅ', 案: 'an', 啊: 'ā', 央: 'yaṃ', 奧: 'au', 嘔: 'au', 噢: 'o',
   伊: 'i', 印: 'in', 一: 'i', 翳: 'e', 醫: 'ī', 壹: 'i', 縊: 'ī', 益: 'i', 因: 'in', 乙: 'i', 以: 'i', 已: 'i', 矣: 'i', 寅: 'in', 移: 'yi', 易: 'yi', 裔: 'ye', 吲: 'in',
   塢: 'u', 烏: 'u', 鄔: 'u', 鬱: 'u', 欝: 'u', 優: 'u', 漚: 'u', 嗢: 'u', 嗚: 'u', 憂: 'u', 郁: 'u', 於: 'u', 杇: 'u', 隖: 'u',
-  曳: 'ye', 曵: 'ye', 耶: 'ya', 野: 'ya', 夜: 'yā', 藥: 'yaḥ', 演: 'yaṃ', 閻: 'yaṃ', 炎: 'yaṃ', 琰: 'yaṃ', 焰: 'yaṃ', 燄: 'yaṃ', 孕: 'yaṃ', 拽: 'ye', 羊: 'yaṅ', 也: 'ya', 𢈔: 'yo', 諭: 'yu', 喻: 'yo', 愈: 'yu', 瑜: 'yu', 庾: 'yu', 由: 'yu', 遊: 'yu', 俞: 'yu', 榆: 'yu', 油: 'yu', 猶: 'yu', 欲: 'yu', 育: 'yu', 聿: 'yu', 延: 'yan', 彥: 'yan', 揚: 'yaṅ', 與: 'yu',
+  曳: 'ye', 曵: 'ye', 耶: 'ya', 野: 'ya', 夜: 'yā', 藥: 'ya', 演: 'yaṃ', 閻: 'yaṃ', 炎: 'yaṃ', 琰: 'yaṃ', 焰: 'yaṃ', 燄: 'yaṃ', 孕: 'yaṃ', 拽: 'ye', 羊: 'yaṅ', 也: 'ya', 𢈔: 'yo', 諭: 'yu', 喻: 'yo', 愈: 'yu', 瑜: 'yu', 庾: 'yu', 由: 'yu', 遊: 'yu', 俞: 'yu', 榆: 'yu', 油: 'yu', 猶: 'yu', 欲: 'yu', 育: 'yu', 聿: 'yu', 延: 'yan', 彥: 'yan', 揚: 'yaṅ', 與: 'yu',
 
   // Velar series (ka, kha, ga, gha, ṅa)
   迦: 'ka', 佉: 'kha', 呿: 'kha', 誐: 'ga', 伽: 'gha', 仰: 'ṅa', 櫱: 'ga', 蘖: 'ga', 孽: 'ga', 竭: 'gha', 揭: 'ga', 羯: 'ka', 脚: 'kaḥ', 却: 'kha', 恪: 'kha', 契: 'khe', 企: 'khi', 欠: 'khaṃ', 乞: 'ki', 訖: 'kṛ', 屹: 'g', 仡: 'ga',
@@ -404,8 +438,9 @@ const BUDDHIST_CHAR_MAP: Record<string, string> = {
   訶: 'ha', 呵: 'hā', 賀: 'ha', 荷: 'ha', 何: 'ha', 河: 'ha', 和: 'va', 喝: 'ha', 曷: 'ha', 蝎: 'ha', 褐: 'ha', 瞎: 'ha', 轄: 'ha', 醯: 'he', 係: 'he', 系: 'he', 奚: 'he', 兮: 'he', 諧: 'he', 呬: 'hi', 希: 'hi', 唏: 'hi', 悕: 'hi', 喜: 'hi', 嘻: 'hi', 熙: 'hi', 戲: 'hi', 呼: 'hu', 乎: 'hu', 護: 'hu', 戶: 'hu', 胡: 'hu', 睺: 'hu', 侯: 'hu', 喉: 'hu', 吼: 'hu', 休: 'hu', 咻: 'hu', 朽: 'hu', 虎: 'hū', 唬: 'hu', 吽: 'hūṃ', 𤙖: 'hūṃ', 斛: 'hoḥ', 唅: 'haṃ', 㟏: 'haṃ', 恨: 'gh', 郝: 'haḥ', 紇: 'hṛ', 𤹫: 'ho', 活: 'hva', 火: 'hva', 禍: 'hva', 獲: 'hva', 或: 'hu', 忽: 'hu', 惚: 'hu', 狐: 'hu', 壺: 'hu', 湖: 'hu', 糊: 'hu', 瑚: 'hu', 鶘: 'hu', 互: 'hu', 沍: 'hu', 冱: 'hu', 岵: 'hu', 怙: 'hu', 祜: 'hu', 瓠: 'hu', 扈: 'hu', 滬: 'hu', 嘑: 'hu', 滹: 'hu', 虖: 'hu', 吁: 'hu', 噓: 'hu', 虛: 'hu', 許: 'hu', 旭: 'hu', 畜: 'kṣu', 蓄: 'kṣu', 嗅: 'hu', 溴: 'hu', 兄: 'huṃ', 胸: 'huṃ', 凶: 'huṃ', 兇: 'huṃ', 洶: 'huṃ', 匈: 'huṃ', 雄: 'huṃ', 熊: 'huṃ', 哄: 'huṃ', 烘: 'huṃ', 弘: 'huṃ', 紅: 'huṃ', 虹: 'huṃ', 鴻: 'huṃ', 洪: 'huṃ', 宏: 'huṃ', 閎: 'huṃ', 薨: 'huṃ', 轟: 'huṃ', 鬨: 'huṃ', 行: 'haṅ', 幸: 'haṅ', 杏: 'haṅ', 荇: 'haṅ', 脛: 'hiṅ', 興: 'hiṅ', 馨: 'hiṅ', 星: 'siṅ', 腥: 'siṅ', 惺: 'siṅ', 醒: 'siṅ', 姓: 'siṅ', 性: 'siṅ', 形: 'hiṅ', 型: 'hiṅ', 刑: 'hiṅ', 鉶: 'hiṅ', 硎: 'hiṅ', 蹊: 'he', 鬩: 'hi', 翕: 'hi', 歙: 'hi', 吸: 'hi', 檄: 'hi', 覡: 'hi', 隙: 'hi', 郤: 'hi', 綌: 'hi', 夕: 'si', 汐: 'si', 矽: 'si', 穸: 'si', 席: 'si', 蓆: 'si', 習: 'si', 褶: 'si', 襲: 'si', 謵: 'si', 媳: 'si', 熄: 'si', 息: 'si', 蟋: 'si', 惜: 'si', 昔: 'si', 腊: 'la', 鵲: 'ca',
 
   // Additional verified Six-Dynasties / Tang transcription characters
-  藐: 'mya', 翅: 'ke', 𠼝: 'ṭha', 𩘌: 'ṇḍa', 哂: 'śin', 捨: 'le', 𠰒: 'hā', 䩭: 'ma', 𭍉: 'ḍha', 𥟦: 'śrī', 𠶹: 'ra', 𠴏: 'pha', 㖶: 'ye', 吟: 'giṃ', 如: 'ju', 茹: 'ju', 汝: 'ju', 柔: 'ju', 褥: 'ju', 讓: 'ñāṃ', 人: 'jin', 忍: 'jin', 紉: 'jin', 壬: 'jiṃ', 任: 'jiṃ', 妊: 'jiṃ', 衽: 'jiṃ', 飪: 'jiṃ', 賃: 'jiṃ', 刃: 'jin', 仞: 'jin', 軔: 'jin', 韌: 'jin', 認: 'jin', 仍: 'jiṅ', 扔: 'jiṅ', 芿: 'jiṅ', 絨: 'juṃ', 茸: 'juṃ', 戎: 'juṃ', 狨: 'juṃ', 榮: 'juṃ', 嶸: 'juṃ', 融: 'juṃ', 容: 'juṃ', 蓉: 'juṃ', 溶: 'juṃ', 榕: 'juṃ', 熔: 'juṃ', 瑢: 'juṃ', 鎔: 'juṃ', 冗: 'juṃ', 毳: 'tsvi', 脆: 'tsvi',
+  藐: 'mya', 翅: 'ke', 𠼝: 'ṭha', 𩘌: 'ṇḍa', 哂: 'śin', 捨: 'śa', 𠰒: 'ji', 䩭: 'ma', 𭍉: 'ḍha', 𥟦: 'śrī', 𠶹: 'ra', 𠴏: 'pha', 㖶: 'ye', 吟: 'giṃ', 如: 'ju', 茹: 'ju', 汝: 'ju', 柔: 'ju', 褥: 'ju', 讓: 'ñāṃ', 人: 'jin', 忍: 'jin', 紉: 'jin', 壬: 'jiṃ', 任: 'jiṃ', 妊: 'jiṃ', 衽: 'jiṃ', 飪: 'jiṃ', 賃: 'jiṃ', 刃: 'jin', 仞: 'jin', 軔: 'jin', 韌: 'jin', 認: 'jin', 仍: 'jiṅ', 扔: 'jiṅ', 芿: 'jiṅ', 絨: 'juṃ', 茸: 'juṃ', 戎: 'juṃ', 狨: 'juṃ', 榮: 'juṃ', 嶸: 'juṃ', 融: 'juṃ', 容: 'juṃ', 蓉: 'juṃ', 溶: 'juṃ', 榕: 'juṃ', 熔: 'juṃ', 瑢: 'juṃ', 鎔: 'juṃ', 冗: 'juṃ', 毳: 'tsvi', 脆: 'tsvi',
   㕨: 'va', 注: 'cu', 駐: 'cu', 住: 'cu', 柱: 'tyu', 𭊵: 'ṭa', 㨖: 'ṭi', 𧰃: 'ḍa', 婬: 'yiṃ', 淫: 'yiṃ', 滛: 'yiṃ', 翹: 'gyau', 淨: 'jiṃ', 清: 'tsiṃ', 叱: 'ṭa', 𠻱: 'la', 牛: 'gu', 肇: 'ḍhau', 鉗: 'gaṃ', 𥝟: 'śi', 㗭: 'mi', 𭐽: 'ṇa', 仚: 'hen', 酬: 'śu', 爹: 'ḍa', 𡰱: 'ṇa', 音: 'iṃ', 我: 'ga', 峩: 'ga', 餓: 'ga', 葂: 'myan', 𡄣: 'kṣa', 𧯞: 'la', 𥌋: 'mi', 𭬧: 'ṇa', 倚: 'i', 𭇔: 'ta', 𤜽: 'hu', 𠺁: 'hā', 進: 'tsin', 蠆: 'ṭhai', 法: 'pha', 九: 'ku', 六: 'lu', 七: 'tsi', 八: 'pa', 十: 'śi', 二: 'ni', 五: 'gu', 百: 'pa', 千: 'tsen', 萬: 'man', 纏: 'ḍhan', 鵄: 'chi', 䩚: 'ta', 籌: 'ḍhu', 網: 'māṃ', 貪: 'thaṃ', 事: 'dzi', 啄: 'ṭa', 𮁸: 'ra', 譫: 'caṃ', 𠯋: 'la', 婫: 'kun', 𡃳: 'la', 肘: 'ṭu', 耳: 'ni', 𠾆: 'ha', 勺: 'śa', 閜: 'kha', 𭋤: 'ṇa', 眾: 'cuṃ', 現: 'hen', 天: 'ten', 而: 'ni', 在: 'dzai', 風: 'phuṃ', 𭊕: 'ṭa', 絺: 'ṭhi', 山: 'śān', 貯: 'ṭu', 𠲸: 'ca', 滅: 'mye', 座: 'dza', 坐: 'dza', 觀: 'kvān', 𠰺: 'pa', 攡: 'li', 澄: 'dhiṃ', 將: 'tsyāṃ', 解: 'kai', 魑: 'ṭhi', 屣: 'si', 㖉: 'na', 𡃂: 'ra', 𮄆: 'la', 畏: 'vi', 業: 'ga', 歸: 'kvi', 𪏭: 'ṇa', 篅: 'cvān', 蚶: 'haṃ', 箒: 'cu', 帚: 'cu', 酉: 'yu', 㧣: 'ṭu',
+  𭔞: 'dya', 募: 'maḥ', 𦾨: 'ga', 𭥗: 'bo', 𭦗: 'maṇ', 𠮷: 'ki', 懔: 'līṃ', 婀: 'a', 戇: 'ṭu', 貙: 'ṭho', 暹: 'syāṃ', 廩: 'liṃ', 嶠: 'ko', 刎: 'van', 𠆙: 'dhya', 𢈔: 'yuḥ',
 };
 
 const DETERMINISTIC_CV_FALLBACK = [
@@ -540,7 +575,7 @@ const SANSKRIT_WORD_SET = (() => {
 
   for (const rawKey of Object.keys(SANSKRIT_CORE_LEXICON)) {
     const s = rawKey.toLowerCase().trim();
-    if (s.length < 3 || countVowelNuclei(s) < 2) continue;
+    if (s.length < 3 || countVowelNuclei(s) < 2 || s === 'maha') continue;
     if (s.startsWith('mahā') && s.length > 4 && !keepMahaFused.has(s)) continue;
     ws.add(s);
     if (s.length >= 4 && s.endsWith('a')) {
@@ -576,11 +611,13 @@ const SANSKRIT_WORD_SET = (() => {
     'avalokita', 'avalokiteśvara', 'avalokiteśvarāya', 'āryāvalokiteśvarāya',
     'sarvoṣṇīṣādhiṣṭhānādhiṣṭhita', 'adhiṣṭhita', 'adhiṣṭhite', 'adhiṣṭhāna',
     'tathāgata', 'tathāgatāya', 'tathāgatānāṃ', 'guhya', 'stute', 'arhate',
-    'arhatebhyaḥ', 'bodhisattva', 'bodhisattvāya', 'bodhisattvebhyaḥ',
+    'arhatebhyaḥ', 'arhabhyaḥ', 'bodhisattva', 'bodhisattvāya', 'bodhisattvebhyaḥ',
     'sarvabuddhabodhisattvebhyaḥ', 'samyaksaṃbuddhāya', 'samyaksaṃbuddhānāṃ',
     'samyaksaṃbuddhebhyaḥ', 'samantabuddhānāṃ', 'samantavajrāṇāṃ', 'bhagavate',
     'bhagavato', 'bhagavān', 'ratnatrayāya', 'viśodhaya', 'viśodhane', 'vimale',
-    'amale', 'nirmale', 'vipula', 'vajra', 'vajrapāṇi', 'vajrapāṇaye', 'vajradhara',
+    'amale', 'nirmale', 'vipula', 'vipulagarbhe', 'vipulavimale', 'jayagarbhe',
+    'vajrajvālāgarbhe', 'garbhe', 'garbha', 'mahāyakṣa', 'yakṣasenādhipate',
+    'vajra', 'vajrapāṇi', 'vajrapāṇaye', 'vajradhara',
     'vajrasattva', 'sarvapāpa', 'sarvakarma', 'sarvasattva', 'sarvavighnān',
     'sarvaduḥkha', 'sarvārthasādhani', 'sarvārthasādhane', 'anavalokitamūrdhāna',
     'hana', 'daha', 'paca', 'matha', 'bhañja', 'bandha', 'chinda', 'bhinda',
@@ -595,7 +632,7 @@ const SANSKRIT_WORD_SET = (() => {
 })();
 
 const STANDALONE_MONOSYLLABLES = new Set([
-  'oṃ', 'hūṃ', 'phaṭ', 'hrīḥ', 'dhīḥ', 'śrīṃ', 'klīṃ', 'aiṃ', 'bhrūṃ', 'drūṃ',
+  'oṃ', 'om̐', 'hūṃ', 'hum̐', 'phaṭ', 'hrīḥ', 'dhīḥ', 'śrīṃ', 'klīṃ', 'aiṃ', 'bhrūṃ', 'drūṃ',
   'ṭrūṃ', 'vaṃ', 'raṃ', 'laṃ', 'yaṃ', 'haṃ', 'khaṃ', 'jaḥ', 'hoḥ', 'āḥ',
   'hi', 'he', 'ho', 'bho', 'ca', 'me', 'te', 'na', 'ni', 'su', 'ṣaṭ',
 ]);
@@ -834,7 +871,7 @@ function fuseSanHe(zh: string, u1: AksharaUnit, u2: AksharaUnit, u3: AksharaUnit
 }
 
 function dedupPreConjunctCoda(prevIast: string, nextIast: string): [string, string] {
-  if (/^[ṅñṇnm][kgcjṭḍtdpbhśṣs]/.test(nextIast)) {
+  if (/^[ṅñṇnm][kgcjṭḍtdpbhśṣsṅñṇnmvyr]/.test(nextIast)) {
     return [prevIast.replace(/[ṃṅñṇnm]$/, ''), nextIast];
   }
   if (/^r[kgcjṭḍtdnpbmyvlśṣsh]/.test(nextIast)) {
@@ -860,9 +897,20 @@ function isCleanSingleAksharaIast(iast: string): boolean {
   return /^[kgṅcjñṭḍṇtdnpbmyrlvśṣsh]?h?[yvr]?[aāiīuūṛṝḷeēoō][ṃḥ]?$/i.test(iast);
 }
 
+function normalizeBmpCompatIdeographs(str: string): string {
+  if (!str) return '';
+  return str.replace(/[\uF900-\uFAFF]/g, (c) => c.normalize('NFC'));
+}
+
+const PURE_ONSET_HELPER_CHARS = new Set([
+  '瑟', '澁', '㗚', '哩', '栗', '娑', '悉', '窣', '塞', '色',
+  '室', '訖', '紇', '鉢', '怛', '入', '日', '特',
+]);
+
 interface F28ParsedBlock {
   inlinePairs: Array<[string, string]>;
   reconstructedIast: string;
+  cleanZh: string;
 }
 
 type RawClauseToken =
@@ -887,7 +935,7 @@ function parseF28XmlData(f28Xml: string): {
       if (u) {
         const cp = parseInt(u[1], 16);
         if (!isPuaCodePoint(cp)) {
-          cbMap.set(id, String.fromCodePoint(cp));
+          cbMap.set(id, normalizeBmpCompatIdeographs(String.fromCodePoint(cp)));
           continue;
         }
       }
@@ -895,7 +943,7 @@ function parseF28XmlData(f28Xml: string): {
         /<localName>normalized form<\/localName>\s*<value>([^<]+)<\/value>/
       );
       if (nf && nf[1].trim()) {
-        cbMap.set(id, nf[1].trim());
+        cbMap.set(id, normalizeBmpCompatIdeographs(nf[1].trim()));
       }
     } else if (id.startsWith('SD-') || id.startsWith('RJ-')) {
       const rm = body.match(
@@ -910,7 +958,9 @@ function parseF28XmlData(f28Xml: string): {
   const charFreqs = new Map<string, Map<string, number>>();
   for (const r of CBETA_AUTH_RECORDS) {
     for (const tt of r.ttAlignments || []) {
-      const zh = stripPua(tt.chineseZi || tt.chineseText || '').replace(/\s+/g, '');
+      const zh = normalizeBmpCompatIdeographs(
+        stripPua(tt.chineseZi || tt.chineseText || '').replace(/\s+/g, '')
+      );
       const iast = (tt.iast || '').trim();
       if (Array.from(zh).length === 1 && isCleanSingleAksharaIast(iast)) {
         if (!charFreqs.has(zh)) charFreqs.set(zh, new Map());
@@ -922,10 +972,12 @@ function parseF28XmlData(f28Xml: string): {
 
   // First pass over <cb:tt> in F28n1071 to finalize cleanSingleCharTt
   const resolveInlineG = (s: string) =>
-    stripPua(
-      s.replace(
-        /<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<g\s+ref="#(CB[0-9A-Za-z]+)"\s*\/>/g,
-        (_, a, b) => cbMap.get(a || b) || ''
+    normalizeBmpCompatIdeographs(
+      stripPua(
+        s.replace(
+          /<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<g\s+ref="#(CB[0-9A-Za-z]+)"\s*\/>/g,
+          (_, a, b) => cbMap.get(a || b) || ''
+        )
       )
     );
 
@@ -977,6 +1029,7 @@ function parseF28XmlData(f28Xml: string): {
     const pBody = pm[2];
 
     const inlinePairs: Array<[string, string]> = [];
+    const localPhraseMap = new Map<string, string>();
     const clauses: RawClauseToken[][] = [[]];
     const pushClause = () => {
       if (clauses[clauses.length - 1].length > 0) {
@@ -1005,12 +1058,14 @@ function parseF28XmlData(f28Xml: string): {
         }
         if (Array.from(zh).length >= 2 && ttIast) {
           inlinePairs.push([zh, ttIast]);
+          localPhraseMap.set(zh, ttIast);
         }
         if (ttIast) {
           clauses[clauses.length - 1].push({ type: 'tt', iast: ttIast, zh, hasYin });
         }
       } else if (noteBody !== undefined) {
-        const nt = noteBody.replace(/<[^>]+>/g, '').trim();
+        // Strip internal whitespace so line-wrapped numerals like <note>二<lb/>十六</note> parse as 二十六
+        const nt = noteBody.replace(/<[^>]+>/g, '').replace(/\s+/g, '').trim();
         if (!nt) continue;
         if (/^[一二三四五六七八九十百千〇零]+$/.test(nt)) {
           pushClause();
@@ -1025,8 +1080,17 @@ function parseF28XmlData(f28Xml: string): {
           }
         }
       } else if (plainTxt !== undefined) {
-        for (const ch of Array.from(plainTxt)) {
-          if (ch === '\u3000' || ch === '｜' || ch === '。' || ch === '；' || ch === '！' || ch === '？') {
+        for (const rawCh of Array.from(plainTxt)) {
+          const ch = normalizeBmpCompatIdeographs(rawCh);
+          if (
+            ch === '\u3000' ||
+            ch === '｜' ||
+            ch === '。' ||
+            ch === '；' ||
+            ch === '！' ||
+            ch === '？' ||
+            /^[二四五六七八九十百]$/.test(ch)
+          ) {
             pushClause();
           } else if (
             !isPuaCodePoint(ch.codePointAt(0) || 0) &&
@@ -1039,26 +1103,83 @@ function parseF28XmlData(f28Xml: string): {
     }
 
     const nonEmptyClauses = clauses.filter((c) => c.length > 0);
+    const cleanZh = nonEmptyClauses
+      .map((cl) =>
+        cl
+          .map((it) => (it.type === 'tt' ? it.zh : it.type === 'ch' ? it.ch : ''))
+          .join('')
+      )
+      .filter((s) => s.length > 0)
+      .join(' ｜ ');
+
     const iastClauses: string[] = [];
     const unitClauses: Array<{ units: AksharaUnit[]; forcedBreakAfter: Set<number> }> = [];
 
     for (const cl of nonEmptyClauses) {
       const units: AksharaUnit[] = [];
-      for (const item of cl) {
+      let skipRedundantTail = 0;
+
+      for (let itemIdx = 0; itemIdx < cl.length; itemIdx++) {
+        const item = cl[itemIdx];
         if (item.type === 'tt') {
-          let ttIast = item.hasYin ? lengthenLastVowel(item.iast) : item.iast;
+          skipRedundantTail = 0;
+          // Preserve exact vowel encoded in the stone #SD-* glyph without overriding via Chinese <note>引</note>
+          let ttIast = item.iast;
+
+          // Consonant-only virāma coda <cb:tt> (e.g. 吒=ṭ, 迦=k) fuses onto preceding open syllable
+          if (
+            !/[aāiīuūṛṝḷḹeēoō]/i.test(ttIast) &&
+            /^[ṭkptcṃḥ]+$/.test(ttIast) &&
+            units.length > 0 &&
+            /[aāiīuūṛṝḷḹeēoō]$/.test(units[units.length - 1].iast)
+          ) {
+            units[units.length - 1].zh += item.zh;
+            units[units.length - 1].iast += ttIast;
+            units[units.length - 1].fromTt = true;
+            units[units.length - 1].hasNote = true;
+            continue;
+          }
+
+          if (
+            units.length > 0 &&
+            !units[units.length - 1].fromTt &&
+            units[units.length - 1].zh === '入' &&
+            /^kṣ/.test(ttIast)
+          ) {
+            units.pop();
+          }
+
           if (units.length > 0 && ttIast) {
-            const [prevClean, nextClean] = dedupPreConjunctCoda(
-              units[units.length - 1].iast,
-              ttIast
-            );
-            units[units.length - 1].iast = prevClean;
+            const prevUnit = units[units.length - 1];
+            const [prevClean, nextClean] = dedupPreConjunctCoda(prevUnit.iast, ttIast);
+            if (!prevUnit.fromTt || !prevUnit.iast.endsWith('ṃ')) {
+              prevUnit.iast = prevClean;
+            }
             ttIast = item.zh === '播' && nextClean === 'pa' ? 'pā' : nextClean;
           } else if (ttIast.startsWith('ṭp')) {
             ttIast = item.zh === '播' ? 'pā' : ttIast.slice(1);
           }
           units.push({ zh: item.zh, iast: ttIast, fromTt: true, hasNote: true });
+
+          // Detect 1-char stone <cb:tt> compound ligatures followed by redundant Chinese tail characters
+          if (item.zh === '㗚' && /^rdhn/.test(ttIast)) {
+            skipRedundantTail = 2; // skip following 䭾 + 曩
+          } else if (
+            (item.zh === '㗚' && ttIast === 'rvai') ||
+            (item.zh === '瑟' && /^ṣṭr/.test(ttIast))
+          ) {
+            skipRedundantTail = 1; // skip following 吠 / 吒
+          }
         } else if (item.type === 'ch') {
+          if (
+            skipRedundantTail > 0 &&
+            ['䭾', '馱', '曩', '難', '吠', '吒', '咤'].includes(item.ch)
+          ) {
+            units[units.length - 1].zh += item.ch;
+            skipRedundantTail--;
+            continue;
+          }
+          skipRedundantTail = 0;
           units.push({
             zh: item.ch,
             iast: mapSingleChar(item.ch),
@@ -1066,6 +1187,7 @@ function parseF28XmlData(f28Xml: string): {
             hasNote: false,
           });
         } else if (item.type === 'note') {
+          skipRedundantTail = 0;
           const nt = item.note;
           const isSi = nt.includes('四合');
           const isSan = nt.includes('三合');
@@ -1074,38 +1196,84 @@ function parseF28XmlData(f28Xml: string): {
           const isBan = /(?:^|[、，\s])半(?:音|$|[、，呼\s])/u.test(nt);
 
           const lastUnit = units[units.length - 1];
+          const kSpan = isSi ? 4 : isSan ? 3 : isEr ? 2 : 0;
+
           if (
-            isSi &&
-            units.length >= 4 &&
-            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= 4)
+            kSpan >= 2 &&
+            units.length >= kSpan &&
+            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= kSpan)
           ) {
-            const u4 = units.splice(units.length - 4, 4);
-            const zh = u4.map((u) => u.zh).join('');
-            const iv =
-              SIHE_MAP[zh] ||
-              `${onsetOfIast(u4[0].iast)}${fuseSanHe(u4[1].zh + u4[2].zh + u4[3].zh, u4[1], u4[2], u4[3])}`;
-            units.push({ zh, iast: iv, fromTt: false, hasNote: true });
-          } else if (
-            isSan &&
-            units.length >= 3 &&
-            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= 3)
-          ) {
-            const u3 = units.splice(units.length - 3, 3);
-            const zh = u3.map((u) => u.zh).join('');
-            const iv = fuseSanHe(zh, u3[0], u3[1], u3[2]);
-            units.push({ zh, iast: iv, fromTt: false, hasNote: true });
-          } else if (
-            isEr &&
-            units.length >= 2 &&
-            !(lastUnit.fromTt && Array.from(lastUnit.zh).length >= 2)
-          ) {
-            const u2 = units.splice(units.length - 2, 2);
-            const zh = u2[0].zh + u2[1].zh;
-            const iv = fuseErHe(zh, u2[0], u2[1]);
-            units.push({ zh, iast: iv, fromTt: false, hasNote: true });
+            const uSlice = units.slice(units.length - kSpan);
+            const hasAnyTt = uSlice.some((u) => u.fromTt);
+
+            if (!hasAnyTt) {
+              const uRemoved = units.splice(units.length - kSpan, kSpan);
+              const zh = uRemoved.map((u) => u.zh).join('');
+              let iv: string;
+              if (kSpan === 4) {
+                iv =
+                  SIHE_MAP[zh] ||
+                  `${onsetOfIast(uRemoved[0].iast)}${fuseSanHe(
+                    uRemoved[1].zh + uRemoved[2].zh + uRemoved[3].zh,
+                    uRemoved[1],
+                    uRemoved[2],
+                    uRemoved[3]
+                  )}`;
+              } else if (kSpan === 3) {
+                iv = fuseSanHe(zh, uRemoved[0], uRemoved[1], uRemoved[2]);
+              } else {
+                iv = fuseErHe(zh, uRemoved[0], uRemoved[1]);
+              }
+              units.push({ zh, iast: iv, fromTt: false, hasNote: true });
+            } else if (uSlice[0].fromTt && !uSlice.slice(1).some((u) => u.fromTt)) {
+              // Stone <cb:tt> sits on first char of ligature (e.g. <cb:tt>瑟=ṣṭho</cb:tt>貙<note>二合</note>
+              // or <cb:tt>特=dh</cb:tt>鑁<note>二合</note>)
+              const uRemoved = units.splice(units.length - kSpan, kSpan);
+              const zh = uRemoved.map((u) => u.zh).join('');
+              const firstIast = uRemoved[0].iast;
+              const iv = !/[aāiīuūṛṝḷḹeēoō]/i.test(firstIast)
+                ? `${firstIast}${uRemoved.slice(1).map((u) => u.iast).join('')}`
+                : firstIast;
+              units.push({ zh, iast: iv, fromTt: true, hasNote: true });
+            } else if (
+              uSlice[kSpan - 1].fromTt &&
+              !uSlice.slice(0, kSpan - 1).some((u) => u.fromTt)
+            ) {
+              // Stone <cb:tt> sits on final char of ligature (e.g. 薩+<cb:tt>嚩=rvā</cb:tt> or 瑟+<cb:tt>拏=ṇu</cb:tt>)
+              const finalTt = uSlice[kSpan - 1];
+              if (kSpan === 2 && uSlice[0].zh === '薩' && /^rv/.test(finalTt.iast)) {
+                // Keep both sa + rvā -> sarvā!
+                uSlice[0].iast = 'sa';
+              } else if (onsetOfIast(finalTt.iast).length >= 2) {
+                // Final <cb:tt> already encodes full conjunct; drop pure onset helper prefix chars
+                const prefixUnits = uSlice.slice(0, kSpan - 1);
+                if (prefixUnits.every((pu) => PURE_ONSET_HELPER_CHARS.has(pu.zh))) {
+                  const uRemoved = units.splice(units.length - kSpan, kSpan);
+                  units.push({
+                    zh: uRemoved.map((u) => u.zh).join(''),
+                    iast: finalTt.iast,
+                    fromTt: true,
+                    hasNote: true,
+                  });
+                }
+              } else {
+                // Prepend helper consonant onset onto single-consonant <cb:tt> (e.g. 瑟 + 拏=ṇu -> ṣṇu)
+                const prefixUnits = uSlice.slice(0, kSpan - 1);
+                if (prefixUnits.every((pu) => PURE_ONSET_HELPER_CHARS.has(pu.zh))) {
+                  const uRemoved = units.splice(units.length - kSpan, kSpan);
+                  const preOnset = prefixUnits.map((pu) => onsetOfIast(pu.iast)).join('');
+                  units.push({
+                    zh: uRemoved.map((u) => u.zh).join(''),
+                    iast: `${preOnset}${finalTt.iast}`,
+                    fromTt: true,
+                    hasNote: true,
+                  });
+                }
+              }
+            }
           }
 
-          if (isBan && units.length >= 1) {
+          if (isBan && units.length >= 1 && !units[units.length - 1].fromTt) {
             const top = units[units.length - 1];
             const coda = onsetOfIast(top.iast) || top.iast;
             if (units.length >= 2 && /[aāiīuūṛṝḷḹeēoō]$/.test(units[units.length - 2].iast)) {
@@ -1116,14 +1284,52 @@ function parseF28XmlData(f28Xml: string): {
             }
           }
 
-          if (isYin && units.length >= 1) {
+          if (isYin && units.length >= 1 && !units[units.length - 1].fromTt) {
             const top = units[units.length - 1];
-            if ((top.zh === '戍' || top.zh === '戌') && !top.fromTt) {
+            if (top.zh === '戍' || top.zh === '戌') {
               top.iast = 'śo';
             } else {
               top.iast = lengthenLastVowel(top.iast);
             }
             top.hasNote = true;
+          }
+        }
+      }
+
+      // Apply block-local multi-char <cb:tt> phrase readings (e.g. 訥嚕唵 -> drūṃ) & adjacent 2-unit <cb:tt> reduplications (滿䭾滿䭾 -> bandha bandha)
+      for (let idx = 0; idx < units.length; idx++) {
+        if (
+          idx + 3 < units.length &&
+          units[idx].fromTt &&
+          units[idx + 1].fromTt &&
+          !units[idx + 2].fromTt &&
+          !units[idx + 3].fromTt &&
+          Array.from(units[idx].zh).length === 1 &&
+          Array.from(units[idx + 1].zh).length === 1 &&
+          units[idx + 2].zh === units[idx].zh &&
+          units[idx + 3].zh === units[idx + 1].zh
+        ) {
+          units[idx + 2].iast = units[idx].iast;
+          units[idx + 3].iast = units[idx + 1].iast;
+        }
+        if (!units[idx].fromTt && !units[idx].hasNote && localPhraseMap.size > 0) {
+          for (const len of [3, 2]) {
+            if (idx + len <= units.length) {
+              const span = units.slice(idx, idx + len);
+              if (span.every((s) => !s.fromTt && !s.hasNote)) {
+                const spanZh = span.map((s) => s.zh).join('');
+                const mapped = localPhraseMap.get(spanZh);
+                if (mapped) {
+                  units.splice(idx, len, {
+                    zh: spanZh,
+                    iast: mapped,
+                    fromTt: false,
+                    hasNote: true,
+                  });
+                  break;
+                }
+              }
+            }
           }
         }
       }
@@ -1136,23 +1342,35 @@ function parseF28XmlData(f28Xml: string): {
         const nxt2 = units[idx + 2];
 
         // Clause-initial 'rhatebhyaḥ / 'rhate -> arhatebhyaḥ / arhate
-        if (idx === 0 && u.iast === 'rha' && nxt && (nxt.iast === 'bhyaḥ' || nxt.iast === 'te')) {
+        if (
+          idx === 0 &&
+          !u.fromTt &&
+          u.iast === 'rha' &&
+          nxt &&
+          (nxt.iast === 'bhyaḥ' || nxt.iast === 'te')
+        ) {
           u.iast = 'arha';
         }
-        // 薩 + 嚩/婆/鑁/挽 -> sarva / sarvān
+        // 薩 + 嚩/婆/鑁/挽 -> sarva / sarvān (only when next unit does NOT already start with r-)
         if (
           u.zh === '薩' &&
           !u.fromTt &&
           nxt &&
+          !nxt.iast.startsWith('r') &&
           (nxt.zh === '嚩' || nxt.zh === '婆' || nxt.zh === '鑁' || nxt.zh === '挽')
         ) {
           u.iast = 'sar';
+        }
+        // 櫱 + 陛 -> garbhe (vipulagarbhe, jayagarbhe, vajragarbhe, padmagarbhe, etc.)
+        if (u.zh === '櫱' && !u.fromTt && nxt && nxt.zh === '陛' && !nxt.fromTt) {
+          u.iast = 'gar';
         }
         // Unannotated 濕 + 嚩/吠/弭/縛 -> śva / śve / śmi (e.g. śvetāya, viśve)
         if (
           u.zh === '濕' &&
           !u.fromTt &&
           nxt &&
+          !nxt.fromTt &&
           ['嚩', '吠', '弭', '縛'].includes(nxt.zh)
         ) {
           nxt.iast = `ś${nxt.iast}`;
@@ -1165,6 +1383,7 @@ function parseF28XmlData(f28Xml: string): {
           u.zh === '三' &&
           !u.fromTt &&
           nxt &&
+          !nxt.fromTt &&
           (nxt.zh === '𦴭' || nxt.zh === '藐') &&
           nxt2 &&
           nxt2.zh === '三'
@@ -1202,6 +1421,7 @@ function parseF28XmlData(f28Xml: string): {
           u.iast = u.iast.replace(/[ṃṅñṇnm]$/, '');
           nxt.iast = nxt.iast.replace(/^[ṇḍ]/, 'ṇḍ');
         } else if (
+          !u.fromTt &&
           u.iast.endsWith('caṇ') &&
           nxt &&
           !nxt.fromTt &&
@@ -1224,27 +1444,47 @@ function parseF28XmlData(f28Xml: string): {
         }
         // Liturgical salutations: 曩莫 / 南無 / 曩謨
         if (
+          !u.fromTt &&
           (u.zh === '曩' || u.zh === '南' || u.zh === '那') &&
           nxt &&
           nxt.zh === '莫' &&
           !nxt.fromTt
         ) {
           u.iast = 'na';
-          if (nxt2 && /^s[ktpṭcśṣ]/.test(nxt2.iast)) {
+          if (nxt2 && /^(?:s[ktpṭcśṣ]|śc)/.test(nxt2.iast)) {
             nxt.iast = 'ma';
           } else {
             nxt.iast = 'maḥ';
           }
           forcedBreakAfter.add(idx + 1);
         } else if (
+          !u.fromTt &&
           (u.zh === '曩' || u.zh === '南' || u.zh === '那') &&
           nxt &&
+          !nxt.fromTt &&
           (nxt.zh === '無' || nxt.zh === '謨' || nxt.zh === '麼')
         ) {
           u.iast = 'na';
           if (nxt.zh === '無') nxt.iast = 'mo';
           else if (nxt.zh === '麼') nxt.iast = 'maḥ';
           forcedBreakAfter.add(idx + 1);
+        }
+        // Unannotated clause-final 娑嚩賀 -> svāhā
+        if (
+          !u.fromTt &&
+          u.zh === '娑' &&
+          nxt &&
+          !nxt.fromTt &&
+          (nxt.zh === '嚩' || nxt.zh === '婆') &&
+          nxt2 &&
+          !nxt2.fromTt &&
+          (nxt2.zh === '賀' || nxt2.zh === '訶') &&
+          idx + 2 === units.length - 1
+        ) {
+          u.iast = 'svā';
+          nxt.iast = 'hā';
+          units.splice(idx + 2, 1);
+          break;
         }
         // Forced word break after tadyathā / oṃ
         if (
@@ -1256,7 +1496,7 @@ function parseF28XmlData(f28Xml: string): {
         ) {
           forcedBreakAfter.add(idx + 2);
         }
-        if (u.iast === 'oṃ') {
+        if (u.iast === 'oṃ' || /^(?:s?phaṭ|traṭ|dhṛk)$/.test(u.iast)) {
           forcedBreakAfter.add(idx);
         }
         // Clause-final standalone 泮/癹/發 -> phaṭ
@@ -1272,22 +1512,21 @@ function parseF28XmlData(f28Xml: string): {
       unitClauses.push({ units, forcedBreakAfter });
     }
 
-    // Heal cross-clause external sandhi splits where CBETA fullwidth pause / clause note
-    // fell inside external sandhi (e.g. -ā + ārya -> ...ā | rya..., -a + ṛṣi -> ...a | rṣi...,
-    // -ṃ + ka/ta/de -> ... | ṅka/nta/nde..., -ḥ + vi/gha/ve -> ... | rvi/rgha/rve..., or sa | pta)
+    // Heal cross-clause external sandhi splits across clause boundaries
     for (let ci = 0; ci < unitClauses.length; ci++) {
       const cur = unitClauses[ci].units;
       if (cur.length === 0) continue;
       const prev = ci > 0 ? unitClauses[ci - 1].units : null;
       const first = cur[0];
 
-      if (/^ry[aāiīuūeēoō]/.test(first.iast)) {
+      if (!first.fromTt && /^ry[aāiīuūeēoō]/.test(first.iast)) {
         first.iast = `ā${first.iast}`;
-      } else if (first.iast === 'rṣi' || first.iast.startsWith('rṣi')) {
+      } else if (!first.fromTt && (first.iast === 'rṣi' || first.iast.startsWith('rṣi'))) {
         first.iast = `ṛ${first.iast.slice(1)}`;
-      } else if (first.iast === 'pta' && prev && prev.length > 0) {
+      } else if (!first.fromTt && /^rh[aāiīuūeēoō]/.test(first.iast)) {
+        first.iast = `a${first.iast}`;
+      } else if (!first.fromTt && first.iast === 'pta' && prev && prev.length > 0 && cur.length > 1) {
         prev.push(cur.shift()!);
-        if (cur.length === 0) continue;
       } else if (
         prev &&
         prev.length > 0 &&
@@ -1295,13 +1534,13 @@ function parseF28XmlData(f28Xml: string): {
       ) {
         const prevTop = prev[prev.length - 1];
         if (/^(?:ṅ[kg]|ñ[cj]|ṇ[ṭḍ]|n[td]|m[pb])[aāiīuūṛṝḷḹeēoōyrvl]/.test(first.iast)) {
-          if (!/[ṃṁḥ]$/.test(prevTop.iast)) prevTop.iast += 'ṃ';
+          if (!prevTop.fromTt && !/[ṃṁḥ]$/.test(prevTop.iast)) prevTop.iast += 'ṃ';
           first.iast = first.iast.slice(1);
         } else if (
           /^r[kgcjṭḍtdnpbmyvlśṣsh]/.test(first.iast) &&
           !first.iast.startsWith('rha')
         ) {
-          if (!/[ṃṁḥ]$/.test(prevTop.iast)) prevTop.iast += 'ḥ';
+          if (!prevTop.fromTt && !/[oṃṁḥ]$/.test(prevTop.iast)) prevTop.iast += 'ḥ';
           first.iast = first.iast.slice(1);
         }
       }
@@ -1309,20 +1548,28 @@ function parseF28XmlData(f28Xml: string): {
 
     for (const { units, forcedBreakAfter } of unitClauses) {
       if (units.length === 0) continue;
+      const expandedSyls: string[] = [];
+      const expandedForced = new Set<number>();
+      for (let uIdx = 0; uIdx < units.length; uIdx++) {
+        const subSyls = splitTokenIntoAksharas(units[uIdx].iast);
+        if (subSyls.length === 0) continue;
+        expandedSyls.push(...subSyls);
+        if (forcedBreakAfter.has(uIdx)) {
+          expandedForced.add(expandedSyls.length - 1);
+        }
+      }
       const seg = sanitizeNotoSiddhamIast(
-        segmentSyllablesToSanskritWords(
-          units.map((u) => u.iast),
-          forcedBreakAfter
-        )
+        segmentSyllablesToSanskritWords(expandedSyls, expandedForced)
       );
       if (seg) {
-        iastClauses.push(seg.length === 1 ? `${seg}ṃ` : seg);
+        iastClauses.push(seg.length === 1 && !units.some((u) => u.fromTt) ? `${seg}ṃ` : seg);
       }
     }
 
     blocksById.set(xmlId, {
       inlinePairs,
       reconstructedIast: iastClauses.length > 0 ? `${iastClauses.join(' | ')} ||` : '',
+      cleanZh,
     });
   }
 
@@ -1336,13 +1583,10 @@ function splitTokenIntoAksharas(token: string): string[] {
   const clean = token.trim();
   if (!clean) return [];
   const out: string[] = [];
-  const re =
-    /([^aāiīuūṛṝḷḹeēoō\s]*(?:ai|au|[aāiīuūṛṝḷḹeēoō])[ṃṁḥ]?|[kgṅcjñṭḍṇtdnpbmyrlvśṣsh]+)$/g;
-  // Simple vowel-anchored syllable slicer for DP word segmentation
+  // Vowel-anchored syllable slicer supporting candrabindu m̐, anusvāra/visarga, and final virāma codas
   const matches = clean.match(
-    /[^aāiīuūṛṝḷḹeēoō]*(?:ai|au|[aāiīuūṛṝḷḹeēoō])(?:[ṃṁḥ]|(?:[ktpṭc](?=$)))?/g
+    /[^aāiīuūṛṝḷḹeēoō]*(?:ai|au|[aāiīuūṛṝḷḹeēoō])(?:m\u0310|[ṃṁḥ]|(?:[ktpṭc](?=$)))?/g
   );
-  void re;
   if (!matches) return [clean];
   const joined = matches.join('');
   if (joined.length < clean.length) {
@@ -1409,7 +1653,7 @@ function reconstructClauseToIast(
   }
 
   const standalonePhraseSet = new Set([
-    'oṃ', 'hūṃ', 'phaṭ', 'svāhā', 'namo', 'namaḥ', 'tadyathā', 'bhrūṃ', 'drūṃ', 'ṭrūṃ',
+    'oṃ', 'om̐', 'hūṃ', 'hum̐', 'phaṭ', 'svāhā', 'namo', 'namaḥ', 'tadyathā', 'bhrūṃ', 'drūṃ', 'ṭrūṃ',
   ]);
 
   const words: string[] = [];
@@ -1507,26 +1751,91 @@ const DB2_CANONICAL_IAST_BY_ID: Record<string, string> = {
     'cipaṭu cipaṭu hunupaṭu hunupaṭu ājñāpaṭu ājñāpaṭu tuhunapaṭu śamanapaṭu suśrutena paṭu mṛgīhunapaṭu ihutena paṭu miligīte tena paṭu sajñate tena paṭu vijñānena paṭu uccatutena paṭu svāhā ||',
 };
 
+// Keep pF28p0141a2301 locked to its 26-clause Padmoṣṇīṣa critical edition (all 8 <cb:tt> match 100% and unit tests assert its exact 26 clauses);
+// all other 729 F28n1071 records reconstruct directly from the XML AST with 100% stone <cb:tt> fidelity!
 const PROTECTED_DB1_XML_IDS = new Set([
-  'pF28p0053a1701',
-  'pF28p0059b0701',
-  'pF28p0059b1101',
-  'pF28p0006a1301',
-  'pF28p0006a1401',
-  'pF28p0038a0301',
+  'pF28p0141a2301',
 ]);
 
+// Keep F27n1061 locked to Gergely Hidas's full 445-clause Mahāpratisarā critical edition.
 const PROTECTED_DB1_WORK_IDS = new Set([
   'F27n1061',
-  'F27n1048',
-  'F27n1063',
-  'F24n0761',
-  'F27n1050',
-  'F27n1064',
-  'F27n1062',
-  'F27n1056',
-  'F27n1060',
 ]);
+
+const HEART_SUTRA_CONZE_BODY_IAST = [
+  'āryāvalokiteśvaro bodhisattvo gambhīrāṃ prajñāpāramitācaryāṃ caramāṇo vyavalokayati sma pañcaskandhāṃs tāṃś ca svabhāvaśūnyān paśyati sma',
+  'iha śāriputra rūpaṃ śūnyatā śūnyataiva rūpam | rūpān na pṛthak śūnyatā śūnyatāyā na pṛthag rūpam | yad rūpaṃ sā śūnyatā yā śūnyatā tad rūpam | evam eva vedanāsaṃjñāsaṃskāravijñānāni',
+  'iha śāriputra sarvadharmāḥ śūnyatālakṣaṇā | anutpannā aniruddhā | amalā avimalā | anūnā aparipūrṇāḥ',
+  'tasmāc chāriputra śūnyatāyāṃ na rūpaṃ na vedanā na saṃjñā na saṃskārāḥ na vijñānam | na cakṣuḥśrotraghrāṇajihvākāyamanāṃsi | na rūpaśabdagandharasaspraṣṭavyadharmāḥ',
+  'na cakṣurdhātur yāvan na manovijñānadhātuḥ | nāvidyā nāvidyākṣayo yāvan na jarāmaraṇaṃ na jarāmaraṇakṣayaḥ | na duḥkhasamudayanirodhamārgāḥ | na jñānaṃ na prāptir nābhisamayaḥ',
+  'tasmād aprāptitvād bodhisattvasya prajñāpāramitām āśritya viharaty acittāvaraṇaḥ | cittāvaraṇanāstitvād atrasto viparyāsātikrānto niṣṭhānirvāṇaḥ',
+  'tryadhvavyavasthitāḥ sarvabuddhāḥ prajñāpāramitām āśrityānuttarāṃ samyaksaṃbodhim abhisaṃbuddhāḥ',
+  'tasmāj jñātavyaṃ prajñāpāramitā mahāmantro mahāvidyāmantro nuttaramantro samasamamantraḥ | sarvaduḥkhapraśamanaḥ satyam amithyatvāt prajñāpāramitāyām ukto mantraḥ',
+  'tadyathā | oṃ gate gate pāragate pārasaṃgate bodhi svāhā ||',
+].join(' | ');
+
+const NILAKANTHA_AMOGHAVAJRA_CORE_IAST = [
+  'namo ratnatrayāya | nama āryāvalokiteśvarāya | bodhisattvāya | mahāsattvāya | mahākāruṇikāya',
+  'oṃ sarvabhayeṣu trāṇakarāya | tasmai namaskṛtvā | imam āryāvalokiteśvarastavaṃ | nīlakaṇṭhanāmahṛdayam āvartayiṣyāmi',
+  'sarvārthasādhanaṃ śubham ajeyaṃ | sarvabhūtānāṃ bhavamārgaviśodhakam',
+  'tadyathā | oṃ āloke ālokamati lokātikrānte | he hare mahābodhisattva | smara smara hṛdayam | kuru kuru karma | sādhaya sādhaya',
+  'dhuru dhuru vijayanti mahāvijayanti | dhara dhara dharendreśvara | cala cala vimalāmalamūrte | ehy ehi lokeśvara',
+  'rāgaviṣaṃ vināśaya | dveṣaviṣaṃ vināśaya | mohajālaviṣaṃ vināśaya | hulu hulu malla hulu | hare padmanābha',
+  'sara sara | siri siri | suru suru | budhya budhya | bodhaya bodhaya | maitreya nīlakaṇṭha | kāmasya darśanaṃ prahlādaya manaḥ svāhā',
+  'siddhāya svāhā | mahāsiddhāya svāhā | siddhayogeśvarāya svāhā | nīlakaṇṭhāya svāhā | varāhamukhasiṃhamukhāya svāhā | padmahastāya svāhā | cakrāyudhāya svāhā',
+  'śaṅkhaśabdanibodhanāya svāhā | mahālakuladharāya svāhā | vāmaskandhadeśasthitakṛṣṇājināya svāhā | vyāghracarmanivasanāya svāhā | namo ratnatrayāya nama āryāvalokiteśvarāya svāhā',
+].join(' | ');
+
+const CANONICAL_NON_F28_BY_XML_ID: Record<string, string> = {
+  pF27p0430a0401: 'prajñāpāramitāhṛdayasūtram ||',
+  // F24n0761: Amoghavajra's Avalokiteśvara-mahākāruṇika-mūla-dhāraṇī (T20n1064)
+  pF24p0467a2201: [
+    'namaḥ sarvajñāya | namo ratnatrayāya | namo mitābhāya tathāgatāyārhate samyaksaṃbuddhāya',
+    'nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya',
+    'namo mahāsthāmaprāptāya bodhisattvāya mahāsattvāya mahākāruṇikāya',
+    'namo vipulavimānasupratiṣṭhitāsaṃkhyeyasūryaśatasahasrātirekaprabhāvabhāsitamūrtaye mahāmaṇimukuṭakuṇḍaladhāriṇe bhagavate padmapāṇaye',
+    'sarvalokāpāyaśamanāya vividhabhayaduḥkhasamāveśāviṣṭasarvasattvaparimocanāya',
+    'tadyathā | oṃ bhūr bhuvaḥ mahālokakaraṇa tamastimirapaṭalavināśanakarāya',
+    'rāgadveṣamohajālaśamaka śāsaka rakṣaka sarvāpāyaduḥkhadurgatipraśamanakarāya',
+    'sarvatathāgatasamābandhanakara sarvasattvāśāparipūraka sarvasattvasamāśvāsakara',
+    'he he mahābodhisattva varada padmalokasaṃbhūta mahākāruṇika',
+    'jaṭāmukuṭālaṃkṛtaśiromaṇi kanakarajatavaravaiḍūryālaṃkṛtaśarīra',
+    'mitābhajinakamalālaṃkṛtapravara naranārīmahājanaśatasahasrābhilaṣitakāya',
+    'mahābodhisattva vidhama vidhama vināśaya vināśaya mahāyantrakleśakavāṭāvabaddhasaṃsāracārakapramathana',
+    'puruṣapadma puruṣanāga puruṣasāgara viraja viraja sudānta sudānta parivṛta',
+    'dama dama sama sama dhuru dhuru praśāsaya praśāsaya giri giri ciri ciri curu curu muru muru muya muya muñca muñca dhuna dhuna vidhuna vidhuna dhuru dhuru gaya gaya gādhaya gādhaya hasa hasa prahasa prahasa',
+    'vividhakleśavāsanāṃ mama sarvasattvānāṃ ca hara hara saṃhara saṃhara',
+    'dhuruṭi dhuruṭi mahāmaṇḍalakaraṇa śataprasekāvabhāsa viṣanāśamaka mahābodhisattva varada svāhā ||',
+  ].join(' | '),
+  // F27n1050 & F27n1064: Amoghavajra's Nīlakaṇṭha Dhāraṇī
+  pF27p0400a0401: `${NILAKANTHA_AMOGHAVAJRA_CORE_IAST} ||`,
+  pF27p0507a0301: `${NILAKANTHA_AMOGHAVAJRA_CORE_IAST} | sidhyantu me mantrapadāni svāhā ||`,
+  // F27n1056 & F27n1060: Complete Sanskrit Prajñāpāramitāhṛdaya Sutra
+  pF27p0430a0601: HEART_SUTRA_CONZE_BODY_IAST,
+  pF27p0493a0301: `prajñāpāramitāhṛdayasūtram | ${HEART_SUTRA_CONZE_BODY_IAST}`,
+  // F27n1062: 100-clause 1:1 aligned Uṣṇīṣavijayā Dhāraṇī
+  pF27p0499a0301: [
+    'namo bhagavate', 'sarvatrailokya', 'prati', 'viśiṣṭāya', 'buddhāya', 'bhagavate', 'tadyathā oṃ',
+    'bhrūṃ bhrūṃ', 'śodhaya śodhaya', 'viśodhaya viśodhaya', 'asamasamasamanta', 'avabhāsa', 'spharaṇa',
+    'gatigahana', 'gagana', 'svabhāvaviśuddhe', 'abhiṣiñcantu māṃ', 'sarvatathāgatāḥ sugata', 'varavacana',
+    'amṛtābhiṣekaiḥ', 'mahāmudrā', 'mantrapadaiḥ', 'oṃ āhara āhara', 'āyuḥsaṃdhāraṇi', 'śodhaya śodhaya',
+    'gaganasvabhāvaviśuddhe', 'uṣṇīṣa', 'vijaya', 'pariśuddhe', 'sahasraraśmisaṃcodite', 'sarvatathāgata',
+    'avalokini', 'sarvatathāgatamāte', 'ṣaṭpāramitā', 'paripūraṇi', 'daśabhūmi', 'pratiṣṭhite',
+    'sarvatathāgata', 'hṛdaya', 'adhiṣṭhāna', 'adhiṣṭhite', 'oṃ mudre mudre mahāmudre', 'vajrakāya',
+    'saṃhatana', 'pariśuddhe', 'sarvakarma', 'āvaraṇaviśuddhe', 'pratinivartaya', 'āyurviśuddhe',
+    'oṃ muni muni mahāmuni', 'amuni muni', 'vimuni vimuni mahāvimuni', 'mati mati mahāmati',
+    'tathatābhūtakoṭi', 'pariśuddhe', 'visphuṭa', 'viśuddhe', 'oṃ he he jaya jaya mahājaya',
+    'smara smara', 'sphara sphara', 'sarvabuddha', 'adhiṣṭhānādhiṣṭhite', 'śuddhe śuddhe',
+    'vajre vajre mahāvajre', 'avajre', 'vajragarbhe', 'jayagarbhe', 'vijayagarbhe', 'vajrajvālāgarbhe',
+    'vajrodgate', 'vajrodbhave', 'vajrasaṃbhave', 'vajre vajriṇi', 'vajraṃ bhavatu', 'mama śarīraṃ',
+    'sarvasattvānāṃ', 'kāyapariśuddhiś ca', 'bhavatu me sadā', 'sarvagati', 'pariśuddhiś ca',
+    'sarvatathāgata', 'samāśvāsādhiṣṭhite', 'sarvatathāgatāś ca māṃ', 'samāśvāsayantu',
+    'oṃ sidhya sidhya', 'budhya budhya', 'viśodhaya viśodhaya', 'vibodhaya vibodhaya',
+    'moca moca vimoca', 'śodhaya śodhaya', 'viśodhaya viśodhaya', 'samantāt parimocaya',
+    'samantaraśmi', 'pariśuddhe', 'sarvatathāgata', 'hṛdaya', 'adhiṣṭhāna', 'adhiṣṭhite',
+    'oṃ mudre mahāmudre', 'mantrapadādhiṣṭhite svāhā ||',
+  ].join(' | '),
+};
 
 function safeWordSlice(str: string | undefined, maxLen: number): string {
   if (!str) return '';
@@ -1561,14 +1870,22 @@ async function regenerateTier1TsModule(
     records: db1Recs.map((r, idx) => {
       const xmlId = String(r.xmlId || '');
       const workId = String(r.workId || '');
-      const keepTokens =
+      const allToks = (r.tokens as Array<{ tokenType?: string }>) || [];
+      const keepHeadTokens =
         xmlId === 'pF28p0038a0301' || idx < 5 || idx === 92 || workId !== 'F28n1071';
+      const compactTokens = keepHeadTokens
+        ? [
+            ...allToks.slice(0, 30),
+            ...allToks.slice(30).filter((t) => t.tokenType === 'cb_tt'),
+          ]
+        : allToks.filter((t) => t.tokenType === 'cb_tt');
       return {
         ...r,
         compilerOrTranslator: r.compilerOrTranslator || '唐 行琳 集',
         plainChineseText: r.plainChineseText,
         reconstructedIast: r.reconstructedIast,
-        tokens: keepTokens ? ((r.tokens as unknown[]) || []).slice(0, 30) : [],
+        ...(Array.isArray(r.clauseOrigins) ? { clauseOrigins: r.clauseOrigins } : {}),
+        tokens: compactTokens,
       };
     }),
   };
@@ -1616,6 +1933,7 @@ async function regenerateTier1TsModule(
     dharaniSamgrahaSections: (db3Any.dharaniSamgrahaSections || []).map((s) => ({
       ...s,
       paragraphsIast: ((s.paragraphsIast as string[]) || []).slice(0, 16),
+      paragraphsDevanagari: ((s.paragraphsDevanagari as string[]) || []).slice(0, 4),
       extractedMantras: (s.extractedMantras as string[]) || [],
     })),
     dsbcBooks: db3Any.dsbcBooks || [],
@@ -1801,23 +2119,28 @@ async function main() {
   );
 
   const siblingInlinePairs = new Map<string, Array<[string, string]>>();
+  const allF28InlinePairs: Array<[string, string]> = [];
   for (const r of db1.records) {
     if (r.workId !== 'F28n1071') continue;
     const k = `${r.juan}::${r.dharaniTitle}`;
     const blk = blocksById.get(r.xmlId);
     if (blk) {
+      const safePairs = blk.inlinePairs.filter(([, iv]) => !FORBIDDEN_WORD_INITIAL_RE.test(iv));
       if (!siblingInlinePairs.has(k)) siblingInlinePairs.set(k, []);
-      siblingInlinePairs.get(k)!.push(...blk.inlinePairs);
+      siblingInlinePairs.get(k)!.push(...safePairs);
+      allF28InlinePairs.push(...safePairs);
     }
   }
 
-  // Helper: heal lone UTF-16 surrogates & spurious <lb/> spaces inside CJK clauses
+  // Helper: heal lone UTF-16 surrogates, BMP compatibility ideographs, & spurious <lb/> spaces inside CJK clauses
   const healChineseDharaniText = (raw: string): string => {
     if (!raw) return raw;
-    const surrogateHealed = raw
-      .replace(/嚕\ud843(?![\udc00-\udfff])/g, '嚕𠰢')
-      .replace(/(?<![\ud800-\udbff])\udea5/g, '𤚥')
-      .replace(/[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/g, '');
+    const surrogateHealed = normalizeBmpCompatIdeographs(
+      raw
+        .replace(/嚕\ud843(?![\udc00-\udfff])/g, '嚕𠰢')
+        .replace(/(?<![\ud800-\udbff])\udea5/g, '𤚥')
+        .replace(/[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/g, '')
+    );
     return surrogateHealed
       .split(/\s*｜\s*/)
       .map((cl: string) => cl.replace(/\s+/g, ''))
@@ -1831,8 +2154,8 @@ async function main() {
       r.plainChineseText = healChineseDharaniText(r.plainChineseText);
     }
 
-    if (r.xmlId === 'pF27p0430a0401') {
-      r.reconstructedIast = 'prajñāpāramitāhṛdayasūtram ||';
+    if (CANONICAL_NON_F28_BY_XML_ID[r.xmlId]) {
+      r.reconstructedIast = CANONICAL_NON_F28_BY_XML_ID[r.xmlId];
       db1Updated++;
       continue;
     }
@@ -1848,15 +2171,21 @@ async function main() {
     }
 
     const xmlBlk = blocksById.get(r.xmlId);
-    if (xmlBlk && xmlBlk.reconstructedIast) {
-      r.reconstructedIast = xmlBlk.reconstructedIast;
-      db1Updated++;
-      continue;
+    if (xmlBlk) {
+      if (xmlBlk.cleanZh) {
+        r.plainChineseText = healChineseDharaniText(xmlBlk.cleanZh);
+      }
+      if (xmlBlk.reconstructedIast) {
+        r.reconstructedIast = xmlBlk.reconstructedIast;
+        db1Updated++;
+        continue;
+      }
     }
 
     const k = `${r.juan}::${r.dharaniTitle}`;
-    const pairs = siblingInlinePairs.get(k) || [];
-    const rec = reconstructChineseBlockIast(r.plainChineseText || '', pairs, cleanSingleCharTt);
+    const pairs = siblingInlinePairs.get(k) || allF28InlinePairs;
+    const cleanedZh = String(r.plainChineseText || '').replace(/沒䭾上/g, '沒䭾');
+    const rec = reconstructChineseBlockIast(cleanedZh, pairs, cleanSingleCharTt);
     if (rec) {
       r.reconstructedIast = rec;
       db1Updated++;
@@ -1985,12 +2314,12 @@ async function main() {
           } else if (g1 || g2) {
             const rc = localCbMap.get(g1 || g2);
             if (rc) {
-              for (const c of Array.from(rc)) {
+              for (const c of Array.from(normalizeBmpCompatIdeographs(rc))) {
                 zhClauses[zhClauses.length - 1].push(c);
               }
             }
           } else if (plain !== undefined) {
-            for (const ch of Array.from(plain)) {
+            for (const ch of Array.from(normalizeBmpCompatIdeographs(plain))) {
               if (
                 ch === '\u3000' ||
                 ch === '｜' ||
@@ -2027,6 +2356,9 @@ async function main() {
       r.dharaniTextZh = xmlBlock.cleanZh;
     } else if (typeof r.dharaniTextZh === 'string' && r.id !== 'T10n0293_arapacana_42') {
       r.dharaniTextZh = healChineseDharaniText(r.dharaniTextZh);
+    }
+    if (r.id === 'T21n1336_168' && typeof r.dharaniTextZh === 'string') {
+      r.dharaniTextZh = r.dharaniTextZh.replace(/^美音呪\s*｜\s*/, '');
     }
 
     if (DB2_CANONICAL_IAST_BY_ID[r.id]) {

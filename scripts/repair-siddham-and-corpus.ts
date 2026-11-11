@@ -884,7 +884,10 @@ function resolveGElements(fragment: string, charDeclMap: Map<string, string>): s
       return cleanInner || '吒';
     }
   );
-  return resolveBracketCompositions(stripPuaCharacters(withResolvedG));
+  return resolveBracketCompositions(stripPuaCharacters(withResolvedG)).replace(
+    /[\uF900-\uFAFF]/g,
+    (c) => c.normalize('NFC')
+  );
 }
 
 function stripTagsClean(xmlFragment: string, charDeclMap: Map<string, string>): string {
@@ -894,7 +897,7 @@ function stripTagsClean(xmlFragment: string, charDeclMap: Map<string, string>): 
       .replace(/<[^>]+>/g, '')
       .replace(/\s+/g, ' ')
       .trim()
-  );
+  ).replace(/[\uF900-\uFAFF]/g, (c) => c.normalize('NFC'));
 }
 
 const PHONETIC_TAG_LIST = ['二合', '三合', '引', '彈舌', '轉舌', '上', '去', '平', '入', '半音', '重', '輕'];
@@ -914,7 +917,7 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
     ' '
   );
   const tokenRegex =
-    /<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<note\s+place="inline"[^>]*>([\s\S]*?)<\/note>|([^\s<>　]+)/g;
+    /<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<g\s+ref="#(CB[0-9A-Za-z]+)"\s*\/>|<note\b[^>]*>([\s\S]*?)<\/note>|<[^>]+>|([^<]+)/g;
   let m: RegExpExecArray | null;
   let ttCount = 0;
   let sdGlyphCount = 0;
@@ -941,7 +944,7 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
 
       const zhMatch = ttBody.match(/<cb:t\s+[^>]*xml:lang="zh-Hant"[^>]*>([\s\S]*?)<\/cb:t>/);
       const zhRaw = zhMatch ? zhMatch[1] : ttBody;
-      const inlineNotes = [...zhRaw.matchAll(/<note\s+place="inline"[^>]*>([\s\S]*?)<\/note>/g)].map((x) =>
+      const inlineNotes = [...zhRaw.matchAll(/<note\b[^>]*>([\s\S]*?)<\/note>/g)].map((x) =>
         stripTagsClean(x[1], charDeclMap)
       );
       const phoneticTags = extractPhoneticTags(inlineNotes.join(' '));
@@ -962,22 +965,26 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
         ...(iast ? { iast } : {}),
         ...(phoneticTags.length > 0 ? { phoneticTags } : {}),
       });
-    } else if (m[2] !== undefined) {
-      const cbId = m[2];
-      const resolvedChar = CB_GAIJI_OVERRIDES[cbId] || charDeclMap.get(cbId) || '吒';
+    } else if (m[2] !== undefined || m[3] !== undefined) {
+      const cbId = m[2] || m[3];
+      const resolvedChar = (CB_GAIJI_OVERRIDES[cbId] || charDeclMap.get(cbId) || '吒').replace(
+        /[\uF900-\uFAFF]/g,
+        (c) => c.normalize('NFC')
+      );
       tokens.push({
         tokenType: 'gaiji_cb',
         textZh: resolvedChar,
         cbGaijiRef: `#${cbId}`,
       });
-    } else if (m[3] !== undefined) {
-      const noteText = stripTagsClean(m[3], charDeclMap);
-      if (!noteText) continue;
-      if (/^[一二三四五六七八九十百千]+$/.test(noteText)) {
+    } else if (m[4] !== undefined) {
+      const noteText = stripTagsClean(m[4], charDeclMap);
+      const compactNote = noteText.replace(/\s+/g, '');
+      if (!compactNote) continue;
+      if (/^[一二三四五六七八九十百千〇零]+$/.test(compactNote)) {
         tokens.push({
           tokenType: 'phrase_number',
-          textZh: noteText,
-          phraseNumber: noteText,
+          textZh: compactNote,
+          phraseNumber: compactNote,
         });
       } else {
         const phoneticTags = extractPhoneticTags(noteText);
@@ -1001,13 +1008,39 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
           });
         }
       }
-    } else if (m[4] !== undefined) {
-      const cleanZh = resolveBracketCompositions(stripPuaCharacters(m[4])).trim();
-      if (cleanZh) {
-        tokens.push({
-          tokenType: 'zh_char',
-          textZh: cleanZh,
-        });
+    } else if (m[5] !== undefined) {
+      const cleanedPlain = resolveBracketCompositions(stripPuaCharacters(m[5])).replace(
+        /[\uF900-\uFAFF]/g,
+        (c) => c.normalize('NFC')
+      );
+      for (const ch of Array.from(cleanedPlain)) {
+        if (
+          ch === '\u3000' ||
+          ch === '｜' ||
+          ch === '。' ||
+          ch === '；' ||
+          ch === '！' ||
+          ch === '？' ||
+          /^[二四五六七八九十百]$/.test(ch)
+        ) {
+          if (tokens.length > 0 && tokens[tokens.length - 1].tokenType !== 'phrase_number') {
+            tokens.push({
+              tokenType: 'phrase_number',
+              textZh: ch,
+              phraseNumber: ch,
+            });
+          }
+        } else if (/[\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{323af}]/u.test(ch)) {
+          const prev = tokens[tokens.length - 1];
+          if (prev && prev.tokenType === 'zh_char') {
+            prev.textZh += ch;
+          } else {
+            tokens.push({
+              tokenType: 'zh_char',
+              textZh: ch,
+            });
+          }
+        }
       }
     }
   }
@@ -1035,11 +1068,7 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
   };
 }
 
-const PARALLEL_CRITICAL_EDITION_XML_IDS = new Set([
-  'pF28p0053a1701', // Mahāpratisarā (Hidas critical ed. aligned)
-  'pF28p0006a1301', // Sitātapatrā / Śūraṅgama
-  'pF28p0006a1401', // Sitātapatrā / Śūraṅgama
-]);
+const PARALLEL_CRITICAL_EDITION_XML_IDS = new Set<string>([]);
 
 function annotateClausesAndComputeOrigins(
   tokens: FangshanToken[],
@@ -1056,8 +1085,13 @@ function annotateClausesAndComputeOrigins(
     for (const tok of tokens) {
       cur.push(tok);
       if (tok.tokenType === 'phrase_number') {
-        clauses.push(cur);
-        cur = [];
+        const hasContent = cur.some(
+          (t) => t.tokenType === 'cb_tt' || t.tokenType === 'zh_char' || t.tokenType === 'gaiji_cb'
+        );
+        if (hasContent) {
+          clauses.push(cur);
+          cur = [];
+        }
       }
     }
     if (cur.length > 0) {

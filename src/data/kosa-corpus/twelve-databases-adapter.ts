@@ -49,6 +49,10 @@ function healRuntimeConjunctSpaces(str: string): string {
     .replace(/\bsi\s*ṃ\s*h\s*ā\s*san/gi, 'siṃhāsan')
     .replace(/\bsam\s+ā\s+pt([aāiīḥṃ])/gi, 'samāpt$1')
     .replace(/\bdārid\s+ry\s+ābhi/gi, 'dāridryābhi')
+    .replace(/\b(ga|pra|pari|praṇi)\s+(ṇamya|ṇapati|ṇapate|ṇay[aāe]|ṇidh[aāi])/gi, '$1$2')
+    .replace(/\bgha\s+(ṭākār[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]*)/gi, 'gha$1')
+    .replace(/\b(bāleṃ|sudhāviṃ|binduṃ|śāṃtirnaṃ)\s+(duś|duḥ|dī)\b/gi, '$1$2')
+    .replace(/\b(āryy?ā)\s+(valokiteśvar[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]*)/gi, '$1$2')
     .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])-i\b/g, '$1i');
 
   for (let pass = 0; pass < 2; pass++) {
@@ -58,6 +62,10 @@ function healRuntimeConjunctSpaces(str: string): string {
     );
     s = s.replace(
       /(?<!\bṇi)([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ][aāiīuūṛṝḷḹeēoō])\s+(ṇ(?:i|ī|āṃ|ām|aṃ|am|ena|e|aīva|aiva|o|āya|ānāṃ|ānām))\b/g,
+      '$1$2'
+    );
+    s = s.replace(
+      /([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]{2,}[aāiīuūṛṝḷḹeēoō])\s+(ṇ(?:abhūt|odh|otka|āvaraṇ|ākar)[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ']*)/gi,
       '$1$2'
     );
     s = s.replace(
@@ -742,7 +750,24 @@ const DB2_ENTRIES: DharaniEntry[] = [
         : 'namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā oṃ munimuni mahāmuni śākyamuni svāhā';
 
     const iastLines = splitIastIntoVerseLines(reconstructedIast, 10);
-    const zhLines = splitChineseIntoVerseLines(rec.dharaniTextZh, iastLines.length);
+    const ARAPACANA_42_ZH_MAP: Record<string, string> = {
+      a: '阿', ra: '多', pa: '波', ca: '遮', na: '那', la: '邏', da: '柁', ba: '婆', ḍa: '茶', ṣa: '沙',
+      va: '嚩', ta: '多', ya: '也', ṣṭa: '吒', ka: '迦', sa: '娑', ma: '麼', ga: '伽', tha: '他', ja: '闍',
+      śva: '鏁', dha: '陀', śa: '奢', kha: '佉', kṣa: '叉', sta: '娑多', jña: '壤', rtha: '曷攞多',
+      bha: '婆', cha: '車', sma: '娑麼', hva: '訶嚩', tsa: '縒', gha: '伽', ṭha: '吒', ṇa: '拏',
+      pha: '頗', ska: '娑迦', ysa: '也娑', śca: '室者', ṭa: '侘', ḍha: '荼',
+    };
+    const zhLines =
+      rec.id === 'T10n0293_arapacana_42'
+        ? iastLines.map((line) =>
+            line
+              .replace(/\|\|?$/g, '')
+              .trim()
+              .split(/\s+/)
+              .map((w) => ARAPACANA_42_ZH_MAP[w] || w)
+              .join(' ')
+          )
+        : splitChineseIntoVerseLines(rec.dharaniTextZh, iastLines.length);
 
     const perVerseFieldSources: VerseFieldSources[] = iastLines.map((line) => {
       if (hasRealTtSiddham) {
@@ -1410,8 +1435,59 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
 // ============================================================================
 // DB9: 维也纳大学 rKTs 藏文大藏经同源库与德格版《陀罗尼集 (Zungdu, D846–D1095)》
 // ============================================================================
+function normalizeTibetanEwtsDerivedIast(rawIast: string, entryId: string): string {
+  if (!rawIast) return rawIast;
+  if (entryId === '1D_101_029') {
+    return 'namo ratnatrayāya | oṃ ye dharmā hetuprabhavā hetuṃ teṣāṃ tathāgato hy avadat teṣāṃ ca yo nirodha evaṃvādī mahāśramaṇaḥ svāhā | oṃ vajrakrodha mahābala hana daha paca vidhvaṃsaya jaṭiloṃbhodhara ucchuṣmakrodha hūṃ phaṭ svāhā';
+  }
+  return rawIast
+    // 1. Tibetan EWTS b -> v & dz -> j Sanskrit phonological restoration
+    .replace(/badzra|bajr/gi, 'vajr')
+    .replace(/sarba/gi, 'sarva')
+    .replace(/bidy/gi, 'vidy')
+    .replace(/bimal/gi, 'vimal')
+    .replace(/bi\s*śuddh/gi, 'viśuddh')
+    .replace(/bi\s*śodha/gi, 'viśodha')
+    .replace(/bidara/gi, 'vidāra')
+    .replace(/bijay/gi, 'vijay')
+    .replace(/bhagabate/gi, 'bhagavate')
+    .replace(/bhagabāna\b/gi, 'bhagavān')
+    .replace(/śrīdeb/gi, 'śrīdev')
+    .replace(/nidebi\b/gi, 'ni devi')
+    .replace(/\bdeb([aāiīe])\b/gi, 'dev$1')
+    .replace(/prajñā\s*bardha\s*nī/gi, 'prajñāvardhanī')
+    .replace(/prajñā\s*bartta\s*ni/gi, 'prajñāvartani')
+    .replace(/hetupra\s*bhabā/gi, 'hetuprabhavā')
+    .replace(/(?:barṇṇ?a|varṇṇla)/gi, 'varṇa')
+    .replace(/āryā\s*balokite/gi, 'āryāvalokite')
+    .replace(/kāyabāgamana/gi, 'kāyavāṅmana')
+    .replace(/\bdhāba\b/gi, 'dhāva')
+    .replace(/ubaśama/gi, 'upaśama')
+    .replace(/bratihana/gi, 'pratihana')
+    .replace(/brasuru/gi, 'prasuru')
+    .replace(/(?:da)?śabhūmibra\s*tiṣṭhi\s*te/gi, 'daśabhūmipratiṣṭhite')
+    .replace(/biṣaṣṭī\s*ya/gi, 'viśiṣṭāya')
+    .replace(/s[ao]ṃ\s*myaksaṃ\s*[bp]uddha/gi, 'samyaksaṃbuddha')
+    // 2. Heal Tibetan tsheg-split Sanskrit stems & particles
+    .replace(/\bna\s+maḥ\b/gi, 'namaḥ')
+    .replace(/\bna\s+mo\b/gi, 'namo')
+    .replace(/\btadya\s+thā\b/gi, 'tadyathā')
+    .replace(/\b(?:svā\s+hā|swāhā|svāha)\b/gi, 'svāhā')
+    .replace(/\bphat\b/gi, 'phaṭ')
+    .replace(/\b(tathāgatā|buddhā|satvā|sattvā)\s+(nāṃ|nām)\b/gi, '$1$2')
+    .replace(/\barha\s+te\b/gi, 'arhate')
+    // 3. Separate glued liturgical particles
+    .replace(/([a-zāīūṛṝḷḹeēoōṃḥ])(svāhā)\b/gi, '$1 $2')
+    .replace(/\b(namaḥ)(sarva|śrī|sa)/gi, '$1 $2')
+    .replace(/bhyaḥphaṭ\b/gi, 'bhyaḥ phaṭ')
+    .replace(/\bāḥhūṃ\b/gi, 'āḥ hūṃ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 const DB9_ENTRIES: DharaniEntry[] = DB9_RKTS_CORPUS.zungduEtextEntries.map((entry): DharaniEntry => {
-  const iastLines = splitIastIntoVerseLines(entry.extractedMantraIast, 10);
+  const normalizedDb9Iast = normalizeTibetanEwtsDerivedIast(entry.extractedMantraIast, entry.id);
+  const iastLines = splitIastIntoVerseLines(normalizedDb9Iast, 10);
   const tibParts = (entry.extractedMantraTibetan || '')
     .split(/[།༎|]+/)
     .map((s) => s.trim())

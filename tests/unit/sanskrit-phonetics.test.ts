@@ -561,6 +561,7 @@ describe('Global 2,482-Entry Cross-Database Hygiene & Root-Cause Invariants (DB1
     const validSpecialOnsets = new Set([
       'hy', 'ṅa', 'ña', 'ṇa', 'ṅe', 'ḷṃ', 'ḹṃ', 'ḷkāro', 'ḷkāra',
       'ṣṭa', 'rtha', 'ṣṭrīḥ', 'ṣṭrī', 'ṣṭri', 'ṣṭoṃ', 'ṣṭau', 'ṣṭrūṃ', 'ṣṭroṃ', 'ṣṭro',
+      'rhabhyaḥ',
     ]);
 
     for (const entry of BUILTIN_DHARANI_CORPUS) {

@@ -155,7 +155,8 @@ describe('Siddhaṃ Unicode, Font Coverage & Corpus Philological Accuracy', () =
       expect(r.plainChineseText).not.toMatch(/\[[^\]]+\]/);
     }
 
-    // Verify screenshot entry: F28n1071 Roll 8 (0053a17) Mahāpratisarā-Mahāvidyārājñī (full 445-clause edition)
+    // Verify screenshot entry: F28n1071 Roll 8 (0053a17) Mahāpratisarā Mūla-mantra (authentic 413-clause stone XML AST)
+    // AND F27n1061 (full 445-clause Mahāpratisarā-Mahāvidyārājñī critical edition)
     const shard12Db = JSON.parse(
       fs.readFileSync(path.resolve(process.cwd(), 'public', 'corpus', 'shard-12db.json'), 'utf8')
     );
@@ -164,12 +165,22 @@ describe('Siddhaṃ Unicode, Font Coverage & Corpus Philological Accuracy', () =
     );
     expect(mahapratisara).toBeDefined();
     expect(mahapratisara.titleZh).toContain('普遍光明清淨熾盛如意寶印心無能勝大明王大隨求');
-    expect(mahapratisara.verses.length).toBeGreaterThanOrEqual(12);
+    expect(mahapratisara.verses.length).toBeGreaterThanOrEqual(400);
     const joinedZh = mahapratisara.verses.map((v: { classicalTranslitZh?: string }) => v.classicalTranslitZh || '').join('');
     const joinedIast = mahapratisara.verses.map((v: { iast: string }) => v.iast).join(' ');
     expect(joinedZh).toContain('曩莫薩嚩怛他');
     expect(joinedIast).toContain('vipulagarbhe');
-    expect(joinedIast).toContain('mahāpratisarā');
+    expect(joinedIast).toContain('vipulavimale');
+    expect(joinedIast).toContain('vegavati');
+
+    const mahapratisaraFull = shard12Db.find(
+      (e: { id: string }) => e.id === 'db1-fangshan-F27n1061_pF27p0494a0301'
+    );
+    expect(mahapratisaraFull).toBeDefined();
+    expect(mahapratisaraFull.verses).toHaveLength(445);
+    expect(
+      mahapratisaraFull.verses.map((v: { iast: string }) => v.iast).join(' ')
+    ).toContain('mahāpratisarā');
 
     // Verify pF28p0141a2301 (一切如來秘密心廣聚光明無垢寶蓮花頂根本陁羅𡰱) exact Siddhaṃ & IAST alignment
     const padmosnisa = shard12Db.find(

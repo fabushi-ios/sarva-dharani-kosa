@@ -202,6 +202,13 @@ const WORD_CLASSICAL_DICTIONARY: Record<
   maṇipadme: { classicalZh: '摩抳钵讷铭', meaningZh: '持摩尼宝与莲华尊' },
   śuddhe: { classicalZh: '戍第', meaningZh: '清净尊' },
   viśuddhe: { classicalZh: '尾戍第', meaningZh: '最极清净尊' },
+  tathāgatānām: { classicalZh: '怛他孽多喃', meaningZh: '诸诸如来（属格复数）' },
+  tathāgatānāṃ: { classicalZh: '怛他孽多喃', meaningZh: '诸诸如来（属格复数）' },
+  sarvatathāgatānām: { classicalZh: '萨嚩怛他孽多喃', meaningZh: '一切诸诸如来' },
+  sarvatathāgatānāṃ: { classicalZh: '萨嚩怛他孽多喃', meaningZh: '一切诸诸如来' },
+  sarvabuddhabodhisattvebhyaḥ: { classicalZh: '萨嚩没驮冒地萨怛吠毗药', meaningZh: '向一切诸佛菩萨' },
+  sarvasattvānām: { classicalZh: '萨嚩萨埵喃', meaningZh: '一切诸有情众生' },
+  sarvasattvānāṃ: { classicalZh: '萨嚩萨埵喃', meaningZh: '一切诸有情众生' },
 };
 
 /**
@@ -361,7 +368,7 @@ const CV_TANG_MATRIX: Record<string, EightRow> = {
  * Distinct Classical Tang characters for inherent long vowels (ā, ī, ū) where attested in Tang Sūtras
  */
 const TANG_LONG_CV_OVERRIDES: Record<string, string> = {
-  nā: '拿',
+  nā: '那(引)',
   nī: '泥',
   kā: '迦(引)',
   kī: '计',
@@ -383,7 +390,7 @@ const TANG_LONG_CV_OVERRIDES: Record<string, string> = {
   dhī: '地(引)',
   pā: '波',
   pū: '布',
-  bā: '么',
+  bā: '跋(引)',
   bhā: '婆(引)',
   bhī: '鼻',
   bhū: '部(引)',
@@ -405,6 +412,65 @@ const TANG_LONG_CV_OVERRIDES: Record<string, string> = {
   hā: '诃',
   hī: '醯',
   hū: '虎',
+};
+
+const TANG_NASAL_CORE_OVERRIDES: Record<string, string> = {
+  a: '暗',
+  ā: '盎',
+  i: '印',
+  ī: '印(引)',
+  u: '温',
+  ū: '温(引)',
+  ai: '蔼',
+  ka: '剑',
+  kā: '剑(引)',
+  kha: '欠',
+  khā: '欠(引)',
+  ga: '俨',
+  gā: '俨(引)',
+  gha: '憾',
+  ca: '瞻',
+  ja: '瞻',
+  ña: '染',
+  ṭa: '站',
+  ḍa: '喃',
+  ṇa: '喃',
+  ṇā: '喃(引)',
+  ta: '担',
+  tā: '担(引)',
+  da: '昙',
+  dā: '昙(引)',
+  dha: '昙',
+  dhā: '昙(引)',
+  na: '喃',
+  nā: '喃(引)',
+  ni: '宁',
+  nī: '宁(引)',
+  pa: '伴',
+  pā: '伴(引)',
+  pha: '泛',
+  ba: '鍐',
+  bā: '鍐(引)',
+  bha: '梵',
+  bhā: '梵(引)',
+  ma: '莽',
+  mā: '莽(引)',
+  ya: '演',
+  yā: '焰',
+  ra: '览',
+  rā: '囕',
+  la: '蓝',
+  lā: '蓝(引)',
+  va: '鑁',
+  vā: '鍐',
+  śa: '苫',
+  ṣa: '忏',
+  sa: '三',
+  sā: '三(引)',
+  ha: '唅',
+  hā: '憾',
+  hu: '吽',
+  hū: '吽',
 };
 
 /**
@@ -688,7 +754,7 @@ function renderVisargaTail(vowel: string): { modern: string; tang: string } {
   if (vowel === 'u' || vowel === 'ū' || vowel === 'au') {
     return { modern: '忽', tang: '虎' };
   }
-  return { modern: '赫', tang: '入' };
+  return { modern: '赫', tang: '诃' };
 }
 
 function renderCodaConsonant(
@@ -955,15 +1021,26 @@ export function mapSyllableToChinesePhonetics(
   if (nasalMode) {
     // Special classical Tang overrides for common nasal syllables
     const rawNoRestCoda = onset.join('') + vowel + (hasAnusvara ? 'ṃ' : 'n');
+    const cvBaseKey = mainC + vowel;
     coreModern = renderNasalizedCore(mainC, vowel, nasalMode);
     if (
       (rawNoRestCoda === 'saṃ' || rawNoRestCoda === 'san') &&
       nasalMode === 'ng'
     ) {
       coreTang = '三';
+    } else if (!hasAnusvara && (cvBaseKey === 'ma' || cvBaseKey === 'mā') && nasalMode === 'n') {
+      coreTang = vowel === 'ā' ? '满' : '曼';
+    } else if (
+      tangNasalSuffix !== '三' &&
+      tangNasalSuffix !== '僧' &&
+      tangNasalSuffix !== '仰' &&
+      TANG_NASAL_CORE_OVERRIDES[cvBaseKey]
+    ) {
+      coreTang = TANG_NASAL_CORE_OVERRIDES[cvBaseKey];
     } else {
       const openCore = renderOpenCore(mainC, vowel);
-      coreTang = openCore.tang + (tangNasalSuffix || '喃');
+      const baseTangNoYin = openCore.tang.replace(/\(引\)$/g, '');
+      coreTang = baseTangNoYin + (tangNasalSuffix || '喃');
     }
   } else {
     const openCore = renderOpenCore(mainC, vowel);
@@ -1015,8 +1092,23 @@ export function mapSyllableToChinesePhonetics(
       wrapSubscriptPhonetic(visargaModern)
   );
 
+  let classicalOut = prefixTang + coreTang + codaTang + yanSandhiTailTang + visargaTang;
+  if (hasVisarga && remainingCoda.length === 0 && !nasalMode) {
+    if (lookupKey === 'bhyaḥ') {
+      classicalOut = '毗药';
+    } else if (lookupKey === 'maḥ') {
+      classicalOut = '莫';
+    } else if (lookupKey === 'naḥ') {
+      classicalOut = '诺';
+    } else if (lookupKey === 'duḥ') {
+      classicalOut = '耨';
+    } else if (mainC === 'y' && vowel === 'a') {
+      classicalOut = `${prefixTang}药`;
+    }
+  }
+
   return {
-    classicalZh: prefixTang + coreTang + codaTang + yanSandhiTailTang + visargaTang,
+    classicalZh: classicalOut,
     modernZh: modernSyllable,
   };
 }
