@@ -138,7 +138,7 @@ function main() {
       const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
       const modernStr =
         modernDesc && 'value' in modernDesc ? String(modernDesc.value || '') : '';
-      return normalizeSearchText(`${v.iast} ${classicalStr} ${modernStr}`);
+      return normalizeSearchText(`${v.iast} ${classicalStr} ${modernStr} ${v.meaningZh || ''}`);
     });
     prebuiltEntryIndex.push({
       id: entry.id,
@@ -208,8 +208,15 @@ function main() {
     quadrilingualGlossary: UNIFIED_QUADRILINGUAL_GLOSSARY,
   });
 
+  const lexFile = path.join(OUT_CORPUS_DIR, 'sanskrit-lexicon-v1.json');
+  const lexGzFile = path.join(OUT_CORPUS_DIR, 'sanskrit-lexicon-v1.json.gz');
+  const hasLexShard = fs.existsSync(lexFile) && fs.existsSync(lexGzFile);
+  const lexCount = hasLexShard
+    ? Object.keys(JSON.parse(fs.readFileSync(lexFile, 'utf8')) as Record<string, unknown>).length
+    : 0;
+
   const manifest = {
-    version: '1.0.0',
+    version: '1.1.0',
     generatedAt: new Date().toISOString(),
     stats: CORPUS_AUTHORITATIVE_STATS,
     shards: {
@@ -243,6 +250,17 @@ function main() {
         count: prebuiltEntryIndex.length,
         ...sSearch,
       },
+      ...(hasLexShard
+        ? {
+            sanskritLexicon: {
+              file: 'sanskrit-lexicon-v1.json',
+              gzFile: 'sanskrit-lexicon-v1.json.gz',
+              count: lexCount,
+              rawBytes: fs.statSync(lexFile).size,
+              gzBytes: fs.statSync(lexGzFile).size,
+            },
+          }
+        : {}),
     },
   };
   writeJsonAndGzip(path.join(OUT_CORPUS_DIR, 'manifest.json'), manifest);

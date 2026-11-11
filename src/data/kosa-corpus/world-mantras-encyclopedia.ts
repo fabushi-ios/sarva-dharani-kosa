@@ -1,5 +1,8 @@
 import type { DharaniCategoryId, DharaniEntry, DharaniVerse } from '../../types/kosaTypes';
-import { generateVerseChinesePhonetics } from '../../core/sanskrit/phoneticMapper';
+import {
+  buildWordGlossesFromIast,
+  generateVerseChinesePhonetics,
+} from '../../core/sanskrit/phoneticMapper';
 
 interface CompactMantraSeed {
   id: string;
@@ -36,7 +39,7 @@ function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
       meaningZh: v.meaningZh,
       meaningEn: v.meaningEn,
       tangNoteZh: v.tangNoteZh,
-      words: [],
+      words: buildWordGlossesFromIast(v.iast),
     };
   });
 

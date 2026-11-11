@@ -21,6 +21,10 @@ import {
   stopSpeaking,
 } from '../services/sanskritAudioEngine';
 import { AuthoritativeSourceModal } from './AuthoritativeSourceModal';
+import {
+  analyzeSanskritWord,
+  translateSanskritVerse,
+} from '../core/sanskrit/sanskritLexicon';
 
 export function MultiScriptDharaniReader() {
   const [customDharanis, setCustomDharanis] = useState<DharaniItem[]>([]);
@@ -130,6 +134,8 @@ export function MultiScriptDharaniReader() {
         .flatMap((w) => w.syllables.map((s) => s.ipa))
         .join(' ');
 
+      const sem = translateSanskritVerse(analysis.normalizedIast);
+
       return {
         verseNumber: idx + 1,
         sectionTitle: `第 ${idx + 1} 頌`,
@@ -139,19 +145,22 @@ export function MultiScriptDharaniReader() {
         ipa: ipaLine,
         tangChinese: tangLine,
         modernApprox: modLine,
-        meaningZh: zhPart || '自訂梵文陀羅尼密咒句義',
-        meaningEn: 'Custom compiled Sanskrit dhāraṇī verse',
+        meaningZh: zhPart || sem.meaningZh,
+        meaningEn: sem.meaningEn || 'Custom compiled Sanskrit dhāraṇī verse',
         tangPhoneticNotes: ['二合連音自動推導'],
-        words: analysis.words.map((w) => ({
-          sanskrit: w.wordIast,
-          devanagari: w.wordDevanagari,
-          siddham: w.wordSiddham,
-          rootOrStem: w.wordIast,
-          grammar: 'Mantrapada (真言詞節)',
-          tangPhonetic: w.wordTangReconstruction || w.syllables.map((s) => s.tangReconstruction).join(''),
-          meaningZh: w.syllables.find((s) => s.bijaMeaning)?.bijaMeaning || '梵音詞節',
-          meaningEn: 'Sanskrit mantra token',
-        })),
+        words: analysis.words.map((w) => {
+          const lex = analyzeSanskritWord(w.wordIast);
+          return {
+            sanskrit: w.wordIast,
+            devanagari: w.wordDevanagari,
+            siddham: w.wordSiddham,
+            rootOrStem: lex.stem,
+            grammar: lex.grammar,
+            tangPhonetic: w.wordTangReconstruction || w.syllables.map((s) => s.tangReconstruction).join(''),
+            meaningZh: lex.meaningZh,
+            meaningEn: lex.meaningEn || 'Sanskrit mantra token',
+          };
+        }),
       };
     });
 

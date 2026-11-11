@@ -29,6 +29,7 @@ import {
   generateVerseChinesePhonetics,
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
+import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
 import { DharaniReader } from '../reader/DharaniReader';
 
 interface TaishoCanonExplorerProps {
@@ -136,18 +137,19 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
         ? blocks.map((blk) => {
             const iast = blk.iastText || 'oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā';
             const phonetics = generateVerseChinesePhonetics(iast);
+            const sem = translateSanskritVerse(iast);
             return {
               id: `${selectedFile.id}-v-${blk.index}`,
               index: blk.index,
               iast,
               classicalTranslitZh: blk.text || phonetics.classicalTranslitZh,
               modernPhoneticZh: phonetics.modernPhoneticZh,
-              meaningZh:
+              meaningZh: sem.meaningZh,
+              meaningEn: sem.meaningEn,
+              tangNoteZh:
                 blk.tangNotes.length > 0
-                  ? `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段（${selectedFile.translator}）`
-                  : `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段`,
-              meaningEn: `Taishō ${selectedFile.id} (${selectedFile.titleZh}) — Dhāraṇī Segment #${blk.index}`,
-              tangNoteZh: blk.tangNotes.length > 0 ? blk.tangNotes.join('；') : undefined,
+                  ? blk.tangNotes.join('；')
+                  : `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段（${selectedFile.translator}）`,
               words: buildWordGlossesFromIast(iast),
             };
           })
@@ -161,8 +163,9 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
               modernPhoneticZh: generateVerseChinesePhonetics(
                 'oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'
               ).modernPhoneticZh,
-              meaningZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
-              meaningEn: `Taishō ${selectedFile.id} (${selectedFile.titleZh}) — Scripture Excerpt`,
+              meaningZh: translateSanskritVerse('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā').meaningZh,
+              meaningEn: translateSanskritVerse('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā').meaningEn,
+              tangNoteZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
               words: buildWordGlossesFromIast('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'),
             },
           ];

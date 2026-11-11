@@ -29,11 +29,12 @@ import {
   type CloudSearchIndexPayload,
   type SearchSuggestionItem,
 } from '../../core/search/searchEngine';
+import { hydrateExtendedSanskritLexicon } from '../../core/sanskrit/sanskritLexicon';
 
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v6';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v7';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -78,6 +79,7 @@ async function openCorpusCache(): Promise<Cache | null> {
       window.caches.delete('sarva-dharani-corpus-v3').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v4').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v5').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v6').catch(() => {});
     }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {
@@ -126,14 +128,14 @@ export async function fetchCachedJsonShard<T>(
 
   if (supportsGzipStream) {
     candidateSources.push(
-      { url: `/corpus/${fileName}.gz?v=6`, isGz: true, source: 'local-shard' },
-      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=6`, isGz: true, source: 'cloud-cdn' }
+      { url: `/corpus/${fileName}.gz?v=7`, isGz: true, source: 'local-shard' },
+      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=7`, isGz: true, source: 'cloud-cdn' }
     );
   }
   candidateSources.push(
-    { url: `/corpus/${fileName}?v=6`, isGz: false, source: 'local-shard' },
-    { url: `/api/corpus/${fileName}?v=6`, isGz: false, source: 'local-shard' },
-    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=6`, isGz: false, source: 'cloud-cdn' }
+    { url: `/corpus/${fileName}?v=7`, isGz: false, source: 'local-shard' },
+    { url: `/api/corpus/${fileName}?v=7`, isGz: false, source: 'local-shard' },
+    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=7`, isGz: false, source: 'cloud-cdn' }
   );
 
   let lastErr: unknown = null;
@@ -212,7 +214,7 @@ export async function queryCloudSearchApi(
 }
 
 /**
- * Loads all 2,051 entries + pre-computed search index + 614 Taishō scriptures
+ * Loads all 2,482 entries + pre-computed search index + 614 Taishō scriptures + 41,746-stem Sanskrit lexicon
  * asynchronously from CacheStorage or Hugging Face Cloud Corpus Shards.
  */
 export function loadFullCloudCorpus(): Promise<DharaniEntry[]> {
@@ -230,6 +232,14 @@ export function loadFullCloudCorpus(): Promise<DharaniEntry[]> {
   notifyListeners();
 
   hydrationPromise = (async () => {
+    // Hydrate the extended 35,245-stem Sanskrit lexicon in parallel (non-blocking if CDN lags)
+    fetchCachedJsonShard<Record<string, [string, string?, string?]>>('sanskrit-lexicon-v1.json')
+      .then((lexRes) => {
+        hydrateExtendedSanskritLexicon(lexRes.data);
+        notifyListeners();
+      })
+      .catch(() => {});
+
     try {
       // Load search index + Taishō index + 3 entry shards concurrently
       const [curatedRes, gretilRes, db12Res, searchIdxRes, taishoRes] = await Promise.all([

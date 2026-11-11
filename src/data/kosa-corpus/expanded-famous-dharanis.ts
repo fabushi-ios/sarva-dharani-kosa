@@ -1,4 +1,5 @@
 import type { DharaniEntry } from '../../types/kosaTypes';
+import { buildWordGlossesFromIast } from '../../core/sanskrit/phoneticMapper';
 
 export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
   // ============================================================================
@@ -856,7 +857,7 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
         meaningZh:
           '【毗沙门天王护持行者百由旬神咒】即说咒曰：高显威德、神通游行、遍护四方、摧伏魔怨，圆满成就！',
         meaningEn: '[Vaiśravaṇa Protection Mantra in Lotus Sūtra] Namely: Aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi svāhā!',
-        words: [],
+        words: buildWordGlossesFromIast('tadyathā — aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi svāhā ||'),
       },
       {
         id: 'lotus-v4',
@@ -869,7 +870,7 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
         meaningZh:
           '【持国天王护法神咒】即说咒曰：无垢清净、天众护持、皎洁光明、持香妙音、超越阶级差别、平等拥护受持法华行者，圆满成就！',
         meaningEn: '[Virūḍhaka / Dhṛtarāṣṭra Guardian King Mantra] Namely: O Stainless Host, Bright One, Fragrant One, protecting all practitioners equally, Svāhā!',
-        words: [],
+        words: buildWordGlossesFromIast('tadyathā — agane gaṇe gauri gandhāri caṇḍāli mātaṅgi pukkasi saṃkule vrūsali sisi svāhā ||'),
       },
       {
         id: 'lotus-v5',
@@ -882,7 +883,7 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
         meaningZh:
           '【十罗刹女与鬼子母护顶神咒】即说咒曰：如是誓愿护我行者（五称）！决定制伏恶魔（五称）！令善根增上生长（五称）！普遍赞叹拥护，宁上我等头、莫恼法师，圆满成就！',
         meaningEn: '[Ten Rākṣasī Daughters & Hārītī Protection Mantra] Namely: Thus our vow (5x), restraining harm (5x), growing merit (5x), praising and guarding the Dharma teacher, Svāhā!',
-        words: [],
+        words: buildWordGlossesFromIast('tadyathā — iti me iti me iti me iti me iti me | nime nime nime nime nime | ruhe ruhe ruhe ruhe ruhe | stuhe stuhe stuhe stuhe stuhe svāhā ||'),
       },
       {
         id: 'lotus-v6',
@@ -1084,7 +1085,7 @@ export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
           '【弥勒·普贤·大势至三大士心咒】一、嗡！慈氏弥勒菩萨，圆满成就！二、嗡！普遍贤善（普贤）菩萨，圆满成就！三、嗡！大势至菩萨威德裂破三途轮回，圆满成就！',
         meaningEn:
           '[Maitreya, Samantabhadra & Mahāsthāmaprāpta Mantras] Oṃ Maitreya Aḥ Svāhā! Oṃ Samantabhadra Āḥ Svāhā! Oṃ Saṃ Jam Jaṃ Saḥ Svāhā!',
-        words: [],
+        words: buildWordGlossesFromIast('oṃ maitreya aḥ svāhā | oṃ samantabhadra āḥ svāhā | oṃ saṃ jam jaṃ saḥ svāhā ||'),
       },
     ],
   },

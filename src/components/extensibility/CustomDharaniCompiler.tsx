@@ -8,9 +8,11 @@ import {
 } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
+  buildWordGlossesFromIast,
   enrichSyllablesWithPhonetics,
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
+import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
 
 interface CustomDharaniCompilerProps {
   customEntries: DharaniEntry[];
@@ -81,17 +83,20 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
     e.preventDefault();
     if (!iastInput.trim()) return;
 
+    const cleanIast = iastInput.trim();
+    const autoMeaning = translateSanskritVerse(cleanIast);
+
     const newEntry: DharaniEntry = {
       id: `custom-${Date.now()}`,
       titleZh: titleZh.trim() || '自定义梵文陀罗尼',
-      titleSanskritIast: iastInput.trim().slice(0, 60),
+      titleSanskritIast: cleanIast.slice(0, 60),
       titleEnglish: 'User Compiled Sanskrit Dhāraṇī Module',
       categoryId: 'custom',
       taishoNo: 'CUSTOM-MODULE',
       translatorZh: '梵咒实时编译器生成',
       sutraSourceZh: '用户模块化扩展语料',
       deityZh: deityZh.trim() || '诸佛菩萨总持',
-      meritsAndSummaryZh: meaningZh.trim(),
+      meritsAndSummaryZh: meaningZh.trim() || autoMeaning.meaningZh,
       recitationTipsZh: '由系统自动根据 IAST 元音长短与复辅音规则计算摩多轻重律。',
       provenance: {
         sourceType: 'Academic-Critical-Edition',
@@ -102,12 +107,12 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
         {
           id: `custom-v-${Date.now()}`,
           index: 1,
-          iast: iastInput.trim(),
+          iast: cleanIast,
           classicalTranslitZh: effectiveClassicalZh,
           modernPhoneticZh: autoPhonetics.modernPhoneticZh,
-          meaningZh: meaningZh.trim(),
-          meaningEn: 'Custom compiled Sanskrit mantra verse.',
-          words: [],
+          meaningZh: meaningZh.trim() || autoMeaning.meaningZh,
+          meaningEn: autoMeaning.meaningEn || 'Custom compiled Sanskrit mantra verse.',
+          words: buildWordGlossesFromIast(cleanIast),
         },
       ],
     };

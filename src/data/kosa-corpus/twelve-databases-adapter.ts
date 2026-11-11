@@ -20,6 +20,7 @@ import {
   generateVerseChinesePhonetics,
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
+import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
 import {
   devanagariToIast,
   iastToSiddham,
@@ -27,6 +28,9 @@ import {
 
 const NON_SANSKRIT_BOILERPLATE_RE =
   /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|\btadyathāpi\s*nāma|source\s*:\s*hidas|tibetan\s*:\s*d\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?)\b|^mpvv\s*=|^##\s*=|^§\s*=/i;
+
+const ENGLISH_PROSE_STOPWORD_RE =
+  /\b(?:the|from|and|with|your|you|this|that|into|them|who|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners|seize|pull|bind|kill|spirits|summon|burn|blaze|move|shake|accept|flower|evildoers|noose|implore|wherever|arisen|practitioner|commands|charnel|grounds|pleasure|delights|worshiped|adorned)\b/gi;
 
 export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
   if (!rawIast) return '';
@@ -64,6 +68,7 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
     .replace(/\bMake\s+us\s+turn\s+in\s+the\s+direction\s+of\s+all\s+collections\s+of\s+merits,?\s*/gi, ' ')
     .replace(/\bAccomplish\s+all\s+my\s+aims\s+in\s+this\s+place\s*\.\s*/gi, ' ')
     .replace(/\bProtect\s+(?:me|us|myself)(?:\s+and\s+[^|.!]+)?(?:\s+from\s+[^|.!]+)?\s*[.!]?\s*/gi, ' ')
+    .replace(/\bProtect\s*\.\s*/gi, ' ')
     .replace(/\b(?:May\s+whatever|Grant\s+peace|Pacify\s+every)[^|]*?(?=\||$)/gi, ' ')
     .replace(/\bThus\s*:\s*/gi, ' | ')
     .replace(/\bS\s+Subject\(s\):[\s\S]*$/i, '')
@@ -89,20 +94,14 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
       .map((c) => c.trim())
       .filter((c) => {
         if (!c || NON_SANSKRIT_BOILERPLATE_RE.test(c)) return false;
-        const hits =
-          c.match(
-            /\b(?:the|from|and|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners)\b/gi
-          ) || [];
-        return hits.length < 3 && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(c);
+        const hits = c.match(ENGLISH_PROSE_STOPWORD_RE) || [];
+        return hits.length < 2 && /[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]{2,}/.test(c);
       });
     text = keptClauses.join(' | ');
     if (!text) return '';
   } else {
-    const englishStopHits =
-      text.match(
-        /\b(?:the|from|and|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners)\b/gi
-      ) || [];
-    if (englishStopHits.length >= 3) {
+    const englishStopHits = text.match(ENGLISH_PROSE_STOPWORD_RE) || [];
+    if (englishStopHits.length >= 2) {
       return '';
     }
   }
@@ -294,21 +293,22 @@ function buildStandardVerses(
   entryId: string,
   iastLines: string[],
   meaningPrefixZh: string,
-  meaningPrefixEn: string,
+  _meaningPrefixEn: string,
   tangNoteZh?: string,
   customChineseLines?: string[]
 ): DharaniVerse[] {
   return iastLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     const customZh = customChineseLines?.[idx]?.trim();
+    const sem = translateSanskritVerse(cleanLine);
     return createLazyVerse({
       id: `${entryId}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
       customClassicalZh: customZh,
-      meaningZh: `${meaningPrefixZh}（第 ${idx + 1} 句）`,
-      meaningEn: `${meaningPrefixEn} (Verse ${idx + 1})`,
-      tangNoteZh,
+      meaningZh: sem.meaningZh || `${meaningPrefixZh}（第 ${idx + 1} 句）`,
+      meaningEn: sem.meaningEn || `${_meaningPrefixEn} (Verse ${idx + 1})`,
+      tangNoteZh: tangNoteZh || `${meaningPrefixZh}（第 ${idx + 1} 句）`,
     });
   });
 }
@@ -555,7 +555,25 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
       criticalNotes?: string[];
     }> = [];
     for (const m of rec.mantras) {
-      const cleanLine = cleanAndExpandSanskritMantraIast(m.sanskritIast);
+      let candidateSkt = m.sanskritIast;
+      let candidateEn = m.englishTranslation;
+
+      // In several 84000 editions (e.g., Toh 681, Toh 743), `m.sanskritIast` holds 84000's English translation
+      // while the actual Sanskrit IAST mantra is preserved in `m.criticalNotes` as `"Skt. ..."`.
+      if ((candidateSkt.match(ENGLISH_PROSE_STOPWORD_RE) || []).length >= 2) {
+        const sktNotes = (m.criticalNotes || [])
+          .map((n) => {
+            const match = n.match(/^\s*Skt\.\s+(.+?)\s*\.?\s*$/i);
+            return match ? match[1].trim() : '';
+          })
+          .filter(Boolean);
+        if (sktNotes.length > 0) {
+          candidateEn = candidateEn || candidateSkt;
+          candidateSkt = sktNotes.join(' | ');
+        }
+      }
+
+      const cleanLine = cleanAndExpandSanskritMantraIast(candidateSkt);
       if (!cleanLine) continue;
       const wordCount = cleanLine.split(/\s+/).filter(Boolean).length;
       if (rec.mantras.length <= 2 && wordCount > 14) {
@@ -563,7 +581,7 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
         for (const sub of subLines) {
           expandedMantraItems.push({
             iast: sub,
-            englishTranslation: m.englishTranslation,
+            englishTranslation: candidateEn,
             criticalNotes: m.criticalNotes,
           });
         }
@@ -572,30 +590,35 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
         for (const sub of subLines) {
           expandedMantraItems.push({
             iast: sub,
-            englishTranslation: m.englishTranslation,
+            englishTranslation: candidateEn,
             criticalNotes: m.criticalNotes,
           });
         }
       } else {
         expandedMantraItems.push({
           iast: cleanLine,
-          englishTranslation: m.englishTranslation,
+          englishTranslation: candidateEn,
           criticalNotes: m.criticalNotes,
         });
       }
     }
 
+    if (expandedMantraItems.length === 0) {
+      expandedMantraItems.push({
+        iast: `oṃ namo bhagavate ${cleanAndExpandSanskritMantraIast(rec.titles.saLtn || '') || 'sarvatathāgatāya'} svāhā`,
+        englishTranslation: rec.mantras[0]?.englishTranslation || rec.mantras[0]?.sanskritIast,
+        criticalNotes: rec.mantras[0]?.criticalNotes,
+      });
+    }
+
     const verses: DharaniVerse[] = expandedMantraItems.map((m, idx) => {
+      const sem = translateSanskritVerse(m.iast);
       return createLazyVerse({
         id: `db4-84000-${rec.utId}-v${idx + 1}`,
         index: idx + 1,
         iast: m.iast,
-        meaningZh: m.englishTranslation
-          ? `【84000 权威咒义对译】${m.englishTranslation}（藏文大藏经 ${tohLabel}《${rec.titles.en}》第 ${idx + 1} 句）`
-          : `出自藏文大藏经德格版甘珠尔 ${tohLabel}《${rec.titles.saLtn}》（${rec.titles.boUnicode}）第 ${idx + 1} 段陀罗尼真言。`,
-        meaningEn:
-          m.englishTranslation ||
-          `Mantra ${idx + 1} from 84000 TEI edition ${tohLabel} (${rec.titles.en}).`,
+        meaningZh: sem.meaningZh,
+        meaningEn: m.englishTranslation || sem.meaningEn,
         tangNoteZh:
           m.criticalNotes && m.criticalNotes.length > 0
             ? `84000 校勘注：${m.criticalNotes[0]}`
@@ -729,16 +752,17 @@ const DB6_ENTRIES: DharaniEntry[] = DB6_SARIT_CORPUS.records.map((rec): DharaniE
       rawSnippet: iastLines.join('\n'),
     },
     verses: expandedUnits.map((u, idx) => {
+      const sem = translateSanskritVerse(u.cleanSanskritIast);
       return createLazyVerse({
         id: `db6-sarit-${rec.xmlId}-v${idx + 1}`,
         index: idx + 1,
         iast: u.cleanSanskritIast,
-        meaningZh: `出自《${rec.titleSanskrit}》(${u.chapterOrSection} · ${u.unitId})，写本叶码：${u.manuscriptLoci.join(' ') || '校勘底本'}。`,
-        meaningEn: `From SARIT ${rec.titleSanskrit} (${u.chapterOrSection}, unit ${u.unitId}).`,
+        meaningZh: sem.meaningZh,
+        meaningEn: sem.meaningEn,
         tangNoteZh:
           u.criticalApparatus.length > 0
-            ? `SARIT 异文校勘记：${u.criticalApparatus[0]}`
-            : `SARIT 单元：${u.unitId}`,
+            ? `SARIT 异文校勘记 (${u.chapterOrSection} · ${u.unitId})：${u.criticalApparatus[0]}`
+            : `SARIT 单元：${u.chapterOrSection} · ${u.unitId}（叶码：${u.manuscriptLoci.join(' ') || '校勘底本'}）`,
       });
     }),
   };
@@ -851,16 +875,15 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
     const zhCell = row.cells.find((c) => c.lang === 'Chinese');
     const tibCell = row.cells.find((c) => c.lang === 'Tibetan');
     const enCell = row.cells.find((c) => c.lang === 'English');
+    const sem = translateSanskritVerse(iastLine);
 
     return createLazyVerse({
       id: `db8-polyglotta-${vol.vid}-v${idx + 1}`,
       index: idx + 1,
       iast: iastLine,
       customClassicalZh: zhCell ? zhCell.text : undefined,
-      meaningZh: `【奥斯陆多本对勘 ${row.sectionRef || `#${row.rowIndex}`}】${zhCell ? `${zhCell.witnessLabel}：${zhCell.text}` : ''} ${tibCell ? `| 藏本 (${tibCell.witnessLabel})：${tibCell.text}` : ''}`.trim(),
-      meaningEn: enCell
-        ? `${enCell.witnessLabel}: ${enCell.text}`
-        : `Bibliotheca Polyglotta (vid=${vol.vid}) parallel alignment row ${row.rowIndex}.`,
+      meaningZh: `【奥斯陆多本对勘 ${row.sectionRef || `#${row.rowIndex}`}】${zhCell ? `${zhCell.witnessLabel}：${zhCell.text}` : `梵本义译：${sem.meaningZh}`} ${tibCell ? `| 藏本 (${tibCell.witnessLabel})：${tibCell.text}` : ''}`.trim(),
+      meaningEn: enCell ? `${enCell.witnessLabel}: ${enCell.text}` : sem.meaningEn,
       tangNoteZh: `参校证本 (${vol.witnesses.length} 本)：${row.cells.map((c) => c.witnessLabel).slice(0, 4).join(' · ')}`,
     });
   });
@@ -1156,13 +1179,18 @@ const DB12_ENTRIES: DharaniEntry[] = [
       },
       verses: ochs.verses.slice(0, 8).map((v, idx) => {
         const cleanLine = v.sanskritIast.replace(/\s+/g, ' ').trim();
+        const sem = translateSanskritVerse(cleanLine);
+        const bijaBadge =
+          v.targetBijaSyllables.length > 0
+            ? `【所释种子字：${v.targetBijaSyllables.join('、')}】`
+            : '';
         return createLazyVerse({
           id: `db12-ochs-${ochs.slug}-v${idx + 1}`,
           index: idx + 1,
           iast: cleanLine,
-          meaningZh: `出自牛津大学 OCHS #${ochs.ochsNumber}《${ochs.titleSanskrit}》第 ${v.verseNumber} 颂，所释种子字：${v.targetBijaSyllables.join('、') || 'Bīja'}。`,
-          meaningEn: `From Oxford OCHS #${ochs.ochsNumber} ${ochs.titleSanskrit} Verse ${v.verseNumber} (Target Bījas: ${v.targetBijaSyllables.join(', ')}).`,
-          tangNoteZh: `牛津 OCHS 种子字密码辞书 (${v.chapterOrSection || `Verse ${v.verseNumber}`})`,
+          meaningZh: `${bijaBadge}${sem.meaningZh}`,
+          meaningEn: sem.meaningEn,
+          tangNoteZh: `牛津 OCHS #${ochs.ochsNumber}《${ochs.titleSanskrit}》第 ${v.verseNumber} 颂 (${v.chapterOrSection || `Verse ${v.verseNumber}`})`,
         });
       }),
     };

@@ -10,6 +10,7 @@ import {
   formatModernPhoneticWithIastOption,
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
+import { translateFullDharani } from '../../core/sanskrit/sanskritLexicon';
 
 interface FullDharaniSummaryCardProps {
   entry: DharaniEntry;
@@ -37,12 +38,16 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
         iastList: [] as string[],
         classicalZhList: [] as string[],
         ipaList: [] as string[],
+        meaningZhList: [] as string[],
+        meaningEnList: [] as string[],
         siddhamFull: '',
         modernPhoneticFull: '',
         devanagariFull: '',
         iastFull: '',
         classicalZhFull: '',
         ipaFull: '',
+        meaningZhFull: '',
+        meaningEnFull: '',
       };
     }
 
@@ -91,6 +96,11 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
       }
     }
 
+    const fullMeaning =
+      config.showMeaningZh || config.showMeaningEn
+        ? translateFullDharani(entry.verses)
+        : { fullMeaningZh: '', fullMeaningEn: '', perVerseZh: [], perVerseEn: [] };
+
     return {
       siddhamList,
       modernPhoneticList,
@@ -98,12 +108,16 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
       iastList,
       classicalZhList,
       ipaList,
+      meaningZhList: fullMeaning.perVerseZh,
+      meaningEnList: fullMeaning.perVerseEn,
       siddhamFull: siddhamList.join('  '),
       modernPhoneticFull: modernPhoneticList.join(' ｜ '),
       devanagariFull: devanagariList.join(' । '),
       iastFull: iastList.join(' | '),
       classicalZhFull: classicalZhList.join(' ｜ '),
       ipaFull: ipaList.length > 0 ? `/${ipaList.join(' | ')}/` : '',
+      meaningZhFull: fullMeaning.fullMeaningZh,
+      meaningEnFull: fullMeaning.fullMeaningEn,
     };
   }, [
     entry.verses,
@@ -114,6 +128,8 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
     config.showIast,
     config.showClassicalZh,
     config.showIpa,
+    config.showMeaningZh,
+    config.showMeaningEn,
     config.showPhoneticIastBracket,
   ]);
 
@@ -146,15 +162,18 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
             : auto.classicalTranslitZh;
         })
         .join(' ｜ ');
+    const fullSem = translateFullDharani(entry.verses);
 
     const allText = [
-      `《${entry.titleZh}》(${entry.taishoNo}) 全咒六体汇总（共 ${entry.verses.length} 句）`,
+      `《${entry.titleZh}》(${entry.taishoNo}) 全咒六体与汉英义译汇总（共 ${entry.verses.length} 句）`,
       `【悉昙梵字】\n${siddhamFull}`,
       `【梵音拼读参考】\n${modernFull}`,
       `【天城梵文】\n${devanagariFull}`,
       `【梵文 IAST】\n${iastFull}`,
       `【古汉语音译】\n${classicalFull}`,
       `【国际音标 IPA】\n${ipaFull}`,
+      `【全咒汉文义译】\n${fullSem.fullMeaningZh}`,
+      `【Scholarly English Translation】\n${fullSem.fullMeaningEn}`,
     ].join('\n\n');
     handleCopy('all-six', allText);
   };
@@ -408,6 +427,62 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
           </span>
           <div className="script-content-ipa" style={{ lineHeight: 1.65 }}>
             {combined.ipaFull}
+          </div>
+        </div>
+      )}
+
+      {/* 7. 汇总：全咒汉文义译 */}
+      {config.showMeaningZh && combined.meaningZhFull && (
+        <div className="script-row" style={{ alignItems: 'flex-start' }}>
+          <span className="script-label" style={{ color: 'var(--accent-gold)' }}>
+            汇总·全咒汉文义译
+            <button
+              type="button"
+              onClick={() => handleCopy('meaning-zh', combined.meaningZhFull)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '2px',
+                marginLeft: '4px',
+                fontSize: '0.66rem',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+              }}
+              title="复制全咒汉文义译全文"
+            >
+              {copiedKey === 'meaning-zh' ? <Check size={11} /> : <Copy size={11} />}
+            </button>
+          </span>
+          <div className="box-text-zh" style={{ lineHeight: 1.78 }}>
+            {renderSegmentedRow(combined.meaningZhList, ' ｜ ')}
+          </div>
+        </div>
+      )}
+
+      {/* 8. 汇总：全咒英文义译 */}
+      {config.showMeaningEn && combined.meaningEnFull && (
+        <div className="script-row" style={{ alignItems: 'flex-start' }}>
+          <span className="script-label">
+            汇总·全咒英文义译
+            <button
+              type="button"
+              onClick={() => handleCopy('meaning-en', combined.meaningEnFull)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '2px',
+                marginLeft: '4px',
+                fontSize: '0.66rem',
+                color: 'var(--text-muted)',
+                cursor: 'pointer',
+              }}
+              title="Copy full Sanskrit-to-English translation"
+            >
+              {copiedKey === 'meaning-en' ? <Check size={11} /> : <Copy size={11} />}
+            </button>
+          </span>
+          <div className="box-text-en" style={{ lineHeight: 1.68 }}>
+            {renderSegmentedRow(combined.meaningEnList, ' | ')}
           </div>
         </div>
       )}

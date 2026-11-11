@@ -11,6 +11,7 @@ import {
   generateVerseChinesePhonetics,
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
+import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
 import { cleanAndExpandSanskritMantraIast } from './twelve-databases-adapter';
 
 function makeLazyGretilVerse(params: {
@@ -142,12 +143,13 @@ function buildVersesFromGretilRecord(record: GretilSanskritRecord): DharaniVerse
 
   return sourceLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
+    const sem = translateSanskritVerse(cleanLine);
     return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
-      meaningZh: `出自《${record.titleZh}》梵文贝叶校勘本（${record.file} 第 ${idx + 1} 颂/句），本尊：${record.deityZh}。上方已逐词对齐唐宋古汉语音译与现代梵音拼读。`,
-      meaningEn: `Extracted directly from the authoritative GRETIL/DSBC Sanskrit edition (${record.file}) of ${record.titleSanskrit}.`,
+      meaningZh: sem.meaningZh,
+      meaningEn: sem.meaningEn,
       tangNoteZh: `GRETIL 梵本档案：${record.file}（原典总行数：${record.totalLinesInSource} 行 · 对勘大正藏 ${record.taishoNo}）`,
     });
   });
@@ -161,12 +163,13 @@ function buildVersesFromExpandedGretil(record: GretilExpandedMantraRecord): Dhar
       : expandGretilLines([`namo bhagavate | ${record.titleSanskrit} svāhā`], 12);
   return safeLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
+    const sem = translateSanskritVerse(cleanLine);
     return makeLazyGretilVerse({
       id: `${record.id}-v${idx + 1}`,
       index: idx + 1,
       iast: cleanLine,
-      meaningZh: `出自哥廷根大学 GRETIL 梵文原典《${record.titleZh}》（档案：${record.file} 第 ${idx + 1} 段真言/礼赞），已自动对齐唐宋古汉语音译与现代梵音拼读参考。`,
-      meaningEn: `Sanskrit mantra/verse extracted from GRETIL Sanskrit manuscript ${record.file} (${record.titleSanskrit}).`,
+      meaningZh: sem.meaningZh,
+      meaningEn: sem.meaningEn,
       tangNoteZh: `GRETIL 梵文原典档案：${record.file}（全书共 ${record.totalLines} 行）`,
     });
   });

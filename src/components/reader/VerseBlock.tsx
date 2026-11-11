@@ -8,10 +8,15 @@ import {
 } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
 import {
+  buildWordGlossesFromIast,
   enrichSyllablesWithPhonetics,
   formatModernPhoneticWithIastOption,
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
+import {
+  normalizeSanskritToken,
+  resolveEffectiveVerseMeaning,
+} from '../../core/sanskrit/sanskritLexicon';
 
 interface VerseBlockProps {
   verse: DharaniVerse;
@@ -62,6 +67,49 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       ),
     [autoPhonetics.modernPhoneticZh, verse.modernPhoneticZh, verse.iast, config.showPhoneticIastBracket]
   );
+
+  // Guarantee authentic semantic verse translation (preserving curated translations while translating provenance-only verses)
+  const effectiveMeaning = useMemo(
+    () => resolveEffectiveVerseMeaning(verse),
+    [verse]
+  );
+
+  // Guarantee 100% word-by-word coverage for EVERY Sanskrit word in `verse.iast`,
+  // seamlessly merging any curated per-word glosses onto the full untruncated token sequence.
+  const effectiveWords = useMemo(() => {
+    if (!config.showWordGloss) return [];
+    const fullAutoWords = buildWordGlossesFromIast(verse.iast);
+    if (!verse.words || verse.words.length === 0) {
+      return fullAutoWords;
+    }
+    if (verse.words.length >= fullAutoWords.length) {
+      return verse.words;
+    }
+    const curatedByNorm = new Map<string, (typeof verse.words)[number]>();
+    for (const cw of verse.words) {
+      for (const sub of cw.iast.split(/\s+/)) {
+        const nk = normalizeSanskritToken(sub);
+        if (nk && !curatedByNorm.has(nk)) {
+          curatedByNorm.set(nk, cw);
+        }
+      }
+    }
+    return fullAutoWords.map((aw) => {
+      const nk = normalizeSanskritToken(aw.iast);
+      const curated = nk ? curatedByNorm.get(nk) : undefined;
+      if (curated && !curated.meaningZh.includes('契入本尊三昧总持')) {
+        return {
+          ...aw,
+          stem: curated.stem || aw.stem,
+          grammar: curated.grammar || aw.grammar,
+          transliterationZh: curated.transliterationZh || aw.transliterationZh,
+          meaningZh: curated.meaningZh,
+          meaningEn: curated.meaningEn || aw.meaningEn,
+        };
+      }
+      return aw;
+    });
+  }, [config.showWordGloss, verse.iast, verse.words]);
 
   // Enrich each syllable with full inter-syllable Sandhi, Abhinidhāna, Parasavarṇa & Samāsa context
   const enrichedSyllables = useMemo(
@@ -481,20 +529,20 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           {config.showMeaningZh && (
             <div className="translit-box meaning-zh">
               <div className="box-mini-label">本句汉文精准意译</div>
-              <div className="box-text-zh">{verse.meaningZh}</div>
+              <div className="box-text-zh">{effectiveMeaning.meaningZh}</div>
             </div>
           )}
 
           {config.showMeaningEn && (
             <div className="translit-box meaning-en">
               <div className="box-mini-label">Scholarly English Translation</div>
-              <div className="box-text-en">{verse.meaningEn}</div>
+              <div className="box-text-en">{effectiveMeaning.meaningEn}</div>
             </div>
           )}
         </div>
       )}
 
-      {config.showWordGloss && verse.words.length > 0 && (
+      {config.showWordGloss && effectiveWords.length > 0 && (
         <div>
           <div
             style={{
@@ -507,7 +555,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
             逐词词根、古汉语音译与语法格位解析（Pada-ccheda &amp; Vyākaraṇa）：
           </div>
           <div className="word-gloss-grid">
-            {verse.words.map((w, idx) => (
+            {effectiveWords.map((w, idx) => (
               <div
                 key={`${verse.id}-w-${idx}`}
                 className="word-gloss-card"

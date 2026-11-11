@@ -1698,6 +1698,20 @@ export function isTier1DatabaseId(id: string): id is keyof typeof TIER1_DATABASE
 }
 
 async function main() {
+  if (process.argv.includes('--sync-ts-only')) {
+    const readTier1 = async (name: string) =>
+      JSON.parse(await fs.readFile(path.join(TIER1_JSON_DIR, name), 'utf-8')) as Record<string, unknown>;
+    const [db1, db2, db3, db4, db5, db6] = await Promise.all([
+      readTier1('db1_fangshan.json'),
+      readTier1('db2_taisho_ext.json'),
+      readTier1('db3_dsbc_gretil.json'),
+      readTier1('db4_84000.json'),
+      readTier1('db5_buddhanexus.json'),
+      readTier1('db6_sarit.json'),
+    ]);
+    await generateTier1TsModule(db1, db2, db3, db4, db5, db6);
+    return;
+  }
   await repairCbetaGaijiAndAuthRecords();
   const db1 = await rebuildDb1Fangshan();
   const { db2, db3, db4, db5, db6 } = await repairDb2Db3Db6();

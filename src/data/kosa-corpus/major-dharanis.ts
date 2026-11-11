@@ -1,7 +1,11 @@
 import type { DharaniEntry, DharaniVerse } from '../../types/kosaTypes';
 import { AUTHORITATIVE_CBETA_RECORDS } from '../kosa-generated/cbetaAuthRecords';
 import { AUTHORITATIVE_GRETIL_RECORDS } from '../kosa-generated/gretilAuthRecords';
-import { generateVerseChinesePhonetics } from '../../core/sanskrit/phoneticMapper';
+import {
+  buildWordGlossesFromIast,
+  generateVerseChinesePhonetics,
+} from '../../core/sanskrit/phoneticMapper';
+import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
 
 const cbetaT19n0974B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n0974B');
 const cbetaT20n1113B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1113B');
@@ -18,27 +22,23 @@ function buildCompleteMahapratisaraVerses(): DharaniVerse[] {
   return clauses.map((clause, idx) => {
     const cleanClause = clause.replace(/\s*\|\|?\s*$/, '').trim();
     const phonetics = generateVerseChinesePhonetics(cleanClause, false);
+    const sem = translateSanskritVerse(cleanClause);
     const sectionTag =
       idx < 282
-        ? `【第一大品 [14] · 根本大明王大随求长咒 · 第 ${idx + 1}/282 句】`
+        ? `第一大品 [14] · 根本大明王大随求长咒 · 第 ${idx + 1}/282 句`
         : idx < 286
-          ? `【第二品 [35] · 护身结界随心真言 · 第 ${idx - 281}/4 句】`
-          : `【第三至四品 [45–46] · 无能胜心真言与秘密心印 · 第 ${idx - 285}/${clauses.length - 286} 句】`;
-    const sectionTagEn =
-      idx < 282
-        ? `[Section 14 · Root Mahāvidyārājñī Dhāraṇī · Clause ${idx + 1}/282]`
-        : idx < 286
-          ? `[Section 35 · Protective Upahṛdaya Mantra · Clause ${idx - 281}/4]`
-          : `[Sections 45–46 · Aparājitā Hṛdaya & Secret Mudrā Mantra · Clause ${idx - 285}/${clauses.length - 286}]`;
+          ? `第二品 [35] · 护身结界随心真言 · 第 ${idx - 281}/4 句`
+          : `第三至四品 [45–46] · 无能胜心真言与秘密心印 · 第 ${idx - 285}/${clauses.length - 286} 句`;
     return {
       id: `mahapratisara-full-${idx + 1}`,
       index: idx + 1,
       iast: cleanClause,
       classicalTranslitZh: phonetics.classicalTranslitZh,
       modernPhoneticZh: phonetics.modernPhoneticZh,
-      meaningZh: `${sectionTag} 牛津大学 Gergely Hidas (2012)《Mahāpratisarā-Mahāvidyārājñī》梵文贝叶经校勘全本原典章句。`,
-      meaningEn: `${sectionTagEn} Critical Sanskrit edition of Mahāpratisarā-Mahāvidyārājñī (Gergely Hidas, 2012).`,
-      words: [],
+      meaningZh: sem.meaningZh,
+      meaningEn: sem.meaningEn,
+      tangNoteZh: `${sectionTag} · Hidas (2012) 梵文贝叶经校勘本`,
+      words: buildWordGlossesFromIast(cleanClause),
     };
   });
 }
