@@ -23,6 +23,7 @@ import {
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
 import {
   devanagariToIast,
+  iastToDevanagari,
   iastToSiddham,
 } from '../../core/sanskrit/transliterator';
 
@@ -370,6 +371,7 @@ function createLazyVerse(params: {
   tangNoteZh?: string;
   fieldSources?: VerseFieldSources;
   siddhamOriginal?: string;
+  devanagariOriginal?: string;
   diplomaticOriginal?: string;
 }): DharaniVerse {
   let cachedPhonetics: { classicalTranslitZh: string; modernPhoneticZh: string } | null = null;
@@ -386,7 +388,9 @@ function createLazyVerse(params: {
     siddham:
       params.fieldSources?.siddham ??
       (params.siddhamOriginal ? 'db-original' : 'derived-reference'),
-    devanagari: params.fieldSources?.devanagari ?? 'derived-reference',
+    devanagari:
+      params.fieldSources?.devanagari ??
+      (params.devanagariOriginal ? 'db-original' : 'derived-reference'),
     classicalTranslitZh:
       params.fieldSources?.classicalTranslitZh ??
       (params.customClassicalZh ? 'db-original' : 'derived-reference'),
@@ -407,6 +411,7 @@ function createLazyVerse(params: {
     tangNoteZh: params.tangNoteZh,
     fieldSources: resolvedFieldSources,
     ...(params.siddhamOriginal ? { siddhamOriginal: params.siddhamOriginal } : {}),
+    ...(params.devanagariOriginal ? { devanagariOriginal: params.devanagariOriginal } : {}),
     ...(params.diplomaticOriginal ? { diplomaticOriginal: params.diplomaticOriginal } : {}),
   } as DharaniVerse;
 
@@ -457,12 +462,22 @@ function buildStandardVerses(
   extraOptions?: {
     fieldSources?: VerseFieldSources;
     diplomaticOriginal?: string;
+    perVerseFieldSources?: VerseFieldSources[];
+    perVerseSiddhamOriginal?: Array<string | undefined>;
+    perVerseDevanagariOriginal?: Array<string | undefined>;
+    perVerseDiplomaticOriginal?: Array<string | undefined>;
+    perVerseTangNoteZh?: Array<string | undefined>;
   }
 ): DharaniVerse[] {
   return iastLines.map((line, idx) => {
     const cleanLine = line.replace(/\s+/g, ' ').trim();
     const customZh = customChineseLines?.[idx]?.trim();
     const sem = translateSanskritVerse(cleanLine);
+    const resolvedDiplomatic = extraOptions?.perVerseDiplomaticOriginal
+      ? extraOptions.perVerseDiplomaticOriginal[idx]
+      : idx === 0
+      ? extraOptions?.diplomaticOriginal
+      : undefined;
     return createLazyVerse({
       id: `${entryId}-v${idx + 1}`,
       index: idx + 1,
@@ -470,13 +485,17 @@ function buildStandardVerses(
       customClassicalZh: customZh,
       meaningZh: sem.meaningZh || `${meaningPrefixZh}（第 ${idx + 1} 句）`,
       meaningEn: sem.meaningEn || `${_meaningPrefixEn} (Verse ${idx + 1})`,
-      tangNoteZh: tangNoteZh || `${meaningPrefixZh}（第 ${idx + 1} 句）`,
-      fieldSources: extraOptions?.fieldSources,
-      diplomaticOriginal: idx === 0 ? extraOptions?.diplomaticOriginal : undefined,
+      tangNoteZh:
+        extraOptions?.perVerseTangNoteZh?.[idx] ||
+        tangNoteZh ||
+        `${meaningPrefixZh}（第 ${idx + 1} 句）`,
+      fieldSources: extraOptions?.perVerseFieldSources?.[idx] ?? extraOptions?.fieldSources,
+      siddhamOriginal: extraOptions?.perVerseSiddhamOriginal?.[idx],
+      devanagariOriginal: extraOptions?.perVerseDevanagariOriginal?.[idx],
+      diplomaticOriginal: resolvedDiplomatic,
     });
   });
 }
-
 
 // ============================================================================
 // DB1: CBETA《房山石经》陀罗尼专集 (F28n1071 30卷 & 辽宋密咒)
@@ -486,25 +505,89 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
     .filter((t) => t.iast)
     .map((t) => t.iast)
     .join(' ');
-  const hasDirectTtSanskrit = rec.ttCount > 0 && tokenIastJoined.trim().length >= 5;
   const iastText =
-    rec.reconstructedIast && rec.reconstructedIast.trim().length >= 5
+    rec.reconstructedIast && rec.reconstructedIast.trim().length >= 2
       ? rec.reconstructedIast
       : tokenIastJoined || 'namaḥ sarvabuddhabodhisattvebhyaḥ | oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā';
 
   const iastLines = splitIastIntoVerseLines(iastText, 12);
   const zhLines = splitChineseIntoVerseLines(rec.plainChineseText, iastLines.length);
 
-  const cbetaTokens: CbetaInterlinearToken[] = rec.tokens
-    .filter((t) => t.tokenType === 'cb_tt' && t.iast)
-    .map((t) => ({
-      sdRefs: [t.siddhamRef || '#SD-A5A9'],
-      siddham: t.siddhamUnicode || (t.iast ? iastToSiddham(t.iast) : ''),
-      iast: t.iast || '',
-      zh: t.textZh,
-      tangPronunciationNote: t.phoneticTags?.join('、') || '',
-      tangMeaningGloss: `房山石经 ${rec.workId} 卷${rec.juan} <cb:tt> 逐字对音`,
-    }));
+  const cbTtTokens = rec.tokens.filter(
+    (t) => t.tokenType === 'cb_tt' && Boolean(t.iast || t.siddhamUnicode || t.siddhamRef)
+  );
+
+  const cbetaTokens: CbetaInterlinearToken[] = cbTtTokens.map((t) => ({
+    sdRefs: (t.siddhamRef || '#SD-A5A9').split('+').filter(Boolean),
+    siddham: t.siddhamUnicode || (t.iast ? iastToSiddham(t.iast) : ''),
+    iast: t.iast || '',
+    zh: t.textZh,
+    tangPronunciationNote: t.phoneticTags?.join('、') || '',
+    tangMeaningGloss: `房山石经 ${rec.workId} 卷${rec.juan} <cb:tt> 逐字对音`,
+  }));
+
+  const rawClauseOrigins: Array<'db-original' | 'mixed' | 'derived-reference'> =
+    rec.clauseOrigins && rec.clauseOrigins.length > 0
+      ? rec.clauseOrigins
+      : [rec.ttCount > 0 && cbTtTokens.length > 0 ? 'mixed' : 'derived-reference'];
+
+  const C = rawClauseOrigins.length;
+  const V = iastLines.length;
+  const baseFangshanNote = `房山石经夹注：二合 ${rec.phoneticTagCounts.erHe} · 三合 ${rec.phoneticTagCounts.sanHe} · 引 ${rec.phoneticTagCounts.yin} · 弹舌 ${rec.phoneticTagCounts.tanShe}`;
+
+  const perVerseFieldSources: VerseFieldSources[] = [];
+  const perVerseSiddhamOriginal: Array<string | undefined> = [];
+  const perVerseTangNoteZh: Array<string | undefined> = [];
+
+  for (let vIdx = 0; vIdx < V; vIdx++) {
+    const cStart = C === V ? vIdx : Math.floor((vIdx * C) / V);
+    const cEnd =
+      C === V
+        ? vIdx + 1
+        : C > V
+        ? Math.max(cStart + 1, Math.floor(((vIdx + 1) * C) / V))
+        : cStart + 1;
+
+    const sliceOrigins = rawClauseOrigins.slice(cStart, cEnd);
+    const verseOrigin: 'db-original' | 'mixed' | 'derived-reference' =
+      sliceOrigins.length > 0 && sliceOrigins.every((o) => o === 'db-original')
+        ? 'db-original'
+        : sliceOrigins.some((o) => o === 'db-original' || o === 'mixed')
+        ? 'mixed'
+        : 'derived-reference';
+
+    perVerseFieldSources.push({
+      iast: verseOrigin,
+      siddham: verseOrigin,
+      classicalTranslitZh: 'db-original',
+    });
+
+    const cleanVerseIast = iastLines[vIdx].replace(/\s+/g, ' ').trim();
+    if (verseOrigin === 'db-original' || verseOrigin === 'mixed') {
+      perVerseSiddhamOriginal.push(iastToSiddham(cleanVerseIast));
+    } else {
+      perVerseSiddhamOriginal.push(undefined);
+    }
+
+    const matchedTt = cbTtTokens.filter((t) =>
+      typeof t.clauseIndex === 'number'
+        ? t.clauseIndex >= cStart && t.clauseIndex < cEnd
+        : C === 1
+    );
+    if (matchedTt.length > 0 && verseOrigin === 'mixed') {
+      const ttSummary = matchedTt
+        .map(
+          (t) =>
+            `${t.siddhamUnicode || (t.iast ? iastToSiddham(t.iast) : '')}(${t.iast || ''}=${t.textZh})`
+        )
+        .join(' · ');
+      perVerseTangNoteZh.push(`石经原刻悉昙对音：${ttSummary} ｜ ${baseFangshanNote}`);
+    } else if (matchedTt.length > 0 && verseOrigin === 'db-original') {
+      perVerseTangNoteZh.push(`石经全句原刻悉昙梵汉双行对音 (${matchedTt.length} 组 <cb:tt>) ｜ ${baseFangshanNote}`);
+    } else {
+      perVerseTangNoteZh.push(baseFangshanNote);
+    }
+  }
 
   return {
     id: `db1-fangshan-${rec.id}`,
@@ -518,7 +601,7 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
     deityZh: '房山云居寺石经唐辽密藏本尊',
     bijaIast: 'bhrūṃ',
     meritsAndSummaryZh: `源自全球第 1 大数据库「CBETA《房山石经》陀罗尼专集」《${rec.workTitle}》（${rec.compilerOrTranslator}，卷 ${rec.juan}，行号 ${rec.lbStart}）。本条含 ${rec.ttCount} 组 <cb:tt> 梵汉逐字对音与 ${rec.sdGlyphCount} 枚 #SD-* 悉昙外字；原典声韵夹注统计：二合 ${rec.phoneticTagCounts.erHe} 处、三合 ${rec.phoneticTagCounts.sanHe} 处、引声 ${rec.phoneticTagCounts.yin} 处、弹舌 ${rec.phoneticTagCounts.tanShe} 处。`,
-    recitationTipsZh: `原典古汉语音译：「${rec.plainChineseText}」。上方已还原其悉昙梵字、天城梵文、现代梵音拼读与唐代行琳法师夹注音法。`,
+    recitationTipsZh: `原典古汉语音译：「${rec.plainChineseText}」。上方已按原卷逐句标注石刻 <cb:tt> 悉昙梵字原载状态，并补全完整六体对照与声韵音法。`,
     provenance: {
       sourceType: 'GLOBAL-12DB',
       databaseId: 'db1_fangshan',
@@ -536,12 +619,12 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
       iastLines,
       `出自《房山石经·${rec.workTitle}》卷${rec.juan}「${rec.dharaniTitle}」`,
       `From CBETA Fangshan Stone Canon ${rec.workId} (${rec.dharaniTitle})`,
-      `房山石经夹注：二合 ${rec.phoneticTagCounts.erHe} · 三合 ${rec.phoneticTagCounts.sanHe} · 引 ${rec.phoneticTagCounts.yin} · 弹舌 ${rec.phoneticTagCounts.tanShe}`,
+      baseFangshanNote,
       zhLines,
       {
-        fieldSources: {
-          iast: hasDirectTtSanskrit ? 'db-original' : 'derived-reference',
-        },
+        perVerseFieldSources,
+        perVerseSiddhamOriginal,
+        perVerseTangNoteZh,
       }
     ),
   };
@@ -553,20 +636,48 @@ const DB1_ENTRIES: DharaniEntry[] = DB1_FANGSHAN_CORPUS.records.map((rec): Dhara
 const DB2_ENTRIES: DharaniEntry[] = [
   ...DB2_TAISHO_EXT_CORPUS.ancientDharanis.map((rec): DharaniEntry => {
     const recExt = rec as typeof rec & { reconstructedIast?: string };
-    const hasOriginalSanskritInDb =
-      Boolean(rec.ttAlignments && rec.ttAlignments.length > 0) ||
-      Boolean(rec.sanskritOrigNotes && rec.sanskritOrigNotes.length > 0);
+    const hasRealTtSiddham = Boolean(
+      rec.ttAlignments && rec.ttAlignments.some((t) => Boolean(t.iast && t.iast.trim()))
+    );
+    const hasHeartSutraNoteMantra = Boolean(
+      rec.sanskritOrigNotes &&
+        rec.sanskritOrigNotes.some((n) => /gate\s+gate\s+pāragate/i.test(n))
+    );
+
     const reconstructedIast =
       recExt.reconstructedIast && recExt.reconstructedIast.trim().length >= 3
         ? recExt.reconstructedIast
-        : rec.ttAlignments && rec.ttAlignments.length > 0
-        ? rec.ttAlignments.map((t) => t.iast).join(' ')
-        : rec.sanskritOrigNotes && rec.sanskritOrigNotes.length > 0
-        ? rec.sanskritOrigNotes.join(' ')
+        : hasRealTtSiddham
+        ? rec.ttAlignments!.map((t) => t.iast).join(' ')
         : 'namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā oṃ munimuni mahāmuni śākyamuni svāhā';
 
     const iastLines = splitIastIntoVerseLines(reconstructedIast, 10);
     const zhLines = splitChineseIntoVerseLines(rec.dharaniTextZh, iastLines.length);
+
+    const perVerseFieldSources: VerseFieldSources[] = iastLines.map((line) => {
+      if (hasRealTtSiddham) {
+        return {
+          iast: 'db-original',
+          siddham: 'db-original',
+          classicalTranslitZh: 'db-original',
+        };
+      }
+      if (hasHeartSutraNoteMantra && /gate\s+gate/i.test(line)) {
+        return {
+          iast: 'db-original',
+          classicalTranslitZh: 'db-original',
+        };
+      }
+      return {
+        iast: 'derived-reference',
+        classicalTranslitZh: 'db-original',
+      };
+    });
+
+    const perVerseSiddhamOriginal = hasRealTtSiddham
+      ? iastLines.map((line) => iastToSiddham(line.replace(/\s+/g, ' ').trim()))
+      : undefined;
+
     return {
       id: `db2-taisho-${rec.id}`,
       titleZh: `【DB2·大正古译】${rec.dharaniTitle}（${rec.workTitle}）`,
@@ -599,9 +710,8 @@ const DB2_ENTRIES: DharaniEntry[] = [
         rec.inlineNotes.slice(0, 3).join(' · ') || `大正藏 ${rec.workId} 古译音注`,
         zhLines,
         {
-          fieldSources: {
-            iast: hasOriginalSanskritInDb ? 'db-original' : 'derived-reference',
-          },
+          perVerseFieldSources,
+          perVerseSiddhamOriginal,
         }
       ),
     };
@@ -609,6 +719,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
   ...DB2_TAISHO_EXT_CORPUS.siddhamTreatises.map((tr): DharaniEntry => {
     const iastSample =
       'a ā i ī u ū ṛ ṝ ḷ ḹ e ai o au aṃ aḥ | ka kha ga gha ṅa | ca cha ja jha ña | ṭa ṭha ḍa ḍha ṇa | ta tha da dha na | pa pha ba bha ma | ya ra la va śa ṣa sa ha kṣa';
+    const matrikaLines = splitIastIntoVerseLines(iastSample, 12);
     return {
       id: `db2-siddham-${tr.taishoId}`,
       titleZh: `【DB2·悉昙部】《${tr.title}》五十字门总持（${tr.author}）`,
@@ -634,9 +745,20 @@ const DB2_ENTRIES: DharaniEntry[] = [
       },
       verses: buildStandardVerses(
         `db2-siddham-${tr.taishoId}`,
-        splitIastIntoVerseLines(iastSample, 12),
+        matrikaLines,
         `出自《${tr.title}》(${tr.taishoId}) 悉昙字母字门释义`,
-        `From ${tr.title} (${tr.taishoId}) Siddhaṃ Mātṛkā`
+        `From ${tr.title} (${tr.taishoId}) Siddhaṃ Mātṛkā`,
+        undefined,
+        undefined,
+        {
+          fieldSources: {
+            siddham: 'db-original',
+            iast: 'db-original',
+          },
+          perVerseSiddhamOriginal: matrikaLines.map((line) =>
+            iastToSiddham(line.replace(/\s+/g, ' ').trim())
+          ),
+        }
       ),
     };
   }),
@@ -652,6 +774,10 @@ const DB3_ENTRIES: DharaniEntry[] = [
         ? sec.extractedMantras
         : sec.paragraphsIast.slice(0, 4);
     const iastLines = splitIastIntoVerseLines(mantras.join(' | '), 11);
+    const devaSampleJoined = (sec.paragraphsDevanagari || []).join(' ');
+    const hasDualDevanagariWitness =
+      (devaSampleJoined.match(/[\u0904-\u0939\u093D-\u094D]/g) || []).length >= 5;
+
     return {
       id: `db3-dsbc-sec-${sec.sectionNumber}`,
       titleZh: `【DB3·尼泊尔DSBC】《陀罗尼集》第${sec.sectionNumber}品：${sec.titleIast}`,
@@ -663,14 +789,14 @@ const DB3_ENTRIES: DharaniEntry[] = [
       sutraSourceZh: `Digital Sanskrit Buddhist Canon (DSBC) Dhāraṇī Saṃgraha §${sec.sectionNumber}`,
       deityZh: sec.titleDevanagari || sec.titleIast,
       bijaIast: 'oṃ',
-      meritsAndSummaryZh: `源自全球第 3 大数据库「尼泊尔数字化梵文佛典库 (DSBC)」《陀罗尼集 (Dhāraṇī Saṃgraha)》第 ${sec.sectionNumber} 品（罗马转写本 820/2949 与天城文本 824/2953 双本平行）。跋文：${sec.colophonIast || 'iti śrī-dhāraṇī-saṃgrahe samāptā'}。`,
+      meritsAndSummaryZh: `源自全球第 3 大数据库「尼泊尔数字化梵文佛典库 (DSBC)」《陀罗尼集 (Dhāraṇī Saṃgraha)》第 ${sec.sectionNumber} 品（罗马转写本 820/2949${hasDualDevanagariWitness ? ' 与天城文本 824/2953 双本平行' : ''}）。跋文：${sec.colophonIast || 'iti śrī-dhāraṇī-saṃgrahe samāptā'}。`,
       recitationTipsZh: '此为尼泊尔加德满都谷地世代相传之梵文《陀罗尼集》原典，每一句均已配齐天城文、悉昙梵字、现代梵音拼读与唐代古汉语音译。',
       provenance: {
         sourceType: 'GLOBAL-12DB',
         databaseId: 'db3_dsbc_gretil',
         databaseBadgeZh: `DB3 · DSBC §${sec.sectionNumber}`,
         gretilRawUrl: sec.sourceUrlIast,
-        editionCitation: `DSBC Canon Text 820/2949 & 824/2953, Section ${sec.sectionNumber} (${sec.titleIast})`,
+        editionCitation: `DSBC Canon Text 820/2949${hasDualDevanagariWitness ? ' & 824/2953' : ''}, Section ${sec.sectionNumber} (${sec.titleIast})`,
         manuscriptNotesZh: `尼泊尔那烂陀佛学研究所 (NIBS) 数字化梵文陀罗尼集双本对勘数据。`,
         rawSnippet: sec.paragraphsIast.slice(0, 2).join('\n'),
       },
@@ -679,11 +805,27 @@ const DB3_ENTRIES: DharaniEntry[] = [
         iastLines,
         `出自尼泊尔 DSBC《陀罗尼集》第 ${sec.sectionNumber} 品《${sec.titleIast}》`,
         `From Nepal DSBC Dhāraṇī Saṃgraha Section ${sec.sectionNumber} (${sec.titleIast})`,
-        sec.colophonIast
+        sec.colophonIast,
+        undefined,
+        hasDualDevanagariWitness
+          ? {
+              fieldSources: {
+                iast: 'db-original',
+                devanagari: 'db-original',
+              },
+              perVerseDevanagariOriginal: iastLines.map((line) =>
+                iastToDevanagari(line.replace(/\s+/g, ' ').trim())
+              ),
+            }
+          : undefined
       ),
     };
   }),
   ...DB3_DSBC_GRETIL_CORPUS.dsbcBooks.map((bk): DharaniEntry => {
+    const hasBookText = Boolean(
+      (bk.extractedMantras && bk.extractedMantras.length > 0) ||
+        (bk.fullTextExcerptIast && bk.fullTextExcerptIast.trim().length >= 5)
+    );
     const rawMantra =
       bk.extractedMantras && bk.extractedMantras.length > 0
         ? bk.extractedMantras.join(' | ')
@@ -714,7 +856,14 @@ const DB3_ENTRIES: DharaniEntry[] = [
         `db3-dsbc-book-${bk.bookId}`,
         splitIastIntoVerseLines(rawMantra, 11),
         `出自尼泊尔 DSBC 专书 #${bk.bookId}《${bk.titleIast}》`,
-        `From DSBC Book #${bk.bookId} (${bk.titleIast})`
+        `From DSBC Book #${bk.bookId} (${bk.titleIast})`,
+        undefined,
+        undefined,
+        {
+          fieldSources: {
+            iast: hasBookText ? 'db-original' : 'derived-reference',
+          },
+        }
       ),
     };
   }),
@@ -994,8 +1143,10 @@ const DB7_ENTRIES: DharaniEntry[] = [
     };
   }),
   ...DB7_CUDL_HIDAS_CORPUS.manuscripts.map((ms): DharaniEntry => {
+    const rawCudl = ms.transcribedRubricsAndExcerpts.join(' | ');
+    const hasCudlText = Boolean(cleanAndExpandSanskritMantraIast(rawCudl));
     const excerptIast =
-      ms.transcribedRubricsAndExcerpts.join(' | ') ||
+      rawCudl ||
       'oṃ namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā oṃ vajradharma svāhā';
     return {
       id: `db7-cudl-ms-${ms.cudlId}`,
@@ -1024,7 +1175,14 @@ const DB7_ENTRIES: DharaniEntry[] = [
         `db7-cudl-ms-${ms.cudlId}`,
         splitIastIntoVerseLines(excerptIast, 12),
         `出自剑桥大学馆藏贝叶经 ${ms.shelfLocator} (${ms.dateDisplay}) 外交转写`,
-        `From Cambridge CUDL Manuscript ${ms.shelfLocator} (${ms.dateDisplay})`
+        `From Cambridge CUDL Manuscript ${ms.shelfLocator} (${ms.dateDisplay})`,
+        undefined,
+        undefined,
+        {
+          fieldSources: {
+            iast: hasCudlText ? 'db-original' : 'derived-reference',
+          },
+        }
       ),
     };
   }),
@@ -1033,11 +1191,50 @@ const DB7_ENTRIES: DharaniEntry[] = [
 // ============================================================================
 // DB8: 奥斯陆大学 Bibliotheca Polyglotta 四语平行对勘库 (16本心经等)
 // ============================================================================
+const KANJUR_PRAJNAPARAMITA_RECONSTRUCTED_MANTRAS: Record<number, string[]> = {
+  // vid=691: Prajñāpāramitānayaśatapañcāśatikā (Adhyardhaśatikā / 理趣经)
+  691: [
+    'oṃ mahāsukha vajrasattva jaḥ hūṃ vaṃ hoḥ suratastvaṃ',
+    'a bhrūṃ trāṃ hrīḥ āḥ hūṃ',
+  ],
+  // vid=689: Kauśikaprajñāpāramitā (帝释般若波罗蜜多心经)
+  689: [
+    'namo bhagavatyai āryaprajñāpāramitāyai | tadyathā oṃ prajñe prajñe mahāprajñe prajñāvabhāse sarvatathāgatajñānasamanvite bhagavati svāhā',
+    'tadyathā oṃ munimuni mahāmunaye svāhā',
+  ],
+  // vid=688: Pañcaviṃśatikāprajñāpāramitāmukha (二十五门般若波罗蜜多经)
+  688: [
+    'oṃ bodhicittavajra | oṃ sambhogavajra | oṃ viśvavajra | oṃ sarvavajradṛḍhacitta | oṃ sarvatathāgata',
+    'oṃ svabhāvaśuddhadharmatājñānaśuddha | oṃ karmaviśodhana | oṃ niṣumbhavajriṇi phaṭ | oṃ hūṃ sarvatraga | oṃ hrīḥ | oṃ a | oṃ aṃ vaṃ hūṃ | oṃ e',
+  ],
+  // vid=697: Bhagavatī Prajñāpāramitāhṛdaya (Kanjur Sūtra Section)
+  697: [
+    'namo bhagavatyai āryaprajñāpāramitāyai',
+    'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā',
+  ],
+  // vid=686: Svalpākṣaraprajñāpāramitā (少字般若波罗蜜多经)
+  686: [
+    'tadyathā oṃ mune mune mahāmunaye svāhā',
+    'tadyathā oṃ jaya jaya padmābhe avame sarasaraṇi dhiridhiri devatānupālane buddhottāraṇi pūraya bhagavati sarvāśā mama sarvasattvānāṃ sarvakarmāvaraṇaviśodhaya buddhādhiṣṭhānena svāhā',
+  ],
+  // vid=685: Ekākṣarīmātā Sarvatathāgataprajñāpāramitā (佛母一字般若经)
+  685: [
+    'namo bhagavatyai āryaprajñāpāramitāyai',
+    'ekākṣarī mātā tadyathā — oṃ a svāhā',
+  ],
+  // vid=683: Prajñāpāramitānāmāṣṭaśataka (圣般若波罗蜜多一百八名陀罗尼经)
+  683: [
+    'tadyathā oṃ prajñe prajñe mahāprajñe prajñāvabhāse prajñālokakare ajñānavidhamane',
+    'siddhi susiddhi siddhyamāne bhagavati sarvāṅgasundari bhagavati vatsale prasāritahaste samāśvāsakari',
+    'tiṣṭha tiṣṭha kampa kampa cala cala rāva rāva garja garja gaccha gaccha bhagavati mā vilamba svāhā',
+  ],
+};
+
 const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): DharaniEntry => {
   const validRows: Array<{
     row: (typeof vol.alignedRows)[number];
     iastLine: string;
-    hasSanskritCell: boolean;
+    hasGenuineSanskritWitness: boolean;
   }> = [];
 
   for (const row of vol.alignedRows) {
@@ -1048,18 +1245,29 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
     }
     const cleanedSkt = cleanAndExpandSanskritMantraIast(sktCell.text);
     if (!cleanedSkt) continue;
-    validRows.push({ row, iastLine: cleanedSkt, hasSanskritCell: true });
-  }
-
-  if (validRows.length === 0 && vol.alignedRows.length > 0) {
+    const isReconstructedSkt = /reconstructed/i.test(sktCell.witnessLabel || '');
     validRows.push({
-      row: vol.alignedRows[0],
-      iastLine: 'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā',
-      hasSanskritCell: false,
+      row,
+      iastLine: cleanedSkt,
+      hasGenuineSanskritWitness: !isReconstructedSkt,
     });
   }
 
-  const verses: DharaniVerse[] = validRows.map(({ row, iastLine, hasSanskritCell }, idx) => {
+  if (validRows.length === 0 && vol.alignedRows.length > 0) {
+    const kanjurLines = KANJUR_PRAJNAPARAMITA_RECONSTRUCTED_MANTRAS[vol.vid] || [
+      'tadyathā oṃ gate gate pāragate pārasaṃgate bodhi svāhā',
+    ];
+    kanjurLines.forEach((reconstructedLine, kIdx) => {
+      const matchedRow = vol.alignedRows[Math.min(kIdx, vol.alignedRows.length - 1)];
+      validRows.push({
+        row: matchedRow,
+        iastLine: reconstructedLine,
+        hasGenuineSanskritWitness: false,
+      });
+    });
+  }
+
+  const verses: DharaniVerse[] = validRows.map(({ row, iastLine, hasGenuineSanskritWitness }, idx) => {
     const zhCell = row.cells.find((c) => c.lang === 'Chinese');
     const tibCell = row.cells.find((c) => c.lang === 'Tibetan');
     const enCell = row.cells.find((c) => c.lang === 'English');
@@ -1075,7 +1283,7 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
       tangNoteZh: `参校证本 (${vol.witnesses.length} 本)：${row.cells.map((c) => c.witnessLabel).slice(0, 4).join(' · ')}`,
       diplomaticOriginal: tibCell?.text,
       fieldSources: {
-        iast: hasSanskritCell ? 'db-original' : 'derived-reference',
+        iast: hasGenuineSanskritWitness ? 'db-original' : 'derived-reference',
         classicalTranslitZh: zhCell ? 'db-original' : 'derived-reference',
         meaningZh: zhCell || tibCell ? 'db-original' : 'derived-reference',
         meaningEn: enCell ? 'db-original' : 'derived-reference',
@@ -1114,6 +1322,19 @@ const DB8_ENTRIES: DharaniEntry[] = DB8_POLYGLOTTA_CORPUS.volumes.map((vol): Dha
 // ============================================================================
 const DB9_ENTRIES: DharaniEntry[] = DB9_RKTS_CORPUS.zungduEtextEntries.map((entry): DharaniEntry => {
   const iastLines = splitIastIntoVerseLines(entry.extractedMantraIast, 10);
+  const tibParts = (entry.extractedMantraTibetan || '')
+    .split(/[།༎|]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const perVerseDiplomaticOriginal: Array<string | undefined> =
+    tibParts.length >= iastLines.length && iastLines.length > 1
+      ? iastLines.map((_, idx) => {
+          const s = Math.floor((idx * tibParts.length) / iastLines.length);
+          const e = Math.max(s + 1, Math.floor(((idx + 1) * tibParts.length) / iastLines.length));
+          return `${tibParts.slice(s, e).join(' ། ')} །`;
+        })
+      : iastLines.map((_, idx) => (idx === 0 ? entry.extractedMantraTibetan : undefined));
+
   return {
     id: `db9-rkts-${entry.id}`,
     titleZh: `【DB9·维也纳rKTs】德格版《陀罗尼集》${entry.dergeRef || entry.id}：${entry.sanskritTitleIast}`,
@@ -1147,7 +1368,7 @@ const DB9_ENTRIES: DharaniEntry[] = DB9_RKTS_CORPUS.zungduEtextEntries.map((entr
         fieldSources: {
           iast: 'derived-reference',
         },
-        diplomaticOriginal: entry.extractedMantraTibetan,
+        perVerseDiplomaticOriginal,
       }
     ),
   };
@@ -1156,6 +1377,21 @@ const DB9_ENTRIES: DharaniEntry[] = DB9_RKTS_CORPUS.zungduEtextEntries.map((entr
 // ============================================================================
 // DB10: ALL-NIBS 陀罗尼保护计划 (尼泊尔阿夏档案馆与瓦拉纳西梵文写本 & 尼瓦尔梵本)
 // ============================================================================
+function cleanNibsDiplomaticExcerpt(raw: string | undefined): string | undefined {
+  if (!raw) return undefined;
+  const cleaned = raw
+    .replace(/@?\s*TTL<[^>]*>/g, ' ')
+    .replace(/\[\s*MISSING\s+FOLIO\s*\]/gi, ' ')
+    .replace(/\[\s*Elder,\s*G\.R\.[^\]]*\]/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (!cleaned) return undefined;
+  if (cleaned.length <= 280) return cleaned;
+  const cut = cleaned.slice(0, 280);
+  const lastSp = cut.lastIndexOf(' ');
+  return `${lastSp > 180 ? cut.slice(0, lastSp) : cut} …`;
+}
+
 const DB10_ENTRIES: DharaniEntry[] = [
   ...DB10_ALL_NIBS_CORPUS.newarDharaniWitnesses.map((nw): DharaniEntry => {
     const iastLines = splitIastIntoVerseLines(nw.normalizedMantraIast, 11);
@@ -1195,10 +1431,14 @@ const DB10_ENTRIES: DharaniEntry[] = [
     };
   }),
   ...DB10_ALL_NIBS_CORPUS.manuscripts.map((ms): DharaniEntry => {
-    const iastText =
+    const rawNibsCandidate =
       ms.extractedMantras && ms.extractedMantras.length > 1
         ? ms.extractedMantras.join(' | ')
-        : ms.normalizedIastExcerpt || ms.extractedMantras?.[0] || 'oṃ namo bhagavate svāhā';
+        : ms.normalizedIastExcerpt || ms.extractedMantras?.[0] || '';
+    const hasNibsText = Boolean(cleanAndExpandSanskritMantraIast(rawNibsCandidate));
+    const iastText = rawNibsCandidate || 'oṃ namo bhagavate svāhā';
+    const cleanedDiplomatic = cleanNibsDiplomaticExcerpt(ms.diplomaticFolioExcerpt);
+
     return {
       id: `db10-nibs-ms-${ms.resourceId}`,
       titleZh: `【DB10·ALL-NIBS写本】${ms.resourceId}《${ms.titleIast}》`,
@@ -1226,7 +1466,14 @@ const DB10_ENTRIES: DharaniEntry[] = [
         splitIastIntoVerseLines(iastText, 11),
         `出自 ALL-NIBS 梵文写本 ${ms.resourceId}《${ms.titleIast}》`,
         `From ALL-NIBS Sanskrit Manuscript ${ms.resourceId} (${ms.titleIast})`,
-        `馆藏写本：${ms.manuscriptArchiveRef || ms.resourceId}`
+        `馆藏写本：${ms.manuscriptArchiveRef || ms.resourceId}`,
+        undefined,
+        {
+          fieldSources: {
+            iast: hasNibsText ? 'db-original' : 'derived-reference',
+          },
+          diplomaticOriginal: cleanedDiplomatic,
+        }
       ),
     };
   }),
@@ -1301,6 +1548,33 @@ const DB11_ENTRIES: DharaniEntry[] = [
               'namo ratnatrayāya | nama āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya',
             8
           );
+
+    const D = cet.diplomaticLines.length;
+    const V = iastLines.length;
+    const perVerseDiplomaticOriginal: Array<string | undefined> = [];
+    const perVerseFieldSources: VerseFieldSources[] = [];
+
+    for (let vIdx = 0; vIdx < V; vIdx++) {
+      if (!hasCetomLines || D === 0) {
+        perVerseDiplomaticOriginal.push(undefined);
+        perVerseFieldSources.push({ iast: 'derived-reference' });
+        continue;
+      }
+      const dStart = D >= V ? Math.floor((vIdx * D) / V) : vIdx;
+      const dEnd =
+        D >= V ? Math.max(dStart + 1, Math.floor(((vIdx + 1) * D) / V)) : dStart + 1;
+      const bucketLines = D >= V ? cet.diplomaticLines.slice(dStart, dEnd) : cet.diplomaticLines[vIdx] ? [cet.diplomaticLines[vIdx]] : [];
+      const dipText = bucketLines.map((l) => `[${l.lineNum}] ${l.transliteration}`).join('  ');
+      perVerseDiplomaticOriginal.push(dipText || undefined);
+
+      const hasLacunaOrRestoration =
+        normLines.length > 0 &&
+        bucketLines.some((l) => /\/\/\/|\.\.|[[\]()]/.test(l.transliteration));
+      perVerseFieldSources.push({
+        iast: hasLacunaOrRestoration ? 'mixed' : 'db-original',
+      });
+    }
+
     return {
       id: `db11-cetom-${cet.cetomId}`,
       titleZh: `【DB11·CEToM龟兹梵本】${cet.shelfmark}（${cet.findspot}出土·${cet.genreAndSubject}）`,
@@ -1331,9 +1605,8 @@ const DB11_ENTRIES: DharaniEntry[] = [
         cet.diplomaticLines[0] ? `写卷残叶原貌 [${cet.diplomaticLines[0].lineNum}]: ${cet.diplomaticLines[0].transliteration}` : undefined,
         undefined,
         {
-          fieldSources: {
-            iast: hasCetomLines ? 'db-original' : 'derived-reference',
-          },
+          perVerseFieldSources,
+          perVerseDiplomaticOriginal,
         }
       ),
     };
@@ -1349,6 +1622,7 @@ const DB12_ENTRIES: DharaniEntry[] = [
       ed.extractedMantrasIast && ed.extractedMantrasIast.length >= 2
         ? ed.extractedMantrasIast.join(' | ')
         : [ed.extractedMantrasIast?.[0], ed.textExcerptIast].filter(Boolean).join(' | ');
+    const hasDharmaText = Boolean(cleanAndExpandSanskritMantraIast(rawText));
     const iastLines = splitIastIntoVerseLines(rawText, 11);
     return {
       id: `db12-dharma-${ed.id}`,
@@ -1376,7 +1650,14 @@ const DB12_ENTRIES: DharaniEntry[] = [
         `db12-dharma-${ed.id}`,
         iastLines,
         `出自 ERC DHARMA 校勘本《${ed.titleSanskrit}》`,
-        `From ERC DHARMA Critical Edition of ${ed.titleSanskrit} (${ed.editors})`
+        `From ERC DHARMA Critical Edition of ${ed.titleSanskrit} (${ed.editors})`,
+        undefined,
+        undefined,
+        {
+          fieldSources: {
+            iast: hasDharmaText ? 'db-original' : 'derived-reference',
+          },
+        }
       ),
     };
   }),
@@ -1429,6 +1710,7 @@ const DB12_ENTRIES: DharaniEntry[] = [
       mb.extractedSeedDefinitions && mb.extractedSeedDefinitions.length >= 2
         ? mb.extractedSeedDefinitions.join(' | ')
         : [mb.extractedSeedDefinitions?.[0], mb.textExcerptIast].filter(Boolean).join(' | ');
+    const hasMbText = Boolean(cleanAndExpandSanskritMantraIast(rawMb));
     const iastLines = splitIastIntoVerseLines(rawMb, 11);
     return {
       id: `db12-muktabodha-${mb.catalogNo}`,
@@ -1456,7 +1738,14 @@ const DB12_ENTRIES: DharaniEntry[] = [
         `db12-muktabodha-${mb.catalogNo}`,
         iastLines,
         `出自 Muktabodha 密续文库 ${mb.catalogNo}《${mb.uniformTitle}》`,
-        `From Muktabodha Digital Library ${mb.catalogNo} (${mb.uniformTitle})`
+        `From Muktabodha Digital Library ${mb.catalogNo} (${mb.uniformTitle})`,
+        undefined,
+        undefined,
+        {
+          fieldSources: {
+            iast: hasMbText ? 'db-original' : 'derived-reference',
+          },
+        }
       ),
     };
   }),

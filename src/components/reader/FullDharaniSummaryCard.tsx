@@ -23,7 +23,9 @@ function originCopyTag(state: EntryFieldOriginState): string {
 }
 
 function rowOriginClass(state: EntryFieldOriginState): string {
-  return state === 'db-original' ? 'is-original-row' : 'is-reference-row';
+  if (state === 'db-original') return 'is-original-row';
+  if (state === 'mixed') return 'is-mixed-row';
+  return 'is-reference-row';
 }
 
 export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({

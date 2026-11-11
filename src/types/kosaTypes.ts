@@ -20,7 +20,7 @@ export interface CategoryMeta {
   descriptionZh: string;
 }
 
-export type FieldOrigin = 'db-original' | 'derived-reference';
+export type FieldOrigin = 'db-original' | 'derived-reference' | 'mixed';
 
 export type VerseTrackableField =
   | 'siddham'

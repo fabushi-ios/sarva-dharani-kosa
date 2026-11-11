@@ -28,6 +28,9 @@ interface CompactMantraSeed {
 }
 
 function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
+  const cbetaMatch = seed.taishoNo.match(/T\d{2}n\d{4}/);
+  const cbetaId = cbetaMatch ? cbetaMatch[0] : undefined;
+
   const verses: DharaniVerse[] = seed.verses.map((v, idx) => {
     const hasDbClassical = Boolean(v.classicalTranslitZh && v.classicalTranslitZh.trim());
     const hasDbModern = Boolean(v.modernPhoneticZh && v.modernPhoneticZh.trim());
@@ -53,8 +56,9 @@ function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
         iast: 'db-original',
         siddham: 'derived-reference',
         devanagari: 'derived-reference',
-        classicalTranslitZh: hasDbClassical ? 'db-original' : 'derived-reference',
-        modernPhoneticZh: hasDbModern ? 'db-original' : 'derived-reference',
+        classicalTranslitZh:
+          Boolean(cbetaId) && hasDbClassical ? 'db-original' : 'derived-reference',
+        modernPhoneticZh: 'derived-reference',
         ipa: 'derived-reference',
         prosody: 'derived-reference',
         meaningZh: 'db-original',
@@ -63,9 +67,6 @@ function buildEncyclopediaEntry(seed: CompactMantraSeed): DharaniEntry {
       },
     };
   });
-
-  const cbetaMatch = seed.taishoNo.match(/T\d{2}n\d{4}/);
-  const cbetaId = cbetaMatch ? cbetaMatch[0] : undefined;
 
   return {
     id: seed.id,

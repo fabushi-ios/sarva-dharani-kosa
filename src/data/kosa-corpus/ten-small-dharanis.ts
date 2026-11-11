@@ -1,6 +1,7 @@
 import type { DharaniEntry } from '../../types/kosaTypes';
 import { AUTHORITATIVE_CBETA_RECORDS } from '../kosa-generated/cbetaAuthRecords';
 import { AUTHORITATIVE_GRETIL_RECORDS } from '../kosa-generated/gretilAuthRecords';
+import { iastToSiddham } from '../../core/sanskrit/transliterator';
 
 const cbetaT20n1080 = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1080');
 const cbetaT19n0963 = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n0963');
@@ -45,6 +46,9 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         id: 'cintamani-1',
         index: 1,
         iast: 'namo buddhāya | namo dharmāya | namaḥ saṃghāya | namo āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya |',
+        siddhamOriginal: iastToSiddham(
+          'namo buddhāya | namo dharmāya | namaḥ saṃghāya | namo āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya |'
+        ),
         classicalTranslitZh:
           '南无佛驮耶 南无达摩耶 南无僧伽耶 南无观自在菩萨摩诃萨 具大悲心者',
         modernPhoneticZh:
@@ -52,6 +56,9 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         meaningZh: '归命佛陀！归命正法！归命圣僧！归命圣观自在菩萨摩诃萨、具足大悲心者！',
         meaningEn:
           'Homage to the Buddha! Homage to the Dharma! Homage to the Saṃgha! Homage to Noble Avalokiteśvara, Bodhisattva Mahāsattva, the Greatly Compassionate One!',
+        fieldSources: {
+          siddham: 'db-original',
+        },
         words: [
           { iast: 'buddhāya / dharmāya / saṃghāya', stem: 'buddha / dharma / saṃgha', grammar: 'Dat.Sg.', transliterationZh: '佛驮耶 / 达摩耶 / 僧伽耶', meaningZh: '向佛、法、僧三宝顶礼', meaningEn: 'to the Buddha, Dharma, and Saṃgha' },
         ],
@@ -60,6 +67,9 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
         id: 'cintamani-2',
         index: 2,
         iast: 'tadyathā | oṃ cakravarti-cintāmaṇi mahāpadme ruru tiṣṭha jvāla ākarṣaya hūṃ phaṭ svāhā | oṃ padmacintāmaṇi jvāla hūṃ | oṃ varada padme hūṃ ||',
+        siddhamOriginal: iastToSiddham(
+          'tadyathā | oṃ cakravarti-cintāmaṇi mahāpadme ruru tiṣṭha jvāla ākarṣaya hūṃ phaṭ svāhā | oṃ padmacintāmaṇi jvāla hūṃ | oṃ varada padme hūṃ ||'
+        ),
         classicalTranslitZh:
           '怛侄他 唵 斫羯啰伐底 震多末尼 摩诃钵蹬谜 噜噜噜噜 底瑟姹 篅啰阿羯利沙也 吽 癹 莎诃 | 唵 钵蹋摩 震多末尼 篅攞 吽 | 唵 跋喇陀 钵亶谜 吽 ||',
         modernPhoneticZh:
@@ -68,6 +78,9 @@ export const TEN_SMALL_DHARANIS: DharaniEntry[] = [
           '即说咒曰：嗡！转轮圣王如意宝珠、大红莲华尊！流注妙光、安住不动，放智慧火焰钩召摄受一切善法，吽、泮、娑婆诃！嗡，红莲如意宝珠放光，吽！嗡，施愿红莲尊，吽！',
         meaningEn:
           'Namely: Oṃ! Wheel-Turning Sovereign Wish-Fulfilling Gem, O Great Lotus! Radiate, abide, blaze forth and magnetize all blessings, Hūṃ Phaṭ Svāhā! Oṃ Lotus Wish-Fulfilling Gem, blaze, Hūṃ! Oṃ Boon-Granting Lotus, Hūṃ!',
+        fieldSources: {
+          siddham: 'db-original',
+        },
         words: [
           { iast: 'cakravarti-cintāmaṇi', stem: 'cakravartin + cintāmaṇi', grammar: 'Voc.Sg.', transliterationZh: '斫羯啰伐底震多末尼', meaningZh: '转法轮王如意摩尼宝珠尊', meaningEn: 'O Wheel-Turning Sovereign Wish-Fulfilling Jewel' },
           { iast: 'mahāpadme', stem: 'mahā-padma', grammar: 'Voc.Sg.Fem.', transliterationZh: '摩诃钵蹬谜', meaningZh: '大清净红莲华尊', meaningEn: 'O Great Lotus' },

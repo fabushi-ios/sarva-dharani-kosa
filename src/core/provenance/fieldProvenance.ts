@@ -80,9 +80,8 @@ export function resolveVerseFieldOrigin(
     case 'iast':
       return verse.iast && verse.iast.trim().length > 0 ? 'db-original' : 'derived-reference';
     case 'modernPhoneticZh':
-      return hasOwnConcreteValue(verse, 'modernPhoneticZh')
-        ? 'db-original'
-        : 'derived-reference';
+      // Modern Mandarin homophone guides are derived phonetic aids unless explicitly tagged 'db-original'
+      return 'derived-reference';
     case 'classicalTranslitZh':
       return hasOwnConcreteValue(verse, 'classicalTranslitZh') &&
         !String(verse.classicalTranslitZh).startsWith('【GRETIL')
@@ -125,45 +124,58 @@ export interface EffectiveVerseFields {
 
 /**
  * Resolves all display strings and their exact provenance for a verse, enforcing:
- * 1. If the database already contains a field (`'db-original'`), preserve it verbatim without overwriting.
- * 2. ONLY when the database lacks that field (`'derived-reference'`), compute the reference fallback.
+ * 1. Concrete text present on the verse (`siddhamOriginal`, `devanagariOriginal`, `modernPhoneticZh`,
+ *    `classicalTranslitZh`) is preserved verbatim without algorithmic overwrite.
+ * 2. Provenance badges (`db-original` | `mixed` | `derived-reference`) strictly reflect philological
+ *    source origin rather than whether a helper string was pre-filled.
  */
 export function resolveEffectiveVerseFields(
   verse: DharaniVerse,
   showPhoneticIastBracket: boolean
 ): EffectiveVerseFields {
-  const siddhamOrigin = resolveVerseFieldOrigin(verse, 'siddham');
+  const rawSiddhamOrigin = resolveVerseFieldOrigin(verse, 'siddham');
+  const hasSiddhamOrig = Boolean(verse.siddhamOriginal?.trim());
   const siddhamText =
-    siddhamOrigin === 'db-original' && verse.siddhamOriginal?.trim()
-      ? verse.siddhamOriginal.trim()
+    (rawSiddhamOrigin === 'db-original' || rawSiddhamOrigin === 'mixed') && hasSiddhamOrig
+      ? verse.siddhamOriginal!.trim()
       : iastToSiddham(verse.iast);
+  const siddhamOrigin: FieldOrigin =
+    rawSiddhamOrigin === 'db-original' && !hasSiddhamOrig ? 'derived-reference' : rawSiddhamOrigin;
 
-  const devanagariOrigin = resolveVerseFieldOrigin(verse, 'devanagari');
+  const rawDevanagariOrigin = resolveVerseFieldOrigin(verse, 'devanagari');
+  const hasDevanagariOrig = Boolean(verse.devanagariOriginal?.trim());
   const devanagariText =
-    devanagariOrigin === 'db-original' && verse.devanagariOriginal?.trim()
-      ? verse.devanagariOriginal.trim()
+    (rawDevanagariOrigin === 'db-original' || rawDevanagariOrigin === 'mixed') && hasDevanagariOrig
+      ? verse.devanagariOriginal!.trim()
       : iastToDevanagari(verse.iast);
+  const devanagariOrigin: FieldOrigin =
+    rawDevanagariOrigin === 'db-original' && !hasDevanagariOrig
+      ? 'derived-reference'
+      : rawDevanagariOrigin;
 
   const iastOrigin = resolveVerseFieldOrigin(verse, 'iast');
   const iastText = verse.iast;
 
-  const modernPhoneticOrigin = resolveVerseFieldOrigin(verse, 'modernPhoneticZh');
-  const classicalTranslitOrigin = resolveVerseFieldOrigin(verse, 'classicalTranslitZh');
+  const rawModernOrigin = resolveVerseFieldOrigin(verse, 'modernPhoneticZh');
+  const rawClassicalOrigin = resolveVerseFieldOrigin(verse, 'classicalTranslitZh');
 
-  // Compute algorithmic phonetics ONLY when needed for a missing field
-  const needAutoModern =
-    modernPhoneticOrigin === 'derived-reference' || !verse.modernPhoneticZh?.trim();
-  const needAutoClassical =
-    classicalTranslitOrigin === 'derived-reference' ||
-    !verse.classicalTranslitZh?.trim() ||
-    verse.classicalTranslitZh.startsWith('【GRETIL');
+  const hasConcreteModern =
+    hasOwnConcreteValue(verse, 'modernPhoneticZh') && Boolean(verse.modernPhoneticZh?.trim());
+  const hasConcreteClassical =
+    hasOwnConcreteValue(verse, 'classicalTranslitZh') &&
+    Boolean(verse.classicalTranslitZh?.trim()) &&
+    !verse.classicalTranslitZh.startsWith('【GRETIL');
+
+  // Compute algorithmic phonetics ONLY when concrete text is absent on the verse
+  const needAutoModern = !hasConcreteModern;
+  const needAutoClassical = !hasConcreteClassical;
 
   const autoPhonetics =
     needAutoModern || needAutoClassical
       ? generateVerseChinesePhonetics(verse.iast, showPhoneticIastBracket)
       : null;
 
-  const modernPhoneticZh = !needAutoModern
+  const modernPhoneticZh = hasConcreteModern
     ? formatModernPhoneticWithIastOption(
         verse.modernPhoneticZh,
         verse.iast,
@@ -171,9 +183,16 @@ export function resolveEffectiveVerseFields(
       )
     : autoPhonetics!.modernPhoneticZh;
 
-  const classicalTranslitZh = !needAutoClassical
+  const classicalTranslitZh = hasConcreteClassical
     ? verse.classicalTranslitZh
     : autoPhonetics!.classicalTranslitZh;
+
+  const modernPhoneticOrigin: FieldOrigin =
+    rawModernOrigin === 'db-original' && !hasConcreteModern ? 'derived-reference' : rawModernOrigin;
+  const classicalTranslitOrigin: FieldOrigin =
+    rawClassicalOrigin === 'db-original' && !hasConcreteClassical
+      ? 'derived-reference'
+      : rawClassicalOrigin;
 
   const ipaOrigin = resolveVerseFieldOrigin(verse, 'ipa');
   const ipaText = iastToIpa(verse.iast);
@@ -181,38 +200,40 @@ export function resolveEffectiveVerseFields(
 
   const meaningZhOrigin = resolveVerseFieldOrigin(verse, 'meaningZh');
   const meaningEnOrigin = resolveVerseFieldOrigin(verse, 'meaningEn');
+  const hasValidMeaningZh =
+    Boolean(verse.meaningZh?.trim()) && !isProvenancePlaceholderMeaning(verse.meaningZh);
+  const hasValidMeaningEn =
+    Boolean(verse.meaningEn?.trim()) && !isProvenancePlaceholderMeaning(verse.meaningEn);
+
   const fallbackMeaning =
-    meaningZhOrigin === 'derived-reference' || meaningEnOrigin === 'derived-reference'
+    (meaningZhOrigin !== 'db-original' && meaningZhOrigin !== 'mixed') ||
+    !hasValidMeaningZh ||
+    (meaningEnOrigin !== 'db-original' && meaningEnOrigin !== 'mixed') ||
+    !hasValidMeaningEn
       ? resolveEffectiveVerseMeaning(verse)
       : null;
 
   const meaningZh =
-    meaningZhOrigin === 'db-original' && verse.meaningZh?.trim()
+    (meaningZhOrigin === 'db-original' || meaningZhOrigin === 'mixed') && hasValidMeaningZh
       ? verse.meaningZh
       : fallbackMeaning!.meaningZh;
 
   const meaningEn =
-    meaningEnOrigin === 'db-original' && verse.meaningEn?.trim()
+    (meaningEnOrigin === 'db-original' || meaningEnOrigin === 'mixed') && hasValidMeaningEn
       ? verse.meaningEn
       : fallbackMeaning!.meaningEn;
 
   return {
     siddhamText,
-    siddhamOrigin:
-      siddhamOrigin === 'db-original' && verse.siddhamOriginal?.trim()
-        ? 'db-original'
-        : 'derived-reference',
+    siddhamOrigin,
     devanagariText,
-    devanagariOrigin:
-      devanagariOrigin === 'db-original' && verse.devanagariOriginal?.trim()
-        ? 'db-original'
-        : 'derived-reference',
+    devanagariOrigin,
     iastText,
     iastOrigin,
     modernPhoneticZh,
-    modernPhoneticOrigin: !needAutoModern ? 'db-original' : 'derived-reference',
+    modernPhoneticOrigin,
     classicalTranslitZh,
-    classicalTranslitOrigin: !needAutoClassical ? 'db-original' : 'derived-reference',
+    classicalTranslitOrigin,
     ipaText,
     ipaOrigin,
     prosodyOrigin,
@@ -326,16 +347,18 @@ export function summarizeEntryFieldProvenance(entry: DharaniEntry): EntryProvena
 
   for (const field of ALL_TRACKABLE_FIELDS) {
     let orig = 0;
+    let mixed = 0;
     let derived = 0;
     for (const v of entry.verses) {
       const o = resolveVerseFieldOrigin(v, field);
       if (o === 'db-original') orig++;
+      else if (o === 'mixed') mixed++;
       else derived++;
     }
     const state: EntryFieldOriginState =
-      orig > 0 && derived === 0
+      orig > 0 && mixed === 0 && derived === 0
         ? 'db-original'
-        : orig > 0 && derived > 0
+        : orig > 0 || mixed > 0
         ? 'mixed'
         : 'derived-reference';
     byField[field] = state;
@@ -357,7 +380,16 @@ export function getFieldProvenanceTooltip(
   state: EntryFieldOriginState
 ): string {
   if (state === 'mixed') {
-    return `${TRACKABLE_FIELD_LABELS_ZH[field]}：部分章句取自数据库原载内容，缺失部分由系统自动推导补全作为参考。`;
+    switch (field) {
+      case 'siddham':
+        return '【原载+参考】原典含局部石刻或写本悉昙梵字对音（如 CBETA <cb:tt> #SD-* 字元），未标悉昙处由系统转写补全供参考。';
+      case 'iast':
+        return '【原载+参考】原典含局部梵文对音或残叶释读，未标梵字或残损音节由系统依对音规则与平行梵本重构补全供参考。';
+      case 'devanagari':
+        return '【原载+参考】原典含部分天城体文本，其余章句由系统转写补全供参考。';
+      default:
+        return `【原载+参考】${TRACKABLE_FIELD_LABELS_ZH[field]}：部分章句取自数据库原载内容，缺失部分由系统自动推导补全作为参考。`;
+    }
   }
   if (state === 'db-original') {
     switch (field) {

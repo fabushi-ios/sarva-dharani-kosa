@@ -30,30 +30,57 @@ import {
   UNIFIED_QUADRILINGUAL_GLOSSARY,
 } from '../src/data/unifiedCorpusRegistry';
 import { searchAllDatabases } from '../src/core/searchEngine';
+import { generateVerseChinesePhonetics } from '../src/core/sanskrit/phoneticMapper';
 import type { DharaniEntry, DharaniVerse } from '../src/types/kosaTypes';
 
 const ROOT_DIR = process.cwd();
 const OUT_CORPUS_DIR = path.join(ROOT_DIR, 'public', 'corpus');
 
-function serializeVerse(v: DharaniVerse, isCurated: boolean): DharaniVerse {
+function isCuratedCorpusEntry(entry: DharaniEntry): boolean {
+  return (
+    entry.provenance.sourceType !== 'GLOBAL-12DB' &&
+    !entry.provenance.databaseId &&
+    entry.categoryId !== 'gretil-canonical'
+  );
+}
+
+function serializeVerse(
+  v: DharaniVerse,
+  includeWords: boolean,
+  preserveHandCraftedPhonetics: boolean
+): DharaniVerse {
   const wordsDesc = Object.getOwnPropertyDescriptor(v, 'words');
   const hasExplicitWords =
-    isCurated &&
+    includeWords &&
     wordsDesc &&
     'value' in wordsDesc &&
     Array.isArray(wordsDesc.value) &&
     wordsDesc.value.length > 0 &&
     v.fieldSources?.words !== 'derived-reference';
 
+  const autoPhon = preserveHandCraftedPhonetics
+    ? generateVerseChinesePhonetics(v.iast, false)
+    : null;
+
   const classicalDesc = Object.getOwnPropertyDescriptor(v, 'classicalTranslitZh');
+  const hasClassicalValue = Boolean(
+    classicalDesc && 'value' in classicalDesc && classicalDesc.value
+  );
   const hasExplicitClassical =
-    Boolean(classicalDesc && 'value' in classicalDesc && classicalDesc.value) &&
-    v.fieldSources?.classicalTranslitZh !== 'derived-reference';
+    hasClassicalValue &&
+    (v.fieldSources?.classicalTranslitZh !== 'derived-reference' ||
+      (preserveHandCraftedPhonetics &&
+        v.classicalTranslitZh !== autoPhon!.classicalTranslitZh));
 
   const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
+  const hasModernValue = Boolean(
+    modernDesc && 'value' in modernDesc && modernDesc.value
+  );
   const hasExplicitModern =
-    Boolean(modernDesc && 'value' in modernDesc && modernDesc.value) &&
-    v.fieldSources?.modernPhoneticZh !== 'derived-reference';
+    hasModernValue &&
+    (v.fieldSources?.modernPhoneticZh === 'db-original' ||
+      (preserveHandCraftedPhonetics &&
+        v.modernPhoneticZh !== autoPhon!.modernPhoneticZh));
 
   const out: Record<string, unknown> = {
     id: v.id,
@@ -92,10 +119,13 @@ function serializeVerse(v: DharaniVerse, isCurated: boolean): DharaniVerse {
   return out as unknown as DharaniVerse;
 }
 
-function serializeEntry(entry: DharaniEntry, isCurated: boolean): DharaniEntry {
+function serializeEntry(entry: DharaniEntry, includeWords: boolean): DharaniEntry {
+  const preserveHandCraftedPhonetics = isCuratedCorpusEntry(entry);
   return {
     ...entry,
-    verses: entry.verses.map((v) => serializeVerse(v, isCurated)),
+    verses: entry.verses.map((v) =>
+      serializeVerse(v, includeWords, preserveHandCraftedPhonetics)
+    ),
   };
 }
 

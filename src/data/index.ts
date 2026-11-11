@@ -21,7 +21,6 @@ export { DHARANI_CATEGORIES };
 function attachLazyWordsIfNeeded(v: DharaniVerse): DharaniVerse {
   const wordsDesc = Object.getOwnPropertyDescriptor(v, 'words');
   const classicalDesc = Object.getOwnPropertyDescriptor(v, 'classicalTranslitZh');
-  const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
 
   const hasGetterWords = Boolean(wordsDesc && typeof wordsDesc.get === 'function');
   const explicitWords =
@@ -39,11 +38,7 @@ function attachLazyWordsIfNeeded(v: DharaniVerse): DharaniVerse {
       (classicalDesc && 'value' in classicalDesc && classicalDesc.value
         ? 'db-original'
         : 'derived-reference'),
-    modernPhoneticZh:
-      v.fieldSources?.modernPhoneticZh ??
-      (modernDesc && 'value' in modernDesc && modernDesc.value
-        ? 'db-original'
-        : 'derived-reference'),
+    modernPhoneticZh: v.fieldSources?.modernPhoneticZh ?? 'derived-reference',
     ipa: v.fieldSources?.ipa ?? 'derived-reference',
     prosody: v.fieldSources?.prosody ?? 'derived-reference',
     meaningZh: v.fieldSources?.meaningZh ?? 'db-original',

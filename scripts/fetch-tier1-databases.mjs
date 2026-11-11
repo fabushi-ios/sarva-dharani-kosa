@@ -563,10 +563,12 @@ async function buildDb1Fangshan(gaijiMap) {
     f28n1071Stats,
     records: allRecords.map((r, idx) => {
       const keepFull = r.xmlId === 'pF28p0038a0301' || idx < 12 || idx === 92 || r.workId !== 'F28n1071';
+      const headTokens = keepFull ? r.tokens.slice(0, 35) : [];
+      const extraTt = (keepFull ? r.tokens.slice(35) : r.tokens).filter((t) => t.tokenType === 'cb_tt');
       return {
         ...r,
-        plainChineseText: keepFull ? safeSlice(r.plainChineseText, 320) : safeSlice(r.plainChineseText, 120),
-        tokens: keepFull ? r.tokens.slice(0, 35) : r.tokens.slice(0, 4),
+        plainChineseText: r.plainChineseText,
+        tokens: [...headTokens, ...extraTt],
       };
     }),
   };

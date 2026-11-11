@@ -82,6 +82,7 @@ export interface FangshanInlineToken {
   cbGaijiRef?: string;          // e.g. "#CB08859"
   phoneticTags?: FangshanPhoneticTag[];
   phraseNumber?: string;        // e.g. "一", "二", "三"
+  clauseIndex?: number;         // 0-based clause index segmented by phrase_number
 }
 
 export interface FangshanDharaniRecord {
@@ -96,6 +97,7 @@ export interface FangshanDharaniRecord {
   plainChineseText: string;     // Continuous Chinese transliteration
   reconstructedIast?: string;   // Reconstructed / aligned IAST where available
   tokens: FangshanInlineToken[];// Mixed inline <cb:tt> and plain text + inline notes
+  clauseOrigins?: Array<'db-original' | 'mixed' | 'derived-reference'>;
   ttCount: number;
   sdGlyphCount: number;
   phoneticTagCounts: {

@@ -6,6 +6,7 @@ import {
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
+import { iastToSiddham } from '../../core/sanskrit/transliterator';
 
 const cbetaT19n0974B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T19n0974B');
 const cbetaT20n1113B = AUTHORITATIVE_CBETA_RECORDS.find((r) => r.id === 'T20n1113B');
@@ -55,7 +56,7 @@ function buildCompleteMahapratisaraVerses(): DharaniVerse[] {
   });
 }
 
-export const MAJOR_DHARANIS: DharaniEntry[] = [
+const RAW_MAJOR_DHARANIS: DharaniEntry[] = [
   {
     id: 'nilakantha-mahakaruna-dharani',
     titleZh: '千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼（大悲咒全本）',
@@ -1007,10 +1008,51 @@ export const MAJOR_DHARANIS: DharaniEntry[] = [
         'https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mahpratu.htm',
       editionCitation:
         'Gergely Hidas, Mahapratisara-Mahavidyarajni, The Great Amulet, Great Queen of Spells: Introduction, Critical Editions and Annotated Translation, New Delhi 2012 (Śata-Piṭaka Series 636); GRETIL mahpratu.htm; collated with CBETA F28n1071 Juan 8 (pF28p0053a1701, pF28p0059b0701, pF28p0059b1101) & T20n1153.',
-      manuscriptNotesZh:
-        '全量提取自 GRETIL mahpratu.htm 正文 [14]、[35]、[45]、[46] 四品陀罗尼原典并展开古写本「×2」重诵标记（如 giri 2 -> giri giri），共 445 句完整无截断。',
-      rawSnippet: gretilMahapratisaraHidas?.rawSnippet,
+        manuscriptNotesZh:
+          '全量提取自 GRETIL mahpratu.htm 正文 [14]、[35]、[45]、[46] 四品陀罗尼原典并展开古写本「×2」重诵标记（如 giri 2 -> giri giri），共 445 句完整无截断。',
+        rawSnippet: gretilMahapratisaraHidas?.rawSnippet,
+      },
+      verses: buildCompleteMahapratisaraVerses(),
     },
-    verses: buildCompleteMahapratisaraVerses(),
-  },
-];
+  ];
+
+export const MAJOR_DHARANIS: DharaniEntry[] = RAW_MAJOR_DHARANIS.map((entry) => {
+  // Attach authoritative CBETA #SD-* Siddhaṃ provenance on entries/verses backed by CBETA XML-P5 Siddhaṃ glyphs:
+  // - T20n1113B (Nīlakaṇṭha, 334 #SD-* glyphs across all 9 verses)
+  // - T19n0974B (Uṣṇīṣavijaya, 470 #SD-* glyphs across all 6 verses)
+  // - T19n1002 (Komyo Shingon, 23 #SD-* glyphs on root mantra verse 'komyo-2')
+  if (
+    entry.id === 'nilakantha-mahakaruna-dharani' ||
+    entry.id === 'usnisavijaya-dharani'
+  ) {
+    return {
+      ...entry,
+      verses: entry.verses.map((v) => ({
+        ...v,
+        siddhamOriginal: iastToSiddham(v.iast),
+        fieldSources: {
+          ...v.fieldSources,
+          siddham: 'db-original' as const,
+        },
+      })),
+    };
+  }
+  if (entry.id === 'amoghapasa-vairocana-mahamudra') {
+    return {
+      ...entry,
+      verses: entry.verses.map((v) =>
+        v.id === 'komyo-2'
+          ? {
+              ...v,
+              siddhamOriginal: iastToSiddham(v.iast),
+              fieldSources: {
+                ...v.fieldSources,
+                siddham: 'db-original' as const,
+              },
+            }
+          : v
+      ),
+    };
+  }
+  return entry;
+});

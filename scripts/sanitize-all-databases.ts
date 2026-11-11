@@ -1139,12 +1139,20 @@ async function writeTier1Ts(
       const xmlId = String(r.xmlId || '');
       const workId = String(r.workId || '');
       const keepTokens = xmlId === 'pF28p0038a0301' || idx < 5 || idx === 92 || workId !== 'F28n1071';
+      const allToks = ((r.tokens as Array<Record<string, unknown>>) || []);
+      const compactTokens = keepTokens
+        ? [
+            ...allToks.slice(0, 30),
+            ...allToks.slice(30).filter((t) => t.tokenType === 'cb_tt'),
+          ]
+        : allToks.filter((t) => t.tokenType === 'cb_tt');
       return {
         ...r,
         compilerOrTranslator: r.compilerOrTranslator || '唐 行琳 集',
         plainChineseText: r.plainChineseText,
         reconstructedIast: r.reconstructedIast,
-        tokens: keepTokens ? ((r.tokens as unknown[]) || []).slice(0, 30) : [],
+        ...(Array.isArray(r.clauseOrigins) ? { clauseOrigins: r.clauseOrigins } : {}),
+        tokens: compactTokens,
       };
     }),
   };
@@ -1192,6 +1200,7 @@ async function writeTier1Ts(
     dharaniSamgrahaSections: (db3Any.dharaniSamgrahaSections || []).map((s) => ({
       ...s,
       paragraphsIast: ((s.paragraphsIast as string[]) || []).slice(0, 16),
+      paragraphsDevanagari: ((s.paragraphsDevanagari as string[]) || []).slice(0, 4),
       extractedMantras: (s.extractedMantras as string[]) || [],
     })),
     dsbcBooks: db3Any.dsbcBooks || [],

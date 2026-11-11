@@ -754,6 +754,15 @@
   background: var(--bg-elevated);
 }
 
+.script-row.is-mixed-row .script-content-siddham,
+.script-row.is-mixed-row .script-content-devanagari,
+.script-row.is-mixed-row .script-content-iast,
+.script-row.is-mixed-row .script-content-phonetic-zh,
+.script-row.is-mixed-row .script-content-classical-zh {
+  padding-left: 0.55rem;
+  border-left: 3.5px dashed var(--accent-lapis);
+}
+
 .script-row.is-reference-row .script-content-iast {
   padding: 0.24rem 0.55rem;
   border-radius: var(--radius-xs);
@@ -764,6 +773,10 @@
 .translit-box.is-original-box {
   border-left-width: 3.5px;
   border-left-style: solid;
+}
+
+.translit-box.is-mixed-box {
+  border-left: 3.5px dashed var(--accent-lapis);
 }
 
 .translit-box.is-reference-box {

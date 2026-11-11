@@ -215,85 +215,119 @@ export function FangshanTaishoInterlinearStudio() {
                     </div>
                     <div>{selectedFangshan.plainChineseText}</div>
                   </div>
-                  {selectedFangshan.reconstructedIast && (
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.2rem',
-                        marginTop: '0.55rem',
-                        paddingTop: '0.55rem',
-                        borderTop: '1px dashed var(--border-subtle)',
-                      }}
-                    >
-                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-                        <strong>梵文轉寫 (IAST)：</strong>
-                        <ProvenanceBadge
-                          state={selectedFangshan.tokens.length > 0 ? 'db-original' : 'derived-reference'}
-                          compact
-                          customLabel={
-                            selectedFangshan.tokens.length > 0
-                              ? '● <cb:tt> 梵漢對音原載'
-                              : '◇ 對音重構·參考'
-                          }
-                          customTooltip={
-                            selectedFangshan.tokens.length > 0
-                              ? '【庫藏原文】由原典 <cb:tt> 悉曇字碼對應之梵文音讀連綴而成。'
-                              : '【處理參考】原段無 <cb:tt> 悉曇字碼，此梵文由系統依遼金對音規則重構還原，僅供參考。'
-                          }
-                        />
-                      </div>
-                      <div>{selectedFangshan.reconstructedIast}</div>
-                    </div>
-                  )}
-                </div>
-
-                <h4 className="section-heading">
-                  逐字 <code>&lt;cb:tt&gt;</code> 悉曇梵漢對音卡片 ({selectedFangshan.tokens.length} 組)
-                </h4>
-                <div className="syllable-grid">
-                  {selectedFangshan.tokens.map((tok, tokIdx) => {
-                    const gaijiKey = tok.siddhamRef?.replace(/^#/, '') || '';
-                    const gaiji = gaijiKey ? CBETA_GAIJI_MAP[gaijiKey] : undefined;
-                    const resolvedIast = tok.iast || gaiji?.iast || '';
-                    const rawSid = tok.siddhamUnicode || gaiji?.siddhamUnicode || '';
-                    const hasSiddhamGlyph = /[\u{11580}-\u{115FF}]/u.test(rawSid);
+                  {selectedFangshan.reconstructedIast && (() => {
+                    const origins = selectedFangshan.clauseOrigins || [];
+                    const isFullTt =
+                      origins.length > 0
+                        ? origins.every((o) => o === 'db-original')
+                        : selectedFangshan.ttCount > 0 &&
+                          selectedFangshan.ttCount >=
+                            Math.max(1, selectedFangshan.plainChineseText.replace(/[\s｜|]/g, '').length * 0.85);
+                    const fangshanIastState =
+                      selectedFangshan.ttCount === 0
+                        ? 'derived-reference'
+                        : isFullTt
+                        ? 'db-original'
+                        : 'mixed';
                     return (
                       <div
-                        key={tokIdx}
-                        className="syllable-card"
-                        style={
-                          hasSiddhamGlyph
-                            ? { borderLeft: '3px solid var(--accent-vermilion)' }
-                            : { borderStyle: 'dashed' }
-                        }
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.2rem',
+                          marginTop: '0.55rem',
+                          paddingTop: '0.55rem',
+                          borderTop: '1px dashed var(--border-subtle)',
+                        }}
                       >
-                        <div className="siddham-script">
-                          {(hasSiddhamGlyph ? rawSid : resolvedIast ? iastToSiddham(resolvedIast) : '') || '𑖀'}
-                        </div>
-                        {!hasSiddhamGlyph && (
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                          <strong>梵文轉寫 (IAST)：</strong>
                           <ProvenanceBadge
-                            state="derived-reference"
+                            state={fangshanIastState}
                             compact
-                            customLabel="◇ 字形參考"
+                            customLabel={
+                              fangshanIastState === 'db-original'
+                                ? '● <cb:tt> 梵漢對音原載'
+                                : fangshanIastState === 'mixed'
+                                ? `◐ 原載(${selectedFangshan.ttCount}組<cb:tt>)+重構參考`
+                                : '◇ 對音重構·參考'
+                            }
+                            customTooltip={
+                              fangshanIastState === 'db-original'
+                                ? '【庫藏原文】全段音節均由房山石經原刻 <cb:tt> #SD-* 悉曇字碼直接連綴而成。'
+                                : fangshanIastState === 'mixed'
+                                ? `【原載+參考】本段石經原刻含 ${selectedFangshan.ttCount} 組 <cb:tt> 悉曇字碼對音，未標梵字之音節依遼金對音規則與平行梵本重構補全供參考。`
+                                : '【處理參考】原段無 <cb:tt> 悉曇字碼，此梵文由系統依遼金對音規則重構還原，僅供參考。'
+                            }
                           />
-                        )}
-                        <div className="syl-iast">
-                          {resolvedIast || tok.siddhamRef || `#${tokIdx + 1}`}
                         </div>
-                        <div className="syl-phonetics">{tok.textZh}</div>
-                        {tok.phoneticTags && tok.phoneticTags.length > 0 && (
-                          <div className="syl-sandhi">
-                            夾注: {tok.phoneticTags.join(' · ')}
-                          </div>
-                        )}
-                        {tok.siddhamRef && (
-                          <div className="syl-meter">{tok.siddhamRef}</div>
-                        )}
+                        <div>{selectedFangshan.reconstructedIast}</div>
                       </div>
                     );
-                  })}
+                  })()}
                 </div>
+
+                {(() => {
+                  const cbTtTokens = selectedFangshan.tokens.filter(
+                    (t) => t.tokenType === 'cb_tt' || Boolean(t.siddhamRef)
+                  );
+                  return (
+                    <>
+                      <h4 className="section-heading">
+                        逐字 <code>&lt;cb:tt&gt;</code> 悉曇梵漢對音卡片 ({cbTtTokens.length} 組)
+                      </h4>
+                      {cbTtTokens.length === 0 ? (
+                        <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)' }}>
+                          本段石經原典僅刻漢文音譯與聲韻夾注（無內嵌 <code>&lt;cb:tt&gt;</code> 悉曇外字）。
+                        </p>
+                      ) : (
+                        <div className="syllable-grid">
+                          {cbTtTokens.map((tok, tokIdx) => {
+                            const gaijiKey = tok.siddhamRef?.replace(/^#/, '') || '';
+                            const gaiji = gaijiKey ? CBETA_GAIJI_MAP[gaijiKey] : undefined;
+                            const resolvedIast = tok.iast || gaiji?.iast || '';
+                            const rawSid = tok.siddhamUnicode || gaiji?.siddhamUnicode || '';
+                            const hasSiddhamGlyph = /[\u{11580}-\u{115FF}]/u.test(rawSid);
+                            return (
+                              <div
+                                key={tokIdx}
+                                className="syllable-card"
+                                style={
+                                  hasSiddhamGlyph
+                                    ? { borderLeft: '3px solid var(--accent-vermilion)' }
+                                    : { borderStyle: 'dashed' }
+                                }
+                              >
+                                <div className="siddham-script">
+                                  {(hasSiddhamGlyph ? rawSid : resolvedIast ? iastToSiddham(resolvedIast) : '') || '𑖀'}
+                                </div>
+                                {!hasSiddhamGlyph && (
+                                  <ProvenanceBadge
+                                    state="derived-reference"
+                                    compact
+                                    customLabel="◇ 字形參考"
+                                  />
+                                )}
+                                <div className="syl-iast">
+                                  {resolvedIast || tok.siddhamRef || `#${tokIdx + 1}`}
+                                </div>
+                                <div className="syl-phonetics">{tok.textZh}</div>
+                                {tok.phoneticTags && tok.phoneticTags.length > 0 && (
+                                  <div className="syl-sandhi">
+                                    夾注: {tok.phoneticTags.join(' · ')}
+                                  </div>
+                                )}
+                                {tok.siddhamRef && (
+                                  <div className="syl-meter">{tok.siddhamRef}</div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
               </>
             )}
           </main>

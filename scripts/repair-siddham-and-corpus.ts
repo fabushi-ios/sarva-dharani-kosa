@@ -21,6 +21,7 @@ import fs from 'node:fs/promises';
 import { existsSync, readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 import {
@@ -606,6 +607,7 @@ interface FangshanToken {
   cbGaijiRef?: string;
   phraseNumber?: string;
   phoneticTags?: string[];
+  clauseIndex?: number;
 }
 
 function reconstructFromFangshanTokens(tokens: FangshanToken[], plainChineseText: string): string {
@@ -924,7 +926,7 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
       const sdRefs = [...ttBody.matchAll(/ref="#((?:SD|RJ)-[0-9A-Fa-f]+)"/g)].map((x) => x[1]);
       sdGlyphCount += sdRefs.length;
       const iast = sdRefs
-        .map((id) => (CBETA_GAIJI_MAP[id] ? CBETA_GAIJI_MAP[id].iast : ''))
+        .map((id) => CBETA_GAIJI_MAP[id]?.iast || SD_RARE_GAIJI_OVERRIDES[id] || '')
         .filter(Boolean)
         .join('');
       const siddhamFromMap = sdRefs
@@ -945,11 +947,17 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
       const phoneticTags = extractPhoneticTags(inlineNotes.join(' '));
       const zhWithoutNotes = zhRaw.replace(/<note\b[^>]*>[\s\S]*?<\/note>/g, '');
       const textZh = stripTagsClean(zhWithoutNotes, charDeclMap);
+      const joinedSdRef =
+        sdRefs.length === 1
+          ? `#${sdRefs[0]}`
+          : sdRefs.length > 1
+          ? sdRefs.map((r) => `#${r}`).join('+')
+          : undefined;
 
       tokens.push({
         tokenType: 'cb_tt',
         textZh: textZh || siddhamUnicode,
-        ...(sdRefs[0] ? { siddhamRef: `#${sdRefs[0]}` } : {}),
+        ...(joinedSdRef ? { siddhamRef: joinedSdRef } : {}),
         ...(siddhamUnicode ? { siddhamUnicode } : {}),
         ...(iast ? { iast } : {}),
         ...(phoneticTags.length > 0 ? { phoneticTags } : {}),
@@ -1025,6 +1033,64 @@ function tokenizeFangshanDharaniBlock(pInnerXml: string, charDeclMap: Map<string
     sdGlyphCount,
     phoneticTagCounts,
   };
+}
+
+const PARALLEL_CRITICAL_EDITION_XML_IDS = new Set([
+  'pF28p0053a1701', // Mahāpratisarā (Hidas critical ed. aligned)
+  'pF28p0006a1301', // Sitātapatrā / Śūraṅgama
+  'pF28p0006a1401', // Sitātapatrā / Śūraṅgama
+]);
+
+function annotateClausesAndComputeOrigins(
+  tokens: FangshanToken[],
+  xmlId: string
+): Array<'db-original' | 'mixed' | 'derived-reference'> {
+  if (!tokens || tokens.length === 0) {
+    return ['derived-reference'];
+  }
+  const hasPhraseNumbers = tokens.some((t) => t.tokenType === 'phrase_number');
+  const clauses: FangshanToken[][] = [];
+
+  if (hasPhraseNumbers) {
+    let cur: FangshanToken[] = [];
+    for (const tok of tokens) {
+      cur.push(tok);
+      if (tok.tokenType === 'phrase_number') {
+        clauses.push(cur);
+        cur = [];
+      }
+    }
+    if (cur.length > 0) {
+      const hasContent = cur.some(
+        (t) => t.tokenType === 'cb_tt' || t.tokenType === 'zh_char' || t.tokenType === 'gaiji_cb'
+      );
+      if (hasContent || clauses.length === 0) {
+        clauses.push(cur);
+      } else {
+        clauses[clauses.length - 1].push(...cur);
+      }
+    }
+  } else {
+    clauses.push(tokens);
+  }
+
+  const isParallelCritical = PARALLEL_CRITICAL_EDITION_XML_IDS.has(xmlId);
+
+  return clauses.map((clauseTokens, cIdx) => {
+    let ttZhChars = 0;
+    let otherZhChars = 0;
+    for (const tok of clauseTokens) {
+      tok.clauseIndex = cIdx;
+      if (tok.tokenType === 'cb_tt') {
+        ttZhChars += Math.max(1, Array.from(tok.textZh || '').length);
+      } else if (tok.tokenType === 'zh_char' || tok.tokenType === 'gaiji_cb') {
+        otherZhChars += Array.from(tok.textZh || '').length;
+      }
+    }
+    if (ttZhChars === 0) return 'derived-reference';
+    if (isParallelCritical) return 'mixed';
+    return otherZhChars === 0 ? 'db-original' : 'mixed';
+  });
 }
 
 function cleanFangshanHeadTitle(rawHeadXml: string, charDeclMap: Map<string, string>): string {
@@ -1504,13 +1570,21 @@ async function generateTier1TsModule(
       const workId = String(r.workId || '');
       const keepTokens =
         xmlId === 'pF28p0038a0301' || idx < 5 || idx === 92 || workId !== 'F28n1071';
+      const allToks = (r.tokens as FangshanToken[]) || [];
+      const compactTokens = keepTokens
+        ? [
+            ...allToks.slice(0, 30),
+            ...allToks.slice(30).filter((t) => t.tokenType === 'cb_tt'),
+          ]
+        : allToks.filter((t) => t.tokenType === 'cb_tt');
       return {
         ...r,
         compilerOrTranslator: r.compilerOrTranslator || '唐 行琳 集',
         // Keep 100% untruncated plainChineseText & reconstructedIast across ALL 741 records!
         plainChineseText: r.plainChineseText,
         reconstructedIast: r.reconstructedIast,
-        tokens: keepTokens ? ((r.tokens as FangshanToken[]) || []).slice(0, 30) : [],
+        ...(Array.isArray(r.clauseOrigins) ? { clauseOrigins: r.clauseOrigins } : {}),
+        tokens: compactTokens,
       };
     }),
   };
@@ -1558,6 +1632,7 @@ async function generateTier1TsModule(
     dharaniSamgrahaSections: (db3Any.dharaniSamgrahaSections || []).map((s) => ({
       ...s,
       paragraphsIast: ((s.paragraphsIast as string[]) || []).slice(0, 16),
+      paragraphsDevanagari: ((s.paragraphsDevanagari as string[]) || []).slice(0, 4),
       extractedMantras: (s.extractedMantras as string[]) || [],
     })),
     dsbcBooks: db3Any.dsbcBooks || [],
@@ -1697,7 +1772,88 @@ export function isTier1DatabaseId(id: string): id is keyof typeof TIER1_DATABASE
   console.log(`  -> Wrote ${tier1TsPath} (${(tsContent.length / 1024 / 1024).toFixed(2)} MB)`);
 }
 
+async function restoreDb1TokensFromGzip(): Promise<Record<string, unknown>> {
+  console.log('=== Restoring all 8,291 <cb:tt> Siddhaṃ tokens & clauseOrigins from F28n1071.xml.gz ===');
+  const gzPath = path.join(ROOT_DIR, 'data', 'raw', 'cbeta', 'F28n1071.xml.gz');
+  const f1071Xml = zlib.gunzipSync(readFileSync(gzPath)).toString('utf-8');
+  const charDeclMap = buildCharDeclMap(f1071Xml);
+
+  const xmlBlockMap = new Map<string, string>();
+  const pRegex = /<p\b([^>]*cb:type="dharani"[^>]*)>([\s\S]*?)<\/p>/g;
+  let m: RegExpExecArray | null;
+  while ((m = pRegex.exec(f1071Xml)) !== null) {
+    const idMatch = m[1].match(/xml:id="([^"]+)"/);
+    if (idMatch) {
+      xmlBlockMap.set(idMatch[1], m[2]);
+    }
+  }
+
+  const db1Path = path.join(TIER1_JSON_DIR, 'db1_fangshan.json');
+  const db1 = JSON.parse(await fs.readFile(db1Path, 'utf-8')) as Record<string, unknown>;
+  const records = db1.records as Array<Record<string, unknown>>;
+
+  let restoredTtTotal = 0;
+  let recordsWithTt = 0;
+  let fullOrigRecs = 0;
+  let mixedRecs = 0;
+
+  records.forEach((rec, idx) => {
+    const xmlId = String(rec.xmlId || '');
+    const workId = String(rec.workId || '');
+    const keepFull =
+      xmlId === 'pF28p0038a0301' || idx < 12 || idx === 92 || workId !== 'F28n1071';
+
+    if (workId === 'F28n1071' && xmlBlockMap.has(xmlId)) {
+      const tokRes = tokenizeFangshanDharaniBlock(xmlBlockMap.get(xmlId)!, charDeclMap);
+      const clauseOrigins = annotateClausesAndComputeOrigins(tokRes.tokens, xmlId);
+
+      const headTokens = keepFull ? tokRes.tokens.slice(0, 35) : [];
+      const extraTt = (keepFull ? tokRes.tokens.slice(35) : tokRes.tokens).filter(
+        (t) => t.tokenType === 'cb_tt'
+      );
+      const preservedTokens = [...headTokens, ...extraTt];
+      const recTtCount = preservedTokens.filter((t) => t.tokenType === 'cb_tt').length;
+
+      restoredTtTotal += recTtCount;
+      if (tokRes.ttCount > 0) recordsWithTt++;
+      if (clauseOrigins.every((o) => o === 'db-original')) fullOrigRecs++;
+      else if (clauseOrigins.some((o) => o !== 'derived-reference')) mixedRecs++;
+
+      rec.ttCount = tokRes.ttCount;
+      rec.sdGlyphCount = tokRes.sdGlyphCount;
+      rec.phoneticTagCounts = tokRes.phoneticTagCounts;
+      rec.clauseOrigins = clauseOrigins;
+      rec.tokens = preservedTokens;
+    } else {
+      const existingTokens = (rec.tokens as FangshanToken[]) || [];
+      const clauseOrigins = annotateClausesAndComputeOrigins(existingTokens, xmlId);
+      rec.clauseOrigins = clauseOrigins;
+    }
+  });
+
+  await fs.writeFile(db1Path, JSON.stringify(db1, null, 2), 'utf-8');
+  console.log(
+    `  -> Updated ${db1Path}: ${records.length} records, ${recordsWithTt} records with <cb:tt> (${fullOrigRecs} 100%-original, ${mixedRecs} partial-mixed), ${restoredTtTotal} <cb:tt> tokens preserved.`
+  );
+  return db1;
+}
+
 async function main() {
+  if (process.argv.includes('--restore-db1-tokens')) {
+    await repairCbetaGaijiAndAuthRecords();
+    const db1 = await restoreDb1TokensFromGzip();
+    const readTier1 = async (name: string) =>
+      JSON.parse(await fs.readFile(path.join(TIER1_JSON_DIR, name), 'utf-8')) as Record<string, unknown>;
+    const [db2, db3, db4, db5, db6] = await Promise.all([
+      readTier1('db2_taisho_ext.json'),
+      readTier1('db3_dsbc_gretil.json'),
+      readTier1('db4_84000.json'),
+      readTier1('db5_buddhanexus.json'),
+      readTier1('db6_sarit.json'),
+    ]);
+    await generateTier1TsModule(db1, db2, db3, db4, db5, db6);
+    return;
+  }
   if (process.argv.includes('--sync-ts-only')) {
     const readTier1 = async (name: string) =>
       JSON.parse(await fs.readFile(path.join(TIER1_JSON_DIR, name), 'utf-8')) as Record<string, unknown>;

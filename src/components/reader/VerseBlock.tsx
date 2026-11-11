@@ -45,12 +45,20 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
 
   const syllables = useMemo(() => analyzeSanskritProsody(verse.iast), [verse.iast]);
 
-  // Check if DB's modernPhoneticZh matches syllable engine output 1-to-1 (so syllable-by-syllable karaoke only runs when it won't alter DB text)
+  // Check if verse's concrete modernPhoneticZh matches syllable engine output 1-to-1 (so syllable-by-syllable karaoke never alters hand-crafted text)
   const canUseInlineModernSyllables = useMemo(() => {
-    if (effective.modernPhoneticOrigin === 'derived-reference') return true;
+    const concrete = (verse.modernPhoneticZh || '').trim();
+    if (!concrete) return true;
     const autoPlain = generateVerseChinesePhonetics(verse.iast, false).modernPhoneticZh;
-    return (verse.modernPhoneticZh || '').trim() === autoPlain;
-  }, [effective.modernPhoneticOrigin, verse.iast, verse.modernPhoneticZh]);
+    return concrete === autoPlain;
+  }, [verse.iast, verse.modernPhoneticZh]);
+
+  const rowClassForOrigin = (origin: EntryFieldOriginState): string =>
+    origin === 'db-original'
+      ? 'is-original-row'
+      : origin === 'mixed'
+      ? 'is-mixed-row'
+      : 'is-reference-row';
 
   const wordsResult = useMemo(() => {
     if (!config.showWordGloss) {
@@ -322,11 +330,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
 
       {/* Parallel Multi-Script & Chinese Phonetic / Classical Transliteration Alignment */}
       {shouldShowLayer(config.showSiddham, effective.siddhamOrigin) && (
-        <div
-          className={`script-row ${
-            effective.siddhamOrigin === 'db-original' ? 'is-original-row' : 'is-reference-row'
-          }`}
-        >
+        <div className={`script-row ${rowClassForOrigin(effective.siddhamOrigin)}`}>
           <span className="script-label">
             <span>悉昙梵字</span>
             <ProvenanceBadge
@@ -334,7 +338,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               field="siddham"
               compact
               customLabel={
-                effective.siddhamOrigin === 'db-original' ? '● 原典原载' : '◇ 转写参考'
+                effective.siddhamOrigin === 'db-original'
+                  ? '● 原典原载'
+                  : effective.siddhamOrigin === 'mixed'
+                  ? '◐ 原载+参考'
+                  : '◇ 转写参考'
               }
             />
           </span>
@@ -380,11 +388,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       )}
 
       {shouldShowLayer(config.showDevanagari, effective.devanagariOrigin) && (
-        <div
-          className={`script-row ${
-            effective.devanagariOrigin === 'db-original' ? 'is-original-row' : 'is-reference-row'
-          }`}
-        >
+        <div className={`script-row ${rowClassForOrigin(effective.devanagariOrigin)}`}>
           <span className="script-label">
             <span>天城梵文</span>
             <ProvenanceBadge
@@ -392,7 +396,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               field="devanagari"
               compact
               customLabel={
-                effective.devanagariOrigin === 'db-original' ? '● 原典原载' : '◇ 转写参考'
+                effective.devanagariOrigin === 'db-original'
+                  ? '● 原典原载'
+                  : effective.devanagariOrigin === 'mixed'
+                  ? '◐ 原载+参考'
+                  : '◇ 转写参考'
               }
             />
           </span>
@@ -438,11 +446,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       )}
 
       {shouldShowLayer(config.showIast, effective.iastOrigin) && (
-        <div
-          className={`script-row ${
-            effective.iastOrigin === 'db-original' ? 'is-original-row' : 'is-reference-row'
-          }`}
-        >
+        <div className={`script-row ${rowClassForOrigin(effective.iastOrigin)}`}>
           <span className="script-label">
             <span>梵文 IAST</span>
             <ProvenanceBadge
@@ -450,7 +454,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               field="iast"
               compact
               customLabel={
-                effective.iastOrigin === 'db-original' ? '● 原典原载' : '◇ 重构参考'
+                effective.iastOrigin === 'db-original'
+                  ? '● 原典原载'
+                  : effective.iastOrigin === 'mixed'
+                  ? '◐ 原载+参考'
+                  : '◇ 重构参考'
               }
             />
           </span>
@@ -479,15 +487,9 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         </div>
       )}
 
-      {/* 梵音拼读：若数据库已有梵音拼读则保留原文并标「原典原载」；仅在数据库缺失时才处理生成并标「处理参考」 */}
+      {/* 梵音拼读：现代汉语音近辅助拼读统一标为「处理参考」并完整保留既有拼读文本 */}
       {shouldShowLayer(config.showModernPhoneticZh, effective.modernPhoneticOrigin) && (
-        <div
-          className={`script-row ${
-            effective.modernPhoneticOrigin === 'db-original'
-              ? 'is-original-row'
-              : 'is-reference-row'
-          }`}
-        >
+        <div className={`script-row ${rowClassForOrigin(effective.modernPhoneticOrigin)}`}>
           <span className="script-label" style={{ color: 'var(--accent-jade)' }}>
             <span>
               {effective.modernPhoneticOrigin === 'db-original' ? '梵音拼读' : '梵音拼读参考'}
@@ -543,13 +545,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       )}
 
       {shouldShowLayer(config.showClassicalZh, effective.classicalTranslitOrigin) && (
-        <div
-          className={`script-row ${
-            effective.classicalTranslitOrigin === 'db-original'
-              ? 'is-original-row'
-              : 'is-reference-row'
-          }`}
-        >
+        <div className={`script-row ${rowClassForOrigin(effective.classicalTranslitOrigin)}`}>
           <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
             <span>
               {effective.classicalTranslitOrigin === 'db-original'
@@ -680,6 +676,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               className={`translit-box meaning-zh ${
                 effective.meaningZhOrigin === 'db-original'
                   ? 'is-original-box'
+                  : effective.meaningZhOrigin === 'mixed'
+                  ? 'is-mixed-box'
                   : 'is-reference-box'
               }`}
             >
@@ -696,6 +694,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                 <span>
                   {effective.meaningZhOrigin === 'db-original'
                     ? '本句汉文意译（数据库原载）'
+                    : effective.meaningZhOrigin === 'mixed'
+                    ? '本句汉文意译（原载+参考）'
                     : '本句汉文拟译参考（辞典推导）'}
                 </span>
                 <ProvenanceBadge
@@ -703,7 +703,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                   field="meaningZh"
                   compact
                   customLabel={
-                    effective.meaningZhOrigin === 'db-original' ? '● 原典原载' : '◇ 拟译参考'
+                    effective.meaningZhOrigin === 'db-original'
+                      ? '● 原典原载'
+                      : effective.meaningZhOrigin === 'mixed'
+                      ? '◐ 原载+参考'
+                      : '◇ 拟译参考'
                   }
                 />
               </div>
@@ -716,6 +720,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               className={`translit-box meaning-en ${
                 effective.meaningEnOrigin === 'db-original'
                   ? 'is-original-box'
+                  : effective.meaningEnOrigin === 'mixed'
+                  ? 'is-mixed-box'
                   : 'is-reference-box'
               }`}
             >
@@ -732,6 +738,8 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                 <span>
                   {effective.meaningEnOrigin === 'db-original'
                     ? 'English Translation (Source Edition)'
+                    : effective.meaningEnOrigin === 'mixed'
+                    ? 'English Translation (Source + Reference)'
                     : 'English Gloss Reference (Lexicon Derived)'}
                 </span>
                 <ProvenanceBadge
@@ -739,7 +747,11 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                   field="meaningEn"
                   compact
                   customLabel={
-                    effective.meaningEnOrigin === 'db-original' ? '● 原典原载' : '◇ 拟译参考'
+                    effective.meaningEnOrigin === 'db-original'
+                      ? '● 原典原载'
+                      : effective.meaningEnOrigin === 'mixed'
+                      ? '◐ 原载+参考'
+                      : '◇ 拟译参考'
                   }
                 />
               </div>
