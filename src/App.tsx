@@ -171,6 +171,8 @@ export const App: React.FC = () => {
     FIRST_SCREEN_CORPUS[0]?.id || ''
   );
 
+  const [taishoActiveEntry, setTaishoActiveEntry] = useState<DharaniEntry | null>(null);
+
   const activeEntry = useMemo(() => {
     const foundInFiltered = filteredEntries.find((e) => e.id === selectedEntryId);
     if (foundInFiltered) return foundInFiltered;
@@ -178,6 +180,11 @@ export const App: React.FC = () => {
     const foundInAll = allEntries.find((e) => e.id === selectedEntryId);
     return foundInAll || allEntries[0];
   }, [allEntries, filteredEntries, selectedEntryId]);
+
+  const effectiveAudioEntry =
+    activeTab === 'taisho-explorer' && taishoActiveEntry
+      ? taishoActiveEntry
+      : activeEntry;
 
   const currentEntryIdx = useMemo(() => {
     if (!activeEntry) return -1;
@@ -545,6 +552,7 @@ export const App: React.FC = () => {
               onToggleBookmark={handleToggleBookmark}
               playbackState={playbackState}
               onNavigateTab={handleTabChange}
+              onActiveEntryChange={setTaishoActiveEntry}
             />
           </Suspense>
         )}
@@ -639,11 +647,13 @@ export const App: React.FC = () => {
         )}
       </div>
 
-      {activeEntry && (
+      {effectiveAudioEntry && (
         <AudioPlayerBar
-          dharaniTitleZh={activeEntry.titleZh}
+          entryId={effectiveAudioEntry.id}
+          dharaniTitleZh={effectiveAudioEntry.titleZh}
+          verses={effectiveAudioEntry.verses}
           playbackState={playbackState}
-          onPlayAll={() => sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)}
+          onPlayAll={() => sanskritAudioEngine.playVerses(effectiveAudioEntry.verses, 0, false)}
           onStop={() => sanskritAudioEngine.stop()}
           onToggleLoop={() => sanskritAudioEngine.setLoopVerse(!playbackState.loopVerse)}
           onToggleAutoScroll={() =>

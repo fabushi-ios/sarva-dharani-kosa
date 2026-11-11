@@ -118,6 +118,21 @@ def _convert_wav_to_ogg_bytes(wav_path: Path, ogg_path: Path) -> bytes:
     return ogg_path.read_bytes()
 
 
+def _convert_wav_to_mp3_bytes(wav_path: Path, mp3_path: Path) -> bytes:
+    if not mp3_path.exists():
+        cmd = [
+            "ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+            "-i", str(wav_path),
+            "-codec:a", "libmp3lame",
+            "-ar", str(TARGET_SAMPLE_RATE),
+            "-ac", "1",
+            "-b:a", "192k",
+            str(mp3_path),
+        ]
+        subprocess.run(cmd, check=True)
+    return mp3_path.read_bytes()
+
+
 def _resolve_response_format(
     explicit_response_format: str | None,
     explicit_format: str | None,
@@ -125,9 +140,11 @@ def _resolve_response_format(
     default_fmt: str = "json",
 ) -> str:
     chosen = (explicit_response_format or explicit_format or "").strip().lower()
-    if chosen in ("json", "wav", "ogg", "opus"):
+    if chosen in ("json", "wav", "ogg", "opus", "mp3"):
         return "ogg" if chosen == "opus" else chosen
     accept = (request.headers.get("accept") or "").lower()
+    if "audio/mpeg" in accept or "audio/mp3" in accept:
+        return "mp3"
     if "audio/wav" in accept or "audio/x-wav" in accept:
         return "wav"
     if "audio/ogg" in accept or "audio/opus" in accept:
@@ -265,6 +282,14 @@ def _format_tts_response(entry: dict[str, Any], fmt: str) -> Response:
             media_type="audio/wav",
             headers=headers,
         )
+    if fmt == "mp3":
+        mp3_path = CACHE_DIR / f"{entry['sha256']}.mp3"
+        mp3_bytes = _convert_wav_to_mp3_bytes(entry["wavPath"], mp3_path)
+        return Response(
+            content=mp3_bytes,
+            media_type="audio/mpeg",
+            headers=headers,
+        )
     if fmt == "ogg":
         ogg_path = CACHE_DIR / f"{entry['sha256']}.ogg"
         ogg_bytes = _convert_wav_to_ogg_bytes(entry["wavPath"], ogg_path)
@@ -343,7 +368,11 @@ def get_tts_cache_file(filename: str) -> Response:
     target = CACHE_DIR / safe_name
     if not target.exists() or not target.is_file():
         raise HTTPException(status_code=404, detail=f"Cached audio file not found: {safe_name}")
-    media_type = "audio/ogg" if safe_name.endswith(".ogg") else "audio/wav"
+    media_type = (
+        "audio/mpeg"
+        if safe_name.endswith(".mp3")
+        else ("audio/ogg" if safe_name.endswith(".ogg") else "audio/wav")
+    )
     return FileResponse(
         path=str(target),
         media_type=media_type,
@@ -427,6 +456,15 @@ def get_syllable(
             "syllableTimings": timings,
         }
         return JSONResponse(content=payload, headers=headers)
+
+    if fmt == "mp3":
+        sha = hashlib.sha256(f"syl_v2|{norm_key}|{norm_voice}|{eff_rate:.3f}".encode("utf-8")).hexdigest()
+        wav_tmp = CACHE_DIR / f"syl_{sha}.wav"
+        mp3_tmp = CACHE_DIR / f"syl_{sha}.mp3"
+        if not wav_tmp.exists():
+            wav_tmp.write_bytes(res["wavBytes"])
+        mp3_bytes = _convert_wav_to_mp3_bytes(wav_tmp, mp3_tmp)
+        return Response(content=mp3_bytes, media_type="audio/mpeg", headers=headers)
 
     if fmt == "ogg":
         sha = hashlib.sha256(f"syl_v2|{norm_key}|{norm_voice}|{eff_rate:.3f}".encode("utf-8")).hexdigest()

@@ -42,6 +42,18 @@ import {
   warmupBrowserOnnxVits,
   type AcousticChunkSpan,
 } from './browserOnnxTtsEngine';
+import {
+  buildDharaniAudioFileName,
+  encodePcmToMp3Bytes,
+  encodePcmToWavBytes,
+  splitIastIntoExportSubclauses,
+  uint8ArrayToAudioBlob,
+  type AudioExportFormat,
+  type AudioExportProgress,
+  type ExportedDharaniAudio,
+} from './audioExportEncoder';
+
+export type { AudioExportFormat, AudioExportProgress, ExportedDharaniAudio };
 
 export type AudioEngineMode =
   | 'neural-vits-48k'
@@ -223,6 +235,15 @@ class SanskritAudioEngine {
   private droneOscillators: OscillatorNode[] = [];
   private neuralVerseCache: Map<string, CachedNeuralVerse> = new Map();
   private neuralInflightRequests: Map<string, Promise<CachedNeuralVerse>> = new Map();
+  private exportedPcmCache: Map<
+    string,
+    {
+      channels: Float32Array[];
+      sampleRate: number;
+      durationSec: number;
+      model: string;
+    }
+  > = new Map();
   private pythonBackendAvailable = false;
   private hfCloudApiAvailable = true;
   private healthProbed = false;
@@ -821,10 +842,27 @@ class SanskritAudioEngine {
     text: string,
     voice: SanskritVoiceGender,
     rate: number,
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    timeoutMs = 22_000
   ): Promise<Record<string, unknown> | null> {
     const endpoints = this.getOrderedNeuralApiEndpoints();
     for (const ep of endpoints) {
+      const reqCtrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const onOuterAbort = () => reqCtrl?.abort();
+      if (signal && reqCtrl) {
+        if (signal.aborted) {
+          reqCtrl.abort();
+        } else {
+          signal.addEventListener('abort', onOuterAbort, { once: true });
+        }
+      }
+      const timeoutId =
+        reqCtrl && timeoutMs > 0
+          ? setTimeout(() => {
+              reqCtrl.abort();
+            }, timeoutMs)
+          : null;
+
       try {
         const res = await fetch(ep.tts, {
           method: 'POST',
@@ -837,7 +875,7 @@ class SanskritAudioEngine {
             rate,
             response_format: 'json',
           }),
-          signal,
+          signal: reqCtrl ? reqCtrl.signal : signal,
         });
         const ct = res.headers?.get?.('content-type') || '';
         if (res.ok && ct.includes('application/json')) {
@@ -858,6 +896,13 @@ class SanskritAudioEngine {
           this.pythonBackendAvailable = false;
         } else {
           this.hfCloudApiAvailable = false;
+        }
+      } finally {
+        if (timeoutId !== null) {
+          clearTimeout(timeoutId);
+        }
+        if (signal && reqCtrl) {
+          signal.removeEventListener('abort', onOuterAbort);
         }
       }
     }
@@ -1371,10 +1416,11 @@ class SanskritAudioEngine {
     iastText: string,
     syllables: SyllableAnalysis[],
     signal?: AbortSignal,
-    priority: 'high' | 'low' = 'high'
+    priority: 'high' | 'low' = 'high',
+    rateOverride?: number
   ): Promise<CachedNeuralVerse> {
     const voice = this.state.voice;
-    const rate = this.state.rate;
+    const rate = typeof rateOverride === 'number' && rateOverride > 0 ? rateOverride : this.state.rate;
     const cacheKey = `${iastText.trim()}|${voice}|${rate.toFixed(2)}`;
 
     const cached = this.neuralVerseCache.get(cacheKey);
@@ -2301,8 +2347,238 @@ class SanskritAudioEngine {
     };
   }
 
+  private createPurePcmContextShim(): BaseAudioContext {
+    return {
+      sampleRate: SAMPLE_RATE,
+      createBuffer: (channels: number, length: number, sr: number) => {
+        const chArrays = Array.from({ length: channels }, () => new Float32Array(length));
+        return {
+          numberOfChannels: channels,
+          length,
+          sampleRate: sr,
+          duration: length / sr,
+          getChannelData: (idx: number) => chArrays[idx],
+        } as unknown as AudioBuffer;
+      },
+    } as unknown as BaseAudioContext;
+  }
+
+  private storeExportedPcmCache(
+    key: string,
+    value: {
+      channels: Float32Array[];
+      sampleRate: number;
+      durationSec: number;
+      model: string;
+    }
+  ) {
+    if (this.exportedPcmCache.size >= 6) {
+      const firstKey = this.exportedPcmCache.keys().next().value;
+      if (firstKey) this.exportedPcmCache.delete(firstKey);
+    }
+    this.exportedPcmCache.set(key, value);
+  }
+
   /**
-   * Export an entire Dhāraṇī (all verses) into a downloadable 44.1kHz 16-bit PCM `.wav` Blob!
+   * Synthesizes all verses of a Dhāraṇī into 48,000 Hz PCM channels with:
+   * - Instant reuse of `neuralVerseCache` (already prewarmed or played verses = 0ms)
+   * - Automatic clause-chunking (`<= 220` IAST chars) so cloud requests never hit gateway timeouts
+   * - Bounded concurrency (2 parallel requests on Cloud API, sequential high-priority in ONNX Worker)
+   * - Live progress callbacks (`completedChunks / totalChunks`) for responsive UI feedback
+   */
+  private async synthesizeVersesPcmChannels(
+    verses: DharaniVerse[],
+    rate = 1.0,
+    onProgress?: (progress: AudioExportProgress) => void,
+    signal?: AbortSignal
+  ): Promise<{
+    channels: Float32Array[];
+    sampleRate: number;
+    durationSec: number;
+    model: string;
+  }> {
+    const effRate = Math.max(0.5, Math.min(2.0, rate || this.state.rate || 1.0));
+    const voice = this.state.voice;
+    const useFormantChant = this.state.mode === 'studio-vocal-chant';
+    const versesSig = verses.map((v) => (v.iast || '').trim()).join('||');
+    const pcmCacheKey = `${useFormantChant ? 'chant' : 'neural'}|${voice}|${effRate.toFixed(2)}|${versesSig}`;
+
+    const cachedPcm = this.exportedPcmCache.get(pcmCacheKey);
+    if (cachedPcm) {
+      onProgress?.({
+        phase: 'synthesizing',
+        completedChunks: 1,
+        totalChunks: 1,
+        percent: 90,
+      });
+      return cachedPcm;
+    }
+
+    if (useFormantChant) {
+      const allSyllables: SyllableAnalysis[] = [];
+      let runningIdx = 1;
+      for (const v of verses) {
+        const syls = analyzeSanskritProsody(v.iast);
+        for (const s of syls) {
+          allSyllables.push({ ...s, index: runningIdx++ });
+        }
+      }
+      if (allSyllables.length === 0) {
+        for (const s of analyzeSanskritProsody('oṃ svāhā')) {
+          allSyllables.push({ ...s, index: runningIdx++ });
+        }
+      }
+      const shimCtx = this.createPurePcmContextShim();
+      const { audioBuffer, totalDurationSec } = this.synthesizeContinuousVerseBuffer(
+        shimCtx,
+        allSyllables,
+        effRate,
+        true
+      );
+      const res = {
+        channels: [
+          new Float32Array(audioBuffer.getChannelData(0)),
+          new Float32Array(audioBuffer.getChannelData(1)),
+        ],
+        sampleRate: SAMPLE_RATE,
+        durationSec: totalDurationSec,
+        model: 'Rosenberg Sadja Formant 48kHz',
+      };
+      this.storeExportedPcmCache(pcmCacheKey, res);
+      onProgress?.({
+        phase: 'synthesizing',
+        completedChunks: 1,
+        totalChunks: 1,
+        percent: 90,
+      });
+      return res;
+    }
+
+    // Build bounded subclauses across all verses so no single TTS call ever stalls or times out
+    const tasks: Array<{ text: string; syllables: SyllableAnalysis[]; pauseAfterMs: number }> = [];
+    for (let vIdx = 0; vIdx < verses.length; vIdx++) {
+      const rawIast = (verses[vIdx]?.iast || '').trim();
+      if (!rawIast) continue;
+      const subclauses = splitIastIntoExportSubclauses(rawIast, 220);
+      for (let sIdx = 0; sIdx < subclauses.length; sIdx++) {
+        const sc = subclauses[sIdx];
+        const isVerseEnd = sIdx === subclauses.length - 1;
+        tasks.push({
+          text: sc,
+          syllables: analyzeSanskritProsody(sc),
+          pauseAfterMs: isVerseEnd ? 260 : 140,
+        });
+      }
+    }
+
+    if (tasks.length === 0) {
+      tasks.push({
+        text: 'oṃ svāhā',
+        syllables: analyzeSanskritProsody('oṃ svāhā'),
+        pauseAfterMs: 0,
+      });
+    }
+
+    const totalChunks = tasks.length;
+    let completedChunks = 0;
+    onProgress?.({
+      phase: 'synthesizing',
+      completedChunks: 0,
+      totalChunks,
+      percent: 4,
+    });
+
+    const onnxReady = isBrowserOnnxReady(voice);
+    if (!onnxReady && !this.pythonBackendAvailable) {
+      void warmupBrowserOnnxVits(voice);
+    }
+
+    const concurrency = onnxReady ? 1 : Math.min(2, totalChunks);
+    const chunkResults = new Array<{ pcm: Float32Array; model: string }>(totalChunks);
+    let nextTaskIndex = 0;
+
+    const runWorkerSlot = async () => {
+      while (nextTaskIndex < totalChunks) {
+        if (signal?.aborted) {
+          throw new DOMException('Audio export aborted', 'AbortError');
+        }
+        const currentIdx = nextTaskIndex++;
+        const task = tasks[currentIdx];
+        const cachedVerse = await this.fetchNeuralVitsVerseBuffer(
+          null,
+          task.text,
+          task.syllables,
+          signal,
+          'high',
+          effRate
+        );
+        const pcmSlice =
+          cachedVerse.pcm48k ??
+          (cachedVerse.audioBuffer
+            ? new Float32Array(cachedVerse.audioBuffer.getChannelData(0))
+            : new Float32Array(480));
+
+        chunkResults[currentIdx] = {
+          pcm: pcmSlice,
+          model: cachedVerse.model,
+        };
+        completedChunks++;
+        onProgress?.({
+          phase: 'synthesizing',
+          completedChunks,
+          totalChunks,
+          percent: Math.min(88, Math.max(6, Math.round((completedChunks / totalChunks) * 86))),
+        });
+      }
+    };
+
+    await Promise.all(Array.from({ length: concurrency }, () => runWorkerSlot()));
+
+    const stitchedParts: Float32Array[] = [];
+    let totalSamples = 0;
+    let resolvedModel =
+      voice === 'female'
+        ? 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa_female.onnx'
+        : 'bhrum108/sarva-dharani-kosa-tts:onnx_mobile/sa.onnx';
+
+    for (let i = 0; i < chunkResults.length; i++) {
+      const item = chunkResults[i];
+      if (!item) continue;
+      if (item.model) {
+        resolvedModel = item.model;
+      }
+      stitchedParts.push(item.pcm);
+      totalSamples += item.pcm.length;
+
+      if (i < chunkResults.length - 1 && tasks[i].pauseAfterMs > 0) {
+        const pauseSamps = Math.round(((tasks[i].pauseAfterMs / effRate) / 1000) * SAMPLE_RATE);
+        if (pauseSamps > 0) {
+          const silence = new Float32Array(pauseSamps);
+          stitchedParts.push(silence);
+          totalSamples += pauseSamps;
+        }
+      }
+    }
+
+    const fullPcm = new Float32Array(Math.max(480, totalSamples));
+    let writeOffset = 0;
+    for (const part of stitchedParts) {
+      fullPcm.set(part, writeOffset);
+      writeOffset += part.length;
+    }
+
+    const res = {
+      channels: [fullPcm],
+      sampleRate: SAMPLE_RATE,
+      durationSec: fullPcm.length / SAMPLE_RATE,
+      model: resolvedModel,
+    };
+    this.storeExportedPcmCache(pcmCacheKey, res);
+    return res;
+  }
+
+  /**
+   * Export an entire Dhāraṇī (all verses) into a downloadable 48kHz 16-bit PCM `.wav` Blob.
    */
   public renderVersesToWavBlob(verses: DharaniVerse[], rate = 1.0): {
     blob: Blob;
@@ -2318,9 +2594,9 @@ class SanskritAudioEngine {
       }
     }
 
-    const ctx = this.getAudioContext();
+    const shimCtx = this.createPurePcmContextShim();
     const { audioBuffer, totalDurationSec } = this.synthesizeContinuousVerseBuffer(
-      ctx,
+      shimCtx,
       allSyllables,
       rate,
       true
@@ -2328,97 +2604,125 @@ class SanskritAudioEngine {
 
     const wavBuffer = this.encodeAudioBufferToWav(audioBuffer);
     const blob = new Blob([wavBuffer], { type: 'audio/wav' });
-    const url = URL.createObjectURL(blob);
+    const url =
+      typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function'
+        ? URL.createObjectURL(blob)
+        : '';
     return { blob, url, durationSec: totalDurationSec };
   }
 
   /**
+   * Synthesize an entire Dhāraṇī into a downloadable 48,000 Hz `.mp3` (192 kbps) or `.wav` (16-bit PCM)
+   * file named directly after the Dhāraṇī (`${dharaniTitle}.mp3` / `${dharaniTitle}.wav`).
+   */
+  public async exportDharaniAudio(options: {
+    verses: DharaniVerse[];
+    dharaniTitle: string;
+    format?: AudioExportFormat;
+    rate?: number;
+    onProgress?: (progress: AudioExportProgress) => void;
+    signal?: AbortSignal;
+  }): Promise<ExportedDharaniAudio> {
+    const format: AudioExportFormat = options.format === 'wav' ? 'wav' : 'mp3';
+    const effRate = options.rate ?? this.state.rate ?? 1.0;
+
+    const pcmRes = await this.synthesizeVersesPcmChannels(
+      options.verses,
+      effRate,
+      options.onProgress,
+      options.signal
+    );
+
+    if (options.signal?.aborted) {
+      throw new DOMException('Audio export aborted', 'AbortError');
+    }
+
+    options.onProgress?.({
+      phase: 'encoding',
+      completedChunks: 1,
+      totalChunks: 1,
+      percent: 92,
+    });
+
+    let encodedBytes: Uint8Array;
+    let mimeType: 'audio/mpeg' | 'audio/wav';
+
+    if (format === 'mp3') {
+      encodedBytes = await encodePcmToMp3Bytes(
+        pcmRes.channels,
+        pcmRes.sampleRate,
+        192,
+        (ratio) => {
+          options.onProgress?.({
+            phase: 'encoding',
+            completedChunks: 1,
+            totalChunks: 1,
+            percent: Math.min(99, 92 + Math.round(ratio * 7)),
+          });
+        }
+      );
+      mimeType = 'audio/mpeg';
+    } else {
+      encodedBytes = encodePcmToWavBytes(pcmRes.channels, pcmRes.sampleRate);
+      mimeType = 'audio/wav';
+    }
+
+    const blob = uint8ArrayToAudioBlob(encodedBytes, mimeType);
+    const url =
+      typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function'
+        ? URL.createObjectURL(blob)
+        : '';
+    const fileName = buildDharaniAudioFileName(options.dharaniTitle, format);
+
+    options.onProgress?.({
+      phase: 'encoding',
+      completedChunks: 1,
+      totalChunks: 1,
+      percent: 100,
+    });
+
+    return {
+      blob,
+      url,
+      format,
+      mimeType,
+      fileName,
+      dharaniTitle: options.dharaniTitle,
+      durationSec: pcmRes.durationSec,
+      sampleRate: pcmRes.sampleRate,
+      model: pcmRes.model,
+    };
+  }
+
+  /**
    * Synthesize an entire Dhāraṇī into a downloadable 48,000 Hz 16-bit `.wav` Blob
-   * using the real ONNX Neural VITS engine (`POST /api/tts` on HF/local API or Browser ONNX Worker)
-   * when `mode === 'neural-vits-48k'`, without falling back to formant synthesis.
+   * using the real ONNX Neural VITS engine (`POST /api/tts` on HF/local API or Browser ONNX Worker).
    */
   public async renderVersesToNeuralWavBlob(
     verses: DharaniVerse[],
-    rate = 1.0
+    rate = 1.0,
+    dharaniTitle = '陀罗尼音频',
+    onProgress?: (progress: AudioExportProgress) => void
   ): Promise<{
     blob: Blob;
     url: string;
     durationSec: number;
     model: string;
+    fileName: string;
   }> {
-    if (this.state.mode === 'neural-vits-48k') {
-      const joinedIast = verses.map((v) => v.iast).join(' । ');
-      const voice = this.state.voice;
-      const onnxReadyNow = isBrowserOnnxReady(voice);
-      if (!onnxReadyNow && !this.pythonBackendAvailable) {
-        void warmupBrowserOnnxVits(voice);
-      }
-
-      const preferApiFirst = this.pythonBackendAvailable || !onnxReadyNow;
-      if (preferApiFirst) {
-        const apiData = await this.requestNeuralTtsJsonFromApi(joinedIast, voice, rate);
-        if (apiData && typeof apiData.audioBase64Wav === 'string') {
-          const wavArr = this.base64ToArrayBuffer(apiData.audioBase64Wav);
-          const blob = new Blob([wavArr], { type: 'audio/wav' });
-          const url = URL.createObjectURL(blob);
-          return {
-            blob,
-            url,
-            durationSec: Number(apiData.durationSec) || 1.0,
-            model:
-              String(apiData.model || '') ||
-              (voice === 'female'
-                ? 'gnumanth/ninada:onnx/sa_female.onnx'
-                : 'gnumanth/ninada:onnx/sa.onnx'),
-          };
-        }
-      }
-
-      try {
-        const ctx = this.getAudioContext();
-        const wasmRes = await synthesizeWithBrowserOnnxVits(
-          ctx,
-          joinedIast,
-          voice,
-          rate,
-          false
-        );
-        const wavBuffer = this.encodeAudioBufferToWav(wasmRes.audioBuffer);
-        const blob = new Blob([wavBuffer], { type: 'audio/wav' });
-        const url = URL.createObjectURL(blob);
-        return {
-          blob,
-          url,
-          durationSec: wasmRes.durationSec,
-          model: wasmRes.model,
-        };
-      } catch (err) {
-        if (!preferApiFirst) {
-          const backupData = await this.requestNeuralTtsJsonFromApi(joinedIast, voice, rate);
-          if (backupData && typeof backupData.audioBase64Wav === 'string') {
-            const wavArr = this.base64ToArrayBuffer(backupData.audioBase64Wav);
-            const blob = new Blob([wavArr], { type: 'audio/wav' });
-            const url = URL.createObjectURL(blob);
-            return {
-              blob,
-              url,
-              durationSec: Number(backupData.durationSec) || 1.0,
-              model:
-                String(backupData.model || '') ||
-                (voice === 'female'
-                  ? 'gnumanth/ninada:onnx/sa_female.onnx'
-                  : 'gnumanth/ninada:onnx/sa.onnx'),
-            };
-          }
-        }
-        throw err;
-      }
-    }
-
-    const fallback = this.renderVersesToWavBlob(verses, rate);
+    const exported = await this.exportDharaniAudio({
+      verses,
+      dharaniTitle,
+      format: 'wav',
+      rate,
+      onProgress,
+    });
     return {
-      ...fallback,
-      model: 'Rosenberg Sadja Formant 48kHz',
+      blob: exported.blob,
+      url: exported.url,
+      durationSec: exported.durationSec,
+      model: exported.model,
+      fileName: exported.fileName,
     };
   }
 

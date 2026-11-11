@@ -44,6 +44,7 @@ interface TaishoCanonExplorerProps {
   onToggleBookmark: (id: string) => void;
   playbackState: PlaybackState;
   onNavigateTab?: (tab: ActiveWorkspaceTab) => void;
+  onActiveEntryChange?: (entry: DharaniEntry) => void;
 }
 
 export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
@@ -55,6 +56,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
   onToggleBookmark,
   playbackState,
   onNavigateTab,
+  onActiveEntryChange,
 }) => {
   const [selectedVol, setSelectedVol] = useState<'ALL' | 'T18' | 'T19' | 'T20' | 'T21'>('ALL');
   const [query, setQuery] = useState('');
@@ -235,6 +237,10 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       verses,
     };
   }, [allEntries, selectedFile, liveSutra]);
+
+  useEffect(() => {
+    onActiveEntryChange?.(unifiedTaishoEntry);
+  }, [onActiveEntryChange, unifiedTaishoEntry]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

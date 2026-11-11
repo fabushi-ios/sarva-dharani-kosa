@@ -6,8 +6,10 @@ import {
   SyllableTimingItem,
 } from '../types/dharani';
 import { sanskritAudioEngine, playSingleSyllable } from '../services/sanskritAudioEngine';
+import { buildDharaniAudioFileName } from '../services/audio/audioExportEncoder';
 
 export interface AudioPlayerBarProps {
+  dharaniTitle?: string;
   isPlaying?: boolean;
   isLoadingAudio?: boolean;
   activeSyllableIndex?: number;
@@ -201,7 +203,12 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = (props) => {
           {lastWavDataUrl && (
             <a
               href={lastWavDataUrl}
-              download="sanskrit_48khz_vits.wav"
+              download={buildDharaniAudioFileName(
+                props.dharaniTitle ||
+                  sanskritAudioEngine.getLastSpokenTitle() ||
+                  '般若波罗蜜多心经根本真言',
+                'wav'
+              )}
               className="audio-drone-btn"
               style={{ textDecoration: 'none' }}
             >

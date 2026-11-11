@@ -10,6 +10,7 @@ import {
   Volume2,
   Database,
   ChevronDown,
+  Loader2,
 } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
@@ -21,6 +22,7 @@ import {
   type AudioEngineMode,
   type PlaybackState,
 } from '../../services/audio/sanskritAudioEngine';
+import { useDharaniAudioExport } from '../../services/audio/dharaniAudioExportStore';
 import type { EnrichedBijaLexiconEntry } from '../../core/bijaLexiconEngine';
 import type { CanonicalConcordanceCluster } from '../../types/corpus';
 import { ScriptControlBar } from './ScriptControlBar';
@@ -184,15 +186,28 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   const [showProvenanceModal, setShowProvenanceModal] = useState(false);
   const [visibleVerseLimit, setVisibleVerseLimit] = useState<number>(80);
   const [metaExpanded, setMetaExpanded] = useState<boolean>(true);
-  const [generatedWav, setGeneratedWav] = useState<{
-    url: string;
-    durationSec: number;
-    fileName: string;
-    model?: string;
-  } | null>(null);
-  const [isGeneratingWav, setIsGeneratingWav] = useState(false);
   const interlinearTokens = entry.provenance.cbetaInterlinearTokens || [];
   const hasSiddhamInterlinear = interlinearTokens.length > 0;
+
+  const {
+    isExporting,
+    exportingFormat,
+    progress: exportProgress,
+    exportedMp3,
+    exportedWav,
+    latestExported,
+    exportError,
+    expectedMp3FileName,
+    expectedWavFileName,
+    triggerDownload,
+  } = useDharaniAudioExport({
+    entryId: entry.id,
+    dharaniTitle: entry.titleZh,
+    verses: entry.verses,
+    rate: playbackState.rate,
+    voice: playbackState.voice,
+    mode: playbackState.mode,
+  });
 
   // On small mobile screens, collapse long scholarly notes by default so users reach verses immediately
   useEffect(() => {
@@ -223,10 +238,6 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   useEffect(() => {
     setReaderSubMode('verses');
     setVisibleVerseLimit(80);
-    setGeneratedWav((prev) => {
-      if (prev?.url) URL.revokeObjectURL(prev.url);
-      return null;
-    });
   }, [entry.id]);
 
   const effectiveVerseLimit =
@@ -235,28 +246,6 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     playbackState.currentVerseIndex > visibleVerseLimit - 5
       ? Math.min(entry.verses.length, playbackState.currentVerseIndex + 40)
       : visibleVerseLimit;
-
-  const handleGenerateWavAudio = async () => {
-    if (isGeneratingWav) return;
-    setIsGeneratingWav(true);
-    try {
-      const res = await sanskritAudioEngine.renderVersesToNeuralWavBlob(
-        entry.verses,
-        playbackState.rate
-      );
-      setGeneratedWav((prev) => {
-        if (prev?.url) URL.revokeObjectURL(prev.url);
-        return {
-          url: res.url,
-          durationSec: res.durationSec,
-          fileName: `${entry.id}-sanskrit-48k-vits.wav`,
-          model: res.model,
-        };
-      });
-    } finally {
-      setIsGeneratingWav(false);
-    }
-  };
 
   return (
     <main className="reader-main" aria-label="梵文陀罗尼多体对照阅读区">
@@ -316,14 +305,48 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
             )}
 
             <button
-              id="hero-export-wav-btn"
+              id="hero-export-mp3-btn"
               type="button"
               className="btn-scholarly gold"
-              onClick={handleGenerateWavAudio}
-              title="将整部陀罗尼合成为 48,000 Hz 高音质 .WAV 音频文件，支持原生播放器拖动或下载发送至手机"
+              disabled={isExporting || entry.verses.length === 0}
+              onClick={() => triggerDownload('mp3')}
+              title={`将当前陀罗尼导出为 48,000 Hz 192kbps MP3 音频：${expectedMp3FileName}`}
             >
-              <FileAudio size={14} />
-              <span>{isGeneratingWav ? '合成 .WAV 中...' : '导出 48kHz .WAV'}</span>
+              {isExporting && exportingFormat === 'mp3' ? (
+                <>
+                  <Loader2 size={14} className="spin-icon" />
+                  <span>
+                    {exportProgress?.phase === 'encoding' ? '编码 MP3' : '合成语音'}{' '}
+                    {exportProgress?.percent ?? 5}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <Download size={14} />
+                  <span>{exportedMp3 ? '下载 MP3 (已就绪)' : '下载 MP3 音频'}</span>
+                </>
+              )}
+            </button>
+
+            <button
+              id="hero-export-wav-btn"
+              type="button"
+              className="btn-scholarly"
+              disabled={isExporting || entry.verses.length === 0}
+              onClick={() => triggerDownload('wav')}
+              title={`将当前陀罗尼导出为无损 48,000 Hz 16-bit WAV 音频：${expectedWavFileName}`}
+            >
+              {isExporting && exportingFormat === 'wav' ? (
+                <>
+                  <Loader2 size={14} className="spin-icon" />
+                  <span>合成 WAV {exportProgress?.percent ?? 5}%</span>
+                </>
+              ) : (
+                <>
+                  <FileAudio size={14} />
+                  <span>{exportedWav ? '下载 WAV (已就绪)' : '导出 WAV'}</span>
+                </>
+              )}
             </button>
 
             {hasSiddhamInterlinear && (
@@ -486,8 +509,97 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           </div>
         </div>
 
-        {/* Native WAV Audio Player & Download Card when generated */}
-        {generatedWav && (
+        {/* Live Synthesis & Encoding Progress Banner */}
+        {isExporting && (
+          <div
+            role="status"
+            style={{
+              background: 'var(--bg-elevated)',
+              border: '1px solid var(--accent-gold-border)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '0.68rem 0.95rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.42rem',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                color: 'var(--accent-vermilion)',
+              }}
+            >
+              <span>
+                ⏳{' '}
+                {exportProgress?.phase === 'encoding'
+                  ? `正在编码高音质 ${exportingFormat?.toUpperCase()} 文件：${
+                      exportingFormat === 'wav' ? expectedWavFileName : expectedMp3FileName
+                    }`
+                  : `正在逐句合成 48,000 Hz 梵音音频 (${exportProgress?.completedChunks ?? 0}/${
+                      exportProgress?.totalChunks ?? entry.verses.length
+                    })，合成完毕后将自动弹出下载...`}
+              </span>
+              <span>{exportProgress?.percent ?? 5}%</span>
+            </div>
+            <div
+              style={{
+                width: '100%',
+                height: '6px',
+                borderRadius: '999px',
+                background: 'var(--border-subtle)',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  width: `${Math.max(5, exportProgress?.percent ?? 5)}%`,
+                  height: '100%',
+                  background: 'var(--accent-vermilion)',
+                  transition: 'width 0.2s ease',
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Export Error Recovery Banner */}
+        {exportError && !isExporting && (
+          <div
+            role="alert"
+            style={{
+              background: 'var(--accent-vermilion-soft)',
+              border: '1px solid var(--accent-vermilion-border)',
+              borderRadius: 'var(--radius-sm)',
+              padding: '0.65rem 0.9rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '0.65rem',
+              fontSize: '0.8rem',
+              color: 'var(--accent-vermilion)',
+              fontWeight: 600,
+            }}
+          >
+            <span>⚠️ {exportError}</span>
+            <button
+              type="button"
+              className="btn-scholarly primary"
+              onClick={() => triggerDownload('mp3')}
+            >
+              <Download size={13} />
+              <span>重新下载 MP3</span>
+            </button>
+          </div>
+        )}
+
+        {/* Native MP3 / WAV Audio Player & Download Card when generated */}
+        {latestExported && !isExporting && (
           <div
             style={{
               background: 'var(--bg-elevated)',
@@ -503,27 +615,48 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem', minWidth: 0 }}>
               <div style={{ fontSize: '0.83rem', fontWeight: 700, color: 'var(--accent-vermilion)' }}>
-                已生成 48,000 Hz 神经人声 .WAV 音频（总时长 {generatedWav.durationSec.toFixed(1)} 秒）
+                音频已生成并触发下载：{latestExported.fileName}（时长{' '}
+                {latestExported.durationSec.toFixed(1)} 秒）
               </div>
               <div style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>
-                可直接拖动下方进度条播放，或下载 <code>.wav</code> 发送至手机离线收听。
+                若浏览器拦截了自动下载，可点击右侧按钮直接保存至本地或手机离线收听。
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', maxWidth: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', flexWrap: 'wrap', maxWidth: '100%' }}>
               <audio
                 controls
-                src={generatedWav.url}
+                src={latestExported.url}
                 style={{ height: '36px', maxWidth: '100%' }}
               />
               <a
-                href={generatedWav.url}
-                download={generatedWav.fileName}
+                href={latestExported.url}
+                download={latestExported.fileName}
                 className="btn-scholarly primary"
               >
                 <Download size={14} />
-                <span>下载 .WAV 文件</span>
+                <span>保存 .{latestExported.format.toUpperCase()} 文件</span>
               </a>
+              {latestExported.format === 'mp3' && !exportedWav && (
+                <button
+                  type="button"
+                  className="btn-scholarly"
+                  onClick={() => triggerDownload('wav')}
+                >
+                  <FileAudio size={14} />
+                  <span>另存 WAV</span>
+                </button>
+              )}
+              {latestExported.format === 'wav' && !exportedMp3 && (
+                <button
+                  type="button"
+                  className="btn-scholarly"
+                  onClick={() => triggerDownload('mp3')}
+                >
+                  <Download size={14} />
+                  <span>另存 MP3</span>
+                </button>
+              )}
             </div>
           </div>
         )}

@@ -106,6 +106,48 @@
   font-weight: 600;
 }
 
+.audio-download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.34rem;
+  padding: 0.42rem 0.82rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent-gold-border);
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+  font-family: var(--font-zh-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.audio-download-btn:hover:not(:disabled) {
+  background: var(--accent-vermilion-soft);
+  border-color: var(--accent-vermilion-border);
+  color: var(--accent-vermilion);
+}
+
+.audio-download-btn:disabled {
+  opacity: 0.78;
+  cursor: wait;
+}
+
+@keyframes sarva-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-icon {
+  animation: sarva-spin 0.9s linear infinite;
+}
+
 .audio-live-readout {
   flex: 1;
   min-width: 0;
@@ -710,6 +752,11 @@
   .audio-play-btn {
     padding: 0.44rem 0.82rem;
     font-size: 0.78rem;
+  }
+
+  .audio-download-btn {
+    padding: 0.42rem 0.7rem;
+    font-size: 0.75rem;
   }
 
   .audio-live-readout {

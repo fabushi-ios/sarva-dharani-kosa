@@ -9,15 +9,22 @@ import {
   SlidersHorizontal,
   ChevronUp,
   ChevronDown,
+  Download,
+  FileAudio,
+  Loader2,
 } from 'lucide-react';
+import type { DharaniVerse } from '../../types/kosaTypes';
 import {
   sanskritAudioEngine,
   type AudioEngineMode,
   type PlaybackState,
 } from '../../services/audio/sanskritAudioEngine';
+import { useDharaniAudioExport } from '../../services/audio/dharaniAudioExportStore';
 
 interface AudioPlayerBarProps {
+  entryId?: string;
   dharaniTitleZh: string;
+  verses?: DharaniVerse[];
   playbackState: PlaybackState;
   onPlayAll: () => void;
   onStop: () => void;
@@ -27,8 +34,12 @@ interface AudioPlayerBarProps {
   onChangeMode: (mode: AudioEngineMode) => void;
 }
 
+const EMPTY_VERSES: DharaniVerse[] = [];
+
 export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
+  entryId,
   dharaniTitleZh,
+  verses = EMPTY_VERSES,
   playbackState,
   onPlayAll,
   onStop,
@@ -39,9 +50,32 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
 }) => {
   const [mobileSettingsOpen, setMobileSettingsOpen] = useState(false);
   const syl = playbackState.currentSyllableInfo;
+
+  const {
+    isExporting,
+    exportingFormat,
+    progress: exportProgress,
+    exportedMp3,
+    exportedWav,
+    latestExported,
+    exportError,
+    expectedMp3FileName,
+    expectedWavFileName,
+    triggerDownload,
+  } = useDharaniAudioExport({
+    entryId: entryId || dharaniTitleZh || 'default-dharani',
+    dharaniTitle: dharaniTitleZh,
+    verses,
+    rate: playbackState.rate,
+    voice: playbackState.voice,
+    mode: playbackState.mode,
+  });
+
   const progressPct = playbackState.isPlaying
     ? Math.min(100, Math.max(4, Math.round(playbackState.verseProgress * 100)))
-    : 0;
+    : isExporting
+      ? Math.min(100, Math.max(4, exportProgress?.percent ?? 5))
+      : 0;
 
   return (
     <footer className="audio-player-bar" aria-label="梵音摩多轻重律吟诵控制台">
@@ -76,15 +110,76 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                 <span>同步跟诵</span>
               </button>
             )}
+
+            <button
+              id="audio-bar-download-mp3-btn"
+              type="button"
+              className="audio-download-btn"
+              disabled={isExporting || verses.length === 0}
+              onClick={() => triggerDownload('mp3')}
+              title={`下载当前陀罗尼 MP3 音频：${expectedMp3FileName}`}
+            >
+              {isExporting && exportingFormat === 'mp3' ? (
+                <>
+                  <Loader2 size={14} className="spin-icon" />
+                  <span>导出 {exportProgress?.percent ?? 5}%</span>
+                </>
+              ) : (
+                <>
+                  <Download size={14} />
+                  <span>{exportedMp3 ? '保存 MP3' : '下载音频 (MP3)'}</span>
+                </>
+              )}
+            </button>
+
+            <button
+              id="audio-bar-download-wav-btn"
+              type="button"
+              className={`audio-icon-btn audio-desktop-only-btn ${exportedWav ? 'active' : ''}`}
+              disabled={isExporting || verses.length === 0}
+              onClick={() => triggerDownload('wav')}
+              title={`下载无损 48kHz WAV 音频：${expectedWavFileName}`}
+            >
+              {isExporting && exportingFormat === 'wav' ? (
+                <>
+                  <Loader2 size={13} className="spin-icon" />
+                  <span>WAV {exportProgress?.percent ?? 5}%</span>
+                </>
+              ) : (
+                <>
+                  <FileAudio size={13} />
+                  <span>WAV</span>
+                </>
+              )}
+            </button>
           </div>
 
           <div className="audio-live-readout">
             <Radio
               size={15}
               style={{ flexShrink: 0 }}
-              color={playbackState.isPlaying ? 'var(--accent-vermilion)' : 'var(--text-muted)'}
+              color={
+                playbackState.isPlaying || isExporting
+                  ? 'var(--accent-vermilion)'
+                  : 'var(--text-muted)'
+              }
             />
-            {playbackState.isLoadingAudio ? (
+            {isExporting ? (
+              <div
+                style={{
+                  fontSize: '0.8rem',
+                  color: 'var(--accent-vermilion)',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+              >
+                ⏳ 正在导出「
+                {exportingFormat === 'wav' ? expectedWavFileName : expectedMp3FileName}
+                」({exportProgress?.percent ?? 5}%)...
+              </div>
+            ) : playbackState.isLoadingAudio ? (
               <div
                 style={{
                   fontSize: '0.8rem',
@@ -169,6 +264,42 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
                 >
                   {syl.weight === 'guru' ? '— 重2拍' : '⌣ 轻1拍'}
                 </span>
+              </div>
+            ) : exportError ? (
+              <div
+                style={{
+                  fontSize: '0.78rem',
+                  color: 'var(--accent-vermilion)',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+                title={exportError}
+              >
+                ⚠️ {exportError}
+              </div>
+            ) : latestExported ? (
+              <div
+                className="audio-idle-title"
+                style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}
+              >
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  已就绪：<strong>{latestExported.fileName}</strong> (
+                  {latestExported.durationSec.toFixed(1)}s)
+                </span>
+                <a
+                  href={latestExported.url}
+                  download={latestExported.fileName}
+                  style={{
+                    color: 'var(--accent-vermilion)',
+                    fontWeight: 700,
+                    textDecoration: 'underline',
+                    flexShrink: 0,
+                  }}
+                >
+                  保存文件
+                </a>
               </div>
             ) : (
               <div className="audio-idle-title" title={`${dharaniTitleZh}（首次访问 HF 云端神经 API 即点即发声 + 后台自动缓存 48,000 Hz ONNX 神经模型）`}>
