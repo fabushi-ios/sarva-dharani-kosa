@@ -1,32 +1,35 @@
 :root,
 [data-theme='light'] {
   /* 宣纸与敦煌写卷浅色主题 (Xuan Paper & Vermilion Seal) */
-  --bg-canvas: #f8f4ec;
+  --bg-canvas: #f6f1e7;
   --bg-surface: #fdfbf7;
-  --bg-elevated: #f2ebe0;
-  --bg-subtle: #ede4d4;
-  --bg-glass: rgba(253, 251, 247, 0.92);
+  --bg-elevated: #f1eadc;
+  --bg-subtle: #e8decb;
+  --bg-glass: rgba(253, 251, 247, 0.94);
+  --bg-backdrop: rgba(24, 18, 12, 0.52);
 
-  --text-primary: #1f1a16;
-  --text-secondary: #54473c;
-  --text-muted: #7d6d5f;
+  --text-primary: #1d1712;
+  --text-secondary: #52453a;
+  --text-muted: #7b6b5d;
   --text-on-accent: #fffcf7;
 
-  /* 朱砂印泥、泥金与青金石点缀 */
+  /* 朱砂印泥、泥金、青金石与青瓷点缀 */
   --accent-vermilion: #9e2a2b;
-  --accent-vermilion-soft: rgba(158, 42, 43, 0.1);
+  --accent-vermilion-hover: #822021;
+  --accent-vermilion-soft: rgba(158, 42, 43, 0.09);
   --accent-vermilion-border: rgba(158, 42, 43, 0.28);
 
-  --accent-gold: #8c6218;
-  --accent-gold-soft: rgba(180, 130, 42, 0.13);
-  --accent-gold-border: rgba(180, 130, 42, 0.32);
+  --accent-gold: #8a5f14;
+  --accent-gold-soft: rgba(176, 126, 36, 0.13);
+  --accent-gold-border: rgba(176, 126, 36, 0.34);
 
-  --accent-lapis: #1e4d6b;
-  --accent-lapis-soft: rgba(30, 77, 107, 0.1);
-  --accent-lapis-border: rgba(30, 77, 107, 0.26);
+  --accent-lapis: #1d4e6b;
+  --accent-lapis-soft: rgba(29, 78, 107, 0.09);
+  --accent-lapis-border: rgba(29, 78, 107, 0.26);
 
-  --accent-jade: #266041;
-  --accent-jade-soft: rgba(38, 96, 65, 0.1);
+  --accent-jade: #236142;
+  --accent-jade-soft: rgba(35, 97, 66, 0.1);
+  --accent-jade-border: rgba(35, 97, 66, 0.26);
 
   /* 混合溯源双色语义令牌（徽章「原载 / 参考」词色与对应正文内容色严格 1:1 一致） */
   --prov-orig-ink: #9e2a2b;
@@ -36,12 +39,14 @@
   --prov-ref-bg: rgba(27, 92, 138, 0.09);
   --prov-ref-border: rgba(27, 92, 138, 0.32);
 
-  --border-subtle: #e3d7c3;
-  --border-strong: #cbb89d;
+  --border-subtle: #e2d6c1;
+  --border-strong: #c7b394;
+  --focus-ring: 0 0 0 3px rgba(158, 42, 43, 0.22);
 
-  --shadow-sm: 0 1px 3px rgba(45, 32, 18, 0.06);
-  --shadow-md: 0 6px 20px rgba(45, 32, 18, 0.08);
-  --shadow-lg: 0 16px 40px rgba(31, 22, 12, 0.14);
+  --shadow-xs: 0 1px 2px rgba(42, 30, 16, 0.04);
+  --shadow-sm: 0 2px 6px rgba(42, 30, 16, 0.06), 0 1px 2px rgba(42, 30, 16, 0.04);
+  --shadow-md: 0 8px 24px rgba(42, 30, 16, 0.09), 0 2px 6px rgba(42, 30, 16, 0.05);
+  --shadow-lg: 0 18px 44px rgba(28, 20, 10, 0.16), 0 4px 12px rgba(28, 20, 10, 0.08);
 }
 
 [data-theme='dark'] {
@@ -49,28 +54,31 @@
   --bg-canvas: #12100e;
   --bg-surface: #1b1714;
   --bg-elevated: #241f1a;
-  --bg-subtle: #2d2620;
-  --bg-glass: rgba(27, 23, 20, 0.92);
+  --bg-subtle: #2f2821;
+  --bg-glass: rgba(27, 23, 20, 0.94);
+  --bg-backdrop: rgba(6, 5, 4, 0.72);
 
-  --text-primary: #f1e9dc;
-  --text-secondary: #c5b6a2;
-  --text-muted: #8e7f6d;
+  --text-primary: #f2eadc;
+  --text-secondary: #c7b8a3;
+  --text-muted: #928270;
   --text-on-accent: #18130e;
 
-  --accent-vermilion: #df5a53;
-  --accent-vermilion-soft: rgba(223, 90, 83, 0.15);
-  --accent-vermilion-border: rgba(223, 90, 83, 0.38);
+  --accent-vermilion: #e05d56;
+  --accent-vermilion-hover: #ea716a;
+  --accent-vermilion-soft: rgba(224, 93, 86, 0.15);
+  --accent-vermilion-border: rgba(224, 93, 86, 0.38);
 
-  --accent-gold: #deb059;
-  --accent-gold-soft: rgba(222, 176, 89, 0.14);
-  --accent-gold-border: rgba(222, 176, 89, 0.36);
+  --accent-gold: #dfb25b;
+  --accent-gold-soft: rgba(223, 178, 91, 0.14);
+  --accent-gold-border: rgba(223, 178, 91, 0.36);
 
-  --accent-lapis: #67a7d4;
-  --accent-lapis-soft: rgba(103, 167, 212, 0.14);
-  --accent-lapis-border: rgba(103, 167, 212, 0.34);
+  --accent-lapis: #6baad6;
+  --accent-lapis-soft: rgba(107, 170, 214, 0.14);
+  --accent-lapis-border: rgba(107, 170, 214, 0.34);
 
-  --accent-jade: #5cb88a;
-  --accent-jade-soft: rgba(92, 184, 138, 0.14);
+  --accent-jade: #5ec090;
+  --accent-jade-soft: rgba(94, 192, 144, 0.14);
+  --accent-jade-border: rgba(94, 192, 144, 0.32);
 
   --prov-orig-ink: #f2665e;
   --prov-orig-bg: rgba(242, 102, 94, 0.17);
@@ -80,24 +88,29 @@
   --prov-ref-border: rgba(106, 180, 236, 0.38);
 
   --border-subtle: #332b23;
-  --border-strong: #4a3e32;
+  --border-strong: #4b3f33;
+  --focus-ring: 0 0 0 3px rgba(223, 178, 91, 0.28);
 
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.65);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.38);
+  --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.48);
+  --shadow-lg: 0 22px 54px rgba(0, 0, 0, 0.68);
 }
 
 :root {
   /* 学术多文种字体栈（内置 Sarva Rare Han 覆盖 CJK 扩展 A–I 与兼容汉字，消除生僻字豆腐块） */
   --font-zh-serif: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', 'STSong', 'SimSun', 'Sarva Rare Han', 'SimSun-ExtB', 'Noto Sans Siddham', 'Noto Serif Devanagari', serif;
   --font-zh-sans: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', -apple-system, BlinkMacSystemFont, 'Sarva Rare Han', 'SimSun-ExtB', 'Noto Sans Siddham', 'Noto Serif Devanagari', sans-serif;
-  --font-devanagari: 'Noto Serif Devanagari', 'Siddhanta', 'Noto Serif SC', 'Sarva Rare Han', serif;
+  --font-devanagari: 'Noto Serif Devanagari', 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Devanagari Sangam MN', 'Nirmala UI', 'Mangal', 'Lohit Devanagari', 'Siddhanta', 'Noto Serif SC', 'Sarva Rare Han', serif;
   --font-siddham: 'Noto Sans Siddham', 'Noto Serif Devanagari', 'Noto Serif SC', 'Sarva Rare Han', serif;
   --font-iast: 'Gentium Plus', 'Charis SIL', 'Cambria', Georgia, 'Noto Serif SC', 'Songti SC', 'Sarva Rare Han', 'Noto Sans Siddham', serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Noto Sans SC', 'PingFang SC', 'Sarva Rare Han', 'Noto Sans Siddham', monospace;
 
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --container-max: 1600px;
+  --sidebar-width: 348px;
 }

@@ -62,10 +62,10 @@ export function SiddhamBijaAcademy() {
         <div className="workbench-header-row">
           <div>
             <h2 className="workbench-title">
-              密續種子字破譯引擎 (`Bīja-Nighaṇṭu` / `Ekākṣarakośa` / 空海 `T84n2701`) 與悉曇十八章學院 (Siddhaṃ 18-Chapter & Bīja Academy)
+              密續種子字破譯引擎（Bīja-Nighaṇṭu · Ekākṣarakośa · 空海 T84n2701）與悉曇十八章學院
             </h2>
             <p className="workbench-subtitle">
-              聯合檢索空海《梵字悉曇字母并釋義》(`T84n2701`)、牛津 OCHS《Bījanighaṇṭu》(`#30`)、《Ekākṣarakośa》(`#46`) 與 Muktabodha《Uddhārakośa》(`M00247`) · 支援單一或複合種子字序列破譯
+              聯合檢索空海《梵字悉曇字母并釋義》(T84n2701)、牛津 OCHS《Bījanighaṇṭu》(#30)、《Ekākṣarakośa》(#46) 與 Muktabodha《Uddhārakośa》(M00247) · 支援單一或複合種子字序列破譯
             </p>
           </div>
           {deciphered.entry && (

@@ -82,7 +82,7 @@ export function FangshanTaishoInterlinearStudio() {
         <div className="workbench-header-row">
           <div>
             <h2 className="workbench-title">
-              房山石經 (`F28n1071`) 與大正藏 (`T54` / `T18–T21`) 悉曇梵漢對音工作台 (Fangshan & T54 Interlinear Studio)
+              房山石經 (F28n1071) 與大正藏 (T54 / T18–T21) 悉曇梵漢對音工作台
             </h2>
             <p className="workbench-subtitle">
               《釋教最上乘秘密藏陀羅尼集》({stats.totalRolls} 卷 · {stats.totalDharaniBlocks} 首陀羅尼 ·{' '}
@@ -371,7 +371,7 @@ export function FangshanTaishoInterlinearStudio() {
       {subMode === 't54' && (
         <div className="workbench-card">
           <h3 className="section-heading">
-            大正藏第 54 冊 (`T54n2128–2136`) 梵漢對音辭書與反切音義
+            大正藏第 54 冊 (T54n2128–2136) 梵漢對音辭書與反切音義
           </h3>
           <div className="search-results-list">
             {DB2_TAISHO_EXT_CORPUS.lexiconEntries.slice(0, 40).map((entry) => (
@@ -407,7 +407,7 @@ export function FangshanTaishoInterlinearStudio() {
       {subMode === 'cbeta_tt' && (
         <div className="workbench-card">
           <h3 className="section-heading">
-            基準唐代密教經軌 (`T18–T21`) <code>&lt;cb:tt&gt;</code> 梵漢對音 ({CBETA_AUTH_RECORDS.length} 部)
+            基準唐代密教經軌 (T18–T21) <code>&lt;cb:tt&gt;</code> 梵漢對音 ({CBETA_AUTH_RECORDS.length} 部)
           </h3>
           <div className="search-results-list">
             {CBETA_AUTH_RECORDS.map((rec) => (
@@ -450,7 +450,7 @@ export function FangshanTaishoInterlinearStudio() {
         <div className="two-col-grid">
           <div className="workbench-card">
             <h3 className="section-heading">
-              大正新脩大藏經・密教部 (`T18–T21` 共 {TAISHO_MIKKYO_INDEX.length} 部經軌總目)
+              大正新脩大藏經・密教部 (T18–T21 共 {TAISHO_MIKKYO_INDEX.length} 部經軌總目)
             </h3>
             <div className="search-controls">
               <select
@@ -514,7 +514,7 @@ export function FangshanTaishoInterlinearStudio() {
               <div>
                 <div className="workbench-header-row" style={{ marginTop: '0.5rem' }}>
                   <div>
-                    <strong style={{ color: '#fbbf24' }}>{selectedGretil.titleSanskrit}</strong>
+                    <strong style={{ color: 'var(--accent-gold)' }}>{selectedGretil.titleSanskrit}</strong>
                     <div className="hit-subtitle">
                       {selectedGretil.titleZh} · 校勘者: {selectedGretil.editor}
                     </div>

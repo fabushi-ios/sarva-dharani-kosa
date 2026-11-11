@@ -54,6 +54,14 @@
       animation: pulse-bar 0.75s ease-in-out infinite;
       transform-origin: bottom;
     }
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    select {
+      max-width: min(100%, 72vw);
+      text-overflow: ellipsis;
+    }
   </style>
 </head>
 <body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen p-4 md:p-6 lg:p-8">

@@ -162,18 +162,18 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
 
   return (
     <div className="section-panel">
-      <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.85rem' }}>
-        <h2 style={{ fontSize: '1.3rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <Code2 size={20} color="var(--accent-vermilion)" />
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.8rem' }}>
+        <h2 style={{ fontSize: '1.18rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <Code2 size={20} color="var(--accent-vermilion)" style={{ flexShrink: 0 }} />
           <span>梵文陀罗尼实时六体转写编译器与模块化语料扩展台</span>
         </h2>
-        <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
-          输入任意罗马转写梵文（IAST）；若已提供原载拼读或古音译则原样保留（标注「● 库藏原文」），留空项才由系统自动处理推导并标注「◇ 处理参考」。
+        <p style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', marginTop: '0.22rem' }}>
+          输入任意罗马转写梵文（IAST）；已提供之拼读或古音译原样保留（标注「● 库藏原文」），留空项由系统自动推导并标注「◇ 处理参考」。
         </p>
       </div>
 
-      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>快速载入范例模板：</span>
+      <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap', alignItems: 'center' }}>
+        <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }}>载入范例模板：</span>
         {PRESET_TEMPLATES.map((tpl) => (
           <button
             key={tpl.label}
@@ -193,8 +193,15 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
         ))}
       </div>
 
-      <form onSubmit={handleSaveToCorpus} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.2rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <form
+        onSubmit={handleSaveToCorpus}
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 310px), 1fr))',
+          gap: '1.15rem',
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', minWidth: 0 }}>
           <div>
             <label htmlFor="compiler-title-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
               陀罗尼汉文名号：
@@ -202,8 +209,8 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
             <input
               id="compiler-title-input"
               type="text"
-              className="header-search-input"
-              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              className="text-input"
+              style={{ marginTop: '0.25rem' }}
               value={titleZh}
               onChange={(e) => setTitleZh(e.target.value)}
             />
@@ -216,8 +223,8 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
             <textarea
               id="compiler-iast-input"
               rows={3}
-              className="header-search-input iast-text"
-              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem', fontSize: '1rem' }}
+              className="text-input iast-text"
+              style={{ marginTop: '0.25rem', fontSize: '0.98rem', lineHeight: 1.5 }}
               value={iastInput}
               onChange={(e) => setIastInput(e.target.value)}
             />
@@ -225,14 +232,14 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
 
           <div>
             <label htmlFor="compiler-modern-phonetic-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              原载梵音拼读（若已有拼读则原样保留；留空才由系统拼读处理并标为参考）：
+              原载梵音拼读（留空则由系统拼读推导并标为参考）：
             </label>
             <input
               id="compiler-modern-phonetic-input"
               type="text"
               placeholder={autoPhonetics.modernPhoneticZh}
-              className="header-search-input"
-              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              className="text-input"
+              style={{ marginTop: '0.25rem' }}
               value={modernPhoneticInput}
               onChange={(e) => setModernPhoneticInput(e.target.value)}
             />
@@ -240,14 +247,14 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
 
           <div>
             <label htmlFor="compiler-translit-input" style={{ fontSize: '0.78rem', fontWeight: 600 }}>
-              自定义唐宋古汉语音译（留空则由系统自动对音并标为参考）：
+              自定义唐宋古汉语音译（留空则由系统对音并标为参考）：
             </label>
             <input
               id="compiler-translit-input"
               type="text"
               placeholder={autoPhonetics.classicalTranslitZh}
-              className="header-search-input"
-              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              className="text-input"
+              style={{ marginTop: '0.25rem' }}
               value={translitZh}
               onChange={(e) => setTranslitZh(e.target.value)}
             />
@@ -260,14 +267,19 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
             <textarea
               id="compiler-meaning-input"
               rows={2}
-              className="header-search-input"
-              style={{ paddingLeft: '0.75rem', marginTop: '0.25rem' }}
+              className="text-input"
+              style={{ marginTop: '0.25rem', lineHeight: 1.5 }}
               value={meaningZh}
               onChange={(e) => setMeaningZh(e.target.value)}
             />
           </div>
 
-          <button id="compiler-save-btn" type="submit" className="btn-scholarly primary" style={{ justifyContent: 'center', padding: '0.6rem' }}>
+          <button
+            id="compiler-save-btn"
+            type="submit"
+            className="btn-scholarly primary"
+            style={{ justifyContent: 'center', padding: '0.6rem' }}
+          >
             <PlusCircle size={16} />
             <span>编译并收录入梵音宝典词库</span>
           </button>
@@ -369,7 +381,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
 
       {customEntries.length > 0 && (
         <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '1rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.6rem' }}>
             <h3 style={{ fontSize: '0.95rem' }}>已扩展收录之自定义梵咒模块 ({customEntries.length})</h3>
             <button type="button" className="btn-scholarly" onClick={handleExportJson}>
               <Download size={14} />

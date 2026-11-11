@@ -36,12 +36,12 @@ export function ConcordanceParallelStudio() {
     <div className="workbench-container">
       <div className="workbench-card">
         <h2 className="workbench-title">
-          跨藏經同源對勘與多本平行對齊工作台 (Multi-Witness Parallel Alignment & Concordance Studio)
+          跨藏經同源對勘與多本平行對齊工作台
         </h2>
         <p className="workbench-subtitle">
-          串聯大正藏 (`T`)、房山石經 (`F`)、84000 (`Toh`)、維也納 rKTs (`D`/`K` 共{' '}
+          串聯大正藏 (T)、房山石經 (F)、84000 (Toh)、維也納 rKTs (D/K 共{' '}
           {DB9_RKTS_CORPUS.concordanceStats.totalStandardWorks.toLocaleString()} 部)、奧斯陸 Bibliotheca
-          Polyglotta (`vid=1175` 16 本《心經》對勘)、劍橋貝葉經 (`MS-ADD-*`) 與尼泊爾寫本
+          Polyglotta (vid=1175 16 本《心經》對勘)、劍橋貝葉經 (MS-ADD-*) 與尼泊爾寫本
         </p>
 
         <div className="search-controls">

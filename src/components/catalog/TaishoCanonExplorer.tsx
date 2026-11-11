@@ -5,6 +5,9 @@ import {
   ExternalLink,
   FileCode,
   Loader2,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
@@ -55,6 +58,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
 }) => {
   const [selectedVol, setSelectedVol] = useState<'ALL' | 'T18' | 'T19' | 'T20' | 'T21'>('ALL');
   const [query, setQuery] = useState('');
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<TaishoMikkyoFileEntry>(() => {
     if (initialScriptureId) {
       const found = TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === initialScriptureId);
@@ -88,6 +92,11 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
     });
   }, [selectedVol, query]);
 
+  const currentFileIdx = useMemo(
+    () => filteredFiles.findIndex((f) => f.id === selectedFile.id),
+    [filteredFiles, selectedFile.id]
+  );
+
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
@@ -110,7 +119,6 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
     };
   }, [selectedFile]);
 
-  // Unified DharaniEntry built from matching corpus entry or live CBETA XML so it renders in DharaniReader
   const unifiedTaishoEntry = useMemo<DharaniEntry>(() => {
     const baseNo = selectedFile.id.replace(/[A-Za-z]$/, '');
     const matchedEntry =
@@ -229,23 +237,23 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
   }, [allEntries, selectedFile, liveSutra]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-      <div className="section-panel" style={{ padding: '1rem 1.25rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      <div className="section-panel" style={{ padding: '0.95rem 1.2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <div>
-            <h2 style={{ fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Library size={20} color="var(--accent-vermilion)" />
+          <div style={{ minWidth: 0 }}>
+            <h2 style={{ fontSize: '1.14rem', display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+              <Library size={19} color="var(--accent-vermilion)" style={{ flexShrink: 0 }} />
               <span>
-                大正新修大藏经·密教部全集（T18–T21 共 {TAISHO_MIKKYO_FILE_INDEX.length} 部经轨 · 累计{' '}
-                {TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS.toLocaleString()} 段真言）— 统一陀罗尼总持典展示
+                大正新修大藏经·密教部全集（T18–T21 共 {TAISHO_MIKKYO_FILE_INDEX.length} 经 ·{' '}
+                {TOTAL_TAISHO_MIKKYO_DHARANI_BLOCKS.toLocaleString()} 段真言）
               </span>
             </h2>
-            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-              全量索引 <code>github.com/cbeta-org/xml-p5</code> 密教部全部 614 部经典。点击左侧任意经轨，右侧即以<strong>陀罗尼总持典统一界面</strong>展示！
+            <p style={{ fontSize: '0.81rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+              全量索引 <code>cbeta-org/xml-p5</code> 密教部全部 614 部经典，统一以多体对照与 48kHz VITS 阅读器呈现。
             </p>
           </div>
           {liveSutra && (
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
               <a
                 href={liveSutra.cbetaOnlineUrl}
                 target="_blank"
@@ -253,7 +261,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 className="btn-scholarly primary"
               >
                 <ExternalLink size={14} />
-                <span>CBETA Online 阅藏</span>
+                <span>CBETA 阅藏</span>
               </a>
               <a
                 href={liveSutra.rawXmlUrl}
@@ -262,7 +270,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 className="btn-scholarly"
               >
                 <FileCode size={14} />
-                <span>查看原始 XML</span>
+                <span>原始 XML</span>
               </a>
             </div>
           )}
@@ -270,14 +278,80 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       </div>
 
       <div className="canon-reader-grid">
+        {/* Mobile Catalog Trigger & Scripture Stepper for 614 Taisho Sutras */}
+        <div className="mobile-catalog-bar">
+          <button
+            type="button"
+            className="mobile-catalog-trigger-btn"
+            onClick={() => setMobileDrawerOpen(true)}
+          >
+            <Library size={15} />
+            <span>密教部目录 · {filteredFiles.length}经</span>
+          </button>
+
+          <div className="mobile-catalog-nav-group">
+            <button
+              type="button"
+              className="mobile-step-btn"
+              disabled={currentFileIdx <= 0}
+              onClick={() => {
+                if (currentFileIdx > 0) {
+                  sanskritAudioEngine.stop();
+                  setSelectedFile(filteredFiles[currentFileIdx - 1]);
+                }
+              }}
+              title="切换至上一部经轨"
+            >
+              <ChevronLeft size={14} />
+              <span className="mobile-step-label">上一经</span>
+            </button>
+
+            <button
+              type="button"
+              className="mobile-step-btn"
+              disabled={currentFileIdx < 0 || currentFileIdx >= filteredFiles.length - 1}
+              onClick={() => {
+                if (currentFileIdx >= 0 && currentFileIdx < filteredFiles.length - 1) {
+                  sanskritAudioEngine.stop();
+                  setSelectedFile(filteredFiles[currentFileIdx + 1]);
+                }
+              }}
+              title="切换至下一部经轨"
+            >
+              <span className="mobile-step-label">下一经</span>
+              <ChevronRight size={14} />
+            </button>
+          </div>
+        </div>
+
+        <div
+          className={`mobile-drawer-backdrop ${mobileDrawerOpen ? 'is-open' : ''}`}
+          onClick={() => setMobileDrawerOpen(false)}
+          aria-hidden="true"
+        />
+
         {/* Left List of 614 Scriptures with Full Chinese Titles & Dharani Counts */}
-        <aside className="sidebar-panel">
+        <aside className={`sidebar-panel ${mobileDrawerOpen ? 'is-mobile-open' : ''}`}>
+          <div className="sidebar-mobile-drawer-header">
+            <span className="sidebar-mobile-drawer-title">
+              大正藏密教部目录 ({filteredFiles.length}经)
+            </span>
+            <button
+              type="button"
+              className="sidebar-mobile-close-btn"
+              onClick={() => setMobileDrawerOpen(false)}
+            >
+              <X size={14} />
+              <span>收起</span>
+            </button>
+          </div>
+
           <div className="sidebar-section">
             <div className="sidebar-section-header">
               <span>大正藏密教部册别筛选</span>
               <span className="sidebar-count-pill">{filteredFiles.length} / 614 经</span>
             </div>
-            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap', marginBottom: '0.55rem' }}>
+            <div style={{ display: 'flex', gap: '0.3rem', flexWrap: 'wrap', marginBottom: '0.4rem' }}>
               {(['ALL', 'T18', 'T19', 'T20', 'T21'] as const).map((vol) => (
                 <button
                   key={vol}
@@ -299,8 +373,8 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 id="taisho-index-search-input"
                 type="search"
                 className="header-search-input"
-                style={{ paddingLeft: '2rem', fontSize: '0.8rem' }}
-                placeholder="搜经名/咒句/译者，如：秽迹、大黑天、雨宝、不空..."
+                style={{ paddingLeft: '2rem', paddingRight: '0.75rem', fontSize: '0.8rem' }}
+                placeholder="搜经名/咒句/译者，如：秽迹、雨宝、不空..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -319,6 +393,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                   onClick={() => {
                     sanskritAudioEngine.stop();
                     setSelectedFile(item);
+                    setMobileDrawerOpen(false);
                   }}
                 >
                   <div className="catalog-item-top">
@@ -348,12 +423,12 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
         </aside>
 
         {/* Right Unified DharaniReader Display */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
           {loading && (
             <div
               className="section-panel"
               style={{
-                padding: '1rem',
+                padding: '0.9rem',
                 textAlign: 'center',
                 color: 'var(--text-secondary)',
                 display: 'flex',
@@ -400,4 +475,3 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
     </div>
   );
 };
-

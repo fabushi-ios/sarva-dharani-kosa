@@ -9,7 +9,7 @@ import {
   FileAudio,
   Volume2,
   Database,
-  ExternalLink,
+  ChevronDown,
 } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
@@ -68,17 +68,13 @@ const FAST_BIJA_DEFAULTS: Record<
     buddhistMeaning: '圣观自在菩萨与阿弥陀如来根本种子字（莲华部心），具足四字法门：因业离尘、自在解脱。',
   },
   'bhrūṃ': {
-    bhrūṃ: 'bhrūṃ',
     bijaIast: 'bhrūṃ',
     bijaSiddham: '𑖥𑖿𑖨𑖳𑖼',
     bijaDevanagari: 'भ्रूं',
     tangChinese: '普隆 / 勃笼 (bhrūṃ)',
     phonemicBreakdown: ['bh (bhava 破有)', 'r (raja 清净)', 'ū (ūrdhva 无上)', 'ṃ (bindu 大空)'],
     buddhistMeaning: '一字金轮佛顶与佛顶尊胜陀罗尼根本种子字，统摄一切如来顶髻无上功德。',
-  } as unknown as Pick<
-    EnrichedBijaLexiconEntry,
-    'bijaIast' | 'bijaSiddham' | 'bijaDevanagari' | 'tangChinese' | 'phonemicBreakdown' | 'buddhistMeaning'
-  >,
+  },
   'dhīḥ': {
     bijaIast: 'dhīḥ',
     bijaSiddham: '𑖠𑖱𑖾',
@@ -187,6 +183,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   const [readerSubMode, setReaderSubMode] = useState<'verses' | 'cbeta-interlinear'>('verses');
   const [showProvenanceModal, setShowProvenanceModal] = useState(false);
   const [visibleVerseLimit, setVisibleVerseLimit] = useState<number>(80);
+  const [metaExpanded, setMetaExpanded] = useState<boolean>(true);
   const [generatedWav, setGeneratedWav] = useState<{
     url: string;
     durationSec: number;
@@ -196,6 +193,13 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   const [isGeneratingWav, setIsGeneratingWav] = useState(false);
   const interlinearTokens = entry.provenance.cbetaInterlinearTokens || [];
   const hasSiddhamInterlinear = interlinearTokens.length > 0;
+
+  // On small mobile screens, collapse long scholarly notes by default so users reach verses immediately
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      setMetaExpanded(false);
+    }
+  }, []);
 
   const entryProvSummary = useMemo(() => summarizeEntryFieldProvenance(entry), [entry]);
   const hasDiplomaticWitness = useMemo(
@@ -231,7 +235,6 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     playbackState.currentVerseIndex > visibleVerseLimit - 5
       ? Math.min(entry.verses.length, playbackState.currentVerseIndex + 40)
       : visibleVerseLimit;
-
 
   const handleGenerateWavAudio = async () => {
     if (isGeneratingWav) return;
@@ -283,7 +286,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 borderColor: 'var(--accent-lapis-border)',
               }}
             >
-              数据源：{entry.provenance.sourceType}
+              {entry.provenance.sourceType}
             </span>
           </div>
 
@@ -320,7 +323,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               title="将整部陀罗尼合成为 48,000 Hz 高音质 .WAV 音频文件，支持原生播放器拖动或下载发送至手机"
             >
               <FileAudio size={14} />
-              <span>生成/导出 48kHz .WAV 音频</span>
+              <span>{isGeneratingWav ? '合成 .WAV 中...' : '导出 48kHz .WAV'}</span>
             </button>
 
             {hasSiddhamInterlinear && (
@@ -335,8 +338,8 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 <Sparkles size={14} />
                 <span>
                   {readerSubMode === 'verses'
-                    ? `唐代悉昙逐字对音 (${interlinearTokens.length}字)`
-                    : '返回多体全句解析'}
+                    ? `悉昙对音 (${interlinearTokens.length}字)`
+                    : '返回全句解析'}
                 </span>
               </button>
             )}
@@ -348,7 +351,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onClick={() => setShowProvenanceModal(true)}
             >
               <ShieldCheck size={14} />
-              <span>权威原典核验</span>
+              <span>原典核验</span>
             </button>
 
             <button
@@ -358,46 +361,79 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onClick={onToggleBookmark}
             >
               <Bookmark size={14} />
-              <span>{isBookmarked ? '已入藏' : '收藏经咒'}</span>
+              <span>{isBookmarked ? '已入藏' : '收藏'}</span>
             </button>
           </div>
         </div>
 
-        {/* 48,000 Hz 语音发音方案控制栏 (Plan 1 Neural VITS + Plan 2 612-Sprite + 136.1Hz Formant + 男/女声 + Om共振场) */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '0.6rem',
-            padding: '0.6rem 0.85rem',
-            background: 'var(--bg-elevated)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-sm)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+        {/* Title & Bīja Seed Syllable Seal Row */}
+        <div className="hero-identity-row">
+          <div className="hero-title-block">
+            <h1 className="hero-title-zh">{entry.titleZh}</h1>
+            <div className="hero-title-skt">{entry.titleSanskritIast}</div>
+            <div className="hero-translator-line">
+              {entry.titleEnglish} · 译者与校勘：{entry.translatorZh}
+            </div>
+          </div>
+
+          {bijaLexiconEntry && (
+            <button
+              type="button"
+              className="bija-seal-card"
+              onClick={() => onPlaySingleSyllable(bijaLexiconEntry.bijaIast)}
+              title="点击试听 48,000 Hz 本尊种子字发音（含空海 T84n2701 与牛津 OCHS Bījanighaṇṭu 种子字密意）"
+            >
+              <div className="bija-seal-emblem">
+                <span
+                  className="siddham-glyph"
+                  style={{ fontSize: '1.6rem', color: 'var(--accent-vermilion)', lineHeight: 1.1 }}
+                >
+                  {bijaLexiconEntry.bijaSiddham}
+                </span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-gold)', whiteSpace: 'nowrap' }}>
+                  <span className="devanagari-glyph">{bijaLexiconEntry.bijaDevanagari}</span> · <span className="iast-text">{bijaLexiconEntry.bijaIast}</span>
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.16rem', fontSize: '0.74rem', minWidth: 0 }}>
+                <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
+                  本尊种子字：唐音「{bijaLexiconEntry.tangChinese}」🔊
+                </div>
+                <div style={{ color: 'var(--text-secondary)', lineHeight: 1.35 }}>
+                  <strong>OCHS 构件：</strong>
+                  {bijaLexiconEntry.phonemicBreakdown.slice(0, 3).join(' + ')}
+                </div>
+                <div style={{ color: 'var(--text-muted)', lineHeight: 1.38 }}>
+                  {bijaLexiconEntry.buddhistMeaning}
+                </div>
+              </div>
+            </button>
+          )}
+        </div>
+
+        {/* Compact Segmented Audio Engine & Voice Strip */}
+        <div className="hero-audio-strip">
+          <div className="hero-audio-group">
             <span
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.74rem',
                 fontWeight: 700,
                 color: 'var(--text-secondary)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.25rem',
+                gap: '0.24rem',
+                flexShrink: 0,
               }}
             >
               <Volume2 size={14} />
-              <span>发音引擎方案：</span>
+              <span>发音方案：</span>
             </span>
 
             {(
               [
-                { id: 'neural-vits-48k', label: '48kHz 神经VITS (sa.onnx)' },
-                { id: 'studio-vocal-chant', label: '136.1Hz 共振峰唱诵' },
+                { id: 'neural-vits-48k', label: '48kHz 神经VITS' },
+                { id: 'studio-vocal-chant', label: '136.1Hz 共振唱诵' },
                 { id: 'mandarin-phonetic-guide', label: '普通话谐音领读' },
-                { id: 'indic-devanagari-tts', label: '天城文原生TTS' },
+                { id: 'indic-devanagari-tts', label: '天城文TTS' },
               ] as Array<{ id: AudioEngineMode; label: string }>
             ).map((m) => (
               <button
@@ -411,7 +447,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
             ))}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
+          <div className="hero-audio-group">
             <button
               id="hero-voice-male-btn"
               type="button"
@@ -419,7 +455,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onClick={() => sanskritAudioEngine.setVoice('male')}
               title="切换至 IIT Madras Rasa 古典梵语男声模型 (sa_studio_male / 136.1Hz)"
             >
-              🧔 男声 (sa_male)
+              男声
             </button>
             <button
               id="hero-voice-female-btn"
@@ -428,7 +464,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onClick={() => sanskritAudioEngine.setVoice('female')}
               title="切换至 IIT Madras Rasa 古典梵语女声模型 (sa_studio_female / 224Hz)"
             >
-              👩 女声 (sa_female)
+              女声
             </button>
 
             <button
@@ -438,108 +474,16 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onClick={() => sanskritAudioEngine.toggleOmDrone()}
               title="开启或关闭 136.1Hz Sadja (Om) + 204.15Hz Pa 持续共振背景音场"
             >
-              {playbackState.omDroneActive ? '🔔 136.1Hz Om 共振中' : '🔕 开启 136.1Hz Om 共振场'}
+              {playbackState.omDroneActive ? '🔔 Om共振中' : '🔕 Om共振场'}
             </button>
 
             <span
-              style={{
-                fontSize: '0.72rem',
-                padding: '0.2rem 0.55rem',
-                borderRadius: '999px',
-                background: 'rgba(16, 185, 129, 0.14)',
-                border: '1px solid rgba(16, 185, 129, 0.35)',
-                color: '#059669',
-                fontWeight: 700,
-              }}
-              title="当前诵读模式实时激活的后端/前端发音模型"
+              className="engine-status-pill"
+              title={`当前激活语音模型：${playbackState.activeModel || 'gnumanth/ninada:onnx/sa.onnx'} (48,000 Hz)`}
             >
-              ● 已连接：{playbackState.activeModel || 'gnumanth/ninada:onnx/sa.onnx'} (48,000 Hz)
+              ● 48kHz VITS就绪
             </span>
-
-            <a
-              href="/sanskrit_phonetic_engine.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="script-toggle-chip"
-              style={{ textDecoration: 'none', color: 'var(--accent-vermilion)', fontWeight: 700 }}
-              title="打开独立版 48kHz 梵语四行谱发音引擎与 34×14 悉昙摩多矩阵工作台 v3.0"
-            >
-              <span>独立版发音引擎 v3.0</span>
-              <ExternalLink size={11} />
-            </a>
           </div>
-        </div>
-
-        {/* Title & Bīja Seed Syllable Card */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'stretch',
-            gap: '1rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <div style={{ flex: '1 1 420px' }}>
-            <h1 className="hero-title-zh">{entry.titleZh}</h1>
-            <div className="hero-title-skt">{entry.titleSanskritIast}</div>
-            <div style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
-              {entry.titleEnglish} · 译者与校勘：{entry.translatorZh}
-            </div>
-          </div>
-
-          {bijaLexiconEntry && (
-            <button
-              type="button"
-              onClick={() => onPlaySingleSyllable(bijaLexiconEntry.bijaIast)}
-              style={{
-                flex: '0 1 360px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.85rem',
-                padding: '0.65rem 0.9rem',
-                background: 'var(--bg-elevated)',
-                border: '1px solid var(--accent-gold-border)',
-                borderRadius: 'var(--radius-sm)',
-                cursor: 'pointer',
-                textAlign: 'left',
-              }}
-              title="点击试听 48,000 Hz 本尊种子字发音（含空海 T84n2701 与牛津 OCHS Bījanighaṇṭu 种子字密意）"
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  minWidth: '58px',
-                  padding: '0.35rem 0.5rem',
-                  background: 'var(--accent-gold-soft)',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--accent-gold-border)',
-                }}
-              >
-                <span className="siddham-glyph" style={{ fontSize: '1.65rem', color: 'var(--accent-vermilion)', lineHeight: 1.1 }}>
-                  {bijaLexiconEntry.bijaSiddham}
-                </span>
-                <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--accent-gold)' }}>
-                  {bijaLexiconEntry.bijaDevanagari} · {bijaLexiconEntry.bijaIast}
-                </span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.18rem', fontSize: '0.75rem' }}>
-                <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
-                  本尊根本种子字 (Bīja)：唐音「{bijaLexiconEntry.tangChinese}」🔊
-                </div>
-                <div style={{ color: 'var(--text-secondary)', lineHeight: 1.35 }}>
-                  <strong>OCHS 隐语构件：</strong>
-                  {bijaLexiconEntry.phonemicBreakdown.slice(0, 3).join(' + ')}
-                </div>
-                <div style={{ color: 'var(--text-muted)', lineHeight: 1.4 }}>
-                  {bijaLexiconEntry.buddhistMeaning}
-                </div>
-              </div>
-            </button>
-          )}
         </div>
 
         {/* Native WAV Audio Player & Download Card when generated */}
@@ -549,28 +493,28 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               background: 'var(--bg-elevated)',
               border: '1px solid var(--accent-gold-border)',
               borderRadius: 'var(--radius-sm)',
-              padding: '0.75rem 1rem',
+              padding: '0.75rem 0.95rem',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
               flexWrap: 'wrap',
-              gap: '0.85rem',
+              gap: '0.75rem',
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-              <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--accent-vermilion)' }}>
-                已生成本咒 48,000 Hz 神经人声 ({generatedWav.model || 'gnumanth/ninada:onnx/sa.onnx'}) .WAV 音频（总时长 {generatedWav.durationSec.toFixed(1)} 秒）
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem', minWidth: 0 }}>
+              <div style={{ fontSize: '0.83rem', fontWeight: 700, color: 'var(--accent-vermilion)' }}>
+                已生成 48,000 Hz 神经人声 .WAV 音频（总时长 {generatedWav.durationSec.toFixed(1)} 秒）
               </div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                可直接用下方原生音频条任意拖动进度播放，或点击右侧按钮下载 <code>.wav</code> 文件发送至手机/微信/本地音乐软件收听。
+              <div style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>
+                可直接拖动下方进度条播放，或下载 <code>.wav</code> 发送至手机离线收听。
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', flexWrap: 'wrap', maxWidth: '100%' }}>
               <audio
                 controls
                 src={generatedWav.url}
-                style={{ height: '36px' }}
+                style={{ height: '36px', maxWidth: '100%' }}
               />
               <a
                 href={generatedWav.url}
@@ -578,22 +522,33 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 className="btn-scholarly primary"
               >
                 <Download size={14} />
-                <span>下载 .WAV 音频文件 ({generatedWav.fileName})</span>
+                <span>下载 .WAV 文件</span>
               </a>
             </div>
           </div>
         )}
 
-        <div className="hero-meta-grid">
-          <div className="meta-box">
-            <div className="meta-box-label">经典出处与功德摄要</div>
-            <div>{entry.meritsAndSummaryZh}</div>
+        {/* Scholarly Source & Recitation Notes (Collapsible on Mobile) */}
+        <details
+          className="hero-meta-details"
+          open={metaExpanded}
+          onToggle={(e) => setMetaExpanded((e.currentTarget as HTMLDetailsElement).open)}
+        >
+          <summary className="hero-meta-summary">
+            <span>经典出处、功德摄要与声明学持诵要诀</span>
+            <ChevronDown size={15} />
+          </summary>
+          <div className="hero-meta-grid">
+            <div className="meta-box">
+              <div className="meta-box-label">经典出处与功德摄要</div>
+              <div>{entry.meritsAndSummaryZh}</div>
+            </div>
+            <div className="meta-box">
+              <div className="meta-box-label">梵音声明学持诵要诀（Śikṣā &amp; Phonetics）</div>
+              <div>{entry.recitationTipsZh}</div>
+            </div>
           </div>
-          <div className="meta-box">
-            <div className="meta-box-label">梵音声明学持诵要诀（Śikṣā &amp; Phonetics）</div>
-            <div>{entry.recitationTipsZh}</div>
-          </div>
-        </div>
+        </details>
       </section>
 
       <ScriptControlBar
@@ -612,11 +567,11 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           aria-label="库藏原文与处理参考区分说明"
         >
           <div className="provenance-legend-top">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
-              <strong style={{ color: 'var(--text-primary)', fontSize: '0.82rem' }}>
-                库藏原文 vs. 处理参考标识：
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+              <strong style={{ color: 'var(--text-primary)', fontSize: '0.78rem' }}>
+                文献溯源标识：
               </strong>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.76rem' }}>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
                 全段原载标{' '}
                 <span className="prov-origin-badge is-original is-compact">● 库藏原文</span>；
                 部分原载标{' '}
@@ -631,69 +586,83 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               </span>
             </div>
 
-            <button
-              id="banner-toggle-hide-reference-btn"
-              type="button"
-              className={`btn-scholarly ${scriptConfig.hideDerivedReference ? 'primary' : ''}`}
-              style={{ padding: '0.22rem 0.6rem', fontSize: '0.74rem' }}
-              onClick={() =>
-                onScriptConfigChange({
-                  ...scriptConfig,
-                  hideDerivedReference: !scriptConfig.hideDerivedReference,
-                })
-              }
-            >
-              <span>
-                {scriptConfig.hideDerivedReference
-                  ? '显示全部（恢复处理参考层）'
-                  : '仅看库藏原文（隐藏参考层）'}
-              </span>
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+              <button
+                id="banner-toggle-hide-reference-btn"
+                type="button"
+                className={`btn-scholarly ${scriptConfig.hideDerivedReference ? 'primary' : ''}`}
+                style={{ padding: '0.22rem 0.58rem', fontSize: '0.73rem' }}
+                onClick={() =>
+                  onScriptConfigChange({
+                    ...scriptConfig,
+                    hideDerivedReference: !scriptConfig.hideDerivedReference,
+                  })
+                }
+              >
+                <span>
+                  {scriptConfig.hideDerivedReference
+                    ? '恢复显示处理参考层'
+                    : '仅看库藏原文'}
+                </span>
+              </button>
+            </div>
           </div>
 
-          <div className="provenance-legend-groups">
-            <div>
-              <strong style={{ color: 'var(--accent-vermilion)', marginRight: '0.35rem' }}>
-                ● 本条库藏原文：
-              </strong>
-              {hasDiplomaticWitness && (
-                <span className="provenance-field-pill is-original">写本原貌</span>
-              )}
-              {entryProvSummary.originalFields.map((f) => (
-                <span key={`orig-${f}`} className="provenance-field-pill is-original">
-                  {TRACKABLE_FIELD_LABELS_ZH[f]}
-                </span>
-              ))}
-              {entryProvSummary.mixedFields.map((f) => (
-                <span key={`mix-${f}`} className="provenance-field-pill is-mixed">
-                  <span>{TRACKABLE_FIELD_LABELS_ZH[f]}</span>
-                  <span style={{ fontSize: '0.68rem' }}>
-                    (<span className="prov-part-orig">●原载</span>
-                    <span className="prov-part-sep">+</span>
-                    <span className="prov-part-ref">◇参考</span>)
-                  </span>
-                </span>
-              ))}
-              {!hasDiplomaticWitness &&
-                entryProvSummary.originalFields.length === 0 &&
-                entryProvSummary.mixedFields.length === 0 && (
-                  <span style={{ color: 'var(--text-muted)' }}>（本条为目录提要记录）</span>
-                )}
-            </div>
-
-            {entryProvSummary.derivedFields.length > 0 && (
+          <details className="provenance-fields-details">
+            <summary>
+              <span>
+                查看本条各字段来源明细（原文{' '}
+                {entryProvSummary.originalFields.length +
+                  entryProvSummary.mixedFields.length +
+                  (hasDiplomaticWitness ? 1 : 0)}{' '}
+                项 · 推导参考 {entryProvSummary.derivedFields.length} 项）
+              </span>
+              <ChevronDown size={13} />
+            </summary>
+            <div className="provenance-legend-groups">
               <div>
-                <strong style={{ color: 'var(--accent-gold)', marginRight: '0.35rem' }}>
-                  ◇ 处理推导参考（仅供参考）：
+                <strong style={{ color: 'var(--accent-vermilion)', marginRight: '0.35rem' }}>
+                  ● 本条库藏原文：
                 </strong>
-                {entryProvSummary.derivedFields.map((f) => (
-                  <span key={`ref-${f}`} className="provenance-field-pill is-reference">
+                {hasDiplomaticWitness && (
+                  <span className="provenance-field-pill is-original">写本原貌</span>
+                )}
+                {entryProvSummary.originalFields.map((f) => (
+                  <span key={`orig-${f}`} className="provenance-field-pill is-original">
                     {TRACKABLE_FIELD_LABELS_ZH[f]}
                   </span>
                 ))}
+                {entryProvSummary.mixedFields.map((f) => (
+                  <span key={`mix-${f}`} className="provenance-field-pill is-mixed">
+                    <span>{TRACKABLE_FIELD_LABELS_ZH[f]}</span>
+                    <span style={{ fontSize: '0.68rem' }}>
+                      (<span className="prov-part-orig">●原载</span>
+                      <span className="prov-part-sep">+</span>
+                      <span className="prov-part-ref">◇参考</span>)
+                    </span>
+                  </span>
+                ))}
+                {!hasDiplomaticWitness &&
+                  entryProvSummary.originalFields.length === 0 &&
+                  entryProvSummary.mixedFields.length === 0 && (
+                    <span style={{ color: 'var(--text-muted)' }}>（本条为目录提要记录）</span>
+                  )}
               </div>
-            )}
-          </div>
+
+              {entryProvSummary.derivedFields.length > 0 && (
+                <div>
+                  <strong style={{ color: 'var(--accent-gold)', marginRight: '0.35rem' }}>
+                    ◇ 处理推导参考（仅供参考）：
+                  </strong>
+                  {entryProvSummary.derivedFields.map((f) => (
+                    <span key={`ref-${f}`} className="provenance-field-pill is-reference">
+                      {TRACKABLE_FIELD_LABELS_ZH[f]}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </details>
         </section>
       )}
 
@@ -776,7 +745,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                   className="btn-scholarly primary"
                   onClick={() => setVisibleVerseLimit(entry.verses.length)}
                 >
-                  <span>一键展开全部 {entry.verses.length} 句逐音节精解</span>
+                  <span>展开全部 {entry.verses.length} 句精解</span>
                 </button>
               </div>
             </div>
@@ -788,7 +757,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       {matchedConcordanceCluster && (
         <section
           className="dharani-hero-card"
-          style={{ marginTop: '0.5rem' }}
+          style={{ marginTop: '0.35rem' }}
           aria-label="全球12大梵文陀罗尼数据库同源见证"
         >
           <div
@@ -800,42 +769,42 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               gap: '0.6rem',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Database size={16} color="var(--accent-vermilion)" />
-              <span style={{ fontWeight: 700, fontSize: '0.92rem', color: 'var(--text-primary)' }}>
-                跨12大数据库同源对勘与平行见证：{matchedConcordanceCluster.canonicalTitleZh}（{matchedConcordanceCluster.canonicalTitleSanskrit}）
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minWidth: 0 }}>
+              <Database size={16} color="var(--accent-vermilion)" style={{ flexShrink: 0 }} />
+              <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-primary)' }}>
+                跨 12 大数据库同源见证：{matchedConcordanceCluster.canonicalTitleZh}
               </span>
             </div>
 
             {onNavigateTab && (
-              <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '0.42rem', flexWrap: 'wrap' }}>
                 <button
                   type="button"
                   className="btn-scholarly"
                   onClick={() => onNavigateTab('hub')}
                 >
-                  <span>浏览全球12大数据库 (DB1–12)</span>
+                  <span>12大数据库 (DB1–12)</span>
                 </button>
                 <button
                   type="button"
                   className="btn-scholarly"
                   onClick={() => onNavigateTab('concordance')}
                 >
-                  <span>打开16本同源对勘台</span>
+                  <span>16本同源对勘台</span>
                 </button>
                 <button
                   type="button"
                   className="btn-scholarly"
                   onClick={() => onNavigateTab('interlinear')}
                 >
-                  <span>房山石经 F28n1071 对音 (741部)</span>
+                  <span>房山石经对音 (741部)</span>
                 </button>
                 <button
                   type="button"
                   className="btn-scholarly"
                   onClick={() => onNavigateTab('cudl')}
                 >
-                  <span>剑桥 CUDL 贝叶经馆 (69部)</span>
+                  <span>剑桥 CUDL 贝叶经馆</span>
                 </button>
               </div>
             )}
@@ -844,7 +813,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 245px), 1fr))',
               gap: '0.65rem',
             }}
           >
@@ -854,10 +823,10 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 className="meta-box"
                 style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
                   <span
                     style={{
-                      fontSize: '0.72rem',
+                      fontSize: '0.7rem',
                       fontWeight: 700,
                       color: 'var(--accent-vermilion)',
                       background: 'var(--accent-vermilion-soft)',
@@ -867,7 +836,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                   >
                     {w.dbId.toUpperCase()} · {w.script}
                   </span>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                     {w.recordId}
                   </span>
                 </div>
@@ -903,4 +872,3 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     </main>
   );
 };
-

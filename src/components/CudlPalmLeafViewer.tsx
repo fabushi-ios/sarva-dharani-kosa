@@ -40,10 +40,10 @@ export function CudlPalmLeafViewer() {
     <div className="workbench-container">
       <div className="workbench-card">
         <h2 className="workbench-title">
-          劍橋大學數字圖書館 (`CUDL`) 梵文貝葉經 IIIF 影印與 Hidas 校勘本工作台 (CUDL Palm-Leaf IIIF Viewer)
+          劍橋大學數字圖書館 (CUDL) 梵文貝葉經 IIIF 影印與 Hidas 校勘本工作台
         </h2>
         <p className="workbench-subtitle">
-          收錄劍橋大學 {DB7_CUDL_HIDAS_CORPUS.manuscripts.length} 部梵文陀羅尼貝葉經與紙本寫本 (`MS-ADD-01326` 458 頁《陀羅尼集》、`MS-ADD-01680-00008-00001..3` 12–13 世紀貝葉經、`PR-FG-00870` 770 CE 百萬塔陀羅尼) 及 Gergely Hidas {DB7_CUDL_HIDAS_CORPUS.hidasCriticalEditions.length} 部精校本
+          收錄劍橋大學 {DB7_CUDL_HIDAS_CORPUS.manuscripts.length} 部梵文陀羅尼貝葉經與紙本寫本（MS-ADD-01326 458 頁《陀羅尼集》、MS-ADD-01680 12–13 世紀貝葉經、PR-FG-00870 770 CE 百萬塔陀羅尼）及 Gergely Hidas {DB7_CUDL_HIDAS_CORPUS.hidasCriticalEditions.length} 部精校本
         </p>
 
         <div className="preset-chips">

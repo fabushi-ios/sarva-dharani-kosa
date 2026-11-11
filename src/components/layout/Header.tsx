@@ -12,6 +12,8 @@ import {
   Moon,
   ShieldCheck,
   CornerDownLeft,
+  ExternalLink,
+  Info,
 } from 'lucide-react';
 import type { ActiveWorkspaceTab, DharaniEntry } from '../../types/kosaTypes';
 import { CORPUS_AUTHORITATIVE_STATS } from '../../data/corpusStats';
@@ -31,6 +33,30 @@ interface HeaderProps {
   onToggleTheme: () => void;
 }
 
+const QUICK_SEARCH_CHIPS: Array<{
+  label: string;
+  q: string;
+  variant: 'hot' | 'mantra' | 'db';
+}> = [
+  { label: '大悲咒', q: '大悲咒', variant: 'hot' },
+  { label: '楞严咒', q: '楞严咒', variant: 'hot' },
+  { label: '尊胜陀罗尼', q: '尊胜', variant: 'hot' },
+  { label: '大随求陀罗尼', q: '大随求', variant: 'hot' },
+  { label: '心经咒', q: '心经', variant: 'hot' },
+  { label: '六字大明咒', q: '嗡嘛呢呗美吽', variant: 'mantra' },
+  { label: '绿度母', q: '绿度母', variant: 'mantra' },
+  { label: '药师咒', q: '药师', variant: 'mantra' },
+  { label: '准提咒', q: '准提', variant: 'mantra' },
+  { label: '孔雀明王', q: '孔雀明王', variant: 'mantra' },
+  { label: '吠陀伽耶特黎', q: '伽耶特黎', variant: 'mantra' },
+  { label: 'DB1 房山石经', q: '房山', variant: 'db' },
+  { label: 'DB3 尼泊尔DSBC', q: 'DSBC', variant: 'db' },
+  { label: 'DB4 84000藏密', q: 'TOH', variant: 'db' },
+  { label: 'DB7 剑桥CUDL', q: 'CUDL', variant: 'db' },
+  { label: 'DB8 奥斯陆心经', q: '奥斯陆', variant: 'db' },
+  { label: 'DB12 牛津OCHS', q: 'OCHS', variant: 'db' },
+];
+
 export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   onSearchChange,
@@ -43,8 +69,10 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(0);
+  const [showCorpusRibbon, setShowCorpusRibbon] = useState(false);
   const searchWrapRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const navTabsRef = useRef<HTMLElement>(null);
 
   const suggestions = useMemo(
     () => getSearchSuggestions(allEntries, searchQuery, 20),
@@ -54,6 +82,18 @@ export const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     setHighlightIndex(0);
   }, [searchQuery]);
+
+  // Keep active navigation tab smoothly centered inside horizontal scroll bar on mobile/tablet
+  useEffect(() => {
+    const navEl = navTabsRef.current;
+    if (!navEl) return;
+    const activeBtn = navEl.querySelector<HTMLElement>('.nav-tab-btn.active');
+    if (activeBtn && navEl.scrollWidth > navEl.clientWidth) {
+      const targetLeft =
+        activeBtn.offsetLeft - navEl.clientWidth / 2 + activeBtn.offsetWidth / 2;
+      navEl.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+    }
+  }, [activeTab]);
 
   // Close dropdown when clicking outside & support global Ctrl+K / Cmd+K / '/' shortcut
   useEffect(() => {
@@ -128,18 +168,20 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header className="app-header">
-        <div className="header-inner">
+        {/* Tier 1: Brand Identity | Global Search | Utility Controls */}
+        <div className="header-top-row">
           <div className="brand-group">
             <div className="brand-seal siddham-glyph" title="Siddhaṃ Bīja Oṃ">
               𑖌𑖼
             </div>
             <div className="brand-titles">
               <div className="brand-title-zh">
-                <span>梵音宝典 · Sarva-Dhāraṇī-Kośa</span>
-                <span className="brand-badge-auth">12大国际梵典库 + CBETA 14,485段真言 + 48kHz VITS</span>
+                <span>梵音宝典</span>
+                <span className="brand-title-en-inline">· Sarva-Dhāraṇī-Kośa</span>
+                <span className="brand-badge-auth">12大梵典库 · 48kHz VITS</span>
               </div>
               <div className="brand-subtitle">
-                Corpus of World Sanskrit Dhāraṇīs · 12 Global Databases (DB1–DB12), Siddhaṃ, Devanāgarī, IAST &amp; 48kHz Neural VITS
+                Sarva-Dhāraṇī-Kośa · 12大国际梵典库 (DB1–DB12) · 悉昙/天城/IAST多体精校与神经梵音
               </div>
             </div>
           </div>
@@ -152,7 +194,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="search"
               autoComplete="off"
               className="header-search-input"
-              placeholder="按 ⌘K 或 / 速查：搜咒名/俗称(大悲/楞严/绿度母/嗡嘛呢呗美吽)、12大库(房山/CUDL)、梵文或空格组合词..."
+              placeholder="搜咒名/俗称(大悲/楞严/尊胜)、12大库(房山/CUDL/TOH)或梵文..."
               value={searchQuery}
               onFocus={() => setDropdownOpen(true)}
               onKeyDown={handleKeyDown}
@@ -161,7 +203,11 @@ export const Header: React.FC<HeaderProps> = ({
                 setDropdownOpen(true);
               }}
             />
-            {searchQuery && (
+            {!searchQuery ? (
+              <span className="header-search-kbd" aria-hidden="true">
+                ⌘K
+              </span>
+            ) : (
               <button
                 id="clear-global-search-btn"
                 type="button"
@@ -187,85 +233,52 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="search-dropdown-header">
                   <span>
                     {searchQuery.trim()
-                      ? `全库检索「${searchQuery}」：已连入全球 12 大梵典库与世界梵咒总集 (${allEntries.length} 部)，匹配 ${suggestions.length} 条`
-                      : '已接入全球 12 大梵典数据库与世界全传统梵文真言库（佛陀显密 · 唐密 · 藏密 · 尼泊尔梵本 · 吠陀 · 奥义书 · 湿婆/毗湿奴/性力派 · 耆那教）'}
+                      ? `检索「${searchQuery}」：全库 ${allEntries.length} 部中匹配 ${suggestions.length} 条`
+                      : `全库直达：12大国际梵典库与世界梵咒总集 (${allEntries.length} 部)`}
                   </span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
                     <CornerDownLeft size={12} />
-                    <span>点击直达</span>
+                    <span>点选直达</span>
                   </span>
                 </div>
 
-                {/* Quick 12-DB & Popular Mantra Search Filter Chips inside Dropdown */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '0.35rem',
-                    padding: '0.45rem 0.75rem',
-                    borderBottom: '1px solid var(--border-subtle)',
-                    background: 'var(--bg-elevated)',
-                  }}
-                >
-                  {[
-                    { label: '🔥 大随求陀罗尼', q: '大随求' },
-                    { label: '🔥 大悲咒', q: '大悲咒' },
-                    { label: '🔥 楞严咒', q: '楞严咒' },
-                    { label: '🔥 尊胜陀罗尼', q: '尊胜' },
-                    { label: '🔥 心经咒', q: '心经' },
-                    { label: '✨ 六字大明咒', q: '嗡嘛呢呗美吽' },
-                    { label: '✨ 绿度母', q: '绿度母' },
-                    { label: '✨ 孔雀明王', q: '孔雀明王' },
-                    { label: '✨ 药师咒', q: '药师' },
-                    { label: '✨ 准提咒', q: '准提' },
-                    { label: '🕉️ 吠陀伽耶特黎', q: '伽耶特黎' },
-                    { label: '🕉️ 湿婆大死胜咒', q: '湿婆' },
-                    { label: '🕉️ 毗湿奴/吉祥天', q: '毗湿奴' },
-                    { label: '🌐 DB1 房山石经', q: '房山' },
-                    { label: '🌐 DB3 尼泊尔DSBC', q: 'DSBC' },
-                    { label: '🌐 DB4 84000藏密', q: 'TOH' },
-                    { label: '🌐 DB7 剑桥CUDL贝叶经', q: 'CUDL' },
-                    { label: '🌐 DB8 奥斯陆心经', q: '奥斯陆' },
-                    { label: '🌐 DB9 德格rKTs', q: 'rKTs' },
-                    { label: '🌐 DB12 牛津OCHS种子字', q: 'OCHS' },
-                  ].map((chip) => (
-                    <button
-                      key={chip.q}
-                      type="button"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        onSearchChange(chip.q);
-                        setDropdownOpen(true);
-                      }}
-                      style={{
-                        fontSize: '0.72rem',
-                        padding: '0.18rem 0.5rem',
-                        borderRadius: '999px',
-                        border: '1px solid rgba(139, 92, 246, 0.35)',
-                        background:
-                          searchQuery === chip.q
-                            ? 'rgba(139, 92, 246, 0.22)'
-                            : 'rgba(139, 92, 246, 0.08)',
-                        color: 'var(--text-primary)',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                      }}
-                    >
-                      {chip.label}
-                    </button>
-                  ))}
+                {/* Quick 12-DB & Popular Mantra Search Filter Chips */}
+                <div className="search-quick-chips-bar">
+                  {QUICK_SEARCH_CHIPS.map((chip) => {
+                    const isActive = searchQuery === chip.q;
+                    const variantClass =
+                      chip.variant === 'hot'
+                        ? 'is-hot'
+                        : chip.variant === 'db'
+                          ? 'is-db'
+                          : '';
+                    return (
+                      <button
+                        key={chip.q}
+                        type="button"
+                        className={`search-quick-chip ${variantClass} ${isActive ? 'is-active' : ''}`}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          onSearchChange(chip.q);
+                          setDropdownOpen(true);
+                        }}
+                      >
+                        {chip.label}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 {suggestions.length === 0 ? (
                   <div
                     style={{
-                      padding: '1.2rem',
+                      padding: '1.25rem 1rem',
                       textAlign: 'center',
                       color: 'var(--text-muted)',
                       fontSize: '0.84rem',
                     }}
                   >
-                    未找到包含「{searchQuery}」的经咒，请尝试搜索 12 大数据库关键词（如「房山」「TOH」「CUDL」「OCHS」「rKTs」「尊胜」「孔雀」「oṃ」）。
+                    未找到包含「{searchQuery}」的经咒，可尝试「房山」「TOH」「CUDL」「OCHS」「尊胜」「大悲」「oṃ」。
                   </div>
                 ) : (
                   suggestions.map((item, idx) => (
@@ -301,104 +314,139 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </div>
 
-          <nav className="header-nav-tabs" aria-label="主工作区导航">
+          <div className="header-utility-actions">
             <button
-              id="nav-tab-canon-reader"
+              id="header-corpus-stats-toggle"
               type="button"
-              className={`nav-tab-btn ${activeTab === 'canon-reader' ? 'active' : ''}`}
-              onClick={() => onTabChange('canon-reader')}
+              className={`header-util-btn ${showCorpusRibbon ? 'active' : ''}`}
+              onClick={() => setShowCorpusRibbon((v) => !v)}
+              title="查看馆藏原典规模与语音引擎参数"
             >
-              <BookOpen size={14} />
-              <span>陀罗尼总持典 ({allEntries.length})</span>
+              <Info size={14} />
+              <span className="header-util-label-desktop">馆藏参数</span>
             </button>
-            <button
-              id="nav-tab-hub"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'hub' ? 'active' : ''}`}
-              onClick={() => onTabChange('hub')}
-            >
-              <Globe size={14} />
-              <span>全球12大数据库 (DB1–12)</span>
-            </button>
-            <button
-              id="nav-tab-interlinear"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'interlinear' ? 'active' : ''}`}
-              onClick={() => onTabChange('interlinear')}
-            >
-              <ScrollText size={14} />
-              <span>房山石经与T54对音 (741部)</span>
-            </button>
-            <button
-              id="nav-tab-concordance"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'concordance' ? 'active' : ''}`}
-              onClick={() => onTabChange('concordance')}
-            >
-              <Globe size={14} />
-              <span>多本同源对勘 (16本心经)</span>
-            </button>
-            <button
-              id="nav-tab-cudl"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'cudl' ? 'active' : ''}`}
-              onClick={() => onTabChange('cudl')}
-            >
-              <BookOpen size={14} />
-              <span>剑桥CUDL贝叶经 (69部)</span>
-            </button>
-            <button
-              id="nav-tab-phonetics-academy"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'phonetics-academy' ? 'active' : ''}`}
-              onClick={() => onTabChange('phonetics-academy')}
-            >
-              <GraduationCap size={14} />
-              <span>悉昙十八章与OCHS种子字</span>
-            </button>
-            <button
-              id="nav-tab-taisho-explorer"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'taisho-explorer' ? 'active' : ''}`}
-              onClick={() => onTabChange('taisho-explorer')}
-            >
-              <Library size={14} />
-              <span>大正藏密教部 (614经)</span>
-            </button>
-            <button
-              id="nav-tab-custom-compiler"
-              type="button"
-              className={`nav-tab-btn ${activeTab === 'custom-compiler' ? 'active' : ''}`}
-              onClick={() => onTabChange('custom-compiler')}
-            >
-              <Code2 size={14} />
-              <span>四行谱发音引擎v3.0与编译器</span>
-            </button>
-          </nav>
 
-          <button
-            id="theme-toggle-button"
-            type="button"
-            className="theme-toggle-btn"
-            onClick={onToggleTheme}
-            title={theme === 'light' ? '切换至紫金写经深色模式' : '切换至宣纸朱砂浅色模式'}
-          >
-            {theme === 'light' ? (
-              <>
-                <Moon size={15} />
-                <span>紫金写经</span>
-              </>
-            ) : (
-              <>
-                <Sun size={15} />
-                <span>宣纸朱砂</span>
-              </>
-            )}
-          </button>
+            <a
+              href="/sanskrit_phonetic_engine.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-util-btn"
+              title="在新窗口打开独立版 48kHz 四行谱发音引擎 v3.0"
+            >
+              <ExternalLink size={14} />
+              <span className="header-util-label-desktop">独立引擎</span>
+            </a>
+
+            <button
+              id="theme-toggle-button"
+              type="button"
+              className="theme-toggle-btn"
+              onClick={onToggleTheme}
+              title={theme === 'light' ? '切换至紫金写经深色模式' : '切换至宣纸朱砂浅色模式'}
+            >
+              {theme === 'light' ? (
+                <>
+                  <Moon size={15} />
+                  <span className="header-util-label-desktop">紫金写经</span>
+                </>
+              ) : (
+                <>
+                  <Sun size={15} />
+                  <span className="header-util-label-desktop">宣纸朱砂</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Tier 2: Single-Row Scrollable Workspace Navigation Bar */}
+        <div className="header-nav-bar">
+          <div className="header-nav-inner">
+            <nav ref={navTabsRef} className="header-nav-tabs" aria-label="主工作区导航">
+              <button
+                id="nav-tab-canon-reader"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'canon-reader' ? 'active' : ''}`}
+                onClick={() => onTabChange('canon-reader')}
+              >
+                <BookOpen size={14} />
+                <span>陀罗尼总持典</span>
+                <span className="nav-tab-count">{allEntries.length}</span>
+              </button>
+              <button
+                id="nav-tab-hub"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'hub' ? 'active' : ''}`}
+                onClick={() => onTabChange('hub')}
+              >
+                <Globe size={14} />
+                <span>全球12大数据库</span>
+                <span className="nav-tab-count">DB1–12</span>
+              </button>
+              <button
+                id="nav-tab-interlinear"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'interlinear' ? 'active' : ''}`}
+                onClick={() => onTabChange('interlinear')}
+              >
+                <ScrollText size={14} />
+                <span>房山石经与T54对音</span>
+                <span className="nav-tab-count">741</span>
+              </button>
+              <button
+                id="nav-tab-concordance"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'concordance' ? 'active' : ''}`}
+                onClick={() => onTabChange('concordance')}
+              >
+                <Globe size={14} />
+                <span>多本同源对勘</span>
+                <span className="nav-tab-count">16本</span>
+              </button>
+              <button
+                id="nav-tab-cudl"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'cudl' ? 'active' : ''}`}
+                onClick={() => onTabChange('cudl')}
+              >
+                <BookOpen size={14} />
+                <span>剑桥CUDL贝叶经</span>
+                <span className="nav-tab-count">69</span>
+              </button>
+              <button
+                id="nav-tab-phonetics-academy"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'phonetics-academy' ? 'active' : ''}`}
+                onClick={() => onTabChange('phonetics-academy')}
+              >
+                <GraduationCap size={14} />
+                <span>悉昙十八章与种子字</span>
+              </button>
+              <button
+                id="nav-tab-taisho-explorer"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'taisho-explorer' ? 'active' : ''}`}
+                onClick={() => onTabChange('taisho-explorer')}
+              >
+                <Library size={14} />
+                <span>大正藏密教部</span>
+                <span className="nav-tab-count">614经</span>
+              </button>
+              <button
+                id="nav-tab-custom-compiler"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'custom-compiler' ? 'active' : ''}`}
+                onClick={() => onTabChange('custom-compiler')}
+              >
+                <Code2 size={14} />
+                <span>四行谱引擎与编译器</span>
+              </button>
+            </nav>
+          </div>
         </div>
       </header>
 
-      <div className="provenance-ribbon">
+      <div className={`provenance-ribbon ${showCorpusRibbon ? '' : 'is-hidden'}`}>
         <div className="provenance-ribbon-inner">
           <div className="provenance-stats-list">
             <span className="prov-stat-item">
@@ -420,7 +468,6 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <span>六体全咒汇总 · 梵音拼读附(IAST)开关 · 种子字破译 · 48kHz .WAV 导出</span>
             <a
               href="/sanskrit_phonetic_engine.html"
               target="_blank"

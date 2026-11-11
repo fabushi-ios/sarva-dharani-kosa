@@ -2,7 +2,7 @@
 <html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>梵音宝典 · Sarva-Dhāraṇī-Kośa | 权威梵文陀罗尼全集与悉昙音义对照系统</title>
     <meta
       name="description"
@@ -55,16 +55,17 @@
     <div id="root">
       <div class="app-shell">
         <header class="app-header">
-          <div class="header-inner">
+          <div class="header-top-row">
             <div class="brand-group">
               <div class="brand-seal siddham-glyph" title="Siddhaṃ Bīja Oṃ">𑖌𑖼</div>
               <div class="brand-titles">
                 <div class="brand-title-zh">
-                  <span>梵音宝典 · Sarva-Dhāraṇī-Kośa</span>
-                  <span class="brand-badge-auth">12大国际梵典库 + CBETA 14,485段真言 + 48kHz VITS</span>
+                  <span>梵音宝典</span>
+                  <span class="brand-title-en-inline">· Sarva-Dhāraṇī-Kośa</span>
+                  <span class="brand-badge-auth">12大梵典库 · 48kHz VITS</span>
                 </div>
                 <div class="brand-subtitle">
-                  Corpus of World Sanskrit Dhāraṇīs · 12 Global Databases (DB1–DB12), Siddhaṃ, Devanāgarī, IAST &amp; 48kHz Neural VITS
+                  Sarva-Dhāraṇī-Kośa · 12大国际梵典库 (DB1–DB12) · 悉昙/天城/IAST多体精校与神经梵音
                 </div>
               </div>
             </div>
@@ -74,30 +75,37 @@
                 type="search"
                 autocomplete="off"
                 class="header-search-input"
-                placeholder="搜12大数据库(房山/84000/剑桥CUDL/奥斯陆/牛津OCHS/德格rKTs)、咒名(尊胜/大悲/秽迹)、经号(F28/TOH/T19)..."
+                placeholder="搜咒名/俗称(大悲/楞严/尊胜)、12大库(房山/CUDL/TOH)或梵文..."
                 value=""
               />
             </div>
-            <nav class="header-nav-tabs" aria-label="主工作区导航">
-              <button type="button" class="nav-tab-btn active"><span>陀罗尼总持典 (2,051部)</span></button>
-              <button type="button" class="nav-tab-btn"><span>全球12大梵典库 (1,159部)</span></button>
-              <button type="button" class="nav-tab-btn"><span>房山石经对音 (741部)</span></button>
-              <button type="button" class="nav-tab-btn"><span>16本心经/四语对勘</span></button>
-              <button type="button" class="nav-tab-btn"><span>剑桥CUDL贝叶经 (69部)</span></button>
-              <button type="button" class="nav-tab-btn"><span>大正藏密教部 (614经)</span></button>
-              <button type="button" class="nav-tab-btn"><span>悉昙十八章/种子字</span></button>
-              <button type="button" class="nav-tab-btn"><span>四行谱引擎/编译器</span></button>
-            </nav>
+            <div class="header-utility-actions">
+              <button type="button" class="theme-toggle-btn">
+                <span class="header-util-label-desktop">紫金写经</span>
+              </button>
+            </div>
+          </div>
+          <div class="header-nav-bar">
+            <div class="header-nav-inner">
+              <nav class="header-nav-tabs" aria-label="主工作区导航">
+                <button type="button" class="nav-tab-btn active"><span>陀罗尼总持典</span><span class="nav-tab-count">2051</span></button>
+                <button type="button" class="nav-tab-btn"><span>全球12大数据库</span><span class="nav-tab-count">DB1–12</span></button>
+                <button type="button" class="nav-tab-btn"><span>房山石经与T54对音</span><span class="nav-tab-count">741</span></button>
+                <button type="button" class="nav-tab-btn"><span>多本同源对勘</span><span class="nav-tab-count">16本</span></button>
+                <button type="button" class="nav-tab-btn"><span>剑桥CUDL贝叶经</span><span class="nav-tab-count">69</span></button>
+                <button type="button" class="nav-tab-btn"><span>悉昙十八章与种子字</span></button>
+                <button type="button" class="nav-tab-btn"><span>大正藏密教部</span><span class="nav-tab-count">614经</span></button>
+                <button type="button" class="nav-tab-btn"><span>四行谱引擎与编译器</span></button>
+              </nav>
+            </div>
           </div>
         </header>
         <div class="workspace-container">
           <div class="canon-reader-grid">
             <aside class="sidebar-panel" aria-label="梵文陀罗尼分类目录">
               <div class="sidebar-top-controls">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-primary);">
-                    总持部类检索 (2051 / 2051 部)
-                  </span>
+                <div class="sidebar-header-bar">
+                  <span class="sidebar-title-count">总持目录 (2051 / 2051)</span>
                 </div>
                 <div class="category-pills-grid">
                   <button type="button" class="category-pill-btn active">
@@ -108,56 +116,30 @@
                     <span>四大根本总持</span>
                     <span class="category-pill-bija">𑖥𑖿𑖨𑖳𑖼</span>
                   </button>
-                  <button type="button" class="category-pill-btn">
-                    <span>汉传十小咒全集</span>
-                    <span class="category-pill-bija">𑖮𑖿𑖨𑖱𑖾</span>
-                  </button>
-                  <button type="button" class="category-pill-btn">
-                    <span>诸佛菩萨本尊部</span>
-                    <span class="category-pill-bija">𑖠𑖱𑖾</span>
-                  </button>
                 </div>
               </div>
-              <div class="entry-list-scroll">
-                <button type="button" class="entry-card-item active">
-                  <div class="entry-card-header">
-                    <span class="entry-card-title-zh">千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼（大悲咒全本）</span>
-                    <span class="entry-card-taisho-tag">T20n1060 / T20n1113B</span>
+              <div class="dharani-catalog-list">
+                <button type="button" class="catalog-entry-item selected">
+                  <div class="catalog-item-top">
+                    <span class="catalog-taisho-tag">T20n1060 / T20n1113B</span>
                   </div>
-                  <div class="entry-card-skt">Nīlakaṇṭha-mahākāruṇika-hṛdaya-dhāraṇī</div>
-                </button>
-                <button type="button" class="entry-card-item">
-                  <div class="entry-card-header">
-                    <span class="entry-card-title-zh">佛顶尊胜陀罗尼（唐·佛陀波利译本暨不空悉昙对音本）</span>
-                    <span class="entry-card-taisho-tag">T19n0967 / T19n0974B</span>
-                  </div>
-                  <div class="entry-card-skt">Sarvadurgatipariśodhana-uṣṇīṣavijayā-dhāraṇī</div>
-                </button>
-                <button type="button" class="entry-card-item">
-                  <div class="entry-card-header">
-                    <span class="entry-card-title-zh">一切如来心秘密全身舍利宝箧印陀罗尼</span>
-                    <span class="entry-card-taisho-tag">T19n1022A</span>
-                  </div>
-                  <div class="entry-card-skt">Sarvatathāgatādhiṣṭhāna-hṛdaya-guhya-dhātu-karaṇḍamudrā-dhāraṇī</div>
+                  <div class="catalog-item-title-zh">千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼（大悲咒全本）</div>
+                  <div class="catalog-item-title-skt">Nīlakaṇṭha-mahākāruṇika-hṛdaya-dhāraṇī</div>
                 </button>
               </div>
             </aside>
-            <main class="reader-main-panel">
+            <main class="reader-main">
               <section class="dharani-hero-card">
-                <div class="hero-top-meta">
-                  <div class="hero-badges">
-                    <span class="badge-pill vermilion">T20n1060 / T20n1064 / T20n1113B</span>
-                    <span class="badge-pill gold">千手千眼圣观自在菩萨</span>
-                    <span class="badge-pill">CBETA+GRETIL 原典核验</span>
+                <div class="hero-top-bar">
+                  <div class="hero-badges-row">
+                    <span class="taisho-pill">T20n1060 / T20n1064 / T20n1113B</span>
+                    <span class="deity-pill">本尊：千手千眼圣观自在菩萨</span>
                   </div>
                 </div>
-                <div>
+                <div class="hero-title-block">
                   <h1 class="hero-title-zh">千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼（大悲咒全本）</h1>
                   <div class="hero-title-skt">Nīlakaṇṭha-mahākāruṇika-hṛdaya-dhāraṇī</div>
                 </div>
-                <p class="hero-summary-text">
-                  汉传与唐密最为核心的根本大咒（通行本共84句）。本词条直接接入下载自 CBETA 官方库之《T20n1113B》334个悉昙梵字与汉字逐字对音数据，以及《T20n1064》唐代不空三藏译本之八十四句本尊化身夹注。
-                </p>
               </section>
             </main>
           </div>

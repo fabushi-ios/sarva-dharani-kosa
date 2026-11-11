@@ -25,6 +25,28 @@ interface DatabaseHubExplorerProps {
   onSelectAdapterDbId?: (adapterDbId: string) => void;
 }
 
+function getTierBadgeStyle(tier: number): React.CSSProperties {
+  if (tier === 1) {
+    return {
+      background: 'var(--accent-vermilion-soft)',
+      color: 'var(--accent-vermilion)',
+      border: '1px solid var(--accent-vermilion-border)',
+    };
+  }
+  if (tier === 2) {
+    return {
+      background: 'var(--accent-lapis-soft)',
+      color: 'var(--accent-lapis)',
+      border: '1px solid var(--accent-lapis-border)',
+    };
+  }
+  return {
+    background: 'var(--accent-gold-soft)',
+    color: 'var(--accent-gold)',
+    border: '1px solid var(--accent-gold-border)',
+  };
+}
+
 export function DatabaseHubExplorer({
   activeAdapterDbId = 'all',
   onSelectAdapterDbId,
@@ -42,7 +64,7 @@ export function DatabaseHubExplorer({
   return (
     <section
       className="dharani-hero-card"
-      style={{ marginBottom: '0.75rem', padding: '0.9rem 1.15rem' }}
+      style={{ marginBottom: '0.65rem', padding: '0.95rem 1.15rem' }}
     >
       <div
         style={{
@@ -53,29 +75,30 @@ export function DatabaseHubExplorer({
           gap: '0.75rem',
         }}
       >
-        <div>
-          <h2 className="hero-title-zh" style={{ fontSize: '1.22rem', margin: 0 }}>
-            全球 12 大国际佛典与梵文陀罗尼数据库总览（与「陀罗尼总持典」统一六体对照与 48kHz VITS 跟诵格式）
+        <div style={{ minWidth: 0 }}>
+          <h2 className="hero-title-zh" style={{ fontSize: '1.15rem', margin: 0 }}>
+            全球 12 大国际佛典与梵文陀罗尼数据库总览
           </h2>
           <p
             style={{
-              fontSize: '0.82rem',
+              fontSize: '0.8rem',
               color: 'var(--text-secondary)',
               marginTop: '0.2rem',
               marginBottom: 0,
             }}
           >
-            点击下方任一数据库卡片（DB1 房山石经 ～ DB12 牛津OCHS），下方阅读器即刻按「陀罗尼总持典」统一标准展示该库全部经咒（含六体全咒汇总、现代梵音拼读附IAST、古汉语音译、逐词解析与 48kHz 神经VITS跟诵） · 全库校验：
-            <strong> {integrityReport.status}</strong> ({CANONICAL_DATABASE_IDS.length}/12)
+            点选任一数据库卡片（DB1 房山石经 ～ DB12 牛津OCHS），下方阅读器即刻按统一六体对照与 48kHz VITS 标准呈现 · 全库校验：
+            <strong style={{ color: 'var(--accent-jade)' }}> {integrityReport.status}</strong> ({CANONICAL_DATABASE_IDS.length}/12)
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.38rem', flexWrap: 'wrap' }}>
           <button
             type="button"
             className={`script-toggle-chip ${activeAdapterDbId === 'all' && selectedTier === 'all' ? 'active' : ''}`}
             onClick={() => {
               setSelectedTier('all');
+              setCardsCollapsed(false);
               onSelectAdapterDbId?.('all');
             }}
           >
@@ -84,30 +107,40 @@ export function DatabaseHubExplorer({
           <button
             type="button"
             className={`script-toggle-chip ${selectedTier === 1 ? 'active' : ''}`}
-            onClick={() => setSelectedTier(1)}
+            onClick={() => {
+              setSelectedTier(1);
+              setCardsCollapsed(false);
+            }}
           >
-            Tier 1 (DB1–DB6)
+            Tier 1 (DB1–6)
           </button>
           <button
             type="button"
             className={`script-toggle-chip ${selectedTier === 2 ? 'active' : ''}`}
-            onClick={() => setSelectedTier(2)}
+            onClick={() => {
+              setSelectedTier(2);
+              setCardsCollapsed(false);
+            }}
           >
-            Tier 2 (DB7–DB9)
+            Tier 2 (DB7–9)
           </button>
           <button
             type="button"
             className={`script-toggle-chip ${selectedTier === 3 ? 'active' : ''}`}
-            onClick={() => setSelectedTier(3)}
+            onClick={() => {
+              setSelectedTier(3);
+              setCardsCollapsed(false);
+            }}
           >
-            Tier 3 (DB10–DB12)
+            Tier 3 (DB10–12)
           </button>
           <button
             type="button"
             className="btn-scholarly"
+            style={{ padding: '0.3rem 0.65rem', fontSize: '0.75rem' }}
             onClick={() => setCardsCollapsed((c) => !c)}
           >
-            {cardsCollapsed ? '展开 12 库详情卡片 ▼' : '收起卡片专注阅读 ▲'}
+            {cardsCollapsed ? '展开 12 库卡片 ▼' : '收起卡片专注阅读 ▲'}
           </button>
         </div>
       </div>
@@ -116,9 +149,9 @@ export function DatabaseHubExplorer({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(255px, 1fr))',
-            gap: '0.65rem',
-            marginTop: '0.75rem',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 245px), 1fr))',
+            gap: '0.6rem',
+            marginTop: '0.5rem',
           }}
         >
           {filteredDatabases.map((db) => {
@@ -128,7 +161,12 @@ export function DatabaseHubExplorer({
               <button
                 key={db.id}
                 type="button"
-                onClick={() => onSelectAdapterDbId?.(adapterId)}
+                onClick={() => {
+                  onSelectAdapterDbId?.(adapterId);
+                  if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+                    setCardsCollapsed(true);
+                  }
+                }}
                 style={{
                   textAlign: 'left',
                   padding: '0.7rem 0.85rem',
@@ -142,6 +180,7 @@ export function DatabaseHubExplorer({
                   flexDirection: 'column',
                   gap: '0.28rem',
                   transition: 'all 0.15s ease',
+                  minWidth: 0,
                 }}
               >
                 <div
@@ -150,16 +189,17 @@ export function DatabaseHubExplorer({
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     gap: '0.35rem',
+                    flexWrap: 'wrap',
                   }}
                 >
                   <span
                     style={{
-                      fontSize: '0.7rem',
+                      fontSize: '0.68rem',
                       fontWeight: 700,
-                      padding: '0.12rem 0.45rem',
+                      padding: '0.1rem 0.44rem',
                       borderRadius: '999px',
-                      background: 'rgba(139, 92, 246, 0.15)',
-                      color: '#6d28d9',
+                      fontFamily: 'var(--font-mono)',
+                      ...getTierBadgeStyle(db.priorityTier),
                     }}
                   >
                     DB{db.number} · Tier {db.priorityTier}
@@ -168,19 +208,19 @@ export function DatabaseHubExplorer({
                     {db.totalRecordsCount.toLocaleString()} 条原典
                   </span>
                 </div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: '0.86rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                   {db.nameZh}
                 </div>
                 <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
                   {db.institution}
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '0.15rem' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.24rem', marginTop: '0.12rem' }}>
                   {db.scriptsAvailable.map((sc) => (
                     <span
                       key={sc}
                       style={{
-                        fontSize: '0.66rem',
-                        padding: '0.08rem 0.35rem',
+                        fontSize: '0.65rem',
+                        padding: '0.06rem 0.34rem',
                         borderRadius: '4px',
                         background: 'var(--bg-surface)',
                         border: '1px solid var(--border-subtle)',
@@ -200,4 +240,3 @@ export function DatabaseHubExplorer({
   );
 }
 export default DatabaseHubExplorer;
-

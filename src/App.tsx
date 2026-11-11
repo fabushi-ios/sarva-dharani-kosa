@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, Suspense, lazy } from 'react';
+import { BookOpen, ChevronLeft, ChevronRight, Bookmark } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
   DharaniCategoryId,
@@ -80,6 +81,8 @@ const SiddhamBijaAcademy = lazy(() =>
 export const App: React.FC = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => loadTheme());
   const [activeTab, setActiveTab] = useState<ActiveWorkspaceTab>('canon-reader');
+  const [mobileCatalogOpen, setMobileCatalogOpen] = useState(false);
+  const [compilerViewMode, setCompilerViewMode] = useState<'compiler' | 'engine' | 'both'>('compiler');
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
@@ -105,10 +108,42 @@ export const App: React.FC = () => {
     return unsub;
   }, []);
 
-  const allEntries = useMemo(
-    () => [...customEntries, ...cloudCorpusEntries],
-    [customEntries, cloudCorpusEntries]
-  );
+  // Default to side-by-side/stacked 'both' on desktop, 'compiler' first on mobile to avoid iframe scroll trap
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth > 960) {
+      setCompilerViewMode('both');
+    }
+  }, []);
+
+  // Lock background body scroll when mobile catalog drawer is open & close on Escape
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (mobileCatalogOpen) {
+      document.body.style.overflow = 'hidden';
+      const onKey = (ev: KeyboardEvent) => {
+        if (ev.key === 'Escape') setMobileCatalogOpen(false);
+      };
+      window.addEventListener('keydown', onKey);
+      return () => {
+        document.body.style.overflow = '';
+        window.removeEventListener('keydown', onKey);
+      };
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [mobileCatalogOpen]);
+
+  const allEntries = useMemo(() => {
+    const seen = new Set<string>();
+    const combined: DharaniEntry[] = [];
+    for (const item of [...customEntries, ...cloudCorpusEntries]) {
+      if (!seen.has(item.id)) {
+        seen.add(item.id);
+        combined.push(item);
+      }
+    }
+    return combined;
+  }, [customEntries, cloudCorpusEntries]);
 
   const filteredEntries = useMemo(() => {
     const base = filterDharanis(allEntries, {
@@ -143,6 +178,11 @@ export const App: React.FC = () => {
     const foundInAll = allEntries.find((e) => e.id === selectedEntryId);
     return foundInAll || allEntries[0];
   }, [allEntries, filteredEntries, selectedEntryId]);
+
+  const currentEntryIdx = useMemo(() => {
+    if (!activeEntry) return -1;
+    return filteredEntries.findIndex((e) => e.id === activeEntry.id);
+  }, [filteredEntries, activeEntry]);
 
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
     isPlaying: false,
@@ -232,6 +272,7 @@ export const App: React.FC = () => {
 
   const handleTabChange = (tab: ActiveWorkspaceTab) => {
     sanskritAudioEngine.stop();
+    setMobileCatalogOpen(false);
     setActiveTab(tab);
 
     if (tab === 'hub') {
@@ -257,6 +298,7 @@ export const App: React.FC = () => {
   const handleSelectEntry = (id: string, matchedVerseId?: string) => {
     sanskritAudioEngine.stop();
     setSelectedEntryId(id);
+    setMobileCatalogOpen(false);
     if (
       activeTab !== 'canon-reader' &&
       activeTab !== 'hub' &&
@@ -278,6 +320,7 @@ export const App: React.FC = () => {
   };
 
   const handleSelectSuggestion = (item: SearchSuggestionItem) => {
+    setMobileCatalogOpen(false);
     if (item.kind === 'taisho-scripture' && item.taishoScriptureId) {
       sanskritAudioEngine.stop();
       setSelectedTaishoScriptureId(item.taishoScriptureId);
@@ -329,7 +372,7 @@ export const App: React.FC = () => {
       <div className="workspace-container">
         {activeTab === 'hub' && (
           <Suspense fallback={<div style={{ padding: '1rem', textAlign: 'center' }}>正在加载全球 12 大梵典数据库导航...</div>}>
-            <div style={{ marginBottom: '1.25rem' }}>
+            <div style={{ marginBottom: '1rem' }}>
               <DatabaseHubExplorer
                 activeAdapterDbId={selectedDbSubFilter}
                 onSelectAdapterDbId={handleSelectAdapterDbId}
@@ -340,6 +383,74 @@ export const App: React.FC = () => {
 
         {isUnifiedReaderTab && activeEntry && (
           <div className="canon-reader-grid">
+            {/* Mobile Quick Catalog Drawer Trigger & Prev/Next Scripture Stepper */}
+            <div className="mobile-catalog-bar">
+              <button
+                type="button"
+                className="mobile-catalog-trigger-btn"
+                onClick={() => setMobileCatalogOpen(true)}
+              >
+                <BookOpen size={15} />
+                <span>经咒目录 · {filteredEntries.length}部</span>
+              </button>
+
+              <div className="mobile-catalog-nav-group">
+                <button
+                  type="button"
+                  className={`mobile-step-btn ${onlyBookmarked ? 'active' : ''}`}
+                  style={
+                    onlyBookmarked
+                      ? {
+                          borderColor: 'var(--accent-gold-border)',
+                          background: 'var(--accent-gold-soft)',
+                          color: 'var(--accent-gold)',
+                        }
+                      : undefined
+                  }
+                  onClick={() => setOnlyBookmarked((b) => !b)}
+                  title="筛选已收藏经咒"
+                >
+                  <Bookmark size={13} />
+                  <span>{bookmarkedIds.size}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="mobile-step-btn"
+                  disabled={currentEntryIdx <= 0}
+                  onClick={() => {
+                    if (currentEntryIdx > 0) {
+                      handleSelectEntry(filteredEntries[currentEntryIdx - 1].id);
+                    }
+                  }}
+                  title="切换至上一部经咒"
+                >
+                  <ChevronLeft size={14} />
+                  <span className="mobile-step-label">上一部</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="mobile-step-btn"
+                  disabled={
+                    currentEntryIdx < 0 || currentEntryIdx >= filteredEntries.length - 1
+                  }
+                  onClick={() => {
+                    if (
+                      currentEntryIdx >= 0 &&
+                      currentEntryIdx < filteredEntries.length - 1
+                    ) {
+                      handleSelectEntry(filteredEntries[currentEntryIdx + 1].id);
+                    }
+                  }}
+                  title="切换至下一部经咒"
+                >
+                  <span className="mobile-step-label">下一部</span>
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            </div>
+
             <SidebarFilter
               entries={filteredEntries}
               totalCorpusCount={Math.max(allEntries.length, 2051 + customEntries.length)}
@@ -359,6 +470,8 @@ export const App: React.FC = () => {
               onlyBookmarked={onlyBookmarked}
               onToggleOnlyBookmarked={() => setOnlyBookmarked((b) => !b)}
               bookmarkedIds={bookmarkedIds}
+              mobileOpen={mobileCatalogOpen}
+              onCloseMobile={() => setMobileCatalogOpen(false)}
             />
 
             <DharaniReader
@@ -381,7 +494,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'interlinear' && (
           <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载房山石经与 T54 对音语料库...</div>}>
-            <details style={{ marginTop: '1.5rem' }}>
+            <details style={{ marginTop: '1.25rem' }}>
               <summary
                 className="btn-scholarly"
                 style={{ cursor: 'pointer', display: 'inline-flex', marginBottom: '0.75rem' }}
@@ -395,7 +508,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'concordance' && (
           <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载奥斯陆 16 本心经与多本同源对勘台...</div>}>
-            <details style={{ marginTop: '1.5rem' }}>
+            <details style={{ marginTop: '1.25rem' }}>
               <summary
                 className="btn-scholarly"
                 style={{ cursor: 'pointer', display: 'inline-flex', marginBottom: '0.75rem' }}
@@ -409,7 +522,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'cudl' && (
           <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载剑桥大学 CUDL 梵文贝叶经写本馆...</div>}>
-            <details style={{ marginTop: '1.5rem' }}>
+            <details style={{ marginTop: '1.25rem' }}>
               <summary
                 className="btn-scholarly"
                 style={{ cursor: 'pointer', display: 'inline-flex', marginBottom: '0.75rem' }}
@@ -438,7 +551,7 @@ export const App: React.FC = () => {
 
         {activeTab === 'phonetics-academy' && (
           <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载悉昙十八章与牛津 OCHS 种子字辞典...</div>}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
               <SiddhamBijaAcademy />
               <SanskritPhoneticsAcademy
                 onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
@@ -449,47 +562,78 @@ export const App: React.FC = () => {
 
         {activeTab === 'custom-compiler' && (
           <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载四行谱发音引擎与梵文编译器...</div>}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
-              <section className="dharani-hero-card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div
+                className="script-control-bar"
+                style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}
+              >
+                <div className="preset-pills-group" role="group" aria-label="引擎与编译器视图切换">
+                  <button
+                    type="button"
+                    className={`preset-mode-pill ${compilerViewMode === 'compiler' ? 'active' : ''}`}
+                    onClick={() => setCompilerViewMode('compiler')}
+                  >
+                    六体实时编译器
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-mode-pill ${compilerViewMode === 'engine' ? 'active' : ''}`}
+                    onClick={() => setCompilerViewMode('engine')}
+                  >
+                    四行谱发音引擎 v3.0
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-mode-pill ${compilerViewMode === 'both' ? 'active' : ''}`}
+                    onClick={() => setCompilerViewMode('both')}
+                  >
+                    上下同屏全览
+                  </button>
+                </div>
+
+                <a
+                  href="/sanskrit_phonetic_engine.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-scholarly primary"
+                >
+                  <span>新窗口全屏打开发音引擎 v3.0 ↗</span>
+                </a>
+              </div>
+
+              {(compilerViewMode === 'compiler' || compilerViewMode === 'both') && (
+                <CustomDharaniCompiler
+                  customEntries={customEntries}
+                  onAddCustomEntry={handleAddCustomEntry}
+                  onDeleteCustomEntry={handleDeleteCustomEntry}
+                  onSelectEntryInReader={(id) => handleSelectEntry(id)}
+                  onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+                />
+              )}
+
+              {(compilerViewMode === 'engine' || compilerViewMode === 'both') && (
+                <section className="dharani-hero-card">
                   <div>
-                    <h2 className="hero-title-zh" style={{ fontSize: '1.25rem' }}>
+                    <h2 className="hero-title-zh" style={{ fontSize: '1.15rem' }}>
                       梵语悉昙四行谱发音引擎与 34×14 摩多矩阵工作台 v3.0 (48,000 Hz Neural VITS)
                     </h2>
-                    <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-                      集成 IIT Madras Rasa 古典梵语男/女声 ONNX VITS (48kHz) + 612音节 Siddhaṃ Audio Sprite + 136.1Hz 共振峰合成器 + 四行对位总谱与 34×14 摩多矩阵点读。
+                    <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
+                      集成 IIT Madras Rasa 古典梵语男/女声 ONNX VITS (48kHz) + 612音节 Siddhaṃ Audio Sprite + 136.1Hz 共振峰合成器。
                     </p>
                   </div>
-                  <a
-                    href="/sanskrit_phonetic_engine.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-scholarly primary"
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <span>新窗口全屏打开独立版发音引擎 v3.0 ↗</span>
-                  </a>
-                </div>
-                <iframe
-                  src="/sanskrit_phonetic_engine.html"
-                  title="梵语悉昙四行谱发音引擎 v3.0"
-                  style={{
-                    width: '100%',
-                    height: '760px',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: 'var(--radius-sm)',
-                    background: '#0f1420',
-                  }}
-                />
-              </section>
-
-              <CustomDharaniCompiler
-                customEntries={customEntries}
-                onAddCustomEntry={handleAddCustomEntry}
-                onDeleteCustomEntry={handleDeleteCustomEntry}
-                onSelectEntryInReader={(id) => handleSelectEntry(id)}
-                onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-              />
+                  <iframe
+                    src="/sanskrit_phonetic_engine.html"
+                    title="梵语悉昙四行谱发音引擎 v3.0"
+                    style={{
+                      width: '100%',
+                      height: 'clamp(460px, 72vh, 720px)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: 'var(--radius-sm)',
+                      background: '#0f1420',
+                    }}
+                  />
+                </section>
+              )}
             </div>
           </Suspense>
         )}
