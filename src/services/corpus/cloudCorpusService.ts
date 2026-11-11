@@ -34,7 +34,7 @@ import { hydrateExtendedSanskritLexicon } from '../../core/sanskrit/sanskritLexi
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v9';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v10';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -82,6 +82,7 @@ async function openCorpusCache(): Promise<Cache | null> {
       window.caches.delete('sarva-dharani-corpus-v6').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v7').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v8').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v9').catch(() => {});
     }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {
