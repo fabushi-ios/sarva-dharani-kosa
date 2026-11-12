@@ -335,8 +335,10 @@ interface OnnxWorkerClient {
     voice: 'male' | 'female';
     interleaved: BigInt64Array;
     effRate: number;
+    lengthScale?: number;
     validChars: string[];
     isBareVirama: boolean;
+    coreCharCount?: number;
   }): Promise<WorkerInferResponse>;
 }
 
@@ -364,6 +366,7 @@ const ODD_WEIGHTS = new Float64Array(${weightsJson});
 const HOP_24K = 256;
 const ONSET_PAD_24K = 240;
 const PEAK_TARGET = 0.8912509381337456;
+const MAX_NORM_GAIN = 14.0;
 const INHERENT_A_CH = String.fromCharCode(0x200a);
 const VIRAMA_CH = String.fromCharCode(0x094d);
 
@@ -508,26 +511,47 @@ function cosineTail(buf, fadeStart, fadeEnd) {
   }
 }
 
-function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama) {
-  const expectedLen = chars.length * 2 + 1;
+function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama, coreCharCount) {
+  let expectedLen = chars.length * 2 + 1;
   if (chars.length === 0 || rawDurs.length !== expectedLen || rawWav24k.length === 0) {
     return { wav24k: rawWav24k, durs: rawDurs.slice() };
   }
-  const durs = rawDurs.map((d) => Math.max(0, Math.round(d)));
-  const prefix = new Int32Array(expectedLen + 1);
+  let wav = rawWav24k;
+  let curChars = chars;
+  let durs = rawDurs.map((d) => Math.max(0, Math.round(d)));
+  let prefix = new Int32Array(expectedLen + 1);
   for (let i = 0; i < expectedLen; i++) prefix[i + 1] = prefix[i] + durs[i];
 
-  const lastCharIdx = chars.length - 1;
+  if (!isBareVirama && coreCharCount > 0 && coreCharCount < curChars.length) {
+    const coreEndBlankIdx = 2 * coreCharCount;
+    const coreLastCh = curChars[coreCharCount - 1];
+    const maxTrail = coreLastCh === INHERENT_A_CH ? 4 : 16;
+    const trailFrames = Math.min(durs[coreEndBlankIdx], maxTrail);
+    const cutFrame = prefix[coreEndBlankIdx] + trailFrames;
+    const cutSamples = Math.min(wav.length, cutFrame * HOP_24K);
+    const sliced = wav.slice(0, cutSamples);
+    const fadeSamples = Math.min(cutSamples, 2 * HOP_24K);
+    cosineTail(sliced, cutSamples - fadeSamples, cutSamples);
+    wav = sliced;
+    curChars = curChars.slice(0, coreCharCount);
+    durs = durs.slice(0, coreEndBlankIdx + 1);
+    durs[coreEndBlankIdx] = trailFrames;
+    expectedLen = curChars.length * 2 + 1;
+    prefix = new Int32Array(expectedLen + 1);
+    for (let i = 0; i < expectedLen; i++) prefix[i + 1] = prefix[i] + durs[i];
+  }
+
+  const lastCharIdx = curChars.length - 1;
   const lastTokenIdx = 2 * lastCharIdx + 1;
-  const lastChar = chars[lastCharIdx];
+  const lastChar = curChars[lastCharIdx];
 
   if (isBareVirama && lastChar === INHERENT_A_CH) {
     const keepVot = Math.min(durs[lastTokenIdx], 2);
     const cutFrame = prefix[lastTokenIdx] + keepVot;
     const silentTail = 3;
-    const cutSamples = Math.min(rawWav24k.length, cutFrame * HOP_24K);
+    const cutSamples = Math.min(wav.length, cutFrame * HOP_24K);
     const out = new Float32Array(cutSamples + silentTail * HOP_24K);
-    out.set(rawWav24k.subarray(0, cutSamples), 0);
+    out.set(wav.subarray(0, cutSamples), 0);
     const fadeSamples = Math.min(cutSamples, 2 * HOP_24K);
     cosineTail(out, cutSamples - fadeSamples, cutSamples);
     durs[lastTokenIdx] = keepVot;
@@ -537,13 +561,13 @@ function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama) {
 
   if (lastChar === VIRAMA_CH) {
     const prevBlankIdx = lastTokenIdx - 1;
-    const prevBlankRms = segmentRms(rawWav24k, prefix[prevBlankIdx] * HOP_24K, prefix[prevBlankIdx + 1] * HOP_24K);
-    const viramaRms = segmentRms(rawWav24k, prefix[lastTokenIdx] * HOP_24K, prefix[lastTokenIdx + 1] * HOP_24K);
+    const prevBlankRms = segmentRms(wav, prefix[prevBlankIdx] * HOP_24K, prefix[prevBlankIdx + 1] * HOP_24K);
+    const viramaRms = segmentRms(wav, prefix[lastTokenIdx] * HOP_24K, prefix[lastTokenIdx + 1] * HOP_24K);
     if (durs[prevBlankIdx] >= 2 && prevBlankRms < 0.032 && viramaRms > 0.015) {
-      const cutSamples = Math.min(rawWav24k.length, prefix[lastTokenIdx] * HOP_24K);
+      const cutSamples = Math.min(wav.length, prefix[lastTokenIdx] * HOP_24K);
       const silentTail = 4;
       const out = new Float32Array(cutSamples + silentTail * HOP_24K);
-      out.set(rawWav24k.subarray(0, cutSamples), 0);
+      out.set(wav.subarray(0, cutSamples), 0);
       const fadeSamples = Math.min(cutSamples, 2 * HOP_24K);
       cosineTail(out, cutSamples - fadeSamples, cutSamples);
       durs[lastTokenIdx] = 0;
@@ -554,16 +578,16 @@ function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama) {
 
   if (lastChar === INHERENT_A_CH) {
     const prevBlankIdx = lastTokenIdx - 1;
-    const prevBlankRms = segmentRms(rawWav24k, prefix[prevBlankIdx] * HOP_24K, prefix[prevBlankIdx + 1] * HOP_24K);
+    const prevBlankRms = segmentRms(wav, prefix[prevBlankIdx] * HOP_24K, prefix[prevBlankIdx + 1] * HOP_24K);
     const maxHs = prevBlankRms >= 0.055
       ? Math.max(4, Math.round(13 / effRate) - durs[prevBlankIdx])
       : Math.max(9, Math.round(12 / effRate));
     if (durs[lastTokenIdx] > maxHs) {
       const cutFrame = prefix[lastTokenIdx] + maxHs;
-      const cutSamples = Math.min(rawWav24k.length, cutFrame * HOP_24K);
+      const cutSamples = Math.min(wav.length, cutFrame * HOP_24K);
       const silentTail = 4;
       const out = new Float32Array(cutSamples + silentTail * HOP_24K);
-      out.set(rawWav24k.subarray(0, cutSamples), 0);
+      out.set(wav.subarray(0, cutSamples), 0);
       const fadeSamples = Math.min(maxHs * HOP_24K, 4 * HOP_24K);
       cosineTail(out, cutSamples - fadeSamples, cutSamples);
       durs[lastTokenIdx] = maxHs;
@@ -572,7 +596,7 @@ function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama) {
     }
   }
 
-  return { wav24k: rawWav24k, durs };
+  return { wav24k: wav, durs };
 }
 
 function upsampleAndMaster(pcm24k) {
@@ -621,7 +645,7 @@ function upsampleAndMaster(pcm24k) {
     if (a > peak) peak = a;
   }
   if (peak > 1e-5) {
-    const scale = PEAK_TARGET / peak;
+    const scale = peak >= 0.065 ? (PEAK_TARGET / peak) : Math.min(PEAK_TARGET / peak, MAX_NORM_GAIN);
     for (let i = 0; i < n48; i++) out[i] *= scale;
   }
   return out;
@@ -639,7 +663,8 @@ self.onmessage = async (ev) => {
     if (msg.type === "infer") {
       const [ort, { session, modelId }] = await Promise.all([ensureOrt(), getSession(msg.voice)]);
       const ids = new BigInt64Array(msg.interleavedBuffer);
-      const scales = new Float32Array([1.0 / msg.effRate, 0.25, 0.0]);
+      const lenScale = typeof msg.lengthScale === "number" && msg.lengthScale > 0 ? msg.lengthScale : (1.0 / msg.effRate);
+      const scales = new Float32Array([lenScale, 0.25, 0.0]);
       const outputs = await session.run({
         input_ids: new ort.Tensor("int64", ids, [1, ids.length]),
         scales: new ort.Tensor("float32", scales, [3])
@@ -649,7 +674,14 @@ self.onmessage = async (ev) => {
       const wavOut = outputs[wavName].data;
       const durTensor = outputs[durName];
       const rawDurs = durTensor && durTensor.data ? Array.from(durTensor.data, (v) => Number(v)) : [];
-      const shaped = shapeWav24k(wavOut, msg.validChars, rawDurs, msg.effRate, Boolean(msg.isBareVirama));
+      const shaped = shapeWav24k(
+        wavOut,
+        msg.validChars,
+        rawDurs,
+        msg.effRate,
+        Boolean(msg.isBareVirama),
+        Number(msg.coreCharCount || 0)
+      );
       const clause48k = upsampleAndMaster(shaped.wav24k);
       self.postMessage(
         { id, ok: true, pcm48kBuffer: clause48k.buffer, shapedDurs: shaped.durs, modelId },
@@ -768,8 +800,10 @@ function getOrCreateWorkerClient(): OnnxWorkerClient | null {
               voice: params.voice,
               interleavedBuffer: copy.buffer,
               effRate: params.effRate,
+              lengthScale: params.lengthScale,
               validChars: params.validChars,
               isBareVirama: params.isBareVirama,
+              coreCharCount: params.coreCharCount ?? 0,
             },
             [copy.buffer]
           );
@@ -1088,13 +1122,20 @@ export function normalizeSikshaDevanagari(
   rawText: string,
   isSingleSyllable: boolean
 ): {
-  clauses: Array<{ vitsText: string; pauseMs: number; isBareVirama?: boolean }>;
+  clauses: Array<{
+    vitsText: string;
+    pauseMs: number;
+    isBareVirama?: boolean;
+    hadLongVocalic?: boolean;
+  }>;
 } {
   const cleanedInput = trimAsciiWs(rawText).replace(/\u200a+/g, '');
   const hasDeva = /[\u0900-\u097F]/.test(cleanedInput);
-  let deva = hasDeva ? cleanedInput : iastToDevanagari(cleanedInput);
-  deva = deva
-    .normalize('NFC')
+  const rawDeva = (hasDeva ? cleanedInput : iastToDevanagari(cleanedInput)).normalize('NFC');
+  const hadLongVocalic =
+    /[ॠॄॡॣṝḹṜḸ]/.test(cleanedInput) || /[ॠॄॡॣ]/.test(rawDeva);
+
+  let deva = rawDeva
     .replace(/[\u0951-\u0954\u1cd0-\u1cff\u200c\u200d\ufeff]/g, '')
     .replace(/ॐ/g, 'ओम्')
     .replace(/ॠ/g, 'ऋ')
@@ -1105,7 +1146,7 @@ export function normalizeSikshaDevanagari(
     .replace(/ॣ/g, '्लृ');
 
   if (isSingleSyllable) {
-    const single = trimAsciiWs(deva.replace(/ऽ+/g, '').replace(/[-–—]+/g, ' '));
+    let single = trimAsciiWs(deva.replace(/ऽ+/g, '').replace(/[-–—]+/g, ' '));
     if (!single) {
       return { clauses: [{ vitsText: 'अ', pauseMs: 0 }] };
     }
@@ -1123,12 +1164,27 @@ export function normalizeSikshaDevanagari(
         ],
       };
     }
+    // Siddhaṃ Chapters 8–15 phonotactic *a-kāra* onset prosthesis:
+    // Word-initial Repha + consonant ('र्क..र्क्न', 阿勒迦～阿勒迦那) and velar/palatal/retroflex nasal + homorganic stop
+    // ('ङ्क..ङ्कै', 阿盎迦) never occur word-initially in Sanskrit corpus and require traditional prosthetic 'अ'.
+    if (
+      !ASCII_WS_SPLIT_RE.test(single) &&
+      /^(?:र\u094d[\u0915-\u0939]|[ङञण]\u094d[\u0915-\u0928])/u.test(single)
+    ) {
+      single = `अ${single}`;
+    }
     const conditionedSingle = single
       .split(ASCII_WS_SPLIT_RE)
       .filter(Boolean)
       .map(conditionDevanagariWordForVits)
       .join(' ');
-    return { clauses: [{ vitsText: conditionedSingle, pauseMs: 0 }] };
+    return {
+      clauses: [
+        hadLongVocalic
+          ? { vitsText: conditionedSingle, pauseMs: 0, hadLongVocalic: true }
+          : { vitsText: conditionedSingle, pauseMs: 0 },
+      ],
+    };
   }
 
   // Elided Avagraha ('सोऽहम्' -> 'सो हम्') and compound hyphens ('सर्व-बुद्ध' -> 'सर्व बुद्ध')
@@ -1186,6 +1242,52 @@ export function normalizeSikshaDevanagari(
   };
 }
 
+/**
+ * Builds prosodic Daṇḍa (`।`) conditioning + Guru/Laghu `lengthScale` for isolated single-syllable
+ * VITS inference so 1-token / 2-token syllables (`उ`, `ऊ`, `ऐ`, `खृ`, `तु`, `वि`, `ठो`, `चौ`, `हं`, `अँ`)
+ * never suffer VITS stochastic duration collapse, and can be sliced cleanly before `' ।'` via `coreCharCount`.
+ */
+export function buildSingleSyllableProsodicPlan(
+  conditionedVitsText: string,
+  isBareVirama = false,
+  hadLongVocalic = false
+): {
+  inferenceText: string;
+  useProsodicSlice: boolean;
+  baseLengthScale: number;
+} {
+  const clean = trimAsciiWs(conditionedVitsText);
+  if (!clean || isBareVirama || /[।॥]/.test(clean) || ASCII_WS_SPLIT_RE.test(clean)) {
+    return {
+      inferenceText: clean,
+      useProsodicSlice: false,
+      baseLengthScale: 1.0,
+    };
+  }
+
+  const isStandaloneGuruVowel =
+    /^[आईऊएऐओऔ]$/u.test(clean) || (hadLongVocalic && (clean === 'ऋ' || clean === 'लृ'));
+  const isStandaloneHrasvaVowel =
+    /^[अइउऋ]$/u.test(clean) || (!hadLongVocalic && clean === 'लृ');
+  const isGuruSyllable =
+    hadLongVocalic || /[ाीूेैोौंःँ]|\u094d$/u.test(clean);
+
+  let baseLengthScale = 0.95;
+  if (isStandaloneGuruVowel) {
+    baseLengthScale = 1.35;
+  } else if (isStandaloneHrasvaVowel) {
+    baseLengthScale = 1.08;
+  } else if (isGuruSyllable) {
+    baseLengthScale = 1.15;
+  }
+
+  return {
+    inferenceText: `${clean} ।`,
+    useProsodicSlice: true,
+    baseLengthScale,
+  };
+}
+
 function computeSegmentRms(buf: Float32Array, startSample: number, endSample: number): number {
   const s = Math.max(0, startSample);
   const e = Math.min(buf.length, endSample);
@@ -1211,6 +1313,7 @@ function applyRaisedCosineTail(buf: Float32Array, fadeStart: number, fadeEnd: nu
 
 /**
  * Uses the exact VITS `durations` alignment tensor (`1 frame = 256 samples @ 24kHz`) to:
+ * 0. When `coreCharCount > 0`, slice out prosodic conditioning suffix (`' ।'`) cleanly after the core syllable.
  * 1. Window bare Virāma matrix cells (`क्..ह्`) strictly to their consonant release burst.
  * 2. Suppress post-stop Virāma vowel epenthesis (`फट्` -> crisp `"phaṭ"`, never `"pha-ṭa"`),
  *    while preserving continuous nasal codas (`ओम्` -> full `[mː]` resonance).
@@ -1222,31 +1325,71 @@ export function shapeVitsWaveform24kWithDurations(
   chars: string[],
   rawDurs: number[],
   effRate = 1.0,
-  isBareVirama = false
+  isBareVirama = false,
+  coreCharCount = 0
 ): { wav24k: Float32Array; durs: number[] } {
-  const expectedLen = chars.length * 2 + 1;
+  let expectedLen = chars.length * 2 + 1;
   if (chars.length === 0 || rawDurs.length !== expectedLen || rawWav24k.length === 0) {
     return { wav24k: rawWav24k, durs: rawDurs.slice() };
   }
 
-  const durs = rawDurs.map((d) => Math.max(0, Math.round(d)));
-  const prefixFrames = new Int32Array(expectedLen + 1);
+  let wav = rawWav24k;
+  let curChars = chars;
+  let durs = rawDurs.map((d) => Math.max(0, Math.round(d)));
+  let prefixFrames = new Int32Array(expectedLen + 1);
   for (let i = 0; i < expectedLen; i++) {
     prefixFrames[i + 1] = prefixFrames[i] + durs[i];
   }
 
-  const lastCharIdx = chars.length - 1;
+  // 0. Slice off prosodic Daṇḍa conditioning suffix (' ।') strictly before space token `2 * coreCharCount + 1`
+  if (!isBareVirama && coreCharCount > 0 && coreCharCount < curChars.length) {
+    const coreEndBlankIdx = 2 * coreCharCount;
+    const coreLastChar = curChars[coreCharCount - 1];
+    const maxTrailFrames = coreLastChar === VITS_INHERENT_A_MARKER ? 4 : 16;
+    let trailFrames = Math.min(durs[coreEndBlankIdx], maxTrailFrames);
+    let cutFrame = prefixFrames[coreEndBlankIdx] + trailFrames;
+    if (coreLastChar !== VITS_INHERENT_A_MARKER && coreLastChar !== '\u094d' && cutFrame < 14) {
+      let nxtIdx = coreEndBlankIdx + 1;
+      while (nxtIdx < expectedLen - 2 && cutFrame < 14) {
+        const segR = computeSegmentRms(
+          wav,
+          prefixFrames[nxtIdx] * VITS_HOP_LENGTH_24K,
+          prefixFrames[nxtIdx + 1] * VITS_HOP_LENGTH_24K
+        );
+        if (segR < 0.055) break;
+        const extra = Math.min(durs[nxtIdx], 14 - cutFrame);
+        trailFrames += extra;
+        cutFrame += extra;
+        nxtIdx++;
+      }
+    }
+    const cutSamples = Math.min(wav.length, cutFrame * VITS_HOP_LENGTH_24K);
+    const sliced = wav.slice(0, cutSamples);
+    const fadeSamples = Math.min(cutSamples, 2 * VITS_HOP_LENGTH_24K);
+    applyRaisedCosineTail(sliced, cutSamples - fadeSamples, cutSamples);
+    wav = sliced;
+    curChars = curChars.slice(0, coreCharCount);
+    durs = durs.slice(0, coreEndBlankIdx + 1);
+    durs[coreEndBlankIdx] = trailFrames;
+    expectedLen = curChars.length * 2 + 1;
+    prefixFrames = new Int32Array(expectedLen + 1);
+    for (let i = 0; i < expectedLen; i++) {
+      prefixFrames[i + 1] = prefixFrames[i] + durs[i];
+    }
+  }
+
+  const lastCharIdx = curChars.length - 1;
   const lastTokenIdx = 2 * lastCharIdx + 1;
-  const lastChar = chars[lastCharIdx];
+  const lastChar = curChars[lastCharIdx];
 
   // 1. Bare Virāma matrix cell (e.g. 'क्'): keep strictly consonant closure + release burst
   if (isBareVirama && lastChar === VITS_INHERENT_A_MARKER) {
     const keepVotFrames = Math.min(durs[lastTokenIdx], 2);
     const cutFrame = prefixFrames[lastTokenIdx] + keepVotFrames;
     const silentTailFrames = 3;
-    const cutSamples = Math.min(rawWav24k.length, cutFrame * VITS_HOP_LENGTH_24K);
+    const cutSamples = Math.min(wav.length, cutFrame * VITS_HOP_LENGTH_24K);
     const out = new Float32Array(cutSamples + silentTailFrames * VITS_HOP_LENGTH_24K);
-    out.set(rawWav24k.subarray(0, cutSamples), 0);
+    out.set(wav.subarray(0, cutSamples), 0);
     const fadeSamples = Math.min(cutSamples, 2 * VITS_HOP_LENGTH_24K);
     applyRaisedCosineTail(out, cutSamples - fadeSamples, cutSamples);
     durs[lastTokenIdx] = keepVotFrames;
@@ -1262,16 +1405,16 @@ export function shapeVitsWaveform24kWithDurations(
     const viramaStart = prefixFrames[lastTokenIdx] * VITS_HOP_LENGTH_24K;
     const viramaEnd = prefixFrames[lastTokenIdx + 1] * VITS_HOP_LENGTH_24K;
 
-    const prevBlankRms = computeSegmentRms(rawWav24k, blankStart, blankEnd);
-    const viramaRms = computeSegmentRms(rawWav24k, viramaStart, viramaEnd);
+    const prevBlankRms = computeSegmentRms(wav, blankStart, blankEnd);
+    const viramaRms = computeSegmentRms(wav, viramaStart, viramaEnd);
 
     // Oral stop closure has silent blank (< 0.032 RMS) followed by spurious voiced epenthesis on '्';
     // nasal codas ('ओम्') have voiced blank (~0.09 RMS) and are preserved intact.
     if (durs[prevBlankIdx] >= 2 && prevBlankRms < 0.032 && viramaRms > 0.015) {
-      const cutSamples = Math.min(rawWav24k.length, viramaStart);
+      const cutSamples = Math.min(wav.length, viramaStart);
       const silentTailFrames = 4;
       const out = new Float32Array(cutSamples + silentTailFrames * VITS_HOP_LENGTH_24K);
-      out.set(rawWav24k.subarray(0, cutSamples), 0);
+      out.set(wav.subarray(0, cutSamples), 0);
       const fadeSamples = Math.min(cutSamples, 2 * VITS_HOP_LENGTH_24K);
       applyRaisedCosineTail(out, cutSamples - fadeSamples, cutSamples);
       durs[lastTokenIdx] = 0;
@@ -1285,7 +1428,7 @@ export function shapeVitsWaveform24kWithDurations(
     const prevBlankIdx = lastTokenIdx - 1;
     const blankStart = prefixFrames[prevBlankIdx] * VITS_HOP_LENGTH_24K;
     const blankEnd = prefixFrames[prevBlankIdx + 1] * VITS_HOP_LENGTH_24K;
-    const prevBlankRms = computeSegmentRms(rawWav24k, blankStart, blankEnd);
+    const prevBlankRms = computeSegmentRms(wav, blankStart, blankEnd);
 
     const maxHsFrames =
       prevBlankRms >= 0.055
@@ -1294,10 +1437,10 @@ export function shapeVitsWaveform24kWithDurations(
 
     if (durs[lastTokenIdx] > maxHsFrames) {
       const cutFrame = prefixFrames[lastTokenIdx] + maxHsFrames;
-      const cutSamples = Math.min(rawWav24k.length, cutFrame * VITS_HOP_LENGTH_24K);
+      const cutSamples = Math.min(wav.length, cutFrame * VITS_HOP_LENGTH_24K);
       const silentTailFrames = 4;
       const out = new Float32Array(cutSamples + silentTailFrames * VITS_HOP_LENGTH_24K);
-      out.set(rawWav24k.subarray(0, cutSamples), 0);
+      out.set(wav.subarray(0, cutSamples), 0);
       const fadeSamples = Math.min(
         maxHsFrames * VITS_HOP_LENGTH_24K,
         4 * VITS_HOP_LENGTH_24K
@@ -1309,7 +1452,7 @@ export function shapeVitsWaveform24kWithDurations(
     }
   }
 
-  return { wav24k: rawWav24k, durs };
+  return { wav24k: wav, durs };
 }
 
 /**
@@ -1318,7 +1461,7 @@ export function shapeVitsWaveform24kWithDurations(
  * 2. Ultra-short 1.5ms micro-ramp + 10ms clean zero pre-pad (`ONSET_PAD_SAMPLES_24K`) so initial
  *    palatal/plosive bursts (`च` in `cipa`, `क`, `त`, `प`) are 100% preserved without onset clipping.
  * 3. 31-tap symmetric Kaiser half-band polyphase 2x FIR upsampler to 48,000 Hz.
- * 4. Peak normalization to -1.0 dBFS.
+ * 4. Peak normalization to -1.0 dBFS (with max-gain guard against floor noise amplification).
  */
 export function upsample24kTo48kAndMaster(pcm24k: Float32Array): Float32Array {
   const nRaw = pcm24k.length;
@@ -1370,14 +1513,15 @@ export function upsample24kTo48kAndMaster(pcm24k: Float32Array): Float32Array {
     out[2 * n + 1] = acc;
   }
 
-  // 4. Peak normalize to -1.0 dBFS
+  // 4. Peak normalize to -1.0 dBFS with floor-hiss amplification guard
   let peak = 0;
   for (let i = 0; i < n48; i++) {
     const a = Math.abs(out[i]);
     if (a > peak) peak = a;
   }
   if (peak > 1e-5) {
-    const scale = PEAK_TARGET_LINEAR / peak;
+    const scale =
+      peak >= 0.065 ? PEAK_TARGET_LINEAR / peak : Math.min(PEAK_TARGET_LINEAR / peak, 14.0);
     for (let i = 0; i < n48; i++) {
       out[i] *= scale;
     }
@@ -1541,10 +1685,25 @@ export async function synthesizePcmWithBrowserOnnxVits(
     }
 
     const cl = clauses[cIdx];
-    const cleaned = trimAsciiWs(
+    const coreCleaned = trimAsciiWs(
       cl.vitsText.replace(/[\u0951-\u0954\u1cd0-\u1cff\u200c\u200d\ufeff]/g, '').toLowerCase()
     );
+    const prosodicPlan = isSingleSyllable
+      ? buildSingleSyllableProsodicPlan(
+          coreCleaned,
+          Boolean(cl.isBareVirama),
+          Boolean(cl.hadLongVocalic)
+        )
+      : { inferenceText: coreCleaned, useProsodicSlice: false, baseLengthScale: 1.0 };
 
+    const coreValidChars: string[] = [];
+    for (const ch of coreCleaned) {
+      if (ch in c2i) {
+        coreValidChars.push(ch);
+      }
+    }
+
+    const cleaned = prosodicPlan.inferenceText;
     const validChars: string[] = [];
     const rawIds: bigint[] = [];
     for (const ch of cleaned) {
@@ -1557,6 +1716,14 @@ export async function synthesizePcmWithBrowserOnnxVits(
       validChars.push(' ');
       rawIds.push(BigInt(c2i[' '] ?? vocab.pad_id ?? 0));
     }
+
+    const coreCharCount =
+      prosodicPlan.useProsodicSlice &&
+      coreValidChars.length > 0 &&
+      coreValidChars.length < validChars.length
+        ? coreValidChars.length
+        : 0;
+    const effectiveLengthScale = prosodicPlan.baseLengthScale / effRate;
 
     const interleaved = new BigInt64Array(rawIds.length * 2 + 1);
     interleaved[0] = blankId;
@@ -1573,8 +1740,10 @@ export async function synthesizePcmWithBrowserOnnxVits(
               voice,
               interleaved,
               effRate,
+              lengthScale: effectiveLengthScale,
               validChars,
               isBareVirama: Boolean(cl.isBareVirama),
+              coreCharCount,
             });
             resolvedModelId = workerOut.modelId;
             return {
@@ -1598,7 +1767,7 @@ export async function synthesizePcmWithBrowserOnnxVits(
           resolvedModelId = loaded.modelId;
         }
 
-        const scales = new Float32Array([1.0 / effRate, 0.25, 0.0]);
+        const scales = new Float32Array([effectiveLengthScale, 0.25, 0.0]);
         const feeds: Record<string, OrtTensor> = {
           input_ids: new fallbackOrt.Tensor('int64', interleaved, [1, interleaved.length]),
           scales: new fallbackOrt.Tensor('float32', scales, [3]),
@@ -1613,7 +1782,8 @@ export async function synthesizePcmWithBrowserOnnxVits(
           validChars,
           rawDurs,
           effRate,
-          Boolean(cl.isBareVirama)
+          Boolean(cl.isBareVirama),
+          coreCharCount
         );
         return {
           clause48k: upsample24kTo48kAndMaster(wav24k),
@@ -1625,8 +1795,9 @@ export async function synthesizePcmWithBrowserOnnxVits(
     );
 
     const chunkStartSample = totalSamples;
+    const spanChars = coreCharCount > 0 ? validChars.slice(0, coreCharCount) : validChars;
     const wordSpans = extractWordSpansFromDurations(
-      validChars,
+      spanChars,
       shapedDurs,
       chunkStartSample,
       clause48k.length

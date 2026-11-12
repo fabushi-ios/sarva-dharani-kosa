@@ -50,18 +50,46 @@ except ImportError:
     _MMS_SPEC = (
         json.loads((MODELS_DIR / "onnx" / "sa" / "vocab.json").read_text(encoding="utf-8"))
         if (MODELS_DIR / "onnx" / "sa" / "vocab.json").exists()
-        else {"vocab_tokens": ["_", " ", "अ"]}
+        else {"native_vocab": ["_", " ", "ಅ"]}
     )
+    _MMS_VOCAB_LIST: list[str] = _MMS_SPEC.get("native_vocab") or _MMS_SPEC.get("vocab_tokens", [])
     _MMS_CHAR_TO_ID: dict[str, int] = {
-        tok: idx for idx, tok in enumerate(_MMS_SPEC.get("vocab_tokens", []))
+        tok: idx for idx, tok in enumerate(_MMS_VOCAB_LIST)
     }
     _MMS_BLANK_ID: int = _MMS_CHAR_TO_ID.get("_", 0)
+    _MMS_USES_KANNADA: bool = "ಅ" in _MMS_CHAR_TO_ID
+
+    def _deva_to_mms_native(text: str) -> str:
+        norm = unicodedata.normalize("NFC", str(text or "")).strip(_ASCII_WS_CHARS)
+        if not _MMS_USES_KANNADA:
+            return norm
+        out: list[str] = []
+        for ch in norm:
+            cp = ord(ch)
+            if ch == "ँ":
+                out.append("\u0c82")
+            elif ch == "ऽ":
+                out.append("'")
+            elif ch == "ऩ":
+                out.append("\u0ca8")
+            elif ch == "ऱ":
+                out.append("\u0cb0")
+            elif ch == "ऴ":
+                out.append("\u0cb3")
+            elif 0x0966 <= cp <= 0x096F:
+                out.append(chr(ord("0") + (cp - 0x0966)))
+            elif 0x0902 <= cp <= 0x0939 or 0x093E <= cp <= 0x094D or 0x0960 <= cp <= 0x0963:
+                out.append(chr(cp + 0x0380))
+            else:
+                out.append(ch)
+        return "".join(out)
 
     def ninada_mms_text_to_ids(text: str, lang: str | None = "sa") -> dict[str, Any]:
-        cleaned = unicodedata.normalize("NFC", str(text or "")).strip(_ASCII_WS_CHARS)
-        raw_ids = [_MMS_CHAR_TO_ID[ch] for ch in cleaned if ch in _MMS_CHAR_TO_ID]
+        mapped = _deva_to_mms_native(text)
+        raw_ids = [_MMS_CHAR_TO_ID[ch] for ch in mapped if ch in _MMS_CHAR_TO_ID]
         if not raw_ids:
-            raw_ids = [_MMS_CHAR_TO_ID.get("अ", 0)]
+            fallback_ch = "ಅ" if _MMS_USES_KANNADA else "अ"
+            raw_ids = [_MMS_CHAR_TO_ID.get(fallback_ch, 0)]
         sp_id = _MMS_CHAR_TO_ID.get(" ")
         if sp_id is not None and raw_ids[-1] != sp_id:
             raw_ids.append(sp_id)
@@ -130,14 +158,38 @@ DEVA_MATRAS: set[str] = set("ािीुूृॄॢॣेैोौ")
 DEVA_IGNORE: set[str] = {"\u0951", "\u0952", "\u0953", "\u0954", "\u200c", "\u200d"}
 
 IAST_TO_SLP1_RULES: list[tuple[str, str]] = [
+    ("ṃ\u0310", "~"), ("ṁ\u0310", "~"), ("m\u0310", "~"), ("\u0310", "~"),
     ("ai", "E"), ("au", "O"),
     ("kh", "K"), ("gh", "G"), ("ch", "C"), ("jh", "J"),
     ("ṭh", "W"), ("ḍh", "Q"), ("th", "T"), ("dh", "D"), ("ph", "P"), ("bh", "B"),
-    ("ṝ", "F"), ("ḹ", "X"), ("ā", "A"), ("ī", "I"), ("ū", "U"), ("ṛ", "f"), ("ḷ", "x"),
+    ("ṝ", "F"), ("ḹ", "X"), ("ā", "A"), ("ī", "I"), ("ū", "U"), ("ṛ", "f"), ("ḷ", "x"), ("ḻ", "L"),
     ("ē", "e"), ("ō", "o"),
     ("ṅ", "N"), ("ñ", "Y"), ("ṭ", "w"), ("ḍ", "q"), ("ṇ", "R"), ("ś", "S"), ("ṣ", "z"),
     ("ṃ", "M"), ("ṁ", "M"), ("ḥ", "H"), ("ँ", "~"),
 ]
+
+SIDDHAM_VOWEL_TO_SLP1: dict[str, str] = {
+    "𑖀": "a", "𑖁": "A", "𑖂": "i", "𑖃": "I", "𑖄": "u", "𑖅": "U",
+    "𑖆": "f", "𑖇": "F", "𑖈": "x", "𑖉": "X", "𑖊": "e", "𑖋": "E", "𑖌": "o", "𑖍": "O",
+}
+SIDDHAM_MATRA_TO_SLP1: dict[str, str] = {
+    "𑖯": "A", "𑖰": "i", "𑖱": "I", "𑖲": "u", "𑖳": "U",
+    "𑖴": "f", "𑖵": "F", "𑖶": "x", "𑖷": "X", "𑖸": "e", "𑖹": "E", "𑖺": "o", "𑖻": "O",
+}
+SIDDHAM_CONS_TO_SLP1: dict[str, str] = {
+    "𑖎": "k", "𑖏": "K", "𑖐": "g", "𑖑": "G", "𑖒": "N",
+    "𑖓": "c", "𑖔": "C", "𑖕": "j", "𑖖": "J", "𑖗": "Y",
+    "𑖘": "w", "𑖙": "W", "𑖚": "q", "𑖛": "Q", "𑖜": "R",
+    "𑖝": "t", "𑖞": "T", "𑖟": "d", "𑖠": "D", "𑖡": "n",
+    "𑖢": "p", "𑖣": "P", "𑖤": "b", "𑖥": "B", "𑖦": "m",
+    "𑖧": "y", "𑖨": "r", "𑖩": "l", "𑖪": "v",
+    "𑖫": "S", "𑖬": "z", "𑖭": "s", "𑖮": "h",
+}
+SIDDHAM_MOD_TO_SLP1: dict[str, str] = {
+    "𑖼": "~", "𑖽": "M", "𑖾": "H", "𑗂": "|", "𑗃": "||", "𑗉": "||",
+}
+SIDDHAM_VIRAMA_CH = "𑖿"
+SIDDHAM_NUKTA_CH = "𑗀"
 
 ROUGH_ENGLISH_WORD_MAP: dict[str, str] = {
     "om": "oṃ", "aum": "oṃ", "hum": "hūṃ", "hrim": "hrīṃ", "hreem": "hrīṃ",
@@ -385,16 +437,62 @@ def devanagari_chunk_to_slp1(text: str) -> str:
     return "".join(out)
 
 
+def siddham_chunk_to_slp1(text: str) -> str:
+    chars = list(text)
+    out: list[str] = []
+    i = 0
+    n = len(chars)
+    while i < n:
+        ch = chars[i]
+        if ch in ("\u200c", "\u200d", "\ufe0f"):
+            i += 1
+            continue
+        if ch in SIDDHAM_CONS_TO_SLP1:
+            out.append(SIDDHAM_CONS_TO_SLP1[ch])
+            nxt = chars[i + 1] if i + 1 < n else ""
+            if nxt == SIDDHAM_NUKTA_CH:
+                i += 1
+                nxt = chars[i + 1] if i + 1 < n else ""
+            if nxt == SIDDHAM_VIRAMA_CH:
+                i += 2
+                continue
+            elif nxt in SIDDHAM_MATRA_TO_SLP1:
+                out.append(SIDDHAM_MATRA_TO_SLP1[nxt])
+                i += 2
+                continue
+            else:
+                out.append("a")
+                i += 1
+                continue
+        elif ch in SIDDHAM_VOWEL_TO_SLP1:
+            out.append(SIDDHAM_VOWEL_TO_SLP1[ch])
+            i += 1
+        elif ch in SIDDHAM_MATRA_TO_SLP1:
+            out.append(SIDDHAM_MATRA_TO_SLP1[ch])
+            i += 1
+        elif ch in SIDDHAM_MOD_TO_SLP1:
+            out.append(SIDDHAM_MOD_TO_SLP1[ch])
+            i += 1
+        elif ch in (SIDDHAM_VIRAMA_CH, SIDDHAM_NUKTA_CH):
+            i += 1
+        else:
+            out.append(ch)
+            i += 1
+    return "".join(out)
+
+
 def latin_chunk_to_slp1(chunk: str, mode: str = "smart") -> str:
     if mode == "slp1":
         return chunk
     s = unicodedata.normalize("NFC", chunk).lower()
+    # Vedic retroflex lateral ḷ before vowels ('ḷa..ḷau', 'īḷe') -> 'ḻ' ('L' = 'ळ')
+    s = re.sub(r"ḷ(?=[aāiīuūṛṝeaoēō])", "ḻ", s)
     if mode == "smart":
         def _repl_word(m: re.Match[str]) -> str:
             word = m.group(0)
             if word in ROUGH_ENGLISH_WORD_MAP:
                 return ROUGH_ENGLISH_WORD_MAP[word]
-            if not re.search(r"[āīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]", word):
+            if not re.search(r"[āīūṛṝḷḹḻṅñṭḍṇśṣṃṁḥ\u0310]", word):
                 w = (
                     word.replace("shh", "ṣ")
                     .replace("ksh", "kṣ")
@@ -406,7 +504,7 @@ def latin_chunk_to_slp1(chunk: str, mode: str = "smart") -> str:
                 return w
             return word
 
-        s = re.sub(r"[a-zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ']+", _repl_word, s)
+        s = re.sub(r"[a-zāīūṛṝḷḹḻṅñṭḍṇśṣṃṁḥ\u0310']+", _repl_word, s)
     for iast, slp in IAST_TO_SLP1_RULES:
         s = s.replace(iast, slp)
     return s
@@ -417,14 +515,45 @@ def input_to_slp1(text: str, mode: str = "smart") -> str:
         mode = "smart"
     elif mode == "iast":
         mode = "strict"
-    parts = re.findall(r"[\u0900-\u097F\u200c\u200d]+|[^\u0900-\u097F\u200c\u200d]+", text or "")
+    parts = re.findall(
+        r"[\u0900-\u097F\u200c\u200d]+|[\U00011580-\U000115FF\u200c\u200d]+|[^\u0900-\u097F\U00011580-\U000115FF\u200c\u200d]+",
+        text or "",
+    )
     out: list[str] = []
     for part in parts:
         if re.search(r"[\u0900-\u097F]", part):
             out.append(devanagari_chunk_to_slp1(part))
+        elif re.search(r"[\U00011580-\U000115FF]", part):
+            out.append(siddham_chunk_to_slp1(part))
         else:
             out.append(latin_chunk_to_slp1(part, mode))
     return "".join(out)
+
+
+def resolve_slp1_or_iast_to_slp1(raw: str) -> str:
+    """
+    Deterministically resolve an ambiguous SLP1 / IAST / Devanāgarī / Siddhaṃ / rough-English
+    token or phrase into canonical SLP1 WITHOUT lowercasing or mutating valid SLP1 keys
+    such as `'CO'` (`chau`), `'kf'` (`kṛ`), `'Paw'` (`phaṭ`), `'BrUM'` (`bhrūṃ`), `'La'` (`ḷa`), or `'a~'` (`am̐`).
+    """
+    trimmed = (raw or "").strip()
+    if not trimmed:
+        return ""
+    if re.search(r"[\u0900-\u097F\U00011580-\U000115FF]", trimmed):
+        return input_to_slp1(trimmed, mode="strict").strip()
+    if trimmed in STANDALONE_SVARAS or trimmed in SYLLABLE_OVERRIDES or trimmed == "a~":
+        return trimmed
+    if re.search(r"[āīūṛṝḷḹḻēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ\u0310ँ]", trimmed):
+        return input_to_slp1(trimmed, mode="smart").strip()
+    lower = trimmed.lower()
+    if lower in ROUGH_ENGLISH_WORD_MAP:
+        return input_to_slp1(trimmed, mode="smart").strip()
+    if re.search(r"(?:kh|gh|ch|jh|th|dh|ph|bh|sh|ai|au)", lower):
+        return input_to_slp1(trimmed, mode="smart").strip()
+    valid_slp = CONS_SET | VOWEL_SET | MOD_SET | {"'"}
+    if " " not in trimmed and all(ch in valid_slp for ch in trimmed):
+        return trimmed
+    return input_to_slp1(trimmed, mode="smart").strip()
 
 
 def slp1_to_iast(slp: str) -> str:
@@ -1012,7 +1141,7 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
             "hasVisarga": False,
         }
 
-    # Category 2: Standalone 16 Svaras ('a'..'O', 'aM', 'aH')
+    # Category 2: Standalone 16 Svaras ('a'..'O', 'aM', 'aH') + Candrabindu Svara ('a~')
     if key in STANDALONE_SVARAS:
         if key in ("x", "X"):
             mms_query = "लृ"
@@ -1031,6 +1160,45 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
             "vitsQuery": mms_query,
             "targetMinSec": 0.350 if is_guru else 0.200,
             "targetMaxSec": 0.450 if is_guru else 0.280,
+            "hasVisarga": key.endswith("H"),
+        }
+
+    if key == "a~":
+        return {
+            "slp1": key,
+            "iast": iast,
+            "deva": deva,
+            "meter": "—",
+            "category": "svara",
+            "engine": "studio_24k",
+            "vitsQuery": deva,
+            "targetMinSec": 0.300,
+            "targetMaxSec": 0.440,
+            "hasVisarga": False,
+        }
+
+    # Siddhaṃ Chapters 8–15 pedagogical medial ligatures (repha `rC-` and homorganic `ṅC-/ñC-/ṇC-`):
+    # In Sanskrit phonotactics these clusters only occur post-vocalically (`arka`, `dharma`, `aṅka`, `pañca`, `kaṇṭha`).
+    # Supplying the traditional Śikṣā prosthetic short `अ` (`a-kāra`) allows VITS to voice the true repha/nasal cluster.
+    if meter != "" and re.match(r"^(?:r[kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL]|N[kKgG]|Y[cCjJ]|R[wWqQ])", key):
+        prosthetic_deva = condition_devanagari_word_for_vits(
+            ("अ" + deva)
+            .replace("ॠ", "ऋ")
+            .replace("ॄ", "ृ")
+            .replace("ॢ", "्लृ")
+            .replace("ॣ", "्लृ")
+        )
+        is_guru = meter == "—"
+        return {
+            "slp1": key,
+            "iast": iast,
+            "deva": deva,
+            "meter": meter,
+            "category": "inherent_a" if key.endswith("a") else "cv_or_compound",
+            "engine": "studio_24k",
+            "vitsQuery": prosthetic_deva,
+            "targetMinSec": 0.320 if is_guru else 0.220,
+            "targetMaxSec": 0.460 if is_guru else 0.340,
             "hasVisarga": key.endswith("H"),
         }
 
@@ -1066,7 +1234,7 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
         }
 
     # Category 5: All other CV / conjunct / closed / override syllables
-    vits_query = (
+    vits_query = condition_devanagari_word_for_vits(
         deva.replace("ॐ", "ओम्")
         .replace("ॠ", "ऋ")
         .replace("ॄ", "ृ")
@@ -1145,7 +1313,8 @@ def apply_mastering_envelope_48k(
 
     peak = float(np.max(np.abs(arr)))
     if peak > 1e-5:
-        arr = (arr * (peak_target / peak)).astype(np.float32)
+        gain = (peak_target / peak) if peak >= 0.05 else min(peak_target / peak, 14.0)
+        arr = (arr * gain).astype(np.float32)
     return arr
 
 
@@ -1179,10 +1348,13 @@ def shape_vits_waveform_24k_with_durations(
     eff_rate: float = 1.0,
     is_bare_virama: bool = False,
     prepend_onset_pad: bool = True,
+    core_char_count: int = 0,
 ) -> tuple[np.ndarray, list[int]]:
     """
     Use the exact VITS `durations` alignment tensor (`1 frame = 256 samples @ 24kHz`) to:
-    1. Window bare Virāma matrix cells (`क्..ह्`) strictly to their consonant release burst.
+    0. Slice off prosodic right-context conditioning (`" ।"`), preserving full diphthong offglides (`औ`)
+       and vowel resonances inside `durs[2 * core_char_count]` with zero Daṇḍa bleed.
+    1. Window bare Virāma matrix cells (`क्..ळ्`) strictly to their consonant release burst.
     2. Suppress post-stop Virāma vowel epenthesis (`फट्` -> crisp `"phaṭ"`, never `"pha-ṭa"`),
        while preserving continuous nasal codas (`ओम्` -> full `[mː]` resonance).
     3. Cap utterance-final `\\u200a` short-`a` duration to Laghu (~9-12 frames) so `cipa` / `hunupa` / `ka`
@@ -1198,6 +1370,40 @@ def shape_vits_waveform_24k_with_durations(
         prefix = [0] * (expected_len + 1)
         for i in range(expected_len):
             prefix[i + 1] = prefix[i] + durs[i]
+
+        if not is_bare_virama and 0 < core_char_count < len(chars):
+            core_end_blank_idx = 2 * core_char_count
+            core_last_ch = chars[core_char_count - 1]
+            max_trail = 4 if core_last_ch == VITS_INHERENT_A_MARKER else 16
+            trail_frames = min(durs[core_end_blank_idx], max_trail)
+            cut_frame = prefix[core_end_blank_idx] + trail_frames
+            # For ultra-compact matras like vocalic `-ṛ` ('कृ'), VITS often voices the rhotic vowel peak
+            # continuously across `tok[core_end_blank_idx]` into `' '` (`tok[core_end_blank_idx + 1]`).
+            if core_last_ch not in (VITS_INHERENT_A_MARKER, "\u094d") and cut_frame < 14:
+                nxt_idx = core_end_blank_idx + 1
+                while nxt_idx < expected_len - 2 and cut_frame < 14:
+                    seg_r = _segment_rms(
+                        arr,
+                        prefix[nxt_idx] * VITS_HOP_LENGTH_24K,
+                        prefix[nxt_idx + 1] * VITS_HOP_LENGTH_24K,
+                    )
+                    if seg_r < 0.055:
+                        break
+                    extra = min(durs[nxt_idx], 14 - cut_frame)
+                    trail_frames += extra
+                    cut_frame += extra
+                    nxt_idx += 1
+            cut_samples = min(len(arr), cut_frame * VITS_HOP_LENGTH_24K)
+            sliced = arr[:cut_samples].copy()
+            _apply_raised_cosine_tail(sliced, cut_samples - min(cut_samples, 2 * VITS_HOP_LENGTH_24K), cut_samples)
+            arr = sliced
+            chars = chars[:core_char_count]
+            durs = durs[: core_end_blank_idx + 1]
+            durs[core_end_blank_idx] = trail_frames
+            expected_len = len(chars) * 2 + 1
+            prefix = [0] * (expected_len + 1)
+            for i in range(expected_len):
+                prefix[i + 1] = prefix[i] + durs[i]
 
         last_char_idx = len(chars) - 1
         last_tok_idx = 2 * last_char_idx + 1
@@ -1273,12 +1479,10 @@ def shape_single_syllable_48k(pcm_48k: np.ndarray, cond: dict[str, Any]) -> np.n
     """
     arr = apply_dc_blocker(pcm_48k, r=0.9965)
     peak_raw = float(np.max(np.abs(arr))) if len(arr) > 0 else 0.0
-    if peak_raw > 1e-5:
-        arr = arr / peak_raw
 
-    # Trim leading/trailing silence using adaptive energy threshold
-    thresh = 0.020
-    active_idx = np.where(np.abs(arr) > thresh)[0]
+    # Trim leading/trailing silence using adaptive energy threshold relative to signal peak
+    rel_thresh = max(5e-4, 0.020 * peak_raw)
+    active_idx = np.where(np.abs(arr) > rel_thresh)[0]
     if len(active_idx) >= 16:
         pad_pre = int(0.010 * TARGET_SAMPLE_RATE)
         pad_post = int(0.018 * TARGET_SAMPLE_RATE)
@@ -1420,6 +1624,7 @@ class SanskritTTSEngine:
         eff_rate: float = 1.0,
         is_bare_virama: bool = False,
         prepend_onset_pad: bool = True,
+        core_char_count: int = 0,
     ) -> tuple[np.ndarray, list[int], list[str], str]:
         """Run 24,000 Hz Studio/Mobile VITS specialist with duration-tensor shaping and upsample 2x to 48,000 Hz."""
         sess, model_id = self._select_studio_session(voice)
@@ -1443,6 +1648,7 @@ class SanskritTTSEngine:
             eff_rate=eff_rate,
             is_bare_virama=is_bare_virama,
             prepend_onset_pad=prepend_onset_pad,
+            core_char_count=core_char_count,
         )
         wav_48k = upsample_to_48k(shaped_24k, 24000)
         return wav_48k, durs_list, valid_chars, model_id
@@ -1464,18 +1670,27 @@ class SanskritTTSEngine:
             model_id = "gnumanth/ninada:onnx/sa/encoder_flow_quantized.onnx"
         else:
             query = cond["vitsQuery"]
-            if cond["category"] == "svara":
-                # For female/mobile voice on isolated vowel, double the vowel in Studio 24kHz
-                query = query * 2 if len(query) == 1 else query
+            is_virama = cond["category"] == "virama"
+            studio_len_scale = (1.35 if is_guru else (1.08 if cond["category"] == "svara" else 0.90)) / eff_rate
+            if not is_virama:
+                _, _, core_cleaned = studio_text_to_ids(query, lang="sa")
+                c2i = STUDIO_VOCABS["sa"]["char_to_id"]
+                core_char_count = sum(1 for ch in core_cleaned if ch in c2i)
+                conditioned_query = f"{query} ।"
+            else:
+                core_char_count = 0
+                conditioned_query = query
+
             wav_48k, _, _, model_id = self.synthesize_studio_24k_to_48k(
-                query,
+                conditioned_query,
                 voice=voice,
-                length_scale=base_len_scale,
+                length_scale=studio_len_scale,
                 noise_scale=0.25,
                 noise_w=0.0,
                 eff_rate=eff_rate,
-                is_bare_virama=(cond["category"] == "virama"),
+                is_bare_virama=is_virama,
                 prepend_onset_pad=False,
+                core_char_count=core_char_count,
             )
 
         # Scale target bounds by speech rate

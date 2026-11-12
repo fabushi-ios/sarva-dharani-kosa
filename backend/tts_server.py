@@ -42,6 +42,7 @@ from backend.sanskrit_tts_engine import (
     VOWEL_SET,
     get_tts_engine,
     input_to_slp1,
+    resolve_slp1_or_iast_to_slp1,
 )
 
 import os
@@ -89,17 +90,7 @@ def _normalize_slp1_key(raw_key: str) -> str:
     decoded = urllib.parse.unquote(raw_key or "").strip()
     if not decoded:
         return ""
-    if decoded in STANDALONE_SVARAS or decoded in SYLLABLE_OVERRIDES:
-        return decoded
-    # If input contains Devanagari, IAST diacritics, or lowercase IAST aspirated/diphthong digraphs, convert via input_to_slp1
-    if re.search(r"[\u0900-\u097Fāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]", decoded) or re.search(
-        r"(kh|gh|ch|jh|th|dh|ph|bh|sh|ai|au)", decoded
-    ):
-        return input_to_slp1(decoded, mode="smart").strip()
-    valid_slp_chars = CONS_SET | VOWEL_SET | MOD_SET
-    if all(ch in valid_slp_chars for ch in decoded):
-        return decoded
-    return input_to_slp1(decoded, mode="smart").strip()
+    return resolve_slp1_or_iast_to_slp1(decoded)
 
 
 def _convert_wav_to_ogg_bytes(wav_path: Path, ogg_path: Path) -> bytes:
@@ -403,7 +394,7 @@ def get_syllable(
     if norm_voice not in ("male", "female", "mobile", "mobile_female"):
         norm_voice = "male"
 
-    cache_key = f"v2_plan1|{norm_key}|{norm_voice}|{eff_rate:.3f}"
+    cache_key = f"v3_plan1|{norm_key}|{norm_voice}|{eff_rate:.3f}"
     if cache_key in _MEM_SYL_CACHE:
         res = _MEM_SYL_CACHE[cache_key]
     else:

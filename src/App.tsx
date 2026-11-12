@@ -675,7 +675,9 @@ export const App: React.FC = () => {
           {activeTab === 'phonetics-academy' && (
             <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载悉昙十八章与牛津 OCHS 种子字辞典...</div>}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.35rem' }}>
-                <SiddhamBijaAcademy />
+                <SiddhamBijaAcademy
+                  onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
+                />
                 <SanskritPhoneticsAcademy
                   onPlaySyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
                 />

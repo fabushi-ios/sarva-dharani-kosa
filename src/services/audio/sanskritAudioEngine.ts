@@ -1183,9 +1183,16 @@ class SanskritAudioEngine {
           return;
         }
 
+        const rawDevaKey = /[\u0900-\u097F]/.test(cleanText)
+          ? cleanText.normalize('NFC')
+          : (iastToDevanagari(cleanText) || cleanText).normalize('NFC');
+        const apiQueryKey = /^(?:र\u094d[\u0915-\u0939]|[ङञण]\u094d[\u0915-\u0928])/u.test(rawDevaKey)
+          ? `अ${rawDevaKey}`
+          : rawDevaKey;
+
         const preferApi = this.pythonBackendAvailable || !onnxReadyNow;
         if (preferApi) {
-          const apiOut = await this.requestNeuralSyllableBufferFromApi(ctx, syl.iast, voice, rate);
+          const apiOut = await this.requestNeuralSyllableBufferFromApi(ctx, apiQueryKey, voice, rate);
           if (apiOut) {
             if (reqId !== this.singleSyllableRequestId) return;
             this.state.activeModel = this.formatActiveNeuralModelLabel(
@@ -1225,9 +1232,15 @@ class SanskritAudioEngine {
       } catch {
         // If local ONNX failed unexpectedly, attempt cloud HF Neural API before giving up
         try {
+          const fallbackDeva = /[\u0900-\u097F]/.test(cleanText)
+            ? cleanText.normalize('NFC')
+            : (iastToDevanagari(cleanText) || cleanText).normalize('NFC');
+          const fallbackApiKey = /^(?:र\u094d[\u0915-\u0939]|[ङञण]\u094d[\u0915-\u0928])/u.test(fallbackDeva)
+            ? `अ${fallbackDeva}`
+            : fallbackDeva;
           const backupApi = await this.requestNeuralSyllableBufferFromApi(
             ctx,
-            syl.iast,
+            fallbackApiKey,
             voice,
             rate
           );

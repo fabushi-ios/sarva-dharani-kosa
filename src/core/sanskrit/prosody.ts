@@ -98,6 +98,7 @@ const CONSONANT_LIST = [
   'ṣ',
   's',
   'h',
+  'ḻ',
 ];
 
 /**
@@ -150,7 +151,10 @@ interface PhonemeToken {
 }
 
 export function tokenizeWordPhonemes(word: string): PhonemeToken[] {
-  const s = word.toLowerCase().trim();
+  const s = word
+    .toLowerCase()
+    .trim()
+    .replace(/ḷ(?=[aāiīuūṛṝeaoēō])/g, 'ḻ');
   const tokens: PhonemeToken[] = [];
   let i = 0;
 

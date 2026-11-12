@@ -81,7 +81,7 @@ export const IAST_TO_SLP1_RULES: Array<[string, string]> = [
   ['ṭh', 'W'], ['ḍh', 'Q'], ['th', 'T'], ['dh', 'D'], ['ph', 'P'], ['bh', 'B'],
   ['ṝ', 'F'], ['ḹ', 'X'], ['ā', 'A'], ['ī', 'I'], ['ū', 'U'], ['ṛ', 'f'], ['ḷ', 'x'],
   ['ē', 'e'], ['ō', 'o'],
-  ['ṅ', 'N'], ['ñ', 'Y'], ['ṭ', 'w'], ['ḍ', 'q'], ['ṇ', 'R'], ['ś', 'S'], ['ṣ', 'z'],
+  ['ṅ', 'N'], ['ñ', 'Y'], ['ṭ', 'w'], ['ḍ', 'q'], ['ṇ', 'R'], ['ś', 'S'], ['ṣ', 'z'], ['ḻ', 'L'],
   ['ṃ\u0310', '~'], ['ṁ\u0310', '~'], ['m\u0310', '~'], ['\u0310', '~'],
   ['ṃ', 'M'], ['ṁ', 'M'], ['ḥ', 'H'], ['ँ', '~']
 ];
@@ -109,9 +109,9 @@ export function iastToSlp1(chunk: string, mode: InputMode = 'strict'): string {
   }
   let s = chunk.normalize('NFC').toLowerCase();
   if (mode === 'smart') {
-    s = s.replace(/[a-zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ']+/g, (word) => {
+    s = s.replace(/[a-zāīūṛṝḷḹḻṅñṭḍṇśṣṃṁḥ']+/g, (word) => {
       if (ROUGH_ENGLISH_WORD_MAP[word]) return ROUGH_ENGLISH_WORD_MAP[word];
-      if (!/[āīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]/.test(word)) {
+      if (!/[āīūṛṝḷḹḻṅñṭḍṇśṣṃṁḥ]/.test(word)) {
         return word
           .replace(/shh/g, 'ṣ')
           .replace(/ksh/g, 'kṣ')
@@ -123,6 +123,9 @@ export function iastToSlp1(chunk: string, mode: InputMode = 'strict'): string {
       return word;
     });
   }
+  // In Sanskrit phonotactics (Pāṇini 6.1.77), vocalic `ḷ` (ऌ) never precedes a vowel;
+  // `ḷ` immediately before a vowel is Vedic retroflex lateral `ळ` (`L` in SLP1).
+  s = s.replace(/ḷ(?=[aāiīuūṛṝeaoēō])/g, 'ḻ');
   // Normalize non-IAST Latin loan chars BEFORE SLP1 substitution so 'f','w','z','q','x' never collide with SLP1 codes
   s = s
     .replace(/ö/g, 'o')
@@ -325,6 +328,53 @@ export function inputToSlp1(text: string, mode: InputMode = 'smart'): string {
         return siddhamUnicodeToSlp1(part);
       }
       return iastToSlp1(part, mode);
+    })
+    .join('');
+}
+
+const VALID_SLP1_TOKEN_RE = /^[aAiIuUfFxXeEoOMH~'kKgGNcCjJYwWqQRtTdDnpPbBmyrlvSzshL|.-]+$/;
+const IAST_DIACRITIC_OR_COMB_RE = /[āīūṛṝḷḹḻṅñṭḍṇśṣṃṁḥēōöäùźń\u0310ँ]/i;
+const IAST_DIGRAPH_RE = /(?:kh|gh|ch|jh|th|dh|ph|bh|sh|ai|au|aa|ee|oo|dz)/i;
+
+/**
+ * Deterministically resolves an arbitrary single syllable or mantra string (which may be
+ * case-sensitive SLP1 such as `'CO'`, `'kf'`, `'Paw'`, `'BrUM'`, `'DIH'`, `'wa'`, `'qa'`, `'za'`, `'x'`,
+ * or IAST such as `'chau'`, `'kṛ'`, `'phaṭ'`, `'bhrūṃ'`, `'am\u0310'`, `'ḷa'`, or Devanāgarī / Siddhaṃ)
+ * into canonical SLP1 without corrupting uppercase SLP1 phonemes or lowercase SLP1 `f/x/w/q/z`.
+ */
+export function resolveSlp1OrIastToSlp1(raw: string): string {
+  const norm = (raw || '').normalize('NFC').trim();
+  if (!norm) return '';
+
+  // Native Indic scripts or any IAST diacritic anywhere in the phrase -> standard multi-script IAST/Indic pipeline
+  if (
+    /[\u0900-\u097F]/.test(norm) ||
+    /[\u{11580}-\u{115FF}]/u.test(norm) ||
+    IAST_DIACRITIC_OR_COMB_RE.test(norm)
+  ) {
+    return inputToSlp1(norm, 'smart');
+  }
+
+  return norm
+    .split(/(\s+)/)
+    .map((tok) => {
+      if (!tok || /^\s+$/.test(tok)) return tok;
+      const lower = tok.toLowerCase();
+      if (ROUGH_ENGLISH_WORD_MAP[lower]) {
+        return iastToSlp1(ROUGH_ENGLISH_WORD_MAP[lower], 'strict');
+      }
+      // Post-vocalic SLP1 modifiers M/H/~ can never start a word; lowercase/title-case IAST digraphs are IAST
+      if (/^[MH~]/.test(tok) || IAST_DIGRAPH_RE.test(tok)) {
+        return iastToSlp1(tok, 'smart');
+      }
+      // In SLP1, vocalic f/F/x/X never precede another vowel; `sfuta` (`f` + `u`) is foreign Latin for `sphuṭa`
+      if (/[fx][aiueo]/i.test(tok)) {
+        return iastToSlp1(tok, 'smart');
+      }
+      if (VALID_SLP1_TOKEN_RE.test(tok)) {
+        return tok;
+      }
+      return iastToSlp1(tok, 'smart');
     })
     .join('');
 }

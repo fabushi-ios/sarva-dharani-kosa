@@ -8,7 +8,11 @@
  * 100% safe in both Browser and headless Node.js / Vitest environments.
  */
 
-import { inputToSlp1, slp1ToDevanagari, slp1ToIast } from '../core/transliterator';
+import {
+  resolveSlp1OrIastToSlp1,
+  slp1ToDevanagari,
+  slp1ToIast,
+} from '../core/transliterator';
 import { syllabifySlp1Word } from '../core/prosody';
 import type {
   AudioEngineMode,
@@ -556,7 +560,7 @@ class SanskritAudioEngine {
     rawSlpOrIast: string,
     options: PlaySyllableOptions = {}
   ): Promise<PlaySyllableResult> {
-    const cleanKey = inputToSlp1(rawSlpOrIast.trim(), 'smart') || rawSlpOrIast.trim();
+    const cleanKey = resolveSlp1OrIastToSlp1(rawSlpOrIast.trim()) || rawSlpOrIast.trim();
     const voice = options.voice || this.currentVoice;
     const onnxVoice: 'male' | 'female' = voice === 'female' ? 'female' : 'male';
     const rate = options.rate || this.currentRate;
@@ -623,10 +627,10 @@ class SanskritAudioEngine {
       const synthesizeLocalOnnx = async (): Promise<AudioBuffer | undefined> => {
         if (!isDomBrowser) return undefined;
         try {
-          const iastSyl = slp1ToIast(cleanKey) || slp1ToDevanagari(cleanKey) || cleanKey;
+          const devaSyl = slp1ToDevanagari(cleanKey) || slp1ToIast(cleanKey) || cleanKey;
           const wasmOut = await synthesizeWithBrowserOnnxVits(
             ctx,
-            iastSyl,
+            devaSyl,
             onnxVoice,
             rate,
             true,
@@ -718,7 +722,7 @@ class SanskritAudioEngine {
     this.isPlayingState = true;
     this.notify();
 
-    const slpFull = inputToSlp1(cleanText, 'smart');
+    const slpFull = resolveSlp1OrIastToSlp1(cleanText);
     const rawWords = slpFull.replace(/-/g, ' ').split(/\s+/).filter(Boolean);
     const allSyllables: string[] = [];
     for (const w of rawWords) {
@@ -831,13 +835,13 @@ class SanskritAudioEngine {
           const ctx = getBrowserAudioContext();
           if (!ctx) return null;
           try {
-            const iastLine = slp1ToIast(slpFull) || cleanText;
-            const phraseCacheKey = `phrase:${iastLine}|${onnxVoice}|${rate.toFixed(2)}`;
+            const devaLine = slp1ToDevanagari(slpFull) || cleanText;
+            const phraseCacheKey = `phrase:${devaLine}|${onnxVoice}|${rate.toFixed(2)}`;
             let audioBuffer = this.syllableBufferCache.get(phraseCacheKey);
             if (!audioBuffer) {
               const wasmOut = await synthesizeWithBrowserOnnxVits(
                 ctx,
-                iastLine,
+                devaLine,
                 onnxVoice,
                 rate,
                 allSyllables.length <= 1,
@@ -1025,7 +1029,7 @@ export function playSingleSyllable(
     typeof rawSlpOrIastOrObj === 'string'
       ? rawSlpOrIastOrObj
       : rawSlpOrIastOrObj.slp1 || rawSlpOrIastOrObj.rawIast || rawSlpOrIastOrObj.iast || 'oM';
-  const slpSyl = inputToSlp1(rawStr, 'smart');
+  const slpSyl = resolveSlp1OrIastToSlp1(rawStr);
   const devaSyl = slp1ToDevanagari(slpSyl);
 
   // In browser, neural modes (including 'auto' when engine is in neural mode) always use Neural TTS
@@ -1096,7 +1100,7 @@ export function speakSanskrit(
 ): { stop: () => void; totalDurationSec: number; modeUsed: 'tts' | 'synth' | 'neural-tts' } {
   stopSpeaking();
   const { mode = 'auto', rate = 0.85, onSyllableIndex, onEnd, title, voice } = options;
-  const slpFull = inputToSlp1(textOrSlp1.trim(), 'smart');
+  const slpFull = resolveSlp1OrIastToSlp1(textOrSlp1.trim());
   const devaText = slp1ToDevanagari(slpFull);
 
   const rawWords = slpFull.replace(/-/g, ' ').split(/\s+/).filter(Boolean);

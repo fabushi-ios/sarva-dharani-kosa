@@ -60,6 +60,7 @@ const CONSONANT_TOKENS = [
   'ṣ',
   's',
   'h',
+  'ḻ',
 ] as const;
 
 const DEVANAGARI_INDEPENDENT_VOWELS: Record<string, string> = {
@@ -130,6 +131,7 @@ const DEVANAGARI_CONSONANTS: Record<string, string> = {
   ṣ: 'ष',
   s: 'स',
   h: 'ह',
+  ḻ: 'ळ',
 };
 
 const DEVANAGARI_VIRAMA = '्';
@@ -205,6 +207,7 @@ const SIDDHAM_CONSONANTS: Record<string, string> = {
   ṣ: '𑖬',
   s: '𑖭',
   h: '𑖮',
+  ḻ: '𑖩',
 };
 
 const SIDDHAM_VIRAMA = '𑖿';
@@ -254,7 +257,9 @@ const SIDDHAM_TO_IAST_MATRAS: Record<string, string> = {
 };
 
 const SIDDHAM_TO_IAST_CONSONANTS: Record<string, string> = Object.fromEntries(
-  Object.entries(SIDDHAM_CONSONANTS).map(([iast, sid]) => [sid, iast])
+  Object.entries(SIDDHAM_CONSONANTS)
+    .filter(([iast]) => iast !== 'ḻ')
+    .map(([iast, sid]) => [sid, iast])
 );
 
 /**
@@ -421,6 +426,7 @@ const IPA_MAP: Record<string, string> = {
   ṣ: 'ʂ',
   s: 's',
   h: 'ɦ',
+  ḻ: 'ɭ',
   ṃ: 'm̃',
   ṁ: 'm̃',
   ḥ: 'h',
@@ -476,6 +482,7 @@ export function cleanEditorialIast(raw: string): string {
 
 function normalizeForeignSanskritLoans(lowerIast: string): string {
   return lowerIast
+    .replace(/ḷ(?=[aāiīuūṛṝeaoēō])/g, 'ḻ')
     .replace(/ö/g, 'o')
     .replace(/ä/g, 'a')
     .replace(/ù/g, 'u')
@@ -737,7 +744,9 @@ export function iastToSiddham(rawInput: string): string {
  * Convert IAST string to International Phonetic Alphabet (IPA)
  */
 export function iastToIpa(rawInput: string): string {
-  const input = cleanEditorialIast(rawInput).toLowerCase();
+  const input = cleanEditorialIast(rawInput)
+    .toLowerCase()
+    .replace(/ḷ(?=[aāiīuūṛṝeaoēō])/g, 'ḻ');
   let out = '';
   let i = 0;
 
