@@ -134,11 +134,18 @@ export async function fetchCachedJsonShard<T>(
   if (supportsGzipStream) {
     candidateSources.push(
       { url: `/corpus/${fileName}.gz?v=12`, isGz: true, source: 'local-shard' },
-      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=12`, isGz: true, source: 'cloud-cdn' }
+      { url: `/hf-cdn/corpus/${fileName}.gz?v=12`, isGz: true, source: 'cloud-cdn' },
+      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=12`, isGz: true, source: 'cloud-cdn' },
+      {
+        url: `https://hf-mirror.com/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus/${fileName}.gz?v=12`,
+        isGz: true,
+        source: 'cloud-cdn',
+      }
     );
   }
   candidateSources.push(
     { url: `/corpus/${fileName}?v=12`, isGz: false, source: 'local-shard' },
+    { url: `/hf-cdn/corpus/${fileName}?v=12`, isGz: false, source: 'cloud-cdn' },
     { url: `/api/corpus/${fileName}?v=12`, isGz: false, source: 'local-shard' },
     { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=12`, isGz: false, source: 'cloud-cdn' }
   );

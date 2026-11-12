@@ -24,7 +24,12 @@ export const HF_TTS_API_BASE_URL = (
   'https://bhrum108-sarva-dharani-kosa-tts-api.hf.space'
 ).replace(/\/+$/, '');
 
+export const HF_CHINA_MIRROR_BASE =
+  'https://hf-mirror.com/bhrum108/sarva-dharani-kosa-tts/resolve/main';
+
 const ORT_CDN_URLS = [
+  '/ort-cdn/ort.min.js',
+  'https://registry.npmmirror.com/onnxruntime-web/1.20.1/files/dist/ort.min.js',
   'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js',
   'https://unpkg.com/onnxruntime-web@1.20.1/dist/ort.min.js',
 ];
@@ -263,23 +268,58 @@ async function drainInferenceQueue(): Promise<void> {
   }
 }
 
+function buildCandidateUrls(url: string): string[] {
+  const origin =
+    typeof window !== 'undefined' && window.location?.origin ? window.location.origin : '';
+  if (url.startsWith(HF_MODEL_CDN_BASE)) {
+    const rel = url.slice(HF_MODEL_CDN_BASE.length).replace(/^\/+/, '');
+    const candidates: string[] = [];
+    if (origin) {
+      candidates.push(`${origin}/hf-cdn/${rel}`);
+    }
+    candidates.push(url, `${HF_CHINA_MIRROR_BASE}/${rel}`);
+    return candidates;
+  }
+  if (url.startsWith('/') && origin) {
+    return [`${origin}${url}`];
+  }
+  return [url];
+}
+
 async function fetchWithPersistentCache(url: string): Promise<Response> {
-  if (typeof window !== 'undefined' && 'caches' in window) {
+  const cache =
+    typeof window !== 'undefined' && 'caches' in window
+      ? await window.caches.open(CACHE_BUCKET).catch(() => null)
+      : null;
+
+  if (cache) {
     try {
-      const cache = await window.caches.open(CACHE_BUCKET);
       const cached = await cache.match(url);
       if (cached && cached.ok) {
         return cached;
       }
-      const fresh = await fetch(url, { mode: 'cors' });
-      if (fresh.ok) {
-        await cache.put(url, fresh.clone());
-      }
-      return fresh;
     } catch {
-      // Fallback to direct fetch if CacheStorage is restricted
+      // ignore cache match error
     }
   }
+
+  let lastErr: unknown = null;
+  for (const candidateUrl of buildCandidateUrls(url)) {
+    try {
+      const fresh = await fetch(candidateUrl, { mode: 'cors' });
+      if (!fresh.ok) continue;
+      const ct = (fresh.headers.get('content-type') || '').toLowerCase();
+      if (ct.includes('text/html')) continue;
+      if (cache) {
+        await cache.put(url, fresh.clone()).catch(() => {});
+      }
+      return fresh;
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+
+  if (lastErr) throw lastErr;
   return fetch(url, { mode: 'cors' });
 }
 
@@ -306,10 +346,17 @@ const workerVoiceInitPromises = new Map<'male' | 'female', Promise<string>>();
 
 function buildWorkerSource(): string {
   const weightsJson = JSON.stringify(Array.from(HALFBAND_ODD_WEIGHTS));
-  const ortUrlsJson = JSON.stringify(ORT_CDN_URLS);
+  const origin =
+    typeof window !== 'undefined' && window.location?.origin ? window.location.origin : '';
+  const resolvedOrtUrls = ORT_CDN_URLS.map((u) =>
+    u.startsWith('/') && origin ? `${origin}${u}` : u
+  );
+  const ortUrlsJson = JSON.stringify(resolvedOrtUrls);
   return `
 "use strict";
+const PAGE_ORIGIN = ${JSON.stringify(origin)};
 const HF_BASE = ${JSON.stringify(HF_MODEL_CDN_BASE)};
+const HF_MIRROR = ${JSON.stringify(HF_CHINA_MIRROR_BASE)};
 const ORT_URLS = ${ortUrlsJson};
 const ORT_WASM_DIR = ${JSON.stringify(ORT_WASM_DIR)};
 const CACHE_BUCKET = ${JSON.stringify(CACHE_BUCKET)};
@@ -323,19 +370,42 @@ const VIRAMA_CH = String.fromCharCode(0x094d);
 let ortPromise = null;
 const sessions = new Map();
 
+function getCandidates(url) {
+  if (url.indexOf(HF_BASE) === 0) {
+    const rel = url.slice(HF_BASE.length).replace(/^\\/+/, "");
+    const list = [];
+    if (PAGE_ORIGIN) list.push(PAGE_ORIGIN + "/hf-cdn/" + rel);
+    list.push(url, HF_MIRROR + "/" + rel);
+    return list;
+  }
+  return [url];
+}
+
 async function fetchCached(url) {
+  let cache = null;
   if (typeof caches !== "undefined") {
     try {
-      const cache = await caches.open(CACHE_BUCKET);
+      cache = await caches.open(CACHE_BUCKET);
       const hit = await cache.match(url);
       if (hit && hit.ok) return hit;
-      const net = await fetch(url, { mode: "cors" });
-      if (net.ok) {
-        await cache.put(url, net.clone());
-      }
-      return net;
     } catch (_) {}
   }
+  let lastErr = null;
+  for (const cand of getCandidates(url)) {
+    try {
+      const net = await fetch(cand, { mode: "cors" });
+      if (!net.ok) continue;
+      const ct = (net.headers.get("content-type") || "").toLowerCase();
+      if (ct.indexOf("text/html") !== -1) continue;
+      if (cache) {
+        try { await cache.put(url, net.clone()); } catch (_) {}
+      }
+      return net;
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  if (lastErr) throw lastErr;
   return fetch(url, { mode: "cors" });
 }
 
@@ -351,11 +421,14 @@ async function ensureOrt() {
         } catch (_) {
           const resp = await fetchCached(url);
           if (!resp.ok) throw new Error("HTTP " + resp.status);
+          const ct = (resp.headers.get("content-type") || "").toLowerCase();
+          if (ct.indexOf("text/html") !== -1) throw new Error("Unexpected HTML");
           const code = await resp.text();
           (0, eval)(code);
         }
         if (self.ort) {
-          self.ort.env.wasm.wasmPaths = ORT_WASM_DIR;
+          const slashIdx = url.lastIndexOf("/");
+          self.ort.env.wasm.wasmPaths = slashIdx !== -1 ? url.slice(0, slashIdx + 1) : ORT_WASM_DIR;
           self.ort.env.wasm.simd = true;
           const hw = (self.navigator && self.navigator.hardwareConcurrency) || 2;
           self.ort.env.wasm.numThreads = self.crossOriginIsolated ? Math.min(4, hw) : 1;
@@ -737,7 +810,8 @@ async function ensureOrtLoaded(): Promise<OrtGlobal> {
           document.head.appendChild(script);
         });
         if (win.ort) {
-          win.ort.env.wasm.wasmPaths = ORT_WASM_DIR;
+          const slashIdx = src.lastIndexOf('/');
+          win.ort.env.wasm.wasmPaths = slashIdx !== -1 ? src.slice(0, slashIdx + 1) : ORT_WASM_DIR;
           win.ort.env.wasm.simd = true;
           win.ort.env.wasm.numThreads = win.crossOriginIsolated
             ? Math.min(4, navigator.hardwareConcurrency || 2)
