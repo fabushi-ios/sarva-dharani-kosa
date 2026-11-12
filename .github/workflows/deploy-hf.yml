@@ -10,7 +10,7 @@ jobs:
   deploy-hf:
     name: Build & Deploy Staging (测试版) + 48kHz Neural TTS API to Hugging Face
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,6 +30,11 @@ jobs:
         run: |
           npm ci
           pip install -U -q "huggingface_hub>=0.26.0"
+
+      - name: Verify before deploy (type-check, all tests incl. citation check & search invariants)
+        run: |
+          npx tsc --noEmit -p .
+          npx vitest run
 
       - name: Deploy Staging Static Space, 48kHz Neural TTS API & Cloud Corpus to Hugging Face
         env:

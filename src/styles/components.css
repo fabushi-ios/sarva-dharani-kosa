@@ -868,3 +868,104 @@
     gap: 0.45rem;
   }
 }
+
+/* ==========================================================================
+   原文全文 (Original full-text viewer)
+   ========================================================================== */
+.fulltext-modal-card {
+  max-width: 980px;
+  height: 92dvh;
+  max-height: 92dvh;
+}
+
+.fulltext-check {
+  font-size: 0.84rem;
+  line-height: 1.6;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+}
+.fulltext-check-verified {
+  border-left: 4px solid #3f8f5a;
+}
+.fulltext-check-located-elsewhere,
+.fulltext-check-variant {
+  border-left: 4px solid var(--accent-gold);
+}
+.fulltext-check-unverified,
+.fulltext-check-short-formula {
+  border-left: 4px solid var(--accent-vermilion);
+}
+
+.fulltext-source-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.fulltext-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  position: sticky;
+  top: -1.15rem;
+  z-index: 1;
+  background: var(--bg-surface);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.fulltext-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.fulltext-byline {
+  font-weight: 400;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.fulltext-body {
+  font-size: 1rem;
+  line-height: 1.95;
+  color: var(--text-primary);
+}
+.fulltext-p {
+  margin: 0 0 0.7rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.fulltext-p-head {
+  font-weight: 700;
+  color: var(--accent-vermilion);
+  margin-top: 1rem;
+}
+.fulltext-p-dharani {
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--accent-gold);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-sm);
+}
+.fulltext-p mark {
+  background: rgba(214, 160, 40, 0.38);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.fulltext-nomatch {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.8rem;
+}
+
+@media (max-width: 520px) {
+  .fulltext-modal-card {
+    height: 96dvh;
+    max-height: 96dvh;
+  }
+  .modal-backdrop:has(.fulltext-modal-card) {
+    padding: 0.4rem;
+  }
+}

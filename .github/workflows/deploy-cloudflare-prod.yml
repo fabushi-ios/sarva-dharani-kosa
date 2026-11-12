@@ -17,7 +17,7 @@ jobs:
   deploy-cloudflare-prod:
     name: Build & Deploy Production (正式版) to Cloudflare Pages
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 35
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,6 +30,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify before deploy (type-check, all tests incl. citation check & search invariants)
+        run: |
+          npx tsc --noEmit -p .
+          npx vitest run
 
       - name: Build & Deploy Production Bundle to Cloudflare Pages
         env:

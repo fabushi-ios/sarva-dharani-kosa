@@ -19,6 +19,11 @@ export interface LiveParsedDharaniBlock {
   iastText?: string;
 }
 
+export interface CbetaFullParagraph {
+  kind: 'head' | 'text' | 'dharani';
+  text: string;
+}
+
 export interface LiveParsedCbetaSutra {
   id: string;
   vol: string;
@@ -28,6 +33,8 @@ export interface LiveParsedCbetaSutra {
   cbetaOnlineUrl: string;
   dharaniBlocks: LiveParsedDharaniBlock[];
   bodyPreviewText: string;
+  /** The complete scripture body, in reading order (no truncation). */
+  fullParagraphs: CbetaFullParagraph[];
   rawXmlSnippet: string;
 }
 
@@ -354,9 +361,56 @@ export async function fetchAndParseCbetaXmlLive(
     cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${id}`,
     dharaniBlocks,
     bodyPreviewText,
+    fullParagraphs: extractFullParagraphs(rawBody, (s) => stripPua(resolveGaijiTags(s))),
     rawXmlSnippet: xml.slice(0, 2600),
   };
 
   liveCache.set(id, parsed);
   return parsed;
+}
+
+const DHARANI_MARK = '\u0001';
+const HEAD_MARK = '\u0003';
+
+/**
+ * Complete scripture body as reading paragraphs (nothing truncated). Structural rules only:
+ * collation readings (<rdg>) and editorial foot/collation notes are dropped, inline notes
+ * (Tang interlinear glosses) are kept in parentheses, Siddhaṃ glyph runs are dropped (PUA).
+ */
+export function extractFullParagraphs(
+  rawBody: string,
+  resolveChars: (s: string) => string
+): CbetaFullParagraph[] {
+  const BR = '\u0002';
+  const marked = rawBody
+    // Line breaks inside the XML are typesetting (one per printed line), never paragraph breaks.
+    .replace(/\s+/g, ' ')
+    .replace(/<cb:mulu[\s\S]*?<\/cb:mulu>/g, '') // table-of-contents copy of headings
+    .replace(/<rdg[\s\S]*?<\/rdg>/g, '')
+    .replace(/<cb:t[^>]*xml:lang="sa-Sidd"[^>]*>[\s\S]*?<\/cb:t>/g, '')
+    .replace(/<note[^>]*place="inline"[^>]*>([\s\S]*?)<\/note>/g, '($1)')
+    .replace(/<note[\s\S]*?<\/note>/g, '')
+    .replace(/<p\b[^>]*cb:type="dharani"[^>]*>/g, `${BR}${DHARANI_MARK}`)
+    .replace(/<(?:head|cb:jhead|byline)\b[^>]*>/g, `${BR}${HEAD_MARK}`)
+    .replace(/<\/(?:p|head|cb:jhead|lg|item|byline|cb:docNumber|cb:juan|cb:div)>/g, BR)
+    .replace(/<\/l>/g, ' ')
+    .replace(/<p\b[^>]*>/g, BR);
+  const text = resolveChars(marked).replace(/<[^>]+>/g, '');
+  const out: CbetaFullParagraph[] = [];
+  for (const line of text.split(BR)) {
+    const kind: CbetaFullParagraph['kind'] = line.includes(DHARANI_MARK)
+      ? 'dharani'
+      : line.includes(HEAD_MARK)
+        ? 'head'
+        : 'text';
+    const clean = line
+      .replace(/[\u0001\u0003]/g, '')
+      .replace(/\(\s*\)/g, '')
+      .replace(/\s+/g, ' ')
+      .replace(/(?<=\p{Script=Han})\s+(?=\p{Script=Han})/gu, '')
+      .trim();
+    if (!clean) continue;
+    out.push({ kind, text: clean });
+  }
+  return out;
 }

@@ -11,6 +11,7 @@ import {
   Database,
   ChevronDown,
   Loader2,
+  BookOpen,
 } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
@@ -30,6 +31,8 @@ import { FullDharaniSummaryCard } from './FullDharaniSummaryCard';
 import { VerseBlock } from './VerseBlock';
 import { CbetaSiddhamInterlinearView } from './CbetaSiddhamInterlinearView';
 import { AuthoritativeSourceModal } from './AuthoritativeSourceModal';
+import { OriginalFullTextModal } from './OriginalFullTextModal';
+import { collectEntrySources } from '../../core/sources/entrySources';
 import {
   summarizeEntryFieldProvenance,
   TRACKABLE_FIELD_LABELS_ZH,
@@ -193,6 +196,8 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 }) => {
   const [readerSubMode, setReaderSubMode] = useState<'verses' | 'cbeta-interlinear'>('verses');
   const [showProvenanceModal, setShowProvenanceModal] = useState(false);
+  const [showFullTextModal, setShowFullTextModal] = useState(false);
+  const hasReadableSource = useMemo(() => collectEntrySources(entry).length > 0, [entry]);
   const [visibleVerseLimit, setVisibleVerseLimit] = useState<number>(80);
   const [metaExpanded, setMetaExpanded] = useState<boolean>(true);
   const interlinearTokens = entry.provenance.cbetaInterlinearTokens || [];
@@ -459,6 +464,18 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               <ShieldCheck size={14} />
               <span>原典核验</span>
             </button>
+
+            {hasReadableSource && (
+              <button
+                id="hero-open-fulltext-btn"
+                type="button"
+                className="btn-scholarly"
+                onClick={() => setShowFullTextModal(true)}
+              >
+                <BookOpen size={14} />
+                <span>原文全文</span>
+              </button>
+            )}
 
             <button
               id="hero-bookmark-btn"
@@ -1115,7 +1132,19 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
         <AuthoritativeSourceModal
           entry={entry}
           onClose={() => setShowProvenanceModal(false)}
+          onOpenFullText={
+            hasReadableSource
+              ? () => {
+                  setShowProvenanceModal(false);
+                  setShowFullTextModal(true);
+                }
+              : undefined
+          }
         />
+      )}
+
+      {showFullTextModal && (
+        <OriginalFullTextModal entry={entry} onClose={() => setShowFullTextModal(false)} />
       )}
     </main>
   );
