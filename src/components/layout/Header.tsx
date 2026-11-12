@@ -159,6 +159,7 @@ export const Header: React.FC<HeaderProps> = ({
       if (target) {
         onSelectSuggestion(target);
         setDropdownOpen(false);
+        searchInputRef.current?.blur();
       }
     } else if (e.key === 'Escape') {
       setDropdownOpen(false);
@@ -295,6 +296,7 @@ export const Header: React.FC<HeaderProps> = ({
                       onClick={() => {
                         onSelectSuggestion(item);
                         setDropdownOpen(false);
+                        searchInputRef.current?.blur();
                       }}
                     >
                       <div className="search-suggestion-top">

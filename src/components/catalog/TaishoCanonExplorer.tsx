@@ -33,7 +33,10 @@ import {
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
-import { DharaniReader } from '../reader/DharaniReader';
+import {
+  DharaniReader,
+  type ReaderNavigationRequest,
+} from '../reader/DharaniReader';
 
 interface TaishoCanonExplorerProps {
   initialScriptureId?: string | null;
@@ -61,6 +64,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
   const [selectedVol, setSelectedVol] = useState<'ALL' | 'T18' | 'T19' | 'T20' | 'T21'>('ALL');
   const [query, setQuery] = useState('');
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [navRequest, setNavRequest] = useState<ReaderNavigationRequest | null>(null);
   const [selectedFile, setSelectedFile] = useState<TaishoMikkyoFileEntry>(() => {
     if (initialScriptureId) {
       const found = TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === initialScriptureId);
@@ -80,6 +84,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       const found = TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === initialScriptureId);
       if (found) {
         setSelectedFile(found);
+        setNavRequest({ target: 'hero', nonce: Date.now() });
       }
     }
   }, [initialScriptureId]);
@@ -400,6 +405,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                     sanskritAudioEngine.stop();
                     setSelectedFile(item);
                     setMobileDrawerOpen(false);
+                    setNavRequest({ target: 'hero', nonce: Date.now() });
                   }}
                 >
                   <div className="catalog-item-top">
@@ -475,6 +481,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
               sanskritAudioEngine.playSingleSyllable(iastSyl)
             }
             onNavigateTab={onNavigateTab}
+            navigationRequest={navRequest}
           />
         </div>
       </div>

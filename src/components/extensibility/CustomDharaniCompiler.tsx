@@ -38,6 +38,7 @@ import {
 import { useDharaniAudioExport } from '../../services/audio/dharaniAudioExportStore';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
 import { PhoneticText } from '../common/PhoneticText';
+import { scrollToReaderElement } from '../../core/dom/scrollUtils';
 
 export interface CustomDharaniCompilerProps {
   customEntries: DharaniEntry[];
@@ -455,7 +456,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
     if (typeof document === 'undefined') return;
     const el = document.getElementById(`compiler-verse-card-${playbackState.currentVerseIndex}`);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      scrollToReaderElement(el, { behavior: 'smooth', block: 'nearest', topGap: 16 });
     }
   }, [playbackState.isPlaying, playbackState.autoScroll, playbackState.currentVerseIndex, compiledVerses.length]);
 
@@ -537,7 +538,7 @@ export const CustomDharaniCompiler: React.FC<CustomDharaniCompilerProps> = ({
     setMeaningZh(draft.meritsAndSummaryZh || '');
 
     if (typeof window !== 'undefined' && topPanelRef.current) {
-      topPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToReaderElement(topPanelRef.current, { behavior: 'smooth', block: 'start', topGap: 12 });
     }
 
     if (autoPlay && draft.verses.length > 0) {

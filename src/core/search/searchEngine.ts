@@ -333,7 +333,7 @@ function toCanonSuggestionItem(
   matchTypeLabel: string,
   matchedVerse?: DharaniEntry['verses'][number]
 ): SearchSuggestionItem {
-  const v = matchedVerse || entry.verses[0];
+  const previewVerse = matchedVerse || entry.verses[0];
   const badgePrefix = entry.provenance.databaseBadgeZh
     ? `🌐 ${entry.provenance.databaseBadgeZh} · `
     : '';
@@ -343,13 +343,13 @@ function toCanonSuggestionItem(
     titleZh: entry.titleZh,
     taishoNo: entry.taishoNo,
     matchTypeLabel: `${badgePrefix}${matchTypeLabel}`,
-    matchedVerseId: v?.id,
-    matchedVerseIndex: v?.index,
-    snippetPrimary: v
-      ? `梵音：${sliceCp(v.iast, 72)}`
+    matchedVerseId: matchedVerse?.id,
+    matchedVerseIndex: matchedVerse?.index,
+    snippetPrimary: previewVerse
+      ? `梵音：${sliceCp(previewVerse.iast, 72)}`
       : entry.titleSanskritIast,
-    snippetSecondary: v
-      ? `古汉语：${sliceCp(v.classicalTranslitZh, 42)} · 梵音拼读：${sliceCp(v.modernPhoneticZh, 42)}`
+    snippetSecondary: previewVerse
+      ? `古汉语：${sliceCp(previewVerse.classicalTranslitZh, 42)} · 梵音拼读：${sliceCp(previewVerse.modernPhoneticZh, 42)}`
       : entry.deityZh,
   };
 }
@@ -419,16 +419,16 @@ export function getSearchSuggestions(
       (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normDeity.includes(term)));
 
     let matchedVerse: DharaniEntry['verses'][number] | undefined;
-    if (!titleMatch && !dbOrNoMatch) {
+    if (!titleMatch && !dbOrNoMatch && !deityMatch) {
       const vIdx = doc.normVerses.findIndex(
         (vStr) =>
           vStr.includes(q) ||
           (tokens.length > 1 && tokens.every((tk) => vStr.includes(tk))) ||
           (aliasTerms.length > 0 && aliasTerms.some((term) => vStr.includes(term)))
       );
-      matchedVerse = vIdx >= 0 ? entry.verses[vIdx] : entry.verses[0];
-    } else {
-      matchedVerse = entry.verses[0];
+      if (vIdx >= 0) {
+        matchedVerse = entry.verses[vIdx];
+      }
     }
 
     let score = 20;

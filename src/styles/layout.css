@@ -12,7 +12,7 @@
 .app-header {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -432,6 +432,7 @@
   font-family: var(--font-zh-sans);
   font-size: 0.74rem;
   color: var(--text-secondary);
+  flex-shrink: 0;
 }
 
 .provenance-ribbon.is-hidden {
@@ -469,6 +470,13 @@
 /* ==========================================================================
    Main Two-Column Reader Workspace & Mobile Catalog Drawer
    ========================================================================== */
+.app-scroll-main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .workspace-container {
   max-width: min(var(--container-max), 100%);
   width: 100%;
@@ -1617,6 +1625,41 @@
   }
 }
 
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
+  .app-shell {
+    height: 100%;
+    height: 100dvh;
+    max-height: 100%;
+    max-height: 100dvh;
+    min-height: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  .app-header {
+    position: relative;
+    top: auto;
+    flex-shrink: 0;
+    z-index: 100;
+  }
+
+  .app-scroll-main {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) and (min-width: 961px) {
+  .sidebar-panel,
+  .sidebar-collapsed-rail {
+    top: 0.25rem;
+  }
+}
+
 @media (max-width: 960px) {
   .canon-reader-grid,
   .canon-reader-grid.is-sidebar-collapsed {
@@ -1732,6 +1775,8 @@
   .mobile-drawer-backdrop.is-open {
     opacity: 1;
     pointer-events: auto;
+    touch-action: none;
+    overscroll-behavior: contain;
   }
 
   .sidebar-panel {
@@ -1791,7 +1836,7 @@
 
 @media (max-width: 768px) {
   .app-shell {
-    padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0;
   }
 
   .header-top-row {
@@ -1823,7 +1868,7 @@
   }
 
   .header-search-input {
-    font-size: 0.83rem;
+    font-size: 16px;
     padding: 0.38rem 2.1rem 0.38rem 2.1rem;
   }
 
@@ -1835,7 +1880,7 @@
     right: 0;
     transform: none;
     width: 100%;
-    max-height: calc(100dvh - 110px);
+    max-height: min(460px, calc(100dvh - 156px));
     z-index: 140;
   }
 
@@ -1865,7 +1910,7 @@
   }
 
   .workspace-container {
-    padding: 0.7rem;
+    padding: 0.7rem 0.7rem 1.25rem;
   }
 
   .provenance-ribbon {

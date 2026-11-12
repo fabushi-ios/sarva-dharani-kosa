@@ -34,6 +34,7 @@ import {
   summarizeEntryFieldProvenance,
   TRACKABLE_FIELD_LABELS_ZH,
 } from '../../core/provenance/fieldProvenance';
+import { scrollToReaderElement } from '../../core/dom/scrollUtils';
 
 export interface ReaderNavigationRequest {
   target: 'hero' | 'summary' | 'interlinear' | 'concordance' | 'verse';
@@ -248,31 +249,18 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     setVisibleVerseLimit(80);
   }, [entry.id]);
 
-  // Execute section or verse jump requested from the left sidebar outline
+  // Execute section, title hero, or verse jump requested from search or sidebar outline
   useEffect(() => {
     if (!navigationRequest || typeof document === 'undefined' || typeof window === 'undefined') {
       return;
     }
 
-    const scrollToTargetId = (domId: string, highlight = false) => {
-      const el = document.getElementById(domId);
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const targetTop = Math.max(0, window.scrollY + rect.top - 116);
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
-      if (highlight) {
-        el.classList.remove('is-jump-highlighted');
-        void el.offsetWidth;
-        el.classList.add('is-jump-highlighted');
-        window.setTimeout(() => {
-          el.classList.remove('is-jump-highlighted');
-        }, 1700);
-      }
-    };
-
     if (navigationRequest.target === 'interlinear' && hasSiddhamInterlinear) {
       setReaderSubMode('cbeta-interlinear');
-      const timer = window.setTimeout(() => scrollToTargetId('reader-interlinear-section'), 40);
+      const timer = window.setTimeout(
+        () => scrollToReaderElement('reader-interlinear-section', { topGap: 12 }),
+        40
+      );
       return () => window.clearTimeout(timer);
     }
 
@@ -281,17 +269,34 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       if (!scriptConfig.showFullCombinedSummary) {
         onScriptConfigChange({ ...scriptConfig, showFullCombinedSummary: true });
       }
-      const timer = window.setTimeout(() => scrollToTargetId('full-dharani-combined-summary', true), 45);
+      const timer = window.setTimeout(
+        () =>
+          scrollToReaderElement('full-dharani-combined-summary', {
+            topGap: 12,
+            highlight: true,
+          }),
+        45
+      );
       return () => window.clearTimeout(timer);
     }
 
     if (navigationRequest.target === 'hero') {
-      const timer = window.setTimeout(() => scrollToTargetId('reader-hero-section'), 20);
+      const timer = window.setTimeout(
+        () =>
+          scrollToReaderElement('reader-hero-section', {
+            behavior: 'auto',
+            topGap: 10,
+          }),
+        16
+      );
       return () => window.clearTimeout(timer);
     }
 
     if (navigationRequest.target === 'concordance') {
-      const timer = window.setTimeout(() => scrollToTargetId('reader-concordance-section'), 20);
+      const timer = window.setTimeout(
+        () => scrollToReaderElement('reader-concordance-section', { topGap: 12 }),
+        24
+      );
       return () => window.clearTimeout(timer);
     }
 
@@ -307,7 +312,11 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
         setVisibleVerseLimit(Math.min(entry.verses.length, idx + 32));
       }
       const timer = window.setTimeout(
-        () => scrollToTargetId(`verse-card-${targetVerse.id}`, true),
+        () =>
+          scrollToReaderElement(`verse-card-${targetVerse.id}`, {
+            topGap: 14,
+            highlight: true,
+          }),
         55
       );
       return () => window.clearTimeout(timer);
@@ -466,7 +475,9 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
         {/* Title & Bīja Seed Syllable Seal Row */}
         <div className="hero-identity-row">
           <div className="hero-title-block">
-            <h1 className="hero-title-zh">{entry.titleZh}</h1>
+            <h1 id="reader-entry-title" className="hero-title-zh">
+              {entry.titleZh}
+            </h1>
             <div className="hero-title-skt">{entry.titleSanskritIast}</div>
             <div className="hero-translator-line">
               {entry.titleEnglish} · 译者与校勘：{entry.translatorZh}

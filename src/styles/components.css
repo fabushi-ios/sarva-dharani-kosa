@@ -7,13 +7,15 @@
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 95;
+  z-index: 90;
   background: var(--bg-glass);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-strong);
   box-shadow: 0 -6px 24px rgba(28, 20, 10, 0.12);
   padding: 0.55rem 1.4rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
 
 .audio-bar-progress-track {
@@ -731,6 +733,38 @@
   .two-col-grid,
   .taisho-explorer-layout {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
+  .audio-player-bar {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    flex-shrink: 0;
+    z-index: 90;
+    touch-action: pan-x;
+    overscroll-behavior: contain;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .audio-secondary-drawer.is-open {
+    max-height: min(46dvh, 320px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  /* Prevent iOS Safari visual-viewport auto-zoom (<16px inputs/selects) from shifting the bottom bar */
+  .header-search-input,
+  .sidebar-search-input,
+  .sidebar-db-select,
+  .audio-select,
+  .text-input,
+  .select-input {
+    font-size: 16px !important;
   }
 }
 

@@ -1259,6 +1259,38 @@
     gap: 0.75rem;
   }
 
+  #reader-hero-section .hero-top-bar {
+    display: contents;
+  }
+
+  #reader-hero-section .hero-identity-row {
+    order: 1;
+  }
+
+  #reader-hero-section .hero-badges-row {
+    order: 2;
+  }
+
+  #reader-hero-section .hero-actions-group {
+    order: 3;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  #reader-hero-section .hero-audio-strip {
+    order: 4;
+  }
+
+  #reader-hero-section > div:not(.hero-top-bar):not(.hero-identity-row):not(.hero-audio-strip) {
+    order: 5;
+  }
+
+  #reader-hero-section .hero-meta-details {
+    order: 6;
+  }
+
   .hero-actions-group {
     width: 100%;
     display: grid;

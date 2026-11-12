@@ -16,6 +16,10 @@ import {
   type ProvenanceTextSegment,
 } from '../../core/provenance/fieldProvenance';
 import { sanskritAudioEngine } from '../../services/audio/sanskritAudioEngine';
+import {
+  getReadingViewportBounds,
+  scrollActiveViewportByDeltaY,
+} from '../../core/dom/scrollUtils';
 import { ProvenanceBadge } from '../common/ProvenanceBadge';
 import { PhoneticText } from '../common/PhoneticText';
 
@@ -222,8 +226,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
     wasPlayingRef.current = true;
 
     const now = performance.now();
-    // Optical vertical center of reading viewport (between 68px sticky header and 88px sticky player bar)
-    const viewportCenterY = Math.round((window.innerHeight - 88 + 68) * 0.45);
+    const { centerY: viewportCenterY } = getReadingViewportBounds();
 
     if (justStartedVerse && cardRef.current) {
       const cardRect = cardRef.current.getBoundingClientRect();
@@ -232,11 +235,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       const deltaY = currentFocusY - viewportCenterY;
       if (Math.abs(deltaY) > 20) {
         lastScrollTimeRef.current = now;
-        window.scrollTo({
-          top: Math.max(0, window.scrollY + deltaY),
-          left: 0,
-          behavior: 'smooth',
-        });
+        scrollActiveViewportByDeltaY(deltaY, 'smooth');
       }
       return;
     }
@@ -250,11 +249,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
 
     if (Math.abs(deltaY) > 58 && now - lastScrollTimeRef.current > 360) {
       lastScrollTimeRef.current = now;
-      window.scrollTo({
-        top: Math.max(0, window.scrollY + deltaY),
-        left: 0,
-        behavior: 'smooth',
-      });
+      scrollActiveViewportByDeltaY(deltaY, 'smooth');
     }
   }, [isVersePlaying, effectiveActiveSylIndex, autoScroll]);
 
