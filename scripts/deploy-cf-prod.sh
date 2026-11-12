@@ -47,9 +47,10 @@ npm run build
 find dist -type f -size +24M -delete || true
 
 echo "=== [3/3] 推送正式版至 Cloudflare Pages (${CF_PROJECT_NAME}) ==="
-npx --yes wrangler pages project create "${CF_PROJECT_NAME}" --production-branch=main 2>/dev/null || true
-npx --yes wrangler pages deploy dist --project-name="${CF_PROJECT_NAME}" --branch=main --commit-dirty=true
+npx --yes wrangler pages project create "${CF_PROJECT_NAME}" --production-branch=production 2>/dev/null || true
+npx --yes wrangler pages deploy dist --project-name="${CF_PROJECT_NAME}" --branch=production --commit-dirty=true
 
 echo "🎉 正式版 (Production) 已成功发布至 Cloudflare Pages！"
-echo "  • Cloudflare 默认域名: https://${CF_PROJECT_NAME}.pages.dev"
-echo "  • 绑定你的自定义域名: Cloudflare Dashboard -> Workers & Pages -> ${CF_PROJECT_NAME} -> Custom domains"
+echo "  • 正式版主域名: https://sarvakosa.com"
+echo "  • 正式版 WWW 域名: https://www.sarvakosa.com"
+echo "  • Cloudflare 边缘默认域名: https://${CF_PROJECT_NAME}.pages.dev"
