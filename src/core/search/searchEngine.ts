@@ -1,4 +1,3 @@
-import { pinyin } from 'pinyin-pro';
 import type { ActiveWorkspaceTab, DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
 import type { TaishoMikkyoFileEntry } from '../../data/kosa-generated/taishoMikkyoIndex';
 import { stripDiacritics } from '../sanskrit/transliterator';
@@ -26,51 +25,7 @@ export interface SearchSuggestionItem {
   snippetSecondary: string;
 }
 
-import { TRAD_TO_SIMP_SEARCH_MAP } from './tradSimp';
-
-const COLLOQUIAL_ALIAS_MAP: Array<{ pattern: RegExp; expansion: string }> = [
-  { pattern: /日光菩萨|日光遍照/g, expansion: 'suryaprabha 日光菩萨护持大悲神咒' },
-  { pattern: /月光菩萨|月光遍照/g, expansion: 'candraprabha 月光菩萨护持大悲神咒' },
-  { pattern: /嗡嘛呢呗美吽|嗡嘛呢叭咪吽|六字大明/g, expansion: 'mani padme 观自在 六字' },
-  { pattern: /揭谛揭谛|波罗揭谛|心经咒/g, expansion: 'gate paragate prajnaparamita 般若心经' },
-  { pattern: /绿度母|度母心咒|二十一度母/g, expansion: 'tarauttare tare tuttare 圣救度佛母 多罗' },
-  { pattern: /白度母/g, expansion: 'tara ayuh punya 如意轮 救度' },
-  { pattern: /往生咒|拔一切业障/g, expansion: 'sukhavati amrta 阿弥陀 拔一切业障根本得生净土' },
-  { pattern: /大悲咒|千手千眼/g, expansion: 'nilakantha 千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼' },
-  { pattern: /楞严咒|首楞严/g, expansion: 'surangama sitatapatra 大佛顶首楞严' },
-  { pattern: /尊胜咒|佛顶尊胜/g, expansion: 'usnisavijaya 佛顶尊胜陀罗尼' },
-  { pattern: /宝箧印|一切如来心秘密/g, expansion: 'sarvatathagata karandamudra 一切如来心秘密全身舍利宝箧印陀罗尼' },
-  { pattern: /大随求|随求即得|如意宝印/g, expansion: 'mahapratisara vipulagarbhe 普遍光明清净炽盛如意宝印心无能胜大明王大随求' },
-  { pattern: /五护陀罗尼|五护经/g, expansion: 'pancaraksa mahapratisara mahamayuri mahasahasrapramardani mahasitavati mahamantranusarini' },
-  { pattern: /准提咒|准提神咒/g, expansion: 'cundi cale cule 七俱胝佛母准提大明陀罗尼' },
-  { pattern: /药师咒|药师灌顶/g, expansion: 'bhaisajya 药师琉璃光如来' },
-  { pattern: /秽迹金刚|乌枢沙摩|乌刍瑟摩/g, expansion: 'ucchusma 秽迹金刚禁百变法 乌枢沙摩' },
-  { pattern: /孔雀明王/g, expansion: 'mahamayuri mayurakrante 佛母大孔雀明王' },
-  { pattern: /光明真言|大灌顶光/g, expansion: 'amogha vairocana 不空罥索毗卢遮那佛大灌顶光真言' },
-  { pattern: /黄财神|财宝天王|瞻巴拉|毗沙门/g, expansion: 'jambhala vaisravana vasudhara 宝藏神 财源 毗沙门' },
-  { pattern: /雨宝陀罗尼|持世菩萨|财源天母/g, expansion: 'vasudhara 雨宝 持世 财源' },
-  { pattern: /宝楼阁|大宝广博楼阁/g, expansion: 'vipulavimana 宝楼阁善住秘密陀罗尼' },
-  { pattern: /金刚摧碎|坏相金刚/g, expansion: 'vajravidarana 金刚摧碎陀罗尼' },
-  { pattern: /不动佛|阿閦佛|阿閦如来/g, expansion: 'aksobhya 不动如来 阿閦' },
-  { pattern: /智炬如来|破地狱/g, expansion: 'jnanolka 智炬如来 破地狱' },
-  { pattern: /白伞盖/g, expansion: 'sitatapatra 大白伞盖' },
-  { pattern: /文殊心咒|五字真言|八字文殊/g, expansion: 'arapacana manjusri abhavira 文殊师利' },
-  { pattern: /不动明王/g, expansion: 'acala candamaharosana 不动尊' },
-  { pattern: /摩利支天|具光佛母/g, expansion: 'marici 摩利支' },
-  { pattern: /叶衣佛母|叶衣观音/g, expansion: 'parnasavari 叶衣' },
-  { pattern: /伽耶特黎|太阳神咒|吠陀母咒/g, expansion: 'gayatri savitur tat savitur varenyam 梨俱吠陀' },
-  { pattern: /大死胜咒|湿婆长寿咒|三目神咒/g, expansion: 'mahamrtyunjaya tryambakam yajamahe 湿婆' },
-  { pattern: /湿婆|五字圣咒|嗡那玛希瓦亚/g, expansion: 'siva sivaya pancaksara rudra aghora' },
-  { pattern: /毗湿奴|那罗延|克里希纳|黑天|罗摩/g, expansion: 'visnu narayana vasudevaya krsna rama narsimha' },
-  { pattern: /难近母|杜尔迦|九字真言|十慧母|时母|卡莉/g, expansion: 'durga camundaye navarna mahavidya kali sri vidya' },
-  { pattern: /象头神|伽内什|欢喜天/g, expansion: 'ganapati ganesa vakratunda' },
-  { pattern: /吉祥天女|辩才天女|妙音天女/g, expansion: 'mahalaksmi srisukta sarasvati vagvadini' },
-  { pattern: /九曜|星宿|行星咒|宿曜/g, expansion: 'navagraha grahamatrka surya candra 炽盛光' },
-  { pattern: /耆那|五敬礼咒/g, expansion: 'namokara pancanamaskara arham arihantanam' },
-  { pattern: /奥义书|平安咒|商蒂/g, expansion: 'upanisad santi pavamana purnamadah' },
-  { pattern: /娑婆诃|梭哈|娑诃/g, expansion: 'svaha' },
-  { pattern: /南无|那摩|曩谟/g, expansion: 'namo namah' },
-];
+import { foldCjkPhonetic } from './cjkFold';
 
 const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }> = {
   db1_fangshan: { labelZh: 'DB1 · 房山石经与释教最上乘陀罗尼集', tab: 'interlinear' },
@@ -88,13 +43,17 @@ const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }>
 };
 
 /**
- * Removes interlinear dhāraṇī annotations — clause numbers and phonetic notes such as
- * (一) [二合] （引） — so a mantra typed with or without them matches the canonical text.
+ * Search normalisation — one generic pipeline applied identically to indexed text and queries.
+ * There are NO per-dhāraṇī aliases or hand-written character lists here:
+ *  1. Devanāgarī / Siddham are transliterated to IAST, then all diacritics are stripped;
+ *  2. Latin romanisation schemes are folded (sh→s, w→v, ee→i, oo→u, doubled letters),
+ *     so IAST, Harvard-Kyoto and popular spellings (shree / swaha / hreem) coincide;
+ *  3. interlinear annotations — any bracketed run of ≤4 CJK characters, e.g. (一) [二合] （引）
+ *     — are removed, so a mantra typed with or without clause numbers matches the canon;
+ *  4. every CJK character is folded to the representative of its Mandarin syllable
+ *     (Unihan-derived), so Traditional/Simplified, transliteration variants (儞/你, 陁/陀)
+ *     and homophones compare equal.
  */
-export function stripInlineDharaniNotes(text: string): string {
-  return (text || '').replace(/[(（\[【][一二三四五六七八九十百〇零廿卅\d引二合半音去上入重轻聲声]{1,6}[)）\]】]/g, '');
-}
-
 export function normalizeSearchText(input: string): string {
   let raw = (input || '').replace(/[₍₎]/g, '');
   if (/[\u0900-\u097F]/.test(raw)) {
@@ -111,19 +70,27 @@ export function normalizeSearchText(input: string): string {
       // keep raw
     }
   }
-  const base = stripDiacritics(raw.normalize('NFKC'));
-  let out = '';
-  for (const ch of base) {
-    out += TRAD_TO_SIMP_SEARCH_MAP[ch] || ch;
-  }
-  out = out
-    .replace(/\bswaha\b/g, 'svaha')
-    .replace(/\bnamaha\b/g, 'namah')
-    .replace(/\baum\b/g, 'om')
-    .replace(/\bhreem\b/g, 'hrim')
-    .replace(/\bkleem\b/g, 'klim')
-    .replace(/\bshree\b/g, 'sri')
-    .replace(/\bshri\b/g, 'sri');
+  const base = stripDiacritics(raw.normalize('NFKC'))
+    .replace(/[(（[【〔〈<][\p{Script=Han}]{1,4}[)）\]】〕〉>]/gu, '')
+    .replace(/\u3000/g, ' ')
+    // whitespace between Han characters is layout (line breaks in the source), not a word break
+    .replace(/(?<=\p{Script=Han})\s+(?=\p{Script=Han})/gu, '');
+  const latin = base
+    .toLowerCase()
+    .replace(/sh/g, 's')
+    .replace(/w/g, 'v')
+    .replace(/ee/g, 'i')
+    .replace(/oo/g, 'u')
+    .replace(/([a-z])\1+/g, '$1');
+  return foldCjkPhonetic(latin);
+}
+
+/** CJK-only queries that find nothing are relaxed by dropping trailing characters (≥2 kept). */
+export function relaxedCjkQueries(normQuery: string): string[] {
+  const chars = Array.from(normQuery);
+  if (chars.length < 3 || !chars.every((c) => /\p{Script=Han}/u.test(c))) return [];
+  const out: string[] = [];
+  for (let n = chars.length - 1; n >= 2; n--) out.push(chars.slice(0, n).join(''));
   return out;
 }
 
@@ -246,89 +213,52 @@ function getIndexedEntryDoc(entry: DharaniEntry): IndexedEntryDoc {
   return doc;
 }
 
-function buildQueryVariantsAndTokens(rawQuery: string): {
-  normQuery: string;
-  tokens: string[];
-  aliasTerms: string[];
-} {
-  const normQuery = normalizeSearchText(rawQuery.trim());
-  const tokens = normQuery.split(/\s+/).filter(Boolean);
-  const aliasTerms: string[] = [];
-  for (const rule of COLLOQUIAL_ALIAS_MAP) {
-    if (rule.pattern.test(normQuery)) {
-      aliasTerms.push(...normalizeSearchText(rule.expansion).split(/\s+/).filter(Boolean));
-    }
-    rule.pattern.lastIndex = 0;
-  }
-  return { normQuery, tokens, aliasTerms };
+function tokensOf(normQuery: string): string[] {
+  return normQuery.split(/\s+/).filter(Boolean);
 }
 
-function matchesDoc(
-  doc: IndexedEntryDoc,
-  normQuery: string,
-  tokens: string[],
-  aliasTerms: string[]
-): boolean {
+function matchesDoc(doc: IndexedEntryDoc, normQuery: string, tokens: string[]): boolean {
   if (!normQuery) return true;
   if (doc.normFull.includes(normQuery)) return true;
-  if (tokens.length > 1 && tokens.every((tk) => doc.normFull.includes(tk))) {
-    return true;
-  }
-  if (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normFull.includes(term))) {
-    return true;
-  }
-  return matchesTitleByPinyin(doc, normQuery);
+  return tokens.length > 1 && tokens.every((tk) => doc.normFull.includes(tk));
+}
+
+function taishoHay(ts: TaishoMikkyoFileEntry & { normHay?: string }): string {
+  return (
+    ts.normHay ||
+    normalizeSearchText(
+      `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${(ts.blockTitles || []).join(' ')} ${ts.sampleDharanis.join(' ')}`
+    )
+  );
+}
+
+function matchesHay(hay: string, normQuery: string, tokens: string[]): boolean {
+  return hay.includes(normQuery) || (tokens.length > 1 && tokens.every((tk) => hay.includes(tk)));
 }
 
 /**
- * Generic homophone fallback (no per-dhāraṇī alias lists): a Chinese query also matches
- * any title whose toneless pinyin contains the query's pinyin. Handles mis-typed or
- * spoken-form names (帝天 ≈ 地天, 准提 ≈ 准胝) and variant characters (陁/陀) uniformly.
- * Generic genre words (神咒/真言/陀罗尼…) are dropped from the query so 「X神咒」 finds
- * 「X陁羅尼」.
+ * The normalised query actually used: the full query, or — only when it finds nothing at all —
+ * the longest CJK prefix that does (e.g. 「坚牢地天神咒」 → 「坚牢地天」). Purely structural.
  */
-const GENRE_WORDS_RE = /(神咒|心咒|明咒|咒语|真言|陀罗尼|陁罗尼|陀羅尼|陁羅尼|仪轨|儀軌|咒|呪|经|經)/g;
-const QUERY_PINYIN_CACHE = new Map<string, string>();
-const TITLE_PINYIN_CACHE = new WeakMap<IndexedEntryDoc, string>();
-
-function cjkPinyinKey(text: string): string {
-  const cjk = (text.match(/[\u3400-\u9FFF\uF900-\uFAFF]+/g) || []).join(' ');
-  if (!cjk) return '';
-  return ' ' + pinyin(cjk, { toneType: 'none', type: 'array', v: true }).filter((x) => x.trim()).join(' ') + ' ';
-}
-
-function queryPinyinKey(normQuery: string): string {
-  let key = QUERY_PINYIN_CACHE.get(normQuery);
-  if (key === undefined) {
-    const core = normQuery.replace(GENRE_WORDS_RE, '');
-    const n = (core.match(/[\u3400-\u9FFF\uF900-\uFAFF]/g) || []).length;
-    key = n >= 2 ? cjkPinyinKey(core) : '';
-    QUERY_PINYIN_CACHE.set(normQuery, key);
+function resolveQuery(entries: DharaniEntry[], rawQuery: string): { normQuery: string; tokens: string[] } {
+  const full = normalizeSearchText(rawQuery).replace(/\s+/g, ' ').trim();
+  for (const q of [full, ...relaxedCjkQueries(full)]) {
+    const tokens = tokensOf(q);
+    if (
+      entries.some((e) => matchesDoc(getIndexedEntryDoc(e), q, tokens)) ||
+      loadedTaishoIndex.some((ts) => matchesHay(taishoHay(ts), q, tokens))
+    ) {
+      return { normQuery: q, tokens };
+    }
   }
-  return key;
-}
-
-export function matchesTitleByPinyin(doc: IndexedEntryDoc, normQuery: string): boolean {
-  const qk = queryPinyinKey(normQuery);
-  if (!qk) return false;
-  let tk = TITLE_PINYIN_CACHE.get(doc);
-  if (tk === undefined) {
-    tk = cjkPinyinKey(doc.normTitle);
-    TITLE_PINYIN_CACHE.set(doc, tk);
-  }
-  if (tk.includes(qk)) return true;
-  // Reordered compounds (帝释天 ↔ 天帝释): ≥3 syllables, every one present in the title.
-  const qs = qk.trim().split(' ');
-  if (qs.length < 3) return false;
-  const ts = new Set(tk.trim().split(' '));
-  return qs.every((syl) => ts.has(syl));
+  return { normQuery: full, tokens: tokensOf(full) };
 }
 
 export function filterDharanis(
   entries: DharaniEntry[],
   options: SearchFilterOptions
 ): DharaniEntry[] {
-  const { normQuery, tokens, aliasTerms } = buildQueryVariantsAndTokens(options.query);
+  const { normQuery, tokens } = resolveQuery(entries, options.query);
 
   return entries.filter((entry) => {
     if (options.categoryId !== 'all' && entry.categoryId !== options.categoryId) {
@@ -361,7 +291,7 @@ export function filterDharanis(
     }
 
     const doc = getIndexedEntryDoc(entry);
-    return matchesDoc(doc, normQuery, tokens, aliasTerms);
+    return matchesDoc(doc, normQuery, tokens);
   });
 }
 
@@ -407,7 +337,9 @@ export function getSearchSuggestions(
   rawQuery: string,
   limit = 20
 ): SearchSuggestionItem[] {
-  const { normQuery: q, tokens, aliasTerms } = buildQueryVariantsAndTokens(rawQuery);
+  const { normQuery: q, tokens } = rawQuery.trim()
+    ? resolveQuery(entries, rawQuery)
+    : { normQuery: '', tokens: [] as string[] };
 
   if (!q) {
     // Show 6 classic flagship Dhāraṇīs + 10 representative entries across DB1–DB12
@@ -441,7 +373,7 @@ export function getSearchSuggestions(
 
   for (const entry of entries) {
     const doc = getIndexedEntryDoc(entry);
-    if (!matchesDoc(doc, q, tokens, aliasTerms)) {
+    if (!matchesDoc(doc, q, tokens)) {
       continue;
     }
 
@@ -451,23 +383,19 @@ export function getSearchSuggestions(
 
     const titleMatch =
       doc.normTitle.includes(q) ||
-      matchesTitleByPinyin(doc, q) ||
-      (tokens.length > 1 && tokens.every((tk) => doc.normTitle.includes(tk))) ||
-      (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normTitle.includes(term)));
+      (tokens.length > 1 && tokens.every((tk) => doc.normTitle.includes(tk)));
     const dbOrNoMatch =
       doc.normDbAndNo.includes(q) ||
       (tokens.length > 1 && tokens.every((tk) => doc.normDbAndNo.includes(tk)));
     const deityMatch =
-      doc.normDeity.includes(q) ||
-      (aliasTerms.length > 0 && aliasTerms.some((term) => doc.normDeity.includes(term)));
+      doc.normDeity.includes(q);
 
     let matchedVerse: DharaniEntry['verses'][number] | undefined;
     if (!titleMatch && !dbOrNoMatch && !deityMatch) {
       const vIdx = doc.normVerses.findIndex(
         (vStr) =>
           vStr.includes(q) ||
-          (tokens.length > 1 && tokens.every((tk) => vStr.includes(tk))) ||
-          (aliasTerms.length > 0 && aliasTerms.some((term) => vStr.includes(term)))
+          (tokens.length > 1 && tokens.every((tk) => vStr.includes(tk)))
       );
       if (vIdx >= 0) {
         matchedVerse = entry.verses[vIdx];
@@ -537,8 +465,7 @@ export function getSearchSuggestions(
       if (hit.dbId === 'baseline') continue;
       const matchesHit =
         hit.normHay.includes(q) ||
-        (tokens.length > 1 && tokens.every((tk) => hit.normHay.includes(tk))) ||
-        (aliasTerms.length > 0 && aliasTerms.some((term) => hit.normHay.includes(term)));
+        (tokens.length > 1 && tokens.every((tk) => hit.normHay.includes(tk)));
       if (!matchesHit) continue;
 
       const normHitTitle = normalizeSearchText(hit.title);
@@ -575,28 +502,15 @@ export function getSearchSuggestions(
     // Ignore if unified search encounters edge case
   }
 
-  // Also include Taishō Esoteric Canon XML Scripture matches
+  // Taishō Esoteric Canon scriptures: ranked (title match first) and given reserved slots so
+  // the 3,600-entry canon can never starve primary CBETA scripture hits out of the list.
+  const taishoHits: Array<{ titleHit: boolean; item: SearchSuggestionItem }> = [];
   for (const ts of loadedTaishoIndex) {
-    if (results.length >= limit) break;
-    const hay =
-      ts.normHay ||
-      normalizeSearchText(
-        stripInlineDharaniNotes(
-        `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${(ts.blockTitles || []).join(' ')} ${ts.sampleDharanis.join(' ')}`
-        )
-      );
-    const qNoNotes = normalizeSearchText(stripInlineDharaniNotes(rawQuery));
-    const matchesTaisho =
-      hay.includes(q) ||
-      (qNoNotes.length > 0 && hay.replace(/\s+/g, '').includes(qNoNotes.replace(/\s+/g, ''))) ||
-      (tokens.length > 1 && tokens.every((tk) => hay.includes(tk))) ||
-      (aliasTerms.length > 0 && aliasTerms.some((term) => hay.includes(term))) ||
-      matchesTitleByPinyin(
-        { normTitle: normalizeSearchText(`${ts.titleZh} ${ts.titleTrad || ''}`) } as IndexedEntryDoc,
-        q
-      );
-    if (matchesTaisho) {
-      results.push({
+    if (!matchesHay(taishoHay(ts), q, tokens)) continue;
+    const titleHit = normalizeSearchText(`${ts.titleZh} ${ts.titleTrad || ''}`).includes(q);
+    taishoHits.push({
+      titleHit,
+      item: {
         kind: 'taisho-scripture',
         taishoScriptureId: ts.id,
         titleZh: `【大正藏原典】${ts.titleZh}`,
@@ -606,9 +520,11 @@ export function getSearchSuggestions(
         snippetSecondary: ts.sampleDharanis[0]
           ? `原典咒句：${sliceCp(ts.sampleDharanis[0], 72)}...`
           : `CBETA 经号 ${ts.id}.xml`,
-      });
-    }
+      },
+    });
   }
-
-  return results;
+  taishoHits.sort((a, b) => Number(b.titleHit) - Number(a.titleHit));
+  const reserved = Math.min(taishoHits.length, Math.max(3, Math.floor(limit / 4)));
+  const head = results.slice(0, limit - reserved);
+  return [...head, ...taishoHits.slice(0, limit - head.length).map((h) => h.item)];
 }

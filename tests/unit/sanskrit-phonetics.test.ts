@@ -477,7 +477,7 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
     expect(mapSyllableToChinesePhonetics('ṣuṃ').modernZh).toBe('顺');
 
     // 5. Subscript-transparent search normalization (no NFKC '(' / ')' decomposition)
-    expect(normalizeSearchText('拿玛₍赫₎ 萨₍尔₎瓦')).toBe('拿玛赫 萨尔瓦');
+    expect(normalizeSearchText('拿玛₍赫₎ 萨₍尔₎瓦')).toBe(normalizeSearchText('拿玛赫萨尔瓦'));
     const hits = filterDharanis([m8Entry!], {
       query: '拿玛赫 阿赫',
       categoryId: 'all',

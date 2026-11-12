@@ -19,3 +19,4 @@ public/audio/cache/
 .agents/
 .venv/
 
+data/raw/unihan/

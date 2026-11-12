@@ -10,12 +10,12 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { toSimplifiedZh } from '../src/core/search/tradSimp.ts';
+import * as OpenCC from 'opencc-js';
 
 // Comprehensive Traditional-to-Simplified dictionary for Buddhist & Esoteric terms
-// Shared Traditional→Simplified table (same one the runtime search uses); replaces the old
-// ~190-char local map that mis-folded characters (e.g. 閦→閼) and left titles unconverted.
-const toSimplified = (str) => toSimplifiedZh(str);
+// Display titles: complete Traditional→Simplified conversion by OpenCC (replaces the old
+// ~190-char hand map that mis-folded characters, e.g. 閦→閼, and left titles unconverted).
+const toSimplified = OpenCC.Converter({ from: 't', to: 'cn' });
 
 async function runPool(items, concurrency, fn) {
   const results = new Array(items.length);

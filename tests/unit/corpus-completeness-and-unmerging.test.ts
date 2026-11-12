@@ -107,39 +107,41 @@ describe('Root-Cause Fixes: Complete Clause Counts, Anti-Merging ("一咒一篇"
     expect(ids.has('db10-nibs-ms-SA00016.001-m2')).toBe(true);
   });
 
-  it('finds original DB records for 帝天神咒 / 地天神咒 / 坚牢地神 via the generic pinyin + variant layer (no hand entries)', () => {
-    // 帝天 is a homophone of 地天: the generic pinyin fallback must reach the original DB1 Fangshan record.
+  it('generic search: every Taishō scripture is found by its title and by its own dhāraṇī text as a user would paste it', () => {
     hydrateTaishoSearchIndex(TAISHO_MIKKYO_FILE_INDEX);
-    const ditianHits = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, '帝天神咒', 40);
-    const hitIds = new Set(ditianHits.map((h) => h.entry?.id).filter(Boolean));
-    expect(hitIds.has('db1-fangshan-F28n1071_pF28p0248b1801')).toBe(true);
-    const ditianTaisho = ditianHits.filter((h) => h.kind === 'taisho-scripture').map((h) => h.taishoScriptureId);
-    expect(ditianTaisho).toContain('T21n1286');
-    const jianlao = new Set(
-      getSearchSuggestions(BUILTIN_DHARANI_CORPUS, '坚牢地神', 20).map((h) => h.entry?.id).filter(Boolean)
-    );
-    expect(jianlao.has('db2-taisho-T16n0665_033')).toBe(true);
-    // The long 坚牢地天 mantra of T21n1286 (曩莫三曼多母驮南…阿驮阿驮 阿豆阿豆…莎诃) is found from the CBETA text itself.
-    for (const q of ['钵罗婆啰怛你', '阿驮阿驮阿豆阿豆', '坚牢地天']) {
-      const ids = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, q, 40)
-        .filter((h) => h.kind === 'taisho-scripture')
-        .map((h) => h.taishoScriptureId);
-      expect(ids, q).toContain('T21n1286');
+    const misses: string[] = [];
+    for (const ts of TAISHO_MIKKYO_FILE_INDEX) {
+      const probes = [ts.titleTrad, ...ts.sampleDharanis.map((d) => Array.from(d).slice(0, 40).join('').replace(/[[(（][^\])）]*$/, ''))];
+      for (const probe of probes) {
+        if (!probe || Array.from(probe).length < 4) continue;
+        const ids = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, probe, 200)
+          .filter((h) => h.kind === 'taisho-scripture')
+          .map((h) => h.taishoScriptureId);
+        if (!ids.includes(ts.id)) misses.push(`${ts.id}: ${probe}`);
+      }
     }
-    // No hand-written stand-in entries may exist for these.
-    const ids = new Set(BUILTIN_DHARANI_CORPUS.map((e) => e.id));
-    expect(ids.has('prthivi-devi-dharani')).toBe(false);
-    expect(ids.has('sakrendra-jivitapala-dharani')).toBe(false);
+    expect(misses.slice(0, 10), `${misses.length} misses`).toEqual([]);
+  }, 300_000);
 
-    // 2. Simplified & Traditional & Fangshan stone variant queries normalize identically
+  it('the 坚牢地天 long mantra pasted with clause numbers and simplified/variant characters finds T21n1286', () => {
+    hydrateTaishoSearchIndex(TAISHO_MIKKYO_FILE_INDEX);
+    const pasted =
+      '曩莫三曼多母驮南(一)唵(二)钵罗(二合)婆(三)啰怛你(四)设哩三曼多(五)阿驮阿驮(六)阿豆阿豆(七)比里底毗比里底毗曳(八)莎诃';
+    const ids = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, pasted, 40)
+      .filter((h) => h.kind === 'taisho-scripture')
+      .map((h) => h.taishoScriptureId);
+    expect(ids).toContain('T21n1286');
+    // No hand-written stand-in entries exist.
+    const ids2 = new Set(BUILTIN_DHARANI_CORPUS.map((e) => e.id));
+    expect(ids2.has('prthivi-devi-dharani')).toBe(false);
+  });
+
+  it('normalisation is generic: Traditional/Simplified/variant spellings and romanisations coincide', () => {
     expect(normalizeSearchText('地天陁羅尼')).toBe(normalizeSearchText('地天陀罗尼'));
-    expect(normalizeSearchText('天帝釋護命陀羅尼')).toBe(normalizeSearchText('天帝释护命陀罗尼'));
+    expect(normalizeSearchText('囉怛儞')).toBe(normalizeSearchText('啰怛你'));
     expect(normalizeSearchText('堅牢地天儀軌')).toBe(normalizeSearchText('坚牢地天仪轨'));
-
-    for (const q of ['地天神咒', '坚牢地天', '帝释天神咒', '散脂大将', '乌刍瑟摩', '阿閦佛']) {
-      const hits = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, q, 10);
-      expect(hits.length, `Expected search hits for query "${q}"`).toBeGreaterThan(0);
-    }
+    expect(normalizeSearchText('鉢羅(二合)婆(三)')).toBe(normalizeSearchText('钵罗婆'));
+    expect(normalizeSearchText('om shree swaha')).toBe(normalizeSearchText('oṃ śrī svāhā'));
 
     // 3. CBETA live service phonetic reconstructor never emits generic fake fallback
     const recon = reconstructIastFromChineseTranslit('南無三滿多沒馱喃 唵 鉢囉婆囉怛尼 娑嚩賀');

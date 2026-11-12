@@ -24,7 +24,7 @@ import {
   DHARANI_CATEGORIES,
 } from '../src/data/index';
 import { TAISHO_MIKKYO_FILE_INDEX } from '../src/data/kosa-generated/taishoMikkyoIndex';
-import { normalizeSearchText, stripInlineDharaniNotes } from '../src/core/search/searchEngine';
+import { normalizeSearchText } from '../src/core/search/searchEngine';
 import {
   CANONICAL_DATABASE_IDS,
   UNIFIED_QUADRILINGUAL_GLOSSARY,
@@ -213,9 +213,7 @@ function main() {
   const taishoCompactIndex = TAISHO_MIKKYO_FILE_INDEX.map((ts) => ({
     ...ts,
     normHay: normalizeSearchText(
-      stripInlineDharaniNotes(
-        `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${(ts.blockTitles || []).join(' ')} ${taishoFullText[ts.id] || ts.sampleDharanis.join(' ')}`
-      )
+      `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${(ts.blockTitles || []).join(' ')} ${taishoFullText[ts.id] || ts.sampleDharanis.join(' ')}`
     ),
   }));
 
