@@ -969,3 +969,51 @@
     padding: 0.4rem;
   }
 }
+
+/* ===== 藏经全文库 (CanonLibrary) ===== */
+.canon-library { display: flex; flex-direction: column; gap: 0.9rem; }
+.canon-library-head h2 { display: flex; align-items: center; gap: 0.5rem; margin: 0; }
+.canon-library-sub { margin: 0.35rem 0 0.75rem; opacity: 0.8; font-size: 0.9rem; }
+.canon-library-controls { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.canon-search { display: flex; align-items: center; gap: 0.4rem; flex: 1 1 260px; padding: 0.45rem 0.7rem;
+  border: 1px solid var(--border-color, #d6cfc2); border-radius: 8px; background: var(--bg-card, #fff); }
+.canon-search input { border: 0; outline: 0; flex: 1; background: transparent; font-size: 0.95rem; color: inherit; }
+.canon-library-controls select { padding: 0.45rem; border-radius: 8px; border: 1px solid var(--border-color, #d6cfc2);
+  background: var(--bg-card, #fff); color: inherit; max-width: 100%; }
+.canon-toggle { display: flex; align-items: center; gap: 0.3rem; font-size: 0.9rem; }
+.canon-count { font-size: 0.85rem; opacity: 0.7; }
+.canon-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.canon-item { width: 100%; display: grid; grid-template-columns: 7.5rem 1fr auto auto; gap: 0.6rem; align-items: baseline;
+  text-align: left; padding: 0.5rem 0.65rem; border: 0; border-radius: 6px; background: transparent; color: inherit; cursor: pointer; }
+.canon-item:hover { background: var(--bg-hover, rgba(160, 120, 60, 0.08)); }
+.canon-item-id { font-family: ui-monospace, monospace; font-size: 0.8rem; opacity: 0.7; }
+.canon-item-title { font-weight: 600; }
+.canon-item-byline { font-size: 0.8rem; opacity: 0.7; }
+.canon-item-badge { font-size: 0.75rem; padding: 0.1rem 0.45rem; border-radius: 999px; background: rgba(176, 106, 32, 0.15); color: #9a5a14; white-space: nowrap; }
+.canon-more { align-self: center; padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-color, #d6cfc2); background: transparent; color: inherit; cursor: pointer; }
+.canon-error, .canon-loading { display: flex; gap: 0.4rem; align-items: center; padding: 0.75rem; }
+.canon-error { color: #b3261e; }
+.canon-text-modal { width: min(960px, 96vw); max-height: 92vh; display: flex; flex-direction: column; }
+.canon-text-head { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-color, #e5ded2); }
+.canon-text-head h3 { margin: 0; }
+.canon-text-head small { font-weight: 400; opacity: 0.7; }
+.canon-text-byline { font-size: 0.85rem; opacity: 0.75; margin-top: 0.2rem; }
+.canon-text-actions { display: flex; gap: 0.6rem; align-items: center; }
+.canon-text-actions a { display: inline-flex; gap: 0.25rem; align-items: center; font-size: 0.85rem; }
+.canon-text-actions button { border: 0; background: transparent; cursor: pointer; color: inherit; }
+.canon-dharani-index { display: flex; flex-direction: column; gap: 0.4rem; padding: 0.6rem 0; font-size: 0.85rem;
+  border-bottom: 1px solid var(--border-color, #e5ded2); max-height: 28vh; overflow: auto; }
+.canon-dharani-index button { margin: 0.15rem 0.3rem 0.15rem 0; padding: 0.15rem 0.5rem; border-radius: 6px;
+  border: 1px solid rgba(176, 106, 32, 0.4); background: transparent; color: inherit; cursor: pointer; font-size: 0.8rem; }
+.canon-text-body { overflow: auto; padding: 0.8rem 0.2rem; line-height: 1.9; font-size: 1.02rem; }
+.canon-text-body h4 { margin: 1.2rem 0 0.4rem; }
+.canon-text-body p { margin: 0 0 0.7rem; }
+.canon-dharani { background: rgba(176, 106, 32, 0.1); border-left: 3px solid #b06a20; padding: 0.4rem 0.6rem; border-radius: 4px; }
+@media (max-width: 640px) {
+  .canon-item { grid-template-columns: 1fr auto; }
+  .canon-item-id, .canon-item-byline { grid-column: 1 / -1; }
+}
+.search-canon-hits { border-bottom: 1px solid var(--border-color, #e5ded2); padding-bottom: 0.3rem; margin-bottom: 0.3rem; }
+.search-canon-hits-label { font-size: 0.75rem; opacity: 0.7; padding: 0.35rem 0.8rem; }
+.search-canon-more { width: 100%; text-align: left; padding: 0.4rem 0.8rem; border: 0; background: transparent; color: #9a5a14; cursor: pointer; font-size: 0.82rem; }

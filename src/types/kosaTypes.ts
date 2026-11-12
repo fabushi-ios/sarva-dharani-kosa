@@ -133,6 +133,7 @@ export type ActiveWorkspaceTab =
   | 'cudl'               // 剑桥大学 CUDL 梵文贝叶经写本与 Hidas 校勘本馆 (69部)
   | 'phonetics-academy'  // 悉昙十八章、声明学 (Śikṣā) 与牛津 OCHS 种子字辞典
   | 'taisho-explorer'    // 大正藏密教部 (T18-T21, 614部) 实时原典解析器
+  | 'canon-library'      // 藏经全文库：CBETA 全部藏经原文，陀罗尼由原文标记自动提取
   | 'custom-compiler';   // 四行谱发音引擎 v3.0 与梵文陀罗尼实时编译器
 
 

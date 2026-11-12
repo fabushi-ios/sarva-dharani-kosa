@@ -21,3 +21,4 @@ public/audio/cache/
 
 data/raw/unihan/
 data/raw/cbeta/xml-cache/
+build/

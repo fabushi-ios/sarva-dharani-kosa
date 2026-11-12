@@ -47,6 +47,7 @@ const TaishoCanonExplorer = lazy(() =>
     default: m.TaishoCanonExplorer,
   }))
 );
+const CanonLibrary = lazy(() => import('./components/catalog/CanonLibrary'));
 const SanskritPhoneticsAcademy = lazy(() =>
   import('./components/guide/SanskritPhoneticsAcademy').then((m) => ({
     default: m.SanskritPhoneticsAcademy,
@@ -177,6 +178,9 @@ export const App: React.FC = () => {
     FIRST_SCREEN_CORPUS[0]?.id || ''
   );
 
+  const [canonTextId, setCanonTextId] = useState<string | null>(null);
+  const [canonQuery, setCanonQuery] = useState('');
+  const [canonNonce, setCanonNonce] = useState(0);
   const [taishoActiveEntry, setTaishoActiveEntry] = useState<DharaniEntry | null>(null);
   const [compilerLiveEntry, setCompilerLiveEntry] = useState<DharaniEntry | null>(null);
 
@@ -434,6 +438,14 @@ export const App: React.FC = () => {
         onTabChange={handleTabChange}
         theme={theme}
         onToggleTheme={handleToggleTheme}
+        onOpenCanonText={(id) => {
+          sanskritAudioEngine.stop();
+          setCanonTextId(id);
+          setCanonQuery(id ? '' : searchQuery);
+          setCanonNonce((n) => n + 1);
+          setActiveTab('canon-library');
+          scrollReaderToTop('smooth');
+        }}
       />
 
       <div id={APP_SCROLL_CONTAINER_ID} className="app-scroll-main">
@@ -668,6 +680,21 @@ export const App: React.FC = () => {
                 playbackState={playbackState}
                 onNavigateTab={handleTabChange}
                 onActiveEntryChange={setTaishoActiveEntry}
+              />
+            </Suspense>
+          )}
+
+          {activeTab === 'canon-library' && (
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载藏经全文库...</div>}>
+              <CanonLibrary
+                key={canonNonce}
+                initialTextId={canonTextId}
+                initialQuery={canonQuery}
+                allEntries={allEntries}
+                onOpenEntry={(e) => {
+                  setActiveTab('canon-reader');
+                  handleSelectEntry(e.id);
+                }}
               />
             </Suspense>
           )}

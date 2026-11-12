@@ -21,6 +21,8 @@ import {
   type SearchSuggestionItem,
 } from '../../core/search/searchEngine';
 import { PhoneticText } from '../common/PhoneticText';
+import { filterCatalog, loadCanonCatalog } from '../../services/canon/canonLibraryService';
+import type { CanonCatalogItem } from '../../core/canon/canonLibraryTypes';
 
 interface HeaderProps {
   searchQuery: string;
@@ -31,6 +33,8 @@ interface HeaderProps {
   onTabChange: (tab: ActiveWorkspaceTab) => void;
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
+  /** Opens a text of the 藏经全文库 (null = library search for the current query). */
+  onOpenCanonText?: (id: string | null) => void;
 }
 
 const QUICK_SEARCH_CHIPS: Array<{
@@ -66,8 +70,27 @@ export const Header: React.FC<HeaderProps> = ({
   onTabChange,
   theme,
   onToggleTheme,
+  onOpenCanonText,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  // Every CBETA text is searchable by title / number / translator (catalog loaded on first query).
+  const [canonHits, setCanonHits] = useState<{ q: string; total: number; items: CanonCatalogItem[] }>({ q: '', total: 0, items: [] });
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (q.length < 2 || !onOpenCanonText) return;
+    let alive = true;
+    loadCanonCatalog()
+      .then((cat) => {
+        if (!alive) return;
+        const hits = filterCatalog(cat, q);
+        setCanonHits({ q, total: hits.length, items: hits.slice(0, 6) });
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [searchQuery, onOpenCanonText]);
+  const canonShown = canonHits.q === searchQuery.trim() ? canonHits : { q: '', total: 0, items: [] };
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [showCorpusRibbon, setShowCorpusRibbon] = useState(false);
   const searchWrapRef = useRef<HTMLDivElement>(null);
@@ -270,6 +293,44 @@ export const Header: React.FC<HeaderProps> = ({
                   })}
                 </div>
 
+                {onOpenCanonText && canonShown.total > 0 && (
+                  <div className="search-canon-hits">
+                    <div className="search-canon-hits-label">藏经原文（{canonShown.total} 部）</div>
+                    {canonShown.items.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        className="search-suggestion-item"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          onOpenCanonText(c.id);
+                          setDropdownOpen(false);
+                          searchInputRef.current?.blur();
+                        }}
+                      >
+                        <div className="search-suggestion-top">
+                          <span className="search-suggestion-title">{c.title}</span>
+                          <span className="search-suggestion-match-tag">{c.id}{c.dharani > 0 ? ` · 陀罗尼 ${c.dharani}` : ''}</span>
+                        </div>
+                        <div className="search-suggestion-secondary">{c.byline}</div>
+                      </button>
+                    ))}
+                    {canonShown.total > canonShown.items.length && (
+                      <button
+                        type="button"
+                        className="search-canon-more"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          onOpenCanonText(null);
+                          setDropdownOpen(false);
+                        }}
+                      >
+                        在藏经全文库中查看全部 {canonShown.total} 部 →
+                      </button>
+                    )}
+                  </div>
+                )}
+
                 {suggestions.length === 0 ? (
                   <div
                     style={{
@@ -422,6 +483,16 @@ export const Header: React.FC<HeaderProps> = ({
                 <Library size={14} />
                 <span>大正藏密教部</span>
                 <span className="nav-tab-count">614经</span>
+              </button>
+              <button
+                id="nav-tab-canon-library"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'canon-library' ? 'active' : ''}`}
+                onClick={() => onTabChange('canon-library')}
+              >
+                <Library size={14} />
+                <span>藏经全文库</span>
+                <span className="nav-tab-count">CBETA 全藏</span>
               </button>
               <button
                 id="nav-tab-custom-compiler"

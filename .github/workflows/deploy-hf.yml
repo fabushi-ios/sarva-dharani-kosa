@@ -10,7 +10,7 @@ jobs:
   deploy-hf:
     name: Build & Deploy Staging (测试版) + 48kHz Neural TTS API to Hugging Face
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 70
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

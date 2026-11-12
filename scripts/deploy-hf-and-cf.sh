@@ -164,6 +164,28 @@ api.upload_folder(
 print(f"✅ 模型与云端语料检索分片已同步至 https://huggingface.co/{model_id}")
 EOF
 
+echo "=== [3b/5] 藏经全文库：CBETA 全部藏经原文（每部经一个文件），同步至 Hugging Face Hub CDN (canon/) ==="
+CBETA_XML_DIR="${CBETA_XML_DIR:-$(mktemp -d)/xml-p5}"
+if [ ! -d "${CBETA_XML_DIR}" ]; then
+  git clone -q --depth 1 https://github.com/cbeta-org/xml-p5.git "${CBETA_XML_DIR}"
+fi
+CBETA_XML_DIR="${CBETA_XML_DIR}" CANON_OUT_DIR="build/canon" npx tsx scripts/build-canon-library.ts
+
+python3 - "${MODEL_ID}" <<'EOF'
+import os, sys
+from huggingface_hub import HfApi
+
+api = HfApi(token=os.environ.get("HF_TOKEN") or None)
+api.upload_folder(
+    folder_path="build/canon",
+    path_in_repo="canon",
+    repo_id=sys.argv[1],
+    repo_type="model",
+    commit_message="Upload 藏经全文库: complete CBETA canon (every collection), one gzip JSON per text + catalog",
+)
+print("✅ 藏经全文库已同步")
+EOF
+
 echo "=== [4/5] 构建生产环境前端包 (dist/) 并部署至 Hugging Face Static Space ==="
 VITE_HF_MODEL_BASE_URL="${HF_MODEL_CDN}" VITE_HF_TTS_API_URL="${HF_TTS_API_URL}" npm run build
 
