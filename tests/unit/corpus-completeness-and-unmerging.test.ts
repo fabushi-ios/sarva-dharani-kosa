@@ -22,8 +22,9 @@ describe('Root-Cause Fixes: Complete Clause Counts, Anti-Merging ("一咒一篇"
     const nilakantha = byId.get('nilakantha-mahakaruna-dharani')!;
     expect(nilakantha).toBeDefined();
     expect(nilakantha.verses.length).toBe(84);
-    expect(nilakantha.verses[0].classicalTranslitZh).toContain('南无喝啰怛那哆啰夜耶');
-    expect(nilakantha.verses[83].classicalTranslitZh).toContain('娑婆诃');
+    // Chinese is the CBETA T20n1060 wording itself (applyCuratedCanon), verse by verse.
+    expect(nilakantha.verses[0].classicalTranslitZh).toContain('南無喝囉怛那哆囉夜');
+    expect(nilakantha.verses[83].classicalTranslitZh).toContain('娑婆訶');
     expect(nilakantha.verses[0].fieldSources?.siddham).toBe('db-original');
     expect(nilakantha.verses[0].siddhamOriginal).toBeTruthy();
 

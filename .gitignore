@@ -20,3 +20,4 @@ public/audio/cache/
 .venv/
 
 data/raw/unihan/
+data/raw/cbeta/xml-cache/

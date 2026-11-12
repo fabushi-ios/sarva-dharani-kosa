@@ -200,8 +200,13 @@ export async function fetchAndParseCbetaXmlLive(
   if (!res.ok) {
     throw new Error(`无法拉取 CBETA 原典 XML (${res.status}): ${id}`);
   }
-  const xml = await res.text();
+  const parsed = parseCbetaXml(id, vol, await res.text(), rawXmlUrl);
+  liveCache.set(id, parsed);
+  return parsed;
+}
 
+/** Parses one CBETA TEI-P5 XML file (pure; shared by the UI and the build scripts). */
+export function parseCbetaXml(id: string, vol: string, xml: string, rawXmlUrl: string): LiveParsedCbetaSutra {
   const titleMatch = xml.match(/<title level="m" xml:lang="zh-Hant">([^<]+)<\/title>/);
   const authorMatch = xml.match(/<author>([^<]+)<\/author>|<byline[^>]*>([^<]+)<\/byline>/);
   const titleZh = titleMatch ? titleMatch[1].trim() : id;
@@ -364,8 +369,6 @@ export async function fetchAndParseCbetaXmlLive(
     fullParagraphs: extractFullParagraphs(rawBody, (s) => stripPua(resolveGaijiTags(s))),
     rawXmlSnippet: xml.slice(0, 2600),
   };
-
-  liveCache.set(id, parsed);
   return parsed;
 }
 

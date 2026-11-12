@@ -15,6 +15,7 @@ import {
 } from './kosa-generated/taishoMikkyoIndex';
 
 import { buildWordGlossesFromIast } from '../core/sanskrit/phoneticMapper';
+import { applyCuratedCanon } from '../core/sources/applyCuratedCanon';
 
 export { DHARANI_CATEGORIES };
 
@@ -89,7 +90,8 @@ const RAW_BUILTIN_DHARANI_CORPUS: DharaniEntry[] = [
   ...GRETIL_CANONICAL_DHARANIS,
 ];
 
-export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = RAW_BUILTIN_DHARANI_CORPUS.map(
+// Hand-authored entries are served with their source database's wording (applyCuratedCanon).
+export const BUILTIN_DHARANI_CORPUS: DharaniEntry[] = RAW_BUILTIN_DHARANI_CORPUS.map(applyCuratedCanon).map(
   (entry) => ({
     ...entry,
     verses: entry.verses.map(attachLazyWordsIfNeeded),

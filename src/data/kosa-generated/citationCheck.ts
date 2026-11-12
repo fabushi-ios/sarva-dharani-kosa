@@ -47,7 +47,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "vjviddhu.htm",
     "title": "vjviddhu.htm",
-    "coverage": 0.77,
+    "coverage": 0.78,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/vjviddhu.htm"
    }
@@ -104,13 +104,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.23
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T18n0874",
-   "title": "金剛頂一切如來真實攝大乘現證大教王經",
-   "coverage": 0.41,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -135,7 +129,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "F28n1071",
     "inCbeta": true,
-    "coverage": 0.12
+    "coverage": 0.15
    }
   ],
   "status": "unverified",
@@ -180,7 +174,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T20n1093",
     "inCbeta": true,
-    "coverage": 0.29
+    "coverage": 0.3
    }
   ],
   "status": "variant",
@@ -195,7 +189,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "amoghapu.htm",
     "title": "amoghapu.htm",
-    "coverage": 0.48,
+    "coverage": 0.47,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/amoghapu.htm"
    }
@@ -227,7 +221,13 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.15
    }
   ],
-  "status": "unverified",
+  "status": "variant",
+  "best": {
+   "id": "T20n1100",
+   "title": "葉衣觀自在菩薩經",
+   "coverage": 0.42,
+   "cited": false
+  },
   "sanskrit": {
    "status": "unverified"
   }
@@ -246,7 +246,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "sarvttsu.htm",
     "title": "sarvttsu.htm",
-    "coverage": 0.56,
+    "coverage": 0.58,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/sarvttsu.htm"
    }
@@ -262,8 +262,8 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "located-elsewhere",
   "best": {
-   "id": "F28n1071",
-   "title": "釋教最上乘秘密藏陀羅尼集",
+   "id": "T21n1223",
+   "title": "佛說無量壽佛化身大忿迅俱摩羅金剛念誦瑜伽儀軌法",
    "coverage": 1,
    "cited": false
   },
@@ -328,17 +328,17 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T20n1056",
    "title": "金剛頂瑜伽千手千眼觀自在菩薩修行儀軌經",
-   "coverage": 0.5,
+   "coverage": 0.55,
    "cited": false
   },
   "sanskrit": {
    "status": "variant",
    "best": {
-    "id": "bsu017_u.htm",
-    "title": "bsu017_u.htm",
-    "coverage": 0.45,
+    "id": "bsu015_u.htm",
+    "title": "bsu015_u.htm",
+    "coverage": 0.5,
     "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu017_u.htm"
+    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu015_u.htm"
    }
   }
  },
@@ -350,13 +350,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.41
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T20n1108A",
-   "title": "聖救度佛母二十一種禮讚經",
-   "coverage": 0.52,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "located-elsewhere",
    "best": {
@@ -398,7 +392,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T14n0450",
     "inCbeta": true,
-    "coverage": 0.31
+    "coverage": 0.33
    }
   ],
   "status": "unverified",
@@ -454,13 +448,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T19n1008",
-   "title": "菩提場莊嚴陀羅尼經",
-   "coverage": 0.41,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -500,7 +488,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T20n1069",
    "title": "十一面觀自在菩薩心密言念誦儀軌經",
-   "coverage": 0.68,
+   "coverage": 0.7,
    "cited": false
   },
   "sanskrit": {
@@ -508,7 +496,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "ekmuhr_u.htm",
     "title": "ekmuhr_u.htm",
-    "coverage": 0.54,
+    "coverage": 0.53,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/ekmuhr_u.htm"
    }
@@ -519,7 +507,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T19n0951",
     "inCbeta": true,
-    "coverage": 0.09
+    "coverage": 0.08
    }
   ],
   "status": "located-elsewhere",
@@ -534,7 +522,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "vajvidhu.htm",
     "title": "vajvidhu.htm",
-    "coverage": 0.63,
+    "coverage": 0.65,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/vajvidhu.htm"
    }
@@ -552,7 +540,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T18n0885",
     "inCbeta": true,
-    "coverage": 0.25
+    "coverage": 0.26
    }
   ],
   "status": "unverified",
@@ -643,19 +631,19 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T19n1022A",
     "inCbeta": true,
-    "coverage": 0.94
+    "coverage": 1
    },
    {
     "id": "T19n1022B",
     "inCbeta": true,
-    "coverage": 0.72
+    "coverage": 0.78
    }
   ],
   "status": "verified",
   "best": {
    "id": "T19n1022A",
    "title": "一切如來心祕密全身舍利寶篋印陀羅尼經",
-   "coverage": 0.94,
+   "coverage": 1,
    "cited": true
   },
   "sanskrit": {
@@ -674,11 +662,11 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "sanskrit": {
    "status": "variant",
    "best": {
-    "id": "bsu019_u.htm",
-    "title": "bsu019_u.htm",
-    "coverage": 0.41,
+    "id": "adhsatpu.htm",
+    "title": "adhsatpu.htm",
+    "coverage": 0.47,
     "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu019_u.htm"
+    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/adhsatpu.htm"
    }
   }
  },
@@ -707,7 +695,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T18n0848",
     "inCbeta": true,
-    "coverage": 0.46
+    "coverage": 0.47
    },
    {
     "id": "T20n1159B",
@@ -717,8 +705,8 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "variant",
   "best": {
-   "id": "T18n0850",
-   "title": "攝大毘盧遮那成佛神變加持經入蓮華胎藏海會悲生曼荼攞廣大念誦儀軌供養方便會",
+   "id": "T18n0852a",
+   "title": "大毘盧遮那成佛神變加持經蓮華胎藏悲生曼荼羅廣大成就儀軌供養方便會",
    "coverage": 0.7,
    "cited": false
   },
@@ -749,7 +737,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T16n0672",
     "inCbeta": true,
-    "coverage": 0.08
+    "coverage": 0.09
    }
   ],
   "status": "unverified",
@@ -779,22 +767,15 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.19
    }
   ],
-  "status": "variant",
+  "status": "located-elsewhere",
   "best": {
-   "id": "T18n0849",
-   "title": "大毘盧遮那佛說要略念誦經",
-   "coverage": 0.62,
+   "id": "T18n0874",
+   "title": "金剛頂一切如來真實攝大乘現證大教王經",
+   "coverage": 1,
    "cited": false
   },
   "sanskrit": {
-   "status": "variant",
-   "best": {
-    "id": "vadhdhdu.htm",
-    "title": "vadhdhdu.htm",
-    "coverage": 0.48,
-    "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/vadhdhdu.htm"
-   }
+   "status": "unverified"
   }
  },
  "liturgy-parents-gratitude-mantra": {
@@ -826,8 +807,8 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "located-elsewhere",
   "best": {
-   "id": "T19n0924C",
-   "title": "藥師儀軌一具",
+   "id": "T18n0864A",
+   "title": "大日如來劍印",
    "coverage": 1,
    "cited": false
   },
@@ -866,14 +847,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T09n0262",
     "inCbeta": true,
-    "coverage": 0.84
+    "coverage": 0.85
    }
   ],
   "status": "verified",
   "best": {
    "id": "T09n0262",
    "title": "妙法蓮華經",
-   "coverage": 0.84,
+   "coverage": 0.85,
    "cited": true
   },
   "sanskrit": {
@@ -885,14 +866,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T09n0262",
     "inCbeta": true,
-    "coverage": 0.8
+    "coverage": 0.81
    }
   ],
   "status": "verified",
   "best": {
    "id": "T09n0262",
    "title": "妙法蓮華經",
-   "coverage": 0.8,
+   "coverage": 0.81,
    "cited": true
   },
   "sanskrit": {
@@ -904,14 +885,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T09n0262",
     "inCbeta": true,
-    "coverage": 0.82
+    "coverage": 0.83
    }
   ],
   "status": "verified",
   "best": {
    "id": "T09n0262",
    "title": "妙法蓮華經",
-   "coverage": 0.82,
+   "coverage": 0.83,
    "cited": true
   },
   "sanskrit": {
@@ -923,14 +904,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T09n0262",
     "inCbeta": true,
-    "coverage": 0.9
+    "coverage": 0.91
    }
   ],
   "status": "verified",
   "best": {
    "id": "T09n0262",
    "title": "妙法蓮華經",
-   "coverage": 0.9,
+   "coverage": 0.91,
    "cited": true
   },
   "sanskrit": {
@@ -992,14 +973,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T21n1287",
     "inCbeta": true,
-    "coverage": 0.81
+    "coverage": 0.82
    }
   ],
   "status": "verified",
   "best": {
-   "id": "F28n1071",
-   "title": "釋教最上乘秘密藏陀羅尼集",
-   "coverage": 0.83,
+   "id": "T18n0850",
+   "title": "攝大毘盧遮那成佛神變加持經入蓮華胎藏海會悲生曼荼攞廣大念誦儀軌供養方便會",
+   "coverage": 0.84,
    "cited": false
   },
   "sanskrit": {
@@ -1051,7 +1032,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "manivdhu.htm",
     "title": "manivdhu.htm",
-    "coverage": 0.77,
+    "coverage": 0.78,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/manivdhu.htm"
    }
@@ -1065,13 +1046,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.45
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T19n1005A",
-   "title": "大寶廣博樓閣善住祕密陀羅尼經",
-   "coverage": 0.66,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "variant",
    "best": {
@@ -1103,7 +1078,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "mmayuvru.htm",
     "title": "mmayuvru.htm",
-    "coverage": 0.81,
+    "coverage": 0.82,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mmayuvru.htm"
    }
@@ -1121,7 +1096,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T20n1155",
    "title": "金剛頂瑜伽最勝祕密成佛隨求即得神變加持成就陀羅尼儀軌",
-   "coverage": 0.44,
+   "coverage": 0.45,
    "cited": false
   },
   "sanskrit": {
@@ -1129,7 +1104,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "mprsvdhu.htm",
     "title": "mprsvdhu.htm",
-    "coverage": 0.74,
+    "coverage": 0.75,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mprsvdhu.htm"
    }
@@ -1145,12 +1120,12 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "F28n1071",
     "inCbeta": true,
-    "coverage": 0.23
+    "coverage": 0.27
    },
    {
     "id": "F27n1061",
     "inCbeta": true,
-    "coverage": 0.2
+    "coverage": 0.21
    }
   ],
   "status": "unverified",
@@ -1159,7 +1134,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "mahpratu.htm",
     "title": "mahpratu.htm",
-    "coverage": 0.65,
+    "coverage": 0.66,
     "cited": true,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mahpratu.htm"
    },
@@ -1178,7 +1153,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T18n0890",
    "title": "佛說瑜伽大教王經",
-   "coverage": 0.5,
+   "coverage": 0.43,
    "cited": false
   },
   "sanskrit": {
@@ -1205,13 +1180,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.04
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T18n0850",
-   "title": "攝大毘盧遮那成佛神變加持經入蓮華胎藏海會悲生曼荼攞廣大念誦儀軌供養方便會",
-   "coverage": 0.68,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "variant",
    "best": {
@@ -1231,13 +1200,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.46
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T18n0853",
-   "title": "大毘盧遮那成佛神變加持經蓮華胎藏菩提幢標幟普通真言藏廣大成就瑜伽",
-   "coverage": 0.7,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -1252,8 +1215,8 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "located-elsewhere",
   "best": {
-   "id": "F28n1071",
-   "title": "釋教最上乘秘密藏陀羅尼集",
+   "id": "T21n1258",
+   "title": "摩利支菩薩略念誦法",
    "coverage": 1,
    "cited": false
   },
@@ -1262,7 +1225,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "mahama_u.htm",
     "title": "mahama_u.htm",
-    "coverage": 0.43,
+    "coverage": 0.44,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mahama_u.htm"
    }
@@ -1278,14 +1241,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "short-formula",
   "sanskrit": {
-   "status": "variant",
-   "best": {
-    "id": "sarvttsu.htm",
-    "title": "sarvttsu.htm",
-    "coverage": 0.42,
-    "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/sarvttsu.htm"
-   }
+   "status": "unverified"
   }
  },
  "maitreya-bodhisattva-mantra": {
@@ -1293,16 +1249,10 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T20n1141",
     "inCbeta": true,
-    "coverage": 0.15
+    "coverage": 0.27
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T20n1185A",
-   "title": "佛說文殊師利法寶藏陀羅尼經",
-   "coverage": 0.43,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -1324,7 +1274,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T20n1191",
    "title": "大方廣菩薩藏文殊師利根本儀軌經",
-   "coverage": 0.65,
+   "coverage": 0.6,
    "cited": false
   },
   "sanskrit": {
@@ -1398,13 +1348,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "F28n1071",
-   "title": "釋教最上乘秘密藏陀羅尼集",
-   "coverage": 0.41,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "variant",
    "best": {
@@ -1421,7 +1365,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T21n1315",
     "inCbeta": true,
-    "coverage": 0.52
+    "coverage": 0.53
    }
   ],
   "status": "variant",
@@ -1533,24 +1477,24 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T20n1100",
     "inCbeta": true,
-    "coverage": 0.49
+    "coverage": 0.53
    }
   ],
   "status": "variant",
   "best": {
    "id": "T20n1100",
    "title": "葉衣觀自在菩薩經",
-   "coverage": 0.49,
+   "coverage": 0.53,
    "cited": true
   },
   "sanskrit": {
    "status": "variant",
    "best": {
-    "id": "amoghapu.htm",
-    "title": "amoghapu.htm",
-    "coverage": 0.4,
+    "id": "bsu002_u.htm",
+    "title": "bsu002_u.htm",
+    "coverage": 0.42,
     "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/amoghapu.htm"
+    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu002_u.htm"
    }
   }
  },
@@ -1586,14 +1530,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T08n0251",
     "inCbeta": true,
-    "coverage": 0.9
+    "coverage": 0.92
    }
   ],
   "status": "verified",
   "best": {
    "id": "T08n0251",
    "title": "般若波羅蜜多心經",
-   "coverage": 0.9,
+   "coverage": 0.92,
    "cited": true
   },
   "sanskrit": {
@@ -1619,7 +1563,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "F28n1071",
    "title": "釋教最上乘秘密藏陀羅尼集",
-   "coverage": 0.46,
+   "coverage": 0.67,
    "cited": false
   },
   "sanskrit": {
@@ -1650,19 +1594,19 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "located-elsewhere",
   "best": {
-   "id": "T20n1192",
-   "title": "妙吉祥平等祕密最上觀門大教王經",
+   "id": "T18n0874",
+   "title": "金剛頂一切如來真實攝大乘現證大教王經",
    "coverage": 0.89,
    "cited": false
   },
   "sanskrit": {
    "status": "variant",
    "best": {
-    "id": "sarvttsu.htm",
-    "title": "sarvttsu.htm",
-    "coverage": 0.42,
+    "id": "bsu007_u.htm",
+    "title": "bsu007_u.htm",
+    "coverage": 0.48,
     "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/sarvttsu.htm"
+    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu007_u.htm"
    }
   }
  },
@@ -1686,11 +1630,11 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "sanskrit": {
    "status": "variant",
    "best": {
-    "id": "maitrs_pu.htm",
-    "title": "maitrs_pu.htm",
+    "id": "maitrs_au.htm",
+    "title": "maitrs_au.htm",
     "coverage": 0.4,
     "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/1_veda/1_sam/maitrs_pu.htm"
+    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/master/gretil.sub.uni-goettingen.de/gretil/1_sanskr/1_veda/1_sam/maitrs_au.htm"
    }
   }
  },
@@ -1700,7 +1644,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T18n0883",
    "title": "佛說祕密三昧大教王經",
-   "coverage": 0.51,
+   "coverage": 0.52,
    "cited": false
   },
   "sanskrit": {
@@ -1724,16 +1668,10 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T18n0848",
     "inCbeta": true,
-    "coverage": 0.16
+    "coverage": 0.23
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T21n1237",
-   "title": "阿吒婆拘鬼神大將上佛陀羅尼神呪經",
-   "coverage": 0.4,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -1746,19 +1684,13 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.41
    }
   ],
-  "status": "located-elsewhere",
-  "best": {
-   "id": "T18n0852a",
-   "title": "大毘盧遮那成佛神變加持經蓮華胎藏悲生曼荼羅廣大成就儀軌供養方便會",
-   "coverage": 0.82,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "variant",
    "best": {
     "id": "mahama_u.htm",
     "title": "mahama_u.htm",
-    "coverage": 0.6,
+    "coverage": 0.61,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/mahama_u.htm"
    }
@@ -1774,14 +1706,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "F28n1071",
     "inCbeta": true,
-    "coverage": 0.75
+    "coverage": 0.83
    }
   ],
-  "status": "variant",
+  "status": "verified",
   "best": {
    "id": "F28n1071",
    "title": "釋教最上乘秘密藏陀羅尼集",
-   "coverage": 0.75,
+   "coverage": 0.83,
    "cited": true
   },
   "sanskrit": {
@@ -1851,7 +1783,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "bsu004_u.htm",
     "title": "bsu004_u.htm",
-    "coverage": 0.54,
+    "coverage": 0.55,
     "cited": true,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu004_u.htm"
    },
@@ -1898,13 +1830,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T19n0950",
-   "title": "菩提場所說一字頂輪王經",
-   "coverage": 0.41,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -1966,7 +1892,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T18n0866",
     "inCbeta": true,
-    "coverage": 0.34
+    "coverage": 0.33
    },
    {
     "id": "T20n1064",
@@ -1976,8 +1902,8 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   ],
   "status": "located-elsewhere",
   "best": {
-   "id": "T19n0923",
-   "title": "藥師如來觀行儀軌法",
+   "id": "T19n1000",
+   "title": "成就妙法蓮華經王瑜伽觀智儀軌",
    "coverage": 1,
    "cited": false
   },
@@ -2004,14 +1930,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T20n1080",
     "inCbeta": true,
-    "coverage": 0.14
+    "coverage": 0.07
    }
   ],
   "status": "variant",
   "best": {
    "id": "T20n1081",
    "title": "佛說觀自在菩薩如意心陀羅尼呪經",
-   "coverage": 0.75,
+   "coverage": 0.72,
    "cited": false
   },
   "sanskrit": {
@@ -2023,7 +1949,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T19n0963",
     "inCbeta": true,
-    "coverage": 0.72
+    "coverage": 0.71
    },
    {
     "id": "T19n0964",
@@ -2035,7 +1961,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T19n0963",
    "title": "佛說熾盛光大威德消災吉祥陀羅尼經",
-   "coverage": 0.72,
+   "coverage": 0.71,
    "cited": true
   },
   "sanskrit": {
@@ -2059,12 +1985,12 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T20n1076",
     "inCbeta": true,
-    "coverage": 0.48
+    "coverage": 0.49
    },
    {
     "id": "T20n1077",
     "inCbeta": true,
-    "coverage": 0.73
+    "coverage": 0.74
    },
    {
     "id": "T20n1050",
@@ -2084,7 +2010,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "bsu019_u.htm",
     "title": "bsu019_u.htm",
-    "coverage": 0.62,
+    "coverage": 0.64,
     "cited": true,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu019_u.htm"
    },
@@ -2127,19 +2053,19 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T14n0451",
     "inCbeta": true,
-    "coverage": 0.86
+    "coverage": 0.87
    },
    {
     "id": "T19n0924A",
     "inCbeta": true,
-    "coverage": 0.66
+    "coverage": 0.67
    }
   ],
   "status": "verified",
   "best": {
    "id": "T14n0451",
    "title": "藥師琉璃光七佛本願功德經",
-   "coverage": 0.86,
+   "coverage": 0.87,
    "cited": true
   },
   "sanskrit": {
@@ -2147,7 +2073,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "best": {
     "id": "bsu004_u.htm",
     "title": "bsu004_u.htm",
-    "coverage": 0.55,
+    "coverage": 0.56,
     "cited": false,
     "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu004_u.htm"
    },
@@ -2166,7 +2092,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T21n1339",
     "inCbeta": true,
-    "coverage": 0.24
+    "coverage": 0.25
    },
    {
     "id": "T24n1492",
@@ -2216,13 +2142,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T18n0901",
-   "title": "陀羅尼集經",
-   "coverage": 0.4,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified",
    "citedFile": "bsu007_u.htm"
@@ -2291,21 +2211,15 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T21n1228",
     "inCbeta": true,
-    "coverage": 0.25
+    "coverage": 0.26
    },
    {
     "id": "T21n1229",
     "inCbeta": true,
-    "coverage": 0.59
+    "coverage": 0.35
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T21n1229",
-   "title": "穢跡金剛禁百變法經",
-   "coverage": 0.59,
-   "cited": true
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "unverified"
   }
@@ -2360,7 +2274,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "best": {
    "id": "T19n0973",
    "title": "尊勝佛頂脩瑜伽法軌儀",
-   "coverage": 0.64,
+   "coverage": 0.6,
    "cited": false
   },
   "sanskrit": {
@@ -2369,13 +2283,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
  },
  "vaisnava-narayana-astaksara-mantra": {
   "cited": [],
-  "status": "variant",
-  "best": {
-   "id": "T18n0882",
-   "title": "佛說一切如來真實攝大乘現證三昧大教王經",
-   "coverage": 0.42,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "variant",
    "best": {
@@ -2389,13 +2297,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
  },
  "vaisnava-vasudeva-dvadasaksara-mantra": {
   "cited": [],
-  "status": "variant",
-  "best": {
-   "id": "T21n1330",
-   "title": "囉嚩拏說救療小兒疾病經",
-   "coverage": 0.52,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
    "status": "located-elsewhere",
    "best": {
@@ -2412,7 +2314,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T21n1245",
     "inCbeta": true,
-    "coverage": 0.13
+    "coverage": 0.12
    }
   ],
   "status": "located-elsewhere",
@@ -2437,7 +2339,14 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
   "cited": [],
   "status": "unverified",
   "sanskrit": {
-   "status": "unverified"
+   "status": "variant",
+   "best": {
+    "id": "sarvttsu.htm",
+    "title": "sarvttsu.htm",
+    "coverage": 0.4,
+    "cited": false,
+    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/sarvttsu.htm"
+   }
   }
  },
  "vajrapani-bodhisattva-mantra": {
@@ -2453,22 +2362,9 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
     "coverage": 0.13
    }
   ],
-  "status": "variant",
-  "best": {
-   "id": "T18n0874",
-   "title": "金剛頂一切如來真實攝大乘現證大教王經",
-   "coverage": 0.65,
-   "cited": false
-  },
+  "status": "unverified",
   "sanskrit": {
-   "status": "variant",
-   "best": {
-    "id": "vadhdhdu.htm",
-    "title": "vadhdhdu.htm",
-    "coverage": 0.4,
-    "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/vadhdhdu.htm"
-   }
+   "status": "unverified"
   }
  },
  "vajrasamaya-precept-mantra": {
@@ -2476,12 +2372,12 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T18n0865",
     "inCbeta": true,
-    "coverage": 0.72
+    "coverage": 0.73
    },
    {
     "id": "T18n0866",
     "inCbeta": true,
-    "coverage": 0.34
+    "coverage": 0.32
    }
   ],
   "status": "short-formula",
@@ -2511,7 +2407,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    {
     "id": "T19n0974E",
     "inCbeta": true,
-    "coverage": 0.43
+    "coverage": 0.42
    }
   ],
   "status": "variant",
@@ -2659,14 +2555,7 @@ export const CITATION_CHECK: Record<string, CitationCheckRecord> = {
    "cited": true
   },
   "sanskrit": {
-   "status": "variant",
-   "best": {
-    "id": "vadhdhdu.htm",
-    "title": "vadhdhdu.htm",
-    "coverage": 0.44,
-    "cited": false,
-    "url": "https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/vadhdhdu.htm"
-   }
+   "status": "unverified"
   }
  },
  "vasudhara-yubao-full": {

@@ -23,6 +23,7 @@ import {
   hanUnits,
   latinUnits,
   locateUnitSpan,
+  stripShortHanAnnotations,
 } from './textAlignment';
 
 export const CANON_ID_RE = /(?<![A-Za-z0-9])([A-Z]{1,2})(\d{2,3})n(\d{4})([A-Za-z]?)(?![A-Za-z0-9])/g;
@@ -111,10 +112,16 @@ export interface CanonTextCorpus {
   sanskrit?: Record<string, string>;
   /** Sanskrit witnesses: file → source URL. */
   sanskritUrls?: Record<string, string>;
+  /**
+   * Fixed reference collections for n-gram document frequency (IDF), so a text's coverage never
+   * depends on which other texts happen to be loaded. Default: the matched collection itself.
+   */
+  hanIdfTexts?: Record<string, string>;
+  sanskritIdfTexts?: Record<string, string>;
 }
 
 const round2 = (x: number) => Math.round(x * 100) / 100;
-const CANDIDATES = 4;
+const CANDIDATES = 8;
 
 interface CorpusMatcher {
   gramCount: number[];
@@ -126,7 +133,12 @@ interface CorpusMatcher {
 }
 
 /** Generic n-gram matcher of many queries against many texts (one scan per text). */
-function buildMatcher(queries: string[][], texts: Map<string, string[]>, n: number): CorpusMatcher {
+function buildMatcher(
+  queries: string[][],
+  texts: Map<string, string[]>,
+  n: number,
+  idfTexts: Map<string, string[]> = texts
+): CorpusMatcher {
   const gram = (k: string[], i: number) => {
     let g = k[i];
     for (let j = 1; j < n; j++) g += k[i + j];
@@ -145,19 +157,22 @@ function buildMatcher(queries: string[][], texts: Map<string, string[]>, n: numb
     }
     return seen.size;
   });
-  const df = new Map<string, number>();
-  const textHits = new Map<string, Set<string>>();
-  for (const [id, k] of texts) {
+  const hitsOf = (k: string[]) => {
     const hit = new Set<string>();
     for (let i = 0; i + n <= k.length; i++) {
       const g = gram(k, i);
       if (gramEntries.has(g)) hit.add(g);
     }
-    textHits.set(id, hit);
-    for (const g of hit) df.set(g, (df.get(g) || 0) + 1);
+    return hit;
+  };
+  const textHits = new Map<string, Set<string>>();
+  for (const [id, k] of texts) textHits.set(id, hitsOf(k));
+  const df = new Map<string, number>();
+  for (const [id, k] of idfTexts) {
+    for (const g of idfTexts === texts ? textHits.get(id)! : hitsOf(k)) df.set(g, (df.get(g) || 0) + 1);
   }
   // Inverse document frequency: stock formulae found in hundreds of texts carry ~no evidence.
-  const N = texts.size;
+  const N = idfTexts.size;
   const idf = (g: string) => Math.log((N + 1) / ((df.get(g) || 0) + 1));
   const overlap: Array<Map<string, number>> = queries.map(() => new Map());
   for (const [id, hit] of textHits) {
@@ -181,6 +196,24 @@ function buildMatcher(queries: string[][], texts: Map<string, string[]>, n: numb
   };
 }
 
+/** Canon collection rank: Taishō first, then the other collections. */
+const collectionRank = (id: string) => (/^T\d/.test(id) ? 0 : 1);
+
+/**
+ * Source preference: higher coverage; then the cited text; then the Taishō canon; then the
+ * lower canon number. Deterministic, no per-text exceptions.
+ */
+export function compareSource(
+  a: { id: string; coverage: number; cited: boolean },
+  b: { id: string; coverage: number; cited: boolean }
+): number {
+  if (a.coverage !== b.coverage) return b.coverage - a.coverage;
+  if (a.cited !== b.cited) return a.cited ? -1 : 1;
+  const r = collectionRank(a.id) - collectionRank(b.id);
+  if (r) return r;
+  return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
+}
+
 function classify(
   m: CorpusMatcher,
   qi: number,
@@ -193,7 +226,7 @@ function classify(
   let best: SourceMatch | undefined;
   const consider = (id: string, coverage: number, cited: boolean) => {
     if (coverage <= 0) return;
-    if (!best || coverage > best.coverage || (coverage === best.coverage && cited && !best.cited)) {
+    if (!best || compareSource({ id, coverage, cited }, best) < 0) {
       best = { id, title: titleOf(id), coverage, cited };
     }
   };
@@ -205,13 +238,67 @@ function classify(
   let status: CitationStatus;
   if (bestCited >= COVERAGE_MATCH) status = 'verified';
   else if (!locatable) status = 'short-formula';
-  else if (best && best.coverage >= COVERAGE_MATCH) status = 'located-elsewhere';
+  else if (best && best.coverage < COVERAGE_MATCH && best.coverage * m.gramCount[qi] < MIN_LOCATABLE_GRAMS) {
+    // A partial match sharing fewer n-grams than a locatable text has is not evidence of a source.
+    status = 'unverified';
+    best = undefined;
+  } else if (best && best.coverage >= COVERAGE_MATCH) status = 'located-elsewhere';
   else if (best && best.coverage >= COVERAGE_VARIANT) status = 'variant';
   else status = 'unverified';
   // A short formula's "best" text outside the citation is arbitrary, and a match below the
   // variant threshold is not a match — neither is reported as a source.
   if (best && ((!locatable && !best.cited) || best.coverage < COVERAGE_VARIANT)) best = undefined;
   return { status, best, citedCoverage };
+}
+
+/**
+ * IDF weight function over a fixed reference collection, for the n-grams of `queries`
+ * (the same weighting the matcher uses for coverage).
+ */
+export function idfWeights(
+  queries: string[][],
+  idfTexts: Record<string, string>,
+  script: 'han' | 'latin'
+): (gram: string) => number {
+  const n = script === 'han' ? HAN_GRAM : LATIN_GRAM;
+  const units = (s: string) => (script === 'han' ? hanUnits(stripShortHanAnnotations(s)) : latinUnits(s)).keys;
+  const wanted = new Set<string>();
+  for (const q of queries) for (let i = 0; i + n <= q.length; i++) wanted.add(q.slice(i, i + n).join(''));
+  const df = new Map<string, number>();
+  const ids = Object.keys(idfTexts).sort();
+  for (const id of ids) {
+    const k = units(idfTexts[id]);
+    const seen = new Set<string>();
+    for (let i = 0; i + n <= k.length; i++) {
+      const g = k.slice(i, i + n).join('');
+      if (wanted.has(g)) seen.add(g);
+    }
+    for (const g of seen) df.set(g, (df.get(g) || 0) + 1);
+  }
+  const N = ids.length;
+  return (g) => Math.log((N + 1) / ((df.get(g) || 0) + 1));
+}
+
+/** Top candidate texts (by weighted n-gram overlap) for each entry's Chinese, keyed by entry id. */
+export function rankHanCandidates(
+  entries: DharaniEntry[],
+  texts: Record<string, string>,
+  idfTexts: Record<string, string> = texts
+): Record<string, string[]> {
+  const units = (rec: Record<string, string>) =>
+    new Map(
+      Object.keys(rec)
+        .sort()
+        .map((id) => [id, hanUnits(stripShortHanAnnotations(rec[id])).keys] as [string, string[]])
+    );
+  const t = units(texts);
+  const m = buildMatcher(
+    entries.map((e) => entryHanQuery(e.verses).keys),
+    t,
+    HAN_GRAM,
+    idfTexts === texts ? t : units(idfTexts)
+  );
+  return Object.fromEntries(entries.map((e, qi) => [e.id, m.gramCount[qi] ? m.candidates(qi) : []]));
 }
 
 export function computeCitationCheck(
@@ -224,15 +311,20 @@ export function computeCitationCheck(
         .sort()
         .map((id) => [id, units(rec[id]).keys] as [string, string[]])
     );
+  const hanTarget = (s: string) => hanUnits(stripShortHanAnnotations(s));
+  const hanTexts = sortedMap(corpus.texts, hanTarget);
   const han = buildMatcher(
     entries.map((e) => entryHanQuery(e.verses).keys),
-    sortedMap(corpus.texts, hanUnits),
-    HAN_GRAM
+    hanTexts,
+    HAN_GRAM,
+    corpus.hanIdfTexts ? sortedMap(corpus.hanIdfTexts, hanTarget) : hanTexts
   );
+  const saTexts = sortedMap(corpus.sanskrit || {}, latinUnits);
   const sa = buildMatcher(
     entries.map((e) => entryLatinQuery(e.verses).keys),
-    sortedMap(corpus.sanskrit || {}, latinUnits),
-    LATIN_GRAM
+    saTexts,
+    LATIN_GRAM,
+    corpus.sanskritIdfTexts ? sortedMap(corpus.sanskritIdfTexts, latinUnits) : saTexts
   );
 
   const out: Record<string, CitationCheckRecord> = {};

@@ -138,7 +138,8 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
     );
     expect(mahapratisara).toBeDefined();
     const mpSummary = summarizeEntryFieldProvenance(mahapratisara!);
-    expect(mpSummary.byField.iast).toBe('db-original');
+    // Verses the GRETIL passage has no wording for keep their hand text (labelled non-DB) → may be mixed.
+    expect(['db-original', 'mixed']).toContain(mpSummary.byField.iast);
     expect(mpSummary.byField.modernPhoneticZh).toBe('derived-reference');
     expect(mpSummary.byField.classicalTranslitZh).toBe('derived-reference');
     expect(mpSummary.byField.meaningZh).toBe('derived-reference');

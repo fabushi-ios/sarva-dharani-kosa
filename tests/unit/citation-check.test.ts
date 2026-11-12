@@ -2,20 +2,90 @@ import { describe, it, expect, vi, afterAll } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import { CITATION_CHECK } from '../../src/data/kosa-generated/citationCheck';
-import { computeCitationCheck, citedCanonIds, parseCanonIds, cbetaXmlUrl } from '../../src/core/sources/citationCheck';
+import { citedCanonIds, parseCanonIds, cbetaXmlUrl } from '../../src/core/sources/citationCheck';
 import { collectEntrySources } from '../../src/core/sources/entrySources';
 import { entryHanQuery, hanUnits, locateSpan, stripShortHanAnnotations, HAN_GRAM } from '../../src/core/sources/textAlignment';
 import { fetchAndParseCbetaXmlLive } from '../../src/services/cbeta/cbetaLiveService';
-import { curatedEntries, loadCanonCorpus } from '../../scripts/build-citation-check';
+import {
+  assembleCorpus,
+  buildAll,
+  curatedEntries,
+  joinParagraphs,
+  readCanonSources,
+  unpackParagraphs,
+} from '../../scripts/build-citation-check';
+import { gretilVerseIast, isTransliteratedSiddham } from '../../src/core/sources/applyCuratedCanon';
+import { CURATED_CANON } from '../../src/data/kosa-generated/curatedCanon';
+import { applyCuratedCanon, splitInterlinearNotes } from '../../src/core/sources/applyCuratedCanon';
 
 const ROOT = path.resolve(__dirname, '../..');
 
 describe('code-rule citation check of hand-authored entries', () => {
   const entries = curatedEntries();
 
-  it('generated citationCheck.ts is current (re-derived from the CBETA texts)', () => {
-    const fresh = computeCitationCheck(entries, loadCanonCorpus());
-    expect(CITATION_CHECK).toEqual(JSON.parse(JSON.stringify(fresh)));
+  it('generated citationCheck.ts and curatedCanon.ts are current (re-derived from the source texts)', () => {
+    const { check, canon } = buildAll();
+    expect(CITATION_CHECK).toEqual(JSON.parse(JSON.stringify(check)));
+    expect(CURATED_CANON).toEqual(JSON.parse(JSON.stringify(canon)));
+  }, 300_000);
+
+  it('served Chinese / Sanskrit of hand-authored entries is the source text itself, contiguous and complete', () => {
+    const src = readCanonSources();
+    const corpus = assembleCorpus(src);
+    const squash = (s: string) => s.replace(/\s+/g, '');
+    let han = 0;
+    for (const e of entries) {
+      const c = CURATED_CANON[e.id];
+      expect(c, e.id).toBeTruthy();
+      const served = applyCuratedCanon(e);
+      if (c.han) {
+        han++;
+        expect(c.han.verses).toHaveLength(e.verses.length);
+        const source = squash(joinParagraphs(unpackParagraphs(src.paragraphs[c.han.sourceId])));
+        // The verses, concatenated, are one contiguous passage of the source (nothing lost or added).
+        expect(source.includes(squash(c.han.verses.join(''))), e.id).toBe(true);
+        const hanText = (k: number) => splitInterlinearNotes(c.han!.verses[k]).text;
+        expect(served.verses.map((v) => v.classicalTranslitZh)).toEqual(
+          c.han.verses.map((_, k) => (hanText(k).trim() ? hanText(k) : e.verses[k].classicalTranslitZh))
+        );
+        // Syllables + notes together reproduce the source passage exactly.
+        served.verses.forEach((v, k) => {
+          if (!hanText(k).trim()) return;
+          const han = (s: string) => (s.match(/\p{Script=Han}/gu) || []).join('');
+          expect(han(v.classicalTranslitZh) + han(v.tangNoteZh && v.tangNoteZh !== e.verses[k].tangNoteZh ? v.tangNoteZh : '')).toBe(
+            han(splitInterlinearNotes(c.han!.verses[k]).text) + han(splitInterlinearNotes(c.han!.verses[k]).notes.join(''))
+          );
+        });
+        served.verses.forEach((v, k) =>
+          expect(v.fieldSources?.classicalTranslitZh).toBe(hanText(k).trim() ? 'db-original' : 'derived-reference')
+        );
+        expect(served.taishoNo).toBe(c.han.sourceId);
+        expect(CITATION_CHECK[e.id].cited.find((x) => x.id === c.han!.sourceId)?.inCbeta ?? true).toBe(true);
+      } else {
+        expect(served.verses.every((v) => v.fieldSources?.classicalTranslitZh === 'derived-reference'), e.id).toBe(true);
+      }
+      if (c.sanskrit) {
+        expect(c.sanskrit.verses).toHaveLength(e.verses.length);
+        const source = squash(corpus.sanskrit![c.sanskrit.file]);
+        expect(source.includes(squash(c.sanskrit.verses.join(''))), e.id).toBe(true);
+        served.verses.forEach((v, k) => {
+          const src = gretilVerseIast(c.sanskrit!.verses[k]);
+          if (src) {
+            expect(v.iast, e.id).toBe(src);
+            expect(v.fieldSources?.iast).toBe('db-original');
+          } else {
+            // the source passage has no wording for this verse: hand text kept, labelled non-DB
+            expect(v.iast, e.id).toBe(e.verses[k].iast);
+            expect(v.fieldSources?.iast).toBe(isTransliteratedSiddham(e.verses[k]) ? 'db-original' : 'derived-reference');
+          }
+        });
+      } else {
+        served.verses.forEach((v, k) =>
+          expect(v.fieldSources?.iast, e.id).toBe(isTransliteratedSiddham(e.verses[k]) ? 'db-original' : 'derived-reference')
+        );
+      }
+    }
+    expect(han).toBeGreaterThan(0);
   }, 120_000);
 
   it('covers every hand-authored entry, and every cited canon number is checked', () => {
