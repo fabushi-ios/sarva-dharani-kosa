@@ -266,6 +266,27 @@ MATRIX_CONSONANTS: list[str] = [
 ]
 
 MATRIX_VOWELS: list[str] = ["a", "A", "i", "I", "u", "U", "f", "F", "x", "X", "e", "E", "o", "O"]
+# Isolated-Svara carrier table `(total_repeats, head_repeats)` per voice and conditioned Devanāgarī vowel.
+# VITS cannot articulate a lone vowel cleanly (first ~60 ms is a mis-aligned open vowel gliding into the target:
+# `उ` -> "ao-u", `इ`/`ई` blur). Repeating the vowel lets the duration predictor settle; the first `head_repeats`
+# repetitions are discarded. Mirrors `SVARA_CARRIER_TABLE` in `src/services/audio/browserOnnxTtsEngine.ts`.
+SVARA_CARRIER_TABLE: dict[str, dict[str, tuple[int, int]]] = {
+    "male": {
+        "अ": (2, 1), "आ": (2, 1), "इ": (2, 1), "ई": (2, 1), "उ": (5, 2), "ऊ": (4, 1),
+        "ऋ": (5, 2), "लृ": (5, 2), "ए": (3, 2), "ओ": (5, 2), "औ": (2, 1), "अः": (5, 3),
+        "अँ": (5, 3),
+    },
+    "female": {
+        "अ": (2, 1), "आ": (4, 1), "इ": (2, 1), "ई": (2, 1), "उ": (3, 1), "ऊ": (3, 2),
+        "ऋ": (3, 2), "लृ": (5, 2), "ए": (4, 2), "ऐ": (2, 1), "ओ": (2, 1), "औ": (2, 1),
+        "अं": (2, 1), "अः": (4, 1), "अँ": (3, 2),
+    },
+}
+
+# Length scales applied to the carrier so the retained steady repetition reaches Laghu / Guru durations.
+SVARA_CARRIER_LS_HRASVA = 1.8
+SVARA_CARRIER_LS_GURU = 3.0
+
 STANDALONE_SVARAS: list[str] = ["a", "A", "i", "I", "u", "U", "f", "F", "x", "X", "e", "E", "o", "O", "aM", "aH"]
 
 CONS_MATRIX: dict[str, dict[str, Any]] = {
@@ -1156,7 +1177,7 @@ def condition_single_syllable_slp1(slp1_key: str) -> dict[str, Any]:
             "deva": deva,
             "meter": meter,
             "category": "svara",
-            "engine": "mms_16k",
+            "engine": "studio_24k",
             "vitsQuery": mms_query,
             "targetMinSec": 0.350 if is_guru else 0.200,
             "targetMaxSec": 0.450 if is_guru else 0.280,
@@ -1349,6 +1370,7 @@ def shape_vits_waveform_24k_with_durations(
     is_bare_virama: bool = False,
     prepend_onset_pad: bool = True,
     core_char_count: int = 0,
+    head_char_count: int = 0,
 ) -> tuple[np.ndarray, list[int]]:
     """
     Use the exact VITS `durations` alignment tensor (`1 frame = 256 samples @ 24kHz`) to:
@@ -1400,6 +1422,22 @@ def shape_vits_waveform_24k_with_durations(
             chars = chars[:core_char_count]
             durs = durs[: core_end_blank_idx + 1]
             durs[core_end_blank_idx] = trail_frames
+            expected_len = len(chars) * 2 + 1
+            prefix = [0] * (expected_len + 1)
+            for i in range(expected_len):
+                prefix[i + 1] = prefix[i] + durs[i]
+
+        # Svara carrier: discard the unstable lone-vowel onset repetitions, keep the steady middle repetition.
+        if not is_bare_virama and 0 < head_char_count < len(chars):
+            start_samples = min(len(arr) - 1, prefix[2 * head_char_count + 1] * VITS_HOP_LENGTH_24K)
+            headed = arr[start_samples:].copy()
+            fade_in = min(len(headed), 2 * VITS_HOP_LENGTH_24K)
+            if fade_in > 1:
+                headed[:fade_in] *= (0.5 * (1.0 - np.cos(np.pi * np.arange(fade_in) / (fade_in - 1)))).astype(np.float32)
+            arr = headed
+            chars = chars[head_char_count:]
+            durs = durs[2 * head_char_count:]
+            durs[0] = 0
             expected_len = len(chars) * 2 + 1
             prefix = [0] * (expected_len + 1)
             for i in range(expected_len):
@@ -1625,6 +1663,7 @@ class SanskritTTSEngine:
         is_bare_virama: bool = False,
         prepend_onset_pad: bool = True,
         core_char_count: int = 0,
+        head_char_count: int = 0,
     ) -> tuple[np.ndarray, list[int], list[str], str]:
         """Run 24,000 Hz Studio/Mobile VITS specialist with duration-tensor shaping and upsample 2x to 48,000 Hz."""
         sess, model_id = self._select_studio_session(voice)
@@ -1649,6 +1688,7 @@ class SanskritTTSEngine:
             is_bare_virama=is_bare_virama,
             prepend_onset_pad=prepend_onset_pad,
             core_char_count=core_char_count,
+            head_char_count=head_char_count,
         )
         wav_48k = upsample_to_48k(shaped_24k, 24000)
         return wav_48k, durs_list, valid_chars, model_id
@@ -1672,11 +1712,20 @@ class SanskritTTSEngine:
             query = cond["vitsQuery"]
             is_virama = cond["category"] == "virama"
             studio_len_scale = (1.35 if is_guru else (1.08 if cond["category"] == "svara" else 0.90)) / eff_rate
+            head_char_count = 0
             if not is_virama:
                 _, _, core_cleaned = studio_text_to_ids(query, lang="sa")
                 c2i = STUDIO_VOCABS["sa"]["char_to_id"]
                 core_char_count = sum(1 for ch in core_cleaned if ch in c2i)
-                conditioned_query = f"{query} ।"
+                carrier = SVARA_CARRIER_TABLE.get("female" if voice == "female" else "male", {}).get(query)
+                if cond["category"] == "svara" and carrier:
+                    reps, head = carrier
+                    studio_len_scale = (SVARA_CARRIER_LS_GURU if is_guru else SVARA_CARRIER_LS_HRASVA) / eff_rate
+                    head_char_count = core_char_count * head
+                    core_char_count = core_char_count * (head + 1)
+                    conditioned_query = f"{query * reps} ।"
+                else:
+                    conditioned_query = f"{query} ।"
             else:
                 core_char_count = 0
                 conditioned_query = query
@@ -1691,6 +1740,7 @@ class SanskritTTSEngine:
                 is_bare_virama=is_virama,
                 prepend_onset_pad=False,
                 core_char_count=core_char_count,
+                head_char_count=head_char_count,
             )
 
         # Scale target bounds by speech rate

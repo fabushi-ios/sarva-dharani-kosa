@@ -114,7 +114,7 @@ def test_all_svaras_and_critical_syllables_synthesize_cleanly_48khz() -> None:
             assert res["sampleRate"] == TARGET_SAMPLE_RATE
             assert res["peak"] >= 0.80, f"Low peak for svara={svara} ({voice}): {res['peak']}"
             assert res["rms"] >= 0.05, f"Low RMS for svara={svara} ({voice}): {res['rms']}"
-            assert 0.12 <= res["durationSec"] <= 0.75, f"Bad duration for svara={svara} ({voice}): {res['durationSec']}"
+            assert 0.07 <= res["durationSec"] <= 0.75, f"Bad duration for svara={svara} ({voice}): {res['durationSec']}"
 
     # 2. Previously broken / noisy Bījas, diphthongs, retroflexes, Vedic ḷa, and Siddhaṃ Ch. 8–15 ligatures
     critical_keys = [

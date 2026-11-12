@@ -339,6 +339,7 @@ interface OnnxWorkerClient {
     validChars: string[];
     isBareVirama: boolean;
     coreCharCount?: number;
+    headCharCount?: number;
   }): Promise<WorkerInferResponse>;
 }
 
@@ -511,7 +512,7 @@ function cosineTail(buf, fadeStart, fadeEnd) {
   }
 }
 
-function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama, coreCharCount) {
+function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama, coreCharCount, headCharCount) {
   let expectedLen = chars.length * 2 + 1;
   if (chars.length === 0 || rawDurs.length !== expectedLen || rawWav24k.length === 0) {
     return { wav24k: rawWav24k, durs: rawDurs.slice() };
@@ -536,6 +537,21 @@ function shapeWav24k(rawWav24k, chars, rawDurs, effRate, isBareVirama, coreCharC
     curChars = curChars.slice(0, coreCharCount);
     durs = durs.slice(0, coreEndBlankIdx + 1);
     durs[coreEndBlankIdx] = trailFrames;
+    expectedLen = curChars.length * 2 + 1;
+    prefix = new Int32Array(expectedLen + 1);
+    for (let i = 0; i < expectedLen; i++) prefix[i + 1] = prefix[i] + durs[i];
+  }
+
+  // Svara carrier: discard the unstable lone-vowel onset repetitions, keep the steady middle repetition.
+  if (!isBareVirama && headCharCount > 0 && headCharCount < curChars.length) {
+    const startSamples = Math.min(wav.length - 1, prefix[2 * headCharCount + 1] * HOP_24K);
+    const headed = wav.slice(startSamples);
+    const fadeIn = Math.min(headed.length, 2 * HOP_24K);
+    for (let i = 0; i < fadeIn; i++) headed[i] *= 0.5 * (1 - Math.cos((Math.PI * i) / Math.max(1, fadeIn - 1)));
+    wav = headed;
+    curChars = curChars.slice(headCharCount);
+    durs = durs.slice(2 * headCharCount);
+    durs[0] = 0;
     expectedLen = curChars.length * 2 + 1;
     prefix = new Int32Array(expectedLen + 1);
     for (let i = 0; i < expectedLen; i++) prefix[i + 1] = prefix[i] + durs[i];
@@ -680,7 +696,8 @@ self.onmessage = async (ev) => {
         rawDurs,
         msg.effRate,
         Boolean(msg.isBareVirama),
-        Number(msg.coreCharCount || 0)
+        Number(msg.coreCharCount || 0),
+        Number(msg.headCharCount || 0)
       );
       const clause48k = upsampleAndMaster(shaped.wav24k);
       self.postMessage(
@@ -804,6 +821,7 @@ function getOrCreateWorkerClient(): OnnxWorkerClient | null {
               validChars: params.validChars,
               isBareVirama: params.isBareVirama,
               coreCharCount: params.coreCharCount ?? 0,
+              headCharCount: params.headCharCount ?? 0,
             },
             [copy.buffer]
           );
@@ -1247,14 +1265,51 @@ export function normalizeSikshaDevanagari(
  * VITS inference so 1-token / 2-token syllables (`उ`, `ऊ`, `ऐ`, `खृ`, `तु`, `वि`, `ठो`, `चौ`, `हं`, `अँ`)
  * never suffer VITS stochastic duration collapse, and can be sliced cleanly before `' ।'` via `coreCharCount`.
  */
+/**
+ * Isolated Svara carrier table: `[totalRepeats, headRepeats]` per voice and conditioned Devanāgarī vowel.
+ *
+ * VITS cannot articulate a *lone* vowel cleanly: the first ~60 ms is a mis-aligned open vowel that glides
+ * into the target (`उ` → "ao-u", `इ`/`ई` → near-identical blurred `i`). Repeating the vowel (`उउउउ ।`) lets the
+ * duration predictor settle on one steady articulation; the first `headRepeats` repetitions are discarded
+ * and only the next one (plus its trailing blank) is played. Values were selected by sweeping
+ * (repeats, head) per voice and minimising F1/F2 drift of the retained segment (see
+ * `tests/unit/test_svara_carrier_stability.py`).
+ */
+export const SVARA_CARRIER_TABLE: Record<'male' | 'female', Record<string, [number, number]>> = {
+  male: {
+    'अ': [2, 1], 'आ': [2, 1], 'इ': [2, 1], 'ई': [2, 1], 'उ': [5, 2], 'ऊ': [4, 1],
+    'ऋ': [5, 2], 'लृ': [5, 2], 'ए': [3, 2], 'ओ': [5, 2], 'औ': [2, 1], 'अः': [5, 3],
+    'अँ': [5, 3],
+  },
+  female: {
+    'अ': [2, 1], 'आ': [4, 1], 'इ': [2, 1], 'ई': [2, 1], 'उ': [3, 1], 'ऊ': [3, 2],
+    'ऋ': [3, 2], 'लृ': [5, 2], 'ए': [4, 2], 'ऐ': [2, 1], 'ओ': [2, 1], 'औ': [2, 1],
+    'अं': [2, 1], 'अः': [4, 1], 'अँ': [3, 2],
+  },
+};
+
+export const SVARA_CARRIER_LS_HRASVA = 1.8;
+export const SVARA_CARRIER_LS_GURU = 3.0;
+
+export function getSvaraCarrierSpec(
+  voice: 'male' | 'female',
+  clean: string
+): { repeats: number; head: number } | null {
+  const hit = SVARA_CARRIER_TABLE[voice]?.[clean];
+  return hit ? { repeats: hit[0], head: hit[1] } : null;
+}
+
 export function buildSingleSyllableProsodicPlan(
   conditionedVitsText: string,
   isBareVirama = false,
-  hadLongVocalic = false
+  hadLongVocalic = false,
+  voice: 'male' | 'female' = 'male'
 ): {
   inferenceText: string;
   useProsodicSlice: boolean;
   baseLengthScale: number;
+  carrierRepeats?: number;
+  carrierHead?: number;
 } {
   const clean = trimAsciiWs(conditionedVitsText);
   if (!clean || isBareVirama || /[।॥]/.test(clean) || ASCII_WS_SPLIT_RE.test(clean)) {
@@ -1271,6 +1326,19 @@ export function buildSingleSyllableProsodicPlan(
     /^[अइउऋ]$/u.test(clean) || (!hadLongVocalic && clean === 'लृ');
   const isGuruSyllable =
     hadLongVocalic || /[ाीूेैोौंःँ]|\u094d$/u.test(clean);
+
+  const carrier = getSvaraCarrierSpec(voice, clean);
+  if (carrier) {
+    return {
+      inferenceText: `${clean.repeat(carrier.repeats)} ।`,
+      useProsodicSlice: true,
+      // The retained steady repetition is short at lengthScale 1.0; stretch it so Hrasva (Laghu) and
+      // Dīrgha (Guru) vowels keep an audible length contrast.
+      baseLengthScale: isStandaloneGuruVowel || isGuruSyllable ? SVARA_CARRIER_LS_GURU : SVARA_CARRIER_LS_HRASVA,
+      carrierRepeats: carrier.repeats,
+      carrierHead: carrier.head,
+    };
+  }
 
   let baseLengthScale = 0.95;
   if (isStandaloneGuruVowel) {
@@ -1326,7 +1394,8 @@ export function shapeVitsWaveform24kWithDurations(
   rawDurs: number[],
   effRate = 1.0,
   isBareVirama = false,
-  coreCharCount = 0
+  coreCharCount = 0,
+  headCharCount = 0
 ): { wav24k: Float32Array; durs: number[] } {
   let expectedLen = chars.length * 2 + 1;
   if (chars.length === 0 || rawDurs.length !== expectedLen || rawWav24k.length === 0) {
@@ -1371,6 +1440,25 @@ export function shapeVitsWaveform24kWithDurations(
     curChars = curChars.slice(0, coreCharCount);
     durs = durs.slice(0, coreEndBlankIdx + 1);
     durs[coreEndBlankIdx] = trailFrames;
+    expectedLen = curChars.length * 2 + 1;
+    prefixFrames = new Int32Array(expectedLen + 1);
+    for (let i = 0; i < expectedLen; i++) {
+      prefixFrames[i + 1] = prefixFrames[i] + durs[i];
+    }
+  }
+
+  // Svara carrier: discard the unstable lone-vowel onset repetitions, keep the steady middle repetition.
+  if (!isBareVirama && headCharCount > 0 && headCharCount < curChars.length) {
+    const startSamples = Math.min(wav.length - 1, prefixFrames[2 * headCharCount + 1] * VITS_HOP_LENGTH_24K);
+    const headed = wav.slice(startSamples);
+    const fadeIn = Math.min(headed.length, 2 * VITS_HOP_LENGTH_24K);
+    for (let i = 0; i < fadeIn; i++) {
+      headed[i] *= 0.5 * (1 - Math.cos((Math.PI * i) / Math.max(1, fadeIn - 1)));
+    }
+    wav = headed;
+    curChars = curChars.slice(headCharCount);
+    durs = durs.slice(2 * headCharCount);
+    durs[0] = 0;
     expectedLen = curChars.length * 2 + 1;
     prefixFrames = new Int32Array(expectedLen + 1);
     for (let i = 0; i < expectedLen; i++) {
@@ -1692,7 +1780,8 @@ export async function synthesizePcmWithBrowserOnnxVits(
       ? buildSingleSyllableProsodicPlan(
           coreCleaned,
           Boolean(cl.isBareVirama),
-          Boolean(cl.hadLongVocalic)
+          Boolean(cl.hadLongVocalic),
+          voice
         )
       : { inferenceText: coreCleaned, useProsodicSlice: false, baseLengthScale: 1.0 };
 
@@ -1717,12 +1806,18 @@ export async function synthesizePcmWithBrowserOnnxVits(
       rawIds.push(BigInt(c2i[' '] ?? vocab.pad_id ?? 0));
     }
 
+    const carrierReps = prosodicPlan.carrierRepeats ?? 0;
+    const carrierHead = prosodicPlan.carrierHead ?? 0;
     const coreCharCount =
       prosodicPlan.useProsodicSlice &&
       coreValidChars.length > 0 &&
       coreValidChars.length < validChars.length
-        ? coreValidChars.length
+        ? carrierReps > 0
+          ? coreValidChars.length * (carrierHead + 1)
+          : coreValidChars.length
         : 0;
+    const headCharCount =
+      coreCharCount > 0 && carrierReps > 0 ? coreValidChars.length * carrierHead : 0;
     const effectiveLengthScale = prosodicPlan.baseLengthScale / effRate;
 
     const interleaved = new BigInt64Array(rawIds.length * 2 + 1);
@@ -1744,6 +1839,7 @@ export async function synthesizePcmWithBrowserOnnxVits(
               validChars,
               isBareVirama: Boolean(cl.isBareVirama),
               coreCharCount,
+              headCharCount,
             });
             resolvedModelId = workerOut.modelId;
             return {
@@ -1783,7 +1879,8 @@ export async function synthesizePcmWithBrowserOnnxVits(
           rawDurs,
           effRate,
           Boolean(cl.isBareVirama),
-          coreCharCount
+          coreCharCount,
+          headCharCount
         );
         return {
           clause48k: upsample24kTo48kAndMaster(wav24k),
@@ -1795,7 +1892,7 @@ export async function synthesizePcmWithBrowserOnnxVits(
     );
 
     const chunkStartSample = totalSamples;
-    const spanChars = coreCharCount > 0 ? validChars.slice(0, coreCharCount) : validChars;
+    const spanChars = coreCharCount > 0 ? validChars.slice(headCharCount, coreCharCount) : validChars;
     const wordSpans = extractWordSpansFromDurations(
       spanChars,
       shapedDurs,
