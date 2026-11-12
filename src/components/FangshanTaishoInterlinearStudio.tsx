@@ -10,6 +10,7 @@ import {
 import { sanskritAudioEngine, speakSanskrit } from '../services/sanskritAudioEngine';
 import { iastToSiddham } from '../core/sanskrit/transliterator';
 import { resolveMixedIastStringSegments } from '../core/provenance/fieldProvenance';
+import { normalizeSearchText } from '../core/search/searchEngine';
 import { ProvenanceBadge } from './common/ProvenanceBadge';
 
 export function FangshanTaishoInterlinearStudio() {
@@ -33,17 +34,14 @@ export function FangshanTaishoInterlinearStudio() {
   }, []);
 
   const filteredFangshanRecords = useMemo(() => {
+    const q = normalizeSearchText(searchFilter);
     return DB1_FANGSHAN_CORPUS.records
       .filter((r) => {
         if (workFilter !== 'ALL' && r.workId !== workFilter) return false;
-        if (!searchFilter.trim()) return true;
-        const q = searchFilter.trim().toLowerCase();
-        return (
-          r.id.toLowerCase().includes(q) ||
-          r.xmlId.toLowerCase().includes(q) ||
-          r.dharaniTitle.toLowerCase().includes(q) ||
-          r.plainChineseText.toLowerCase().includes(q)
-        );
+        if (!q) return true;
+        return normalizeSearchText(
+          `${r.id} ${r.xmlId} ${r.dharaniTitle} ${r.plainChineseText}`
+        ).includes(q);
       })
       .slice(0, 80);
   }, [workFilter, searchFilter]);
@@ -57,15 +55,11 @@ export function FangshanTaishoInterlinearStudio() {
   );
 
   const filteredTaishoMikkyo = useMemo(() => {
+    const q = normalizeSearchText(taishoQuery);
     return TAISHO_MIKKYO_INDEX.filter((item) => {
       if (taishoVolFilter !== 'ALL' && item.vol !== taishoVolFilter) return false;
-      if (!taishoQuery.trim()) return true;
-      const q = taishoQuery.trim().toLowerCase();
-      return (
-        item.xmlId.toLowerCase().includes(q) ||
-        item.title.toLowerCase().includes(q) ||
-        item.byline.toLowerCase().includes(q)
-      );
+      if (!q) return true;
+      return normalizeSearchText(`${item.xmlId} ${item.title} ${item.byline}`).includes(q);
     }).slice(0, 80);
   }, [taishoVolFilter, taishoQuery]);
 

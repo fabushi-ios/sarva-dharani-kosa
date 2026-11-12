@@ -701,7 +701,7 @@ export const AUTHORITATIVE_GRETIL_RECORDS: GretilSanskritRecord[] = ${JSON.strin
     const idSlug = item.name.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase();
 
     // Keep up to 60 authentic mantra clauses per non-Buddhist philosophical/tantric treatise so shards stay crisp and focused on mantras
-    const selectedVerses = clauses.slice(0, 60);
+    const selectedVerses = clauses;
 
     return {
       id: `gretil-world-${idSlug}`,
@@ -1893,7 +1893,7 @@ async function writeTier1TsModule(db1, db2, db3, db4, db5, db6) {
     ...db4,
     records: (db4.records || []).map((r, idx) => ({
       ...r,
-      mantras: (r.mantras || []).slice(0, 36).map((m) => ({
+      mantras: (r.mantras || []).map((m) => ({
         ...m,
         sanskritIast: m.sanskritIast,
         criticalNotes:

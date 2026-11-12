@@ -34,7 +34,7 @@ import { hydrateExtendedSanskritLexicon } from '../../core/sanskrit/sanskritLexi
 export const HF_CORPUS_CDN_BASE =
   'https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus';
 
-export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v12';
+export const CORPUS_CACHE_BUCKET = 'sarva-dharani-corpus-v13';
 
 export interface CloudCorpusStatus {
   phase: 'first-screen' | 'streaming-shards' | 'ready';
@@ -85,6 +85,7 @@ async function openCorpusCache(): Promise<Cache | null> {
       window.caches.delete('sarva-dharani-corpus-v9').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v10').catch(() => {});
       window.caches.delete('sarva-dharani-corpus-v11').catch(() => {});
+      window.caches.delete('sarva-dharani-corpus-v12').catch(() => {});
     }
     return await window.caches.open(CORPUS_CACHE_BUCKET);
   } catch {
@@ -133,21 +134,21 @@ export async function fetchCachedJsonShard<T>(
 
   if (supportsGzipStream) {
     candidateSources.push(
-      { url: `/corpus/${fileName}.gz?v=12`, isGz: true, source: 'local-shard' },
-      { url: `/hf-cdn/corpus/${fileName}.gz?v=12`, isGz: true, source: 'cloud-cdn' },
-      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=12`, isGz: true, source: 'cloud-cdn' },
+      { url: `/corpus/${fileName}.gz?v=13`, isGz: true, source: 'local-shard' },
+      { url: `/hf-cdn/corpus/${fileName}.gz?v=13`, isGz: true, source: 'cloud-cdn' },
+      { url: `${HF_CORPUS_CDN_BASE}/${fileName}.gz?v=13`, isGz: true, source: 'cloud-cdn' },
       {
-        url: `https://hf-mirror.com/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus/${fileName}.gz?v=12`,
+        url: `https://hf-mirror.com/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus/${fileName}.gz?v=13`,
         isGz: true,
         source: 'cloud-cdn',
       }
     );
   }
   candidateSources.push(
-    { url: `/corpus/${fileName}?v=12`, isGz: false, source: 'local-shard' },
-    { url: `/hf-cdn/corpus/${fileName}?v=12`, isGz: false, source: 'cloud-cdn' },
-    { url: `/api/corpus/${fileName}?v=12`, isGz: false, source: 'local-shard' },
-    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=12`, isGz: false, source: 'cloud-cdn' }
+    { url: `/corpus/${fileName}?v=13`, isGz: false, source: 'local-shard' },
+    { url: `/hf-cdn/corpus/${fileName}?v=13`, isGz: false, source: 'cloud-cdn' },
+    { url: `/api/corpus/${fileName}?v=13`, isGz: false, source: 'local-shard' },
+    { url: `${HF_CORPUS_CDN_BASE}/${fileName}?v=13`, isGz: false, source: 'cloud-cdn' }
   );
 
   let lastErr: unknown = null;

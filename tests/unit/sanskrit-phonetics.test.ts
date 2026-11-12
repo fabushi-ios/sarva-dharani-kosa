@@ -544,9 +544,9 @@ describe('Śikṣā Sanskrit Phonological Engine (src/core/sanskrit/*)', () => {
   });
 });
 
-describe('Global 2,482-Entry Cross-Database Hygiene & Root-Cause Invariants (DB1–DB12 + GRETIL + Curated)', () => {
-  it('enforces zero generic fallbacks, zero PUA/surrogates/gaiji, pure IAST characters, and zero English/Tibetan/apparatus leaks across all 2,482 entries', () => {
-    expect(BUILTIN_DHARANI_CORPUS.length).toBe(2482);
+describe('Global 3,087-Entry Cross-Database Hygiene & Root-Cause Invariants (DB1–DB12 + GRETIL + Curated)', () => {
+  it('enforces zero generic fallbacks, zero PUA/surrogates/gaiji, pure IAST characters, and zero English/Tibetan/apparatus leaks across all 3,087 entries', () => {
+    expect(BUILTIN_DHARANI_CORPUS.length).toBe(3625);
 
     const loneSurrogateRe = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/;
     const puaRe = /[\uE000-\uF8FF]|[\u{F0000}-\u{10FFFF}]/u;

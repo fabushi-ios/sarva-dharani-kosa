@@ -1953,7 +1953,7 @@ async function regenerateTier1TsModule(
     ...db4Any,
     records: (db4Any.records || []).map((r, idx) => ({
       ...r,
-      mantras: ((r.mantras as Array<Record<string, unknown>>) || []).slice(0, 36).map((m) => ({
+      mantras: ((r.mantras as Array<Record<string, unknown>>) || []).map((m) => ({
         ...m,
         sanskritIast: m.sanskritIast,
         criticalNotes:

@@ -1,3 +1,4 @@
+import { isSoleScriptureEntry } from '../../core/taishoEntryMatch';
 import React, { useState, useMemo, useEffect } from 'react';
 import {
   Library,
@@ -22,7 +23,9 @@ import {
 } from '../../data/kosa-generated/taishoMikkyoIndex';
 import {
   fetchAndParseCbetaXmlLive,
+  reconstructIastFromChineseTranslit,
   type LiveParsedCbetaSutra,
+  type LiveParsedDharaniBlock,
 } from '../../services/cbeta/cbetaLiveService';
 import {
   sanskritAudioEngine,
@@ -33,6 +36,7 @@ import {
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
+import { normalizeSearchText } from '../../core/search/searchEngine';
 import {
   DharaniReader,
   type ReaderNavigationRequest,
@@ -75,6 +79,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       TAISHO_MIKKYO_FILE_INDEX[0]
     );
   });
+  const [selectedMantraIdx, setSelectedMantraIdx] = useState(0);
   const [liveSutra, setLiveSutra] = useState<LiveParsedCbetaSutra | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -84,17 +89,24 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       const found = TAISHO_MIKKYO_FILE_INDEX.find((f) => f.id === initialScriptureId);
       if (found) {
         setSelectedFile(found);
+        setSelectedMantraIdx(0);
         setNavRequest({ target: 'hero', nonce: Date.now() });
       }
     }
   }, [initialScriptureId]);
 
+  useEffect(() => {
+    setSelectedMantraIdx(0);
+  }, [selectedFile.id]);
+
   const filteredFiles = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = normalizeSearchText(query);
     return TAISHO_MIKKYO_FILE_INDEX.filter((item) => {
       if (selectedVol !== 'ALL' && item.vol !== selectedVol) return false;
       if (!q) return true;
-      const hay = `${item.id} ${item.titleZh} ${item.titleTrad} ${item.translator} ${item.sampleDharanis.join(' ')}`.toLowerCase();
+      const hay = normalizeSearchText(
+        `${item.id} ${item.titleZh} ${item.titleTrad} ${item.translator} ${item.sampleDharanis.join(' ')}`
+      );
       return hay.includes(q);
     });
   }, [selectedVol, query]);
@@ -126,122 +138,189 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
     };
   }, [selectedFile]);
 
-  const unifiedTaishoEntry = useMemo<DharaniEntry>(() => {
-    const baseNo = selectedFile.id.replace(/[A-Za-z]$/, '');
-    const matchedEntry =
-      allEntries.find((e) => e.taishoNo === selectedFile.id || e.provenance.cbetaId === selectedFile.id) ||
-      allEntries.find((e) => e.taishoNo.includes(baseNo) || (e.provenance.cbetaId && e.provenance.cbetaId.startsWith(baseNo)));
+  const standaloneTaishoEntries = useMemo<DharaniEntry[]>(() => {
+    const exactIdRe = new RegExp(`\\b${selectedFile.id}\\b`);
+    const exactCuratedEntries = allEntries.filter(
+      (e) =>
+        (e.provenance.cbetaId === selectedFile.id || exactIdRe.test(e.taishoNo)) &&
+        isSoleScriptureEntry(e, selectedFile.id) &&
+        e.provenance.databaseId !== 'db2_taisho_ext'
+    );
 
-    if (matchedEntry) {
-      return matchedEntry;
-    }
-
-    const blocks =
+    const blocks: LiveParsedDharaniBlock[] =
       liveSutra && liveSutra.dharaniBlocks.length > 0
         ? liveSutra.dharaniBlocks
         : selectedFile.sampleDharanis.map((txt, i) => ({
             index: i + 1,
+            blockTitleZh: undefined,
             text: txt,
+            clauses: [txt],
             tangNotes: [] as string[],
             siddhamText: undefined,
             iastText: undefined,
           }));
 
-    const verses: DharaniVerse[] =
-      blocks.length > 0
-        ? blocks.map((blk) => {
-            const hasDbIast = Boolean(blk.iastText && blk.iastText.trim().length > 0);
-            const hasDbClassical = Boolean(blk.text && blk.text.trim().length > 0);
-            const hasDbSiddham = Boolean(
-              blk.siddhamText && /[\u{11580}-\u{115FF}]/u.test(blk.siddhamText)
-            );
-            const iast = hasDbIast
-              ? blk.iastText!.trim()
-              : 'oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā';
-            const phonetics = generateVerseChinesePhonetics(iast);
-            const sem = translateSanskritVerse(iast);
-            return {
-              id: `${selectedFile.id}-v-${blk.index}`,
-              index: blk.index,
-              iast,
-              siddhamOriginal: hasDbSiddham ? blk.siddhamText!.trim() : undefined,
-              classicalTranslitZh: hasDbClassical ? blk.text : phonetics.classicalTranslitZh,
-              modernPhoneticZh: phonetics.modernPhoneticZh,
-              meaningZh: sem.meaningZh,
-              meaningEn: sem.meaningEn,
-              tangNoteZh:
-                blk.tangNotes.length > 0
-                  ? blk.tangNotes.join('；')
-                  : `《${selectedFile.titleZh}》原典陀罗尼第 ${blk.index} 段（${selectedFile.translator}）`,
-              words: buildWordGlossesFromIast(iast),
-              fieldSources: {
-                siddham: hasDbSiddham ? 'db-original' : 'derived-reference',
-                devanagari: 'derived-reference',
-                iast: hasDbIast ? 'db-original' : 'derived-reference',
-                modernPhoneticZh: 'derived-reference',
-                classicalTranslitZh: hasDbClassical ? 'db-original' : 'derived-reference',
-                ipa: 'derived-reference',
-                prosody: 'derived-reference',
-                meaningZh: 'derived-reference',
-                meaningEn: 'derived-reference',
-                words: 'derived-reference',
-              },
-            };
-          })
-        : [
-            {
-              id: `${selectedFile.id}-v-1`,
-              index: 1,
-              iast: 'oṃ sarva-tathāgata-guhya-dhāraṇī svāhā',
-              classicalTranslitZh:
-                liveSutra?.bodyPreviewText.slice(0, 360) || selectedFile.titleZh,
-              modernPhoneticZh: generateVerseChinesePhonetics(
-                'oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'
-              ).modernPhoneticZh,
-              meaningZh: translateSanskritVerse('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā').meaningZh,
-              meaningEn: translateSanskritVerse('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā').meaningEn,
-              tangNoteZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
-              words: buildWordGlossesFromIast('oṃ sarva-tathāgata-guhya-dhāraṇī svāhā'),
-              fieldSources: {
-                siddham: 'derived-reference',
-                devanagari: 'derived-reference',
-                iast: 'derived-reference',
-                modernPhoneticZh: 'derived-reference',
-                classicalTranslitZh: 'db-original',
-                ipa: 'derived-reference',
-                prosody: 'derived-reference',
-                meaningZh: 'derived-reference',
-                meaningEn: 'derived-reference',
-                words: 'derived-reference',
-              },
-            },
-          ];
+    if (exactCuratedEntries.length > 0 && blocks.length <= exactCuratedEntries.length) {
+      return exactCuratedEntries;
+    }
 
-    return {
-      id: `taisho-live-${selectedFile.id}`,
-      categoryId: 'prajna-sutra-hrdaya',
-      titleZh: `${selectedFile.id} 《${selectedFile.titleZh}》`,
-      titleSanskritIast: `Taishō ${selectedFile.id} · ${selectedFile.titleTrad || selectedFile.titleZh}`,
-      titleEnglish: `Taishō Tripiṭaka Esoteric Canon ${selectedFile.id} (${selectedFile.vol})`,
-      taishoNo: `${selectedFile.id} (${selectedFile.vol})`,
-      translatorZh: selectedFile.translator,
-      sutraSourceZh: `《大正新修大藏经》${selectedFile.vol} 册密教部《${selectedFile.titleZh}》`,
-      deityZh: '密教部三宝诸尊',
-      bijaIast: 'oṃ',
-      meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}），共提取 ${blocks.length} 段原典 <p cb:type="dharani"> 真言，统一采用陀罗尼总持典界面展示。`,
-      recitationTipsZh: `对照原典唐宋古汉语音译与梵音拼读参考持诵。`,
-      provenance: {
-        sourceType: 'CBETA-XML-P5',
-        cbetaId: selectedFile.id,
-        cbetaRawXmlUrl: selectedFile.rawXmlUrl,
-        cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${selectedFile.id}`,
-        editionCitation: `Taishō Tripiṭaka Vol. ${selectedFile.vol}, No. ${selectedFile.id} (${selectedFile.translator})`,
-        manuscriptNotesZh: `实时解析自 CBETA 官方 GitHub XML-P5 仓库 (${selectedFile.id}.xml)，自动还原 CBETA 罕见音译字 (#CB*) 与唐代原典双行夹注。`,
-        rawSnippet: liveSutra?.rawXmlSnippet,
-      },
-      verses,
+    const buildStandaloneBlockEntry = (
+      blk: LiveParsedDharaniBlock,
+      totalBlocks: number
+    ): DharaniEntry => {
+      const hasDbIast = Boolean(blk.iastText && blk.iastText.trim().length > 0);
+      const hasDbSiddham = Boolean(
+        blk.siddhamText && /[\u{11580}-\u{115FF}]/u.test(blk.siddhamText)
+      );
+      const clauses = blk.clauses && blk.clauses.length > 0 ? blk.clauses : [blk.text];
+      const rawIastClauses = hasDbIast
+        ? blk
+            .iastText!.split(/\s*\|\|?\s*/)
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
+
+      const verses: DharaniVerse[] = clauses.map((clauseZh, cIdx) => {
+        const matchedIast =
+          hasDbIast && rawIastClauses.length === clauses.length
+            ? rawIastClauses[cIdx]
+            : hasDbIast && clauses.length === 1
+            ? blk.iastText!.trim()
+            : reconstructIastFromChineseTranslit(clauseZh);
+        const clauseHasDbIast =
+          hasDbIast && (rawIastClauses.length === clauses.length || clauses.length === 1);
+        const phonetics = generateVerseChinesePhonetics(matchedIast);
+        const sem = translateSanskritVerse(matchedIast);
+
+        return {
+          id: `${selectedFile.id}-b${blk.index}-v${cIdx + 1}`,
+          index: cIdx + 1,
+          iast: matchedIast,
+          siddhamOriginal:
+            hasDbSiddham && clauses.length === 1 ? blk.siddhamText!.trim() : undefined,
+          classicalTranslitZh: clauseZh || phonetics.classicalTranslitZh,
+          modernPhoneticZh: phonetics.modernPhoneticZh,
+          meaningZh: sem.meaningZh,
+          meaningEn: sem.meaningEn,
+          tangNoteZh:
+            cIdx === 0 && blk.tangNotes.length > 0
+              ? blk.tangNotes.join('；')
+              : `《${selectedFile.titleZh}》第 ${blk.index} 则真言 · 第 ${cIdx + 1}/${clauses.length} 句（${selectedFile.translator}）`,
+          words: buildWordGlossesFromIast(matchedIast),
+          fieldSources: {
+            siddham:
+              hasDbSiddham && clauses.length === 1 ? 'db-original' : 'derived-reference',
+            devanagari: 'derived-reference',
+            iast: clauseHasDbIast ? 'db-original' : 'derived-reference',
+            modernPhoneticZh: 'derived-reference',
+            classicalTranslitZh: 'db-original',
+            ipa: 'derived-reference',
+            prosody: 'derived-reference',
+            meaningZh: 'derived-reference',
+            meaningEn: 'derived-reference',
+            words: 'derived-reference',
+          },
+        };
+      });
+
+      const rubricLabel = blk.blockTitleZh
+        ? ` · ${blk.blockTitleZh}`
+        : totalBlocks > 1
+        ? ` · 第 ${blk.index}/${totalBlocks} 则独立真言`
+        : '';
+
+      return {
+        id: `taisho-live-${selectedFile.id}-b${blk.index}`,
+        categoryId: 'prajna-sutra-hrdaya',
+        titleZh: `${selectedFile.id} 《${selectedFile.titleZh}》${rubricLabel}`,
+        titleSanskritIast: `Taishō ${selectedFile.id}${totalBlocks > 1 ? ` · Mantra #${blk.index}` : ''} (${selectedFile.titleTrad || selectedFile.titleZh})`,
+        titleEnglish: `Taishō Esoteric Canon ${selectedFile.id} (${selectedFile.vol})${totalBlocks > 1 ? ` — Standalone Dhāraṇī #${blk.index}/${totalBlocks}` : ''}`,
+        taishoNo: `${selectedFile.id} (${selectedFile.vol})`,
+        translatorZh: selectedFile.translator,
+        sutraSourceZh: `《大正新修大藏经》${selectedFile.vol} 册密教部《${selectedFile.titleZh}》`,
+        deityZh: blk.blockTitleZh || '密教部三宝诸尊',
+        bijaIast: 'oṃ',
+        meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}）。本经共含 ${totalBlocks} 则原典 <p cb:type="dharani"> 真言，严格遵循「一咒一篇」原则独立展示，当前为第 ${blk.index}/${totalBlocks} 则真言${blk.blockTitleZh ? `（${blk.blockTitleZh}）` : ''}，本篇共 ${verses.length} 句。`,
+        recitationTipsZh: `对照 CBETA 原典唐宋古汉语音译与梵音构拟拼读参考持诵。`,
+        provenance: {
+          sourceType: 'CBETA-XML-P5',
+          cbetaId: selectedFile.id,
+          cbetaRawXmlUrl: selectedFile.rawXmlUrl,
+          cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${selectedFile.id}`,
+          editionCitation: `Taishō Tripiṭaka Vol. ${selectedFile.vol}, No. ${selectedFile.id}, Dhāraṇī #${blk.index} (${selectedFile.translator})`,
+          manuscriptNotesZh: `实时解析自 CBETA 官方 GitHub XML-P5 仓库 (${selectedFile.id}.xml)，按一咒一篇独立拆分，绝不将多首陀罗尼混拼合一。`,
+          rawSnippet: blk.text,
+        },
+        verses,
+      };
     };
+
+    if (blocks.length > 0) {
+      const perBlockEntries = blocks.map((blk) =>
+        buildStandaloneBlockEntry(blk, blocks.length)
+      );
+      return exactCuratedEntries.length > 0
+        ? [...exactCuratedEntries, ...perBlockEntries]
+        : perBlockEntries;
+    }
+
+    const fallbackIast = 'oṃ vajradharma sarvārthasādhana svāhā';
+    return [
+      {
+        id: `taisho-live-${selectedFile.id}`,
+        categoryId: 'prajna-sutra-hrdaya',
+        titleZh: `${selectedFile.id} 《${selectedFile.titleZh}》（仪轨经文提要）`,
+        titleSanskritIast: `Taishō ${selectedFile.id} · ${selectedFile.titleTrad || selectedFile.titleZh}`,
+        titleEnglish: `Taishō Tripiṭaka Esoteric Canon ${selectedFile.id} (${selectedFile.vol})`,
+        taishoNo: `${selectedFile.id} (${selectedFile.vol})`,
+        translatorZh: selectedFile.translator,
+        sutraSourceZh: `《大正新修大藏经》${selectedFile.vol} 册密教部《${selectedFile.titleZh}》`,
+        deityZh: '密教部三宝诸尊',
+        bijaIast: 'oṃ',
+        meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}），本经为纯汉文坛法仪轨（未设独立 <p cb:type="dharani"> 段落），下方展示原典正文提要。`,
+        recitationTipsZh: `点击右上角「CBETA 阅藏」可通读全卷汉文仪轨。`,
+        provenance: {
+          sourceType: 'CBETA-XML-P5',
+          cbetaId: selectedFile.id,
+          cbetaRawXmlUrl: selectedFile.rawXmlUrl,
+          cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${selectedFile.id}`,
+          editionCitation: `Taishō Tripiṭaka Vol. ${selectedFile.vol}, No. ${selectedFile.id} (${selectedFile.translator})`,
+          manuscriptNotesZh: `实时解析自 CBETA 官方 GitHub XML-P5 仓库 (${selectedFile.id}.xml)。`,
+          rawSnippet: liveSutra?.rawXmlSnippet,
+        },
+        verses: [
+          {
+            id: `${selectedFile.id}-v-1`,
+            index: 1,
+            iast: fallbackIast,
+            classicalTranslitZh:
+              liveSutra?.bodyPreviewText.slice(0, 360) || selectedFile.titleZh,
+            modernPhoneticZh: generateVerseChinesePhonetics(fallbackIast).modernPhoneticZh,
+            meaningZh: translateSanskritVerse(fallbackIast).meaningZh,
+            meaningEn: translateSanskritVerse(fallbackIast).meaningEn,
+            tangNoteZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
+            words: buildWordGlossesFromIast(fallbackIast),
+            fieldSources: {
+              siddham: 'derived-reference',
+              devanagari: 'derived-reference',
+              iast: 'derived-reference',
+              modernPhoneticZh: 'derived-reference',
+              classicalTranslitZh: 'db-original',
+              ipa: 'derived-reference',
+              prosody: 'derived-reference',
+              meaningZh: 'derived-reference',
+              meaningEn: 'derived-reference',
+              words: 'derived-reference',
+            },
+          },
+        ],
+      },
+    ];
   }, [allEntries, selectedFile, liveSutra]);
+
+  const unifiedTaishoEntry =
+    standaloneTaishoEntries[Math.min(selectedMantraIdx, standaloneTaishoEntries.length - 1)] ||
+    standaloneTaishoEntries[0];
 
   useEffect(() => {
     onActiveEntryChange?.(unifiedTaishoEntry);
@@ -460,6 +539,59 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
             <div className="meta-box" style={{ borderLeftColor: 'var(--accent-vermilion)' }}>
               <div className="meta-box-label">实时拉取提示</div>
               <div>{error}</div>
+            </div>
+          )}
+
+          {standaloneTaishoEntries.length > 1 && (
+            <div className="section-panel" style={{ padding: '0.75rem 1rem' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
+                  本经共含 {standaloneTaishoEntries.length} 则独立真言 · 已按「一咒一篇」严格分列（点击切换单咒）：
+                </span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  当前：{Math.min(selectedMantraIdx + 1, standaloneTaishoEntries.length)} /{' '}
+                  {standaloneTaishoEntries.length}
+                </span>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '0.35rem',
+                  flexWrap: 'wrap',
+                  maxHeight: '8.5rem',
+                  overflowY: 'auto',
+                }}
+              >
+                {standaloneTaishoEntries.map((item, idx) => {
+                  const isActive = idx === Math.min(selectedMantraIdx, standaloneTaishoEntries.length - 1);
+                  const shortLabel = item.titleZh
+                    .replace(new RegExp(`^${selectedFile.id}\\s*《[^》]+》\\s*[·]?\\s*`), '')
+                    .trim();
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className={`source-chip-btn ${isActive ? 'active' : ''}`}
+                      onClick={() => {
+                        sanskritAudioEngine.stop();
+                        setSelectedMantraIdx(idx);
+                        setNavRequest({ target: 'hero', nonce: Date.now() });
+                      }}
+                    >
+                      {idx + 1}. {shortLabel || item.titleZh}（{item.verses.length}句）
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 

@@ -1199,7 +1199,7 @@ async function writeTier1Ts(
     ...db3Any,
     dharaniSamgrahaSections: (db3Any.dharaniSamgrahaSections || []).map((s) => ({
       ...s,
-      paragraphsIast: ((s.paragraphsIast as string[]) || []).slice(0, 16),
+      paragraphsIast: ((s.paragraphsIast as string[]) || []),
       paragraphsDevanagari: ((s.paragraphsDevanagari as string[]) || []).slice(0, 4),
       extractedMantras: (s.extractedMantras as string[]) || [],
     })),
@@ -1220,7 +1220,7 @@ async function writeTier1Ts(
     ...db4Any,
     records: (db4Any.records || []).map((r, idx) => ({
       ...r,
-      mantras: ((r.mantras as Array<Record<string, unknown>>) || []).slice(0, 36).map((m) => ({
+      mantras: ((r.mantras as Array<Record<string, unknown>>) || []).map((m) => ({
         ...m,
         sanskritIast: m.sanskritIast,
         criticalNotes:

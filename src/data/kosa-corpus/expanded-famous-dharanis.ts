@@ -1,1155 +1,6035 @@
 import type { DharaniEntry } from '../../types/kosaTypes';
-import { buildWordGlossesFromIast } from '../../core/sanskrit/phoneticMapper';
 
 export const EXPANDED_FAMOUS_DHARANIS: DharaniEntry[] = [
-  // ============================================================================
-  // 1. 秽迹金刚神咒 (Ucchuṣma-vidyārāja)
-  // ============================================================================
   {
-    id: 'ucchusma-vidyaraja-dharani',
-    titleZh: '秽迹金刚神咒（大权力士神王佛头大沙摩明王四十二字根本陀罗尼）',
-    titleSanskritIast: 'Ucchuṣma-vidyārāja-mahābala-krodha-dhāraṇī',
-    titleEnglish: 'Blazing Impurity-Consuming Vajra (Ucchuṣma / Huiji Jingang) Fundamental Dhāraṇī',
-    categoryId: 'vidyarajas-protectors',
-    taishoNo: 'T21n1228 / T21n1229',
-    translatorZh: '（唐）北天竺三藏沙门阿质达霰 译',
-    sutraSourceZh: '《秽迹金刚说神通大满陀罗尼法术灵要门》(T21n1228) / 《秽迹金刚禁百变法经》(T21n1229)',
-    deityZh: '秽迹金刚 / 乌枢沙摩明王 (Ucchuṣma-Krodharāja)',
-    meritsAndSummaryZh:
-      '释迦牟尼佛临涅槃时，螺髻梵王以鄙秽不净物障难大众，佛自左心化出不坏金刚（秽迹金刚），立往梵天化诸不净为大宝地。此四十二字神咒能除一切瘟疫、鬼魅、蛊毒、邪法，不拣净秽，持诵圆满感得杵出光焰、水涌沸腾之验相。',
-    recitationTipsZh:
-      '唐阿质达霰译音「嗡 咈啒啒㗚 摩诃般啰恨那...」对应梵文以「oṃ bhihau guru mahāprāṇa...」起首，末尾「guṇa maṇi svāhā」祈请乌枢沙摩金刚威德如意圆成。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T21n1228',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1228.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T21n1228',
-      editionCitation: 'CBETA T21n1228 《秽迹金刚说神通大满陀罗尼法术灵要门》阿质达霰译 & 梵文重构校勘本.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T21n1228 与 T21n1229 原典。',
+    "id": "prthivi-devi-dharani",
+    "titleZh": "坚牢地天陀罗尼（地天神咒 / 帝天神咒 · 不空译仪轨暨房山石经本）",
+    "titleSanskritIast": "Dṛḍhā-Pṛthivī-devatā-dhāraṇī",
+    "titleEnglish": "Steadfast Earth Goddess Pṛthivī Dhāraṇī (Earth Deity Mantra)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1286 / F28n1071 (pF28p0248b1801)",
+    "translatorZh": "（唐）善无畏 / 不空三藏 译 · 辽代房山石经《释教最上乘秘密藏陁罗尼集》卷二十八对勘",
+    "sutraSourceZh": "《坚牢地天仪轨》(T21n1286) 暨《房山石经》F28n1071《地天陁罗尼》",
+    "deityZh": "坚牢地神 / 坚牢地天女 (Dṛḍhā-Pṛthivī)",
+    "meritsAndSummaryZh": "佛教最重要的大地资粮与护法诸天本尊真言（民间与语音检索亦常写作同音「帝天神咒」「地天神咒」「坚牢地神咒」）。《坚牢地天仪轨》(T21n1286) 载：若有四众受持此地天真言十万遍，地天欢喜拥护，令居处安稳、田畴丰稔、寿命色力资财具足，修诸三昧速得成就。",
+    "recitationTipsZh": "pṛthivīye 为梵语阴性名词 pṛthivī（大地母神）之单数与格（向地天女致敬），房山石经对音作「毕㗚体吠曵」，不空轨作「钵哩体微曳」。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1286 《坚牢地天仪轨》& 房山石经 F28n1071 (pF28p0248b1801)《地天陁罗尼》.",
+      "manuscriptNotesZh": "双源对勘：大正藏 T21n1286 与房山石经 F28n1071 卷二十八《地天陁罗尼》（曩莫三满多没驮南 唵 毕㗚体吠曵 娑嚩诃）。",
+      "cbetaId": "T21n1286",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1286"
     },
-    verses: [
+    "verses": [
       {
-        id: 'ucchusma-v1',
-        index: 1,
-        iast: 'oṃ bhihau guru mahāprāṇa hanaite vicitramāla | himaṇi vikiri maṇi | ucchuṣma krodha hūṃ hūṃ hūṃ phaṭ phaṭ phaṭ phaṭ phaṭ svāhā ||',
-        classicalTranslitZh:
-          '唵 咈啒啒㗚 摩诃般啰恨那 唅乃得 吻汁吻 醯摩尼 微吉微 摩那栖 | 唵 斫急那 乌深暮 啒㗚 吽 吽 吽 泮 泮 泮 泮 泮 娑诃 ||',
-        modernPhoneticZh:
-          '嗡 比豪 古鲁 玛哈₍普₎啦拿 哈奈帝 维吉₍特₎啦玛啦 | 嘿玛尼 维给里 玛尼 | 乌楚₍师₎玛 ₍克₎洛达 吽 吽 吽 帕₍特₎ 帕₍特₎ 帕₍特₎ 帕₍特₎ 帕₍特₎ ₍斯₎瓦哈',
-        meaningZh:
-          '嗡！大威神力尊师、具足广大命力者！摧破一切魔怨，严饰奇特宝鬘！散放清凉摩尼宝光！乌枢沙摩大忿怒明王！吽吽吽！彻底粉碎五毒魔障（五声泮吒）！圆满成就！',
-        meaningEn:
-          'Oṃ! O Fearless Guru of Great Vital Power, Destroyer of obstacles, adorned with wondrous garlands! O Radiant Gem! O Wrathful Ucchuṣma! Hūṃ Hūṃ Hūṃ Phaṭ Phaṭ Phaṭ Phaṭ Phaṭ Svāhā!',
-        tangNoteZh: '《T21n1228》经典原载四十二字神通大满陀罗尼。',
-        words: [
-          { iast: 'guru mahāprāṇa', stem: 'guru-mahāprāṇa', grammar: 'Voc. sg. m.', transliterationZh: '啒㗚 摩诃般啰恨那', meaningZh: '大威德上师、大命力尊', meaningEn: 'O Guru of Great Vital Force' },
-          { iast: 'ucchuṣma krodha', stem: 'ucchuṣma-krodha', grammar: 'Voc. sg. m.', transliterationZh: '乌深暮 啒㗚', meaningZh: '火头/秽迹大忿怒明王', meaningEn: 'O Wrathful Ucchuṣma' },
-          { iast: 'hūṃ hūṃ hūṃ phaṭ phaṭ phaṭ phaṭ phaṭ', stem: 'tri-hūṃ pañca-phaṭ', grammar: 'Vajra Seal', transliterationZh: '吽吽吽 泮泮泮泮泮', meaningZh: '三身金刚摧破五毒五盖', meaningEn: 'triple Hūṃ and fivefold Phaṭ' },
-        ],
+        "id": "prthivi-v-1",
+        "index": 1,
+        "iast": "namaḥ samantabuddhānām",
+        "classicalTranslitZh": "曩莫 三满多没驮喃",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨曼达-布达南",
+        "meaningZh": "归命普遍十方一切诸佛！",
+        "meaningEn": "Homage to the Universal Buddhas!",
+        "tangNoteZh": "第一句 · 房山石经 F28n1071 原刻作「曩莫三满多没驮南」",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samantabuddhānām",
+            "stem": "samanta-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三曼多没驮喃（拼读参考：萨曼达-布达南）",
+            "meaningZh": "普遍没驮南",
+            "meaningEn": "universal + buddhānām",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'ucchusma-v2',
-        index: 2,
-        iast: 'oṃ krodhana hūṃ jaḥ ||',
-        classicalTranslitZh: '唵 俱嚧驮曩 吽 弱 ||',
-        modernPhoneticZh: '嗡 ₍克₎洛达拿 吽 佳₍赫₎',
-        meaningZh: '【乌枢沙摩明王根本短心咒】嗡！大忿怒尊（火头金刚）！吽（摧破垢秽）！弱（勾召摄受）！',
-        meaningEn: '[Short Heart Mantra of Ucchuṣma] Oṃ! O Wrathful One (Krodhana)! Hūṃ Jaḥ!',
-        tangNoteZh: '出自《陀罗尼集经》与东密、唐密传持《乌枢沙摩明王真言》。',
-        words: [
-          { iast: 'krodhana', stem: 'krodhana', grammar: 'Voc. sg. m.', transliterationZh: '俱嚧驮曩', meaningZh: '大威怒明王尊', meaningEn: 'O Wrathful One' },
-          { iast: 'hūṃ jaḥ', stem: 'bīja', grammar: 'Bīja', transliterationZh: '吽 弱', meaningZh: '金刚降伏与大悲钩召种子字', meaningEn: 'subjugation and hooking seed syllables' },
-        ],
-      },
-    ],
+        "id": "prthivi-v-2",
+        "index": 2,
+        "iast": "oṃ pṛthivīye svāhā",
+        "classicalTranslitZh": "唵 钵哩体微曳 娑嚩诃",
+        "modernPhoneticZh": "嗡 ₍普₎日提维耶 ₍斯₎瓦哈",
+        "meaningZh": "嗡！向承载万物、护持正法之坚牢地天女致敬，愿国土安隐、福德资粮丰饶圆满，娑嚩诃！",
+        "meaningEn": "Oṃ! To Goddess Pṛthivī (Steadfast Earth), may prosperity and steadfast protection be accomplished, Svāhā!",
+        "tangNoteZh": "第二句 · 房山石经 F28n1071 原刻作「唵 毕㗚体吠曵 娑嚩诃」",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "pṛthivīye",
+            "stem": "pṛthivī-iya",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "钵哩耻味曳（拼读参考：₍普₎日提维耶）",
+            "meaningZh": "大地此处尊",
+            "meaningEn": "earth",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 2. 大轮金刚陀罗尼 (Mahācakra-vajra)
-  // ============================================================================
   {
-    id: 'mahacakra-vajra-dharani',
-    titleZh: '大轮金刚陀罗尼（入曼荼罗结印诵咒免盗法罪真言）',
-    titleSanskritIast: 'Mahācakra-vajra-dhāraṇī',
-    titleEnglish: 'Great Wheel Vajra (Mahācakra) Maṇḍala Consecration Dhāraṇī',
-    categoryId: 'vidyarajas-protectors',
-    taishoNo: 'T21n1230',
-    translatorZh: '（唐）金刚智 译',
-    sutraSourceZh: '《佛说大轮金刚总持陀罗尼经》(T21n1230)',
-    deityZh: '大轮金刚明王 (Mahācakra-Vajra)',
-    meritsAndSummaryZh:
-      '《大轮金刚总持陀罗尼经》云：「诵此咒二十一遍，能成一切咒法，善事速得成就；能成一切印法、一切坛法。未入灌顶曼荼罗者，诵此真言即同入坛，不成盗法。」是修习一切密咒前最重要的护法开坛总持。',
-    recitationTipsZh:
-      '起首「namaḥ strīyadhvikānāṃ（归命三世一切诸佛）」中 strīya-dhvika 对应「三世（过去、现在、未来）」，末尾「vira jaya svāhā」祈愿大勇猛最胜成就。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T21n1230',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1230.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T21n1230',
-      editionCitation: 'CBETA T21n1230 《佛说大轮金刚总持陀罗尼经》',
-      manuscriptNotesZh: '已索引入大正藏密教部 T21n1230 原典。',
+    "id": "suvarnaprabhasa-drdha-prthivi-qinzhao",
+    "titleZh": "金光明最胜王经·坚牢地神请召根本神咒（地天神咒初咒）",
+    "titleSanskritIast": "Suvarṇaprabhāsottama-dṛḍhāpṛthivī-āhvāna-dhāraṇī",
+    "titleEnglish": "Golden Light Sūtra: Steadfast Earth Goddess Invocation Dhāraṇī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T16n0665",
+    "translatorZh": "（唐）三藏法师义净 奉制译",
+    "sutraSourceZh": "《金光明最胜王经》卷八〈坚牢地神品第十八〉(T16n0665)",
+    "deityZh": "坚牢地神 (Dṛḍhā-Pṛthivī)",
+    "meritsAndSummaryZh": "《金光明最胜王经·坚牢地神品第十八》第一道独立陀罗尼（请召神咒）。坚牢地神于佛前发愿：以大地精气美味资益说法师与受持经咒者，令寿命增益、身力强盛、无诸灾横。",
+    "recitationTipsZh": "原经共载三道独立地神咒（请召咒、现身心咒、护身除障咒），本库严格依原典单咒单条独立收录，绝不混并。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T16n0665 《金光明最胜王经》卷八〈坚牢地神品第十八〉第一咒.",
+      "manuscriptNotesZh": "直接提取自本库下载之 CBETA T16n0665.xml 原典〈坚牢地神品第十八〉首道陀罗尼。",
+      "cbetaId": "T16n0665",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T16n0665",
+      "gretilFile": "bsu050_u.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'mahacakra-v1',
-        index: 1,
-        iast: 'namaḥ strīyadhvikānāṃ sarvatathāgatānām | āṃ viraji viraji mahācakravajri ||',
-        classicalTranslitZh:
-          '南无 司得哩牙 提维嘎难 萨嚩怛他蘖多喃 | 唵 维啰尔 维啰尔 摩诃斫羯啰嚩日哩 ||',
-        modernPhoneticZh:
-          '拿玛₍赫₎ ₍斯特₎里呀₍德₎维嘎南 萨₍尔₎瓦-达他嘎达南 | 昂 维啦吉 维啦吉 玛哈-佳₍克₎啦-瓦₍吉₎里',
-        meaningZh:
-          '归命三世一切诸佛如来！嗡！离垢清净、离垢清净，大轮金刚明王尊啊！',
-        meaningEn:
-          'Homage to all Tathāgatas of the Three Times! Āṃ! O Stainless One, O Great Wheel Vajra!',
-        words: [
-          { iast: 'strīyadhvikānāṃ', stem: 'tryadhvika', grammar: 'Gen. pl. m.', transliterationZh: '司得哩牙提维嘎难', meaningZh: '三世（过去现在未来）之', meaningEn: 'of the three times' },
-          { iast: 'mahācakravajri', stem: 'mahā-cakra-vajrin', grammar: 'Voc. sg.', transliterationZh: '摩诃斫羯啰嚩日哩', meaningZh: '大轮金刚尊啊', meaningEn: 'O Great Wheel Vajra' },
-        ],
+        "id": "drdha1-v-1",
+        "index": 1,
+        "iast": "tadyathā | ciri ciri curu curu kuru kuru",
+        "classicalTranslitZh": "怛侄他 | 只哩只哩 主噜主噜 句噜句噜",
+        "modernPhoneticZh": "达₍地₎呀他 | 吉里 吉里 主鲁 主鲁 古鲁 古鲁",
+        "meaningZh": "即说咒曰：速疾集聚大地精华甘露，成办吉祥护持事业！",
+        "meaningEn": "Namely: Swiftly gather terrestrial essence and accomplish auspicious protection!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ciri",
+            "stem": "ciri",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "只哩（拼读参考：吉里）",
+            "meaningZh": "久远常恒护持不退（唧哩）",
+            "meaningEn": "enduring steadfast protection & mindfulness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ciri",
+            "stem": "ciri",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "只哩（拼读参考：吉里）",
+            "meaningZh": "久远常恒护持不退（唧哩）",
+            "meaningEn": "enduring steadfast protection & mindfulness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "curu",
+            "stem": "curu",
+            "grammar": "Mantra-Impv. · 速疾祈请",
+            "transliterationZh": "主噜（拼读参考：主鲁）",
+            "meaningZh": "速疾运转妙法加持（祖噜）",
+            "meaningEn": "swiftly set sacred blessings in motion!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "curu",
+            "stem": "curu",
+            "grammar": "Mantra-Impv. · 速疾祈请",
+            "transliterationZh": "主噜（拼读参考：主鲁）",
+            "meaningZh": "速疾运转妙法加持（祖噜）",
+            "meaningEn": "swiftly set sacred blessings in motion!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kuru",
+            "stem": "kuru",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "矩噜（拼读参考：古鲁）",
+            "meaningZh": "祈请成办羯磨事业（俱噜）",
+            "meaningEn": "accomplish & enact this sacred work!",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'mahacakra-v2',
-        index: 2,
-        iast: 'sata sata sārate sārate trayī trayī vidhamani | saṃbhañjani tramati siddhāgrya tvaṃ svāhā ||',
-        classicalTranslitZh:
-          '萨多 萨多 娑啰帝 娑啰帝 怛啰曳 怛啰曳 毗陀摩你 | 三槃若你 怛啰摩底 细驮搿哩牙 怛呁 娑嚩诃 ||',
-        modernPhoneticZh:
-          '萨达 萨达 萨啦帝 萨啦帝 ₍特₎啦伊 ₍特₎啦伊 维达玛尼 | 桑班佳尼 ₍特₎啦玛帝 悉达₍格哩₎呀 ₍特₎旺 ₍斯₎瓦哈',
-        meaningZh:
-          '真实坚固、真实流转、救护三界、摧破无明、粉碎结缚、度脱三有，汝即最上悉地坛法成就，圆满吉祥！',
-        meaningEn:
-          'True, true, flowing, rescuing the three worlds, shattering all fetters, You are the supreme Siddhi, Svāhā!',
-        words: [
-          { iast: 'vidhamani', stem: 'vi-√dham', grammar: 'Voc. sg.', transliterationZh: '毗陀摩你', meaningZh: '吹散摧灭一切业障者', meaningEn: 'O Disperser of obstacles' },
-          { iast: 'saṃbhañjani', stem: 'sam-√bhañj', grammar: 'Voc. sg.', transliterationZh: '三槃若你', meaningZh: '彻底摧碎（烦恼魔障）者', meaningEn: 'O Crusher of obstacles' },
-        ],
-      },
-    ],
+        "id": "drdha1-v-2",
+        "index": 2,
+        "iast": "kuṭu kuṭu tuṭu tuṭu vaha vaha vaśa vaśa svāhā",
+        "classicalTranslitZh": "拘柱拘柱 睹柱睹柱 缚诃 缚诃 伐舍伐舍 莎诃",
+        "modernPhoneticZh": "古度 古度 度度 度度 瓦哈 瓦哈 瓦沙 瓦沙 ₍斯₎瓦哈",
+        "meaningZh": "坚固守护、摧破荒馑，运载地味资粮，令一切顺缘自在成就，莎诃！",
+        "meaningEn": "Guard firmly, bear forth nourishment, bring all auspicious conditions into harmony, Svāhā!",
+        "words": [
+          {
+            "iast": "kuṭu",
+            "stem": "ka-ṭa",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "矩都（拼读参考：古度）",
+            "meaningZh": "造作离相·断除憍慢执障（警策成就）",
+            "meaningEn": "freedom from karmic agency & cutting rigid pride (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kuṭu",
+            "stem": "ka-ṭa",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "矩都（拼读参考：古度）",
+            "meaningZh": "造作离相·断除憍慢执障（警策成就）",
+            "meaningEn": "freedom from karmic agency & cutting rigid pride (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tuṭu",
+            "stem": "ta-ṭa",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "都都（拼读参考：度度）",
+            "meaningZh": "真如实际·断除憍慢执障（警策成就）",
+            "meaningEn": "immutable Suchness & cutting rigid pride (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tuṭu",
+            "stem": "ta-ṭa",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "都都（拼读参考：度度）",
+            "meaningZh": "真如实际·断除憍慢执障（警策成就）",
+            "meaningEn": "immutable Suchness & cutting rigid pride (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vaha",
+            "stem": "va-ha",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "嚩诃（拼读参考：瓦哈）",
+            "meaningZh": "最上真言离言说·因缘空寂大乐",
+            "meaningEn": "supreme ineffable speech & causal emptiness & spiritual joy",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vaha",
+            "stem": "va-ha",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "嚩诃（拼读参考：瓦哈）",
+            "meaningZh": "最上真言离言说·因缘空寂大乐",
+            "meaningEn": "supreme ineffable speech & causal emptiness & spiritual joy",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 3. 佛说雨宝陀罗尼 (Vasudhārā / 雨宝长咒、心咒、心中心咒)
-  // ============================================================================
   {
-    id: 'vasudhara-yubao-full',
-    titleZh: '佛说雨宝陀罗尼（妙月长者求福除贫心咒·心中心咒·根本真言）',
-    titleSanskritIast: 'Ārya-Vasudhārā-dhāraṇī (Sūtra of the Rain of Treasures)',
-    titleEnglish: 'Rain of Treasures Dhāraṇī (Vasudhārā Root, Heart & Essence Mantras)',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T20n1163',
-    translatorZh: '（唐）不空三藏 译《佛说雨宝陀罗尼经》',
-    sutraSourceZh: '《佛说雨宝陀罗尼经》(T20n1163)',
-    deityZh: '持世菩萨 / 财源天母 & 多闻天王 (Ārya-Vasudhārā)',
-    meritsAndSummaryZh:
-      '憍睒弥国妙月长者请问得财宝、除疾病之法，佛陀宣说过去持金刚海音如来所传《雨宝陀罗尼》。至心受持能除一切贫穷宿业，令谷米、珍宝、福智如天雨普降。',
-    recitationTipsZh:
-      '本条完整收录唐代不空译《佛说雨宝陀罗尼经》核心祈愿文、心咒（「嗡 嚩素陀隶 娑嚩诃」）与心中心咒（「嗡 室哩嚩素 娑嚩诃」）。',
-    provenance: {
-      sourceType: 'CBETA+GRETIL',
-      cbetaId: 'T20n1163',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T20/T20n1163.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1163',
-      gretilFile: 'vadhdhdu.htm',
-      editionCitation: 'CBETA T20n1163 《佛说雨宝陀罗尼经》（不空译）& GRETIL vadhdhdu.htm.',
-      manuscriptNotesZh: '已关联大正藏 T20n1163 与 GRETIL 梵本。',
+    "id": "suvarnaprabhasa-drdha-prthivi-hrdaya",
+    "titleZh": "金光明最胜王经·坚牢地神心中心现身护法神咒（地天神咒心咒）",
+    "titleSanskritIast": "Suvarṇaprabhāsottama-dṛḍhāpṛthivī-hṛdaya-mantra",
+    "titleEnglish": "Golden Light Sūtra: Heart Mantra of Steadfast Earth Goddess Pṛthivī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T16n0665",
+    "translatorZh": "（唐）三藏法师义净 奉制译",
+    "sutraSourceZh": "《金光明最胜王经》卷八〈坚牢地神品第十八〉(T16n0665)",
+    "deityZh": "坚牢地神 (Dṛḍhā-Pṛthivī)",
+    "meritsAndSummaryZh": "《金光明最胜王经·坚牢地神品第十八》第二道独立陀罗尼（坚牢地神心咒）。经云：「世尊，我有心咒，能利人天，安乐一切……若有善男子善女人欲求亲见我真身者，诵此心咒即得现前，随心所愿悉皆圆满，资财宝藏无有乏少。」（检索俗称：地天神咒、帝天神咒）。",
+    "recitationTipsZh": "咒中 śrīdhari（室尼达哩）直赞地神「执持大吉祥福德母啊！」。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T16n0665 《金光明最胜王经》卷八〈坚牢地神品第十八〉第二心咒.",
+      "manuscriptNotesZh": "直接提取自 CBETA T16n0665.xml 原典〈坚牢地神品第十八〉第二道心咒全文。",
+      "cbetaId": "T16n0665",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T16n0665",
+      "gretilFile": "bsu050_u.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'yubao-v1',
-        index: 1,
-        iast: 'namo bhagavate vajradharasāgaraniirghoṣāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā — oṃ surūpe bhadravati maṅgale acale acapale ughātini ubhedini sasyavati dhānyavati dhanavati śrīmati prabhāvati amale vimale ruru surūpe vimale adataste vidhaste viśvakeśi aṅkure maṅkure prabhaṅkure |',
-        classicalTranslitZh:
-          '曩谟 婆誐嚩帝 嚩日啰驮啰娑誐啰捏具晒耶 怛他孽多夜啰诃帝 三藐三没驮耶 | 怛你也他 — 唵 素噜闭 跋捺啰嚩底 瞢誐阿左隶 阿左跛隶 坞伽跢你 坞陛娜你 萨写嚩底 驮娘嚩底 驮曩嚩底 室哩摩底 钵啰婆嚩底 阿摩隶 尾摩隶 噜噜 素噜闭 尾摩隶 阿娜多悉帝 尾驮悉帝 尾湿嚩计尸 鸯矩隶 瞢矩隶 钵啰婆鸯矩隶 |',
-        modernPhoneticZh:
-          '拿摩 巴嘎瓦帝 瓦₍吉₎啦-达啦萨嘎啦尼伊₍尔₎果沙呀 达他嘎达-呀₍尔₎哈帝 萨₍姆₎呀₍克₎-桑布达呀 | 达₍地₎呀他 | 嗡 苏鲁贝 巴₍德₎啦瓦帝 芒嘎雷 阿佳雷 阿佳巴雷 乌嘎帝尼 乌贝地尼 萨₍斯₎呀瓦帝 达₍尼₎呀瓦帝 达拿瓦帝 ₍希₎里玛帝 ₍普₎啦巴瓦帝 阿玛雷 维玛雷 鲁鲁 苏鲁贝 维玛雷 阿达达₍斯₎帝 维达₍斯₎帝 维₍湿₎瓦给希 昂古雷 芒古雷 ₍普₎啦邦古雷',
-        meaningZh:
-          '归命世尊持金刚海音如来、应供、正等觉！即说咒曰：嗡！妙色相尊、善贤吉祥尊、不动摇尊、开启宝藏尊、具足禾稼尊、具足五谷尊、具足财宝尊、具足吉祥威光尊、无垢离染尊！令一切福德善根萌芽增长！',
-        meaningEn:
-          'Homage to the Bhagavan Tathāgata Vajradhara-Sāgara-Nirghoṣa! Namely: Oṃ! O Wondrous Form, Auspicious One, Unwavering One, Bestower of crops, grain, wealth, glory, and radiance, Stainless One, Sprouting all blessings!',
-        words: [
-          { iast: 'vajradharasāgaraniirghoṣāya', stem: 'vajradhara-sāgara-nirghoṣa', grammar: 'Dat. sg. m.', transliterationZh: '嚩日啰驮啰娑誐啰捏具晒耶', meaningZh: '向持金刚海音如来（雨宝陀罗尼本师佛）', meaningEn: 'to Tathāgata Vajradhara-Ocean-Sound' },
-          { iast: 'sasyavati dhānyavati dhanavati', stem: 'sasya/dhānya/dhana-vatī', grammar: 'Voc. sg. f.', transliterationZh: '萨写嚩底 驮娘嚩底 驮曩嚩底', meaningZh: '具足苗稼、五谷丰登、财宝充盈之天母啊', meaningEn: 'O Possessor of crops, grain, and treasure' },
-        ],
-      },
-      {
-        id: 'yubao-v2',
-        index: 2,
-        iast: 'oṃ vasudhare svāhā | oṃ śrīvasu svāhā | oṃ vasu svāhā ||',
-        classicalTranslitZh:
-          '唵 嚩素陀隶 娑嚩诃（心真言）| 唵 室哩嚩素 娑嚩诃（心中心真言）| 唵 嚩素 娑嚩诃（小心真言）||',
-        modernPhoneticZh:
-          '嗡 瓦苏达雷 ₍斯₎瓦哈 | 嗡 ₍希₎里瓦苏 ₍斯₎瓦哈 | 嗡 瓦苏 ₍斯₎瓦哈',
-        meaningZh:
-          '【心真言】嗡！持世雨宝圣母啊，吉祥成就！【心中心真言】嗡！吉祥宝藏尊，圆满成就！【小心真言】嗡！法财宝藏，吉祥成就！',
-        meaningEn:
-          '[Heart Mantra] Oṃ O Vasudhārā, Svāhā! [Inner Heart Mantra] Oṃ O Glorious Treasure, Svāhā! [Essence Mantra] Oṃ Treasure, Svāhā!',
-        words: [
-          { iast: 'vasudhare', stem: 'vasudhārā', grammar: 'Voc. sg. f.', transliterationZh: '嚩素陀隶', meaningZh: '持世宝流圣母啊', meaningEn: 'O Holder of the Stream of Gems' },
-          { iast: 'śrīvasu', stem: 'śrī-vasu', grammar: 'Voc. sg.', transliterationZh: '室哩嚩素', meaningZh: '吉祥大宝藏', meaningEn: 'Glorious Wealth/Treasure' },
-        ],
-      },
-    ],
+        "id": "drdha2-v-1",
+        "index": 1,
+        "iast": "tadyathā | acane kṣaṇikṣaṇe śrīdhari ha ha hi hi khuru vale svāhā",
+        "classicalTranslitZh": "怛侄他 | 頞折泥 颉力刹泥 室尼达哩 诃诃 呬呬 区噜 伐丽 莎诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 阿佳内 ₍克₎沙尼₍克₎沙内 ₍希₎里达里 哈 哈 嘿 嘿 库鲁 瓦雷 ₍斯₎瓦哈",
+        "meaningZh": "即说心咒曰：不动摇尊、念念护念尊、执持大吉祥福藏母啊！法喜欢笑（诃诃呬呬），施予殊胜大地神力，圆满成就，莎诃！",
+        "meaningEn": "Namely: O Unwavering One, Instant-by-Instant Guardian, Holder of Glory (Śrīdhari)! Bestow supreme terrestrial strength, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "acane",
+            "stem": "ca-na",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "阿者祢（拼读参考：阿佳内）",
+            "meaningZh": "妙行迁变空·离名相假立（呼请加持）",
+            "meaningEn": "awakened conduct beyond flux & beyond nominal designation (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kṣaṇikṣaṇe",
+            "stem": "ka-ṣa-ṇa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "乞洒抳乞洒宁（拼读参考：₍克₎沙尼₍克₎沙内）",
+            "meaningZh": "造作离相·六度满行清净·离诸诤论无诤（呼请加持）",
+            "meaningEn": "freedom from karmic agency & perfection of the six pāramitās & conflict-free peace (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śrīdhari",
+            "stem": "śrī",
+            "grammar": "Noun · 吉祥圣德 · Voc. Fem. · 持受尊",
+            "transliterationZh": "室利驮哩（拼读参考：₍希₎里达里）",
+            "meaningZh": "持吉祥、圣德威光尊",
+            "meaningEn": "O bearer of auspiciousness, glory, sacred splendor",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ha",
+            "stem": "ha",
+            "grammar": "Akṣara-mukha · 贺字门",
+            "transliterationZh": "诃（拼读参考：哈）",
+            "meaningZh": "贺字门（因缘空寂大乐（hetu/harṣa）·本不生体性）",
+            "meaningEn": "causal emptiness & spiritual joy (hetu) — primordial non-arising",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ha",
+            "stem": "ha",
+            "grammar": "Akṣara-mukha · 贺字门",
+            "transliterationZh": "诃（拼读参考：哈）",
+            "meaningZh": "贺字门（因缘空寂大乐（hetu/harṣa）·本不生体性）",
+            "meaningEn": "causal emptiness & spiritual joy (hetu) — primordial non-arising",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 4. 文殊八字大威德真言 (Mañjuśrī Aṣṭākṣara)
-  // ============================================================================
   {
-    id: 'manjusri-astaksara-mantra',
-    titleZh: '一切佛心大无畏八字真言（文殊八字最胜大威德心陀罗尼）',
-    titleSanskritIast: 'Mañjuśrī-aṣṭākṣara-mahāvīrya-hṛdaya-dhāraṇī',
-    titleEnglish: 'Mañjuśrī Eight-Syllable Supreme Fearless Protection Mantra',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T20n1184 / T20n1185A',
-    translatorZh: '（唐）菩提仙 / 宝思惟 译',
-    sutraSourceZh: '《大圣妙吉祥菩萨秘密八字陀罗尼修行曼荼罗次第仪轨法》(T20n1184) / 《文殊师利宝藏陀罗尼经》(T20n1185A)',
-    deityZh: '八字文殊师利菩萨 (Aṣṭākṣara-Mañjuśrī)',
-    meritsAndSummaryZh:
-      '经云此八字陀罗尼乃「一切诸佛心」，能除一切宿曜灾厄、怨敌、重病、横难，若人暂闻或书佩于身，大智文殊常随拥护，临终定生极乐或兜率净土。',
-    recitationTipsZh:
-      '核心八字为「āḥ vī ra hūṃ kha ca raḥ」（加上起首 oṃ 共九音节），其中「khe-cara / kha-cara」意为「游行虚空无碍之大智尊」。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T20n1184',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T20/T20n1184.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1184',
-      editionCitation: 'CBETA T20n1184 & T20n1185A 《文殊师利宝藏陀罗尼经》.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T20n1184 原典。',
+    "id": "suvarnaprabhasa-drdha-prthivi-raksa",
+    "titleZh": "金光明最胜王经·坚牢地神护身除障神咒（地天神咒护身咒）",
+    "titleSanskritIast": "Suvarṇaprabhāsottama-dṛḍhāpṛthivī-rakṣā-dhāraṇī",
+    "titleEnglish": "Golden Light Sūtra: Bodily Protection Dhāraṇī of Earth Goddess Pṛthivī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T16n0665",
+    "translatorZh": "（唐）三藏法师义净 奉制译",
+    "sutraSourceZh": "《金光明最胜王经》卷八〈坚牢地神品第十八〉(T16n0665)",
+    "deityZh": "坚牢地神 (Dṛḍhā-Pṛthivī)",
+    "meritsAndSummaryZh": "《金光明最胜王经·坚牢地神品第十八》第三道独立陀罗尼（护身结界神咒）。经载诵此咒二十一遍系五色线护身，一切怨贼、恶星、疫毒悉皆远离，福慧日增。",
+    "recitationTipsZh": "原典汉字「㨖（U+3A16）」依义净三藏原译保留，读作 zhì / dì（对应梵语卷舌音 ṭi）。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T16n0665 《金光明最胜王经》卷八〈坚牢地神品第十八〉第三护身咒.",
+      "manuscriptNotesZh": "直接提取自 CBETA T16n0665.xml 原典〈坚牢地神品第十八〉第三道护身咒全文。",
+      "cbetaId": "T16n0665",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T16n0665",
+      "gretilFile": "bsu050_u.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'manjusri8-v1',
-        index: 1,
-        iast: 'namaḥ sarvabuddhānām | oṃ āḥ vī ra hūṃ kha ca raḥ ||',
-        classicalTranslitZh: '曩莫 萨嚩没驮喃 | 唵 阿 味 啰 吽 佉 左 洛 ||',
-        modernPhoneticZh: '拿玛₍赫₎ 萨₍尔₎瓦-布达南 | 嗡 阿₍赫₎ 维 啦 吽 卡 佳 啦₍赫₎',
-        meaningZh:
-          '归命一切诸佛！嗡！阿（无生法界门）、味（大勇猛定力）、啰（离尘清净）、吽（摧破一切魔怨灾障）、佉左洛（自在游行于大空法界之文殊大士）！',
-        meaningEn:
-          'Homage to all Buddhas! Oṃ! Āḥ (Primordial Unborn), Vīra (Heroic Valor), Hūṃ (Vajra Mind), Khacaraḥ (Sky-Farer moving freely through the expanse of emptiness)!',
-        words: [
-          { iast: 'āḥ', stem: 'āḥ', grammar: 'Bīja', transliterationZh: '阿', meaningZh: '一切法本不生、语金刚种子字', meaningEn: 'seed syllable of unborn speech' },
-          { iast: 'vīra', stem: 'vīra', grammar: 'Voc. sg. m.', transliterationZh: '味啰', meaningZh: '大勇猛无畏尊', meaningEn: 'O Heroic One' },
-          { iast: 'hūṃ', stem: 'hūṃ', grammar: 'Bīja', transliterationZh: '吽', meaningZh: '圆满菩提、摧伏灾障', meaningEn: 'Vajra heart syllable' },
-          { iast: 'khacaraḥ', stem: 'kha-cara', grammar: 'Nom. sg. m.', transliterationZh: '佉左洛', meaningZh: '游行虚空无碍者（文殊菩萨密号）', meaningEn: 'Sky-Walker / Courser in Emptiness' },
-        ],
+        "id": "drdha3-v-1",
+        "index": 1,
+        "iast": "tadyathā | niśrī maśakaṭi naṭikuṭi buddhi buddhire",
+        "classicalTranslitZh": "怛侄他 | 儞室里 末舍羯㨖 捺㨖矩㨖 勃地 勃地丽",
+        "modernPhoneticZh": "达₍地₎呀他 | 尼₍希₎里 玛沙嘎蒂 拿蒂古蒂 布地 布地雷",
+        "meaningZh": "即说护身咒曰：吉祥依止、摧伏蚊蚋毒虫与诸魔障，觉智清净光明母！",
+        "meaningEn": "Namely: Auspicious Refuge, subduing pests and obstacles, O Luminous Awakened Intelligence!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "niśrī",
+            "stem": "ni-śrī",
+            "grammar": "Samāsa · 复合词 (Noun · 吉祥圣德)",
+            "transliterationZh": "你室利（拼读参考：尼₍希₎里）",
+            "meaningZh": "在于吉祥",
+            "meaningEn": "in + auspiciousness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "maśakaṭi",
+            "stem": "ma-śa-ka",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "摩舍迦置（拼读参考：玛沙嘎蒂）",
+            "meaningZh": "无我大慈三昧·本性寂静止息·造作离相（呼请加持）",
+            "meaningEn": "selfless great loving-kindness & primordial tranquil peace & freedom from karmic agency (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "naṭikuṭi",
+            "stem": "na-ṭa-ka",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "曩置矩置（拼读参考：拿蒂古蒂）",
+            "meaningZh": "离名相假立·断除憍慢执障·造作离相（呼请加持）",
+            "meaningEn": "beyond nominal designation & cutting rigid pride & freedom from karmic agency (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "buddhi",
+            "stem": "buddhi",
+            "grammar": "Noun · 觉慧",
+            "transliterationZh": "没地（拼读参考：布地）",
+            "meaningZh": "觉慧、明觉",
+            "meaningEn": "awakened intellect, comprehension",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "buddhire",
+            "stem": "√buddh",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "没地隶（拼读参考：布地雷）",
+            "meaningZh": "觉悟正觉·解脱系缚大力（呼请加持）",
+            "meaningEn": "awakened (vocative invocation)",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'manjusri8-v2',
-        index: 2,
-        iast: 'oṃ vākyedaṃ namaḥ | oṃ a ra pa ca na dhīḥ ||',
-        classicalTranslitZh: '唵 嚩鸡淡 曩莫（文殊六字心咒）| 唵 阿 啰 跛 左 曩 渧（文殊五字真言）||',
-        modernPhoneticZh: '嗡 瓦₍克₎耶当 拿玛₍赫₎ | 嗡 阿 啦 巴 佳 拿 迪₍希₎',
-        meaningZh:
-          '【文殊语王六字真言与五字慧剑心咒】嗡！向语自在王文殊师利致敬！嗡！阿啰跛左曩渧，开启一切般若文字总持门！',
-        meaningEn:
-          '[Mañjuśrī Lord of Speech & Five-Syllable Wisdom Mantras] Oṃ! Homage to the Lord of Speech! Oṃ A Ra Pa Ca Na Dhīḥ!',
-        words: [
-          { iast: 'vākyedaṃ', stem: 'vākya-idam', grammar: 'Nom./Acc. sg.', transliterationZh: '嚩鸡淡', meaningZh: '胜义法语自在尊', meaningEn: 'supreme speech of wisdom' },
-        ],
-      },
-    ],
+        "id": "drdha3-v-2",
+        "index": 2,
+        "iast": "bhiṭi bhiṭi kukuṭi khavaciri svāhā",
+        "classicalTranslitZh": "婢㨖婢㨖 矩句㨖 佉婆只里 莎诃",
+        "modernPhoneticZh": "比蒂 比蒂 古古蒂 卡瓦吉里 ₍斯₎瓦哈",
+        "meaningZh": "劈破灾厄、坚固结界，如金刚甲胄周遍守护行者身心，圆满吉祥，莎诃！",
+        "meaningEn": "Shattering calamities, sealing the boundary like adamantine armor, Svāhā!",
+        "words": [
+          {
+            "iast": "bhiṭi",
+            "stem": "bha-ṭa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "毗置（拼读参考：比蒂）",
+            "meaningZh": "破有相福德光·断除憍慢执障（呼请加持）",
+            "meaningEn": "blessedness transcending existence & cutting rigid pride (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhiṭi",
+            "stem": "bha-ṭa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "毗置（拼读参考：比蒂）",
+            "meaningZh": "破有相福德光·断除憍慢执障（呼请加持）",
+            "meaningEn": "blessedness transcending existence & cutting rigid pride (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kukuṭi",
+            "stem": "ku-kuṭi",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "矩矩置（拼读参考：古古蒂）",
+            "meaningZh": "大地庵",
+            "meaningEn": "earth + cottage",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "khavaciri",
+            "stem": "√vac",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "佉嚩只哩（拼读参考：卡瓦吉里）",
+            "meaningZh": "真言宣演·等虚空无碍（呼请加持）",
+            "meaningEn": "uttering (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 5. 虚空藏菩萨闻持真言 (Ākāśagarbha)
-  // ============================================================================
   {
-    id: 'akasagarbha-smrti-dharani',
-    titleZh: '虚空藏菩萨能满诸愿最胜心陀罗尼（求闻持法聪明不忘真言）',
-    titleSanskritIast: 'Ārya-Ākāśagarbha-sarvakāmapradā-hṛdaya-dhāraṇī',
-    titleEnglish: 'Ākāśagarbha Bodhisattva Supreme Memory & Wish-Fulfilling Mantra (Gumonjihō)',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T20n1145',
-    translatorZh: '（唐）中天竺三藏善无畏 译',
-    sutraSourceZh: '《虚空藏菩萨能满诸愿最胜心陀罗尼求闻持法》(T20n1145)',
-    deityZh: '大慧虚空藏菩萨 (Mahāpaṇḍita-Ākāśagarbha)',
-    meritsAndSummaryZh:
-      '唐密善无畏三藏首传、弘法大师空海青年时修证感得明星入口之「求闻持法」根本真言。持诵此咒能消罪障、开发如虚空般无尽之总持记忆力与辩才智慧，于一切经论一经耳目永不忘失。',
-    recitationTipsZh:
-      '「namo ākāśagarbhāya（归命虚空藏菩萨）oṃ ārya kamari mauli svāhā」，其中 kamari（莲华冠）与 mauli（宝顶冠）赞叹虚空藏菩萨五佛宝冠庄严。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T20n1145',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T20/T20n1145.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1145',
-      editionCitation: 'CBETA T20n1145 《虚空藏菩萨能满诸愿最胜心陀罗尼求闻持法》（唐·善无畏译）.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T20n1145 原典。',
+    "id": "sakrendra-dhvajagrakeyura-dharani",
+    "titleZh": "佛说圣大总持王经·帝释天尊胜幢臂印陀罗尼（帝释天神咒 / 天帝幢旗无能胜明王陀罗尼）",
+    "titleSanskritIast": "Ārya-Dhvajāgrakeyūrā-nāma-dhāraṇī",
+    "titleEnglish": "Crest-Banner Armlet Invincible Dhāraṇī Bestowed upon Lord Śakra Indra (Dhvajāgrakeyūrā)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1292 / F28n1071 (pF28p0186b0401) / GRETIL dhvajkeu",
+    "translatorZh": "（宋）施护 译 · 辽代房山石经 F28n1071 暨哥廷根大学 GRETIL《dhvajkeu.htm》梵本逐句对勘",
+    "sutraSourceZh": "《佛说圣大总持王经》(T21n1292) / 房山石经《天帝幢旗无能胜明王陁罗尼》/ GRETIL dhvajkeu.htm",
+    "deityZh": "尊胜幢臂印佛母 (Dhvajāgrakeyūrā) & 天帝释（帝释天 Śakra Devānām Indra）",
+    "meritsAndSummaryZh": "著名的「帝释天神咒 / 天帝神咒 / 帝天神咒」。缘起于忉利天主帝释天（天帝释）与阿修罗王交战失利，诣佛求救，世尊亲授此《尊胜幢臂印无能胜明王陀罗尼（Dhvajāgrakeyūrā）》，令书于天帝宝幢顶及佩于臂印，一切怨敌怖畏即刻摧散、常得无畏尊胜！本条依据本库 GRETIL `dhvajkeu.htm` 梵本与房山石经 `pF28p0186b0401`《天帝幢旗无能胜明王陁罗尼》完整十句逐句校勘录入！",
+    "recitationTipsZh": "此咒即藏传寺院风马旗（隆达）正中央必印之「尊胜幢顶臂严佛母陀罗尼」，全本十句完整无缺。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "GRETIL Dhvajāgrakeyūrā-dhāraṇī (dhvajkeu.htm), 房山石经 F28n1071 (pF28p0186b0401) & CBETA T21n1292.",
+      "manuscriptNotesZh": "梵汉石经三本合校：GRETIL dhvajkeu.htm 全文与房山石经《天帝幢旗无能胜明王陁罗尼》逐句对勘。",
+      "cbetaId": "T21n1292",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1292",
+      "gretilFile": "dhvajkeu.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'akasa-v1',
-        index: 1,
-        iast: 'namo ākāśagarbhāya | oṃ ārya kamali mauli svāhā ||',
-        classicalTranslitZh: '南牟 阿迦舍揭婆耶 | 唵 阿唎耶 迦摩哩 摩利 娑嚩诃 ||',
-        modernPhoneticZh: '拿摩 阿嘎沙嘎₍尔₎巴呀 | 嗡 阿₍哩₎呀 嘎玛利 毛利 ₍斯₎瓦哈',
-        meaningZh:
-          '归命虚空藏菩萨！嗡！圣尊、顶戴莲华如意宝冠者啊！祈赐无尽闻持智慧与福德，圆满成就！',
-        meaningEn:
-          'Homage to Ākāśagarbha (Womb of Space)! Oṃ! O Noble One crowned with the Lotus Crest-Jewel, Svāhā!',
-        words: [
-          { iast: 'ākāśagarbhāya', stem: 'ākāśa-garbha', grammar: 'Dat. sg. m.', transliterationZh: '阿迦舍揭婆耶', meaningZh: '向虚空藏菩萨', meaningEn: 'to Ākāśagarbha' },
-          { iast: 'kamali mauli', stem: 'kamalin-maulin', grammar: 'Voc. sg.', transliterationZh: '迦摩哩 摩利', meaningZh: '戴莲华与摩尼宝冠之圣尊', meaningEn: 'O Lotus-Crowned One' },
-        ],
+        "id": "dhvajagra-v-1",
+        "index": 1,
+        "iast": "namo ratnatrayāya | namo bhagavate dhvajāgrarājāya tathāgatāyārhate samyaksaṃbuddhāya",
+        "classicalTranslitZh": "曩谟 啰怛曩怛啰夜耶 | 曩谟 婆誐嚩帝 特嚩惹屹啰啰惹耶 怛他櫱跢夜啰曷帝 三藐三没驮耶",
+        "modernPhoneticZh": "拿摩 啦₍特₎拿-₍特₎啦呀呀 | 拿摩 巴嘎瓦帝 ₍德₎瓦佳₍格₎啦啦佳呀 达他嘎达-呀₍尔₎哈帝 萨₍姆₎呀₍克₎-桑布达呀",
+        "meaningZh": "归命三宝！归命世尊宝幢顶王如来、应供、正等正觉！",
+        "meaningEn": "Homage to the Three Jewels! Homage to Bhagavān Tathāgata Dhvajāgrarāja (King of the Banner-Crest)!",
+        "tangNoteZh": "第1句 · 归敬宝幢顶王如来",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ratnatrayāya",
+            "stem": "ratnatraya",
+            "grammar": "Samāsa · 三宝 · Dat. Sg. · 为格单数",
+            "transliterationZh": "喝啰怛那哆啰夜耶（拼读参考：啦₍特₎拿-₍特₎啦呀呀）",
+            "meaningZh": "向佛法僧三宝",
+            "meaningEn": "to/for the Three Jewels (Buddha, Dharma, Saṃgha)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhagavate",
+            "stem": "bhagavate",
+            "grammar": "Dat.Sg. · 为格单数",
+            "transliterationZh": "薄伽伐帝 / 婆誐嚩帝（拼读参考：巴嘎瓦帝）",
+            "meaningZh": "向世尊（薄伽梵）致敬",
+            "meaningEn": "to the Blessed One, World-Honored Lord",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "dhvajāgrarājāya",
+            "stem": "dhvajāgra-āja",
+            "grammar": "Samāsa · 复合词 (Dat. Sg. · 为格单数)",
+            "transliterationZh": "驮嚩惹(引)伽啰啰(引)惹(引)耶（拼读参考：₍德₎瓦佳₍格₎啦啦佳呀）",
+            "meaningZh": "向顶部计都来诣",
+            "meaningEn": "top of a banner + to",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tathāgatāyārhate",
+            "stem": "tathāgata-āya-ārhata",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "怛他(引)誐多夜哩诃帝（拼读参考：达他嘎达-呀₍尔₎哈帝）",
+            "meaningZh": "如来·出·堪敬尊",
+            "meaningEn": "Tathāgata + income",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'akasa-v2',
-        index: 2,
-        iast: 'oṃ vajraratna oṃ trāṃ svāhā ||',
-        classicalTranslitZh: '唵 嚩日啰啰怛曩 唵 怛囕 娑嚩诃（虚空藏菩萨宝部心真言）||',
-        modernPhoneticZh: '嗡 瓦₍吉₎啦啦₍特₎拿 嗡 ₍特₎朗 ₍斯₎瓦哈',
-        meaningZh:
-          '【虚空藏菩萨如意宝珠心咒】嗡！金刚摩尼宝，虚空宝藏根本种子字（怛囕 trāṃ），圆满所求福智资粮，娑嚩诃！',
-        meaningEn:
-          '[Ākāśagarbha Wish-Fulfilling Gem Mantra] Oṃ Vajraratna Oṃ Trāṃ Svāhā!',
-        words: [
-          { iast: 'trāṃ', stem: 'trāṃ', grammar: 'Ratna-kula Bīja', transliterationZh: '怛囕', meaningZh: '宝部与虚空藏菩萨根本种子字', meaningEn: 'seed syllable of the Ratna family and Ākāśagarbha' },
-        ],
+        "id": "dhvajagra-v-2",
+        "index": 2,
+        "iast": "tadyathā — oṃ jaya jaya vijaya vijaya jayavāhini śaṅkari śaṅkari prabhañjani prabhañjani sarvaśatrūṇām",
+        "classicalTranslitZh": "怛你也他 — 唵 惹曵 惹曵 尾惹曵 尾惹曵 惹野嚩呬尼 饷迦哩 饷迦哩 钵啰伴惹尼 钵啰伴惹尼 萨嚩设咄噜喃",
+        "modernPhoneticZh": "达₍地₎呀他 | 嗡 佳呀 佳呀 维佳呀 维佳呀 佳呀瓦嘿尼 商嘎里 商嘎里 ₍普₎啦班佳尼 ₍普₎啦班佳尼 萨₍尔₎瓦-沙₍特₎鲁南",
+        "meaningZh": "即说咒曰：嗡！胜利、胜利，尊胜、尊胜！运载胜利母、施吉祥母、彻底摧破一切怨敌障难母！",
+        "meaningEn": "Namely: Oṃ! Victory, supreme victory! O Bearer of Triumph, Auspicious Śaṅkarī, Shatterer of all adversaries!",
+        "tangNoteZh": "第2句 · 房山石经 pF28p0186b0401 对音",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaya",
+            "stem": "jaya",
+            "grammar": "Impv./Noun · 尊胜吉祥",
+            "transliterationZh": "惹耶（拼读参考：佳呀）",
+            "meaningZh": "胜伏、最胜吉祥！",
+            "meaningEn": "conquer! victory!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaya",
+            "stem": "jaya",
+            "grammar": "Impv./Noun · 尊胜吉祥",
+            "transliterationZh": "惹耶（拼读参考：佳呀）",
+            "meaningZh": "胜伏、最胜吉祥！",
+            "meaningEn": "conquer! victory!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vijaya",
+            "stem": "vijaya",
+            "grammar": "Noun/Impv. · 殊胜尊胜",
+            "transliterationZh": "尾惹耶（拼读参考：维佳呀）",
+            "meaningZh": "最胜尊胜、普胜一切！",
+            "meaningEn": "supreme victory! triumph!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vijaya",
+            "stem": "vijaya",
+            "grammar": "Noun/Impv. · 殊胜尊胜",
+            "transliterationZh": "尾惹耶（拼读参考：维佳呀）",
+            "meaningZh": "最胜尊胜、普胜一切！",
+            "meaningEn": "supreme victory! triumph!",
+            "origin": "derived-reference"
+          }
+        ]
       },
-    ],
+      {
+        "id": "dhvajagra-v-3",
+        "index": 3,
+        "iast": "jambhaya jambhaya stambhaya stambhaya mohaya mohaya bhagavati jayavāhini matha matha pramatha pramatha grasa grasa hasa hasa hūṃ hūṃ",
+        "classicalTranslitZh": "染婆野 染婆野 娑担婆野 娑担婆野 谟贺野 谟贺野 婆誐嚩底 惹野嚩呬尼 末他 末他 钵啰末他 钵啰末他 屹啰娑 屹啰娑 贺娑 贺娑 吽 吽",
+        "modernPhoneticZh": "詹巴呀 詹巴呀 ₍斯₎丹巴呀 ₍斯₎丹巴呀 摩哈呀 摩哈呀 巴嘎瓦帝 佳呀瓦嘿尼 玛他 玛他 ₍普₎啦玛他 ₍普₎啦玛他 ₍格₎啦萨 ₍格₎啦萨 哈萨 哈萨 吽 吽",
+        "meaningZh": "制伏、镇定、止息迷乱！世尊尊胜母啊，摧伏魔军、吞尽恶毒、无畏欢笑，吽、吽！",
+        "meaningEn": "Subdue, immobilize, confound! O Bhagavatī Bearer of Victory, churn, crush, devour all negativity, laugh fearlessly, Hūṃ Hūṃ!",
+        "tangNoteZh": "第3句 · 尊胜幢佛母威德降魔句",
+        "words": [
+          {
+            "iast": "jambhaya",
+            "stem": "jambhaya",
+            "grammar": "Impv.2.Sg. · 摧折调伏",
+            "transliterationZh": "瞻婆耶（拼读参考：詹巴呀）",
+            "meaningZh": "请调伏、摧折憍慢魔障！",
+            "meaningEn": "crush! quell jaws of hostility!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jambhaya",
+            "stem": "jambhaya",
+            "grammar": "Impv.2.Sg. · 摧折调伏",
+            "transliterationZh": "瞻婆耶（拼读参考：詹巴呀）",
+            "meaningZh": "请调伏、摧折憍慢魔障！",
+            "meaningEn": "crush! quell jaws of hostility!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "stambhaya",
+            "stem": "stambhaya",
+            "grammar": "Impv.2.Sg. · 制止定缚",
+            "transliterationZh": "娑担婆耶（拼读参考：₍斯₎丹巴呀）",
+            "meaningZh": "请制止、令暴恶魔障止息不动！",
+            "meaningEn": "immobilize! halt hostile forces!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "stambhaya",
+            "stem": "stambhaya",
+            "grammar": "Impv.2.Sg. · 制止定缚",
+            "transliterationZh": "娑担婆耶（拼读参考：₍斯₎丹巴呀）",
+            "meaningZh": "请制止、令暴恶魔障止息不动！",
+            "meaningEn": "immobilize! halt hostile forces!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mohaya",
+            "stem": "mohaya",
+            "grammar": "Impv.2.Sg. · 迷伏怨魔",
+            "transliterationZh": "谟诃耶（拼读参考：摩哈呀）",
+            "meaningZh": "请令怨魔迷闷失其毒力！",
+            "meaningEn": "bewilder hostile forces!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mohaya",
+            "stem": "mohaya",
+            "grammar": "Impv.2.Sg. · 迷伏怨魔",
+            "transliterationZh": "谟诃耶（拼读参考：摩哈呀）",
+            "meaningZh": "请令怨魔迷闷失其毒力！",
+            "meaningEn": "bewilder hostile forces!",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-4",
+        "index": 4,
+        "iast": "lambodari trinetre caturmukhe caturvaktre caturdaṃṣṭre caturbhuje asimusalakhaḍgatriśūlavajradhāriṇi rakṣa rakṣa mām",
+        "classicalTranslitZh": "揽冒娜哩 底哩宁底隶 拶咄目契 拶咄嚩讫底隶 拶咄能瑟窒隶 拶咄部荠 阿枲母娑攞朅誐底哩戍攞嚩日啰驮哩抳 啰乞洒 啰乞洒 𤚥",
+        "modernPhoneticZh": "兰博达里 ₍特₎里内₍特₎雷 佳度₍尔₎穆开 佳度₍尔₎瓦₍克特₎雷 佳度₍尔₎当₍师特₎雷 佳度₍尔₎布杰 阿悉穆萨啦卡₍德₎嘎₍特₎里舒啦瓦₍吉₎啦达里尼 啦₍克₎沙 啦₍克₎沙 芒",
+        "meaningZh": "广大腹藏母、具三慧眼、四面四口、四金刚牙、四臂执持宝剑、杵槌、利剑、三戟叉与金刚杵之总持母啊，请守护我、守护我！",
+        "meaningEn": "O Three-Eyed, Four-Faced, Four-Armed Holder of Sword, Mace, Trident, and Vajra — guard and protect me!",
+        "tangNoteZh": "第4句 · 尊胜幢臂印佛母身相法器赞句",
+        "words": [
+          {
+            "iast": "lambodari",
+            "stem": "lambodara",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "蓝冒捺哩（拼读参考：兰博达里）",
+            "meaningZh": "腹垂尊",
+            "meaningEn": "O having a large belly; of Ganeśa",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "trinetre",
+            "stem": "tri-netra",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "怛哩祢怛隶（拼读参考：₍特₎里内₍特₎雷）",
+            "meaningZh": "三眼目",
+            "meaningEn": "three + O eye",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "caturmukhe",
+            "stem": "caturmukha",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "者都哩母契（拼读参考：佳度₍尔₎穆开）",
+            "meaningZh": "神明尊",
+            "meaningEn": "O four faces; four-faced, of gods / in four faces; four-faced, of gods",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "caturvaktre",
+            "stem": "catur-vaktra",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "者都哩嚩羯怛隶（拼读参考：佳度₍尔₎瓦₍克特₎雷）",
+            "meaningZh": "四面目",
+            "meaningEn": "four + O meters",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "caturdaṃṣṭre",
+            "stem": "catur-daṃṣṭra",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "者都哩昙瑟吒隶（拼读参考：佳度₍尔₎当₍师特₎雷）",
+            "meaningZh": "四牙尊",
+            "meaningEn": "four + O large tooth",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "caturbhuje",
+            "stem": "caturbhuja",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "者都哩部逝（拼读参考：佳度₍尔₎布杰）",
+            "meaningZh": "神明尊",
+            "meaningEn": "O = , of gods / in = , of gods",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-5",
+        "index": 5,
+        "iast": "oṃ bhagavati hana hana daha daha paca paca matha matha pramatha pramatha dhuna dhuna vidhuna vidhuna hūṃ hūṃ phaṭ phaṭ bhañja bhañja mārasainyaṃ vidhvaṃsaya sarvaśatrūn",
+        "classicalTranslitZh": "唵 婆誐嚩底 贺曩 贺曩 诺贺 诺贺 跛左 跛左 末他 末他 钵啰末他 钵啰末他 度曩 度曩 尾度曩 尾度曩 吽 吽 癹吒 癹吒 伴惹 伴惹 么啰赛捻 尾特问娑野 萨嚩设咄嚧",
+        "modernPhoneticZh": "嗡 巴嘎瓦帝 哈拿 哈拿 达哈 达哈 巴佳 巴佳 玛他 玛他 ₍普₎啦玛他 ₍普₎啦玛他 杜拿 杜拿 维杜拿 维杜拿 吽 吽 帕₍特₎ 帕₍特₎ 班佳 班佳 玛啦赛₍尼₎央 维₍德₎旺萨呀 萨₍尔₎瓦沙₍特₎伦",
+        "meaningZh": "嗡！世尊佛母啊，击破、焚净、成熟、震落一切尘劳，吽吽、癹吒癹吒，摧折魔军、瓦解一切内外怨障！",
+        "meaningEn": "Oṃ! O Bhagavatī, strike, burn, ripen, shake off defilements, Hūṃ Hūṃ Phaṭ Phaṭ, shatter Mara’s hosts and disperse all foes!",
+        "tangNoteZh": "第5句 · 破除四魔军阵句",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhagavati",
+            "stem": "bhagavati",
+            "grammar": "Voc.Sg.F. · 佛母呼格",
+            "transliterationZh": "婆誐嚩底（拼读参考：巴嘎瓦帝）",
+            "meaningZh": "世尊佛母！（呼格）",
+            "meaningEn": "O Blessed Goddess / Bhagavatī!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hana",
+            "stem": "hana",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "诃曩（拼读参考：哈拿）",
+            "meaningZh": "击破怨魔与无明惑（贺曩）",
+            "meaningEn": "strike down afflictions and mara-forces!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hana",
+            "stem": "hana",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "诃曩（拼读参考：哈拿）",
+            "meaningZh": "击破怨魔与无明惑（贺曩）",
+            "meaningEn": "strike down afflictions and mara-forces!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daha",
+            "stem": "daha",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "捺诃（拼读参考：达哈）",
+            "meaningZh": "智火焚净一切罪垢（娜贺）",
+            "meaningEn": "incinerate all defilements with wisdom-fire!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daha",
+            "stem": "daha",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "捺诃（拼读参考：达哈）",
+            "meaningZh": "智火焚净一切罪垢（娜贺）",
+            "meaningEn": "incinerate all defilements with wisdom-fire!",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-6",
+        "index": 6,
+        "iast": "dhvajāgrakeyūre tiṭa tiṭa triṭa triṭa ulkādhāriṇi trailokyapramathani vidhvaṃsaya parasainyaṃ rakṣa rakṣa mām",
+        "classicalTranslitZh": "特嚩惹屹啰计逾隶 底哩吒 底哩吒 勃哩吒 勃哩吒 嗢勒迦驮哩抳 怛赖路枳野钵啰末他尼 尾特问娑野 么啰赛捻 啰乞洒 啰乞洒 𤚥",
+        "modernPhoneticZh": "₍德₎瓦佳₍格₎啦给尤雷 帝达 帝达 ₍特₎里达 ₍特₎里达 乌₍尔₎嘎达里尼 ₍特₎来洛₍克₎呀-₍普₎啦玛他尼 维₍德₎旺萨呀 巴啦赛₍尼₎央 啦₍克₎沙 啦₍克₎沙 芒",
+        "meaningZh": "尊胜宝幢顶臂严母、执持大智火炬照破三界无明母啊！请摧散一切外魔侵扰，周遍护佑于我！",
+        "meaningEn": "O Crest-Banner Armlet Savioress, Torch-Bearer illuminating the three worlds, scatter hostile forces and protect me!",
+        "tangNoteZh": "第6句 · 尊胜幢臂印本尊名号核心句",
+        "words": [
+          {
+            "iast": "dhvajāgrakeyūre",
+            "stem": "dhvajāgrakeyūrā",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "驮嚩惹(引)伽啰计愉隶（拼读参考：₍德₎瓦佳₍格₎啦给尤雷）",
+            "meaningZh": "胜幢臂印陀罗尼经尊",
+            "meaningEn": "O Sheng Chuang Bi Yin Tuoluoni Jing / in Sheng Chuang Bi Yin Tuoluoni Jing",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tiṭa",
+            "stem": "ta-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "底吒（拼读参考：帝达）",
+            "meaningZh": "真如实际·断除憍慢执障",
+            "meaningEn": "immutable Suchness & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tiṭa",
+            "stem": "ta-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "底吒（拼读参考：帝达）",
+            "meaningZh": "真如实际·断除憍慢执障",
+            "meaningEn": "immutable Suchness & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "triṭa",
+            "stem": "ta-ra-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "怛哩吒（拼读参考：₍特₎里达）",
+            "meaningZh": "真如实际·清净离诸尘垢·断除憍慢执障",
+            "meaningEn": "immutable Suchness & stainless purity free from dust & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "triṭa",
+            "stem": "ta-ra-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "怛哩吒（拼读参考：₍特₎里达）",
+            "meaningZh": "真如实际·清净离诸尘垢·断除憍慢执障",
+            "meaningEn": "immutable Suchness & stainless purity free from dust & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ulkādhāriṇi",
+            "stem": "ulkā",
+            "grammar": "Voc. Fem. · 执持尊",
+            "transliterationZh": "坞攞迦(引)驮(引)哩抳（拼读参考：乌₍尔₎嘎达里尼）",
+            "meaningZh": "执持炬 / 星尊",
+            "meaningEn": "O holder of meteor, firebrand, flame",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-7",
+        "index": 7,
+        "iast": "cala cala cili cili culu culu kala kala kili kili kulu kulu muñcāṭṭahāsaṃ vidhvaṃsaya parasainyaṃ bhramaya",
+        "classicalTranslitZh": "拶攞 拶攞 唧理 唧理 祖虏 祖虏 羯攞 羯攞 枳理 枳理 矩虏 矩虏 扪左吒贺娑 尾特问娑野 么啰赛捻 勃啰么野",
+        "modernPhoneticZh": "佳啦 佳啦 吉利 吉利 主卢 主卢 嘎啦 嘎啦 给利 给利 古卢 古卢 闷佳达哈桑 维₍德₎旺萨呀 巴啦赛₍尼₎央 ₍布₎啦玛呀",
+        "meaningZh": "神通奋迅、威光震动，发大无畏师子笑声，令一切魔怨军阵溃散远离！",
+        "meaningEn": "Move swiftly, resound with fearless thunderous laughter, scattering all opposing forces of delusion!",
+        "tangNoteZh": "第7句 · 六叠声韵威震句",
+        "words": [
+          {
+            "iast": "cala",
+            "stem": "cala",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "者攞（拼读参考：佳啦）",
+            "meaningZh": "震动警觉、破除昏沉（左攞）",
+            "meaningEn": "stir awake and shake off delusion!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "cala",
+            "stem": "cala",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "者攞（拼读参考：佳啦）",
+            "meaningZh": "震动警觉、破除昏沉（左攞）",
+            "meaningEn": "stir awake and shake off delusion!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "cili",
+            "stem": "cili",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "只里（拼读参考：吉利）",
+            "meaningZh": "积集一切白净善法功德（唧哩）",
+            "meaningEn": "gathering pure Dharmic merits & radiance",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "cili",
+            "stem": "cili",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "只里（拼读参考：吉利）",
+            "meaningZh": "积集一切白净善法功德（唧哩）",
+            "meaningEn": "gathering pure Dharmic merits & radiance",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "culu",
+            "stem": "culu",
+            "grammar": "Mantra-Impv. · 清净祈请",
+            "transliterationZh": "主噜（拼读参考：主卢）",
+            "meaningZh": "鼓动法水涤除罪垢（主嚧）",
+            "meaningEn": "stir the purifying waters of compassion!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "culu",
+            "stem": "culu",
+            "grammar": "Mantra-Impv. · 清净祈请",
+            "transliterationZh": "主噜（拼读参考：主卢）",
+            "meaningZh": "鼓动法水涤除罪垢（主嚧）",
+            "meaningEn": "stir the purifying waters of compassion!",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-8",
+        "index": 8,
+        "iast": "buddhasatyena dharmasatyena saṃghasatyena satyavādināṃ satyena | buddhasatyaṃ mātikrama dharmasatyaṃ mātikrama saṃghasatyaṃ mātikrama satyavādināṃ satyaṃ mātikrama",
+        "classicalTranslitZh": "没驮萨底曵曩 达磨萨底曵曩 僧伽萨底曵曩 萨底野嚩尼难萨底曵曩 | 没驮萨底演么底讫啰么 达磨萨底演么底讫啰么 僧伽萨底演么底讫啰么 萨底野嚩尼南萨底演曩底讫啰么",
+        "modernPhoneticZh": "布达-萨₍蒂₎耶拿 达₍尔₎玛-萨₍蒂₎耶拿 桑嘎-萨₍蒂₎耶拿 萨₍蒂₎呀瓦地南 萨₍蒂₎耶拿 | 布达萨₍蒂₎央 玛帝₍克₎啦玛 达₍尔₎玛萨₍蒂₎央 玛帝₍克₎啦玛 桑嘎萨₍蒂₎央 玛帝₍克₎啦玛 萨₍蒂₎呀瓦地南 萨₍蒂₎央 玛帝₍克₎啦玛",
+        "meaningZh": "依佛谛实故、依法谛实故、依僧谛实故、依一切实语圣者谛实故！莫违越佛之真实誓句、莫违越法之真实誓句、莫违越僧与实语圣者之真实誓句！",
+        "meaningEn": "By the truth of the Buddha, Dharma, Saṃgha, and Speakers of Truth — transgress not the truth of the Three Jewels!",
+        "tangNoteZh": "第8句 · 三宝谛实语金刚敕令句",
+        "words": [
+          {
+            "iast": "buddhasatyena",
+            "stem": "buddha-satya",
+            "grammar": "Samāsa · 复合词 (Inst. Sg. · 具格单数)",
+            "transliterationZh": "没驮萨底曳曩（拼读参考：布达-萨₍蒂₎耶拿）",
+            "meaningZh": "以佛陀谛",
+            "meaningEn": "Buddha + by",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "dharmasatyena",
+            "stem": "dharman-asatya",
+            "grammar": "Samāsa · 复合词 (Inst. Sg. · 具格单数)",
+            "transliterationZh": "达哩摩萨底曳曩（拼读参考：达₍尔₎玛-萨₍蒂₎耶拿）",
+            "meaningZh": "以自性非真实",
+            "meaningEn": "nature + by",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saṃghasatyena",
+            "stem": "saṃgha-satya",
+            "grammar": "Samāsa · 复合词 (Inst. Sg. · 具格单数)",
+            "transliterationZh": "三伽萨底曳曩（拼读参考：桑嘎-萨₍蒂₎耶拿）",
+            "meaningZh": "以圣僧伽谛",
+            "meaningEn": "Saṃgha + by",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "satyavādināṃ",
+            "stem": "sa-ta-ya",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "萨底耶嚩(引)地喃(引)（拼读参考：萨₍蒂₎呀瓦地南）",
+            "meaningZh": "一切诸谛圆满·真如实际·一乘如实之道",
+            "meaningEn": "all-pervading truth & auspiciousness & immutable Suchness & supreme vehicle of awakening",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "satyena",
+            "stem": "satya",
+            "grammar": "Noun/Adj. · 真谛/真实 · Inst. Sg. · 具格单数",
+            "transliterationZh": "萨底曳曩（拼读参考：萨₍蒂₎耶拿）",
+            "meaningZh": "以谛、真实不虚语",
+            "meaningEn": "by/through truth, reality, veracity",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "buddhasatyaṃ",
+            "stem": "buddha-satya",
+            "grammar": "Samāsa · 复合词 (Acc./Nom. Sg. · 业格/主格单数)",
+            "transliterationZh": "没驮萨底演（拼读参考：布达萨₍蒂₎央）",
+            "meaningZh": "佛陀谛",
+            "meaningEn": "Buddha + truth",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-9",
+        "index": 9,
+        "iast": "lambodari kuṭa kuṭa kuṭṭa kuṭṭa rudram ānaya viṣṇum ānaya candrasūryāv ānaya trailokyādhipatim ānaya sarvadeva-yakṣa-rākṣasa-gandharva-kinnara-mahoragān ānaya rakṣa rakṣa māṃ sarvopasargebhyaḥ",
+        "classicalTranslitZh": "揽冒娜哩 矩吒 矩吒 䓛吒 䓛吒 噜捺啰么曩野 尾瑟拏么曩野 赞捺啰素哩野么曩野 怛赖路枳野遏地钵底么曩野 萨嚩祢嚩药乞洒啰乞察娑巘驮嚩紧曩啰么护啰誐么曩野 啰乞洒 啰乞洒 𤚥 萨舞钵萨艺毗药",
+        "modernPhoneticZh": "兰博达里 古达 古达 古达 古达 鲁₍德₎朗 阿拿呀 维₍师₎嫩 阿拿呀 詹₍德₎啦苏₍哩₎呀₍夫₎ 阿拿呀 ₍特₎来洛₍克₎呀地巴丁 阿拿呀 萨₍尔₎瓦叠瓦-呀₍克₎沙-啦₍克₎沙萨-甘达₍尔₎瓦-金拿啦-玛霍啦甘 阿拿呀 啦₍克₎沙 啦₍克₎沙 芒 萨₍尔₎沃-巴萨₍尔₎给₍比₎呀₍赫₎",
+        "meaningZh": "召请大自在天、遍入天、日月二天、三界主帝释天及天龙八部一切药叉、罗刹、乾闼婆、紧那罗、摩睺罗伽悉来护法，护我远离一切横祸灾厄！",
+        "meaningEn": "Summon Rudra, Viṣṇu, Sun and Moon, the Lord of the Three Worlds (Indra), and the Eight Classes of Devas and Nāgas to guard me from all calamities!",
+        "tangNoteZh": "第9句 · 敕召帝释诸天八部护身句",
+        "words": [
+          {
+            "iast": "lambodari",
+            "stem": "lambodara",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "蓝冒捺哩（拼读参考：兰博达里）",
+            "meaningZh": "腹垂尊",
+            "meaningEn": "O having a large belly; of Ganeśa",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kuṭa",
+            "stem": "ka-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "矩吒（拼读参考：古达）",
+            "meaningZh": "造作离相·断除憍慢执障",
+            "meaningEn": "freedom from karmic agency & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kuṭa",
+            "stem": "ka-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "矩吒（拼读参考：古达）",
+            "meaningZh": "造作离相·断除憍慢执障",
+            "meaningEn": "freedom from karmic agency & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kuṭṭa",
+            "stem": "kuṭṭa",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "矩怛吒（拼读参考：古达）",
+            "meaningZh": "摧碎",
+            "meaningEn": "sqashing, stamping, crushing, hammering",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kuṭṭa",
+            "stem": "kuṭṭa",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "矩怛吒（拼读参考：古达）",
+            "meaningZh": "摧碎",
+            "meaningEn": "sqashing, stamping, crushing, hammering",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "rudram",
+            "stem": "rudra",
+            "grammar": "Acc./Nom. Sg. · 业格/主格单数",
+            "transliterationZh": "噜捺览（拼读参考：鲁₍德₎朗）",
+            "meaningZh": "紧恶",
+            "meaningEn": "of gods; of the god of tempests , ruler of the Maruts, his sons, the Rudras or Maruts",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "dhvajagra-v-10",
+        "index": 10,
+        "iast": "raṅga raṅga raṅgāpaya raṅgāpaya jvala jvala puṣpamālini rundha rundha riṭi riṭi bhṛkuṭīmukhi parasainya-kulotsādanakari ha ha hi hi hu hu he he riṇi riṇi riṇipati jambhadhvaje buddhāvalokite sarvatathāgatāvalokite svāhā | guṇarājaprabhāse svāhā | sūryārkavimale svāhā | candrārkavimale svāhā | sarvagrahanakṣatradhemīkaraṇe svāhā",
+        "classicalTranslitZh": "𠻴誐 𠻴誐 𠻴誐跛野 𠻴誐跛野 入嚩攞 入嚩攞 补涩跛么理尼 唧吒 唧吒 哩吒 哩吒 勃哩矩置穆企 么啰赛捻矩路蹉娜曩羯哩 贺贺 呬呬 护护 係係 哩抳 哩抳 哩抳钵底 染母特嚩荠 没驮尾路枳帝 萨嚩怛他櫱跢尾路枳帝 娑嚩诃 | 麌拏啰惹钵啰婆细 娑嚩诃 | 素哩野啰迦尾么隶 娑嚩诃 | 赞捺啰啰迦尾么隶 娑嚩诃 | 萨嚩屹啰贺诺乞察怛啰𠆙弭羯啰妳 娑嚩诃",
+        "modernPhoneticZh": "朗嘎 朗嘎 朗嘎巴呀 朗嘎巴呀 ₍吉₎瓦啦 ₍吉₎瓦啦 布₍师₎巴玛利尼 伦达 伦达 里蒂 里蒂 ₍布₎日古蒂穆奇 巴啦赛₍尼₎呀-古洛₍特₎萨达拿嘎里 哈 哈 嘿 嘿 呼 呼 嘿 嘿 里尼 里尼 里尼巴帝 詹巴₍德₎瓦杰 布达-瓦洛给帝 萨₍尔₎瓦-达他嘎达-瓦洛给帝 ₍斯₎瓦哈 | 古拿啦佳₍普₎啦巴塞 ₍斯₎瓦哈 | 苏₍哩₎呀₍尔₎嘎维玛雷 ₍斯₎瓦哈 | 詹₍德₎啦₍尔₎嘎维玛雷 ₍斯₎瓦哈 | 萨₍尔₎瓦-₍格₎啦哈拿₍克₎沙₍特₎啦叠米嘎啦内 ₍斯₎瓦哈",
+        "meaningZh": "大智光焰炽燃、妙花鬘母、忿怒颦眉破魔母！诸佛及一切如来慈眼同所鉴照尊，娑嚩诃！功德王光明母，娑嚩诃！日月离垢清净光母，娑嚩诃！调伏一切九曜二十八宿恶星灾煞母，圆满吉祥，娑嚩诃！",
+        "meaningEn": "Blaze forth, O Flower-Garlanded Savioress! Beheld by all Buddhas and Tathāgatas, Svāhā! Radiance of the King of Virtues, Svāhā! Stainless Solar and Lunar Light, Svāhā! Pacifier of all planets and constellations, Svāhā!",
+        "tangNoteZh": "第10句 · 五重娑嚩诃吉祥结印（全咒圆满）",
+        "words": [
+          {
+            "iast": "raṅga",
+            "stem": "raṅga",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "啰仰誐（拼读参考：朗嘎）",
+            "meaningZh": "颜料",
+            "meaningEn": "colour, hue; theatre, play-house, stage, arena",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "raṅga",
+            "stem": "raṅga",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "啰仰誐（拼读参考：朗嘎）",
+            "meaningZh": "颜料",
+            "meaningEn": "colour, hue; theatre, play-house, stage, arena",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "raṅgāpaya",
+            "stem": "raṅga",
+            "grammar": "Caus. Impv. · 使动祈使式",
+            "transliterationZh": "啰仰誐(引)跛耶（拼读参考：朗嘎巴呀）",
+            "meaningZh": "祈请令颜料",
+            "meaningEn": "cause to colour, hue; theatre, play-house, stage, arena!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "raṅgāpaya",
+            "stem": "raṅga",
+            "grammar": "Caus. Impv. · 使动祈使式",
+            "transliterationZh": "啰仰誐(引)跛耶（拼读参考：朗嘎巴呀）",
+            "meaningZh": "祈请令颜料",
+            "meaningEn": "cause to colour, hue; theatre, play-house, stage, arena!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jvala",
+            "stem": "jvala",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "日嚩攞（拼读参考：₍吉₎瓦啦）",
+            "meaningZh": "炽燃光明、放光普照（入嚩攞）",
+            "meaningEn": "blaze forth with wisdom radiance!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jvala",
+            "stem": "jvala",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "日嚩攞（拼读参考：₍吉₎瓦啦）",
+            "meaningZh": "炽燃光明、放光普照（入嚩攞）",
+            "meaningEn": "blaze forth with wisdom radiance!",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 6. 智炬如来心破地狱陀罗尼 (Jñānolkā)
-  // ============================================================================
   {
-    id: 'jnanolka-naraka-vidarana',
-    titleZh: '智炬如来心破地狱陀罗尼',
-    titleSanskritIast: 'Jñānolkā-tathāgata-hṛdaya-narakavidāraṇa-dhāraṇī',
-    titleEnglish: 'Torch of Wisdom Tathāgata (Jñānolkā) Hell-Shattering Dhāraṇī',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T19n1024',
-    translatorZh: '（唐）于阗国三藏提云般若 译',
-    sutraSourceZh: '《佛说智炬陀罗尼经》(T19n1024)',
-    deityZh: '智炬如来 (Jñānolkā-Tathāgata)',
-    meritsAndSummaryZh:
-      '《智炬陀罗尼经》载：若有众生造作五逆十恶堕于阿鼻地狱，若人诵此智炬如来心破地狱陀罗尼一遍，地狱即碎为微尘，其中苦恼众生悉得往生三十三天或诸佛净土。',
-    recitationTipsZh:
-      '咒中「bhedaya bhedaya（破除、破除）」「vidhvaṃsaya（彻底粉碎）」「viśodhaya（彻底净治）」直指智光破暗、拔济恶趣之力。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T19n1024',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T19/T19n1024.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n1024',
-      editionCitation: 'CBETA T19n1024 《佛说智炬陀罗尼经》.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T19n1024 原典。',
+    "id": "sakrendra-jivitapala-dharani",
+    "titleZh": "天帝释护命法门陀罗尼（帝释天护命神咒 · 房山石经本）",
+    "titleSanskritIast": "Śakrendra-jīvitapāla-dharmaparyāya-dhāraṇī",
+    "titleEnglish": "Lord Śakra Indra’s Life-Protecting Dharma-Gate Dhāraṇī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "F28n1071 (pF28p0245b1501)",
+    "translatorZh": "（辽）大契丹国师通理大师行琳 集《释教最上乘秘密藏陁罗尼集》卷二十八",
+    "sutraSourceZh": "《房山石经·释教最上乘秘密藏陁罗尼集》卷二十八 (F28n1071 pF28p0245b1501)",
+    "deityZh": "天帝释 / 帝释天主 (Śakra Devānām Indra)",
+    "meritsAndSummaryZh": "辽代房山云居寺石经《释教最上乘秘密藏陁罗尼集》卷二十八专条刊刻之《天帝释护命法门陁罗尼》（俗称「天帝神咒 / 帝释天神咒 / 帝天神咒」）。专司护持修行者寿命慧命、遮止非时横难与鬼神疫障，全本十二短句完整收录。",
+    "recitationTipsZh": "严格依据房山石经 F28n1071 (pF28p0245b1501) 原刻十二句分章与梵音还原校订。",
+    "provenance": {
+      "sourceType": "Academic-Critical-Edition",
+      "editionCitation": "房山石经 F28n1071 卷二十八 pF28p0245b1501《天帝释护命法门陁罗尼》.",
+      "manuscriptNotesZh": "直接采自本库 DB1 房山石经原刻文本（全12分句完整无缺）。"
     },
-    verses: [
+    "verses": [
       {
-        id: 'jnanolka-v1',
-        index: 1,
-        iast: 'namaḥ aṣṭāśīti-koṭibhyaḥ samyaksaṃbuddhakoṭīnām | oṃ jñānāvabhāse dhiri dhiri hūṃ ||',
-        classicalTranslitZh:
-          '曩谟 阿瑟吒始底喃 三藐三没驮俱胝喃 | 唵 枳娘曩嚩婆细 地哩 地哩 吽 ||',
-        modernPhoneticZh:
-          '拿玛₍赫₎ 阿₍师₎达希帝-果蒂₍比₎呀₍赫₎ 萨₍姆₎呀₍克₎-桑布达果蒂南 | 嗡 ₍吉尼₎亚拿瓦巴塞 地里 地里 吽',
-        meaningZh:
-          '归命八十俱胝正等正觉诸佛！嗡！智慧光明普照尊（智炬如来）啊！任持摄受、坚固护念，摧破黑暗恶趣，吽！',
-        meaningEn:
-          'Homage to the eighty crores of Perfectly Awakened Buddhas! Oṃ! O Radiance of Wisdom (Jñānāvabhāse), sustain, sustain, Hūṃ!',
-        words: [
-          { iast: 'jñānāvabhāse', stem: 'jñāna-avabhāsā', grammar: 'Voc. sg.', transliterationZh: '枳娘曩嚩婆细', meaningZh: '智慧光明遍照尊啊', meaningEn: 'O Illumination of Wisdom' },
-          { iast: 'dhiri dhiri', stem: '√dhṛ', grammar: 'Impv.', transliterationZh: '地哩 地哩', meaningZh: '摄持、救拔令安住', meaningEn: 'sustain, uphold' },
-        ],
+        "id": "sakrajiva-v-1",
+        "index": 1,
+        "iast": "tadyathā | bhinibharaṇi daṇḍamaraṇe ciṭiṭiṇi gaurigandhāri",
+        "classicalTranslitZh": "怛你也他 | 鼻尼婆啰抳 难拏么囒妳 止咤咤尼 遇哩巘驮哩",
+        "modernPhoneticZh": "达₍地₎呀他 | 比尼巴啦尼 丹达玛啦内 吉蒂蒂尼 高里甘达里",
+        "meaningZh": "即说天帝释护命真言曰：任持慧命、遮止杖罚死厄，皎洁持香护世天母！",
+        "meaningEn": "Namely: Sustainer of life, averting punishment and untimely death, O Radiant Gaurī and Gandhārī!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhinibharaṇi",
+            "stem": "bha-na-bha",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "毗你婆啰抳（拼读参考：比尼巴啦尼）",
+            "meaningZh": "破有相福德光·离名相假立·清净离诸尘垢（呼请加持）",
+            "meaningEn": "blessedness transcending existence & beyond nominal designation & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daṇḍamaraṇe",
+            "stem": "daṇḍa-maraṇa",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "昙拏摩啰宁（拼读参考：丹达玛啦内）",
+            "meaningZh": "金刚杖死尊",
+            "meaningEn": "staff + O to die",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ciṭiṭiṇi",
+            "stem": "ca-ṭa-ṭa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "只置置抳（拼读参考：吉蒂蒂尼）",
+            "meaningZh": "妙行迁变空·断除憍慢执障·离诸诤论无诤（呼请加持）",
+            "meaningEn": "awakened conduct beyond flux & cutting rigid pride & conflict-free peace (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gaurigandhāri",
+            "stem": "√dhār",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "豪哩俨驮(引)哩（拼读参考：高里甘达里）",
+            "meaningZh": "总持任持·妙行趣入（呼请加持）",
+            "meaningEn": "upholding (vocative invocation)",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'jnanolka-v2',
-        index: 2,
-        iast: 'tadyathā — jñāne jñāne mahājñāne jñānāvabhāse | bhedaya bhedaya sarvanarakān vidhvaṃsaya viśodhaya hūṃ phaṭ svāhā ||',
-        classicalTranslitZh:
-          '怛侄他 — 若泥 若泥 摩诃若泥 若那嚩婆细 | 陛陀耶 陛陀耶 萨嚩捺啰干 尾特呁萨耶 尾戌陀耶 吽 泮吒 娑嚩诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | ₍吉尼₎亚内 ₍吉尼₎亚内 玛哈₍吉尼₎亚内 ₍吉尼₎亚拿瓦巴塞 | 贝达呀 贝达呀 萨₍尔₎瓦-拿啦干 维₍德₎旺萨呀 维硕达呀 吽 帕₍特₎ ₍斯₎瓦哈',
-        meaningZh:
-          '即说咒曰：圣智、大圣智、智慧炬光明遍照尊！劈破、劈破一切地狱铁围，彻底粉碎三途苦轮、彻底清净罪障，吽、泮吒，圆满吉祥！',
-        meaningEn:
-          'Namely: O Wisdom, Great Wisdom, Illumination of Wisdom! Split open, shatter all hells, utterly demolish and purify all karmic bonds, Hūṃ Phaṭ Svāhā!',
-        words: [
-          { iast: 'bhedaya sarvanarakān', stem: '√bhid + sarva-naraka', grammar: 'Impv. + Acc. pl.', transliterationZh: '陛陀耶 萨嚩捺啰干', meaningZh: '破开一切地狱恶趣之门', meaningEn: 'shatter open all hell realms' },
-        ],
+        "id": "sakrajiva-v-2",
+        "index": 2,
+        "iast": "saramahaṇi vajrāntaroṇi ṭolamālini cakravāke",
+        "classicalTranslitZh": "萨啰么贺尼 嚩日囕多嚧抳 跓攞么理尼 作讫啰嚩计",
+        "modernPhoneticZh": "萨啦玛哈尼 瓦₍吉₎兰达洛尼 多啦玛利尼 佳₍克₎啦瓦给",
+        "meaningZh": "坚固大威德、金刚度脱护持、宝鬘严身、金轮法音宣流尊！",
+        "meaningEn": "Mighty Essence, Vajra-Deliverer, Garlanded One, Sovereign of the Wheel!",
+        "words": [
+          {
+            "iast": "saramahaṇi",
+            "stem": "√mah",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "萨啰摩诃抳（拼读参考：萨啦玛哈尼）",
+            "meaningZh": "广大殊胜·一切诸谛圆满（呼请加持）",
+            "meaningEn": "great (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajrāntaroṇi",
+            "stem": "va-ja-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "嚩日囕怛嚧抳（拼读参考：瓦₍吉₎兰达洛尼）",
+            "meaningZh": "最上真言离言说·生起不可得·尊胜·清净离诸尘垢（呼请加持）",
+            "meaningEn": "supreme ineffable speech & transcending birth & victorious & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ṭolamālini",
+            "stem": "ṭa-la-ma",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "都攞摩(引)里你（拼读参考：多啦玛利尼）",
+            "meaningZh": "断除憍慢执障·离一切相无相·无我大慈三昧（呼请加持）",
+            "meaningEn": "cutting rigid pride & freedom from conditioned marks & selfless great loving-kindness (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "cakravāke",
+            "stem": "cakravāka",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "者讫啰嚩(引)计（拼读参考：佳₍克₎啦瓦给）",
+            "meaningZh": "鸳鸯尊",
+            "meaningEn": "O the Cakravāka, a kind of goose or duck / in the Cakravāka, a kind of goose or duck",
+            "origin": "derived-reference"
+          }
+        ]
       },
-    ],
+      {
+        "id": "sakrajiva-v-3",
+        "index": 3,
+        "iast": "śavari śavari pramalati hanamadhyottāraṇi svāhā",
+        "classicalTranslitZh": "摄嚩哩 摄嚩哩 钵啰么攞底 贺曩么地喻多啰抳 娑嚩诃",
+        "modernPhoneticZh": "沙瓦里 沙瓦里 ₍普₎啦玛啦帝 哈拿玛₍地₎优达啦尼 ₍斯₎瓦哈",
+        "meaningZh": "山林护命神女、离垢清净、摧破中夭横难令安稳度脱，圆满吉祥，娑嚩诃！",
+        "meaningEn": "O Śavarī, Stainless Protector, rescuing from all mid-life perils and obstacles, Svāhā!",
+        "words": [
+          {
+            "iast": "śavari",
+            "stem": "śavas-ari",
+            "grammar": "Samāsa · 复合词 (Stem · 词干)",
+            "transliterationZh": "舍嚩哩（拼读参考：沙瓦里）",
+            "meaningZh": "优势踊跃",
+            "meaningEn": "superiority + eager",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śavari",
+            "stem": "śavas-ari",
+            "grammar": "Samāsa · 复合词 (Stem · 词干)",
+            "transliterationZh": "舍嚩哩（拼读参考：沙瓦里）",
+            "meaningZh": "优势踊跃",
+            "meaningEn": "superiority + eager",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "pramalati",
+            "stem": "pra-mala",
+            "grammar": "Samāsa · 复合词 (Pres. 3rd Sg. · 现在式单数)",
+            "transliterationZh": "钵啰摩攞底（拼读参考：₍普₎啦玛啦帝）",
+            "meaningZh": "转载垢染",
+            "meaningEn": "forward + stain",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hanamadhyottāraṇi",
+            "stem": "√nam+√tār",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "诃曩摩地瑜怛多啰抳（拼读参考：哈拿玛₍地₎优达啦尼）",
+            "meaningZh": "归命敬礼·救度超脱·因缘空寂大乐（呼请加持）",
+            "meaningEn": "bowing, ferrying across (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 7. 一字金轮佛顶真言 & 佛眼佛母真言 (Ekākṣara-uṣṇīṣacakra & Buddhalocanī)
-  // ============================================================================
   {
-    id: 'ekaksara-usnisacakra-buddhalocani',
-    titleZh: '一字金轮佛顶王真言（勃嚧唵）暨一切佛眼大吉祥佛母真言',
-    titleSanskritIast: 'Ekākṣara-uṣṇīṣacakra & Sarvabuddhalocanī Mahāvidyā',
-    titleEnglish: 'One-Syllable Golden Wheel Uṣṇīṣacakra (Bhrūṃ) & Buddhalocanī Mantras',
-    categoryId: 'supreme-mantras',
-    taishoNo: 'T19n0951 / T19n0966',
-    translatorZh: '（唐）不空三藏 译',
-    sutraSourceZh: '《一字佛顶轮王经》(T19n0951) / 《大妙金刚大甘露军拏利焰鬘炽盛佛顶经》(T19n0966)',
-    deityZh: '一字金轮佛顶尊 (Ekākṣara-Uṣṇīṣacakra) & 佛眼佛母 (Buddhalocanī)',
-    meritsAndSummaryZh:
-      '一字金轮咒「bhrūṃ（勃嚧唵）」为一切佛顶最上至尊王，其威神如转轮圣王金轮所向无碍。由于威光极盛，传统轨范规定诵一字金轮咒时必同诵「佛眼佛母真言」（能生一切诸佛之慈母眼），以调柔加持、速得圆满成就。',
-    recitationTipsZh:
-      '「bhrūṃ」为一字三合重音（bh + r + ū + ṃ），集摄法身、报身、化身三身功德于一音。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T19n0951',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T19/T19n0951.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n0951',
-      editionCitation: 'CBETA T19n0951 《一字佛顶轮王经》& T19n0966.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T19n0951 与 T19n0966 原典。',
+    "id": "samjna-mahayaksa-senapati-dharani",
+    "titleZh": "金光明最胜王经·僧慎尔耶药叉大将（散脂大将）根本陀罗尼",
+    "titleSanskritIast": "Saṃjñāya-mahāyakṣasenāpati-dhāraṇī",
+    "titleEnglish": "Golden Light Sūtra: Great Yakṣa General Saṃjñāya (Pañcika) Protection Dhāraṇī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T16n0665",
+    "translatorZh": "（唐）三藏法师义净 奉制译",
+    "sutraSourceZh": "《金光明最胜王经》卷八〈僧慎尔耶药叉大将品第十九〉(T16n0665)",
+    "deityZh": "僧慎尔耶药叉大将 / 散脂大将 (Saṃjñāya-Mahāyakṣasenāpati)",
+    "meritsAndSummaryZh": "二十八部药叉神众总帅散脂大将（僧慎尔耶大将）于《金光明最胜王经》亲宣之护经拥护神咒，能知一切众生心行，赐予辩才精气与金刚卫护。",
+    "recitationTipsZh": "mahāyakṣasenāpati 意为统领一切药叉军众之大元帅。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T16n0665 《金光明最胜王经》卷八〈僧慎尔耶药叉大将品第十九〉.",
+      "manuscriptNotesZh": "直接提取自 CBETA T16n0665.xml 原典〈僧慎尔耶药叉大将品第十九〉全文。",
+      "cbetaId": "T16n0665",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T16n0665",
+      "gretilFile": "bsu050_u.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'bhrum-v1',
-        index: 1,
-        iast: 'namaḥ samantabuddhānām | oṃ bhrūṃ ||',
-        classicalTranslitZh: '曩莫 三曼多没驮喃 | 唵 勃嚧唵(三合) ||',
-        modernPhoneticZh: '拿玛₍赫₎ 萨曼达-布达南 | 嗡 ₍部₎隆',
-        meaningZh:
-          '【一字金轮佛顶最上真言】归命普遍一切诸佛！嗡！勃嚧唵（一字金轮王无上法界体性智印）！',
-        meaningEn:
-          '[One-Syllable Golden Wheel Mantra] Homage to the Universal Buddhas! Oṃ Bhrūṃ!',
-        words: [
-          { iast: 'bhrūṃ', stem: 'bhrūṃ', grammar: 'Uṣṇīṣacakra Bīja', transliterationZh: '勃嚧唵', meaningZh: '一字金轮佛顶根本种子字', meaningEn: 'Supreme Uṣṇīṣacakra seed syllable' },
-        ],
+        "id": "samjnaya-v-1",
+        "index": 1,
+        "iast": "namo buddhāya | namo dharmāya | namaḥ saṃghāya | namo brahmaṇe | nama indrāya | namaś caturṇāṃ mahārājānām",
+        "classicalTranslitZh": "南谟佛陀耶 | 南谟达摩耶 | 南谟僧伽耶 | 南谟跋啰憾摩耶 | 南谟因陀啰耶 | 南谟折咄喃 摩诃啰阇喃",
+        "modernPhoneticZh": "拿摩 布达呀 | 拿摩 达₍尔₎玛呀 | 拿玛₍赫₎ 桑嘎呀 | 拿摩 ₍布₎啦₍赫₎玛内 | 拿玛 因₍德₎啦呀 | 拿玛₍希₎ 佳度₍尔₎南 玛哈-啦佳南",
+        "meaningZh": "归命佛！归命法！归命僧！礼敬大梵天王、帝释天王及护世四大天王！",
+        "meaningEn": "Homage to the Buddha, Dharma, and Saṃgha! Respect to Brahmā, Indra, and the Four Great Heavenly Kings!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "buddhāya",
+            "stem": "buddha",
+            "grammar": "Noun · 佛号 · Dat. Sg. · 为格单数",
+            "transliterationZh": "佛驮耶 / 没驮耶（拼读参考：布达呀）",
+            "meaningZh": "向佛陀、觉者",
+            "meaningEn": "to/for Buddha, the Awakened One",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "dharmāya",
+            "stem": "dharma",
+            "grammar": "Noun · 法宝 · Dat. Sg. · 为格单数",
+            "transliterationZh": "达摩耶（拼读参考：达₍尔₎玛呀）",
+            "meaningZh": "向正法、诸法实相",
+            "meaningEn": "to/for Dharma, cosmic truth/teaching/phenomena",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saṃghāya",
+            "stem": "saṃgha",
+            "grammar": "Noun · 僧宝 · Dat. Sg. · 为格单数",
+            "transliterationZh": "僧伽耶（拼读参考：桑嘎呀）",
+            "meaningZh": "向圣僧伽、清净海众",
+            "meaningEn": "to/for Saṃgha, noble spiritual community",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'buddhalocani-v2',
-        index: 2,
-        iast: 'namo bhagavatoṣṇīṣāya | oṃ ruru sphuru jvala tiṣṭha siddhalocane sarvārthasādhani svāhā ||',
-        classicalTranslitZh:
-          '曩谟 婆誐嚩睹瑟抳晒耶 | 唵 噜噜 娑普噜 入嚩攞 底瑟姹 悉驮路左宁 萨嚩啰他娑陀你 娑嚩诃 ||',
-        modernPhoneticZh:
-          '拿摩 巴嘎瓦-多₍师₎尼沙呀 | 嗡 鲁鲁 ₍斯₎普鲁 ₍吉₎瓦啦 帝₍师₎他 悉达洛佳内 萨₍尔₎瓦₍尔₎他萨达尼 ₍斯₎瓦哈',
-        meaningZh:
-          '【一切佛眼佛母大吉祥真言】归命世尊无见顶相！嗡！光明流溢、遍满法界、智慧炽盛、安住不动！成就佛眼之慈母、满一切所求义利者啊，圆满吉祥！',
-        meaningEn:
-          '[Buddhalocanī Mantra] Homage to the Bhagavan’s Uṣṇīṣa! Oṃ! Radiate, expand, blaze, abide! O Accomplished Buddha-Eye Mother, Fulfiller of all aims, Svāhā!',
-        words: [
-          { iast: 'siddhalocane', stem: 'siddha-locanā', grammar: 'Voc. sg. f.', transliterationZh: '悉驮路左宁', meaningZh: '成就清净佛眼之佛母啊', meaningEn: 'O Accomplished Buddha-Eye Mother' },
-          { iast: 'sarvārthasādhani', stem: 'sarva-artha-sādhanī', grammar: 'Voc. sg. f.', transliterationZh: '萨嚩啰他娑陀你', meaningZh: '成就一切世出世间义利者啊', meaningEn: 'O Accomplisher of all aims' },
-        ],
-      },
-    ],
+        "id": "samjnaya-v-2",
+        "index": 2,
+        "iast": "tadyathā | hili hili mili mili gauri mahāgauri gandhāri mahāgandhāri drāviḍi mahādrāviḍi daṇḍakukuṇḍe haha hahahaha hīhī hīhīhīhī hūhū hūhūhūhū halo dama gudama guhaṇa dhura dhura mahādhura cala cala pracala pracala pūraya pūraya bhagavan saṃjñāya svāhā",
+        "classicalTranslitZh": "怛侄他 | 呬哩呬哩 弭哩弭哩 瞿哩 摩诃瞿哩 乾陀哩 摩诃乾陀哩 达啰弭雉 摩诃达啰弭雉 单荼曲劝第 诃诃 诃诃诃诃 呬呬 呬呬呬呬 呼呼 呼呼呼呼 汉鲁 昙迷 瞿昙迷 具诃那 度啰 度啰 摩诃度啰 遮啰 遮啰 钵啰遮啰 钵啰遮啰 啰耶 啰耶 薄伽梵 僧慎尔耶 莎诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 嘿利 嘿利 米利 米利 高里 玛哈高里 甘达里 玛哈-甘达里 ₍德₎啦维迪 玛哈-₍德₎啦维迪 丹达古滚叠 哈哈 哈哈哈哈 嘿嘿 嘿嘿嘿嘿 呼呼 呼呼呼呼 哈洛 达玛 古达玛 古哈拿 杜啦 杜啦 玛哈杜啦 佳啦 佳啦 ₍普₎啦佳啦 ₍普₎啦佳啦 布啦呀 布啦呀 巴嘎万 散₍吉尼₎亚呀 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：光明皎洁、大持香神力、威声震吼调伏群邪，奋迅游行救护！祈请世尊大将僧慎尔耶满我一切善愿，莎诃！",
+        "meaningEn": "Namely: Radiant Gaurī, Great Gandhārī, roaring in fearless power, taming evil and coursing swiftly — fulfill all vows, O Venerable Saṃjñāya, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hili",
+            "stem": "hili",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "呬里（拼读参考：嘿利）",
+            "meaningZh": "定慧摄持、心无散乱（希利）",
+            "meaningEn": "meditative absorption & steadfast mindfulness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hili",
+            "stem": "hili",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "呬里（拼读参考：嘿利）",
+            "meaningZh": "定慧摄持、心无散乱（希利）",
+            "meaningEn": "meditative absorption & steadfast mindfulness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mili",
+            "stem": "mili",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "弭里（拼读参考：米利）",
+            "meaningZh": "契合本尊三昧、慈悲冥合（弥利）",
+            "meaningEn": "intimate union with the deity samādhi",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mili",
+            "stem": "mili",
+            "grammar": "Mantra-pada · 陀罗尼密语",
+            "transliterationZh": "弭里（拼读参考：米利）",
+            "meaningZh": "契合本尊三昧、慈悲冥合（弥利）",
+            "meaningEn": "intimate union with the deity samādhi",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gauri",
+            "stem": "gaurī",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "豪哩（拼读参考：高里）",
+            "meaningZh": "娇吠哩尊",
+            "meaningEn": "O Gauri",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 8. 日光菩萨咒 & 月光菩萨咒 (Sūryaprabha & Candraprabha)
-  // ============================================================================
   {
-    id: 'suryaprabha-candraprabha-dharanis',
-    titleZh: '日光菩萨陀罗尼暨月光菩萨陀罗尼（大悲咒护法二大菩萨神咒）',
-    titleSanskritIast: 'Sūryaprabha & Candraprabha Bodhisattva Dhāraṇīs',
-    titleEnglish: 'Sunlight (Sūryaprabha) and Moonlight (Candraprabha) Bodhisattva Protection Dhāraṇīs',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T20n1060',
-    translatorZh: '（唐）西天竺沙门伽梵达磨 译',
-    sutraSourceZh: '《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》(T20n1060)',
-    deityZh: '日光遍照菩萨 (Sūryaprabha) & 月光遍照菩萨 (Candraprabha)',
-    meritsAndSummaryZh:
-      '《大悲心陀罗尼经》载：日光菩萨与月光菩萨为拥护受持大悲神咒者，相继于佛前宣说此二陀罗尼。诵大悲咒后加诵日光、月光菩萨陀罗尼，能灭一切罪障、辟除天魔外道、增长悲智光明。',
-    recitationTipsZh:
-      '日光菩萨咒以「namo buddhaguṇāya（南无勃陀瞿那迷）」起首，月光菩萨咒以「śuddhe tūṣṭi（深低帝屠苏咤）」起首。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T20n1060',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T20/T20n1060.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1060',
-      editionCitation: 'CBETA T20n1060 《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》.',
-      manuscriptNotesZh: '直接提取自已下载之 T20n1060.xml 原典。',
+    "id": "ucchusma-vidyaraja-dharani",
+    "titleZh": "秽迹金刚神咒（大权力士神王佛四十二字神通大满陀罗尼）",
+    "titleSanskritIast": "Ucchuṣma-vidyārāja-mahābala-krodha-dhāraṇī",
+    "titleEnglish": "Blazing Impurity-Consuming Vajra (Ucchuṣma) 42-Syllable Fundamental Dhāraṇī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1228 / T21n1229",
+    "translatorZh": "（唐）北天竺三藏沙门阿质达霰 译",
+    "sutraSourceZh": "《秽迹金刚说神通大满陀罗尼法术灵要门》(T21n1228)",
+    "deityZh": "秽迹金刚 / 乌枢沙摩明王 (Ucchuṣma-Krodharāja)",
+    "meritsAndSummaryZh": "释迦牟尼佛临涅槃时自左心化出不坏金刚（秽迹金刚），立往梵天化诸不净为大宝地。此四十二字根本神咒不拣净秽，能除一切瘟疫、鬼魅、蛊毒、邪法，独立建档（短心咒另列专条）。",
+    "recitationTipsZh": "末尾三声吽、五声泮吒摧破五毒魔障。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1228 《秽迹金刚说神通大满陀罗尼法术灵要门》阿质达霰译.",
+      "manuscriptNotesZh": "独立单列之 T21n1228 四十二字秽迹金刚根本咒。",
+      "cbetaId": "T21n1228",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1228"
     },
-    verses: [
+    "verses": [
       {
-        id: 'surya-v1',
-        index: 1,
-        iast: 'namo buddhaguṇāya | namo dharmamāhātmyāya | namaḥ saṃghāścaryāya | dīpanaṃ bhūtaṃ | namaḥ sūryaprabhāya | tadyathā — oṃ śubha-tejo-mālinī svāhā ||',
-        classicalTranslitZh:
-          '【日光菩萨咒】南无勃陀瞿那迷 | 南无达摩莫诃低 | 南无僧伽多夜泥 | 底哩部毕萨咄檐纳摩 | 娑婆诃 ||',
-        modernPhoneticZh:
-          '拿摩 布达-古拿呀 | 拿摩 达₍尔₎玛-玛哈₍特姆₎呀呀 | 拿玛₍赫₎ 桑嘎₍希₎佳₍哩₎呀呀 | 地巴南 布当 | 拿玛₍赫₎ 苏₍哩₎呀₍普₎啦巴呀 | 达₍地₎呀他 | 嗡 舒巴-帝久-玛利尼 ₍斯₎瓦哈',
-        meaningZh:
-          '【日光菩萨陀罗尼】归命佛陀无量功德！归命正法广大威神！归命僧伽希有圣行！燃起智慧光明炬，灭除三有黑暗！嗡！清净日光威德华鬘，圆满成就！',
-        meaningEn:
-          '[Sūryaprabha Dhāraṇī] Homage to the virtues of the Buddha! Homage to the greatness of the Dharma! Homage to the wondrous Saṃgha! Illuminating the three realms — Oṃ Auspicious Solar Radiance Garland, Svāhā!',
-        words: [
-          { iast: 'buddhaguṇāya', stem: 'buddha-guṇa', grammar: 'Dat. sg. m.', transliterationZh: '勃陀瞿那迷', meaningZh: '归敬诸佛功德海', meaningEn: 'to the virtues of the Buddha' },
-          { iast: 'sūryaprabhāya', stem: 'sūrya-prabha', grammar: 'Dat. sg. m.', transliterationZh: '苏利耶钵啰婆耶', meaningZh: '向日光遍照菩萨', meaningEn: 'to Sūryaprabha Bodhisattva' },
-        ],
+        "id": "ucchusma-v-1",
+        "index": 1,
+        "iast": "oṃ bhihau guru mahāprāṇa hanaite vicitramāla | himaṇi vikiri maṇi",
+        "classicalTranslitZh": "唵 咈啒啒㗚 摩诃般啰恨那 唅乃得 吻汁吻 | 醯摩尼 微吉微 摩那栖",
+        "modernPhoneticZh": "嗡 比豪 古鲁 玛哈₍普₎啦拿 哈奈帝 维吉₍特₎啦玛啦 | 嘿玛尼 维给里 玛尼",
+        "meaningZh": "嗡！大威神力尊师、具足广大命力者！摧破一切魔怨，严饰奇特宝鬘，散放清凉摩尼智光！",
+        "meaningEn": "Oṃ! O Fearless Guru of Great Vital Power, Destroyer of obstacles, adorned with wondrous garlands and radiant gems!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhihau",
+            "stem": "bha-ha",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "毗豪（拼读参考：比豪）",
+            "meaningZh": "破有相福德光·因缘空寂大乐（警策成就）",
+            "meaningEn": "blessedness transcending existence & causal emptiness & spiritual joy (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "guru",
+            "stem": "guru",
+            "grammar": "Impv. · 祈使加持",
+            "transliterationZh": "具噜（拼读参考：古鲁）",
+            "meaningZh": "上师",
+            "meaningEn": "lama; spiritual teacher",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahāprāṇa",
+            "stem": "mahāprāṇa",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "摩诃钵啰(引)拏（拼读参考：玛哈₍普₎啦拿）",
+            "meaningZh": "勇健",
+            "meaningEn": "strong breath or great strength",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hanaite",
+            "stem": "hana-ita",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "诃乃帝（拼读参考：哈奈帝）",
+            "meaningZh": "击破怨魔与无明惑趣往",
+            "meaningEn": "strike down afflictions and mara-forces! + O going",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vicitramāla",
+            "stem": "vicitra-māla",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "尾只怛啰摩(引)攞（拼读参考：维吉₍特₎啦玛啦）",
+            "meaningZh": "斑驳陆离花鬘",
+            "meaningEn": "variegated + garland",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'candra-v2',
-        index: 2,
-        iast: 'śuddhe tūṣṭi | akāramṛtyu-nivāraṇi | śūnya-sarvadharmāṇāṃ | candraprabha-maṇḍale | oṃ śānti-śrī svāhā ||',
-        classicalTranslitZh:
-          '【月光菩萨咒】深低帝屠苏咤 | 阿若蜜帝乌都咤 | 深耆咤 | 波赖帝 | 耶弥若咤乌都咤 | 拘罗帝咤耆摩咤 | 娑婆诃 ||',
-        modernPhoneticZh:
-          '舒叠 度₍师₎蒂 | 阿嘎啦₍姆₎日₍蒂₎尤-尼瓦啦尼 | 舒₍尼₎呀-萨₍尔₎瓦-达₍尔₎玛南 | 詹₍德₎啦₍普₎啦巴-曼达雷 | 嗡 善帝-₍希₎里 ₍斯₎瓦哈',
-        meaningZh:
-          '【月光菩萨陀罗尼】清净寂静、欢喜安隐！遮止一切非时横死灾障！照见一切诸法空相，于清凉月光曼荼罗中，祈愿吉祥寂静，娑婆诃！',
-        meaningEn:
-          '[Candraprabha Dhāraṇī] Pure contentment, averting untimely perils, realizing the emptiness of all dharmas within the Moonlight Maṇḍala — Oṃ Peace and Auspiciousness, Svāhā!',
-        words: [
-          { iast: 'candraprabha-maṇḍale', stem: 'candraprabha-maṇḍala', grammar: 'Loc. sg. n.', transliterationZh: '战捺啰钵啰婆曼拏隶', meaningZh: '于月光遍照清凉轮坛中', meaningEn: 'in the Moonlight Maṇḍala' },
-        ],
-      },
-    ],
+        "id": "ucchusma-v-2",
+        "index": 2,
+        "iast": "oṃ jaṭilā ucchuṣma krodha hūṃ hūṃ hūṃ phaṭ phaṭ phaṭ phaṭ phaṭ svāhā",
+        "classicalTranslitZh": "唵 斫急那 乌深暮 啒㗚 吽 吽 吽 泮 泮 泮 泮 泮 娑诃",
+        "modernPhoneticZh": "嗡 佳蒂啦 乌楚₍师₎玛 ₍克₎洛达 吽 吽 吽 帕₍特₎ 帕₍特₎ 帕₍特₎ 帕₍特₎ 帕₍特₎ ₍斯₎瓦哈",
+        "meaningZh": "嗡！螺髻火发乌枢沙摩大忿怒明王！吽吽吽！五声泮吒彻底粉碎五毒业障，圆满成就！",
+        "meaningEn": "Oṃ! O Flame-Crowned Wrathful Ucchuṣma! Hūṃ Hūṃ Hūṃ Phaṭ Phaṭ Phaṭ Phaṭ Phaṭ Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaṭilā",
+            "stem": "jaṭila",
+            "grammar": "Nom. Sg. Fem. · 主格阴性",
+            "transliterationZh": "惹置攞(引)（拼读参考：佳蒂啦）",
+            "meaningZh": "充满",
+            "meaningEn": "= +confused, full of",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ucchuṣma",
+            "stem": "ucchuṣma",
+            "grammar": "Prop.Noun · 秽迹火头尊",
+            "transliterationZh": "坞怛刍瑟摩（拼读参考：乌楚₍师₎玛）",
+            "meaningZh": "乌枢沙摩明王（火头金刚除秽尊）",
+            "meaningEn": "Ucchuṣma, Blazing Impurity-Consuming Vidyārāja",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "krodha",
+            "stem": "krodha",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "讫嚧驮（拼读参考：₍克₎洛达）",
+            "meaningZh": "忿",
+            "meaningEn": "wrath",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 9. 叶衣观自在菩萨陀罗尼 (Parṇaśavarī)
-  // ============================================================================
   {
-    id: 'parnasavari-dharani',
-    titleZh: '叶衣观自在菩萨陀罗尼（禳除瘟疫传染病障护命神咒）',
-    titleSanskritIast: 'Ārya-Parṇaśavarī-dhāraṇī',
-    titleEnglish: 'Forest-Leaf Clad Avalokiteśvara (Parṇaśavarī) Epidemic-Healing Dhāraṇī',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T20n1100',
-    translatorZh: '（唐）不空三藏 译',
-    sutraSourceZh: '《叶衣观自在菩萨经》(T20n1100)',
-    deityZh: '叶衣观自在菩萨 / 叶衣佛母 (Ārya-Parṇaśavarī)',
-    meritsAndSummaryZh:
-      '观自在菩萨深入山林，披树叶衣化现山林神女（Śavarī）之形，专司息除世间一切瘟疫、瘴气、传染病、毒虫及非时夭折。印藏汉三地每逢疫病流行皆修持此叶衣观音真言。',
-    recitationTipsZh:
-      '「piśāci parṇaśavari sarvamārīpraśamani svāhā」中「sarva-mārī-praśamani」直译即为「平息一切瘟疫疾疫（mārī）之圣母啊！」。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T20n1100',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T20/T20n1100.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1100',
-      editionCitation: 'CBETA T20n1100 《叶衣观自在菩萨经》（不空译）& Sādhanamālā.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T20n1100 原典。',
+    "id": "ucchusma-krodhana-hrdaya",
+    "titleZh": "乌枢沙摩明王（火头金刚）除秽根本短心咒",
+    "titleSanskritIast": "Ucchuṣma-krodhana-hṛdaya-mantra",
+    "titleEnglish": "Short Purification Heart Mantra of Wrathful Ucchuṣma",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T19n0901 / T21n1227",
+    "translatorZh": "（唐）阿地瞿多 / 不空三藏 译",
+    "sutraSourceZh": "《陀罗尼集经》卷九 (T19n0901)",
+    "deityZh": "乌枢沙摩明王 / 火头金刚 (Ucchuṣma)",
+    "meritsAndSummaryZh": "唐密与东密日常净厕、净触、辟除不净最通行之乌枢沙摩明王六字短心咒，独立单列。",
+    "recitationTipsZh": "hūṃ 摧破染秽，jaḥ 勾召清净本性。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T19n0901 《陀罗尼集经》卷九〈乌枢沙摩金刚法印咒品〉.",
+      "manuscriptNotesZh": "独立单列之乌枢沙摩短心咒。",
+      "cbetaId": "T19n0901",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n0901"
     },
-    verses: [
+    "verses": [
       {
-        id: 'parnasavari-v1',
-        index: 1,
-        iast: 'namo ratnatrayāya | namo āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | namo mahāparṇaśavaryai ||',
-        classicalTranslitZh:
-          '曩谟 啰怛曩怛啰夜耶 | 曩谟 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 曩谟 摩诃钵兰拏赊嚩哩曳 ||',
-        modernPhoneticZh:
-          '拿摩 啦₍特₎拿-₍特₎啦呀呀 | 拿摩 阿₍哩₎呀-瓦洛给帝-₍湿₎瓦啦呀 博地-萨₍特₎瓦呀 玛哈-萨₍特₎瓦呀 玛哈-嘎鲁尼嘎呀 | 拿摩 玛哈-巴₍尔₎拿沙瓦₍哩₎崖',
-        meaningZh:
-          '归命三宝！归命圣观自在菩萨摩诃萨、大悲世尊！归命大叶衣观自在母！',
-        meaningEn:
-          'Homage to the Three Jewels! Homage to Noble Avalokiteśvara Bodhisattva Mahāsattva, the Greatly Compassionate One! Homage to Great Parṇaśavarī!',
-        words: [
-          { iast: 'mahāparṇaśavaryai', stem: 'mahā-parṇa-śavarī', grammar: 'Dat. sg. f.', transliterationZh: '摩诃钵兰拏赊嚩哩曳', meaningZh: '向大叶衣观自在菩萨致敬', meaningEn: 'to Great Leaf-Clad Parṇaśavarī' },
-        ],
-      },
-      {
-        id: 'parnasavari-v2',
-        index: 2,
-        iast: 'oṃ piśāci parṇaśavari sarvamārīpraśamani hūṃ phaṭ svāhā ||',
-        classicalTranslitZh:
-          '唵 毕舍质 钵兰拏赊嚩哩 萨嚩摩哩钵啰舍摩你 吽 泮吒 娑嚩诃 ||',
-        modernPhoneticZh:
-          '嗡 比沙吉 巴₍尔₎拿沙瓦里 萨₍尔₎瓦-玛里₍普₎啦沙玛尼 吽 帕₍特₎ ₍斯₎瓦哈',
-        meaningZh:
-          '嗡！示现山林威猛神女相、身披树叶天衣之叶衣观音母啊！平息一切瘟疫、传染病与障难之圣母啊！吽！摧破病魔（泮吒）！圆满吉祥！',
-        meaningEn:
-          'Oṃ! O Fierce Forest-Leaf Clad Savioress (Parṇaśavarī), Pacifier of all epidemics and pestilence (sarvamārīpraśamani)! Hūṃ Phaṭ Svāhā!',
-        words: [
-          { iast: 'parṇaśavari', stem: 'parṇa-śavarī', grammar: 'Voc. sg. f.', transliterationZh: '钵兰拏赊嚩哩', meaningZh: '披树叶衣之山林圣母（叶衣观音）啊', meaningEn: 'O Leaf-Clad Savioress' },
-          { iast: 'sarvamārīpraśamani', stem: 'sarva-mārī-praśamanī', grammar: 'Voc. sg. f.', transliterationZh: '萨嚩摩哩钵啰舍摩你', meaningZh: '平息一切瘟疫传染病者啊', meaningEn: 'O Queller of all plagues and epidemics' },
-        ],
-      },
-    ],
+        "id": "krodhana-v-1",
+        "index": 1,
+        "iast": "oṃ krodhana hūṃ jaḥ",
+        "classicalTranslitZh": "唵 俱嚧驮曩 吽 弱",
+        "modernPhoneticZh": "嗡 ₍克₎洛达拿 吽 佳₍赫₎",
+        "meaningZh": "嗡！大威怒火头金刚尊（俱嚧驮曩）！吽（焚净一切秽垢）！弱（速疾摄受加持）！",
+        "meaningEn": "Oṃ! O Wrathful Purifier (Krodhana)! Hūṃ Jaḥ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "krodhana",
+            "stem": "krodhana",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "讫嚧驮曩（拼读参考：₍克₎洛达拿）",
+            "meaningZh": "急躁、火热",
+            "meaningEn": "irritable, passionate",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaḥ",
+            "stem": "jaḥ",
+            "grammar": "Bīja · 四摄种子",
+            "transliterationZh": "弱（拼读参考：佳₍赫₎）",
+            "meaningZh": "金刚钩召摄引入坛种子",
+            "meaningEn": "Vajra-hook summoning seed syllable (ākarṣaṇa)",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 10. 五大明王与爱染明王、马头明王真言全集
-  // ============================================================================
   {
-    id: 'five-vidyarajas-ragaraja-hayagriva',
-    titleZh: '五大明王真言全集暨爱染明王·马头明王根本心咒',
-    titleSanskritIast: 'Pañca-Vidyārāja, Rāgarāja & Hayagrīva Mantras',
-    titleEnglish: 'Five Great Wisdom Kings (Trailokyavijaya, Kuṇḍalin, Yamāntaka, Vajrayakṣa) & Rāgarāja / Hayagrīva Mantras',
-    categoryId: 'vidyarajas-protectors',
-    taishoNo: 'T21n1209 / T21n1211 / T20n1132 / T20n1072A',
-    translatorZh: '（唐）不空三藏 / 善无畏 译',
-    sutraSourceZh: '《降三世忿怒明王念诵仪轨》(T21n1209) / 《甘露军荼利菩萨供养念诵成就仪轨》(T21n1211) / 《金刚王菩萨秘密念诵仪轨》(T20n1132)',
-    deityZh: '降三世明王 · 军荼利明王 · 大威德明王 · 金刚夜叉明王 · 爱染明王 · 马头明王',
-    meritsAndSummaryZh:
-      '汇集密教五大明王与爱染明王、马头明王最核心之本尊真言：东方降三世明王降伏三界贪嗔痴慢，南方军荼利明王施甘露除毗那夜迦障，西方大威德明王（六足尊）断除死魔阎罗怖畏，北方金刚夜叉明王啖尽一切恶业，爱染明王转染爱为净菩提心，马头明王啖食无明魔障。',
-    recitationTipsZh:
-      '每一尊明王真言皆具足本尊种子字（hūṃ, hrīḥ, ṣṭrīḥ, ṭakki）与金刚破障音（phaṭ），持诵时宜观想智火光明破除自心烦恼。',
-    provenance: {
-      sourceType: 'CBETA+GRETIL',
-      cbetaId: 'T21n1209',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1209.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T21n1209',
-      gretilFile: 'bsu017_u.htm',
-      editionCitation: 'CBETA T21n1209, T21n1211, T20n1132 & GRETIL bsu017_u.htm (Hayagrīvavidyā).',
-      manuscriptNotesZh: '已关联大正藏密教部明王诸轨及 GRETIL 马头明王梵本 bsu017_u.htm。',
+    "id": "mahacakra-vajra-dharani",
+    "titleZh": "大轮金刚陀罗尼（入曼荼罗结印诵咒免盗法罪真言）",
+    "titleSanskritIast": "Mahācakra-vajra-dhāraṇī",
+    "titleEnglish": "Great Wheel Vajra (Mahācakra) Maṇḍala Consecration Dhāraṇī",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1230",
+    "translatorZh": "（唐）金刚智三藏 译",
+    "sutraSourceZh": "《佛说大轮金刚总持陀罗尼经》(T21n1230)",
+    "deityZh": "大轮金刚明王 (Mahācakra-Vajra)",
+    "meritsAndSummaryZh": "修习一切密咒前最重要的开坛护法总持。经云：「诵此咒二十一遍，能成一切咒法、一切印法、一切坛法；未入灌顶曼荼罗者，诵此真言即同入坛，不成盗法。」",
+    "recitationTipsZh": "全咒两句一气呵成，统摄三世一切如来坛城加持。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1230 《佛说大轮金刚总持陀罗尼经》.",
+      "manuscriptNotesZh": "独立单列之大轮金刚陀罗尼。",
+      "cbetaId": "T21n1230",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1230"
     },
-    verses: [
+    "verses": [
       {
-        id: 'vidyaraja-v1',
-        index: 1,
-        iast: 'oṃ sumbha nisumbha hūṃ gṛhṇa gṛhṇa hūṃ gṛhṇāpaya hūṃ ānaya hoḥ bhagavan vajra hūṃ phaṭ ||',
-        classicalTranslitZh:
-          '【降三世明王心咒】唵 孙婆 你孙婆 吽 羯哩摩 羯哩摩 吽 羯哩摩播耶 吽 阿拿也 斛 婆伽鑁 嚩日啰 吽 泮吒 ||',
-        modernPhoneticZh:
-          '嗡 孙巴 尼孙巴 吽 ₍格₎日₍赫₎拿 ₍格₎日₍赫₎拿 吽 ₍格₎日₍赫₎拿巴呀 吽 阿拿呀 霍₍赫₎ 巴嘎万 瓦₍吉₎啦 吽 帕₍特₎',
-        meaningZh:
-          '【东方降三世明王真言】嗡！摧伏、彻底摧伏三界魔军！吽！摄持、摄持，令彼调伏归命！吽！勾召引入菩提（阿拿也斛）！世尊金刚尊，吽、泮吒！',
-        meaningEn:
-          '[Trailokyavijaya Mantra] Oṃ! Subdue, utterly subdue! Hūṃ! Seize, seize, cause to seize! Hūṃ! Draw in, Hoḥ! O Bhagavan Vajra, Hūṃ Phaṭ!',
-        words: [
-          { iast: 'sumbha nisumbha', stem: '√sumbh', grammar: 'Impv.', transliterationZh: '孙婆 你孙婆', meaningZh: '调伏、彻底降伏（三界摩醯首罗慢障）', meaningEn: 'subdue, utterly vanquish' },
-          { iast: 'gṛhṇa gṛhṇāpaya', stem: '√grah', grammar: 'Impv. & Caus.', transliterationZh: '羯哩摩 羯哩摩播耶', meaningZh: '执持、令执持正法', meaningEn: 'seize, cause to grasp' },
-        ],
+        "id": "mahacakra-v-1",
+        "index": 1,
+        "iast": "namaḥ strīyadhvikānāṃ sarvatathāgatānām | āṃ viraji viraji mahācakravajri",
+        "classicalTranslitZh": "南无 司得哩牙提维嘎难 萨嚩怛他蘖多喃 | 唵 维啰尔 维啰尔 摩诃斫羯啰嚩日哩",
+        "modernPhoneticZh": "拿玛₍赫₎ ₍斯特₎里呀₍德₎维嘎南 萨₍尔₎瓦-达他嘎达南 | 昂 维啦吉 维啦吉 玛哈-佳₍克₎啦-瓦₍吉₎里",
+        "meaningZh": "归命过去、现在、未来三世一切诸如来！嗡！离垢清净、离垢清净，大轮金刚明王尊啊！",
+        "meaningEn": "Homage to all Tathāgatas of the Three Times! Āṃ! O Stainless One, Great Wheel Vajra!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "strīyadhvikānāṃ",
+            "stem": "strīy-adhas-vika",
+            "grammar": "Samāsa · 复合词 (Gen. Pl. · 属格复数)",
+            "transliterationZh": "娑怛哩(引)耶驮尾迦(引)喃(引)（拼读参考：₍斯特₎里呀₍德₎维嘎南）",
+            "meaningZh": "贪欲妇女·以下·诸那罗之",
+            "meaningEn": "desire a woman + below + of all of a man",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sarvatathāgatānām",
+            "stem": "sarvatathāgata",
+            "grammar": "Gen. Pl. · 属格复数",
+            "transliterationZh": "萨嚩怛他孽多喃（拼读参考：萨₍尔₎瓦-达他嘎达南）",
+            "meaningZh": "诸一切如来之",
+            "meaningEn": "of all all Tathagatas",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "āṃ",
+            "stem": "āṃ",
+            "grammar": "Akṣara-mukha · 悉昙母韵字门",
+            "transliterationZh": "盎（拼读参考：昂）",
+            "meaningZh": "悉昙「āṃ」韵字门：远离寂静周遍·大空菩提点摄持",
+            "meaningEn": "Siddhaṃ vowel-gate 'āṃ': expansive quiescence sealed with bodhicitta bindu",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "viraji",
+            "stem": "viraja",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "尾啰自（拼读参考：维啦吉）",
+            "meaningZh": "嚩啰阇尊",
+            "meaningEn": "O free from dust; pure",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "viraji",
+            "stem": "viraja",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "尾啰自（拼读参考：维啦吉）",
+            "meaningZh": "嚩啰阇尊",
+            "meaningEn": "O free from dust; pure",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'vidyaraja-v2',
-        index: 2,
-        iast: 'oṃ amṛte hūṃ phaṭ | oṃ kuṇḍali hūṃ phaṭ ||',
-        classicalTranslitZh:
-          '【甘露军荼利明王心咒】唵 阿蜜哩帝 吽 泮吒 ||',
-        modernPhoneticZh:
-          '嗡 阿₍姆₎日帝 吽 帕₍特₎ | 嗡 滚达利 吽 帕₍特₎',
-        meaningZh:
-          '【南方甘露军荼利明王真言】嗡！不死甘露醍醐尊啊！吽！破除一切毗那夜迦魔障（泮吒）！',
-        meaningEn: '[Amṛtakuṇḍalin Mantra] Oṃ! O Immortal Nectar (Amṛte)! Hūṃ Phaṭ!',
-        words: [
-          { iast: 'amṛte', stem: 'amṛtā', grammar: 'Voc. sg.', transliterationZh: '阿蜜哩帝', meaningZh: '不死甘露法味尊', meaningEn: 'O Immortal Ambrosia' },
-        ],
-      },
-      {
-        id: 'vidyaraja-v3',
-        index: 3,
-        iast: 'oṃ ṣṭrīḥ kālarūpa hūṃ khaṃ svāhā | oṃ hrīḥ ṣṭrīḥ vikṛtānana hūṃ phaṭ ||',
-        classicalTranslitZh:
-          '【大威德明王六足尊真言】唵 瑟置哩 迦攞噜跛 吽 欠 娑嚩诃 | 唵 纥哩 瑟置哩 尾讫哩多曩曩 吽 泮吒 ||',
-        modernPhoneticZh:
-          '嗡 ₍师特₎里₍希₎ 嘎啦鲁巴 吽 康 ₍斯₎瓦哈 | 嗡 ₍赫₎里₍希₎ ₍师特₎里₍希₎ 维₍克₎日达拿拿 吽 帕₍特₎',
-        meaningZh:
-          '【西方大威德明王（怖畏金刚 Yamāntaka）心咒】嗡！文殊威德种子字（瑟置哩）！降伏死魔黑阎罗相尊，吽、欠，圆满成就！嗡！现奇特威猛忿怒面门、摧破死魔之大威德尊，吽、泮吒！',
-        meaningEn:
-          '[Yamāntaka Mantra] Oṃ Ṣṭrīḥ O Form of Time-Destroyer, Hūṃ Khaṃ Svāhā! Oṃ Hrīḥ Ṣṭrīḥ O Fierce-Faced Destroyer of Death, Hūṃ Phaṭ!',
-        words: [
-          { iast: 'kālarūpa', stem: 'kāla-rūpa', grammar: 'Voc. sg. m.', transliterationZh: '迦攞噜跛', meaningZh: '超胜死魔时间相尊', meaningEn: 'O Embodiment conquering Time/Death' },
-          { iast: 'vikṛtānana', stem: 'vikṛta-ānana', grammar: 'Voc. sg. m.', transliterationZh: '尾讫哩多曩曩', meaningZh: '现奇特威猛忿怒面相尊', meaningEn: 'O Wrathful-Faced One' },
-        ],
-      },
-      {
-        id: 'vidyaraja-v4',
-        index: 4,
-        iast: 'oṃ mahāyakṣa vajrasattva jaḥ hūṃ vaṃ hoḥ praveśaya hūṃ ||',
-        classicalTranslitZh:
-          '【金刚夜叉明王真言】唵 摩诃药叉 嚩日啰萨怛嚩 弱 吽 鑁 斛 钵啰吠舍耶 吽 ||',
-        modernPhoneticZh:
-          '嗡 玛哈呀₍克₎沙 瓦₍吉₎啦萨₍特₎瓦 佳₍赫₎ 吽 汪 霍₍赫₎ ₍普₎啦威沙呀 吽',
-        meaningZh:
-          '【北方金刚夜叉明王真言】嗡！大药叉主、金刚萨埵尊！钩召（弱）、引入（吽）、系缚（鑁）、欢喜融摄（斛），令入无上菩提智印，吽！',
-        meaningEn:
-          '[Vajrayakṣa Mantra] Oṃ! O Great Yakṣa Vajrasattva! Jaḥ Hūṃ Vaṃ Hoḥ (Fourfold摂受), cause to enter awakening, Hūṃ!',
-        words: [
-          { iast: 'jaḥ hūṃ vaṃ hoḥ', stem: 'catuḥ-saṃgraha-bīja', grammar: 'Bījas', transliterationZh: '弱 吽 鑁 斛', meaningZh: '四摄菩萨（钩、索、锁、铃）种子字', meaningEn: 'Fourfold attraction seed syllables' },
-        ],
-      },
-      {
-        id: 'vidyaraja-v5',
-        index: 5,
-        iast: 'oṃ mahārāga vajroṣṇīṣa vajrasattva jaḥ hūṃ vaṃ hoḥ | hūṃ ṭakki hūṃ jaḥ ||',
-        classicalTranslitZh:
-          '【爱染明王根本心咒】唵 摩诃啰誐 嚩日嚧瑟抳洒 嚩日啰萨怛嚩 弱 吽 鑁 斛 | 吽 吒只 吽 惹 ||',
-        modernPhoneticZh:
-          '嗡 玛哈啦嘎 瓦₍吉₎洛₍师₎尼沙 瓦₍吉₎啦萨₍特₎瓦 佳₍赫₎ 吽 汪 霍₍赫₎ | 吽 达给 吽 佳₍赫₎',
-        meaningZh:
-          '【爱染明王根本真言与一字心咒】嗡！大染爱即大菩提、金刚顶、金刚萨埵，钩索锁铃四摄圆满！吽、吒只（爱染尊种子字）、吽、惹（敬爱摄受成就）！',
-        meaningEn:
-          '[Rāgarāja Heart Mantra] Oṃ! Great Passion transmuted into Vajroṣṇīṣa Vajrasattva — Jaḥ Hūṃ Vaṃ Hoḥ! Hūṃ Ṭakki Hūṃ Jaḥ!',
-        words: [
-          { iast: 'mahārāga', stem: 'mahā-rāga', grammar: 'Voc. sg.', transliterationZh: '摩诃啰誐', meaningZh: '大敬爱（烦恼即菩提）尊', meaningEn: 'Great Love/Compassion' },
-          { iast: 'hūṃ ṭakki hūṃ jaḥ', stem: 'rāgarāja-hṛdaya', grammar: 'Root Mantra', transliterationZh: '吽 吒只 吽 惹', meaningZh: '爱染明王最秘心中心印', meaningEn: 'Innermost Heart Mantra of Rāgarāja' },
-        ],
-      },
-      {
-        id: 'vidyaraja-v6',
-        index: 6,
-        iast: 'oṃ amṛtodbhava hūṃ phaṭ svāhā ||',
-        classicalTranslitZh:
-          '【圣马头明王（马头观音）心咒】唵 阿蜜栗都纳婆嚩 吽 泮吒 娑嚩诃 ||',
-        modernPhoneticZh:
-          '嗡 阿₍姆₎日多₍德₎巴瓦 吽 帕₍特₎ ₍斯₎瓦哈',
-        meaningZh:
-          '【马头观音/马头明王根本心咒】嗡！从不死甘露大悲海中出生之大威猛尊啊！吽！啖食一切无明魔障（泮吒）！圆满成就！',
-        meaningEn:
-          '[Hayagrīva Heart Mantra] Oṃ! O Nectar-Born One (Amṛtodbhava)! Hūṃ Phaṭ Svāhā!',
-        words: [
-          { iast: 'amṛtodbhava', stem: 'amṛta-udbhava', grammar: 'Voc. sg. m.', transliterationZh: '阿蜜栗都纳婆嚩', meaningZh: '甘露出生尊（马头明王名号）', meaningEn: 'O Nectar-Born One' },
-        ],
-      },
-    ],
+        "id": "mahacakra-v-2",
+        "index": 2,
+        "iast": "sata sata sārate sārate trayī trayī vidhamani saṃbhañjani tramati siddhāgrya tvaṃ svāhā",
+        "classicalTranslitZh": "萨多 萨多 娑啰帝 娑啰帝 怛啰曳 怛啰曳 毗陀摩你 三槃若你 怛啰摩底 细驮搿哩牙 怛呁 娑嚩诃",
+        "modernPhoneticZh": "萨达 萨达 萨啦帝 萨啦帝 ₍特₎啦伊 ₍特₎啦伊 维达玛尼 桑班佳尼 ₍特₎啦玛帝 悉达₍格哩₎呀 ₍特₎旺 ₍斯₎瓦哈",
+        "meaningZh": "真实坚固、救护三界、吹散业障、粉碎结缚、度脱三有，汝即最上悉地坛法成就，娑嚩诃！",
+        "meaningEn": "True, rescuing the three worlds, dispersing and crushing all fetters — You are the supreme Siddhi, Svāhā!",
+        "words": [
+          {
+            "iast": "sata",
+            "stem": "sata",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "萨怛（拼读参考：萨达）",
+            "meaningZh": "器物盘子",
+            "meaningEn": "a vessel or dish",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sata",
+            "stem": "sata",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "萨怛（拼读参考：萨达）",
+            "meaningZh": "器物盘子",
+            "meaningEn": "a vessel or dish",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sārate",
+            "stem": "sāra",
+            "grammar": "Ātmanepada 3rd Sg. · 为自言单数",
+            "transliterationZh": "娑啰帝（拼读参考：萨啦帝）",
+            "meaningZh": "心坚 / 坚",
+            "meaningEn": "maina",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sārate",
+            "stem": "sāra",
+            "grammar": "Ātmanepada 3rd Sg. · 为自言单数",
+            "transliterationZh": "娑啰帝（拼读参考：萨啦帝）",
+            "meaningZh": "心坚 / 坚",
+            "meaningEn": "maina",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "trayī",
+            "stem": "traya",
+            "grammar": "Nom. Sg. Fem. · 阴性尊号",
+            "transliterationZh": "怛啰以(引)（拼读参考：₍特₎啦伊）",
+            "meaningZh": "三重、三合会佛母",
+            "meaningEn": "triple, threefold; a triad (feminine)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "trayī",
+            "stem": "traya",
+            "grammar": "Nom. Sg. Fem. · 阴性尊号",
+            "transliterationZh": "怛啰以(引)（拼读参考：₍特₎啦伊）",
+            "meaningZh": "三重、三合会佛母",
+            "meaningEn": "triple, threefold; a triad (feminine)",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 11. 诸天护法与财神总持全集 (Vaiśravaṇa, Jambhala, Mahākāla, Gaṇapati, Pṛthivī, Sarasvatī)
-  // ============================================================================
   {
-    id: 'dharmapala-wealth-deities-collection',
-    titleZh: '护法诸天与财宝总持全集：毗沙门天王 · 黄财神 · 大黑天 · 大圣欢喜天 · 坚牢地神 · 大辩才天女',
-    titleSanskritIast: 'Vaiśravaṇa, Jambhala, Mahākāla, Gaṇapati, Pṛthivī & Sarasvatī Dhāraṇīs',
-    titleEnglish: 'Dharma Protectors & Wealth Deities Mantras (Vaiśravaṇa, Jambhala, Mahākāla, Gaṇapati, Pṛthivī, Sarasvatī)',
-    categoryId: 'vidyarajas-protectors',
-    taishoNo: 'T21n1245 / T21n1270 / T21n1287 / T21n1286 / T16n0665',
-    translatorZh: '（唐）不空三藏 / 义净 / 善无畏 译 · GRETIL 梵本对勘',
-    sutraSourceZh: '《毗沙门天王经》(T21n1245) / 《大圣欢喜双身大自在天毗那夜迦王归依念诵供养法》(T21n1270) / 《大黑天神法》(T21n1287) / 《坚牢地天仪轨》(T21n1286)',
-    deityZh: '北方多闻天王 · 黄财神瞻巴拉 · 摩诃迦罗大黑天 · 圣天欢喜天 · 坚牢地神 · 妙音辩才天女',
-    meritsAndSummaryZh:
-      '完整收录佛教护世诸天与资粮护法本尊真言：一、北方多闻天王（毗沙门天 Vaiśravaṇa）护国施财真言；二、黄财神（Jambhala 瞻巴拉）水浴増益心咒；三、摩诃迦罗大黑天（Mahākāla）除贫护法咒；四、大圣欢喜天（Gaṇapati）除障满愿咒；五、坚牢地神（Pṛthivī）安宅丰饶咒；六、大辩才天女（Sarasvatī）无碍辩才智慧咒。',
-    recitationTipsZh:
-      '本组诸天真言多以「oṃ（嗡）」起首、「svāhā（娑嚩诃）」结印，词干均为对护法本尊之呼格（Vocative）或与格致敬（Dative）。',
-    provenance: {
-      sourceType: 'CBETA+GRETIL',
-      cbetaId: 'T21n1245',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1245.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T21n1245',
-      gretilFile: 'ganphrdu.htm',
-      editionCitation: 'CBETA T21n1245, T21n1270, T21n1286, T21n1287 & GRETIL ganphrdu.htm (Gaṇapatihṛdaya).',
-      manuscriptNotesZh: '已关联大正藏诸天部原典及 GRETIL 欢喜天心咒梵本 ganphrdu.htm。',
+    "id": "vasudhara-yubao-full",
+    "titleZh": "佛说雨宝陀罗尼经·妙月长者求福除贫根本陀罗尼",
+    "titleSanskritIast": "Ārya-Vasudhārā-dhāraṇī-mūla-mantra",
+    "titleEnglish": "Sūtra of the Rain of Treasures (Vasudhārā) Root Dhāraṇī",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1163",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《佛说雨宝陀罗尼经》(T20n1163)",
+    "deityZh": "持金刚海音如来 & 持世菩萨 (Vasudhārā)",
+    "meritsAndSummaryZh": "憍睒弥国妙月长者请问除贫病法，佛宣说过去持金刚海音如来所传《雨宝陀罗尼》。本条专收长咒本体的归敬与根本章句（心咒与心中心咒已分列独立专条）。",
+    "recitationTipsZh": "sasyavati dhānyavati dhanavati śrīmati 赞叹苗稼、五谷、财宝、吉祥四重丰足。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T20n1163 《佛说雨宝陀罗尼经》（不空译）.",
+      "manuscriptNotesZh": "独立单列之不空译雨宝陀罗尼根本咒（不混心咒短咒）。",
+      "cbetaId": "T20n1163",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1163",
+      "gretilFile": "vadhdhdu.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'deva-v1',
-        index: 1,
-        iast: 'oṃ vaiśravaṇāya svāhā ||',
-        classicalTranslitZh: '【北方多闻天王（毗沙门天）真言】唵 吠室啰嚩拏耶 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 歪₍希₎啦瓦拿呀 ₍斯₎瓦哈',
-        meaningZh: '【毗沙门天王心咒】嗡！归命遍闻法音、护世施宝之北方多闻天王，圆满吉祥！',
-        meaningEn: '[Vaiśravaṇa Mantra] Oṃ! Homage to Lord Vaiśravaṇa (Guardian of the North and Bestower of Wealth), Svāhā!',
-        words: [
-          { iast: 'vaiśravaṇāya', stem: 'vaiśravaṇa', grammar: 'Dat. sg. m.', transliterationZh: '吠室啰嚩拏耶', meaningZh: '向北方多闻天王（毗沙门天）', meaningEn: 'to Lord Vaiśravaṇa' },
-        ],
+        "id": "yubao-v-1",
+        "index": 1,
+        "iast": "namo bhagavate vajradharasāgaranirghoṣāya tathāgatāyārhate samyaksaṃbuddhāya",
+        "classicalTranslitZh": "曩谟 婆誐嚩帝 嚩日啰驮啰娑誐啰捏具晒耶 怛他孽多夜啰诃帝 三藐三没驮耶",
+        "modernPhoneticZh": "拿摩 巴嘎瓦帝 瓦₍吉₎啦-达啦萨嘎啦尼₍尔₎果沙呀 达他嘎达-呀₍尔₎哈帝 萨₍姆₎呀₍克₎-桑布达呀",
+        "meaningZh": "归命世尊持金刚海音如来、应供、正等正觉！",
+        "meaningEn": "Homage to Bhagavān Tathāgata Vajradhara-Sāgara-Nirghoṣa, Arhat, Perfectly Awakened One!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhagavate",
+            "stem": "bhagavate",
+            "grammar": "Dat.Sg. · 为格单数",
+            "transliterationZh": "薄伽伐帝 / 婆誐嚩帝（拼读参考：巴嘎瓦帝）",
+            "meaningZh": "向世尊（薄伽梵）致敬",
+            "meaningEn": "to the Blessed One, World-Honored Lord",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajradharasāgaranirghoṣāya",
+            "stem": "vajradhara-sāgara-nirghoṣa",
+            "grammar": "Samāsa · 复合词 (Dat. Sg. · 为格单数)",
+            "transliterationZh": "嚩日啰驮啰娑誐啰你哩瞿洒(引)耶（拼读参考：瓦₍吉₎啦-达啦萨嘎啦尼₍尔₎果沙呀）",
+            "meaningZh": "向金刚总持大海责任",
+            "meaningEn": "Vajradhara + ocean + to",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tathāgatāyārhate",
+            "stem": "tathāgata-āya-ārhata",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "怛他(引)誐多夜哩诃帝（拼读参考：达他嘎达-呀₍尔₎哈帝）",
+            "meaningZh": "如来·出·堪敬尊",
+            "meaningEn": "Tathāgata + income",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samyaksaṃbuddhāya",
+            "stem": "samyaksaṃbuddha",
+            "grammar": "Samāsa · 正遍知 · Dat. Sg. · 为格单数",
+            "transliterationZh": "三藐三没驮耶（拼读参考：萨₍姆₎呀₍克₎-桑布达呀）",
+            "meaningZh": "向正等正觉、正遍知",
+            "meaningEn": "to/for Perfectly and Completely Awakened Buddha",
+            "origin": "derived-reference"
+          }
+        ]
       },
       {
-        id: 'deva-v2',
-        index: 2,
-        iast: 'oṃ jambhala jalendrāya svāhā ||',
-        classicalTranslitZh: '【黄财神（瞻巴拉）根本心咒】唵 针巴拉 查冷陀啰耶 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 詹巴啦 佳伦₍德₎啦呀 ₍斯₎瓦哈',
-        meaningZh: '【黄财神瞻巴拉心咒】嗡！归命宝藏王瞻巴拉、水界自在主，祈赐福德法财充盈，圆满吉祥！',
-        meaningEn: '[Yellow Jambhala Heart Mantra] Oṃ! To Jambhala, Lord of the Waters of Prosperity, Svāhā!',
-        words: [
-          { iast: 'jambhala', stem: 'jambhala', grammar: 'Voc./Compound', transliterationZh: '针巴拉', meaningZh: '财宝护法瞻巴拉尊', meaningEn: 'Lord Jambhala' },
-          { iast: 'jalendrāya', stem: 'jala-indra', grammar: 'Dat. sg. m.', transliterationZh: '查冷陀啰耶', meaningZh: '向水轮甘露王', meaningEn: 'to the Lord of Waters' },
-        ],
-      },
-      {
-        id: 'deva-v3',
-        index: 3,
-        iast: 'oṃ mahākālāya svāhā | oṃ micikiri mahākāla hūṃ phaṭ ||',
-        classicalTranslitZh: '【摩诃迦罗大黑天神真言】唵 摩诃迦罗耶 娑嚩诃 | 唵 密止密止 舍婆隶 多啰羯帝 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 玛哈-嘎啦呀 ₍斯₎瓦哈 | 嗡 米吉给里 玛哈嘎啦 吽 帕₍特₎',
-        meaningZh: '【大黑天真言】嗡！归命大黑天神（摩诃迦罗大自在护法），除一切贫匮灾难，护持三宝，圆满吉祥！',
-        meaningEn: '[Mahākāla Mantra] Oṃ! To the Great Protector Mahākāla, Svāhā!',
-        words: [
-          { iast: 'mahākālāya', stem: 'mahā-kāla', grammar: 'Dat. sg. m.', transliterationZh: '摩诃迦罗耶', meaningZh: '向大黑天（超越时间之大护法尊）', meaningEn: 'to Mahākāla' },
-        ],
-      },
-      {
-        id: 'deva-v4',
-        index: 4,
-        iast: 'oṃ gaḥ gaḥ hūṃ phaṭ svāhā | namaḥ stute gaṇapataye svāhā ||',
-        classicalTranslitZh: '【大圣欢喜天（象头王财神）心咒】唵 誐 誐 吽 泮吒 娑嚩诃 | 曩莫 窣堵帝 誐拏钵多曳 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 嘎₍赫₎ 嘎₍赫₎ 吽 帕₍特₎ ₍斯₎瓦哈 | 拿玛₍赫₎ ₍斯₎度帝 嘎拿巴达耶 ₍斯₎瓦哈',
-        meaningZh: '【大圣欢喜天真言】嗡！欢喜天种子字（誐、誐）！除一切障碍，圆满和合善愿，礼赞大圣欢喜天主，娑婆诃！',
-        meaningEn: '[Ārya Gaṇapati Heart Mantra] Oṃ Gaḥ Gaḥ Hūṃ Phaṭ Svāhā! Praise and homage to Lord Gaṇapati, Svāhā!',
-        words: [
-          { iast: 'gaṇapataye', stem: 'gaṇa-pati', grammar: 'Dat. sg. m.', transliterationZh: '誐拏钵多曳', meaningZh: '向大圣欢喜天（天众之主）', meaningEn: 'to Gaṇapati' },
-        ],
-      },
-      {
-        id: 'deva-v5',
-        index: 5,
-        iast: 'namaḥ samantabuddhānām | oṃ pṛthivīye svāhā ||',
-        classicalTranslitZh: '【坚牢地神（安土地与丰饶）真言】曩莫 三曼多没驮喃 | 唵 钵哩体微曳 娑嚩诃 ||',
-        modernPhoneticZh: '拿玛₍赫₎ 萨曼达-布达南 | 嗡 ₍普₎日提维耶 ₍斯₎瓦哈',
-        meaningZh: '【坚牢地神心咒】归命普遍一切诸佛！嗡！向护持佛法、承载万物之坚牢地神致敬，愿国土安稳、资粮丰足，圆满吉祥！',
-        meaningEn: '[Earth Goddess Pṛthivī Mantra] Homage to Universal Buddhas! Oṃ! To Goddess Pṛthivī (Steadfast Earth), Svāhā!',
-        words: [
-          { iast: 'pṛthivīye', stem: 'pṛthivī', grammar: 'Dat. sg. f.', transliterationZh: '钵哩体微曳', meaningZh: '向坚牢地天女', meaningEn: 'to Goddess Pṛthivī' },
-        ],
-      },
-      {
-        id: 'deva-v6',
-        index: 6,
-        iast: 'oṃ sarasvatyai svāhā | oṃ hrīṃ mahāmāye svāhā ||',
-        classicalTranslitZh: '【大辩才天女（妙音天母）真言】唵 萨啰娑嚩底曳 娑嚩诃 ||',
-        modernPhoneticZh: '嗡 萨啦₍斯₎瓦₍蒂₎崖 ₍斯₎瓦哈 | 嗡 ₍赫₎林 玛哈玛耶 ₍斯₎瓦哈',
-        meaningZh: '【大辩才天女心咒】嗡！归命妙音大辩才天女，祈赐四无碍辩才、文艺智慧与清净音声，圆满吉祥！',
-        meaningEn: '[Goddess Sarasvatī Mantra] Oṃ! To Goddess Sarasvatī (Bestower of Eloquence, Music, and Wisdom), Svāhā!',
-        words: [
-          { iast: 'sarasvatyai', stem: 'sarasvatī', grammar: 'Dat. sg. f.', transliterationZh: '萨啰娑嚩底曳', meaningZh: '向大辩才天女（妙音天女）', meaningEn: 'to Goddess Sarasvatī' },
-        ],
-      },
-    ],
+        "id": "yubao-v-2",
+        "index": 2,
+        "iast": "tadyathā — oṃ surūpe bhadravati maṅgale acale acapale ughātini ubhedini sasyavati dhānyavati dhanavati śrīmati prabhāvati amale vimale ruru surūpe vimale adataste vidhaste viśvakeśi aṅkure maṅkure prabhaṅkure svāhā",
+        "classicalTranslitZh": "怛你也他 — 唵 素噜闭 跋捺啰嚩底 瞢誐隶 阿左隶 阿左跛隶 坞伽跢你 坞陛娜你 萨写嚩底 驮娘嚩底 驮曩嚩底 室哩摩底 钵啰婆嚩底 阿摩隶 尾摩隶 噜噜 素噜闭 尾摩隶 阿娜多悉帝 尾驮悉帝 尾湿嚩计尸 鸯矩隶 瞢矩隶 钵啰婆鸯矩隶 娑嚩诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 嗡 苏鲁贝 巴₍德₎啦瓦帝 芒嘎雷 阿佳雷 阿佳巴雷 乌嘎帝尼 乌贝地尼 萨₍斯₎呀瓦帝 达₍尼₎呀瓦帝 达拿瓦帝 ₍希₎里玛帝 ₍普₎啦巴瓦帝 阿玛雷 维玛雷 鲁鲁 苏鲁贝 维玛雷 阿达达₍斯₎帝 维达₍斯₎帝 维₍湿₎瓦给希 昂古雷 芒古雷 ₍普₎啦邦古雷 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：嗡！妙色相尊、善贤吉祥尊、不动尊、开启宝藏尊、具足禾稼五谷财宝吉祥威光尊、无垢离染尊！令一切福智善根萌芽增长，圆满成就，娑嚩诃！",
+        "meaningEn": "Namely: Oṃ! O Wondrous Form, Auspicious One, Unwavering Opener of Treasures, Rich in crops, grain, wealth, glory, and light — sprout all blessings, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "surūpe",
+            "stem": "surūpa",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "苏噜(引)闭（拼读参考：苏鲁贝）",
+            "meaningZh": "善见尊",
+            "meaningEn": "O handsome-figured, beautiful; Abstr / in handsome-figured, beautiful; Abstr",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhadravati",
+            "stem": "bhadra",
+            "grammar": "Voc. Fem. · 具足尊",
+            "transliterationZh": "婆捺啰嚩底（拼读参考：巴₍德₎啦瓦帝）",
+            "meaningZh": "具足贤尊",
+            "meaningEn": "O one endowed with blessed; auspicious",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "maṅgale",
+            "stem": "maṅgala",
+            "grammar": "Noun/Adj. · 吉祥瑞相 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "摩仰誐隶（拼读参考：芒嘎雷）",
+            "meaningZh": "吉祥、胜妙瑞相尊",
+            "meaningEn": "O auspiciousness, blessing, good fortune / in auspiciousness, blessing, good fortune",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "acale",
+            "stem": "acala",
+            "grammar": "Noun/Adj. · 不动尊 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "阿者隶（拼读参考：阿佳雷）",
+            "meaningZh": "不动明王、不动摇尊",
+            "meaningEn": "O Acala, Immovable Wisdom King / steadfast / in Acala, Immovable Wisdom King / steadfast",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 12. 妙法莲华经·陀罗尼品六番神咒全集 (Saddharmapuṇḍarīka Dhāraṇīs)
-  // ============================================================================
   {
-    id: 'lotus-sutra-six-dharanis',
-    titleZh: '妙法莲华经·陀罗尼品第二十六（药王·勇施·毗沙门·持国·十罗刹女·普贤六番陀罗尼全集）',
-    titleSanskritIast: 'Saddharmapuṇḍarīka-sūtra Dhāraṇī-parivarta (Six Protection Dhāraṇīs)',
-    titleEnglish: 'Lotus Sūtra Chapter 26: All Six Protective Dhāraṇīs (Bhaiṣajyarāja, Pradānaśūra, Vaiśravaṇa, Virūḍhaka, Rākṣasīs & Samantabhadra)',
-    categoryId: 'prajna-sutra-hrdaya',
-    taishoNo: 'T09n0262 / GRETIL bsu028pu',
-    translatorZh: '（姚秦）鸠摩罗什 译 · 梵本《Saddharmapuṇḍarīkasūtra》（Kern-Nanjio / Vaidya 校勘本）逐句对勘',
-    sutraSourceZh: '《妙法莲华经》卷七〈陀罗尼品第二十六〉&〈普贤菩萨劝发品第二十八〉(T09n0262) / GRETIL bsu028pu.htm',
-    deityZh: '药王菩萨 · 勇施菩萨 · 毗沙门天王 · 持国天王 · 鬼子母与十罗刹女 · 普贤菩萨',
-    meritsAndSummaryZh:
-      '《法华经》中最著名的六道护法总持。经载若有人侵毁法华受持法师，即为侵毁过去、现在八百千万亿那由他诸佛。药王菩萨、勇施菩萨、毗沙门天王、持国天王、十罗刹女及普贤菩萨依次宣说此六番陀罗尼，守护读诵大乘经典者百由旬内无诸衰患。',
-    recitationTipsZh:
-      '本词条将鸠摩罗什大师千古流传的古汉语音译（「安尔 曼尔 摩祢 摩摩祢...」）与现存尼泊尔贝叶梵本《Saddharmapuṇḍarīkasūtra》原句（「anye mannye mane mamane...」）逐句严格对应！',
-    provenance: {
-      sourceType: 'CBETA+GRETIL',
-      cbetaId: 'T09n0262',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T09n0262',
-      gretilFile: 'bsu028pu.htm',
-      gretilRawUrl: 'https://raw.githubusercontent.com/INDOLOGY/GRETIL-mirror/main/gretil.sub.uni-goettingen.de/gretil/1_sanskr/4_rellit/buddh/bsu028pu.htm',
-      editionCitation: 'Saddharmapuṇḍarīkasūtram, ed. P.L. Vaidya, BST 6, Darbhanga 1960 & CBETA T09n0262 (鸠摩罗什译).',
-      manuscriptNotesZh: '梵汉合璧：鸠摩罗什译《法华经·陀罗尼品》六番神咒与哥廷根大学 GRETIL 梵文《法华经》原典逐句对勘。',
+    "id": "vasudhara-srivasu-hrdaya",
+    "titleZh": "佛说雨宝陀罗尼经·心中心真言",
+    "titleSanskritIast": "Ārya-Vasudhārā-śrīvasu-antarhṛdaya-mantra",
+    "titleEnglish": "Innermost Heart Mantra of the Rain of Treasures Sūtra",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1163",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《佛说雨宝陀罗尼经》(T20n1163)",
+    "deityZh": "持世菩萨 / 吉祥宝藏尊 (Śrīvasu)",
+    "meritsAndSummaryZh": "《佛说雨宝陀罗尼经》所载「心中心真言（唵 室哩嚩素 娑嚩诃）」，精炼凝摄全经福德法财精髓，独立建档。",
+    "recitationTipsZh": "śrīvasu 意为吉祥殊胜大宝藏。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1163 《佛说雨宝陀罗尼经》心中心真言.",
+      "manuscriptNotesZh": "自雨宝陀罗尼独立拆出之心中心真言专条。",
+      "cbetaId": "T20n1163",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1163"
     },
-    verses: [
+    "verses": [
       {
-        id: 'lotus-v1',
-        index: 1,
-        iast: 'tadyathā — anye mannye mane mamane citte carite śame śamitāvi śānte mukte muktatame same aviṣame samasame jaye kṣaye akṣīṇe śānte śamite dhāraṇi ālokabhāṣe pratyavekṣaṇi nidhiru abhyantaraniśāte abhyantarapāriśuddhi mutkule araḍe paraḍe sukāṅkṣi asamasame buddhavilokite dharmaparīkṣite saṃghanirghoṣaṇi nirghoṣaṇi bhayābhayaviśodhani mantre mantrākṣayate rute rutakauśalye akṣaye akṣayavanatāye abale amanyanatāye svāhā ||',
-        classicalTranslitZh:
-          '【第一番：药王菩萨陀罗尼】安尔 曼尔 摩祢 摩摩祢 旨隶 遮梨第 赊咩 赊履多玮 帝 目帝 目多履 娑履 阿玮娑履 桑履 娑履 叉裔 阿叉裔 阿耆腻 帝 赊履 陀罗尼 阿卢伽婆娑 簸蔗毗叉腻 祢毗剃 阿便哆逻祢履剃 阿便哆逻波梨输地 沤究隶 穆究隶 阿罗隶 波罗隶 首迦差 阿三摩三履 佛驮毗吉利袠帝 达摩波利差帝 僧伽涅瞿沙祢 婆舍婆舍输地 曼哆逻 曼哆逻叉夜多 邮楼多 邮楼多憍舍略 阿叉裔 阿叉夜婆多 婆迦逻阿摩若那多夜 娑婆诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | 阿₍尼₎耶 曼₍尼₎耶 玛内 玛玛内 吉帝 佳里帝 沙美 沙米达维 善帝 穆₍克₎帝 穆₍克₎达达美 萨美 阿维沙美 萨玛萨美 佳耶 ₍克₎沙耶 阿₍克₎师内 善帝 沙米帝 达啦尼 阿洛嘎巴奢 ₍普₎啦₍蒂₎呀威₍克₎沙尼 尼地鲁 阿₍比₎延达啦尼沙帝 阿₍比₎延达啦巴里舒地 穆₍特₎古雷 阿啦叠 巴啦叠 苏刚₍克₎师 阿萨玛萨美 布达-维洛给帝 达₍尔₎玛-巴里₍克₎师帝 桑嘎-尼₍尔₎果沙尼 尼₍尔₎果沙尼 巴呀巴呀维硕达尼 曼₍特₎雷 曼₍特₎啦₍克₎沙呀帝 鲁帝 鲁达高沙₍勒₎耶 阿₍克₎沙耶 阿₍克₎沙呀瓦拿达耶 阿巴雷 阿玛₍尼₎呀拿达耶 ₍斯₎瓦哈',
-        meaningZh:
-          '【药王菩萨说六十二亿恒河沙佛护经神咒】即说咒曰：无异如如、正念思惟、寂静调柔、解脱最上解脱、平等无高下、尊胜无尽、总持法明、内证清净、诸佛所鉴照、正法所印证、僧伽妙音宣流、净除一切怖畏，令真言法音永不穷尽，圆满成就！',
-        meaningEn:
-          '[Bhaiṣajyarāja Bodhisattva Dhāraṇī] Namely: In true mindfulness, serenity, supreme liberation, equality, victory, unfailing Dhāraṇī, light of speech, inner purity, gazed upon by the Buddhas, verified by the Dharma, proclaimed by the Saṃgha, purifying all fears, Svāhā!',
-        words: [
-          { iast: 'śānte mukte muktatame', stem: 'śānta / mukta', grammar: 'Voc./Loc. sg.', transliterationZh: '帝 目帝 目多履', meaningZh: '寂静、解脱、最极解脱门', meaningEn: 'peaceful, liberated, supremely liberated' },
-          { iast: 'buddhavilokite dharmaparīkṣite saṃghanirghoṣaṇi', stem: 'tri-ratna-seal', grammar: 'Voc./Loc. sg.', transliterationZh: '佛驮毗吉利袠帝 达摩波利差帝 僧伽涅瞿沙祢', meaningZh: '诸佛所护念观察、正法所印证、圣僧所宣演', meaningEn: 'beheld by Buddhas, examined by Dharma, proclaimed by Saṃgha' },
-        ],
-      },
-      {
-        id: 'lotus-v2',
-        index: 2,
-        iast: 'tadyathā — jvale mahājvale ukke tukke mukke aḍe aḍāvati nṛtye nṛtyāvati itṭini viṭṭini ciṭṭini nṛtye nṛtyāvati svāhā ||',
-        classicalTranslitZh:
-          '【第二番：勇施菩萨陀罗尼】痤隶 摩诃痤隶 郁枳 目枳 阿隶 阿罗婆第 涅隶第 涅隶多婆第 伊致柅 韦致柅 旨致柅 涅隶墀 涅隶多婆底 娑婆诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | ₍吉₎瓦雷 玛哈₍吉₎瓦雷 乌给 度给 穆给 阿叠 阿达瓦帝 ₍尼₎日₍蒂₎耶 ₍尼₎日₍蒂₎呀瓦帝 伊₍特₎蒂尼 维蒂尼 吉蒂尼 ₍尼₎日₍蒂₎耶 ₍尼₎日₍蒂₎呀瓦帝 ₍斯₎瓦哈',
-        meaningZh:
-          '【勇施菩萨护法神咒】即说咒曰：智慧光焰、大智慧光焰！超升解脱、圣德具足、法喜踊跃游舞，使诸天魔外道无得其便，圆满成就！',
-        meaningEn:
-          '[Pradānaśūra Bodhisattva Dhāraṇī] Namely: O Blazing Light, O Great Blazing Light! Liberated, Noble, Dancing in Dharma joy, Svāhā!',
-        words: [
-          { iast: 'jvale mahājvale', stem: 'jvalā', grammar: 'Voc. sg. f.', transliterationZh: '痤隶 摩诃痤隶', meaningZh: '炽盛光焰、大智光焰尊', meaningEn: 'O Flame, O Great Flame' },
-        ],
-      },
-      {
-        id: 'lotus-v3',
-        index: 3,
-        iast: 'tadyathā — aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi svāhā ||',
-        classicalTranslitZh:
-          '【第三番：毗沙门天王护法咒】阿梨 那梨 㝹那梨 阿那卢 那履 拘那履 娑婆诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | 阿帝 拿帝 瓦拿帝 阿拿叠 拿迪 古拿迪 ₍斯₎瓦哈',
-        meaningZh:
-          '【毗沙门天王护持行者百由旬神咒】即说咒曰：高显威德、神通游行、遍护四方、摧伏魔怨，圆满成就！',
-        meaningEn: '[Vaiśravaṇa Protection Mantra in Lotus Sūtra] Namely: Aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi svāhā!',
-        words: buildWordGlossesFromIast('tadyathā — aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi svāhā ||'),
-      },
-      {
-        id: 'lotus-v4',
-        index: 4,
-        iast: 'tadyathā — agane gaṇe gauri gandhāri caṇḍāli mātaṅgi pukkasi saṃkule vrūsali sisi svāhā ||',
-        classicalTranslitZh:
-          '【第四番：持国天王统诸乾闼婆护经咒】阿伽祢 伽祢 瞿梨 乾陀梨 旃陀梨 摩蹬耆 常求利 浮楼莎柅 阏底 娑婆诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | 阿嘎内 嘎内 高里 甘达里 詹达利 玛当吉 布嘎悉 桑古雷 ₍维₎鲁萨利 悉悉 ₍斯₎瓦哈',
-        meaningZh:
-          '【持国天王护法神咒】即说咒曰：无垢清净、天众护持、皎洁光明、持香妙音、超越阶级差别、平等拥护受持法华行者，圆满成就！',
-        meaningEn: '[Virūḍhaka / Dhṛtarāṣṭra Guardian King Mantra] Namely: O Stainless Host, Bright One, Fragrant One, protecting all practitioners equally, Svāhā!',
-        words: buildWordGlossesFromIast('tadyathā — agane gaṇe gauri gandhāri caṇḍāli mātaṅgi pukkasi saṃkule vrūsali sisi svāhā ||'),
-      },
-      {
-        id: 'lotus-v5',
-        index: 5,
-        iast: 'tadyathā — iti me iti me iti me iti me iti me | nime nime nime nime nime | ruhe ruhe ruhe ruhe ruhe | stuhe stuhe stuhe stuhe stuhe svāhā ||',
-        classicalTranslitZh:
-          '【第五番：鬼子母与十罗刹女护法神咒】伊提履 伊提泯 伊提履 阿提履 伊提履 | 泥履 泥履 泥履 泥履 泥履 | 楼醯 楼醯 楼醯 楼醯 | 多醯 多醯 多醯 兜醯 耨醯 娑婆诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | 伊帝 美 伊帝 美 伊帝 美 伊帝 美 伊帝 美 | 尼美 尼美 尼美 尼美 尼美 | 鲁嘿 鲁嘿 鲁嘿 鲁嘿 鲁嘿 | ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎瓦哈',
-        meaningZh:
-          '【十罗刹女与鬼子母护顶神咒】即说咒曰：如是誓愿护我行者（五称）！决定制伏恶魔（五称）！令善根增上生长（五称）！普遍赞叹拥护，宁上我等头、莫恼法师，圆满成就！',
-        meaningEn: '[Ten Rākṣasī Daughters & Hārītī Protection Mantra] Namely: Thus our vow (5x), restraining harm (5x), growing merit (5x), praising and guarding the Dharma teacher, Svāhā!',
-        words: buildWordGlossesFromIast('tadyathā — iti me iti me iti me iti me iti me | nime nime nime nime nime | ruhe ruhe ruhe ruhe ruhe | stuhe stuhe stuhe stuhe stuhe svāhā ||'),
-      },
-      {
-        id: 'lotus-v6',
-        index: 6,
-        iast: 'tadyathā — adaṇḍe daṇḍapati daṇḍāvartani daṇḍakuśale daṇḍasudhāri dhāri dhārapati buddhapāśyane sarvadhāraṇyāvartani saṃghaparīkṣite saṃghanirghātani dharmaparīkṣite sarvasattvarutakauśalyānugate siṃhavikrīḍite svāhā ||',
-        classicalTranslitZh:
-          '【第六番：普贤菩萨劝发品旋陀罗尼】阿檀地 檀陀婆地 檀陀婆罗 檀陀鸠舍隶 檀陀修陀隶 修陀隶 修陀罗婆底 佛驮波膻祢 萨婆陀罗尼阿婆多尼 萨婆语言阿婆多尼 僧伽婆履叉尼 僧伽涅伽陀尼 阿僧祇 僧伽婆伽地 帝隶阿惰僧伽兜略阿罗帝婆罗帝 萨婆僧伽三摩地伽兰地 萨婆达摩修波利刹帝 萨婆萨埵楼驮憍舍略阿耨伽地 辛阿毗吉利地帝 娑婆诃 ||',
-        modernPhoneticZh:
-          '达₍地₎呀他 | 阿丹叠 丹达巴帝 丹达瓦₍尔₎达尼 丹达古沙雷 丹达苏达里 达里 达啦巴帝 布达-巴₍希₎呀内 萨₍尔₎瓦-达啦₍尼₎呀瓦₍尔₎达尼 桑嘎-巴里₍克₎师帝 桑嘎-尼₍尔₎嘎达尼 达₍尔₎玛-巴里₍克₎师帝 萨₍尔₎瓦-萨₍特₎瓦鲁达高沙₍勒₎呀努嘎帝 辛哈维₍克₎里迪帝 ₍斯₎瓦哈',
-        meaningZh:
-          '【普贤菩萨三昧旋陀罗尼】即说咒曰：无诤治罚、法幢之主、善巧运转总持、诸佛慈眼鉴照、旋转化现一切陀罗尼门、随顺一切众生语言善巧、犹如狮子王奋迅游戏三昧，圆满成就！',
-        meaningEn:
-          '[Samantabhadra Bodhisattva Revolving Dhāraṇī] Namely: O Non-violent Sovereign, Master of the Dharma-Staff, turning all Dhāraṇīs, beheld by the Buddhas, skilled in the languages of all beings, sporting like a Lion in Samādhi, Svāhā!',
-        words: [
-          { iast: 'sarvadhāraṇyāvartani', stem: 'sarva-dhāraṇī-āvartanī', grammar: 'Voc. sg.', transliterationZh: '萨婆陀罗尼阿婆多尼', meaningZh: '旋转化现一切总持法门者', meaningEn: 'revolving all Dhāraṇīs' },
-          { iast: 'siṃhavikrīḍite', stem: 'siṃha-vikrīḍita', grammar: 'Voc./Loc. sg.', transliterationZh: '辛阿毗吉利地帝', meaningZh: '狮子奋迅游戏三昧', meaningEn: 'Lion’s playful sport Samādhi' },
-        ],
-      },
-    ],
+        "id": "srivasu-v-1",
+        "index": 1,
+        "iast": "oṃ śrīvasu svāhā",
+        "classicalTranslitZh": "唵 室哩嚩素 娑嚩诃",
+        "modernPhoneticZh": "嗡 ₍希₎里瓦苏 ₍斯₎瓦哈",
+        "meaningZh": "嗡！吉祥殊胜法财宝藏圣尊啊，圆满成就，娑嚩诃！",
+        "meaningEn": "Oṃ! O Glorious Treasure (Śrīvasu), Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śrīvasu",
+            "stem": "śrī-vasu",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "室利嚩苏（拼读参考：₍希₎里瓦苏）",
+            "meaningZh": "吉祥财物",
+            "meaningEn": "auspiciousness + good",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 13. 早晚课诵与蒙山施食十方真言全集
-  // ============================================================================
   {
-    id: 'daily-liturgy-mengshan-mantras',
-    titleZh: '早晚课诵与蒙山施食十方真言全集（净三业·安土地·变食·甘露水·乳海·开咽喉·普供养真言）',
-    titleSanskritIast: 'Nitya-pūjā & Preta-tarpaṇa Daśa-mantra-saṃgraha',
-    titleEnglish: 'Complete Daily Liturgy & Mengshan Food-Bestowal Mantras (Purification, Earth Deity, Nectar & Universal Offering)',
-    categoryId: 'prajna-sutra-hrdaya',
-    taishoNo: 'T21n1313 / T21n1315',
-    translatorZh: '（唐）实叉难陀 / 不空三藏 译',
-    sutraSourceZh: '《佛说救拔焰口饿鬼陀罗尼经》(T21n1313) / 《施诸饿鬼饮食及水法》(T21n1315) / 禅门日诵',
-    deityZh: '十方三宝 · 观自在菩萨 · 妙色身等四如来',
-    meritsAndSummaryZh:
-      '完整收录汉传佛门早晚课诵、诵经开卷及晚课《蒙山施食仪》全部核心短咒：净口业真言、净身业真言、净意业真言、安土地真言、普供养真言、开启六道咽喉真言、无量威德自在光明胜妙力变食真言、甘露水真言、一字水轮真言、乳海真言。',
-    recitationTipsZh:
-      '本词条将日诵课本中的古音译与唐代不空三藏梵本原音逐句还原对照，方便课诵行者明了一字一句之真实梵义。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T21n1313',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1313.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T21n1313',
-      editionCitation: 'CBETA T21n1313 《佛说救拔焰口饿鬼陀罗尼经》（不空译）& T21n1315.',
-      manuscriptNotesZh: '已索引入大正藏密教部 T21n1313 与 T21n1315 原典。',
+    "id": "manjusri-astaksara-mantra",
+    "titleZh": "一切佛心大无畏八字真言（文殊八字最胜大威德心陀罗尼）",
+    "titleSanskritIast": "Mañjuśrī-aṣṭākṣara-mahāvīrya-hṛdaya-dhāraṇī",
+    "titleEnglish": "Mañjuśrī Eight-Syllable Supreme Fearless Protection Mantra",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1184 / T20n1185A",
+    "translatorZh": "（唐）菩提仙 / 宝思惟 译",
+    "sutraSourceZh": "《文殊师利宝藏陀罗尼经》(T20n1185A) / 《大圣妙吉祥菩萨秘密八字陀罗尼仪轨》(T20n1184)",
+    "deityZh": "八字文殊师利菩萨 (Aṣṭākṣara-Mañjuśrī)",
+    "meritsAndSummaryZh": "经云此八字陀罗尼乃「一切诸佛心」，能排解一切恶星宿曜灾厄、怨敌重病与横难，护国护家，大智文殊恒随拥护。独立单列八字本咒（不混入六字或五字真言）。",
+    "recitationTipsZh": "核心八字 āḥ vī ra hūṃ kha ca raḥ（加起首 oṃ 共九音节），khacaraḥ 意为游行虚空无碍之大智尊。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1184 & T20n1185A 《文殊师利宝藏陀罗尼经》.",
+      "manuscriptNotesZh": "独立单列之文殊八字最胜大威德心陀罗尼。",
+      "cbetaId": "T20n1184",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1184"
     },
-    verses: [
+    "verses": [
       {
-        id: 'daily-v1',
-        index: 1,
-        iast: 'oṃ śrutyasmṛti vijaye svāhā | oṃ śuddhane śuddhane sarvapāpaṃ viśodhani śuddhe viśuddhe sarvakarmāvaraṇa-viśodhani svāhā | oṃ vajradharma hrīḥ ||',
-        classicalTranslitZh:
-          '【净口业真言】唵 修利修利 摩诃修利 修修利 萨婆诃 | 【净身业真言】唵 修哆唎 修哆唎 修摩唎 修摩唎 萨婆诃 | 【净意业真言】唵 嚩日啰达摩 纥哩 ||',
-        modernPhoneticZh:
-          '嗡 ₍希₎鲁₍蒂₎呀₍斯姆₎日帝 维佳耶 ₍斯₎瓦哈 | 嗡 舒达内 舒达内 萨₍尔₎瓦巴邦 维硕达尼 舒叠 维舒叠 萨₍尔₎瓦-嘎₍尔₎玛瓦啦拿-维硕达尼 ₍斯₎瓦哈 | 嗡 瓦₍吉₎啦达₍尔₎玛 ₍赫₎里₍希₎',
-        meaningZh:
-          '【净三业真言】一、净口业：愿语业清净吉祥，所诵经咒皆契佛意；二、净身业：愿身业远离一切罪垢，清净无染；三、净意业：嗡！金刚法性莲华本净心（纥哩）！',
-        meaningEn:
-          '[Threefold Karma Purification Mantras] Purification of Speech, Body, and Mind (Oṃ Vajradharma Hrīḥ)!',
-        words: [
-          { iast: 'vajradharma hrīḥ', stem: 'vajra-dharma', grammar: 'Voc. + Bīja', transliterationZh: '嚩日啰达摩 纥哩', meaningZh: '金刚妙法本性清净莲华心印', meaningEn: 'Diamond-Dharma Lotus seed syllable' },
-        ],
-      },
-      {
-        id: 'daily-v2',
-        index: 2,
-        iast: 'namaḥ samantabuddhānām | oṃ duru duru pṛthivīye svāhā | oṃ gagana saṃbhava vajra hoḥ ||',
-        classicalTranslitZh:
-          '【安土地真言】南无三满哆 母驮喃 唵 度噜度噜 地尾 萨婆诃 | 【普供养真言】唵 誐誐曩 三婆嚩 伐日斛 ||',
-        modernPhoneticZh:
-          '拿玛₍赫₎ 萨曼达-布达南 | 嗡 杜鲁 杜鲁 ₍普₎日提维耶 ₍斯₎瓦哈 | 嗡 嘎嘎拿 桑巴瓦 瓦₍吉₎啦 霍₍赫₎',
-        meaningZh:
-          '【安土地真言 & 普供养真言】归命普遍一切诸佛！嗡！速疾护持大地安稳，坚牢地神吉祥成就！嗡！犹如虚空无尽藏中化现无量金刚妙供云海，欢喜奉献（斛）！',
-        meaningEn:
-          '[Earth-Pacifying & Sky-Treasury Universal Offering Mantras] Oṃ Duru Duru Pṛthivīye Svāhā! Oṃ Sky-Born Vajra Offerings, Hoḥ!',
-        words: [
-          { iast: 'gagana saṃbhava', stem: 'gagana-saṃbhava', grammar: 'Voc./Nom.', transliterationZh: '誐誐曩 三婆嚩', meaningZh: '从虚空宝藏中普现无尽供具', meaningEn: 'arising from the sky-treasury' },
-        ],
-      },
-      {
-        id: 'daily-v3',
-        index: 3,
-        iast: 'namaḥ sarvatathāgatāvalokite | oṃ saṃbhara saṃbhara hūṃ ||',
-        classicalTranslitZh:
-          '【无量威德自在光明胜妙力变食真言】南无 萨嚩怛他哦哆 嚩卢枳帝 | 唵 三跋啰 三跋啰 吽 ||',
-        modernPhoneticZh:
-          '拿玛₍赫₎ 萨₍尔₎瓦-达他嘎达-瓦洛给帝 | 嗡 桑巴啦 桑巴啦 吽',
-        meaningZh:
-          '【变食真言】归命一切如来大悲垂慈鉴照！嗡！积集、化现（三跋啰、三跋啰）无量甘露妙食遍满法界，普济一切饥虚有情，吽！',
-        meaningEn:
-          '[Food-Multiplying Mantra] Homage to the compassionate gaze of all Tathāgatas! Oṃ! Gather, multiply (boundless nectar food), Hūṃ!',
-        words: [
-          { iast: 'saṃbhara saṃbhara', stem: 'sam-√bhṛ', grammar: 'Impv. 2nd sg.', transliterationZh: '三跋啰 三跋啰', meaningZh: '聚集、化现无尽饮食资粮', meaningEn: 'gather, multiply abundantly' },
-        ],
-      },
-      {
-        id: 'daily-v4',
-        index: 4,
-        iast: 'namo surūpāya tathāgatāya | tadyathā — oṃ suru suru prasuru prasuru svāhā | oṃ vaṃ | namaḥ samantabuddhānāṃ vaṃ ||',
-        classicalTranslitZh:
-          '【甘露水真言】南无 苏噜婆耶 怛他哦哆耶 | 怛侄他 — 唵 苏噜苏噜 钵啰苏噜 钵啰苏噜 娑婆诃 | 【一字水轮真言】唵 鑁 | 【乳海真言】南无三满哆 没驮喃 鑁 ||',
-        modernPhoneticZh:
-          '拿摩 苏鲁巴呀 达他嘎达呀 | 达₍地₎呀他 | 嗡 苏鲁 苏鲁 ₍普₎啦苏鲁 ₍普₎啦苏鲁 ₍斯₎瓦哈 | 嗡 汪 | 拿玛₍赫₎ 萨曼达-布达南 汪',
-        meaningZh:
-          '【甘露水·一字水轮·乳海真言】归命妙色身如来！即说咒曰：嗡！流注、流注，普令甘露法水流注充盈，圆满成就！嗡！水大种子字（鑁 vaṃ），化水为八功德甘露乳海！',
-        meaningEn:
-          '[Nectar Water, Water-Wheel & Milk-Ocean Mantras] Homage to Tathāgata Surūpa (Wondrous Form)! Namely: Oṃ! Flow, flow, pour forth nectar water, Svāhā! Oṃ Vaṃ!',
-        words: [
-          { iast: 'surūpāya tathāgatāya', stem: 'su-rūpa-tathāgata', grammar: 'Dat. sg. m.', transliterationZh: '苏噜婆耶 怛他哦哆耶', meaningZh: '向妙色身如来', meaningEn: 'to Tathāgata Surūpa' },
-          { iast: 'suru suru prasuru prasuru', stem: '√sru / pra-√sru', grammar: 'Impv.', transliterationZh: '苏噜苏噜 钵啰苏噜', meaningZh: '流注甘露、普遍流注清凉法水', meaningEn: 'flow, stream forth abundantly' },
-        ],
-      },
-    ],
+        "id": "manjusri8-v-1",
+        "index": 1,
+        "iast": "namaḥ sarvabuddhānām | oṃ āḥ vī ra hūṃ kha ca raḥ ||",
+        "classicalTranslitZh": "曩莫 萨嚩没驮喃 | 唵 阿 味 啰 吽 佉 左 洛",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨₍尔₎瓦-布达南 | 嗡 阿₍赫₎ 维 啦 吽 卡 佳 啦₍赫₎",
+        "meaningZh": "归命一切诸佛！嗡！阿（无生法界门）、味啰（大勇猛定慧）、吽（摧破一切魔怨灾障）、佉左洛（自在游行于大空法界之文殊大士）！",
+        "meaningEn": "Homage to all Buddhas! Oṃ! Āḥ (Unborn), Vīra (Heroic Valor), Hūṃ (Vajra Mind), Khacaraḥ (Sky-Farer in Emptiness)!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sarvabuddhānām",
+            "stem": "sarva-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "萨哩嚩没驮(引)喃(引)（拼读参考：萨₍尔₎瓦-布达南）",
+            "meaningZh": "一切没驮南",
+            "meaningEn": "all + buddhānām",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "āḥ",
+            "stem": "āḥ",
+            "grammar": "Bīja · 语金刚种子",
+            "transliterationZh": "阿(引)诃（拼读参考：阿₍赫₎）",
+            "meaningZh": "语金刚种子字（一切法本不生清净妙语）",
+            "meaningEn": "speech-vajra seed syllable Āḥ (non-arising)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vī",
+            "stem": "va",
+            "grammar": "Akṣara-mukha · 嚩字门",
+            "transliterationZh": "味（拼读参考：维）",
+            "meaningZh": "嚩字门（最上真言离言说（vāk/vara）·禅定三昧总持）",
+            "meaningEn": "supreme ineffable speech (vāk) — deep samādhi retention",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ra",
+            "stem": "ra",
+            "grammar": "Akṣara-mukha · 啰字门",
+            "transliterationZh": "啰（拼读参考：啦）",
+            "meaningZh": "啰字门（清净离诸尘垢（rajas）·本不生体性）",
+            "meaningEn": "stainless purity free from dust (rajas) — primordial non-arising",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 14. 释迦·弥陀·不动如来·弥勒·普贤·大势至本尊心咒合集
-  // ============================================================================
   {
-    id: 'buddhas-mahasattvas-heart-mantras',
-    titleZh: '诸佛菩萨根本心咒总汇：释迦牟尼佛 · 阿弥陀佛 · 不动如来 · 弥勒菩萨 · 普贤菩萨 · 大势至菩萨',
-    titleSanskritIast: 'Śākyamuni, Amitābha, Akṣobhya, Maitreya, Samantabhadra & Mahāsthāmaprāpta Mantras',
-    titleEnglish: 'Root Heart Mantras of Śākyamuni, Amitābha, Akṣobhya, Maitreya, Samantabhadra & Mahāsthāmaprāpta',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T19n0901 / T19n0930 / T19n0921 / T20n1141',
-    translatorZh: '（唐）阿地瞿多 / 不空三藏 / 善无畏 译',
-    sutraSourceZh: '《陀罗尼集经》(T19n0901) / 《无量寿如来观行供养仪轨》(T19n0930) / 《阿閦如来念诵供养法》(T19n0921) / 《慈氏菩萨略修愈誐念诵法》(T20n1141)',
-    deityZh: '释迦牟尼佛 · 阿弥陀佛 · 东方阿閼（不动）如来 · 当来下生弥勒尊佛 · 普贤菩萨 · 大势至菩萨',
-    meritsAndSummaryZh:
-      '汇总大乘显密共通礼敬之六大本尊根本心咒：释迦牟尼佛心咒、阿弥陀佛一字心咒与十甘露咒、东方不动如来（阿閼佛）净除重罪陀罗尼、弥勒菩萨誓愿心咒、普贤菩萨三昧耶真言、大势至菩萨威德真言。',
-    recitationTipsZh:
-      '本组皆为精炼本尊心咒，发音清晰简明，极适合日常定课持诵。',
-    provenance: {
-      sourceType: 'CBETA-XML-P5',
-      cbetaId: 'T19n0901',
-      cbetaRawXmlUrl: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T19/T19n0901.xml',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T19n0901',
-      editionCitation: 'CBETA T19n0901, T19n0921, T19n0930 & T20n1141.',
-      manuscriptNotesZh: '已索引入大正藏密教部诸佛菩萨本尊仪轨原典。',
+    "id": "manjusri-vagisvara-mantra",
+    "titleZh": "圣妙吉祥真实名经·文殊语自在王六字心咒",
+    "titleSanskritIast": "Mañjuśrī-vāgīśvara-ṣaḍakṣara-mantra",
+    "titleEnglish": "Six-Syllable Lord of Speech (Vāgīśvara) Mañjuśrī Mantra",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1187 / GRETIL manjn1pu",
+    "translatorZh": "（宋）释智吉祥 译",
+    "sutraSourceZh": "《圣妙吉祥真实名经》(T20n1187)",
+    "deityZh": "语自在文殊菩萨 (Vāgīśvara-Mañjuśrī)",
+    "meritsAndSummaryZh": "礼敬语自在王（Vāgīśvara）文殊菩萨之六字智慧心印，专司开启无碍法语辩才，独立单列。",
+    "recitationTipsZh": "vākyedaṃ namaḥ 意为向妙法语致敬。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Mañjuśrīnāmasaṃgīti & Sādhanamālā.",
+      "manuscriptNotesZh": "独立单列之文殊语王六字心咒。",
+      "cbetaId": "T20n1187",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1187",
+      "gretilFile": "manjn1pu.htm"
     },
-    verses: [
+    "verses": [
       {
-        id: 'bheart-v1',
-        index: 1,
-        iast: 'namaḥ samantabuddhānām | oṃ mune mune mahāmune śākyamune svāhā ||',
-        classicalTranslitZh:
-          '【释迦牟尼佛根本心咒】曩莫 三曼多没驮喃 | 唵 牟尼 牟尼 摩诃牟尼 释迦牟尼 娑嚩诃 ||',
-        modernPhoneticZh:
-          '拿玛₍赫₎ 萨曼达-布达南 | 嗡 穆内 穆内 玛哈穆内 沙₍克₎呀穆内 ₍斯₎瓦哈',
-        meaningZh:
-          '【释迦牟尼佛心咒】归命普遍一切诸佛！嗡！寂默圣尊、寂默圣尊、大寂默圣尊、释迦族大能仁世尊啊，圆满吉祥！',
-        meaningEn:
-          '[Śākyamuni Buddha Heart Mantra] Homage to Universal Buddhas! Oṃ! O Sage, O Sage, O Great Sage, O Sage of the Śākyas, Svāhā!',
-        words: [
-          { iast: 'mune mahāmune śākyamune', stem: 'muni', grammar: 'Voc. sg. m.', transliterationZh: '牟尼 摩诃牟尼 释迦牟尼', meaningZh: '能仁寂默尊、大能仁、释迦能仁世尊啊', meaningEn: 'O Sage, Great Sage, Sage of the Śākyas' },
-        ],
-      },
-      {
-        id: 'bheart-v2',
-        index: 2,
-        iast: 'oṃ amṛta-teje hara hūṃ | oṃ amitābha hrīḥ ||',
-        classicalTranslitZh:
-          '【阿弥陀佛一字心咒与心中心咒】唵 阿蜜栗多 帝际 贺啰 吽 | 唵 阿弥多婆 纥哩 ||',
-        modernPhoneticZh:
-          '嗡 阿₍姆₎日达-帝杰 哈啦 吽 | 嗡 阿米达巴 ₍赫₎里₍希₎',
-        meaningZh:
-          '【阿弥陀佛心咒】嗡！无量甘露威光尊，摄受拔济（贺啰）一切众生往生净土，吽！嗡！无量光如来大悲莲华心（纥哩）！',
-        meaningEn:
-          '[Amitābha Buddha Heart Mantras] Oṃ! O Immortal Radiance, rescue and carry us across, Hūṃ! Oṃ Amitābha Hrīḥ!',
-        words: [
-          { iast: 'amṛta-teje', stem: 'amṛta-tejas', grammar: 'Voc. sg.', transliterationZh: '阿蜜栗多帝际', meaningZh: '甘露无量威光尊', meaningEn: 'O Immortal Radiance' },
-        ],
-      },
-      {
-        id: 'bheart-v3',
-        index: 3,
-        iast: 'namo ratnatrayāya | oṃ kaṅkani kaṅkani rocani rocani troṭani troṭani trāsani trāsani pratihana pratihana sarvakarmaparaṃparāṇi me sarvasattvānāṃ ca svāhā ||',
-        classicalTranslitZh:
-          '【东方不动如来（阿閦佛）净除一切业障陀罗尼】南无薄伽伐帝 阿閦鞞牙... 唵 刚嘎尼 刚嘎尼 嚧佳尼 嚧佳尼 咄嚧吒尼 咄嚧吒尼 怛啰萨尼 怛啰萨尼 钵啰底诃那 钵啰底诃那 萨嚩羯磨波啰波啰尼 谜 萨嚩萨埵喃 者 娑嚩诃 ||',
-        modernPhoneticZh:
-          '拿摩 啦₍特₎拿-₍特₎啦呀呀 | 嗡 刚嘎尼 刚嘎尼 洛佳尼 洛佳尼 ₍特₎洛达尼 ₍特₎洛达尼 ₍特₎啦萨尼 ₍特₎啦萨尼 ₍普₎啦帝哈拿 ₍普₎啦帝哈拿 萨₍尔₎瓦-嘎₍尔₎玛巴朗巴啦尼 美 萨₍尔₎瓦-萨₍特₎瓦南 佳 ₍斯₎瓦哈',
-        meaningZh:
-          '【不动如来（阿閼佛）灭除重罪陀罗尼】归命三宝！嗡！金刚庄严、慧光普照、断除结缚、震慑魔军、彻底摧破我及一切众生无始相续之一切恶业障，圆满成就！',
-        meaningEn:
-          '[Akṣobhya Buddha Karma-Purification Dhāraṇī] Homage to the Three Jewels! Oṃ! Illuminate, snap asunder, terrify obstacles, and destroy all continuous karmic obscurations of myself and all sentient beings, Svāhā!',
-        words: [
-          { iast: 'sarvakarmaparaṃparāṇi', stem: 'sarva-karma-paraṃparā', grammar: 'Acc. pl.', transliterationZh: '萨嚩羯磨波啰波啰尼', meaningZh: '无始相续不断之一切宿世业障', meaningEn: 'all continuous streams of karmic obstacles' },
-        ],
-      },
-      {
-        id: 'bheart-v4',
-        index: 4,
-        iast: 'oṃ maitreya aḥ svāhā | oṃ samantabhadra āḥ svāhā | oṃ saṃ jam jaṃ saḥ svāhā ||',
-        classicalTranslitZh:
-          '【弥勒菩萨心咒】唵 梅怛梨耶 阿 娑嚩诃 | 【普贤菩萨真言】唵 三曼多跋捺啰 恶 娑嚩诃 | 【大势至菩萨真言】唵 散 髯 髯 娑 娑嚩诃 ||',
-        modernPhoneticZh:
-          '嗡 麦₍特₎雷呀 阿₍赫₎ ₍斯₎瓦哈 | 嗡 萨曼达-巴₍德₎啦 阿₍赫₎ ₍斯₎瓦哈 | 嗡 桑 章 章 萨₍赫₎ ₍斯₎瓦哈',
-        meaningZh:
-          '【弥勒·普贤·大势至三大士心咒】一、嗡！慈氏弥勒菩萨，圆满成就！二、嗡！普遍贤善（普贤）菩萨，圆满成就！三、嗡！大势至菩萨威德裂破三途轮回，圆满成就！',
-        meaningEn:
-          '[Maitreya, Samantabhadra & Mahāsthāmaprāpta Mantras] Oṃ Maitreya Aḥ Svāhā! Oṃ Samantabhadra Āḥ Svāhā! Oṃ Saṃ Jam Jaṃ Saḥ Svāhā!',
-        words: buildWordGlossesFromIast('oṃ maitreya aḥ svāhā | oṃ samantabhadra āḥ svāhā | oṃ saṃ jam jaṃ saḥ svāhā ||'),
-      },
-    ],
+        "id": "vagisvara-v-1",
+        "index": 1,
+        "iast": "oṃ vākyedaṃ namaḥ",
+        "classicalTranslitZh": "唵 嚩鸡淡 曩莫",
+        "modernPhoneticZh": "嗡 瓦₍克₎耶当 拿玛₍赫₎",
+        "meaningZh": "嗡！向胜义法语自在王文殊师利菩萨虔诚顶礼！",
+        "meaningEn": "Oṃ! Homage to the Supreme Speech of Wisdom (Vāgīśvara Mañjuśrī)!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vākyedaṃ",
+            "stem": "vākya-idaṃ",
+            "grammar": "Samāsa · 复合词 (Pron. Neut. · 近指代词)",
+            "transliterationZh": "嚩(引)枳曳昙（拼读参考：瓦₍克₎耶当）",
+            "meaningZh": "妙语此",
+            "meaningEn": "speech + this",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
-
-  // ============================================================================
-  // 15. 白度母如意轮长寿心咒 & 作明佛母（咕噜咕咧佛母）心咒
-  // ============================================================================
   {
-    id: 'sitatara-kurukulla-mantras',
-    titleZh: '白度母如意轮延寿增慧心咒暨作明佛母（咕噜咕咧佛母）怀爱真言',
-    titleSanskritIast: 'Sita-Tārā Cintāmaṇicakra Āyur-vardhana & Kurukullā Hṛdaya Mantras',
-    titleEnglish: 'White Tārā Wish-Fulfilling Longevity Mantra & Kurukullā Magnetizing Wisdom Mantra',
-    categoryId: 'buddhas-bodhisattvas',
-    taishoNo: 'T20n1092 / GRETIL tarasdhu',
-    translatorZh: '（唐）不空 译 / 梵本《Sādhanamālā》校勘',
-    sutraSourceZh: '《不空羂索神变真言经》/ 梵本《Tārā-sādhana》(GRETIL tarasdhu.htm)',
-    deityZh: '七眼白度母 (Sita-Tārā) & 作明佛母 / 咕噜咕咧佛母 (Kurukullā)',
-    meritsAndSummaryZh:
-      '白度母具足七眼（双掌、双足及眉间各具慧眼），专司延寿、增福、开显般若总持；作明佛母（Kurukullā，又称咕噜咕咧佛母）为莲华部怀爱本尊，以大悲弓箭摄受人天善缘、调伏刚强众生令入佛智。',
-    recitationTipsZh:
-      '白度母咒在绿度母十字心咒「oṃ tāre tuttāre ture」中嵌入「mama āyuḥ-puṇya-jñāna-puṣṭiṃ kuru（请令我之寿命、福德、智慧皆悉增长广大）」。',
-    provenance: {
-      sourceType: 'GRETIL/DSBC',
-      cbetaId: 'T20n1102',
-      cbetaOnlineUrl: 'https://cbetaonline.dila.edu.tw/zh/T20n1102',
-      gretilFile: 'tarb108u.htm',
-      editionCitation: 'Sādhanamālā & GRETIL tarb108u.htm / tarasdhu.htm.',
-      manuscriptNotesZh: '依据梵本《成就法鬘（Sādhanamālā）》白度母与作明佛母仪轨原文校订。',
+    "id": "akasagarbha-smrti-dharani",
+    "titleZh": "虚空藏菩萨能满诸愿最胜心陀罗尼（求闻持法聪明不忘真言）",
+    "titleSanskritIast": "Ārya-Ākāśagarbha-sarvakāmapradā-hṛdaya-dhāraṇī",
+    "titleEnglish": "Ākāśagarbha Bodhisattva Memory-Retention Mantra (Gumonjihō)",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1145",
+    "translatorZh": "（唐）中天竺三藏善无畏 译",
+    "sutraSourceZh": "《虚空藏菩萨能满诸愿最胜心陀罗尼求闻持法》(T20n1145)",
+    "deityZh": "大慧虚空藏菩萨 (Mahāpaṇḍita-Ākāśagarbha)",
+    "meritsAndSummaryZh": "唐密善无畏三藏首传、空海大师修证感得明星入口之「求闻持法」根本真言。能开发如虚空无尽之总持记忆力与辩才智慧，一经耳目永不忘失。",
+    "recitationTipsZh": "kamali mauli 赞叹虚空藏菩萨顶戴莲华与五佛摩尼宝冠。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1145 《虚空藏菩萨能满诸愿最胜心陀罗尼求闻持法》.",
+      "manuscriptNotesZh": "独立单列之善无畏译求闻持法根本真言。",
+      "cbetaId": "T20n1145",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1145"
     },
-    verses: [
+    "verses": [
       {
-        id: 'tara2-v1',
-        index: 1,
-        iast: 'oṃ tāre tuttāre ture mama āyuḥpuṇyajñānapuṣṭiṃ kuru svāhā ||',
-        classicalTranslitZh:
-          '【白度母如意轮长寿增福慧心咒】唵 多隶 咄多隶 都隶 摩摩 阿瑜布尼耶枳娘曩补瑟徴 俱噜 娑嚩诃 ||',
-        modernPhoneticZh:
-          '嗡 达雷 度达雷 度雷 玛玛 阿尤₍忽₎-布₍尼₎呀-₍吉尼₎亚拿-布₍师₎丁 古鲁 ₍斯₎瓦哈',
-        meaningZh:
-          '【白度母长寿心咒】嗡！救度母、拔苦度母、疾速救度母啊！祈请为我（摩摩）增长广大寿命（阿瑜）、福德（布尼耶）与般若智慧（枳娘曩），圆满成就！',
-        meaningEn:
-          '[White Tārā Longevity & Wisdom Mantra] Oṃ! O Tāre, Tuttāre, Ture! Grant me increase of longevity (āyuḥ), merit (puṇya), and wisdom (jñāna), Svāhā!',
-        words: [
-          { iast: 'mama', stem: 'mad', grammar: 'Gen. sg.', transliterationZh: '摩摩', meaningZh: '我的', meaningEn: 'my / for me' },
-          { iast: 'āyuḥpuṇyajñānapuṣṭiṃ', stem: 'āyus-puṇya-jñāna-puṣṭi', grammar: 'Acc. sg. f.', transliterationZh: '阿瑜布尼耶枳娘曩补瑟徴', meaningZh: '寿命、福报与智慧之丰盛增长', meaningEn: 'increase of life, merit, and wisdom' },
-          { iast: 'kuru', stem: '√kṛ', grammar: 'Impv. 2nd sg.', transliterationZh: '俱噜', meaningZh: '请成办、请赐予', meaningEn: 'perform, grant' },
-        ],
-      },
-      {
-        id: 'tara2-v2',
-        index: 2,
-        iast: 'oṃ kurukulle hrīḥ svāhā ||',
-        classicalTranslitZh:
-          '【作明佛母（咕噜咕咧佛母）根本心咒】唵 俱噜俱咧 纥哩 娑嚩诃 ||',
-        modernPhoneticZh:
-          '嗡 古鲁古雷 ₍赫₎里₍希₎ ₍斯₎瓦哈',
-        meaningZh:
-          '【作明佛母怀爱真言】嗡！莲华部大敬爱智慧母（作明佛母）啊！以大悲莲华心印（纥哩）摄受十方善缘，圆满吉祥！',
-        meaningEn:
-          '[Kurukullā Heart Mantra] Oṃ! O Goddess Kurukullā, Lotus Wisdom Heart (Hrīḥ), Svāhā!',
-        words: [
-          { iast: 'kurukulle', stem: 'kurukullā', grammar: 'Voc. sg. f.', transliterationZh: '俱噜俱咧', meaningZh: '作明佛母（怀柔摄受智慧佛母）啊', meaningEn: 'O Goddess Kurukullā' },
-        ],
-      },
-    ],
+        "id": "akasa-v-1",
+        "index": 1,
+        "iast": "namo ākāśagarbhāya | oṃ ārya kamali mauli svāhā",
+        "classicalTranslitZh": "南牟 阿迦舍揭婆耶 | 唵 阿唎耶 迦摩哩 摩利 娑嚩诃",
+        "modernPhoneticZh": "拿摩 阿嘎沙嘎₍尔₎巴呀 | 嗡 阿₍哩₎呀 嘎玛利 毛利 ₍斯₎瓦哈",
+        "meaningZh": "归命虚空藏菩萨！嗡！圣尊、顶戴莲华如意宝冠者啊，祈赐无尽闻持智慧与福德，圆满吉祥！",
+        "meaningEn": "Homage to Ākāśagarbha! Oṃ! O Noble One crowned with the Lotus Crest-Jewel, Svāhā!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ākāśagarbhāya",
+            "stem": "ākāśagarbha",
+            "grammar": "Prop.Noun · 虚空藏 · Dat. Sg. · 为格单数",
+            "transliterationZh": "阿(引)迦(引)舍誐哩婆(引)耶（拼读参考：阿嘎沙嘎₍尔₎巴呀）",
+            "meaningZh": "向虚空藏菩萨",
+            "meaningEn": "to/for Ākāśagarbha, Womb of Space Bodhisattva",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ārya",
+            "stem": "ārya",
+            "grammar": "Adj. · 圣尊",
+            "transliterationZh": "阿哩耶（拼读参考：阿₍哩₎呀）",
+            "meaningZh": "圣、尊贵圣者",
+            "meaningEn": "noble, holy, exalted (Ārya)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kamali",
+            "stem": "kamala",
+            "grammar": "Noun · 妙莲华 · Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "迦摩里（拼读参考：嘎玛利）",
+            "meaningZh": "妙莲华、红莲尊",
+            "meaningEn": "O lotus blossom",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mauli",
+            "stem": "mauli",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "矛里（拼读参考：毛利）",
+            "meaningZh": "头冠首严三尖 / 看景",
+            "meaningEn": "head, top, point; crest, diadem",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
   },
+  {
+    "id": "akasagarbha-vajraratna-mantra",
+    "titleZh": "虚空藏菩萨宝部如意宝珠心真言",
+    "titleSanskritIast": "Ākāśagarbha-vajraratna-bīja-mantra",
+    "titleEnglish": "Ākāśagarbha Vajra-Jewel Seed Mantra (Oṃ Vajraratna Oṃ Trāṃ Svāhā)",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1146",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《大虚空藏菩萨念诵法》(T20n1146)",
+    "deityZh": "五大虚空藏菩萨 (Vajraratna-Ākāśagarbha)",
+    "meritsAndSummaryZh": "不空三藏译《大虚空藏菩萨念诵法》所载宝部心印真言，以宝部根本种子字 trāṃ（怛囕）成满福智二资粮，独立单列。",
+    "recitationTipsZh": "trāṃ 为南方宝部与虚空藏菩萨根本种子字。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1146 《大虚空藏菩萨念诵法》.",
+      "manuscriptNotesZh": "自求闻持咒独立拆出之大虚空藏宝部心真言。",
+      "cbetaId": "T20n1146",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1146"
+    },
+    "verses": [
+      {
+        "id": "akasaratna-v-1",
+        "index": 1,
+        "iast": "oṃ vajraratna oṃ trāṃ svāhā",
+        "classicalTranslitZh": "唵 嚩日啰啰怛曩 唵 怛囕 娑嚩诃",
+        "modernPhoneticZh": "嗡 瓦₍吉₎啦啦₍特₎拿 嗡 ₍特₎朗 ₍斯₎瓦哈",
+        "meaningZh": "嗡！金刚摩尼如意宝，虚空宝藏根本种子（怛囕），圆满一切福智所求，娑嚩诃！",
+        "meaningEn": "Oṃ! Vajra-Jewel, Seed of the Sky-Treasury (Trāṃ), Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajraratna",
+            "stem": "vajra-ratna",
+            "grammar": "Samāsa · 复合词 (Noun · 宝)",
+            "transliterationZh": "嚩日啰啰怛曩（拼读参考：瓦₍吉₎啦啦₍特₎拿）",
+            "meaningZh": "金刚珍宝",
+            "meaningEn": "Vajra + jewel",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "trāṃ",
+            "stem": "trāṃ",
+            "grammar": "Bīja · 宝部种子",
+            "transliterationZh": "怛囕（拼读参考：₍特₎朗）",
+            "meaningZh": "宝生如来宝部灌顶种子字",
+            "meaningEn": "Ratnasaṃbhava jewel-family seed syllable Trāṃ",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "jnanolka-naraka-vidarana",
+    "titleZh": "智炬如来心破地狱陀罗尼",
+    "titleSanskritIast": "Jñānolkā-tathāgata-hṛdaya-narakavidāraṇa-dhāraṇī",
+    "titleEnglish": "Torch of Wisdom Tathāgata (Jñānolkā) Hell-Shattering Dhāraṇī",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T19n1024",
+    "translatorZh": "（唐）于阗国三藏提云般若 译",
+    "sutraSourceZh": "《佛说智炬陀罗尼经》(T19n1024)",
+    "deityZh": "智炬如来 (Jñānolkā-Tathāgata)",
+    "meritsAndSummaryZh": "经载若诵此智炬如来心破地狱陀罗尼一遍，阿鼻地狱苦具即碎为微尘，受苦众生悉蒙智光救拔生天或净土。",
+    "recitationTipsZh": "bhedaya sarvanarakān 直译「劈破一切地狱恶趣」。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T19n1024 《佛说智炬陀罗尼经》.",
+      "manuscriptNotesZh": "独立单列之智炬如来心破地狱陀罗尼。",
+      "cbetaId": "T19n1024",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n1024"
+    },
+    "verses": [
+      {
+        "id": "jnanolka-v-1",
+        "index": 1,
+        "iast": "namaḥ aṣṭāśītikoṭibhyaḥ samyaksaṃbuddhakoṭīnām | oṃ jñānāvabhāse dhiri dhiri hūṃ",
+        "classicalTranslitZh": "曩谟 阿瑟吒始底喃 三藐三没驮俱胝喃 | 唵 枳娘曩嚩婆细 地哩 地哩 吽",
+        "modernPhoneticZh": "拿玛₍赫₎ 阿₍师₎达希帝果蒂₍比₎呀₍赫₎ 萨₍姆₎呀₍克₎-桑布达果蒂南 | 嗡 ₍吉尼₎亚拿瓦巴塞 地里 地里 吽",
+        "meaningZh": "归命八十俱胝正等正觉诸佛！嗡！智慧光明普照尊（智炬如来）啊，摄持拔济恶趣众生，吽！",
+        "meaningEn": "Homage to eighty crores of Perfectly Awakened Buddhas! Oṃ! O Illumination of Wisdom, sustain, Hūṃ!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "aṣṭāśītikoṭibhyaḥ",
+            "stem": "aṣṭāśīti-koṭi",
+            "grammar": "Samāsa · 复合词 (Dat./Abl. Pl. · 为格复数)",
+            "transliterationZh": "阿瑟吒(引)尸底俱置毗药（拼读参考：阿₍师₎达希帝果蒂₍比₎呀₍赫₎）",
+            "meaningZh": "向诸八十八俱胝",
+            "meaningEn": "to",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samyaksaṃbuddhakoṭīnām",
+            "stem": "samyaksaṃbuddha-koṭi",
+            "grammar": "Samāsa · 复合词 (Gen. Pl. · 属格复数)",
+            "transliterationZh": "萨摩耶羯三没驮俱置(引)喃(引)（拼读参考：萨₍姆₎呀₍克₎-桑布达果蒂南）",
+            "meaningZh": "正等正觉诸俱胝之",
+            "meaningEn": "Perfectly and Completely Awakened Buddha + of ten million",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jñānāvabhāse",
+            "stem": "jñāna-avabhāsa",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "枳若(引)那(引)嚩婆(引)细（拼读参考：₍吉尼₎亚拿瓦巴塞）",
+            "meaningZh": "圣智普光明照",
+            "meaningEn": "primordial wisdom + O splendor",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "dhiri",
+            "stem": "dhiri",
+            "grammar": "Mantra-pada · 禅定总持",
+            "transliterationZh": "地哩（拼读参考：地里）",
+            "meaningZh": "禅定坚固总持不失（地利）",
+            "meaningEn": "steadfast meditative retention (dhṛti)",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "jnanolka-v-2",
+        "index": 2,
+        "iast": "tadyathā — jñāne jñāne mahājñāne jñānāvabhāse | bhedaya bhedaya sarvanarakān vidhvaṃsaya viśodhaya hūṃ phaṭ svāhā",
+        "classicalTranslitZh": "怛侄他 — 若泥 若泥 摩诃若泥 若那嚩婆细 | 陛陀耶 陛陀耶 萨嚩捺啰干 尾特呁萨耶 尾戌陀耶 吽 泮吒 娑嚩诃",
+        "modernPhoneticZh": "达₍地₎呀他 | ₍吉尼₎亚内 ₍吉尼₎亚内 玛哈₍吉尼₎亚内 ₍吉尼₎亚拿瓦巴塞 | 贝达呀 贝达呀 萨₍尔₎瓦-拿啦干 维₍德₎旺萨呀 维硕达呀 吽 帕₍特₎ ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：圣智、大圣智、智慧火炬遍照尊！劈破一切地狱铁围，彻底粉碎苦轮、净除业障，吽、泮吒，圆满吉祥！",
+        "meaningEn": "Namely: O Great Wisdom, Torch of Illumination! Shatter all hells, demolish and purify karmic bonds, Hūṃ Phaṭ Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jñāne",
+            "stem": "jñāna",
+            "grammar": "Noun · 圣智 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "枳若(引)祢（拼读参考：₍吉尼₎亚内）",
+            "meaningZh": "圣智、无漏真智尊",
+            "meaningEn": "O primordial wisdom, gnosis (Jñāna) / in primordial wisdom, gnosis (Jñāna)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jñāne",
+            "stem": "jñāna",
+            "grammar": "Noun · 圣智 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "枳若(引)祢（拼读参考：₍吉尼₎亚内）",
+            "meaningZh": "圣智、无漏真智尊",
+            "meaningEn": "O primordial wisdom, gnosis (Jñāna) / in primordial wisdom, gnosis (Jñāna)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahājñāne",
+            "stem": "mah-ājñāna",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "摩诃枳若(引)祢（拼读参考：玛哈₍吉尼₎亚内）",
+            "meaningZh": "乐趣权威尊",
+            "meaningEn": "gladden + O authority",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jñānāvabhāse",
+            "stem": "jñāna-avabhāsa",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "枳若(引)那(引)嚩婆(引)细（拼读参考：₍吉尼₎亚拿瓦巴塞）",
+            "meaningZh": "圣智普光明照",
+            "meaningEn": "primordial wisdom + O splendor",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhedaya",
+            "stem": "bheda",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "陛捺耶（拼读参考：贝达呀）",
+            "meaningZh": "祈请异生性",
+            "meaningEn": "may You breaking, splitting, breach, division, separation, seduction, winning over , interrup!",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ekaksara-usnisacakra-mantra",
+    "titleZh": "一字金轮佛顶王最上真言（勃嚧唵）",
+    "titleSanskritIast": "Ekākṣara-uṣṇīṣacakravarti-mahāmantra",
+    "titleEnglish": "One-Syllable Golden Wheel Uṣṇīṣacakravartin Supreme Mantra",
+    "categoryId": "supreme-mantras",
+    "taishoNo": "T19n0951",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《一字佛顶轮王经》(T19n0951)",
+    "deityZh": "一字金轮佛顶尊 (Ekākṣara-Uṣṇīṣacakra)",
+    "meritsAndSummaryZh": "一切佛顶部最上至尊王真言，威神如转轮圣王金轮所向无碍。与《佛眼佛母真言》严格拆分为两条独立词条，不再混并为一。",
+    "recitationTipsZh": "bhrūṃ 集摄法报化三身功德于一音（修持传统建议结诵佛眼佛母真言调柔威光）。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T19n0951 《一字佛顶轮王经》（不空译）.",
+      "manuscriptNotesZh": "独立单列之一字金轮佛顶真言。",
+      "cbetaId": "T19n0951",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n0951"
+    },
+    "verses": [
+      {
+        "id": "bhrumking-v-1",
+        "index": 1,
+        "iast": "namaḥ samantabuddhānām | oṃ bhrūṃ",
+        "classicalTranslitZh": "曩莫 三曼多没驮喃 | 唵 勃嚧唵(三合)",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨曼达-布达南 | 嗡 ₍部₎隆",
+        "meaningZh": "归命普遍十方一切诸佛！嗡！勃嚧唵（一字金轮佛顶无上法界体性智印）！",
+        "meaningEn": "Homage to the Universal Buddhas! Oṃ Bhrūṃ!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samantabuddhānām",
+            "stem": "samanta-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三曼多没驮喃（拼读参考：萨曼达-布达南）",
+            "meaningZh": "普遍没驮南",
+            "meaningEn": "universal + buddhānām",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhrūṃ",
+            "stem": "bhrūṃ",
+            "grammar": "Bīja · 佛顶种子字",
+            "transliterationZh": "勃笼（拼读参考：₍部₎隆）",
+            "meaningZh": "一字顶轮王与尊胜佛顶最上心印",
+            "meaningEn": "Uṣṇīṣa-cakravartin & Vijayā crown seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sarvabuddhalocani-mahavidya",
+    "titleZh": "一切如来部母佛眼大吉祥佛母真言",
+    "titleSanskritIast": "Sarvabuddhalocanī-mahāvidyā-dhāraṇī",
+    "titleEnglish": "All-Buddha-Eye Mother (Buddhalocanī) Great Auspicious Mantra",
+    "categoryId": "supreme-mantras",
+    "taishoNo": "T19n0966 / F28n1071 (pF28p0003a0401)",
+    "translatorZh": "（唐）不空三藏 译 · 房山石经《释教最上乘秘密藏陁罗尼集》卷一对勘",
+    "sutraSourceZh": "《大妙金刚大甘露军拏利焰鬘炽盛佛顶经》(T19n0966) / 房山石经 F28n1071《一切如来部母佛眼陁罗尼》",
+    "deityZh": "佛眼佛母 / 一切佛母尊 (Sarvabuddhalocanī)",
+    "meritsAndSummaryZh": "三世一切诸如来出生之慈母般若净眼。据房山石经卷一 `pF28p0003a0401`《一切如来部母佛眼陁罗尼》与不空译轨完整独立建档。",
+    "recitationTipsZh": "siddhalocane 意为成就清净佛眼之慈母啊。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T19n0966 & 房山石经 F28n1071 (pF28p0003a0401)《一切如来部母佛眼陁罗尼》.",
+      "manuscriptNotesZh": "独立单列之佛眼佛母真言专条。",
+      "cbetaId": "T19n0966",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n0966"
+    },
+    "verses": [
+      {
+        "id": "locani-v-1",
+        "index": 1,
+        "iast": "namaḥ sarvatathāgatebhyo 'rhadbhyaḥ samyaksaṃbuddhebhyaḥ",
+        "classicalTranslitZh": "曩莫 萨嚩怛他櫱帝毗喻 啰曷毗药 三藐三没第毗药",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨₍尔₎瓦-达他嘎帝₍比₎优 ₍尔₎哈₍德比₎呀₍赫₎ 萨₍姆₎呀₍克₎-桑布叠₍比₎呀₍赫₎",
+        "meaningZh": "归命一切如来、应供、正等正觉！",
+        "meaningEn": "Homage to all Tathāgatas, Arhats, Perfectly Awakened Ones!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sarvatathāgatebhyo",
+            "stem": "sarvatathāgata-ibhya",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "萨哩嚩怛他(引)誐帝毗瑜（拼读参考：萨₍尔₎瓦-达他嘎帝₍比₎优）",
+            "meaningZh": "一切如来富人",
+            "meaningEn": "all Tathagatas + belonging to one's household",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "'rhadbhyaḥ",
+            "stem": "arh-ad",
+            "grammar": "Samāsa · 复合词 (Dat./Abl. Pl. · 为格复数)",
+            "transliterationZh": "啰诃讷毗药（拼读参考：₍尔₎哈₍德比₎呀₍赫₎）",
+            "meaningZh": "向诸活该服用",
+            "meaningEn": "deserve + to",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samyaksaṃbuddhebhyaḥ",
+            "stem": "samyaksaṃbuddha",
+            "grammar": "Samāsa · 正遍知 · Dat./Abl. Pl. · 为格复数",
+            "transliterationZh": "萨摩耶羯三没第毗药（拼读参考：萨₍姆₎呀₍克₎-桑布叠₍比₎呀₍赫₎）",
+            "meaningZh": "向诸正等正觉、正遍知",
+            "meaningEn": "to all Perfectly and Completely Awakened Buddha",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "locani-v-2",
+        "index": 2,
+        "iast": "oṃ ruru sphuru jvala tiṣṭha siddhalocane sarvārthasādhani svāhā",
+        "classicalTranslitZh": "唵 噜噜 塞普噜 入嚩攞 底瑟姹 悉驮路左尼 萨嚩遏哩他娑驮宁 娑嚩诃",
+        "modernPhoneticZh": "嗡 鲁鲁 ₍斯₎普鲁 ₍吉₎瓦啦 帝₍师₎他 悉达洛佳内 萨₍尔₎瓦₍尔₎他萨达尼 ₍斯₎瓦哈",
+        "meaningZh": "嗡！光明流溢、遍满舒展、智光炽盛、安住加持！成就清净佛眼之慈母、成办一切世出世间义利者啊，圆满吉祥！",
+        "meaningEn": "Oṃ! Radiate, expand, blaze, abide! O Accomplished Buddha-Eye Mother, Fulfiller of all aims, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ruru",
+            "stem": "ruru",
+            "grammar": "Mantra-Impv. · 悲光流注",
+            "transliterationZh": "噜噜（拼读参考：鲁鲁）",
+            "meaningZh": "大悲流注、光明赫奕！",
+            "meaningEn": "radiate compassionate light!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sphuru",
+            "stem": "√sphur",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "娑普噜（拼读参考：₍斯₎普鲁）",
+            "meaningZh": "光明遍满·一切诸谛圆满（警策成就）",
+            "meaningEn": "radiating (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jvala",
+            "stem": "jvala",
+            "grammar": "Impv. 2nd Sg. · 祈使式",
+            "transliterationZh": "日嚩攞（拼读参考：₍吉₎瓦啦）",
+            "meaningZh": "炽燃光明、放光普照（入嚩攞）",
+            "meaningEn": "blaze forth with wisdom radiance!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tiṣṭha",
+            "stem": "tiṣṭha",
+            "grammar": "Impv. 2nd Sg. · 祈使安住",
+            "transliterationZh": "底瑟侘（拼读参考：帝₍师₎他）",
+            "meaningZh": "祈请安住加持",
+            "meaningEn": "abide steadfastly & bestow grace!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "siddhalocane",
+            "stem": "siddha-locana",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "悉没驮路者祢（拼读参考：悉达洛佳内）",
+            "meaningZh": "成就者眼",
+            "meaningEn": "accomplished + O eye",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "suryaprabha-bodhisattva-dharani",
+    "titleZh": "日光菩萨陀罗尼（大悲心陀罗尼护持神咒）",
+    "titleSanskritIast": "Sūryaprabha-bodhisattva-dhāraṇī",
+    "titleEnglish": "Sunlight Bodhisattva (Sūryaprabha) Protection Dhāraṇī",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1060",
+    "translatorZh": "（唐）西天竺沙门伽梵达磨 译",
+    "sutraSourceZh": "《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》(T20n1060)",
+    "deityZh": "日光遍照菩萨 (Sūryaprabha)",
+    "meritsAndSummaryZh": "《大悲心陀罗尼经》载：日光菩萨为受持大悲心陀罗尼者说大神咒而拥护之，诵此咒灭一切罪、辟除魔障天灾，流照无边慧光。严格依 T20n1060 原典单列，与月光菩萨咒独立分条。",
+    "recitationTipsZh": "原典《T20n1060.xml》全文四句共二十八字：「南无勃陀瞿那迷 南无达摩莫诃低 南无僧伽多夜泥 底哩部毕萨咄檐纳摩」。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1060 《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》日光菩萨咒.",
+      "manuscriptNotesZh": "直接采自 T20n1060.xml 第二道独立陀罗尼段落原文。",
+      "cbetaId": "T20n1060",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1060"
+    },
+    "verses": [
+      {
+        "id": "surya-v-1",
+        "index": 1,
+        "iast": "namo buddhaguṇami",
+        "classicalTranslitZh": "南无勃陀瞿那迷",
+        "modernPhoneticZh": "拿摩 布达-古拿米",
+        "meaningZh": "归命佛陀无量功德海！",
+        "meaningEn": "Homage to the boundless virtues of the Buddha!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "buddhaguṇami",
+            "stem": "√buddh",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "没驮具拏弭（拼读参考：布达-古拿米）",
+            "meaningZh": "觉悟正觉·解脱系缚大力（呼请加持）",
+            "meaningEn": "awakened (vocative invocation)",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "surya-v-2",
+        "index": 2,
+        "iast": "namo dharmamahāte",
+        "classicalTranslitZh": "南无达摩莫诃低",
+        "modernPhoneticZh": "拿摩 达₍尔₎玛-玛哈帝",
+        "meaningZh": "归命正法广大威神力！",
+        "meaningEn": "Homage to the supreme majesty of the Dharma!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "dharmamahāte",
+            "stem": "dharma-mahā-te",
+            "grammar": "Samāsa · 复合词 (Pron. · 代词)",
+            "transliterationZh": "达哩摩摩诃帝（拼读参考：达₍尔₎玛-玛哈帝）",
+            "meaningZh": "向正法大汝",
+            "meaningEn": "Dharma + great + to Thee",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "surya-v-3",
+        "index": 3,
+        "iast": "namaḥ saṃghatāyane",
+        "classicalTranslitZh": "南无僧伽多夜泥",
+        "modernPhoneticZh": "拿玛₍赫₎ 桑嘎-达呀内",
+        "meaningZh": "归命圣僧和合救度众！",
+        "meaningEn": "Homage to the liberating refuge of the Saṃgha!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saṃghatāyane",
+            "stem": "saṃghata-ayana",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "三伽多耶祢（拼读参考：桑嘎-达呀内）",
+            "meaningZh": "紧凑趣往",
+            "meaningEn": "compact + O going",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "surya-v-4",
+        "index": 4,
+        "iast": "tribhūpiṣaṭṭaṃ namaḥ",
+        "classicalTranslitZh": "底哩部毕萨咄檐纳摩",
+        "modernPhoneticZh": "₍特₎里布比沙当 拿玛₍赫₎",
+        "meaningZh": "拔除三界一切热恼苦毒，至心稽首归命！",
+        "meaningEn": "Removing the afflictions of all three realms — homage!",
+        "words": [
+          {
+            "iast": "tribhūpiṣaṭṭaṃ",
+            "stem": "tri-bhū-piṣ-aṭṭa",
+            "grammar": "Samāsa · 复合词 (Acc./Nom. Sg. · 业格/主格单数)",
+            "transliterationZh": "怛哩部(引)比洒怛站（拼读参考：₍特₎里布比沙当）",
+            "meaningZh": "三·昂·擣·楼房",
+            "meaningEn": "three + arise + to pound + tower",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "candraprabha-bodhisattva-dharani",
+    "titleZh": "月光菩萨陀罗尼（大悲心陀罗尼护持神咒）",
+    "titleSanskritIast": "Candraprabha-bodhisattva-dhāraṇī",
+    "titleEnglish": "Moonlight Bodhisattva (Candraprabha) Protection Dhāraṇī",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1060",
+    "translatorZh": "（唐）西天竺沙门伽梵达磨 译",
+    "sutraSourceZh": "《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》(T20n1060)",
+    "deityZh": "月光遍照菩萨 (Candraprabha)",
+    "meritsAndSummaryZh": "《大悲心陀罗尼经》载：月光菩萨亦为诵持大悲陀罗尼者说陀罗尼咒而拥护之，除一切障难与恶病痛，成就一切清凉善法、远离诸怖畏。严格依 T20n1060 原典七句单列。",
+    "recitationTipsZh": "原典《T20n1060.xml》全文七句共三十五字：「深低帝屠苏咤 阿若蜜帝乌都咤 深耆咤 波赖帝 耶弥若咤乌都咤 拘罗帝咤耆摩咤 沙婆诃」。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1060 《千手千眼观世音菩萨广大圆满无碍大悲心陀罗尼经》月光菩萨咒.",
+      "manuscriptNotesZh": "直接采自 T20n1060.xml 第三道独立陀罗尼段落原文。",
+      "cbetaId": "T20n1060",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1060"
+    },
+    "verses": [
+      {
+        "id": "candra-v-1",
+        "index": 1,
+        "iast": "śuddhete tusuṭa",
+        "classicalTranslitZh": "深低帝屠苏咤",
+        "modernPhoneticZh": "舒叠帝 度苏达",
+        "meaningZh": "寂静清净、喜悦安隐除热恼！",
+        "meaningEn": "In deep purity and joyful serenity!",
+        "words": [
+          {
+            "iast": "śuddhete",
+            "stem": "śuddha-ita",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "戍没第帝（拼读参考：舒叠帝）",
+            "meaningZh": "清净趣往",
+            "meaningEn": "pure + O going",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tusuṭa",
+            "stem": "ta-sa-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "都苏吒（拼读参考：度苏达）",
+            "meaningZh": "真如实际·一切诸谛圆满·断除憍慢执障",
+            "meaningEn": "immutable Suchness & all-pervading truth & auspiciousness & cutting rigid pride",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "candra-v-2",
+        "index": 2,
+        "iast": "ājñāpite uduṭa",
+        "classicalTranslitZh": "阿若蜜帝乌都咤",
+        "modernPhoneticZh": "阿₍吉尼₎亚比帝 乌杜达",
+        "meaningZh": "无生般若甘露教敕超胜解脱！",
+        "meaningEn": "Exalted in the nectar of unborn wisdom!",
+        "words": [
+          {
+            "iast": "ājñāpite",
+            "stem": "ājñā-pitā",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "阿(引)枳若(引)比帝（拼读参考：阿₍吉尼₎亚比帝）",
+            "meaningZh": "命令父尊",
+            "meaningEn": "command + O father",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "uduṭa",
+            "stem": "da-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "坞努吒（拼读参考：乌杜达）",
+            "meaningZh": "施度调伏·断除憍慢执障",
+            "meaningEn": "generosity & self-mastery & cutting rigid pride",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "candra-v-3",
+        "index": 3,
+        "iast": "śaṅkhiṭa parate",
+        "classicalTranslitZh": "深耆咤 波赖帝",
+        "modernPhoneticZh": "商奇达 巴啦帝",
+        "meaningZh": "法螺妙音度达清凉彼岸！",
+        "meaningEn": "Resounding Dharma-conch ferrying to the further shore!",
+        "words": [
+          {
+            "iast": "śaṅkhiṭa",
+            "stem": "śa-ṅa-kha",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "舍仰企吒（拼读参考：商奇达）",
+            "meaningZh": "本性寂静止息·支分寂静·等虚空无碍",
+            "meaningEn": "primordial tranquil peace & quiescence of perceptual limbs & space-like boundlessness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "parate",
+            "stem": "para",
+            "grammar": "Ātmanepada 3rd Sg. · 为自言单数",
+            "transliterationZh": "跛啰帝（拼读参考：巴啦帝）",
+            "meaningZh": "他人",
+            "meaningEn": "someone else; others",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "candra-v-4",
+        "index": 4,
+        "iast": "yamijñāṭa uduṭa",
+        "classicalTranslitZh": "耶弥若咤乌都咤",
+        "modernPhoneticZh": "呀米₍吉尼₎亚达 乌杜达",
+        "meaningZh": "调伏死魔怖畏、超拔众苦！",
+        "meaningEn": "Restraining all perils and rising above suffering!",
+        "words": [
+          {
+            "iast": "yamijñāṭa",
+            "stem": "√jñā",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "耶弭枳若(引)吒（拼读参考：呀米₍吉尼₎亚达）",
+            "meaningZh": "圣智了知·一乘如实之道",
+            "meaningEn": "knowing",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "uduṭa",
+            "stem": "da-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "坞努吒（拼读参考：乌杜达）",
+            "meaningZh": "施度调伏·断除憍慢执障",
+            "meaningEn": "generosity & self-mastery & cutting rigid pride",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "candra-v-5",
+        "index": 5,
+        "iast": "kulatiṭa kimāṭa svāhā",
+        "classicalTranslitZh": "拘罗帝咤耆摩咤 沙婆诃",
+        "modernPhoneticZh": "古啦帝达 给玛达 ₍斯₎瓦哈",
+        "meaningZh": "普护莲华部族行者清凉无畏，圆满吉祥，沙婆诃！",
+        "meaningEn": "Guarding the noble lineage in cool peace, Svāhā!",
+        "words": [
+          {
+            "iast": "kulatiṭa",
+            "stem": "ka-la-ta",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "矩攞底吒（拼读参考：古啦帝达）",
+            "meaningZh": "造作离相·离一切相无相·真如实际",
+            "meaningEn": "freedom from karmic agency & freedom from conditioned marks & immutable Suchness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kimāṭa",
+            "stem": "ka-ma-ṭa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "枳摩(引)吒（拼读参考：给玛达）",
+            "meaningZh": "造作离相·无我大慈三昧·断除憍慢执障",
+            "meaningEn": "freedom from karmic agency & selfless great loving-kindness & cutting rigid pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "parnasavari-dharani",
+    "titleZh": "叶衣观自在菩萨陀罗尼（禳除瘟疫传染病障护命神咒）",
+    "titleSanskritIast": "Ārya-Parṇaśavarī-dhāraṇī",
+    "titleEnglish": "Forest-Leaf Clad Avalokiteśvara (Parṇaśavarī) Epidemic-Healing Dhāraṇī",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1100",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《叶衣观自在菩萨经》(T20n1100)",
+    "deityZh": "叶衣观自在菩萨 / 叶衣佛母 (Ārya-Parṇaśavarī)",
+    "meritsAndSummaryZh": "观自在菩萨披树叶衣化现山林神女相，专司息除世间一切瘟疫、传染病、毒虫及非时夭折。",
+    "recitationTipsZh": "sarvamārīpraśamani 直译为「平息一切瘟疫疾疫（mārī）之圣母啊！」。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1100 《叶衣观自在菩萨经》（不空译）.",
+      "manuscriptNotesZh": "独立单列之叶衣观音陀罗尼。",
+      "cbetaId": "T20n1100",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1100"
+    },
+    "verses": [
+      {
+        "id": "parnasavari-v-1",
+        "index": 1,
+        "iast": "namo ratnatrayāya | namo āryāvalokiteśvarāya bodhisattvāya mahāsattvāya mahākāruṇikāya | namo mahāparṇaśavaryai",
+        "classicalTranslitZh": "曩谟 啰怛曩怛啰夜耶 | 曩谟 阿哩耶嚩路枳帝湿嚩啰耶 冒地萨怛嚩耶 摩诃萨怛嚩耶 摩诃迦噜抳迦耶 | 曩谟 摩诃钵兰拏赊嚩哩曳",
+        "modernPhoneticZh": "拿摩 啦₍特₎拿-₍特₎啦呀呀 | 拿摩 阿₍哩₎呀-瓦洛给帝-₍湿₎瓦啦呀 博地-萨₍特₎瓦呀 玛哈-萨₍特₎瓦呀 玛哈-嘎鲁尼嘎呀 | 拿摩 玛哈-巴₍尔₎拿沙瓦₍哩₎崖",
+        "meaningZh": "归命三宝！归命圣观自在菩萨摩诃萨、大悲圣尊！归命大叶衣观自在母！",
+        "meaningEn": "Homage to the Three Jewels, Noble Avalokiteśvara, and Great Parṇaśavarī!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ratnatrayāya",
+            "stem": "ratnatraya",
+            "grammar": "Samāsa · 三宝 · Dat. Sg. · 为格单数",
+            "transliterationZh": "喝啰怛那哆啰夜耶（拼读参考：啦₍特₎拿-₍特₎啦呀呀）",
+            "meaningZh": "向佛法僧三宝",
+            "meaningEn": "to/for the Three Jewels (Buddha, Dharma, Saṃgha)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "āryāvalokiteśvarāya",
+            "stem": "āryāvalokiteśvara",
+            "grammar": "Prop.Noun · 圣观自在 · Dat. Sg. · 为格单数",
+            "transliterationZh": "阿唎耶婆卢羯帝烁钵啰耶（拼读参考：阿₍哩₎呀-瓦洛给帝-₍湿₎瓦啦呀）",
+            "meaningZh": "向圣观自在菩萨",
+            "meaningEn": "to/for Noble Avalokiteśvara",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bodhisattvāya",
+            "stem": "bodhisattva",
+            "grammar": "Samāsa · 菩萨 · Dat. Sg. · 为格单数",
+            "transliterationZh": "菩提萨埵耶 / 冒地萨怛嚩耶（拼读参考：博地-萨₍特₎瓦呀）",
+            "meaningZh": "向菩提萨埵（菩萨、觉有情）",
+            "meaningEn": "to/for Bodhisattva, Awakening Being",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahāsattvāya",
+            "stem": "mahāsattva",
+            "grammar": "Samāsa · 摩诃萨 · Dat. Sg. · 为格单数",
+            "transliterationZh": "摩诃萨埵耶（拼读参考：玛哈-萨₍特₎瓦呀）",
+            "meaningZh": "向摩诃萨埵（大心有情、大菩萨）",
+            "meaningEn": "to/for Mahāsattva, Great Spiritual Hero",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "parnasavari-v-2",
+        "index": 2,
+        "iast": "oṃ piśāci parṇaśavari sarvamārīpraśamani hūṃ phaṭ svāhā",
+        "classicalTranslitZh": "唵 毕舍质 钵兰拏赊嚩哩 萨嚩摩哩钵啰舍摩你 吽 泮吒 娑嚩诃",
+        "modernPhoneticZh": "嗡 比沙吉 巴₍尔₎拿沙瓦里 萨₍尔₎瓦-玛里₍普₎啦沙玛尼 吽 帕₍特₎ ₍斯₎瓦哈",
+        "meaningZh": "嗡！披树叶天衣之叶衣观音母、平息一切瘟疫传染病障者啊！吽、泮吒，吉祥成就！",
+        "meaningEn": "Oṃ! O Leaf-Clad Parṇaśavarī, Queller of all plagues and epidemics! Hūṃ Phaṭ Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "piśāci",
+            "stem": "piśāci",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "比奢只（拼读参考：比沙吉）",
+            "meaningZh": "恶鬼",
+            "meaningEn": "of a demon",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "parṇaśavari",
+            "stem": "parṇaśavarī",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "跛哩拏舍嚩哩（拼读参考：巴₍尔₎拿沙瓦里）",
+            "meaningZh": "叶衣菩萨尊",
+            "meaningEn": "O Parnasavari Bodhisatttva",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sarvamārīpraśamani",
+            "stem": "√śam",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "萨哩嚩摩(引)哩(引)钵啰舍摩你（拼读参考：萨₍尔₎瓦-玛里₍普₎啦沙玛尼）",
+            "meaningZh": "息灾寂静·一切诸谛圆满（呼请加持）",
+            "meaningEn": "pacifying (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "phaṭ",
+            "stem": "phaṭ",
+            "grammar": "Bīja · 摧破音",
+            "transliterationZh": "泮吒 / 发吒（拼读参考：帕₍特₎）",
+            "meaningZh": "顿断魔障、摧破无明",
+            "meaningEn": "shatter obstacles and ignorance!",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "trailokyavijaya-vidyaraja-mantra",
+    "titleZh": "东方降三世明王根本心真言",
+    "titleSanskritIast": "Trailokyavijaya-vidyārāja-mūla-mantra",
+    "titleEnglish": "Root Mantra of Trailokyavijaya Vidyārāja (Conqueror of the Three Worlds)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1209",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《降三世忿怒明王念诵仪轨》(T21n1209)",
+    "deityZh": "东方降三世明王 (Trailokyavijaya-Vidyārāja)",
+    "meritsAndSummaryZh": "东方阿閦如来教令轮身，降伏过去现在未来三世贪嗔痴三毒与大自在天慢障，结界辟邪最极威猛。",
+    "recitationTipsZh": "sumbha nisumbha 调伏慢障，gṛhṇa 执持引入正法。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1209 《降三世忿怒明王念诵仪轨》.",
+      "manuscriptNotesZh": "独立单列之降三世明王真言专条。",
+      "cbetaId": "T21n1209",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1209"
+    },
+    "verses": [
+      {
+        "id": "trailokya-v-1",
+        "index": 1,
+        "iast": "oṃ sumbha nisumbha hūṃ gṛhṇa gṛhṇa hūṃ gṛhṇāpaya hūṃ ānaya hoḥ bhagavan vajra hūṃ phaṭ",
+        "classicalTranslitZh": "唵 孙婆 你孙婆 吽 羯哩摩 羯哩摩 吽 羯哩摩播耶 吽 阿拿也 斛 婆伽鑁 嚩日啰 吽 泮吒",
+        "modernPhoneticZh": "嗡 孙巴 尼孙巴 吽 ₍格₎日₍赫₎拿 ₍格₎日₍赫₎拿 吽 ₍格₎日₍赫₎拿巴呀 吽 阿拿呀 霍₍赫₎ 巴嘎万 瓦₍吉₎啦 吽 帕₍特₎",
+        "meaningZh": "嗡！调伏、彻底调伏三界慢障！吽！摄持、令彼归命执持正法！吽！勾召引入菩提（阿拿也斛）！世尊金刚尊，吽、泮吒！",
+        "meaningEn": "Oṃ! Subdue, utterly vanquish! Hūṃ! Seize, cause to grasp! Hūṃ! Draw in, Hoḥ! O Bhagavān Vajra, Hūṃ Phaṭ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sumbha",
+            "stem": "sumbha",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "苏喃婆（拼读参考：孙巴）",
+            "meaningZh": "孙婆 / 害美",
+            "meaningEn": "of a people",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "nisumbha",
+            "stem": "nisumbha",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "你苏喃婆（拼读参考：尼孙巴）",
+            "meaningZh": "你孙婆 / 定害美",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gṛhṇa",
+            "stem": "ga-ha-ṇa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "吃哩纥拏（拼读参考：₍格₎日₍赫₎拿）",
+            "meaningZh": "妙行趣入·因缘空寂大乐·离诸诤论无诤",
+            "meaningEn": "awakened spiritual movement & causal emptiness & spiritual joy & conflict-free peace",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gṛhṇa",
+            "stem": "ga-ha-ṇa",
+            "grammar": "Mantra-pada · 陀罗尼字门合释",
+            "transliterationZh": "吃哩纥拏（拼读参考：₍格₎日₍赫₎拿）",
+            "meaningZh": "妙行趣入·因缘空寂大乐·离诸诤论无诤",
+            "meaningEn": "awakened spiritual movement & causal emptiness & spiritual joy & conflict-free peace",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "amrtakundalin-vidyaraja-mantra",
+    "titleZh": "南方甘露军荼利明王根本心真言",
+    "titleSanskritIast": "Amṛtakuṇḍalin-vidyārāja-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Amṛtakuṇḍalin Vidyārāja (Nectar-Coiled Wisdom King)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1211",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《甘露军荼利菩萨供养念诵成就仪轨》(T21n1211)",
+    "deityZh": "南方甘露军荼利明王 (Amṛtakuṇḍalin)",
+    "meritsAndSummaryZh": "南方宝生如来教令轮身，以不死甘露净治一切毗那夜迦魔障、毒害与饮食器界染污。",
+    "recitationTipsZh": "amṛte 为甘露呼格。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1211 《甘露军荼利菩萨供养念诵成就仪轨》.",
+      "manuscriptNotesZh": "独立单列之甘露军荼利明王心真言。",
+      "cbetaId": "T21n1211",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1211"
+    },
+    "verses": [
+      {
+        "id": "kundalin-v-1",
+        "index": 1,
+        "iast": "oṃ amṛte hūṃ phaṭ",
+        "classicalTranslitZh": "唵 阿蜜哩帝 吽 泮吒",
+        "modernPhoneticZh": "嗡 阿₍姆₎日帝 吽 帕₍特₎",
+        "meaningZh": "嗡！不死甘露醍醐威怒尊啊！吽！破除一切毗那夜迦魔障与毒秽（泮吒）！",
+        "meaningEn": "Oṃ! O Immortal Nectar (Amṛte)! Hūṃ Phaṭ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "amṛte",
+            "stem": "amṛta",
+            "grammar": "Noun/Adj. · 不死甘露 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "阿蜜哩帝（拼读参考：阿₍姆₎日帝）",
+            "meaningZh": "甘露、不死妙法尊",
+            "meaningEn": "O ambrosia, nectar of immortality / in ambrosia, nectar of immortality",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "phaṭ",
+            "stem": "phaṭ",
+            "grammar": "Bīja · 摧破音",
+            "transliterationZh": "泮吒 / 发吒（拼读参考：帕₍特₎）",
+            "meaningZh": "顿断魔障、摧破无明",
+            "meaningEn": "shatter obstacles and ignorance!",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "yamantaka-vidyaraja-mantra",
+    "titleZh": "西方大威德明王（六足尊/怖畏金刚）根本心真言",
+    "titleSanskritIast": "Yamāntaka-vajrabhairava-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Yamāntaka / Vajrabhairava (Destroyer of Death)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1214",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《大威怒乌刍涩么仪轨》暨《焰曼德迦威怒王立成大神验念诵法》(T21n1214)",
+    "deityZh": "西方大威德明王 / 文殊怖畏金刚 (Yamāntaka)",
+    "meritsAndSummaryZh": "西方无量寿佛与文殊菩萨忿怒教令轮身，断除死魔、烦恼魔、蕴魔、天子魔四魔怖畏。",
+    "recitationTipsZh": "vikṛtānana 意为现奇特威猛忿怒面门尊。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1214 《焰曼德迦威怒王立成大神验念诵法》.",
+      "manuscriptNotesZh": "独立单列之大威德明王根本心真言。",
+      "cbetaId": "T21n1214",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1214"
+    },
+    "verses": [
+      {
+        "id": "yamantaka-v-1",
+        "index": 1,
+        "iast": "oṃ hrīḥ ṣṭrīḥ vikṛtānana hūṃ phaṭ",
+        "classicalTranslitZh": "唵 纥哩 瑟置哩 尾讫哩多曩曩 吽 泮吒",
+        "modernPhoneticZh": "嗡 ₍赫₎里₍希₎ ₍师特₎里₍希₎ 维₍克₎日达拿拿 吽 帕₍特₎",
+        "meaningZh": "嗡！莲华悲心（纥哩）、文殊威德（瑟置哩）！现奇特威猛忿怒面相、终结死魔之大威德尊，吽、泮吒！",
+        "meaningEn": "Oṃ Hrīḥ Ṣṭrīḥ! O Wrathful-Faced Conqueror of Death (Vikṛtānana), Hūṃ Phaṭ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hrīḥ",
+            "stem": "hrīḥ",
+            "grammar": "Bīja · 莲华种子字",
+            "transliterationZh": "纥哩（拼读参考：₍赫₎里₍希₎）",
+            "meaningZh": "莲华部心印（清净惭愧·弥陀观音种子）",
+            "meaningEn": "Lotus-family seed of Amitābha & Avalokiteśvara",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ṣṭrīḥ",
+            "stem": "ṣa",
+            "grammar": "Bīja-mantra · 悉昙种子字",
+            "transliterationZh": "瑟吒哩(引)醯（拼读参考：₍师特₎里₍希₎）",
+            "meaningZh": "啰字门（清净离诸尘垢（rajas）·禅定三昧总持·涅槃除障点证入）",
+            "meaningEn": "stainless purity free from dust (rajas) — deep samādhi retention with nirvāṇic visarga release",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vikṛtānana",
+            "stem": "vikṛta-ānana",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "尾讫哩多曩曩（拼读参考：维₍克₎日达拿拿）",
+            "meaningZh": "恶趣口门",
+            "meaningEn": "objects that cause a change + mouth",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "phaṭ",
+            "stem": "phaṭ",
+            "grammar": "Bīja · 摧破音",
+            "transliterationZh": "泮吒 / 发吒（拼读参考：帕₍特₎）",
+            "meaningZh": "顿断魔障、摧破无明",
+            "meaningEn": "shatter obstacles and ignorance!",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vajrayaksa-vidyaraja-mantra",
+    "titleZh": "北方金刚夜叉明王根本真言",
+    "titleSanskritIast": "Vajrayakṣa-vidyārāja-mantra",
+    "titleEnglish": "Root Mantra of Northern Vajrayakṣa Vidyārāja",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T20n1132",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《金刚王菩萨秘密念诵仪轨》(T20n1132)",
+    "deityZh": "北方金刚夜叉明王 (Vajrayakṣa)",
+    "meritsAndSummaryZh": "北方不空成就如来教令轮身，啖尽三世恶业染垢，以钩索锁铃四摄智引众生入菩提智印。",
+    "recitationTipsZh": "jaḥ hūṃ vaṃ hoḥ 为四摄菩萨根本种子字。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1132 《金刚王菩萨秘密念诵仪轨》.",
+      "manuscriptNotesZh": "独立单列之金刚夜叉明王真言。",
+      "cbetaId": "T20n1132",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1132"
+    },
+    "verses": [
+      {
+        "id": "vajrayaksa-v-1",
+        "index": 1,
+        "iast": "oṃ mahāyakṣa vajrasattva jaḥ hūṃ vaṃ hoḥ praveśaya hūṃ",
+        "classicalTranslitZh": "唵 摩诃药叉 嚩日啰萨怛嚩 弱 吽 鑁 斛 钵啰吠舍耶 吽",
+        "modernPhoneticZh": "嗡 玛哈呀₍克₎沙 瓦₍吉₎啦萨₍特₎瓦 佳₍赫₎ 吽 汪 霍₍赫₎ ₍普₎啦威沙呀 吽",
+        "meaningZh": "嗡！大药叉主、金刚勇识尊！钩召（弱）、引入（吽）、系缚（鑁）、欢喜融摄（斛），令入无上菩提智印，吽！",
+        "meaningEn": "Oṃ! O Great Yakṣa Vajrasattva! Jaḥ Hūṃ Vaṃ Hoḥ — cause to enter awakening, Hūṃ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahāyakṣa",
+            "stem": "mahā-yakṣa",
+            "grammar": "Samāsa · 复合词 (Noun · 药叉护法)",
+            "transliterationZh": "摩诃耶乞洒（拼读参考：玛哈呀₍克₎沙）",
+            "meaningZh": "大药叉",
+            "meaningEn": "great + Yakṣa",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajrasattva",
+            "stem": "vajrasattva",
+            "grammar": "Prop.Noun · 金刚萨埵",
+            "transliterationZh": "嚩日啰萨怛怛嚩（拼读参考：瓦₍吉₎啦萨₍特₎瓦）",
+            "meaningZh": "金刚萨埵（普贤金刚心）",
+            "meaningEn": "Vajrasattva, Diamond-Essence Being",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaḥ",
+            "stem": "jaḥ",
+            "grammar": "Bīja · 四摄种子",
+            "transliterationZh": "弱（拼读参考：佳₍赫₎）",
+            "meaningZh": "金刚钩召摄引入坛种子",
+            "meaningEn": "Vajra-hook summoning seed syllable (ākarṣaṇa)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vaṃ",
+            "stem": "vaṃ",
+            "grammar": "Bīja · 智法身种子",
+            "transliterationZh": "鑁（拼读参考：汪）",
+            "meaningZh": "金刚界大日智法身水轮甘露种子",
+            "meaningEn": "Vajradhātu Mahāvairocana ambrosia seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ragaraja-vidyaraja-mantra",
+    "titleZh": "金刚峰楼阁瑜祇经·爱染明王根本心真言",
+    "titleSanskritIast": "Rāgarāja-mahārāga-vajroṣṇīṣa-mantra",
+    "titleEnglish": "Heart Mantra of Rāgarāja (Aizen Myōō)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T18n0867",
+    "translatorZh": "（唐）金刚智三藏 译",
+    "sutraSourceZh": "《金刚峰楼阁一切瑜伽瑜祇经》〈爱染王品〉(T18n0867)",
+    "deityZh": "爱染明王 (Rāgarāja)",
+    "meritsAndSummaryZh": "《瑜祇经》秘密核心真言，不断世间染爱而直转烦恼欲箭为金刚萨埵大菩提心，怀柔敬爱、顺缘和合。",
+    "recitationTipsZh": "hūṃ ṭakki hūṃ jaḥ 为爱染尊心中心印。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T18n0867 《金刚峰楼阁一切瑜伽瑜祇经》.",
+      "manuscriptNotesZh": "独立单列之爱染明王根本心真言。",
+      "cbetaId": "T18n0867",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T18n0867"
+    },
+    "verses": [
+      {
+        "id": "ragaraja-v-1",
+        "index": 1,
+        "iast": "oṃ mahārāga vajroṣṇīṣa vajrasattva jaḥ hūṃ vaṃ hoḥ",
+        "classicalTranslitZh": "唵 摩诃啰誐 嚩日嚧瑟抳洒 嚩日啰萨怛嚩 弱 吽 鑁 斛",
+        "modernPhoneticZh": "嗡 玛哈啦嘎 瓦₍吉₎洛₍师₎尼沙 瓦₍吉₎啦萨₍特₎瓦 佳₍赫₎ 吽 汪 霍₍赫₎",
+        "meaningZh": "嗡！大悲染爱即大菩提、金刚顶、金刚萨埵，钩索锁铃四摄圆满成就！",
+        "meaningEn": "Oṃ! Great Passion transmuted into Vajroṣṇīṣa Vajrasattva — Jaḥ Hūṃ Vaṃ Hoḥ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahārāga",
+            "stem": "mahā-rāga",
+            "grammar": "Samāsa · 复合词 (Noun · 贪爱/赤色)",
+            "transliterationZh": "摩诃啰(引)誐（拼读参考：玛哈啦嘎）",
+            "meaningZh": "大贪染",
+            "meaningEn": "great + passion",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajroṣṇīṣa",
+            "stem": "vajra-uṣṇīṣa",
+            "grammar": "Samāsa · 复合词 (Noun · 佛顶尊相)",
+            "transliterationZh": "嚩日嚧瑟抳(引)洒（拼读参考：瓦₍吉₎洛₍师₎尼沙）",
+            "meaningZh": "金刚佛顶肉髻相",
+            "meaningEn": "Vajra + Uṣṇīṣa",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajrasattva",
+            "stem": "vajrasattva",
+            "grammar": "Prop.Noun · 金刚萨埵",
+            "transliterationZh": "嚩日啰萨怛怛嚩（拼读参考：瓦₍吉₎啦萨₍特₎瓦）",
+            "meaningZh": "金刚萨埵（普贤金刚心）",
+            "meaningEn": "Vajrasattva, Diamond-Essence Being",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaḥ",
+            "stem": "jaḥ",
+            "grammar": "Bīja · 四摄种子",
+            "transliterationZh": "弱（拼读参考：佳₍赫₎）",
+            "meaningZh": "金刚钩召摄引入坛种子",
+            "meaningEn": "Vajra-hook summoning seed syllable (ākarṣaṇa)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hayagriva-vidyaraja-mantra",
+    "titleZh": "圣马头观自在菩萨（马头明王）啖食无明根本心真言",
+    "titleSanskritIast": "Ārya-Hayagrīva-amṛtodbhava-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Horse-Headed Avalokiteśvara (Hayagrīva)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T20n1072A / GRETIL bsu017_u",
+    "translatorZh": "（唐）不空三藏 译 · GRETIL 梵本《Hayagrīvavidyā》对勘",
+    "sutraSourceZh": "《何耶揭哩婆像法》(T20n1072B) / GRETIL bsu017_u.htm",
+    "deityZh": "马头观音 / 马头明王 (Hayagrīva-Vidyārāja)",
+    "meritsAndSummaryZh": "观自在菩萨唯一威猛明王化身，顶现白马头嘶鸣震吼，犹如转轮王宝马啖食一切无明草秽与恶咒病魔。",
+    "recitationTipsZh": "amṛtodbhava 意为从大悲不死甘露海中出生之尊。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T20n1072A & GRETIL bsu017_u.htm (Hayagrīvavidyā).",
+      "manuscriptNotesZh": "独立单列之马头明王根本心真言。",
+      "cbetaId": "T20n1072A",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1072A",
+      "gretilFile": "bsu017_u.htm"
+    },
+    "verses": [
+      {
+        "id": "hayagriva-v-1",
+        "index": 1,
+        "iast": "oṃ amṛtodbhava hūṃ phaṭ svāhā",
+        "classicalTranslitZh": "唵 阿蜜栗都纳婆嚩 吽 泮吒 娑嚩诃",
+        "modernPhoneticZh": "嗡 阿₍姆₎日多₍德₎巴瓦 吽 帕₍特₎ ₍斯₎瓦哈",
+        "meaningZh": "嗡！从不死甘露大悲海出生之威猛马头尊啊！吽！啖食粉碎一切无明魔障（泮吒），圆满成就！",
+        "meaningEn": "Oṃ! O Nectar-Born Hayagrīva (Amṛtodbhava)! Hūṃ Phaṭ Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "amṛtodbhava",
+            "stem": "amṛta-udbhava",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "阿蜜哩睹讷婆嚩（拼读参考：阿₍姆₎日多₍德₎巴瓦）",
+            "meaningZh": "甘露氏族",
+            "meaningEn": "ambrosia + origin",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "phaṭ",
+            "stem": "phaṭ",
+            "grammar": "Bīja · 摧破音",
+            "transliterationZh": "泮吒 / 发吒（拼读参考：帕₍特₎）",
+            "meaningZh": "顿断魔障、摧破无明",
+            "meaningEn": "shatter obstacles and ignorance!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vaisravana-maharaja-mantra",
+    "titleZh": "北方多闻天王（毗沙门天王/财宝天王）根本真言",
+    "titleSanskritIast": "Vaiśravaṇa-mahārāja-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Guardian King Vaiśravaṇa (Lord of Wealth)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1245",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《佛说毗沙门天王经》(T21n1245)",
+    "deityZh": "北方多闻天王 / 财宝天王 (Vaiśravaṇa)",
+    "meritsAndSummaryZh": "护世四大天王之北方主尊，手执宝塔与吐宝鼠，护国佑民、赐予正法行者无尽福德资财。",
+    "recitationTipsZh": "vaiśravaṇāya 为阳性单数与格。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1245 《佛说毗沙门天王经》（不空译）.",
+      "manuscriptNotesZh": "独立单列之北方多闻天王根本心咒。",
+      "cbetaId": "T21n1245",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1245"
+    },
+    "verses": [
+      {
+        "id": "vaisravana-v-1",
+        "index": 1,
+        "iast": "oṃ vaiśravaṇāya svāhā",
+        "classicalTranslitZh": "唵 吠室啰嚩拏耶 娑嚩诃",
+        "modernPhoneticZh": "嗡 歪₍希₎啦瓦拿呀 ₍斯₎瓦哈",
+        "meaningZh": "嗡！归命遍闻法音、护持三宝施大财宝之北方多闻天王，吉祥圆满！",
+        "meaningEn": "Oṃ! Homage to Guardian King Vaiśravaṇa, Bestower of Prosperity, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vaiśravaṇāya",
+            "stem": "vaiśravaṇa",
+            "grammar": "Prop.Noun · 多闻天王 · Dat. Sg. · 为格单数",
+            "transliterationZh": "吠室啰嚩拏(引)耶（拼读参考：歪₍希₎啦瓦拿呀）",
+            "meaningZh": "向毗沙门天王（多闻天王）",
+            "meaningEn": "to/for Vaiśravaṇa, All-Hearing Guardian King",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pita-jambhala-mantra",
+    "titleZh": "黄财神（布禄金刚瞻巴拉）根本心真言",
+    "titleSanskritIast": "Pīta-Jambhala-jalendra-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Yellow Jambhala (Lord of Prosperity)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1289 / GRETIL jambhalu",
+    "translatorZh": "（宋）法天 译 · GRETIL 梵本《Jambhalastotra》对勘",
+    "sutraSourceZh": "《佛说妙吉祥瑜伽大教金刚陪啰嚩轮观想成就仪轨经》/ GRETIL jambhalu.htm",
+    "deityZh": "黄财神 / 布禄金刚 (Pīta-Jambhala)",
+    "meritsAndSummaryZh": "五姓财神之首、南方宝生如来化现，昔于释迦佛宣讲大般若经时护持山崩，蒙佛嘱付护持未来修行者资粮无缺。",
+    "recitationTipsZh": "jalendrāya 意为向水轮甘露自在王致敬。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "GRETIL jambhalu.htm & 佛教五姓财神修法梵本.",
+      "manuscriptNotesZh": "独立单列之黄财神瞻巴拉根本心咒。",
+      "cbetaId": "T21n1289",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1289"
+    },
+    "verses": [
+      {
+        "id": "jambhala-v-1",
+        "index": 1,
+        "iast": "oṃ jambhala jalendrāya svāhā",
+        "classicalTranslitZh": "唵 瞻巴拉 查冷陀啰耶 娑嚩诃",
+        "modernPhoneticZh": "嗡 詹巴啦 佳伦₍德₎啦呀 ₍斯₎瓦哈",
+        "meaningZh": "嗡！归命宝藏王瞻巴拉、甘露水界自在主，祈赐福慧资财丰盈无匮，娑嚩诃！",
+        "meaningEn": "Oṃ! To Jambhala, Sovereign of the Waters of Abundance, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jambhala",
+            "stem": "jambhala",
+            "grammar": "Prop.Noun · 宝藏财尊",
+            "transliterationZh": "瞻婆攞（拼读参考：詹巴啦）",
+            "meaningZh": "瞻巴拉财神（宝藏神）",
+            "meaningEn": "Jambhala, Wealth-Bestowing Deity",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jalendrāya",
+            "stem": "jala-indra",
+            "grammar": "Samāsa · 复合词 (Dat. Sg. · 为格单数)",
+            "transliterationZh": "惹隶喃捺啰(引)耶（拼读参考：佳伦₍德₎啦呀）",
+            "meaningZh": "向净水因陀逻",
+            "meaningEn": "water + to",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mahakala-deva-mantra",
+    "titleZh": "摩诃迦罗大黑天神除贫护法根本真言",
+    "titleSanskritIast": "Mahākāla-deva-dhāraṇī-mantra",
+    "titleEnglish": "Root Protection & Prosperity Mantra of Mahākāla",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1287",
+    "translatorZh": "（唐）神恺 记 / 不空三藏 传",
+    "sutraSourceZh": "《大黑天神法》(T21n1287)",
+    "deityZh": "摩诃迦罗大黑天神 (Mahākāla)",
+    "meritsAndSummaryZh": "大日如来与观音化现之护法战神与丛林伽蓝库司主尊，守护三宝清净道场、拔除贫穷危难。",
+    "recitationTipsZh": "mahākālāya 意为向超越时间之大黑天神致敬。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1287 《大黑天神法》.",
+      "manuscriptNotesZh": "独立单列之唐密大黑天神真言。",
+      "cbetaId": "T21n1287",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1287"
+    },
+    "verses": [
+      {
+        "id": "mahakala-v-1",
+        "index": 1,
+        "iast": "oṃ mahākālāya svāhā",
+        "classicalTranslitZh": "唵 摩诃迦罗耶 娑嚩诃",
+        "modernPhoneticZh": "嗡 玛哈-嘎啦呀 ₍斯₎瓦哈",
+        "meaningZh": "嗡！归命超越三世时间、拥护正法施大吉祥之摩诃迦罗大黑天神，娑嚩诃！",
+        "meaningEn": "Oṃ! To the Great Dharma Protector Mahākāla, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahākālāya",
+            "stem": "mahākāla",
+            "grammar": "Prop.Noun · 大黑天 · Dat. Sg. · 为格单数",
+            "transliterationZh": "摩诃迦(引)攞(引)耶（拼读参考：玛哈-嘎啦呀）",
+            "meaningZh": "向大黑天护法（摩诃迦罗）",
+            "meaningEn": "to/for Mahākāla, Great Black Dharmapāla",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arya-ganapati-hrdaya-mantra",
+    "titleZh": "大圣欢喜天（毗那夜迦象头王）除障满愿心真言",
+    "titleSanskritIast": "Ārya-Gaṇapati-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Noble Gaṇapati (Remover of Obstacles)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T21n1270 / GRETIL ganphrdu",
+    "translatorZh": "（唐）不空三藏 译 · GRETIL 梵本《Gaṇapatihṛdaya》对勘",
+    "sutraSourceZh": "《大圣欢喜双身大自在天毗那夜迦王归依念诵供养法》(T21n1270) / GRETIL ganphrdu.htm",
+    "deityZh": "大圣欢喜天 (Ārya-Gaṇapati)",
+    "meritsAndSummaryZh": "十一面观音化导摄受之顺世护法天尊，能迅速遣除世出世间善业违缘障碍，令善愿顺遂。",
+    "recitationTipsZh": "gaḥ gaḥ 为欢喜天除障种子字。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T21n1270 & GRETIL ganphrdu.htm (Gaṇapatihṛdaya).",
+      "manuscriptNotesZh": "独立单列之佛教大圣欢喜天心真言。",
+      "cbetaId": "T21n1270",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1270",
+      "gretilFile": "ganphrdu.htm"
+    },
+    "verses": [
+      {
+        "id": "ganapatih-v-1",
+        "index": 1,
+        "iast": "namaḥ stute gaṇapataye svāhā | oṃ gaḥ gaḥ hūṃ phaṭ svāhā",
+        "classicalTranslitZh": "曩莫 窣堵帝 誐拏钵多曳 娑嚩诃 | 唵 誐 誐 吽 泮吒 娑嚩诃",
+        "modernPhoneticZh": "拿玛₍赫₎ ₍斯₎度帝 嘎拿巴达耶 ₍斯₎瓦哈 | 嗡 嘎₍赫₎ 嘎₍赫₎ 吽 帕₍特₎ ₍斯₎瓦哈",
+        "meaningZh": "礼赞归命大圣欢喜天主，娑嚩诃！嗡！欢喜天种子（誐、誐），摧破一切事业违缘障碍，圆满吉祥！",
+        "meaningEn": "Praise and homage to Lord Gaṇapati, Svāhā! Oṃ Gaḥ Gaḥ Hūṃ Phaṭ Svāhā!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "stute",
+            "stem": "stu-te",
+            "grammar": "Samāsa · 复合词 (Pron. · 代词)",
+            "transliterationZh": "娑都帝（拼读参考：₍斯₎度帝）",
+            "meaningZh": "向赞叹汝",
+            "meaningEn": "praise + to Thee",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gaṇapataye",
+            "stem": "gaṇapati",
+            "grammar": "Dat. Sg. · 为格单数",
+            "transliterationZh": "誐拏跛怛曳（拼读参考：嘎拿巴达耶）",
+            "meaningZh": "向誐那鉢底",
+            "meaningEn": "to Ganapati",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gaḥ",
+            "stem": "ga",
+            "grammar": "Bīja-mantra · 悉昙种子字",
+            "transliterationZh": "誐诃（拼读参考：嘎₍赫₎）",
+            "meaningZh": "誐字门（妙行趣入（gati）·本不生体性·涅槃除障点证入）",
+            "meaningEn": "awakened spiritual movement (gati) — primordial non-arising with nirvāṇic visarga release",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mahasarasvati-devi-mantra",
+    "titleZh": "大辩才天女（妙音佛母）无碍辩才智慧真言",
+    "titleSanskritIast": "Mahāsarasvatī-devī-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Goddess Sarasvatī (Bestower of Eloquence & Wisdom)",
+    "categoryId": "vidyarajas-protectors",
+    "taishoNo": "T16n0665 / T21n1277",
+    "translatorZh": "（唐）义净 / 不空三藏 译",
+    "sutraSourceZh": "《金光明最胜王经》〈大辩才天女品〉(T16n0665)",
+    "deityZh": "大辩才天女 / 妙音佛母 (Mahāsarasvatī)",
+    "meritsAndSummaryZh": "《金光明最胜王经》重点赞叹之智慧文艺与四无碍辩才护法天女，赐予说法无畏、乐音清妙、总持不忘。",
+    "recitationTipsZh": "sarasvatyai 为阴性单数与格。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T16n0665 《金光明最胜王经》卷七〈大辩才天女品〉.",
+      "manuscriptNotesZh": "独立单列之大辩才天女心真言。",
+      "cbetaId": "T16n0665",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T16n0665"
+    },
+    "verses": [
+      {
+        "id": "sarasvati-v-1",
+        "index": 1,
+        "iast": "oṃ sarasvatyai svāhā",
+        "classicalTranslitZh": "唵 萨啰娑嚩底曳 娑嚩诃",
+        "modernPhoneticZh": "嗡 萨啦₍斯₎瓦₍蒂₎崖 ₍斯₎瓦哈",
+        "meaningZh": "嗡！归命妙音大辩才天女，祈赐四无碍辩才、文章艺慧与清净梵音，娑嚩诃！",
+        "meaningEn": "Oṃ! To Goddess Sarasvatī, Bestower of Eloquence, Music, and Wisdom, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sarasvatyai",
+            "stem": "sarasvatī",
+            "grammar": "Prop.Noun · 辩才天女 · Dat. Sg. Fem. · 为格阴性",
+            "transliterationZh": "萨啰娑嚩底耶（拼读参考：萨啦₍斯₎瓦₍蒂₎崖）",
+            "meaningZh": "向妙音天女（辩才天）",
+            "meaningEn": "to Sarasvatī, Goddess of Eloquence & Wisdom",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lotus-01-bhaisajyaraja-dharani",
+    "titleZh": "妙法莲华经·药王菩萨护经陀罗尼（陀罗尼品第一番神咒）",
+    "titleSanskritIast": "Saddharmapuṇḍarīka-bhaiṣajyarāja-dhāraṇī",
+    "titleEnglish": "Lotus Sūtra Ch. 26: Bhaiṣajyarāja Bodhisattva Protective Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T09n0262 / GRETIL bsu028pu",
+    "translatorZh": "（姚秦）鸠摩罗什 译 · 梵本《Saddharmapuṇḍarīkasūtra》逐句对勘",
+    "sutraSourceZh": "《妙法莲华经》卷七〈陀罗尼品第二十六〉(T09n0262)",
+    "deityZh": "药王菩萨 (Bhaiṣajyarāja-Bodhisattva)",
+    "meritsAndSummaryZh": "六十二亿恒河沙等诸佛同宣之护经神咒。若有侵毁受持法华法师者，即为侵毁诸佛，持此咒得大吉祥守护。独立单列第一番神咒全本。",
+    "recitationTipsZh": "鸠摩罗什古译「安尔 曼尔 摩祢 摩摩祢」与梵本「anye mannye mane mamane」丝丝入扣。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Saddharmapuṇḍarīkasūtram (Vaidya, BST 6, 1960) & CBETA T09n0262.",
+      "manuscriptNotesZh": "法华经陀罗尼品第一番独立专条，零省略全文录入。",
+      "cbetaId": "T09n0262",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T09n0262",
+      "gretilFile": "bsu028pu.htm"
+    },
+    "verses": [
+      {
+        "id": "lotus1-v-1",
+        "index": 1,
+        "iast": "tadyathā — anye mannye mane mamane citte carite śame śamitāvi śānte mukte muktatame same aviṣame samasame jaye kṣaye akṣīṇe śānte śamite dhāraṇi ālokabhāṣe pratyavekṣaṇi nidhiru abhyantaraniśāte abhyantarapāriśuddhi mutkule araḍe paraḍe sukāṅkṣi asamasame buddhavilokite dharmaparīkṣite saṃghanirghoṣaṇi nirghoṣaṇi bhayābhayaviśodhani mantre mantrākṣayate rute rutakauśalye akṣaye akṣayavanatāye abale amanyanatāye svāhā",
+        "classicalTranslitZh": "安尔 曼尔 摩祢 摩摩祢 旨隶 遮梨第 赊咩 赊履多玮 帝 目帝 目多履 娑履 阿玮娑履 桑履 娑履 叉裔 阿叉裔 阿耆腻 帝 赊履 陀罗尼 阿卢伽婆娑 簸蔗毗叉腻 祢毗剃 阿便哆逻祢履剃 阿便哆逻波梨输地 沤究隶 穆究隶 阿罗隶 波罗隶 首迦差 阿三摩三履 佛驮毗吉利袠帝 达摩波利差帝 僧伽涅瞿沙祢 婆舍婆舍输地 曼哆逻 曼哆逻叉夜多 邮楼多 邮楼多憍舍略 阿叉裔 阿叉夜婆多 婆迦逻阿摩若那多夜 娑婆诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 阿₍尼₎耶 曼₍尼₎耶 玛内 玛玛内 吉帝 佳里帝 沙美 沙米达维 善帝 穆₍克₎帝 穆₍克₎达达美 萨美 阿维沙美 萨玛萨美 佳耶 ₍克₎沙耶 阿₍克₎师内 善帝 沙米帝 达啦尼 阿洛嘎巴奢 ₍普₎啦₍蒂₎呀威₍克₎沙尼 尼地鲁 阿₍比₎延达啦尼沙帝 阿₍比₎延达啦巴里舒地 穆₍特₎古雷 阿啦叠 巴啦叠 苏刚₍克₎师 阿萨玛萨美 布达-维洛给帝 达₍尔₎玛-巴里₍克₎师帝 桑嘎-尼₍尔₎果沙尼 尼₍尔₎果沙尼 巴呀巴呀维硕达尼 曼₍特₎雷 曼₍特₎啦₍克₎沙呀帝 鲁帝 鲁达高沙₍勒₎耶 阿₍克₎沙耶 阿₍克₎沙呀瓦拿达耶 阿巴雷 阿玛₍尼₎呀拿达耶 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：正念如如、寂静调柔、解脱最上解脱、平等尊胜无尽、总持法明、内证清净、诸佛鉴照、正法印证、僧伽妙音宣流、净除一切怖畏，令真言法音永不穷尽，娑婆诃！",
+        "meaningEn": "Namely: In true mindfulness, serenity, supreme liberation, equality, unfailing Dhāraṇī, inner purity, beheld by Buddhas, verified by Dharma, proclaimed by Saṃgha, purifying all fears, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "anye",
+            "stem": "anya",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "阿你曳（拼读参考：阿₍尼₎耶）",
+            "meaningZh": "他尊",
+            "meaningEn": "O other / in other",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mannye",
+            "stem": "ma-na-na",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "曼你曳（拼读参考：曼₍尼₎耶）",
+            "meaningZh": "无我大慈三昧·离名相假立·一乘如实之道（呼请加持）",
+            "meaningEn": "selfless great loving-kindness & beyond nominal designation & supreme vehicle of awakening (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mane",
+            "stem": "mana",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "摩祢（拼读参考：玛内）",
+            "meaningZh": "自尊尊",
+            "meaningEn": "O pride / in pride",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mamane",
+            "stem": "maṃ-anā",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "摩摩祢（拼读参考：玛玛内）",
+            "meaningZh": "瞒自然",
+            "meaningEn": "maṃ + O certainly",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "citte",
+            "stem": "citta",
+            "grammar": "Noun · 心识 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "只怛帝（拼读参考：吉帝）",
+            "meaningZh": "心、菩提心、心识尊",
+            "meaningEn": "O mind, heart, thought, bodhicitta / in mind, heart, thought, bodhicitta",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lotus-02-pradanasura-dharani",
+    "titleZh": "妙法莲华经·勇施菩萨护经陀罗尼（陀罗尼品第二番神咒）",
+    "titleSanskritIast": "Saddharmapuṇḍarīka-pradānaśūra-dhāraṇī",
+    "titleEnglish": "Lotus Sūtra Ch. 26: Pradānaśūra Bodhisattva Protective Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T09n0262 / GRETIL bsu028pu",
+    "translatorZh": "（姚秦）鸠摩罗什 译 · 梵本《Saddharmapuṇḍarīkasūtra》对勘",
+    "sutraSourceZh": "《妙法莲华经》卷七〈陀罗尼品第二十六〉(T09n0262)",
+    "deityZh": "勇施菩萨 (Pradānaśūra-Bodhisattva)",
+    "meritsAndSummaryZh": "勇施菩萨为护持读诵受持《法华经》者，令魔若魔子、夜叉罗刹无得其便而宣说之独立护法陀罗尼。",
+    "recitationTipsZh": "jvale mahājvale 意为智慧光焰、大智光焰尊。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Saddharmapuṇḍarīkasūtram & CBETA T09n0262.",
+      "manuscriptNotesZh": "法华经陀罗尼品第二番独立专条。",
+      "cbetaId": "T09n0262",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T09n0262",
+      "gretilFile": "bsu028pu.htm"
+    },
+    "verses": [
+      {
+        "id": "lotus2-v-1",
+        "index": 1,
+        "iast": "tadyathā — jvale mahājvale ukke tukke mukke aḍe aḍāvati nṛtye nṛtyāvati iṭṭini viṭṭini ciṭṭini nṛtye nṛtyāvati svāhā",
+        "classicalTranslitZh": "痤隶 摩诃痤隶 郁枳 目枳 阿隶 阿罗婆第 涅隶第 涅隶多婆第 伊致柅 韦致柅 旨致柅 涅隶墀 涅隶多婆底 娑婆诃",
+        "modernPhoneticZh": "达₍地₎呀他 | ₍吉₎瓦雷 玛哈₍吉₎瓦雷 乌给 度给 穆给 阿叠 阿达瓦帝 ₍尼₎日₍蒂₎耶 ₍尼₎日₍蒂₎呀瓦帝 伊蒂尼 维蒂尼 吉蒂尼 ₍尼₎日₍蒂₎耶 ₍尼₎日₍蒂₎呀瓦帝 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：智慧光焰、大智慧光焰！超升解脱、圣德具足、法喜踊跃游舞，使诸天魔外道无得其便，娑婆诃！",
+        "meaningEn": "Namely: O Blazing Light, Great Blazing Light! Liberated, Noble, Sporting in Dharma joy and guarding the practitioner, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jvale",
+            "stem": "jvala",
+            "grammar": "Impv. 2nd Sg. · 祈使式 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "日嚩隶（拼读参考：₍吉₎瓦雷）",
+            "meaningZh": "炽燃光明、放光普照（入嚩攞）尊",
+            "meaningEn": "O blaze forth with wisdom radiance! / in blaze forth with wisdom radiance!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahājvale",
+            "stem": "mahā-jvala",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "摩诃日嚩隶（拼读参考：玛哈₍吉₎瓦雷）",
+            "meaningZh": "大炽燃光明",
+            "meaningEn": "great + O blaze forth with wisdom radiance!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ukke",
+            "stem": "ka-ka",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "坞怛计（拼读参考：乌给）",
+            "meaningZh": "造作离相（呼请加持）",
+            "meaningEn": "freedom from karmic agency (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tukke",
+            "stem": "ta-ka-ka",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "都怛计（拼读参考：度给）",
+            "meaningZh": "真如实际·造作离相（呼请加持）",
+            "meaningEn": "immutable Suchness & freedom from karmic agency (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mukke",
+            "stem": "ma-ka-ka",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "母怛计（拼读参考：穆给）",
+            "meaningZh": "无我大慈三昧·造作离相（呼请加持）",
+            "meaningEn": "selfless great loving-kindness & freedom from karmic agency (vocative invocation)",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lotus-03-vaisravana-dharani",
+    "titleZh": "妙法莲华经·毗沙门天王护世陀罗尼（陀罗尼品第三番神咒）",
+    "titleSanskritIast": "Saddharmapuṇḍarīka-vaiśravaṇa-dhāraṇī",
+    "titleEnglish": "Lotus Sūtra Ch. 26: Guardian King Vaiśravaṇa Protection Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T09n0262 / GRETIL bsu028pu",
+    "translatorZh": "（姚秦）鸠摩罗什 译 · 梵本《Saddharmapuṇḍarīkasūtra》对勘",
+    "sutraSourceZh": "《妙法莲华经》卷七〈陀罗尼品第二十六〉(T09n0262)",
+    "deityZh": "护世毗沙门天王 (Vaiśravaṇa)",
+    "meritsAndSummaryZh": "毗沙门天王护念众生及拥护受持法华法师百由旬内无诸衰患之独立神咒。",
+    "recitationTipsZh": "鸠摩罗什古译全句十七字精严凝练。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Saddharmapuṇḍarīkasūtram & CBETA T09n0262.",
+      "manuscriptNotesZh": "法华经陀罗尼品第三番独立专条。",
+      "cbetaId": "T09n0262",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T09n0262",
+      "gretilFile": "bsu028pu.htm"
+    },
+    "verses": [
+      {
+        "id": "lotus3-v-1",
+        "index": 1,
+        "iast": "tadyathā — aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi svāhā",
+        "classicalTranslitZh": "阿梨 那梨 㝹那梨 阿那卢 那履 拘那履 娑婆诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 阿帝 拿帝 瓦拿帝 阿拿叠 拿迪 古拿迪 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：高显威德、神通游行、遍护四方百由旬无诸衰患，圆满成就，娑婆诃！",
+        "meaningEn": "Namely: Aṭṭe naṭṭe vanaṭṭe anaḍe nāḍi kunaḍi — guarding a hundred yojanas from all harm, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "aṭṭe",
+            "stem": "aṭṭa",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "阿怛致（拼读参考：阿帝）",
+            "meaningZh": "楼房尊",
+            "meaningEn": "O tower, buttress, also / in tower, buttress, also",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "naṭṭe",
+            "stem": "na-ṭa-ṭa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "曩怛致（拼读参考：拿帝）",
+            "meaningZh": "离名相假立·断除憍慢执障（呼请加持）",
+            "meaningEn": "beyond nominal designation & cutting rigid pride (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vanaṭṭe",
+            "stem": "van-aṭṭa",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "嚩曩怛致（拼读参考：瓦拿帝）",
+            "meaningZh": "一样楼房尊",
+            "meaningEn": "te + O tower",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "anaḍe",
+            "stem": "na-ḍa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "阿曩提（拼读参考：阿拿叠）",
+            "meaningZh": "离名相假立·息灭诤怨（呼请加持）",
+            "meaningEn": "beyond nominal designation & pacifying conflict & turmoil (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "nāḍi",
+            "stem": "nāḍi",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "那(引)腻（拼读参考：拿迪）",
+            "meaningZh": "血管",
+            "meaningEn": "vein, artery, any tubular organ of the body",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lotus-04-dhrtarastra-dharani",
+    "titleZh": "妙法莲华经·持国天王护经陀罗尼（陀罗尼品第四番神咒）",
+    "titleSanskritIast": "Saddharmapuṇḍarīka-dhṛtarāṣṭra-virūḍhaka-dhāraṇī",
+    "titleEnglish": "Lotus Sūtra Ch. 26: Guardian King Dhṛtarāṣṭra Protection Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T09n0262 / GRETIL bsu028pu",
+    "translatorZh": "（姚秦）鸠摩罗什 译 · 梵本《Saddharmapuṇḍarīkasūtra》对勘",
+    "sutraSourceZh": "《妙法莲华经》卷七〈陀罗尼品第二十六〉(T09n0262)",
+    "deityZh": "东方持国天王 (Dhṛtarāṣṭra)",
+    "meritsAndSummaryZh": "四十二亿恒河沙诸佛所说大神咒，由持国天王统领千万亿那由他乾闼婆众拥护受持法华行者。",
+    "recitationTipsZh": "平等普护四众，摧除伺求法师短者。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Saddharmapuṇḍarīkasūtram & CBETA T09n0262.",
+      "manuscriptNotesZh": "法华经陀罗尼品第四番独立专条。",
+      "cbetaId": "T09n0262",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T09n0262",
+      "gretilFile": "bsu028pu.htm"
+    },
+    "verses": [
+      {
+        "id": "lotus4-v-1",
+        "index": 1,
+        "iast": "tadyathā — agane gaṇe gauri gandhāri caṇḍāli mātaṅgi pukkasi saṃkule vrūsali sisi svāhā",
+        "classicalTranslitZh": "阿伽祢 伽祢 瞿梨 乾陀梨 旃陀梨 摩蹬耆 常求利 浮楼莎柅 阏底 娑婆诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 阿嘎内 嘎内 高里 甘达里 詹达利 玛当吉 布嘎悉 桑古雷 ₍维₎鲁萨利 悉悉 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：无垢天众护持、皎洁光明、持香妙音、超越阶级差别平等守护受持大乘经者，娑婆诃！",
+        "meaningEn": "Namely: Stainless host, Radiant One, Fragrant One, guarding all Dharma practitioners equally without distinction, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "agane",
+            "stem": "ga-na",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "阿誐祢（拼读参考：阿嘎内）",
+            "meaningZh": "妙行趣入·离名相假立（呼请加持）",
+            "meaningEn": "awakened spiritual movement & beyond nominal designation (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gaṇe",
+            "stem": "gaṇa",
+            "grammar": "Noun · 圣众海会 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "誐宁（拼读参考：嘎内）",
+            "meaningZh": "海会众、圣众眷属尊",
+            "meaningEn": "O assembly, host,retinue / in assembly, host,retinue",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gauri",
+            "stem": "gaurī",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "豪哩（拼读参考：高里）",
+            "meaningZh": "娇吠哩尊",
+            "meaningEn": "O Gauri",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gandhāri",
+            "stem": "gandhāri",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "俨驮(引)哩（拼读参考：甘达里）",
+            "meaningZh": "诸人",
+            "meaningEn": "of a people",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "caṇḍāli",
+            "stem": "caṇḍāla",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "瞻拏(引)里（拼读参考：詹达利）",
+            "meaningZh": "下贱种 / 暴厉尊",
+            "meaningEn": "O a Candala or outcast",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lotus-05-hariti-raksasi-dharani",
+    "titleZh": "妙法莲华经·鬼子母与十罗刹女护顶陀罗尼（陀罗尼品第五番神咒）",
+    "titleSanskritIast": "Saddharmapuṇḍarīka-hārītī-daśarākṣasī-dhāraṇī",
+    "titleEnglish": "Lotus Sūtra Ch. 26: Ten Rākṣasī Daughters & Hārītī Protection Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T09n0262 / GRETIL bsu028pu",
+    "translatorZh": "（姚秦）鸠摩罗什 译 · 梵本《Saddharmapuṇḍarīkasūtra》对勘",
+    "sutraSourceZh": "《妙法莲华经》卷七〈陀罗尼品第二十六〉(T09n0262)",
+    "deityZh": "鬼子母（诃利帝母）与蓝婆等十罗刹女",
+    "meritsAndSummaryZh": "蓝婆、毗蓝婆、曲齿、华齿、黑齿、多发、无厌足、持璎珞、睾帝、夺一切众生精气十罗刹女与鬼子母同声立誓守护受持经者：「宁上我头上，莫恼于法师；若违我此咒，头破作七分，如阿梨树枝！」",
+    "recitationTipsZh": "四组五叠音节气势磅礴，结界护顶力极强。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Saddharmapuṇḍarīkasūtram & CBETA T09n0262.",
+      "manuscriptNotesZh": "法华经陀罗尼品第五番独立专条。",
+      "cbetaId": "T09n0262",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T09n0262",
+      "gretilFile": "bsu028pu.htm"
+    },
+    "verses": [
+      {
+        "id": "lotus5-v-1",
+        "index": 1,
+        "iast": "tadyathā — iti me iti me iti me iti me iti me | nime nime nime nime nime | ruhe ruhe ruhe ruhe ruhe | stuhe stuhe stuhe stuhe stuhe svāhā",
+        "classicalTranslitZh": "伊提履 伊提泯 伊提履 阿提履 伊提履 | 泥履 泥履 泥履 泥履 泥履 | 楼醯 楼醯 楼醯 楼醯 楼醯 | 多醯 多醯 多醯 兜醯 耨醯 娑婆诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 伊帝 美 伊帝 美 伊帝 美 伊帝 美 伊帝 美 | 尼美 尼美 尼美 尼美 尼美 | 鲁嘿 鲁嘿 鲁嘿 鲁嘿 鲁嘿 | ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎度嘿 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：如是誓愿护持（五称）！决定制伏恶魔（五称）！令善根增上生长（五称）！普遍赞叹拥护法师身心安隐，娑婆诃！",
+        "meaningEn": "Namely: Thus our solemn vow (5x), restraining harm (5x), growing merit (5x), praising and guarding the Dharma teacher’s crown, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "iti",
+            "stem": "iti",
+            "grammar": "Part. · 引用结词",
+            "transliterationZh": "伊底（拼读参考：伊帝）",
+            "meaningZh": "如是（结句印定）",
+            "meaningEn": "thus, so it is stated",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "me",
+            "stem": "me",
+            "grammar": "Pron. Dat./Gen. · 第一人称",
+            "transliterationZh": "铭（拼读参考：美）",
+            "meaningZh": "于我、为我",
+            "meaningEn": "to me, my",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "iti",
+            "stem": "iti",
+            "grammar": "Part. · 引用结词",
+            "transliterationZh": "伊底（拼读参考：伊帝）",
+            "meaningZh": "如是（结句印定）",
+            "meaningEn": "thus, so it is stated",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "me",
+            "stem": "me",
+            "grammar": "Pron. Dat./Gen. · 第一人称",
+            "transliterationZh": "铭（拼读参考：美）",
+            "meaningZh": "于我、为我",
+            "meaningEn": "to me, my",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "iti",
+            "stem": "iti",
+            "grammar": "Part. · 引用结词",
+            "transliterationZh": "伊底（拼读参考：伊帝）",
+            "meaningZh": "如是（结句印定）",
+            "meaningEn": "thus, so it is stated",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lotus-06-samantabhadra-avarta-dharani",
+    "titleZh": "妙法莲华经·普贤菩萨劝发品三昧旋陀罗尼（法华第六番神咒）",
+    "titleSanskritIast": "Saddharmapuṇḍarīka-samantabhadra-āvartanī-dhāraṇī",
+    "titleEnglish": "Lotus Sūtra Ch. 28: Samantabhadra Bodhisattva Revolving Samādhi Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T09n0262 / GRETIL bsu028pu",
+    "translatorZh": "（姚秦）鸠摩罗什 译 · CBETA T09n0262 原典二十句全本对勘",
+    "sutraSourceZh": "《妙法莲华经》卷七〈普贤菩萨劝发品第二十八〉(T09n0262)",
+    "deityZh": "大行普贤菩萨 (Samantabhadra)",
+    "meritsAndSummaryZh": "《法华经》全经压卷之普贤菩萨旋陀罗尼。受持读诵者即得普贤乘六牙白象王摩顶守护，获旋陀罗尼、百千万亿旋陀罗尼、法音方便陀罗尼。依据本库 `db2_dharani_blocks` 中 `T09n0262` 二十句原文一字不差完整收录！",
+    "recitationTipsZh": "原典自「阿檀地（一）」至「辛阿毘吉利地帝（二十）」全文完整呈现。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "CBETA T09n0262 卷七〈普贤菩萨劝发品第二十八〉& GRETIL bsu028pu.htm.",
+      "manuscriptNotesZh": "直接采自 CBETA T09n0262 原典二十句全文，独立单列。",
+      "cbetaId": "T09n0262",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T09n0262",
+      "gretilFile": "bsu028pu.htm"
+    },
+    "verses": [
+      {
+        "id": "lotus6-v-1",
+        "index": 1,
+        "iast": "tadyathā — adaṇḍe daṇḍapati daṇḍāvartani daṇḍakuśale daṇḍasudhāri sudhāri sudhārapati buddhapāśyane sarvadhāraṇyāvartani sarvabhāṣyāvartani su-āvartani saṃghaparīkṣaṇi saṃghanirghātani asaṅge saṃghāpagate tri-adhva-saṃghatulya-arate-parate sarvasaṃghasamādhigarbhe sarvadharmasuparīkṣite sarvasattvarutakauśalyānugate siṃhavikrīḍite svāhā",
+        "classicalTranslitZh": "阿檀地 檀陀婆地 檀陀婆帝 檀陀鸠舍隶 檀陀修陀隶 修陀隶 修陀罗婆底 佛驮波膻祢 萨婆陀罗尼阿婆多尼 萨婆婆沙阿婆多尼 修阿婆多尼 僧伽婆履叉尼 僧伽涅伽陀尼 阿僧祇 僧伽波伽地 帝隶阿惰僧伽兜略阿罗帝婆罗帝 萨婆僧伽三摩地伽兰地 萨婆达磨修波利刹帝 萨婆萨埵楼驮憍舍略阿㝹伽地 辛阿毘吉利地帝 娑婆诃",
+        "modernPhoneticZh": "达₍地₎呀他 | 阿丹叠 丹达巴帝 丹达瓦₍尔₎达尼 丹达古沙雷 丹达苏达里 苏达里 苏达啦巴帝 布达-巴₍希₎呀内 萨₍尔₎瓦-达啦₍尼₎呀瓦₍尔₎达尼 萨₍尔₎瓦-巴₍师₎呀瓦₍尔₎达尼 苏-阿瓦₍尔₎达尼 桑嘎-巴里₍克₎沙尼 桑嘎-尼₍尔₎嘎达尼 阿桑给 桑嘎巴嘎帝 ₍特₎里-阿₍德₎瓦-桑嘎度₍勒₎呀-阿啦帝-巴啦帝 萨₍尔₎瓦-桑嘎-萨玛地嘎₍尔₎贝 萨₍尔₎瓦-达₍尔₎玛-苏巴里₍克₎师帝 萨₍尔₎瓦-萨₍特₎瓦鲁达高沙₍勒₎呀努嘎帝 辛哈维₍克₎里迪帝 ₍斯₎瓦哈",
+        "meaningZh": "即说咒曰：无诤治罚、法幢之主、善巧旋转一切陀罗尼门与一切语言法音门、诸佛慈眼鉴照、三世圣僧三摩地总持、善察诸法实相、随顺一切众生语言善巧、犹如狮子王奋迅游戏三昧，圆满成就！",
+        "meaningEn": "Namely: O Non-violent Master of the Dharma-Banner, revolving all Dhāraṇīs and all languages, beheld by Buddhas, abiding in Saṃgha Samādhi, skilled in the speech of all beings, sporting like a Lion, Svāhā!",
+        "words": [
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "adaṇḍe",
+            "stem": "a-daṇḍa",
+            "grammar": "Nañ-Tatpuruṣa · 否定复合词",
+            "transliterationZh": "阿昙提（拼读参考：阿丹叠）",
+            "meaningZh": "无金刚杖、宝杖",
+            "meaningEn": "non-O staff, scepter, rod / in staff, scepter, rod",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daṇḍapati",
+            "stem": "daṇḍa-pati",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "昙拏跛底（拼读参考：丹达巴帝）",
+            "meaningZh": "金刚杖君",
+            "meaningEn": "staff + prince",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daṇḍāvartani",
+            "stem": "daṇḍa-āvartana",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. · 呼格/处格)",
+            "transliterationZh": "昙拏(引)嚩哩怛你（拼读参考：丹达瓦₍尔₎达尼）",
+            "meaningZh": "金刚杖展",
+            "meaningEn": "staff + O wandering",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daṇḍakuśale",
+            "stem": "daṇḍa-kuśala",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "昙拏矩舍隶（拼读参考：丹达古沙雷）",
+            "meaningZh": "金刚杖善",
+            "meaningEn": "staff + O wholesome",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "daṇḍasudhāri",
+            "stem": "daṇḍa-su-dhāri",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "昙拏苏驮(引)哩（拼读参考：丹达苏达里）",
+            "meaningZh": "金刚杖·报刊往外·持",
+            "meaningEn": "staff + press out + holding",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liturgy-speech-purification-mantra",
+    "titleZh": "净口业真言",
+    "titleSanskritIast": "Vāk-karma-viśodhana-mantra",
+    "titleEnglish": "Speech Karma Purification Mantra",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "禅门日诵 / 显密通轨",
+    "translatorZh": "汉传佛门早晚课诵及诵经开卷通轨",
+    "sutraSourceZh": "《禅门日诵》开经仪轨",
+    "deityZh": "十方常住三宝",
+    "meritsAndSummaryZh": "汉传佛子讽诵一切大乘经典与陀罗尼前首诵之净口业真言，清净妄语、两舌、恶口、绮语四口恶业，令音声清净契合佛心。",
+    "recitationTipsZh": "开经前虔诵三遍或七遍。",
+    "provenance": {
+      "sourceType": "Academic-Critical-Edition",
+      "editionCitation": "《禅门日诵》开经净口业真言.",
+      "manuscriptNotesZh": "独立单列之净口业真言专条。"
+    },
+    "verses": [
+      {
+        "id": "speech-v-1",
+        "index": 1,
+        "iast": "oṃ śuri śuri mahāśuri śuśuri svāhā",
+        "classicalTranslitZh": "唵 修利修利 摩诃修利 修修利 萨婆诃",
+        "modernPhoneticZh": "嗡 舒里 舒里 玛哈舒里 舒舒里 ₍斯₎瓦哈",
+        "meaningZh": "嗡！清净吉祥、清净吉祥，大清净吉祥，极清净微妙语业，圆满成就！",
+        "meaningEn": "Oṃ! Pure and auspicious, supremely pure speech karma, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śuri",
+            "stem": "śa-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍哩（拼读参考：舒里）",
+            "meaningZh": "本性寂静止息·清净离诸尘垢（呼请加持）",
+            "meaningEn": "primordial tranquil peace & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śuri",
+            "stem": "śa-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍哩（拼读参考：舒里）",
+            "meaningZh": "本性寂静止息·清净离诸尘垢（呼请加持）",
+            "meaningEn": "primordial tranquil peace & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahāśuri",
+            "stem": "√mah",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "摩诃戍哩（拼读参考：玛哈舒里）",
+            "meaningZh": "广大殊胜·无我大慈三昧（呼请加持）",
+            "meaningEn": "great (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śuśuri",
+            "stem": "śa-śa-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍戍哩（拼读参考：舒舒里）",
+            "meaningZh": "本性寂静止息·清净离诸尘垢（呼请加持）",
+            "meaningEn": "primordial tranquil peace & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liturgy-body-purification-mantra",
+    "titleZh": "净身业真言",
+    "titleSanskritIast": "Kāya-karma-viśodhana-mantra",
+    "titleEnglish": "Body Karma Purification Mantra",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "禅门日诵 / 显密通轨",
+    "translatorZh": "汉传佛门诵经开卷通轨",
+    "sutraSourceZh": "《禅门日诵》开经仪轨",
+    "deityZh": "十方常住三宝",
+    "meritsAndSummaryZh": "诵经持咒开卷前清净杀、盗、淫三身恶业之真言，令幻身化为清净无垢琉璃法器。",
+    "recitationTipsZh": "与净口业、净意业依次各诵三遍。",
+    "provenance": {
+      "sourceType": "Academic-Critical-Edition",
+      "editionCitation": "《禅门日诵》开经净身业真言.",
+      "manuscriptNotesZh": "独立单列之净身业真言专条。"
+    },
+    "verses": [
+      {
+        "id": "bodyp-v-1",
+        "index": 1,
+        "iast": "oṃ śuddhari śuddhari śumari śumari svāhā",
+        "classicalTranslitZh": "唵 修哆唎 修哆唎 修摩唎 修摩唎 萨婆诃",
+        "modernPhoneticZh": "嗡 舒达里 舒达里 舒玛里 舒玛里 ₍斯₎瓦哈",
+        "meaningZh": "嗡！清净持戒、涤除身垢，柔和调顺、身心安隐清净，圆满吉祥！",
+        "meaningEn": "Oṃ! Pure restraint, gentle and stainless bodily conduct, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śuddhari",
+            "stem": "√dhar",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍没驮哩（拼读参考：舒达里）",
+            "meaningZh": "持守摄受·本性寂静止息（呼请加持）",
+            "meaningEn": "bearing (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śuddhari",
+            "stem": "√dhar",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍没驮哩（拼读参考：舒达里）",
+            "meaningZh": "持守摄受·本性寂静止息（呼请加持）",
+            "meaningEn": "bearing (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śumari",
+            "stem": "śa-ma-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍摩哩（拼读参考：舒玛里）",
+            "meaningZh": "本性寂静止息·无我大慈三昧·清净离诸尘垢（呼请加持）",
+            "meaningEn": "primordial tranquil peace & selfless great loving-kindness & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "śumari",
+            "stem": "śa-ma-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "戍摩哩（拼读参考：舒玛里）",
+            "meaningZh": "本性寂静止息·无我大慈三昧·清净离诸尘垢（呼请加持）",
+            "meaningEn": "primordial tranquil peace & selfless great loving-kindness & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liturgy-mind-purification-mantra",
+    "titleZh": "净意业真言",
+    "titleSanskritIast": "Manas-karma-viśodhana-mantra",
+    "titleEnglish": "Mind Karma Purification Mantra (Oṃ Vajradharma Hrīḥ)",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T18n0866 / 禅门日诵",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《金刚顶经》莲华部法印 / 《禅门日诵》",
+    "deityZh": "法界体性智 & 观自在菩萨",
+    "meritsAndSummaryZh": "净除贪、嗔、痴三意恶业之真言。以金刚妙法（vajradharma）与莲华自性清净心印（hrīḥ）照破心垢，令意业如莲出淤泥而不染。",
+    "recitationTipsZh": "hrīḥ 为莲华部清净本觉种子字。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "《禅门日诵》暨《金刚顶经》净意业真言.",
+      "manuscriptNotesZh": "独立单列之净意业真言专条。",
+      "cbetaId": "T18n0866",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T18n0866"
+    },
+    "verses": [
+      {
+        "id": "mindp-v-1",
+        "index": 1,
+        "iast": "oṃ vajradharma hrīḥ",
+        "classicalTranslitZh": "唵 嚩日啰达摩 纥哩",
+        "modernPhoneticZh": "嗡 瓦₍吉₎啦达₍尔₎玛 ₍赫₎里₍希₎",
+        "meaningZh": "嗡！金刚不坏妙法与红莲本净菩提心（纥哩），净除一切贪嗔痴妄念！",
+        "meaningEn": "Oṃ! Diamond-Dharma Lotus Purity of Mind (Hrīḥ)!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajradharma",
+            "stem": "vajra-dharma",
+            "grammar": "Samāsa · 复合词 (Noun · 法宝)",
+            "transliterationZh": "嚩日啰达哩摩（拼读参考：瓦₍吉₎啦达₍尔₎玛）",
+            "meaningZh": "金刚正法",
+            "meaningEn": "Vajra + Dharma",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hrīḥ",
+            "stem": "hrīḥ",
+            "grammar": "Bīja · 莲华种子字",
+            "transliterationZh": "纥哩（拼读参考：₍赫₎里₍希₎）",
+            "meaningZh": "莲华部心印（清净惭愧·弥陀观音种子）",
+            "meaningEn": "Lotus-family seed of Amitābha & Avalokiteśvara",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liturgy-earth-pacification-mantra",
+    "titleZh": "安土地真言",
+    "titleSanskritIast": "Bhūmi-pati-śāntika-mantra",
+    "titleEnglish": "Earth-Pacifying Guardian Mantra",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "禅门日诵 / 销释金刚科仪",
+    "translatorZh": "汉传佛门诵经开卷通轨",
+    "sutraSourceZh": "《禅门日诵》开经安土地仪轨",
+    "deityZh": "十方护法土地正神 & 坚牢地神",
+    "meritsAndSummaryZh": "汉传诵经前必诵之安土地真言，奉请一方护法土地神祇安住吉祥、结界守护诵经坛场不受惊扰。",
+    "recitationTipsZh": "pṛthivīye（地尾）即礼请大地护法神尊。",
+    "provenance": {
+      "sourceType": "Academic-Critical-Edition",
+      "editionCitation": "《禅门日诵》安土地真言.",
+      "manuscriptNotesZh": "独立单列之安土地真言专条。"
+    },
+    "verses": [
+      {
+        "id": "earthp-v-1",
+        "index": 1,
+        "iast": "namaḥ samantabuddhānām | oṃ duru duru pṛthivīye svāhā",
+        "classicalTranslitZh": "南无三满哆 母驮喃 | 唵 度噜度噜 地尾 萨婆诃",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨曼达-布达南 | 嗡 杜鲁 杜鲁 ₍普₎日提维耶 ₍斯₎瓦哈",
+        "meaningZh": "归命普遍一切诸佛！嗡！坚固护持、速疾安隐，令一方土地清净吉祥，萨婆诃！",
+        "meaningEn": "Homage to Universal Buddhas! Oṃ! Firmly guard and pacify the Earth, Svāhā!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samantabuddhānām",
+            "stem": "samanta-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三曼多没驮喃（拼读参考：萨曼达-布达南）",
+            "meaningZh": "普遍没驮南",
+            "meaningEn": "universal + buddhānām",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "duru",
+            "stem": "da-ra",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "努噜（拼读参考：杜鲁）",
+            "meaningZh": "施度调伏·清净离诸尘垢（警策成就）",
+            "meaningEn": "generosity & self-mastery & stainless purity free from dust (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "duru",
+            "stem": "da-ra",
+            "grammar": "Mantra Impv. · 真言警策句",
+            "transliterationZh": "努噜（拼读参考：杜鲁）",
+            "meaningZh": "施度调伏·清净离诸尘垢（警策成就）",
+            "meaningEn": "generosity & self-mastery & stainless purity free from dust (imperative seal)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "pṛthivīye",
+            "stem": "pṛthivī-iya",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "钵哩耻味曳（拼读参考：₍普₎日提维耶）",
+            "meaningZh": "大地此处尊",
+            "meaningEn": "earth",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liturgy-universal-offering-mantra",
+    "titleZh": "普供养真言（虚空藏普供养咒）",
+    "titleSanskritIast": "Gagana-saṃbhava-vajra-pūjā-mantra",
+    "titleEnglish": "Sky-Born Universal Vajra Offering Mantra",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T18n0848 / T19n1005A",
+    "translatorZh": "（唐）善无畏 / 不空三藏 译",
+    "sutraSourceZh": "《大日经》暨唐密汉传课诵供养通轨",
+    "deityZh": "虚空藏菩萨 & 普贤供养云海菩萨",
+    "meritsAndSummaryZh": "诵此真言能依三摩地力，从法界虚空宝藏（gagana-saṃbhava）出生遍满十方之香花灯涂果乐妙供云海，普供十方三宝。",
+    "recitationTipsZh": "末尾 hoḥ（斛）表欢喜奉献、佛我交融。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "唐密及《禅门日诵》普供养真言.",
+      "manuscriptNotesZh": "独立单列之普供养真言专条。",
+      "cbetaId": "T18n0848",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T18n0848"
+    },
+    "verses": [
+      {
+        "id": "puja-v-1",
+        "index": 1,
+        "iast": "oṃ gaganasaṃbhava vajra hoḥ",
+        "classicalTranslitZh": "唵 誐誐曩 三婆嚩 嚩日啰 斛",
+        "modernPhoneticZh": "嗡 嘎嘎拿-桑巴瓦 瓦₍吉₎啦 霍₍赫₎",
+        "meaningZh": "嗡！从太虚空无尽宝藏中普现金刚妙供云海，欢喜供养十方诸佛（斛）！",
+        "meaningEn": "Oṃ! Boundless Vajra Offerings arising from the Treasury of Space, Hoḥ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gaganasaṃbhava",
+            "stem": "gaganasaṃbhava",
+            "grammar": "Lexeme · 梵语词义",
+            "transliterationZh": "誐誐曩三婆嚩（拼读参考：嘎嘎拿-桑巴瓦）",
+            "meaningZh": "虛空生",
+            "meaningEn": "Gaganasambhava",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "vajra",
+            "stem": "vajra",
+            "grammar": "Noun · 金刚",
+            "transliterationZh": "嚩日啰 / 跋折罗（拼读参考：瓦₍吉₎啦）",
+            "meaningZh": "金刚（坚固不坏、摧破一切障）",
+            "meaningEn": "Vajra, indestructible diamond-thunderbolt",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hoḥ",
+            "stem": "hoḥ",
+            "grammar": "Bīja · 四摄种子",
+            "transliterationZh": "斛（拼读参考：霍₍赫₎）",
+            "meaningZh": "金刚欢喜三昧耶融摄种子",
+            "meaningEn": "Vajra-joy samaya-union seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mengshan-naraka-vidarana-mantra",
+    "titleZh": "破地狱真言（瑜伽焰口暨蒙山施食首咒）",
+    "titleSanskritIast": "Naraka-vidāraṇa-mantra",
+    "titleEnglish": "Hell-Opening Mantra (Yoga Flaming-Mouth & Mengshan Liturgy)",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T21n1318 / 蒙山施食仪",
+    "translatorZh": "（唐）不空三藏 译《瑜伽集要焰口轨仪》",
+    "sutraSourceZh": "《瑜伽集要救阿难陀罗尼焰口轨仪经》(T21n1318) / 《蒙山施食仪》",
+    "deityZh": "观自在菩萨 & 地藏王菩萨",
+    "meritsAndSummaryZh": "《蒙山施食》与《瑜伽焰口》开坛拔苦首道真言，仗三宝秘密神力震开铁围地狱门锁，令受苦幽冥众生来赴甘露法筵。",
+    "recitationTipsZh": "手结破地狱印虔诵三遍或七遍。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1318 《瑜伽集要救阿难陀罗尼焰口轨仪经》.",
+      "manuscriptNotesZh": "独立单列之破地狱真言专条。",
+      "cbetaId": "T21n1318",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1318"
+    },
+    "verses": [
+      {
+        "id": "naraka-v-1",
+        "index": 1,
+        "iast": "oṃ kārāṭi keyūre svāhā",
+        "classicalTranslitZh": "唵 伽啰帝耶 娑婆诃",
+        "modernPhoneticZh": "嗡 嘎啦蒂 给尤雷 ₍斯₎瓦哈",
+        "meaningZh": "嗡！以大悲威神金光摧破一切铁围地狱幽暗扃锁，令苦趣众生顿获清凉解脱，娑婆诃！",
+        "meaningEn": "Oṃ! Shatter the gates of the dark realms and set suffering beings free, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kārāṭi",
+            "stem": "ka-ra-ṭa",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "迦(引)啰(引)置（拼读参考：嘎啦蒂）",
+            "meaningZh": "造作离相·清净离诸尘垢·断除憍慢执障（呼请加持）",
+            "meaningEn": "freedom from karmic agency & stainless purity free from dust & cutting rigid pride (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "keyūre",
+            "stem": "keyūra",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "计愉隶（拼读参考：给尤雷）",
+            "meaningZh": "璎珞尊",
+            "meaningEn": "O a bracelet worn on the upper arm / in a bracelet worn on the upper arm",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mengshan-kantha-prakasa-mantra",
+    "titleZh": "开咽喉真言（离怖畏如来开通针咽甘露真言）",
+    "titleSanskritIast": "Vipulagarbha-kaṇṭha-vikāśana-mantra",
+    "titleEnglish": "Throat-Opening Mantra for Hungry Ghosts",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T21n1318 / 蒙山施食仪",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《瑜伽集要救阿难陀罗尼焰口轨仪经》(T21n1318)",
+    "deityZh": "广博身如来 & 离怖畏如来",
+    "meritsAndSummaryZh": "饿鬼道众生咽细如针、吞水成火；诵此开咽喉真言，即令彼等咽喉宽大清凉、火焰顿息，自在受食甘露法味。",
+    "recitationTipsZh": "vipulagarbhe 意为广大宝藏，令咽喉开通无碍。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1318 《瑜伽集要救阿难陀罗尼焰口轨仪经》开咽喉真言.",
+      "manuscriptNotesZh": "补全独立单列之开咽喉真言全句专条。",
+      "cbetaId": "T21n1318",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1318"
+    },
+    "verses": [
+      {
+        "id": "kantha-v-1",
+        "index": 1,
+        "iast": "oṃ bhūḥ pūtiri gātri tathāgatāya svāhā",
+        "classicalTranslitZh": "唵 步步底哩伽哆哩 怛他哦哆耶 娑婆诃",
+        "modernPhoneticZh": "嗡 布₍忽₎ 布帝里 嘎₍特₎里 达他嘎达呀 ₍斯₎瓦哈",
+        "meaningZh": "嗡！仗离怖畏与广博身如来清净威神加持，开通六道群灵针咽焦渴，畅饮甘露法味，娑婆诃！",
+        "meaningEn": "Oṃ! By the purifying grace of the Tathāgata, open every constricted throat to receive cool ambrosia, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhūḥ",
+            "stem": "bha",
+            "grammar": "Bīja-mantra · 悉昙种子字",
+            "transliterationZh": "部(引)虎（拼读参考：布₍忽₎）",
+            "meaningZh": "婆字门（破有相福德光（bhava/bhaga）·威神增益圆满·涅槃除障点证入）",
+            "meaningEn": "blessedness transcending existence (bhaga) — perfected spiritual vigor with nirvāṇic visarga release",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "pūtiri",
+            "stem": "pa-ta-ra",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "布底哩（拼读参考：布帝里）",
+            "meaningZh": "第一义谛·真如实际·清净离诸尘垢（呼请加持）",
+            "meaningEn": "ultimate truth & immutable Suchness & stainless purity free from dust (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "gātri",
+            "stem": "gātra",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "誐(引)怛哩（拼读参考：嘎₍特₎里）",
+            "meaningZh": "腔尊",
+            "meaningEn": "O a limb of the body; the body",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tathāgatāya",
+            "stem": "tathāgata",
+            "grammar": "Noun · 如来 · Dat. Sg. · 为格单数",
+            "transliterationZh": "怛他蘖多耶（拼读参考：达他嘎达呀）",
+            "meaningZh": "向如来（乘如实道来成正觉）",
+            "meaningEn": "to/for Tathāgata, Thus-Come One",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mengshan-sambhara-food-mantra",
+    "titleZh": "无量威德自在光明殊胜妙力变食真言",
+    "titleSanskritIast": "Aparimitaguṇāloka-saṃbhara-āhāra-dhāraṇī",
+    "titleEnglish": "Boundless Virtue & Light Food-Multiplying Dhāraṇī",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T21n1313 / T21n1314",
+    "translatorZh": "（唐）不空三藏 / 实叉难陀 译",
+    "sutraSourceZh": "《佛说救拔焰口饿鬼陀罗尼经》(T21n1313)",
+    "deityZh": "世尊释迦牟尼佛 & 观自在菩萨",
+    "meritsAndSummaryZh": "阿难尊者于林间习定见焰口饿鬼求救，佛陀亲传过去观世音菩萨所受《无量威德自在光明殊胜妙力陀罗尼》。诵七遍加持净食，即化为无量斛甘露上味充塞法界，施者获无量福聚、同供百千俱胝如来。",
+    "recitationTipsZh": "saṃbhara saṃbhara 意为无尽集聚、化现资粮。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1313 《佛说救拔焰口饿鬼陀罗尼经》（不空译）.",
+      "manuscriptNotesZh": "独立单列之变食真言专条。",
+      "cbetaId": "T21n1313",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1313"
+    },
+    "verses": [
+      {
+        "id": "sambhara-v-1",
+        "index": 1,
+        "iast": "namaḥ sarvatathāgatāvalokite | oṃ saṃbhara saṃbhara hūṃ",
+        "classicalTranslitZh": "南无 萨嚩怛他哦哆 嚩卢枳帝 | 唵 三跋啰 三跋啰 吽",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨₍尔₎瓦-达他嘎达-瓦洛给帝 | 嗡 桑巴啦 桑巴啦 吽",
+        "meaningZh": "归命十方一切如来大悲慈眼所鉴照！嗡！积集化现、普皆充盈无量甘露妙食遍济群生，吽！",
+        "meaningEn": "Homage to the compassionate gaze of all Tathāgatas! Oṃ! Multiply and gather boundless ambrosial food, Hūṃ!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "sarvatathāgatāvalokite",
+            "stem": "sarvatathāgata-avalokita",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "萨哩嚩怛他(引)誐多嚩路枳帝（拼读参考：萨₍尔₎瓦-达他嘎达-瓦洛给帝）",
+            "meaningZh": "一切如来观照",
+            "meaningEn": "all Tathagatas + O beheld",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saṃbhara",
+            "stem": "saṃ-bhara",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三婆啰（拼读参考：桑巴啦）",
+            "meaningZh": "桑方位",
+            "meaningEn": "saṃ + bearing",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saṃbhara",
+            "stem": "saṃ-bhara",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三婆啰（拼读参考：桑巴啦）",
+            "meaningZh": "桑方位",
+            "meaningEn": "saṃ + bearing",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mengshan-amrta-surupa-mantra",
+    "titleZh": "妙色身如来甘露水真言",
+    "titleSanskritIast": "Surūpa-tathāgata-amṛtodaka-dhāraṇī",
+    "titleEnglish": "Sweet-Dew Nectar Water Mantra of Tathāgata Surūpa",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "T21n1315",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《施诸饿鬼饮食及水法》(T21n1315)",
+    "deityZh": "妙色身如来 (Surūpa-Tathāgata)",
+    "meritsAndSummaryZh": "加持净水化为无量八功德清凉甘露法水之核心真言，亦为放生仪轨洒净加持水生众生必诵神咒。",
+    "recitationTipsZh": "suru suru prasuru prasuru 表甘露法水涓涓普流。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1315 《施诸饿鬼饮食及水法》.",
+      "manuscriptNotesZh": "独立单列之甘露水真言专条。",
+      "cbetaId": "T21n1315",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T21n1315"
+    },
+    "verses": [
+      {
+        "id": "surupa-v-1",
+        "index": 1,
+        "iast": "namo surūpāya tathāgatāya | tadyathā — oṃ suru suru prasuru prasuru svāhā",
+        "classicalTranslitZh": "南无 苏噜婆耶 怛他哦哆耶 | 怛侄他 — 唵 苏噜苏噜 钵啰苏噜 钵啰苏噜 娑婆诃",
+        "modernPhoneticZh": "拿摩 苏鲁巴呀 达他嘎达呀 | 达₍地₎呀他 | 嗡 苏鲁 苏鲁 ₍普₎啦苏鲁 ₍普₎啦苏鲁 ₍斯₎瓦哈",
+        "meaningZh": "归命妙色身如来！即说咒曰：嗡！流注、流注，普遍流注无尽清凉甘露法水，除一切焦渴热恼，娑婆诃！",
+        "meaningEn": "Homage to Tathāgata Surūpa! Namely: Oṃ! Flow, stream forth abundant cool ambrosial water, Svāhā!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "surūpāya",
+            "stem": "surūpa",
+            "grammar": "Dat. Sg. · 为格单数",
+            "transliterationZh": "苏噜(引)波耶（拼读参考：苏鲁巴呀）",
+            "meaningZh": "向善见",
+            "meaningEn": "to/for handsome-figured, beautiful; Abstr",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tathāgatāya",
+            "stem": "tathāgata",
+            "grammar": "Noun · 如来 · Dat. Sg. · 为格单数",
+            "transliterationZh": "怛他蘖多耶（拼读参考：达他嘎达呀）",
+            "meaningZh": "向如来（乘如实道来成正觉）",
+            "meaningEn": "to/for Tathāgata, Thus-Come One",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "suru",
+            "stem": "suru",
+            "grammar": "Mantra-Impv. · 甘露祈请",
+            "transliterationZh": "苏噜（拼读参考：苏鲁）",
+            "meaningZh": "甘露妙流普润群生（素噜）",
+            "meaningEn": "stream forth auspicious ambrosia!",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liturgy-parents-gratitude-mantra",
+    "titleZh": "报父母恩咒",
+    "titleSanskritIast": "Mātāpitṛ-upakāra-smaraṇa-mantra",
+    "titleEnglish": "Mantra for Repaying the Boundless Kindness of Parents",
+    "categoryId": "prajna-sutra-hrdaya",
+    "taishoNo": "禅门日诵 / 盂兰盆孝亲传本",
+    "translatorZh": "汉传佛门盂兰盆孝亲修持传本",
+    "sutraSourceZh": "《禅门日诵》孝亲回向轨范",
+    "deityZh": "大孝释迦牟尼佛 & 地藏王菩萨",
+    "meritsAndSummaryZh": "农历七月孝亲报恩月及日常定课回向现世父母增福延寿、过去七世父母离苦生净土之专修短咒，独立建档。",
+    "recitationTipsZh": "每日虔诵四十九遍回向累世与现世父母。",
+    "provenance": {
+      "sourceType": "Academic-Critical-Edition",
+      "editionCitation": "汉传《报父母恩咒》梵汉对音校订.",
+      "manuscriptNotesZh": "独立单列之报父母恩咒专条。"
+    },
+    "verses": [
+      {
+        "id": "parents-v-1",
+        "index": 1,
+        "iast": "namo mṛtodgatāya svāhā",
+        "classicalTranslitZh": "南无 密栗多 哆婆曳 娑诃",
+        "modernPhoneticZh": "拿摩 ₍姆₎日多₍德₎嘎达呀 ₍斯₎瓦哈",
+        "meaningZh": "归命超拔生死苦海令登安乐净土之大觉圣力，愿累世父母悉得福乐解脱，娑诃！",
+        "meaningEn": "Homage to the Awakened Power rising beyond death and suffering — may our parents attain peace and liberation, Svāhā!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mṛtodgatāya",
+            "stem": "mṛta-udgata",
+            "grammar": "Samāsa · 复合词 (Dat. Sg. · 为格单数)",
+            "transliterationZh": "蜜哩睹讷誐多耶（拼读参考：₍姆₎日多₍德₎嘎达呀）",
+            "meaningZh": "向殒耸",
+            "meaningEn": "to die + to",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sakyamuni-buddha-hrdaya-mantra",
+    "titleZh": "本师释迦牟尼佛根本心咒",
+    "titleSanskritIast": "Śākyamuni-tathāgata-mūla-hṛdaya-mantra",
+    "titleEnglish": "Root Heart Mantra of Śākyamuni Buddha",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T19n0901 / T18n0848",
+    "translatorZh": "（唐）阿地瞿多 / 善无畏 译",
+    "sutraSourceZh": "《陀罗尼集经》卷一 (T19n0901) / 《大日经》(T18n0848)",
+    "deityZh": "娑婆教主本师释迦牟尼佛 (Śākyamuni-Buddha)",
+    "meritsAndSummaryZh": "礼敬娑婆教主大寂默能仁释迦牟尼世尊之根本心咒。经载持诵一遍能净除八十亿劫生死重罪，忆念本师无尽悲愿。",
+    "recitationTipsZh": "mune mahāmune śākyamune 三重呼格礼赞寂默圣尊。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T19n0901 《陀罗尼集经》卷一〈释迦牟尼佛法印咒品〉.",
+      "manuscriptNotesZh": "独立单列之释迦牟尼佛根本心咒。",
+      "cbetaId": "T19n0901",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n0901"
+    },
+    "verses": [
+      {
+        "id": "sakya-v-1",
+        "index": 1,
+        "iast": "namaḥ samantabuddhānām | oṃ mune mune mahāmune śākyamune svāhā",
+        "classicalTranslitZh": "曩莫 三曼多没驮喃 | 唵 牟尼 牟尼 摩诃牟尼 释迦牟尼 娑嚩诃",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨曼达-布达南 | 嗡 穆内 穆内 玛哈穆内 沙₍克₎呀穆内 ₍斯₎瓦哈",
+        "meaningZh": "归命普遍一切诸佛！嗡！寂默圣尊、寂默圣尊、大寂默圣尊、释迦族大能仁世尊啊，圆满吉祥！",
+        "meaningEn": "Homage to Universal Buddhas! Oṃ! O Sage, O Sage, O Great Sage, O Sage of the Śākyas, Svāhā!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samantabuddhānām",
+            "stem": "samanta-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三曼多没驮喃（拼读参考：萨曼达-布达南）",
+            "meaningZh": "普遍没驮南",
+            "meaningEn": "universal + buddhānām",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mune",
+            "stem": "ma-na",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "母祢（拼读参考：穆内）",
+            "meaningZh": "无我大慈三昧·离名相假立（呼请加持）",
+            "meaningEn": "selfless great loving-kindness & beyond nominal designation (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mune",
+            "stem": "ma-na",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "母祢（拼读参考：穆内）",
+            "meaningZh": "无我大慈三昧·离名相假立（呼请加持）",
+            "meaningEn": "selfless great loving-kindness & beyond nominal designation (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mahāmune",
+            "stem": "√mah",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "摩诃母祢（拼读参考：玛哈穆内）",
+            "meaningZh": "广大殊胜·无我大慈三昧（呼请加持）",
+            "meaningEn": "great (vocative invocation)",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "amitabha-buddha-hrdaya-mantra",
+    "titleZh": "西方极乐世界阿弥陀佛根本心咒（无量寿如来十字心真言）",
+    "titleSanskritIast": "Amitābha-amṛtateja-hṛdaya-mantra",
+    "titleEnglish": "Root Heart Mantra of Amitābha Buddha",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T19n0930",
+    "translatorZh": "（唐）不空三藏 译",
+    "sutraSourceZh": "《无量寿如来观行供养仪轨》(T19n0930)",
+    "deityZh": "西方极乐世界阿弥陀佛 (Amitābha-Tathāgata)",
+    "meritsAndSummaryZh": "唐密不空三藏译《无量寿如来观行供养仪轨》所传阿弥陀佛十字根本心真言，诵满十万遍现生灭罪增慧、临终决定上品往生极乐净土。",
+    "recitationTipsZh": "amṛtateje（甘露威光尊）与 hara（拔济接引）直指弥陀本愿。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T19n0930 《无量寿如来观行供养仪轨》（不空译）.",
+      "manuscriptNotesZh": "独立单列之阿弥陀佛十字心真言。",
+      "cbetaId": "T19n0930",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n0930"
+    },
+    "verses": [
+      {
+        "id": "amitabhah-v-1",
+        "index": 1,
+        "iast": "oṃ amṛtateje hara hūṃ",
+        "classicalTranslitZh": "唵 阿蜜栗多帝际 贺啰 吽",
+        "modernPhoneticZh": "嗡 阿₍姆₎日达-帝杰 哈啦 吽",
+        "meaningZh": "嗡！无量不死甘露大威光世尊啊！唯愿慈悲摄受拔济（贺啰）一切众生往生安养净土，吽！",
+        "meaningEn": "Oṃ! O Immortal Radiance of Boundless Light, carry us across to Sukhāvatī, Hūṃ!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "amṛtateje",
+            "stem": "amṛta-teja",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "阿蜜哩怛帝逝（拼读参考：阿₍姆₎日达-帝杰）",
+            "meaningZh": "甘露威光尊",
+            "meaningEn": "ambrosia + O sharpness",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hara",
+            "stem": "hara",
+            "grammar": "Impv.2.Sg. · 遣除苦厄",
+            "transliterationZh": "诃啰（拼读参考：哈啦）",
+            "meaningZh": "请摄取、遣除苦厄！",
+            "meaningEn": "carry away (suffering)! remove!",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hūṃ",
+            "stem": "hūṃ",
+            "grammar": "Bīja · 金刚种子字",
+            "transliterationZh": "吽（拼读参考：吽）",
+            "meaningZh": "金刚不坏菩提心印、摧破诸障",
+            "meaningEn": "adamantine bodhicitta seed syllable",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aksobhya-buddha-purification-dharani",
+    "titleZh": "拔济苦难陀罗尼经·东方不动如来（阿閦佛）灭除重罪陀罗尼全本",
+    "titleSanskritIast": "Akṣobhya-tathāgata-sarvakarmāvaraṇa-viśodhana-dhāraṇī",
+    "titleEnglish": "Complete Karma-Purification Dhāraṇī of Akṣobhya Buddha",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T19n0920 / T21n1395 / F28n1071 (pF28p0031b0501)",
+    "translatorZh": "（唐）玄奘 / 不空三藏 译 · 房山石经《东方妙喜世界阿閦如来根本陁罗尼》对勘",
+    "sutraSourceZh": "《拔济苦难陀罗尼经》(T21n1395) / 《阿閦如来念诵供养法》(T19n0921) / 房山石经 F28n1071",
+    "deityZh": "东方妙喜世界阿閦如来 / 不动佛 (Akṣobhya-Tathāgata)",
+    "meritsAndSummaryZh": "净除五无间罪、破戒重障、拔济三恶道最极殊胜之不动如来根本陀罗尼。已彻底修复旧版合集中的省略号截断，依据《拔济苦难陀罗尼经》与房山石经 `pF28p0031b0501` 完整两句全本录入！",
+    "recitationTipsZh": "首句礼敬东方阿閦如来，次句以五组双叠阴性呼格净除无始相续一切业障（sarvakarmaparaṃparāṇi）。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T21n1395 / T19n0921 & 房山石经 F28n1071 (pF28p0031b0501)《东方妙喜世界阿閦如来根本陁罗尼》.",
+      "manuscriptNotesZh": "双源全本对勘，零省略完整呈现。",
+      "cbetaId": "T19n0921",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T19n0921"
+    },
+    "verses": [
+      {
+        "id": "aksobhya-v-1",
+        "index": 1,
+        "iast": "namo bhagavate akṣobhyāya tathāgatāyārhate samyaksaṃbuddhāya | tadyathā",
+        "classicalTranslitZh": "曩谟 婆誐嚩帝 阿閦鞞耶 怛他孽多夜啰诃帝 三藐三没驮耶 | 怛你也他",
+        "modernPhoneticZh": "拿摩 巴嘎瓦帝 阿₍克₎硕₍比₎呀呀 达他嘎达-呀₍尔₎哈帝 萨₍姆₎呀₍克₎-桑布达呀 | 达₍地₎呀他",
+        "meaningZh": "归命世尊东方妙喜世界阿閦（不动）如来、应供、正等正觉！即说真言曰：",
+        "meaningEn": "Homage to Bhagavān Akṣobhya Tathāgata, the Arhat, the Perfectly Awakened Buddha! Namely:",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "bhagavate",
+            "stem": "bhagavate",
+            "grammar": "Dat.Sg. · 为格单数",
+            "transliterationZh": "薄伽伐帝 / 婆誐嚩帝（拼读参考：巴嘎瓦帝）",
+            "meaningZh": "向世尊（薄伽梵）致敬",
+            "meaningEn": "to the Blessed One, World-Honored Lord",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "akṣobhyāya",
+            "stem": "akṣobhya",
+            "grammar": "Prop.Noun · 不动如来 · Dat. Sg. · 为格单数",
+            "transliterationZh": "阿乞疏毗夜耶（拼读参考：阿₍克₎硕₍比₎呀呀）",
+            "meaningZh": "向阿閦如来（不动如来）",
+            "meaningEn": "to/for Akṣobhya, Imperturbable Buddha",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tathāgatāyārhate",
+            "stem": "tathāgata-āya-ārhata",
+            "grammar": "Samāsa · 复合词 (Voc. Fem. / Loc. Sg. · 呼格佛母/处格)",
+            "transliterationZh": "怛他(引)誐多夜哩诃帝（拼读参考：达他嘎达-呀₍尔₎哈帝）",
+            "meaningZh": "如来·出·堪敬尊",
+            "meaningEn": "Tathāgata + income",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samyaksaṃbuddhāya",
+            "stem": "samyaksaṃbuddha",
+            "grammar": "Samāsa · 正遍知 · Dat. Sg. · 为格单数",
+            "transliterationZh": "三藐三没驮耶（拼读参考：萨₍姆₎呀₍克₎-桑布达呀）",
+            "meaningZh": "向正等正觉、正遍知",
+            "meaningEn": "to/for Perfectly and Completely Awakened Buddha",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tadyathā",
+            "stem": "tadyathā",
+            "grammar": "Adv. · 咒引词",
+            "transliterationZh": "怛侄他 / 怛你也他（拼读参考：达₍地₎呀他）",
+            "meaningZh": "即说咒曰、所谓",
+            "meaningEn": "namely, thus goes the mantra",
+            "origin": "derived-reference"
+          }
+        ]
+      },
+      {
+        "id": "aksobhya-v-2",
+        "index": 2,
+        "iast": "namo ratnatrayāya | oṃ kaṅkani kaṅkani rocani rocani troṭani troṭani trāsani trāsani pratihana pratihana sarvakarmaparaṃparāṇi me sarvasattvānāṃ ca svāhā",
+        "classicalTranslitZh": "曩谟 啰怛曩怛啰夜耶 | 唵 羯伽尼 羯伽尼 嚧遮尼 嚧遮尼 咄嚧咤尼 咄嚧咤尼 怛逻萨尼 怛逻萨尼 般底喝那 般底喝那 萨嚩羯磨般滥般啰尼 谜 萨嚩萨埵喃 遮 娑嚩诃",
+        "modernPhoneticZh": "拿摩 啦₍特₎拿-₍特₎啦呀呀 | 嗡 刚嘎尼 刚嘎尼 洛佳尼 洛佳尼 ₍特₎洛达尼 ₍特₎洛达尼 ₍特₎啦萨尼 ₍特₎啦萨尼 ₍普₎啦帝哈拿 ₍普₎啦帝哈拿 萨₍尔₎瓦-嘎₍尔₎玛巴朗巴啦尼 美 萨₍尔₎瓦-萨₍特₎瓦南 佳 ₍斯₎瓦哈",
+        "meaningZh": "归命三宝！嗡！金刚庄严净治、慧光遍照、断碎烦恼系缚、震慑魔怨、彻底摧破我及一切众生无始以来相续不断之一切恶业重障，圆满吉祥，娑嚩诃！",
+        "meaningEn": "Homage to the Three Jewels! Oṃ! Purify, illuminate, snap asunder, terrify obstacles, and destroy all continuous streams of karmic obscurations of mine and all sentient beings, Svāhā!",
+        "words": [
+          {
+            "iast": "namo",
+            "stem": "namo",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "南无 / 曩谟（拼读参考：拿摩）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ratnatrayāya",
+            "stem": "ratnatraya",
+            "grammar": "Samāsa · 三宝 · Dat. Sg. · 为格单数",
+            "transliterationZh": "喝啰怛那哆啰夜耶（拼读参考：啦₍特₎拿-₍特₎啦呀呀）",
+            "meaningZh": "向佛法僧三宝",
+            "meaningEn": "to/for the Three Jewels (Buddha, Dharma, Saṃgha)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kaṅkani",
+            "stem": "kaṅka-ni",
+            "grammar": "Samāsa · 复合词 (Stem · 词干)",
+            "transliterationZh": "迦仰迦你（拼读参考：刚嘎尼）",
+            "meaningZh": "那罗在于",
+            "meaningEn": "heron + in",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kaṅkani",
+            "stem": "kaṅka-ni",
+            "grammar": "Samāsa · 复合词 (Stem · 词干)",
+            "transliterationZh": "迦仰迦你（拼读参考：刚嘎尼）",
+            "meaningZh": "那罗在于",
+            "meaningEn": "heron + in",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "rocani",
+            "stem": "rocana",
+            "grammar": "Voc. Fem. / Loc. · 呼格/处格",
+            "transliterationZh": "嚧者你（拼读参考：洛佳尼）",
+            "meaningZh": "光明照耀、光净尊",
+            "meaningEn": "O shining, bright, beautiful; the bright sky, firmament, a yellow pigment",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "maitreya-bodhisattva-mantra",
+    "titleZh": "当来下生弥勒菩萨（慈氏）誓愿心真言",
+    "titleSanskritIast": "Maitreya-bodhisattva-pratijñā-hṛdaya-mantra",
+    "titleEnglish": "Loving-Kindness Vow Heart Mantra of Maitreya Bodhisattva",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1141",
+    "translatorZh": "（唐）善无畏 / 不空三藏 译",
+    "sutraSourceZh": "《慈氏菩萨略修愈誐念诵法》(T20n1141)",
+    "deityZh": "当来下生弥勒尊佛 / 慈氏菩萨 (Maitreya)",
+    "meritsAndSummaryZh": "《弥勒菩萨发愿王经》与唐密仪轨所载慈氏誓愿心咒。经载纵造重业，若闻受此咒亦不堕恶趣，命终生兜率内院、龙华三会必蒙授记。",
+    "recitationTipsZh": "maitramānasa 意为具足无缘大慈心者。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T20n1141 《慈氏菩萨略修愈誐念诵法》.",
+      "manuscriptNotesZh": "独立单列之弥勒菩萨誓愿心咒。",
+      "cbetaId": "T20n1141",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1141"
+    },
+    "verses": [
+      {
+        "id": "maitreya-v-1",
+        "index": 1,
+        "iast": "oṃ maitreya maitreya maitramānasa svāhā",
+        "classicalTranslitZh": "唵 梅怛梨耶 梅怛梨耶 梅怛啰摩那娑 娑嚩诃",
+        "modernPhoneticZh": "嗡 麦₍特₎雷呀 麦₍特₎雷呀 麦₍特₎啦玛拿萨 ₍斯₎瓦哈",
+        "meaningZh": "嗡！慈氏大士、慈氏大士，心怀无量慈悲摄受群生之圣尊啊，圆满吉祥！",
+        "meaningEn": "Oṃ! O Maitreya, O Maitreya, O One of Boundless Loving-Kindness Mind, Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "maitreya",
+            "stem": "maitreya",
+            "grammar": "Prop.Noun · 慈氏菩萨",
+            "transliterationZh": "迈怛隶耶（拼读参考：麦₍特₎雷呀）",
+            "meaningZh": "弥勒菩萨（慈氏尊）",
+            "meaningEn": "Maitreya, Loving-Kindness Bodhisattva",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "maitreya",
+            "stem": "maitreya",
+            "grammar": "Prop.Noun · 慈氏菩萨",
+            "transliterationZh": "迈怛隶耶（拼读参考：麦₍特₎雷呀）",
+            "meaningZh": "弥勒菩萨（慈氏尊）",
+            "meaningEn": "Maitreya, Loving-Kindness Bodhisattva",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "maitramānasa",
+            "stem": "maitra-mānasa",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "迈怛啰摩(引)曩萨（拼读参考：麦₍特₎啦玛拿萨）",
+            "meaningZh": "慈爱心理",
+            "meaningEn": "friendly + sprung from the mind",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "samantabhadra-bodhisattva-mantra",
+    "titleZh": "大行普贤菩萨三昧耶一字心真言",
+    "titleSanskritIast": "Samantabhadra-bodhisattva-samaya-mantra",
+    "titleEnglish": "Samaya Seed Mantra of Samantabhadra Bodhisattva",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T18n0848",
+    "translatorZh": "（唐）善无畏三藏 译",
+    "sutraSourceZh": "《大毗卢遮那成佛神变加持经》卷二〈真言藏品〉(T18n0848)",
+    "deityZh": "大行普贤菩萨 (Samantabhadra)",
+    "meritsAndSummaryZh": "《大日经》中台八叶院普贤菩萨根本一字真言，总摄十大愿王与华严法界无尽行海。",
+    "recitationTipsZh": "saṃ 为普贤行愿海一字心印。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T18n0848 《大日经》卷二〈普通真言藏品〉.",
+      "manuscriptNotesZh": "独立单列之普贤菩萨心真言。",
+      "cbetaId": "T18n0848",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T18n0848"
+    },
+    "verses": [
+      {
+        "id": "samantah-v-1",
+        "index": 1,
+        "iast": "namaḥ samantabuddhānāṃ saṃ svāhā",
+        "classicalTranslitZh": "曩莫 三曼多没驮喃 三 娑嚩诃",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨曼达-布达南 桑 ₍斯₎瓦哈",
+        "meaningZh": "归命普遍十方一切诸佛！以普贤行愿海种子（三 saṃ）圆成无上菩提大行，娑嚩诃！",
+        "meaningEn": "Homage to the Universal Buddhas! Seed of All-Good Conduct (Saṃ), Svāhā!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samantabuddhānāṃ",
+            "stem": "samanta-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三曼多没驮喃（拼读参考：萨曼达-布达南）",
+            "meaningZh": "普遍没驮南",
+            "meaningEn": "universal + buddhānām",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saṃ",
+            "stem": "sa",
+            "grammar": "Bīja-mantra · 悉昙种子字",
+            "transliterationZh": "三（拼读参考：桑）",
+            "meaningZh": "娑字门（一切诸谛圆满（sarvasatya）·本不生体性·大空菩提点摄持）",
+            "meaningEn": "all-pervading truth & auspiciousness (satya) — primordial non-arising sealed with bodhicitta bindu",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mahasthama-bodhisattva-mantra",
+    "titleZh": "大势至菩萨威德心真言",
+    "titleSanskritIast": "Mahāsthāmaprāpta-bodhisattva-hṛdaya-mantra",
+    "titleEnglish": "Heart Mantra of Mahāsthāmaprāpta Bodhisattva",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T18n0848",
+    "translatorZh": "（唐）善无畏三藏 译",
+    "sutraSourceZh": "《大毗卢遮那成佛神变加持经》卷二观音院真言 (T18n0848)",
+    "deityZh": "大势至菩萨 (Mahāsthāmaprāpta)",
+    "meritsAndSummaryZh": "西方三圣之大势至菩萨根本真言，以智慧光普照一切，令离三途，得无上力。",
+    "recitationTipsZh": "saṃ jaṃ jaṃ saḥ 表摧伏轮回惑业、开敷势至智光。",
+    "provenance": {
+      "sourceType": "CBETA-XML-P5",
+      "editionCitation": "CBETA T18n0848 《大日经》卷二〈普通真言藏品〉大势至菩萨真言.",
+      "manuscriptNotesZh": "独立单列之大势至菩萨真言。",
+      "cbetaId": "T18n0848",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T18n0848"
+    },
+    "verses": [
+      {
+        "id": "mahasthama-v-1",
+        "index": 1,
+        "iast": "namaḥ samantabuddhānāṃ | jaṃ jaṃ saḥ svāhā",
+        "classicalTranslitZh": "曩莫 三曼多没驮喃 | 髯 髯 索 娑嚩诃",
+        "modernPhoneticZh": "拿玛₍赫₎ 萨曼达-布达南 | 章 章 萨₍赫₎ ₍斯₎瓦哈",
+        "meaningZh": "归命普遍一切诸佛！摧破三有生死暗障（髯髯）、开敷大势智慧光明（索），圆满吉祥！",
+        "meaningEn": "Homage to Universal Buddhas! Shattering samsaric fetters in supreme wisdom-power (Jaṃ Jaṃ Saḥ), Svāhā!",
+        "words": [
+          {
+            "iast": "namaḥ",
+            "stem": "namaḥ",
+            "grammar": "Indecl. · 归敬词",
+            "transliterationZh": "曩莫（拼读参考：拿玛₍赫₎）",
+            "meaningZh": "归命、顶礼",
+            "meaningEn": "homage, reverent salutation",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "samantabuddhānāṃ",
+            "stem": "samanta-buddhānām",
+            "grammar": "Samāsa · 复合词末支",
+            "transliterationZh": "三曼多没驮喃（拼读参考：萨曼达-布达南）",
+            "meaningZh": "普遍没驮南",
+            "meaningEn": "universal + buddhānām",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaṃ",
+            "stem": "ja",
+            "grammar": "Bīja-mantra · 悉昙种子字",
+            "transliterationZh": "瞻（拼读参考：章）",
+            "meaningZh": "惹字门（生起不可得·尊胜（jāti/jaya）·本不生体性·大空菩提点摄持）",
+            "meaningEn": "transcending birth & victorious (jaya) — primordial non-arising sealed with bodhicitta bindu",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "jaṃ",
+            "stem": "ja",
+            "grammar": "Bīja-mantra · 悉昙种子字",
+            "transliterationZh": "瞻（拼读参考：章）",
+            "meaningZh": "惹字门（生起不可得·尊胜（jāti/jaya）·本不生体性·大空菩提点摄持）",
+            "meaningEn": "transcending birth & victorious (jaya) — primordial non-arising sealed with bodhicitta bindu",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "saḥ",
+            "stem": "saḥ",
+            "grammar": "Pron.Nom.Sg. · 指示代词",
+            "transliterationZh": "萨诃（拼读参考：萨₍赫₎）",
+            "meaningZh": "彼、彼尊",
+            "meaningEn": "he, that one",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sita-tara-ayur-mantra",
+    "titleZh": "七眼白度母如意轮延寿增福慧心咒",
+    "titleSanskritIast": "Sita-Tārā-cintāmaṇicakra-āyurvardhana-mantra",
+    "titleEnglish": "White Tārā Wish-Fulfilling Wheel Longevity & Wisdom Mantra",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1102 / Sādhanamālā",
+    "translatorZh": "（唐）不空 译系 · 梵本《Sādhanamālā》校勘",
+    "sutraSourceZh": "梵本《成就法鬘（Sādhanamālā）》白度母修法仪轨",
+    "deityZh": "七眼白度母 (Sita-Tārā)",
+    "meritsAndSummaryZh": "长寿三尊之一七眼白度母根本延命心咒，于度母十字真言中嵌入「增长寿命、福德、智慧」祈愿句，独立单列（与作明佛母咒拆分为二条）。",
+    "recitationTipsZh": "āyuḥ（寿命）、puṇya（福德）、jñāna（智慧）、puṣṭiṃ kuru（请令增长丰盛）。",
+    "provenance": {
+      "sourceType": "CBETA+GRETIL",
+      "editionCitation": "Sādhanamālā (ed. B. Bhattacharyya) Sita-Tārā-Sādhana.",
+      "manuscriptNotesZh": "独立单列之白度母长寿心咒专条。",
+      "cbetaId": "T20n1102",
+      "cbetaOnlineUrl": "https://cbetaonline.dila.edu.tw/zh/T20n1102",
+      "gretilFile": "tarb108u.htm"
+    },
+    "verses": [
+      {
+        "id": "sitatara-v-1",
+        "index": 1,
+        "iast": "oṃ tāre tuttāre ture mama āyuḥpuṇyajñānapuṣṭiṃ kuru svāhā",
+        "classicalTranslitZh": "唵 多隶 咄多隶 都隶 摩摩 阿瑜布尼耶枳娘曩补瑟徴 俱噜 娑嚩诃",
+        "modernPhoneticZh": "嗡 达雷 度达雷 度雷 玛玛 阿尤₍忽₎-布₍尼₎呀-₍吉尼₎亚拿-布₍师₎丁 古鲁 ₍斯₎瓦哈",
+        "meaningZh": "嗡！救度母、拔苦度母、疾速度母啊！祈请为我增长广大寿命、福报与般若智慧，圆满成就！",
+        "meaningEn": "Oṃ! O Tāre, Tuttāre, Ture! Grant me increase of longevity (āyuḥ), merit (puṇya), and wisdom (jñāna), Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tāre",
+            "stem": "tāra",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "多隶（拼读参考：达雷）",
+            "meaningZh": "星尊",
+            "meaningEn": "O a star / in a star",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "tuttāre",
+            "stem": "√tār",
+            "grammar": "Mantra Voc. · 真言呼请句",
+            "transliterationZh": "都怛多隶（拼读参考：度达雷）",
+            "meaningZh": "救度超脱·真如实际（呼请加持）",
+            "meaningEn": "ferrying across (vocative invocation)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "ture",
+            "stem": "tura",
+            "grammar": "Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "都隶（拼读参考：度雷）",
+            "meaningZh": "迅疾、踊跃尊",
+            "meaningEn": "O quick, eager, prompt, willing / in quick, eager, prompt, willing",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "mama",
+            "stem": "mama",
+            "grammar": "Pron. Gen. · 第一人称属格",
+            "transliterationZh": "摩摩（拼读参考：玛玛）",
+            "meaningZh": "我之（行者所有）",
+            "meaningEn": "my, of me (the practitioner)",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "āyuḥpuṇyajñānapuṣṭiṃ",
+            "stem": "āyuḥ-puṇya-jñāna-puṣṭi",
+            "grammar": "Samāsa · 复合词 (Acc. Sg. · 业格单数)",
+            "transliterationZh": "阿(引)庾虎补抳耶枳若(引)曩补瑟置喃（拼读参考：阿尤₍忽₎-布₍尼₎呀-₍吉尼₎亚拿-布₍师₎丁）",
+            "meaningZh": "寿命·福德·圣智·增益",
+            "meaningEn": "life-force + merit + primordial wisdom + nourishment",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kurukulla-hrdaya-mantra",
+    "titleZh": "作明佛母（咕噜咕咧佛母）莲华怀爱根本心咒",
+    "titleSanskritIast": "Ārya-Kurukullā-hṛdaya-mantra",
+    "titleEnglish": "Magnetizing Wisdom Heart Mantra of Goddess Kurukullā",
+    "categoryId": "buddhas-bodhisattvas",
+    "taishoNo": "T20n1092 / Sādhanamālā",
+    "translatorZh": "（宋）法贤 译系 · 梵本《Kalpokta-Kurukullā-Sādhana》校勘",
+    "sutraSourceZh": "《佛说瑜伽大教王经》暨梵本《Sādhanamālā》作明佛母成就法",
+    "deityZh": "作明佛母 / 咕噜咕咧佛母 (Ārya-Kurukullā)",
+    "meritsAndSummaryZh": "莲华部怀柔摄受主尊作明佛母根本心咒，手执优钵罗花弓箭摄召十方善缘、调伏刚强众生转入般若空乐大智。",
+    "recitationTipsZh": "kurukulle 为阴性单数呼格，hrīḥ 为莲华部心印。",
+    "provenance": {
+      "sourceType": "Academic-Critical-Edition",
+      "editionCitation": "Sādhanamālā, Kalpokta-Kurukullā-Sādhana.",
+      "manuscriptNotesZh": "独立单列之作明佛母根本心咒专条。"
+    },
+    "verses": [
+      {
+        "id": "kurukulla-v-1",
+        "index": 1,
+        "iast": "oṃ kurukulle hrīḥ svāhā",
+        "classicalTranslitZh": "唵 俱噜俱咧 纥哩 娑嚩诃",
+        "modernPhoneticZh": "嗡 古鲁古雷 ₍赫₎里₍希₎ ₍斯₎瓦哈",
+        "meaningZh": "嗡！莲华部大敬爱智慧母（作明佛母）啊！以大悲莲华心印（纥哩）怀摄十方胜妙善缘，娑嚩诃！",
+        "meaningEn": "Oṃ! O Goddess Kurukullā, Lotus Wisdom Heart (Hrīḥ), Svāhā!",
+        "words": [
+          {
+            "iast": "oṃ",
+            "stem": "oṃ",
+            "grammar": "Praṇava · 圣音",
+            "transliterationZh": "唵（拼读参考：嗡）",
+            "meaningZh": "三身总持圣音（法报化三身摄受）",
+            "meaningEn": "sacred Praṇava syllable embodying Trikāya",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "kurukulle",
+            "stem": "kurukullā",
+            "grammar": "Prop.Noun · 作明佛母 · Voc. Fem. / Loc. Sg. · 呼格佛母/处格",
+            "transliterationZh": "矩噜矩攞隶（拼读参考：古鲁古雷）",
+            "meaningZh": "作明佛母（咕噜咕列怀爱母）尊",
+            "meaningEn": "O Kurukullā, Magnetizing Wisdom Goddess / in Kurukullā, Magnetizing Wisdom Goddess",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "hrīḥ",
+            "stem": "hrīḥ",
+            "grammar": "Bīja · 莲华种子字",
+            "transliterationZh": "纥哩（拼读参考：₍赫₎里₍希₎）",
+            "meaningZh": "莲华部心印（清净惭愧·弥陀观音种子）",
+            "meaningEn": "Lotus-family seed of Amitābha & Avalokiteśvara",
+            "origin": "derived-reference"
+          },
+          {
+            "iast": "svāhā",
+            "stem": "svāhā",
+            "grammar": "Indecl. · 结印词",
+            "transliterationZh": "娑嚩诃 / 萨婆诃（拼读参考：₍斯₎瓦哈）",
+            "meaningZh": "圆满吉祥成就",
+            "meaningEn": "hail! may auspicious accomplishment be sealed",
+            "origin": "derived-reference"
+          }
+        ]
+      }
+    ]
+  }
 ];

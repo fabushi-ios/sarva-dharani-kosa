@@ -32,7 +32,7 @@ import {
 } from '../../core/provenance/fieldProvenance';
 
 const NON_SANSKRIT_BOILERPLATE_RE =
-  /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|source\s*:\s*hidas|tibetan\s*:\s*d\s*\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?|elder,\s*g\.r\.|the\s+saṃpuṭa\s+tantra\s*:\s*edition|unpublished\s+ph\.\s*d\.|this\s+mantra\s+is\s+also\s+found\s+in|bhaiṣajya\s+vastu\s+from\s+vinaya\s+vastu|dutt\s+supplies|better\s+understand|dissolved\s+from\s+here|derived\s+from\s+rudrapriya|and\s+rigveda|ist\s+auch\s+als|zitiert\s+in|bźin\s+du\s+spyod)\b|^mpvv\s*=|^##\s*=|^§\s*=/i;
+  /\b(?:no\s+data\s+available|this\s+gretil\s+text|based\s+on\s+the\s+ed|bsed\s+on\s+the\s+ed|input\s+by\s+|copyright\s+and\s+terms|creative\s+commons|all\s+rights\s+reserved|this\s+text\s+has\s+been\s+prepared|text\s+converted\s+to\s+unicode|this\s+file\s+is\s+to\s+be\s+used|pagination\s+of|sutra\s+section,\s*text\s+no|www\.uwest\.edu|gretil\.sub\.uni-goettingen\.de|permanent\s+link\s+http|permlink\.php|diacritica-help|multibyte\s+sequence|^s\.n\.\s*book\s*links|source\s*:\s*hidas|tibetan\s*:\s*d\s*\d+|nak\s+accession\s+number|^cf\.\s*nbt|^ms\s*:\s*atha\s*\?|elder,\s*g\.r\.|the\s+saṃpuṭa\s+tantra\s*:\s*edition|unpublished\s+ph\.\s*d\.|this\s+mantra\s+is\s+also\s+found\s+in|bhaiṣajya\s+vastu\s+from\s+vinaya\s+vastu|dutt\s+supplies|better\s+understand|dissolved\s+from\s+here|derived\s+from\s+rudrapriya|and\s+rigveda|ist\s+auch\s+als|zitiert\s+in|bźin\s+du\s+spyod)\b|^end\s+of\s+file$|^mpvv\s*=|^##\s*=|^§\s*=/i;
 
 const ENGLISH_PROSE_STOPWORD_RE =
   /(?<![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])(?:the|from|and|with|your|you|this|that|into|upon|within|between|without|through|throughout|them|who|every|whatever|protect|grant|peace|pacify|illness|untimely|death|wrong|path|perils|unpleasing|mind|license|website|copyright|owners|seize|pull|bind|kill|spirits|summon|burn|blaze|move|shake|accept|flower|evildoers|noose|implore|wherever|arisen|practitioner|commands|charnel|grounds|pleasure|delights|worshiped|adorned|defeating|homage|perfect|buddhas|just|like|have|well-being|look|save|emancipate|sufferings|sentient|beings|please|enter|control|entire|remain|flow|toss|lotus|water|holder|treasury|unfold|expand|throne|purity|purify|accomplishment|remember|discord|sow|similar|rhetorical|structure|dieser|zitiert|zweite)(?![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])/gi;
@@ -84,6 +84,7 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
   let text = healRuntimeConjunctSpaces(
     rawIast
       .replace(/[\u00AD\x00-\x08\x0B\x0C\x0E-\x1F]/g, ' ')
+      .replace(/[•·∙●▪◦]/g, ' ')
       // Normalize ISO-15919 ring-below vocalic r/l, Vedic pitch accents, SARIT sandhi circumflexes & OCR glitches
       .replace(/r\u0325\u0304[\u0300\u0301]?/g, 'ṝ')
       .replace(/R\u0325\u0304[\u0300\u0301]?/g, 'Ṝ')
@@ -109,6 +110,8 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
       .replace(/Û/g, 'Ū')
       .replace(/ulläke/gi, 'ullāke')
       .replace(/[’‘ʼˈ´æ]/g, "'")
+      .replace(/[ṃṁm]\u0310/g, 'ṃ')
+      .replace(/([aāiīuūṛṝḷḹeēoō])\u0310/gi, '$1ṃ')
       .replace(/ṁ/g, 'ṃ')
       .replace(/ġ/g, 'g')
       .replace(/ḻ/g, 'l')
@@ -163,6 +166,7 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
     .replace(/(?<=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])\d+(?=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ'\s|.,;!?()-]|$)/g, '')
     .replace(/\b\d+[.,]\d+[a-zA-Z]*\)?:?/g, ' ')
     .replace(/\b\d+[a-zA-Z]+\d*[a-zA-Z]*\b/g, ' ')
+    .replace(/(?:^|(?<=[\s|—(-]))\d+(?=[āīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ]|[a-zA-Z][a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ]{2,})/g, '')
     .replace(/(?:^|\s)-\d+-(?=\s|$)/g, ' ')
     .replace(/\b\d+-\d+\b/g, ' ')
     .replace(/\b\d+-(?=\s|$)/g, ' ')
@@ -268,12 +272,83 @@ export function cleanAndExpandSanskritMantraIast(rawIast: string): string {
   return text;
 }
 
+/**
+ * Partitions an array of mantra items from a multi-mantra sutra/manuscript into strictly
+ * standalone per-mantra groups ("一咒一篇"), while keeping an opening homage (namo/namaḥ)
+ * and continuation clauses attached to their own mantra body.
+ */
+function partitionStandaloneMantraGroups<T extends { iast: string }>(items: T[]): T[][] {
+  if (items.length <= 1) return items.length === 1 ? [items] : [];
+
+  const hasClosingRe = /(?:^|[\s|—-])(?:svāhā|phaṭ|hūṃ|huṃ|hoḥ)(?=$|[\s|.,;!?—-])/i;
+  const startsNewMantraRe = /^(?:oṃ|om|namo|namaḥ|nama|tadyathā)(?=$|[\s|—-])/i;
+  const pureHomageOpeningRe = /^(?:oṃ\s+)?(?:namo|namaḥ|nama)(?=$|[\s|—-])/i;
+
+  const groups: T[][] = [];
+  let current: T[] = [];
+
+  for (const item of items) {
+    const trimmed = item.iast.trim();
+    if (!trimmed) continue;
+    const words = trimmed.split(/\s+/).filter(Boolean);
+
+    if (words.length === 1) {
+      const singleWord = words[0].replace(/[|.,;!?]+$/g, '');
+      if (current.length > 0) {
+        const prev = current[current.length - 1];
+        const prevLower = prev.iast.trim().toLowerCase();
+        if (
+          /^(?:svāhā|phaṭ|hūṃ|huṃ|hoḥ)$/i.test(singleWord) &&
+          !prevLower.endsWith(singleWord.toLowerCase())
+        ) {
+          current[current.length - 1] = {
+            ...prev,
+            iast: `${prev.iast.trim()} ${singleWord}`,
+          };
+        }
+        continue;
+      }
+      current.push(item);
+      continue;
+    }
+
+    if (current.length > 0) {
+      const joinedCurrent = current.map((x) => x.iast).join(' | ');
+      const currentWords = joinedCurrent.split(/\s+/).filter(Boolean).length;
+      const currentHasClosing = hasClosingRe.test(joinedCurrent) || currentWords >= 18;
+      const currentIsOnlyOpeningHomage =
+        pureHomageOpeningRe.test(joinedCurrent) &&
+        !/(?:^|[\s|—-])tadyathā(?=$|[\s|—-])/i.test(joinedCurrent) &&
+        !/(?:^|[\s|—-])(?:svāhā|phaṭ)(?=$|[\s|.,;!?—-])/i.test(joinedCurrent) &&
+        currentWords <= 25;
+
+      if (
+        currentHasClosing &&
+        !currentIsOnlyOpeningHomage &&
+        startsNewMantraRe.test(trimmed)
+      ) {
+        groups.push(current);
+        current = [item];
+        continue;
+      }
+    }
+
+    current.push(item);
+  }
+
+  if (current.length > 0) {
+    groups.push(current);
+  }
+
+  return groups;
+}
+
 function splitIastIntoVerseLines(rawIast: string, maxWordsPerLine = 12): string[] {
   const cleaned = cleanAndExpandSanskritMantraIast(rawIast);
   if (!cleaned) {
     return [
       'namaḥ sarvabuddhabodhisattvebhyaḥ',
-      'tadyathā — oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā',
+      'tadyathā — oṃ vajradharma sarvārthasādhana svāhā',
     ];
   }
 
@@ -747,7 +822,7 @@ const DB2_ENTRIES: DharaniEntry[] = [
         ? recExt.reconstructedIast
         : hasRealTtSiddham
         ? rec.ttAlignments!.map((t) => t.iast).join(' ')
-        : 'namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā oṃ munimuni mahāmuni śākyamuni svāhā';
+        : 'namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā oṃ vajradharma sarvārthasādhana svāhā';
 
     const iastLines = splitIastIntoVerseLines(reconstructedIast, 10);
     const ARAPACANA_42_ZH_MAP: Record<string, string> = {
@@ -989,20 +1064,18 @@ const DB3_ENTRIES: DharaniEntry[] = [
 // ============================================================================
 const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
   .filter((r) => r.mantras && r.mantras.length > 0)
-  .map((rec): DharaniEntry => {
+  .flatMap((rec): DharaniEntry[] => {
     const tohLabel = rec.tohokuIds.join(' / ').toUpperCase();
-    // Expand any long single-block mantra (such as Toh 591 Sitātapatrā or Toh 558) into multiple verse clauses
-    const expandedMantraItems: Array<{
+    const cleanedRawItems: Array<{
       iast: string;
       englishTranslation?: string;
       criticalNotes?: string[];
     }> = [];
+
     for (const m of rec.mantras) {
       let candidateSkt = m.sanskritIast;
       let candidateEn = m.englishTranslation;
 
-      // In several 84000 editions (e.g., Toh 681, Toh 743), `m.sanskritIast` holds 84000's English translation
-      // while the actual Sanskrit IAST mantra is preserved in `m.criticalNotes` as `"Skt. ..."`.
       if ((candidateSkt.match(ENGLISH_PROSE_STOPWORD_RE) || []).length >= 2) {
         const sktNotes = (m.criticalNotes || [])
           .map((n) => {
@@ -1018,88 +1091,101 @@ const DB4_ENTRIES: DharaniEntry[] = DB4_84000_CORPUS.records
 
       const cleanLine = cleanAndExpandSanskritMantraIast(candidateSkt);
       if (!cleanLine) continue;
-      const wordCount = cleanLine.split(/\s+/).filter(Boolean).length;
-      if (rec.mantras.length <= 2 && wordCount > 14) {
-        const subLines = splitIastIntoVerseLines(cleanLine, 12);
-        for (const sub of subLines) {
-          expandedMantraItems.push({
-            iast: sub,
-            englishTranslation: candidateEn,
-            criticalNotes: m.criticalNotes,
-          });
-        }
-      } else if (cleanLine.includes('|') && wordCount > 16) {
-        const subLines = splitIastIntoVerseLines(cleanLine, 12);
-        for (const sub of subLines) {
-          expandedMantraItems.push({
-            iast: sub,
-            englishTranslation: candidateEn,
-            criticalNotes: m.criticalNotes,
-          });
-        }
-      } else {
-        expandedMantraItems.push({
-          iast: cleanLine,
-          englishTranslation: candidateEn,
-          criticalNotes: m.criticalNotes,
-        });
-      }
+      cleanedRawItems.push({
+        iast: cleanLine,
+        englishTranslation: candidateEn,
+        criticalNotes: m.criticalNotes,
+      });
     }
 
-    const usedTitleFallback = expandedMantraItems.length === 0;
+    const usedTitleFallback = cleanedRawItems.length === 0;
     if (usedTitleFallback) {
-      expandedMantraItems.push({
+      cleanedRawItems.push({
         iast: `oṃ namo bhagavate ${cleanAndExpandSanskritMantraIast(rec.titles.saLtn || '') || 'sarvatathāgatāya'} svāhā`,
         englishTranslation: rec.mantras[0]?.englishTranslation || rec.mantras[0]?.sanskritIast,
         criticalNotes: rec.mantras[0]?.criticalNotes,
       });
     }
 
-    const verses: DharaniVerse[] = expandedMantraItems.map((m, idx) => {
-      const sem = translateSanskritVerse(m.iast);
-      const hasDbEn = Boolean(m.englishTranslation && m.englishTranslation.trim());
-      return createLazyVerse({
-        id: `db4-84000-${rec.utId}-v${idx + 1}`,
-        index: idx + 1,
-        iast: m.iast,
-        meaningZh: sem.meaningZh,
-        meaningEn: hasDbEn ? m.englishTranslation!.trim() : sem.meaningEn,
-        tangNoteZh:
-          m.criticalNotes && m.criticalNotes.length > 0
-            ? `84000 校勘注：${m.criticalNotes[0]}`
-            : `德格版甘珠尔 ${rec.biblScopes[0]?.scope || tohLabel} · 藏文名：${rec.titles.boUnicode}`,
-        fieldSources: {
-          iast: usedTitleFallback ? 'derived-reference' : 'db-original',
-          meaningEn: hasDbEn ? 'db-original' : 'derived-reference',
-        },
-      });
-    });
+    const standaloneGroups = partitionStandaloneMantraGroups(cleanedRawItems);
+    const totalGroups = standaloneGroups.length;
 
-    return {
-      id: `db4-84000-${rec.utId}`,
-      titleZh: `【DB4·84000藏密】${rec.titles.saLtn} (${tohLabel} · ${rec.titles.en})`,
-      titleSanskritIast: rec.titles.saLtnLong || rec.titles.saLtn,
-      titleEnglish: `${rec.titles.en} (${tohLabel})`,
-      categoryId: 'global-12db-canon',
-      taishoNo: `${tohLabel} (${rec.section})`,
-      translatorZh: `84000: Translating the Words of the Buddha (${rec.section})`,
-      sutraSourceZh: `德格版甘珠尔 (${tohLabel})《${rec.titles.boUnicode}》(${rec.titles.boLtn})`,
-      deityZh: `${rec.titles.saLtn} · ${rec.titles.boUnicode}`,
-      bijaIast: 'oṃ',
-      meritsAndSummaryZh: `源自全球第 4 大数据库「84000 藏文大藏经开放 TEI 语料库」（${tohLabel}，部类：${rec.section}，BDRC: ${rec.bdrcWorkId || 'MW22084'}）。梵文经题：${rec.titles.saLtnLong || rec.titles.saLtn}；藏文经题：${rec.titles.boUnicode} (${rec.titles.boLtn})；英文经题：${rec.titles.en}。共提取校勘级梵文真言 ${verses.length} 句。`,
-      recitationTipsZh: '84000 学者团队根据梵藏写本严格校勘还原之古典梵文真言，附有权威英译咒义与校勘记。',
-      provenance: {
-        sourceType: 'GLOBAL-12DB',
-        databaseId: 'db4_84000',
-        databaseBadgeZh: `DB4 · 84000 ${tohLabel}`,
-        gretilRawUrl: rec.sourceUrl,
-        cbetaOnlineUrl: rec.readUrl,
-        editionCitation: `84000 Open TEI Corpus ${rec.utId} (${tohLabel}: ${rec.titles.en})`,
-        manuscriptNotesZh: `馆藏出处：${rec.biblScopes.map((b) => b.scope).join(' | ')}`,
-        rawSnippet: rec.mantras.map((m) => m.sanskritIast).join('\n'),
-      },
-      verses,
-    };
+    return standaloneGroups.map((group, gIdx): DharaniEntry => {
+      const entryId =
+        gIdx === 0 ? `db4-84000-${rec.utId}` : `db4-84000-${rec.utId}-m${gIdx + 1}`;
+      const suffixZh =
+        totalGroups > 1 ? ` · 第 ${gIdx + 1}/${totalGroups} 则独立真言` : '';
+      const suffixEn =
+        totalGroups > 1 ? ` — Standalone Mantra ${gIdx + 1}/${totalGroups}` : '';
+
+      const expandedMantraItems: Array<{
+        iast: string;
+        englishTranslation?: string;
+        criticalNotes?: string[];
+      }> = [];
+
+      for (const item of group) {
+        const wordCount = item.iast.split(/\s+/).filter(Boolean).length;
+        if ((group.length <= 2 && wordCount > 14) || (item.iast.includes('|') && wordCount > 10)) {
+          const subLines = splitIastIntoVerseLines(item.iast, 12);
+          for (const sub of subLines) {
+            expandedMantraItems.push({
+              iast: sub,
+              englishTranslation: item.englishTranslation,
+              criticalNotes: item.criticalNotes,
+            });
+          }
+        } else {
+          expandedMantraItems.push(item);
+        }
+      }
+
+      const verses: DharaniVerse[] = expandedMantraItems.map((m, idx) => {
+        const sem = translateSanskritVerse(m.iast);
+        const hasDbEn = Boolean(m.englishTranslation && m.englishTranslation.trim());
+        return createLazyVerse({
+          id: `${entryId}-v${idx + 1}`,
+          index: idx + 1,
+          iast: m.iast,
+          meaningZh: sem.meaningZh,
+          meaningEn: hasDbEn ? m.englishTranslation!.trim() : sem.meaningEn,
+          tangNoteZh:
+            m.criticalNotes && m.criticalNotes.length > 0
+              ? `84000 校勘注：${m.criticalNotes[0]}`
+              : `德格版甘珠尔 ${rec.biblScopes[0]?.scope || tohLabel} · 藏文名：${rec.titles.boUnicode}`,
+          fieldSources: {
+            iast: usedTitleFallback ? 'derived-reference' : 'db-original',
+            meaningEn: hasDbEn ? 'db-original' : 'derived-reference',
+          },
+        });
+      });
+
+      return {
+        id: entryId,
+        titleZh: `【DB4·84000藏密】${rec.titles.saLtn}${suffixZh} (${tohLabel} · ${rec.titles.en})`,
+        titleSanskritIast: `${rec.titles.saLtnLong || rec.titles.saLtn}${totalGroups > 1 ? ` [${gIdx + 1}/${totalGroups}]` : ''}`,
+        titleEnglish: `${rec.titles.en}${suffixEn} (${tohLabel})`,
+        categoryId: 'global-12db-canon',
+        taishoNo: `${tohLabel} (${rec.section})`,
+        translatorZh: `84000: Translating the Words of the Buddha (${rec.section})`,
+        sutraSourceZh: `德格版甘珠尔 (${tohLabel})《${rec.titles.boUnicode}》(${rec.titles.boLtn})`,
+        deityZh: `${rec.titles.saLtn} · ${rec.titles.boUnicode}`,
+        bijaIast: 'oṃ',
+        meritsAndSummaryZh: `源自全球第 4 大数据库「84000 藏文大藏经开放 TEI 语料库」（${tohLabel}，部类：${rec.section}，BDRC: ${rec.bdrcWorkId || 'MW22084'}）。梵文经题：${rec.titles.saLtnLong || rec.titles.saLtn}；藏文经题：${rec.titles.boUnicode} (${rec.titles.boLtn})；英文经题：${rec.titles.en}。${totalGroups > 1 ? `本经共含 ${totalGroups} 则独立真言，此为第 ${gIdx + 1} 则独立真言（一咒一篇严格分立），` : ''}本篇共 ${verses.length} 句。`,
+        recitationTipsZh: '84000 学者团队根据梵藏写本严格校勘还原之古典梵文真言，附有权威英译咒义与校勘记。',
+        provenance: {
+          sourceType: 'GLOBAL-12DB',
+          databaseId: 'db4_84000',
+          databaseBadgeZh: `DB4 · 84000 ${tohLabel}`,
+          gretilRawUrl: rec.sourceUrl,
+          cbetaOnlineUrl: rec.readUrl,
+          editionCitation: `84000 Open TEI Corpus ${rec.utId} (${tohLabel}: ${rec.titles.en}${suffixEn})`,
+          manuscriptNotesZh: `馆藏出处：${rec.biblScopes.map((b) => b.scope).join(' | ')}`,
+          rawSnippet: group.map((m) => m.iast).join('\n'),
+        },
+        verses,
+      };
+    });
   });
 
 // ============================================================================
@@ -1111,7 +1197,7 @@ const DB5_ENTRIES: DharaniEntry[] = DB5_BUDDHANEXUS_CORPUS.records.map((rec): Dh
     segLines.length >= 2
       ? segLines
       : splitIastIntoVerseLines(
-          segLines[0] || 'namaḥ sarvabuddhabodhisattvebhyaḥ | oṃ sarva-tathāgata-hṛdaya-dhāraṇī svāhā',
+          segLines[0] || 'namaḥ sarvabuddhabodhisattvebhyaḥ | tadyathā oṃ vajradharma sarvārthasādhana svāhā',
           11
         );
 
@@ -1596,52 +1682,114 @@ const DB10_ENTRIES: DharaniEntry[] = [
       ),
     };
   }),
-  ...DB10_ALL_NIBS_CORPUS.manuscripts.map((ms): DharaniEntry => {
+  ...DB10_ALL_NIBS_CORPUS.manuscripts.flatMap((ms): DharaniEntry[] => {
+    const cleanedExtracted = (ms.extractedMantras || [])
+      .map((m) => cleanAndExpandSanskritMantraIast(m))
+      .filter(Boolean)
+      .map((iast) => ({ iast }));
+
+    const hasClosingRe = /(?:^|[\s|—-])(?:svāhā|phaṭ|hūṃ|huṃ|hoḥ)(?=$|[\s|.,;!?—-])/i;
+    const genuineMultiGroups =
+      cleanedExtracted.length > 1 && cleanedExtracted.some((x) => hasClosingRe.test(x.iast))
+        ? partitionStandaloneMantraGroups(cleanedExtracted)
+        : [];
+
+    const cleanedDiplomatic = cleanNibsDiplomaticExcerpt(ms.diplomaticFolioExcerpt);
+
+    if (genuineMultiGroups.length > 1) {
+      const total = genuineMultiGroups.length;
+      return genuineMultiGroups.map((grp, gIdx): DharaniEntry => {
+        const entryId =
+          gIdx === 0
+            ? `db10-nibs-ms-${ms.resourceId}`
+            : `db10-nibs-ms-${ms.resourceId}-m${gIdx + 1}`;
+        const grpIast = grp.map((x) => x.iast).join(' | ');
+        return {
+          id: entryId,
+          titleZh: `【DB10·ALL-NIBS写本】${ms.resourceId}《${ms.titleIast}》· 第 ${gIdx + 1}/${total} 则独立真言`,
+          titleSanskritIast: `${ms.titleIast} [${gIdx + 1}/${total}]`,
+          titleEnglish: `ALL-NIBS Sanskrit Manuscript ${ms.resourceId}: ${ms.titleIast} (Standalone Mantra ${gIdx + 1}/${total})`,
+          categoryId: 'global-12db-canon',
+          taishoNo: `ALL-NIBS ${ms.resourceId} (${ms.catalogCode || 'MS'})`,
+          translatorZh: `${ms.sourceInstitution} (${ms.manuscriptArchiveRef || ms.resourceId})`,
+          sutraSourceZh: `Asian Legacy Library Public API (${ms.resourceId})`,
+          deityZh: ms.titleIast,
+          bijaIast: 'oṃ',
+          meritsAndSummaryZh: `源自全球第 10 大数据库「ALL-NIBS 梵文写本库」编号 ${ms.resourceId}（馆藏代码：${ms.catalogCode || 'NIBS'}，底本档案馆：${ms.manuscriptArchiveRef || 'Kathmandu / Varanasi'}，总字数：${ms.totalChars || 0} 字符）。本写卷共提取 ${total} 则独立真言，此为第 ${gIdx + 1} 则独立真言（一咒一篇严格分立）。`,
+          recitationTipsZh: '源自加德满都阿夏档案馆 (Asha Archives) 与瓦拉纳西保护中心数字化之梵文贝叶写卷。',
+          provenance: {
+            sourceType: 'GLOBAL-12DB',
+            databaseId: 'db10_all_nibs',
+            databaseBadgeZh: `DB10 · ALL-NIBS ${ms.resourceId}`,
+            gretilRawUrl: ms.apiUrl,
+            editionCitation: `ALL-NIBS ${ms.resourceId} (${ms.titleIast}, Mantra ${gIdx + 1}/${total})`,
+            manuscriptNotesZh: `写本叶码摘录：${ms.diplomaticFolioExcerpt.slice(0, 200)}`,
+            rawSnippet: ms.diplomaticFolioExcerpt,
+          },
+          verses: buildStandardVerses(
+            entryId,
+            splitIastIntoVerseLines(grpIast, 11),
+            `出自 ALL-NIBS 梵文写本 ${ms.resourceId}《${ms.titleIast}》第 ${gIdx + 1} 则真言`,
+            `From ALL-NIBS Sanskrit Manuscript ${ms.resourceId} (${ms.titleIast})`,
+            `馆藏写本：${ms.manuscriptArchiveRef || ms.resourceId}`,
+            undefined,
+            {
+              fieldSources: {
+                iast: 'db-original',
+              },
+              diplomaticOriginal: cleanedDiplomatic,
+            }
+          ),
+        };
+      });
+    }
+
     const rawNibsCandidate =
       ms.extractedMantras && ms.extractedMantras.length > 1
         ? ms.extractedMantras.join(' | ')
         : ms.normalizedIastExcerpt || ms.extractedMantras?.[0] || '';
     const hasNibsText = Boolean(cleanAndExpandSanskritMantraIast(rawNibsCandidate));
-    const iastText = rawNibsCandidate || 'oṃ namo bhagavate svāhā';
-    const cleanedDiplomatic = cleanNibsDiplomaticExcerpt(ms.diplomaticFolioExcerpt);
+    const iastText = rawNibsCandidate || 'namaḥ sarvabuddhabodhisattvebhyaḥ | oṃ vajradharma svāhā';
 
-    return {
-      id: `db10-nibs-ms-${ms.resourceId}`,
-      titleZh: `【DB10·ALL-NIBS写本】${ms.resourceId}《${ms.titleIast}》`,
-      titleSanskritIast: ms.titleIast,
-      titleEnglish: `ALL-NIBS Sanskrit Manuscript ${ms.resourceId}: ${ms.titleIast}`,
-      categoryId: 'global-12db-canon',
-      taishoNo: `ALL-NIBS ${ms.resourceId} (${ms.catalogCode || 'MS'})`,
-      translatorZh: `${ms.sourceInstitution} (${ms.manuscriptArchiveRef || ms.resourceId})`,
-      sutraSourceZh: `Asian Legacy Library Public API (${ms.resourceId})`,
-      deityZh: ms.titleIast,
-      bijaIast: 'oṃ',
-      meritsAndSummaryZh: `源自全球第 10 大数据库「ALL-NIBS 梵文写本库」编号 ${ms.resourceId}（馆藏代码：${ms.catalogCode || 'NIBS'}，底本档案馆：${ms.manuscriptArchiveRef || 'Kathmandu / Varanasi'}，总字数：${ms.totalChars || 0} 字符）。保留写本叶码标记 (@1a, @1b...) 外交转写与标准梵文校勘本。`,
-      recitationTipsZh: '源自加德满都阿夏档案馆 (Asha Archives) 与瓦拉纳西保护中心数字化之梵文贝叶写卷。',
-      provenance: {
-        sourceType: 'GLOBAL-12DB',
-        databaseId: 'db10_all_nibs',
-        databaseBadgeZh: `DB10 · ALL-NIBS ${ms.resourceId}`,
-        gretilRawUrl: ms.apiUrl,
-        editionCitation: `ALL-NIBS ${ms.resourceId} (${ms.titleIast}, ${ms.manuscriptArchiveRef || ''})`,
-        manuscriptNotesZh: `写本叶码摘录：${ms.diplomaticFolioExcerpt.slice(0, 200)}`,
-        rawSnippet: ms.diplomaticFolioExcerpt,
+    return [
+      {
+        id: `db10-nibs-ms-${ms.resourceId}`,
+        titleZh: `【DB10·ALL-NIBS写本】${ms.resourceId}《${ms.titleIast}》`,
+        titleSanskritIast: ms.titleIast,
+        titleEnglish: `ALL-NIBS Sanskrit Manuscript ${ms.resourceId}: ${ms.titleIast}`,
+        categoryId: 'global-12db-canon',
+        taishoNo: `ALL-NIBS ${ms.resourceId} (${ms.catalogCode || 'MS'})`,
+        translatorZh: `${ms.sourceInstitution} (${ms.manuscriptArchiveRef || ms.resourceId})`,
+        sutraSourceZh: `Asian Legacy Library Public API (${ms.resourceId})`,
+        deityZh: ms.titleIast,
+        bijaIast: 'oṃ',
+        meritsAndSummaryZh: `源自全球第 10 大数据库「ALL-NIBS 梵文写本库」编号 ${ms.resourceId}（馆藏代码：${ms.catalogCode || 'NIBS'}，底本档案馆：${ms.manuscriptArchiveRef || 'Kathmandu / Varanasi'}，总字数：${ms.totalChars || 0} 字符）。保留写本叶码标记 (@1a, @1b...) 外交转写与标准梵文校勘本。`,
+        recitationTipsZh: '源自加德满都阿夏档案馆 (Asha Archives) 与瓦拉纳西保护中心数字化之梵文贝叶写卷。',
+        provenance: {
+          sourceType: 'GLOBAL-12DB',
+          databaseId: 'db10_all_nibs',
+          databaseBadgeZh: `DB10 · ALL-NIBS ${ms.resourceId}`,
+          gretilRawUrl: ms.apiUrl,
+          editionCitation: `ALL-NIBS ${ms.resourceId} (${ms.titleIast}, ${ms.manuscriptArchiveRef || ''})`,
+          manuscriptNotesZh: `写本叶码摘录：${ms.diplomaticFolioExcerpt.slice(0, 200)}`,
+          rawSnippet: ms.diplomaticFolioExcerpt,
+        },
+        verses: buildStandardVerses(
+          `db10-nibs-ms-${ms.resourceId}`,
+          splitIastIntoVerseLines(iastText, 11),
+          `出自 ALL-NIBS 梵文写本 ${ms.resourceId}《${ms.titleIast}》`,
+          `From ALL-NIBS Sanskrit Manuscript ${ms.resourceId} (${ms.titleIast})`,
+          `馆藏写本：${ms.manuscriptArchiveRef || ms.resourceId}`,
+          undefined,
+          {
+            fieldSources: {
+              iast: hasNibsText ? 'db-original' : 'derived-reference',
+            },
+            diplomaticOriginal: cleanedDiplomatic,
+          }
+        ),
       },
-      verses: buildStandardVerses(
-        `db10-nibs-ms-${ms.resourceId}`,
-        splitIastIntoVerseLines(iastText, 11),
-        `出自 ALL-NIBS 梵文写本 ${ms.resourceId}《${ms.titleIast}》`,
-        `From ALL-NIBS Sanskrit Manuscript ${ms.resourceId} (${ms.titleIast})`,
-        `馆藏写本：${ms.manuscriptArchiveRef || ms.resourceId}`,
-        undefined,
-        {
-          fieldSources: {
-            iast: hasNibsText ? 'db-original' : 'derived-reference',
-          },
-          diplomaticOriginal: cleanedDiplomatic,
-        }
-      ),
-    };
+    ];
   }),
 ];
 
@@ -1814,64 +1962,101 @@ const DB11_ENTRIES: DharaniEntry[] = [
 // DB12: Muktabodha 密续电子库、ERC DHARMA《金刚顶经》校勘本与牛津 OCHS 种子字辞典
 // ============================================================================
 const DB12_ENTRIES: DharaniEntry[] = [
-  ...DB12_MUKTABODHA_OCHS_CORPUS.dharmaEditions.map((ed): DharaniEntry => {
-    const rawText =
-      ed.extractedMantrasIast && ed.extractedMantrasIast.length >= 2
-        ? ed.extractedMantrasIast.join(' | ')
-        : [ed.extractedMantrasIast?.[0], ed.textExcerptIast].filter(Boolean).join(' | ');
-    const hasDharmaText = Boolean(cleanAndExpandSanskritMantraIast(rawText));
-    const iastLines = splitIastIntoVerseLines(rawText, 11);
-    return {
-      id: `db12-dharma-${ed.id}`,
-      titleZh: `【DB12·DHARMA密续校勘】《${ed.titleSanskrit}》（${ed.editors}）`,
-      titleSanskritIast: ed.titleSanskrit,
-      titleEnglish: `ERC DHARMA Critical Edition: ${ed.titleSanskrit}`,
-      categoryId: 'global-12db-canon',
-      taishoNo: `DHARMA ${ed.id} · 对勘 T18n0865/0866`,
-      translatorZh: `ERC DHARMA 校勘本 (${ed.editors})`,
-      sutraSourceZh: `ERC DHARMA Tantric Critical Editions (${ed.titleSanskrit})`,
-      deityZh: '金刚界大曼荼罗五部如来总持',
-      bijaIast: 'hūṃ',
-      meritsAndSummaryZh: `源自全球第 12 大数据库「ERC DHARMA 密续校勘库」《${ed.titleSanskrit}》（校勘学者：${ed.editors}，全本 ${ed.charCount.toLocaleString()} 字符）。其中《一切如来真实摄大乘现证三昧大教王经 (Sarvatathāgatatattvasaṅgraha, STTS)》即唐代不空、金刚智所译《金刚顶经》之完整梵文母本！`,
-      recitationTipsZh: '此为瑜伽部根本大教王《金刚顶经 (STTS)》及《一切金刚出现曼荼罗仪轨》之梵文原典心印真言。',
-      provenance: {
-        sourceType: 'GLOBAL-12DB',
-        databaseId: 'db12_muktabodha_ochs',
-        databaseBadgeZh: `DB12 · DHARMA ${ed.id}`,
-        gretilRawUrl: ed.rawTextUrl,
-        editionCitation: `ERC DHARMA Critical Edition: ${ed.titleSanskrit} (ed. ${ed.editors})`,
-        manuscriptNotesZh: `全书共 ${ed.charCount.toLocaleString()} 字符，已提取金刚界四印真言与三十七尊心咒。`,
-        rawSnippet: ed.textExcerptIast.slice(0, 300),
-      },
-      verses: buildStandardVerses(
-        `db12-dharma-${ed.id}`,
-        iastLines,
-        `出自 ERC DHARMA 校勘本《${ed.titleSanskrit}》`,
-        `From ERC DHARMA Critical Edition of ${ed.titleSanskrit} (${ed.editors})`,
-        undefined,
-        undefined,
-        {
-          fieldSources: {
-            iast: hasDharmaText ? 'db-original' : 'derived-reference',
-          },
-        }
-      ),
-    };
+  ...DB12_MUKTABODHA_OCHS_CORPUS.dharmaEditions.flatMap((ed): DharaniEntry[] => {
+    const narrativeProseRe =
+      /\b(?:evam\s+āha|āsur\s+iti|sthāpayet|sthāpyaḥ|māvartayet|abhiṣiktaḥ|aibhiṣiktaḥ)\b/i;
+    const seenNormalized = new Set<string>();
+    const standaloneMantras: string[] = [];
+
+    for (const rawM of ed.extractedMantrasIast || []) {
+      const stripped = rawM
+        .replace(/m\s*īty\s+anena\b[\s\S]*$/i, 'mi')
+        .replace(/\s*\bity\s+anena\b[\s\S]*$/i, '')
+        .replace(/\s*\|\s*iti\s*$/i, '')
+        .replace(/\s+\biti\s*$/i, '')
+        .trim();
+      if (!stripped || narrativeProseRe.test(stripped)) continue;
+      if (!/^(?:oṃ|om|namo|namaḥ|nama)\b/i.test(stripped)) continue;
+      const clean = cleanAndExpandSanskritMantraIast(stripped);
+      if (!clean) continue;
+      const key = clean.toLowerCase();
+      if (seenNormalized.has(key)) continue;
+      seenNormalized.add(key);
+      standaloneMantras.push(clean);
+    }
+
+    if (standaloneMantras.length === 0) {
+      const fallbackRaw = [ed.extractedMantrasIast?.[0], ed.textExcerptIast]
+        .filter(Boolean)
+        .join(' | ');
+      standaloneMantras.push(fallbackRaw);
+    }
+
+    const total = standaloneMantras.length;
+    return standaloneMantras.map((mantraText, mIdx): DharaniEntry => {
+      const entryId =
+        mIdx === 0 ? `db12-dharma-${ed.id}` : `db12-dharma-${ed.id}-m${mIdx + 1}`;
+      const hasDharmaText = Boolean(cleanAndExpandSanskritMantraIast(mantraText));
+      const iastLines = splitIastIntoVerseLines(mantraText, 11);
+      const suffixZh = total > 1 ? ` · 第 ${mIdx + 1}/${total} 则独立真言` : '';
+      return {
+        id: entryId,
+        titleZh: `【DB12·DHARMA密续校勘】《${ed.titleSanskrit}》${suffixZh}（${ed.editors}）`,
+        titleSanskritIast: `${ed.titleSanskrit}${total > 1 ? ` [${mIdx + 1}/${total}]` : ''}`,
+        titleEnglish: `ERC DHARMA Critical Edition: ${ed.titleSanskrit}${total > 1 ? ` (Mantra ${mIdx + 1}/${total})` : ''}`,
+        categoryId: 'global-12db-canon',
+        taishoNo: `DHARMA ${ed.id} · 对勘 T18n0865/0866`,
+        translatorZh: `ERC DHARMA 校勘本 (${ed.editors})`,
+        sutraSourceZh: `ERC DHARMA Tantric Critical Editions (${ed.titleSanskrit})`,
+        deityZh: '金刚界大曼荼罗五部如来总持',
+        bijaIast: 'hūṃ',
+        meritsAndSummaryZh: `源自全球第 12 大数据库「ERC DHARMA 密续校勘库」《${ed.titleSanskrit}》（校勘学者：${ed.editors}，全本 ${ed.charCount.toLocaleString()} 字符）。其中《一切如来真实摄大乘现证三昧大教王经 (Sarvatathāgatatattvasaṅgraha, STTS)》即唐代不空、金刚智所译《金刚顶经》之完整梵文母本！${total > 1 ? `此为本经第 ${mIdx + 1}/${total} 则独立心印真言（一咒一篇严格分立）。` : ''}`,
+        recitationTipsZh: '此为瑜伽部根本大教王《金刚顶经 (STTS)》及《一切金刚出现曼荼罗仪轨》之梵文原典心印真言。',
+        provenance: {
+          sourceType: 'GLOBAL-12DB',
+          databaseId: 'db12_muktabodha_ochs',
+          databaseBadgeZh: `DB12 · DHARMA ${ed.id}`,
+          gretilRawUrl: ed.rawTextUrl,
+          editionCitation: `ERC DHARMA Critical Edition: ${ed.titleSanskrit} (ed. ${ed.editors})`,
+          manuscriptNotesZh: `全书共 ${ed.charCount.toLocaleString()} 字符，已按一咒一篇独立收录原典真言。`,
+          rawSnippet: mantraText,
+        },
+        verses: buildStandardVerses(
+          entryId,
+          iastLines,
+          `出自 ERC DHARMA 校勘本《${ed.titleSanskrit}》`,
+          `From ERC DHARMA Critical Edition of ${ed.titleSanskrit} (${ed.editors})`,
+          undefined,
+          undefined,
+          {
+            fieldSources: {
+              iast: hasDharmaText ? 'db-original' : 'derived-reference',
+            },
+          }
+        ),
+      };
+    });
   }),
   ...DB12_MUKTABODHA_OCHS_CORPUS.ochsLexiconManuscripts.map((ochs): DharaniEntry => {
-    const iastLines = ochs.verses.slice(0, 8).map((v) => v.sanskritIast);
+    const validOchsVerses = ochs.verses
+      .map((v) => ({
+        raw: v,
+        cleanLine: cleanAndExpandSanskritMantraIast(v.sanskritIast),
+      }))
+      .filter((x) => Boolean(x.cleanLine));
+    const iastLines = validOchsVerses.map((x) => x.raw.sanskritIast);
     return {
       id: `db12-ochs-${ochs.slug}`,
-      titleZh: `【DB12·牛津OCHS辞典】《${ochs.titleSanskrit}》(OCHS #${ochs.ochsNumber} · 种子字隐语辞书)`,
+      titleZh: `【DB12·牛津OCHS辞典】《${ochs.titleSanskrit}》(OCHS #${ochs.ochsNumber} · 种子字隐语辞书全本 ${validOchsVerses.length} 颂)`,
       titleSanskritIast: `${ochs.titleSanskrit} (OCHS #${ochs.ochsNumber})`,
       titleEnglish: `Oxford OCHS Tantric Bīja Lexicon #${ochs.ochsNumber}: ${ochs.titleSanskrit}`,
       categoryId: 'global-12db-canon',
       taishoNo: `Oxford OCHS #${ochs.ochsNumber}`,
       translatorZh: '英国牛津大学印度学研究中心 (OCHS) 密续写本库',
-      sutraSourceZh: `Oxford Centre for Hindu Studies (OCHS) Manuscript #${ochs.ochsNumber} (${ochs.totalVerses} verses)`,
+      sutraSourceZh: `Oxford Centre for Hindu Studies (OCHS) Manuscript #${ochs.ochsNumber} (${validOchsVerses.length} verses)`,
       deityZh: '密续种子字 (Bīja) 隐语破译总持',
       bijaIast: ochs.verses[0]?.targetBijaSyllables?.[0] || 'hrīṃ',
-      meritsAndSummaryZh: `源自全球第 12 大数据库「英国牛津大学 OCHS 密续种子字辞典写本库」第 #${ochs.ochsNumber} 号《${ochs.titleSanskrit}》（共 ${ochs.totalVerses} 颂）。专门破译梵文密咒中单字种子字（Ekākṣara / Bīja）与密码隐语（Uddhāra，如以「空面 vyomāsya = ha + 裂母 vidārī = ū + 滴点 bindu = ṃ」合成「hūṃ」）。`,
+      meritsAndSummaryZh: `源自全球第 12 大数据库「英国牛津大学 OCHS 密续种子字辞典写本库」第 #${ochs.ochsNumber} 号《${ochs.titleSanskrit}》（全本完整收录 ${validOchsVerses.length} 颂，零截断）。专门破译梵文密咒中单字种子字（Ekākṣara / Bīja）与密码隐语（Uddhāra，如以「空面 vyomāsya = ha + 裂母 vidārī = ū + 滴点 bindu = ṃ」合成「hūṃ」）。`,
       recitationTipsZh: '点击顶部「悉昙十八章与OCHS种子字」工作台，可使用种子字解密器逐字破译 12 大核心种子字之声韵构件与三家密意。',
       provenance: {
         sourceType: 'GLOBAL-12DB',
@@ -1882,10 +2067,7 @@ const DB12_ENTRIES: DharaniEntry[] = [
         manuscriptNotesZh: `涵盖核心种子字：${Array.from(new Set(ochs.verses.flatMap((v) => v.targetBijaSyllables))).join(', ')}`,
         rawSnippet: iastLines.join('\n'),
       },
-      verses: ochs.verses.slice(0, 8).map((v, idx) => {
-        const cleanLine =
-          cleanAndExpandSanskritMantraIast(v.sanskritIast) ||
-          v.sanskritIast.replace(/\s+/g, ' ').trim();
+      verses: validOchsVerses.map(({ raw: v, cleanLine }, idx) => {
         const sem = translateSanskritVerse(cleanLine);
         const bijaBadge =
           v.targetBijaSyllables.length > 0
