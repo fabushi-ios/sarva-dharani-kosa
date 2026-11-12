@@ -219,10 +219,10 @@ function parseGretilHtml(htmlText, meta) {
 
   // 提取其中的陀罗尼/心咒核心行（含 namo / namaḥ / oṃ / tadyathā / svāhā / hūṃ / phaṭ 的句子或前 35 行）
   const mantraLines = contentLines.filter(l =>
-    /\b(namo|namaḥ|namas|oṃ|om|tadyathā|svāhā|hūṃ|huṃ|phaṭ|dhāraṇī|vidyā|mantra|gate|tāre|bhagavate)\b/i.test(l)
+    /(?<!\p{L})(namo|namaḥ|namas|oṃ|om|tadyathā|svāhā|hūṃ|huṃ|phaṭ|dhāraṇī|vidyā|mantra|gate|tāre|bhagavate)(?!\p{L})/iu.test(l)
   );
 
-  const selectedVerses = (mantraLines.length >= 2 ? mantraLines : contentLines).slice(0, 28);
+  const selectedVerses = (mantraLines.length >= 2 ? mantraLines : contentLines);
 
   return {
     id: meta.id,
@@ -294,7 +294,7 @@ async function main() {
         rawUrl: url,
         ttPairCount: ttPairs.length,
         ttPairs: ttPairs.slice(0, 500),
-        dharaniParagraphs: dharaniParagraphs.slice(0, 12),
+        dharaniParagraphs: dharaniParagraphs,
         rawXmlExcerpt
       };
       console.log(

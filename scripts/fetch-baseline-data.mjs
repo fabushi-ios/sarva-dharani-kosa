@@ -546,7 +546,7 @@ function parseGretilHtml(html) {
     .map((l) => l.replace(/\s+/g, ' ').trim())
     .filter((l) => l.length > 0 && !/^(&copy;|Copyright|GRETIL)/i.test(l));
 
-  const mantraRegex = /\b(?:oṃ|om|namo|namaḥ|namas|tadyathā|svāhā|hūṃ|huṃ|hrīḥ|phaṭ)\b/i;
+  const mantraRegex = /(?<!\p{L})(?:oṃ|om|namo|namaḥ|namas|tadyathā|svāhā|hūṃ|huṃ|hrīḥ|phaṭ)(?!\p{L})/iu;
   const mantraExcerpts = fullTextLines.filter((l) => mantraRegex.test(l));
 
   return {

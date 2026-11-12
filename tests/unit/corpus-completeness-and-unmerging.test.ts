@@ -8,8 +8,10 @@ import { WORLD_ENCYCLOPEDIA_DHARANIS } from '../../src/data/kosa-corpus/world-ma
 import { DB2_TAISHO_EXT_CORPUS } from '../../src/data/generated/tier1Databases';
 import {
   getSearchSuggestions,
+  hydrateTaishoSearchIndex,
   normalizeSearchText,
 } from '../../src/core/search/searchEngine';
+import { TAISHO_MIKKYO_FILE_INDEX } from '../../src/data/kosa-generated/taishoMikkyoIndex';
 import { reconstructIastFromChineseTranslit } from '../../src/services/cbeta/cbetaLiveService';
 
 describe('Root-Cause Fixes: Complete Clause Counts, Anti-Merging ("一咒一篇"), and 帝天神咒 Search', () => {
@@ -105,19 +107,29 @@ describe('Root-Cause Fixes: Complete Clause Counts, Anti-Merging ("一咒一篇"
     expect(ids.has('db10-nibs-ms-SA00016.001-m2')).toBe(true);
   });
 
-  it('finds standalone primary-source entries for 帝天神咒, 地天神咒, 坚牢地天, 帝释天神咒, and Traditional/variant queries', () => {
-    // 1. Query "帝天神咒" matches both Pṛthivī (地天神咒 / 坚牢地天) and Śakrendra (帝释天神咒 / 尊胜幢臂印)
-    const ditianHits = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, '帝天神咒', 20);
-    expect(ditianHits.length).toBeGreaterThanOrEqual(4);
+  it('finds original DB records for 帝天神咒 / 地天神咒 / 坚牢地神 via the generic pinyin + variant layer (no hand entries)', () => {
+    // 帝天 is a homophone of 地天: the generic pinyin fallback must reach the original DB1 Fangshan record.
+    hydrateTaishoSearchIndex(TAISHO_MIKKYO_FILE_INDEX);
+    const ditianHits = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, '帝天神咒', 40);
     const hitIds = new Set(ditianHits.map((h) => h.entry?.id).filter(Boolean));
-    expect(
-      hitIds.has('prthivi-devi-dharani') ||
-        hitIds.has('suvarnaprabhasa-drdha-prthivi-hrdaya')
-    ).toBe(true);
-    expect(
-      hitIds.has('sakrendra-dhvajagrakeyura-dharani') ||
-        hitIds.has('sakrendra-jivitapala-dharani')
-    ).toBe(true);
+    expect(hitIds.has('db1-fangshan-F28n1071_pF28p0248b1801')).toBe(true);
+    const ditianTaisho = ditianHits.filter((h) => h.kind === 'taisho-scripture').map((h) => h.taishoScriptureId);
+    expect(ditianTaisho).toContain('T21n1286');
+    const jianlao = new Set(
+      getSearchSuggestions(BUILTIN_DHARANI_CORPUS, '坚牢地神', 20).map((h) => h.entry?.id).filter(Boolean)
+    );
+    expect(jianlao.has('db2-taisho-T16n0665_033')).toBe(true);
+    // The long 坚牢地天 mantra of T21n1286 (曩莫三曼多母驮南…阿驮阿驮 阿豆阿豆…莎诃) is found from the CBETA text itself.
+    for (const q of ['钵罗婆啰怛你', '阿驮阿驮阿豆阿豆', '坚牢地天']) {
+      const ids = getSearchSuggestions(BUILTIN_DHARANI_CORPUS, q, 40)
+        .filter((h) => h.kind === 'taisho-scripture')
+        .map((h) => h.taishoScriptureId);
+      expect(ids, q).toContain('T21n1286');
+    }
+    // No hand-written stand-in entries may exist for these.
+    const ids = new Set(BUILTIN_DHARANI_CORPUS.map((e) => e.id));
+    expect(ids.has('prthivi-devi-dharani')).toBe(false);
+    expect(ids.has('sakrendra-jivitapala-dharani')).toBe(false);
 
     // 2. Simplified & Traditional & Fangshan stone variant queries normalize identically
     expect(normalizeSearchText('地天陁羅尼')).toBe(normalizeSearchText('地天陀罗尼'));

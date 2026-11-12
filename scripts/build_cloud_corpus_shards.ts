@@ -24,7 +24,7 @@ import {
   DHARANI_CATEGORIES,
 } from '../src/data/index';
 import { TAISHO_MIKKYO_FILE_INDEX } from '../src/data/kosa-generated/taishoMikkyoIndex';
-import { normalizeSearchText } from '../src/core/search/searchEngine';
+import { normalizeSearchText, stripInlineDharaniNotes } from '../src/core/search/searchEngine';
 import {
   CANONICAL_DATABASE_IDS,
   UNIFIED_QUADRILINGUAL_GLOSSARY,
@@ -205,10 +205,17 @@ function main() {
     });
   }
 
+  // Index the FULL dharani text of every scripture (not just the 3 display samples).
+  const taishoFullTextPath = path.resolve('data/raw/taisho/dharani-fulltext.json');
+  const taishoFullText: Record<string, string> = fs.existsSync(taishoFullTextPath)
+    ? JSON.parse(fs.readFileSync(taishoFullTextPath, 'utf8'))
+    : {};
   const taishoCompactIndex = TAISHO_MIKKYO_FILE_INDEX.map((ts) => ({
     ...ts,
     normHay: normalizeSearchText(
-      `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${ts.sampleDharanis.join(' ')}`
+      stripInlineDharaniNotes(
+        `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${(ts.blockTitles || []).join(' ')} ${taishoFullText[ts.id] || ts.sampleDharanis.join(' ')}`
+      )
     ),
   }));
 

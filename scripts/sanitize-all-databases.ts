@@ -67,12 +67,12 @@ function healBrokenSanskritConjunctSpaces(str: string): string {
     .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])-\s+r([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])/g, '$1r $2')
     // Heal spaced out anusvāra/visarga like "ratnatrayāya ḥ" or "sa ṃ skṛtaṃ"
     .replace(/([aāiīuūṛṝḷḹeēoō])\s+([ṃḥ])(?=\s|$|[|.,;:])/gi, '$1$2')
-    .replace(/\bsaṃ\s+skṛt/gi, 'saṃskṛt')
-    .replace(/\bsi\s*ṃ\s*h\s*ā\s*san/gi, 'siṃhāsan')
-    .replace(/\bsam\s+ā\s+pt([aāiīḥṃ])/gi, 'samāpt$1')
-    .replace(/\bdārid\s+ry\s+ābhi/gi, 'dāridryābhi')
+    .replace(/(?<!\p{L})saṃ\s+skṛt/giu, 'saṃskṛt')
+    .replace(/(?<!\p{L})si\s*ṃ\s*h\s*ā\s*san/giu, 'siṃhāsan')
+    .replace(/(?<!\p{L})sam\s+ā\s+pt([aāiīḥṃ])/giu, 'samāpt$1')
+    .replace(/(?<!\p{L})dārid\s+ry\s+ābhi/giu, 'dāridryābhi')
     // Bengali-Sanskrit emphatic clitic "-i" in Vaiṣṇava texts: "ubhaye-i" -> "ubhayei"
-    .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])-i\b/g, '$1i');
+    .replace(/([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])-i(?!\p{L})/gu, '$1i');
 
   // Iteratively heal vowel + space + impossible word-initial consonant cluster / retroflex inflectional suffix
   // (2 passes handle chains like "sa ma ntākāra" -> "sama ntākāra" -> "samantākāra" or "vajra pā ṇi" -> "vajra pāṇi")
@@ -82,11 +82,11 @@ function healBrokenSanskritConjunctSpaces(str: string): string {
       '$1$2'
     );
     s = s.replace(
-      /(?<!\bṇi)([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ][aāiīuūṛṝḷḹeēoō])\s+(ṇ(?:i|ī|āṃ|ām|aṃ|am|ena|e|aīva|aiva|o|āya|ānāṃ|ānām))\b/g,
+      /(?<!(?<!\p{L})ṇi)([a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ][aāiīuūṛṝḷḹeēoō])\s+(ṇ(?:i|ī|āṃ|ām|aṃ|am|ena|e|aīva|aiva|o|āya|ānāṃ|ānām))(?!\p{L})/gu,
       '$1$2'
     );
     s = s.replace(
-      /([aāiīuūṛṝḷḹeēoō])\s+(ṣṭ(?:iṃ|im|otka|atīrthāni))\b/g,
+      /([aāiīuūṛṝḷḹeēoō])\s+(ṣṭ(?:iṃ|im|otka|atīrthāni))(?!\p{L})/gu,
       '$1$2'
     );
   }
@@ -129,7 +129,7 @@ function normalizeBaseIast(str: string): string {
     .replace(/ḳ/g, 'k')
     .replace(/ạ/g, 'a')
     .replace(/[\u00B9\u00B2\u00B3\u2070-\u2079]+/g, '')
-    .replace(/\bthe\s+dharmātyādi\b/gi, 'ye dharmā ityādi');
+    .replace(/(?<!\p{L})the\s+dharmātyādi(?!\p{L})/giu, 'ye dharmā ityādi');
 }
 
 function cleanSanskritTextLine(raw: string): string {
@@ -146,9 +146,9 @@ function cleanSanskritTextLine(raw: string): string {
     .replace(/\[\s*MISSING\s+FOLIO\s*\]/gi, ' ')
     .replace(/\bFolio\s+\d+[A-Za-z]?\b/gi, ' ')
     .replace(/\bfoll?\.\s*\d+[rvRV]\d*[^|]*/gi, ' ')
-    .replace(/\bend\s+of\s+[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ-]+\s+folio[^|]*/gi, ' ')
+    .replace(/(?<!\p{L})end\s+of\s+[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ-]+\s+folio[^|]*/giu, ' ')
     .replace(/\bThis\s+mantra\s+is\s+also\s+found\s+in\s+[A-Za-z]+\b/gi, ' ')
-    .replace(/\bBrahmāṇḍaP\s*:[^|]*/g, ' ')
+    .replace(/(?<!\p{L})BrahmāṇḍaP\s*:[^|]*/gu, ' ')
     .replace(/!\s*!\s*(?:DHN|KrA)[^|]*/g, ' ')
     .replace(/\([A-Z]{2,6}\s*:[^)]*\)/g, ' ')
     .replace(/\b(?:CDFGH|AFGH|BD|KrA|DHN)\s*:[^|]*/g, ' ')
@@ -161,7 +161,7 @@ function cleanSanskritTextLine(raw: string): string {
       /(?<![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])(?:Mns|NCit|Rm|AP|MBh|AVŚ|Vkn|KDA|HJm|Sitā|Gmdh|SHT|Viv|GBM|SRS|RKP|RKK|Rgs|DbSū|RBhrs|DbhP|PS|ŚsP|Pāc|DHN)(?![a-zA-ZāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣĀĪŪṚṜḶḸĒŌṂḤṄÑṬḌṆŚṢ])[\s,.:0-9IVXLCa-fA-Fv()-]*/g,
       ' '
     )
-    .replace(/\bpṛ0\s*\d+[a-z]*\)?\s*\|*/gi, ' ')
+    .replace(/(?<!\p{L})pṛ0\s*\d+[a-z]*\)?\s*\|*/giu, ' ')
     .replace(/\/\/\s*pek_\d+/gi, ' ')
     .replace(/\b\d+[abrv]\d+\s*\([^)]*\)\s*:?/gi, ' ')
     .replace(/\b\d+v\d+\)\s*\(?/gi, ' ')
@@ -169,13 +169,13 @@ function cleanSanskritTextLine(raw: string): string {
     .replace(/(?:^|\s|\|)\d+[ab]?\)(?=\s|$|\|)/g, ' ')
     .replace(/\b(?:ab|cd)\d*:\d+\b/g, ' ')
     .replace(/\b[Vr]\d+\b/g, ' ')
-    .replace(/\bñ\d+(?:\.\d+)+\b/g, ' ')
+    .replace(/(?<!\p{L})ñ\d+(?:\.\d+)+(?!\p{L})/gu, ' ')
     .replace(/\bC\.\d+(?:\.\d+)*\.?/g, ' ')
     .replace(/(?:^|\s|\|)\.[0-9]+[a-z]*\b/g, ' ')
     .replace(/(?<=\s|^)\.([a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣ])/g, '$1')
     // Strip Devanāgarī lāghava abbreviation sign '0' ("ai0" -> "ai", "kha0" -> "kha") & repetition digits ("vāra21" -> "vāra")
-    .replace(/(?<=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])0\b/g, '')
-    .replace(/\bvāra\s*\d+\b/gi, 'vāra')
+    .replace(/(?<=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])0(?!\p{L})/gu, '')
+    .replace(/(?<!\p{L})vāra\s*\d+(?!\p{L})/giu, 'vāra')
     // Strip inline footnote / pluta digits attached to Sanskrit words ("kamma4rā" -> "kammarā", "oṃ3" -> "oṃ", "savitā2'nnam" -> "savitā'nnam")
     .replace(/(?<=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ])\d+(?=[a-zA-Zāīūṛṝḷḹēōṃṁḥṅñṭḍṇśṣ'\s|.,;!?()-]|$)/g, '')
     .replace(/\b\d+[.,]\d+[a-zA-Z]*\)?:?/g, ' ')
@@ -234,7 +234,7 @@ function sanitizeDb3(db3: Record<string, unknown>): number {
     if (Array.isArray(sec.paragraphsIast)) {
       sec.paragraphsIast = (sec.paragraphsIast as string[])
         .map((p) => cleanSanskritTextLine(p))
-        .filter((p) => p.length >= 6 || /^(?:oṃ|āḥ|hūṃ|hrīḥ|phaṭ|svāhā)\b/i.test(p));
+        .filter((p) => p.length >= 6 || /^(?:oṃ|āḥ|hūṃ|hrīḥ|phaṭ|svāhā)(?!\p{L})/iu.test(p));
       fixes++;
     }
     if (Array.isArray(sec.extractedMantras)) {
@@ -282,7 +282,7 @@ function sanitizeDb4(db4: Record<string, unknown>): number {
 
     for (const m of mantras) {
       let raw = normalizeBaseIast(String(m.sanskritIast || ''))
-        .replace(/\bṇiṇiṇiṇi\b/g, 'ṇi ṇi ṇi ṇi')
+        .replace(/(?<!\p{L})ṇiṇiṇiṇi(?!\p{L})/gu, 'ṇi ṇi ṇi ṇi')
         .replace(/\[\s*(?:mantra|my|insert\s+name)\s*\]/gi, ' ')
         .replace(/\bbdag\s+la\s+srungs\s+shig\s+srungs\s+shig\b/gi, 'rakṣa rakṣa māṃ')
         .replace(/\bbdag\s+la\s+srungs\s+shig\b/gi, 'rakṣa māṃ')
@@ -295,7 +295,7 @@ function sanitizeDb4(db4: Record<string, unknown>): number {
       // Check if criticalNotes contains explicit Sanskrit reconstruction (e.g. "Skt. oṃ ...")
       let sktFromNote = '';
       for (const n of notes) {
-        const sktM = n.match(/\bSkt\.?\s*:?\s*([oO]ṃ|[nN]ama|[tT]adyathā)([^.;"]*)/);
+        const sktM = n.match(/(?<!\p{L})Skt\.?\s*:?\s*([oO]ṃ|[nN]ama|[tT]adyathā)([^.;"]*)/u);
         if (sktM) {
           sktFromNote = cleanSanskritTextLine(`${sktM[1]}${sktM[2]}`);
           if (sktFromNote.length >= 6 && countEnglishStopwords(sktFromNote) === 0) break;
@@ -426,11 +426,11 @@ function cleanSaritIastUnit(raw: string, isCmp: boolean): string {
       .replace(/\bLies\s+[^|.;]+/g, ' ')
       .replace(/\bIntro\.\s*p\.\s*[IVXLC]+\b/gi, ' ')
       .replace(/\bChapter\s+[IVXLC]+\s*::/gi, ' ')
-      .replace(/°[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ-]*°?\s*(?:om\.?\s*)?\b(?:MS|MSS|R|A|B|C|K|N|T)\b/g, ' ')
-      .replace(/[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]+°\s+om\.?\s+[A-Z]\b/g, ' ')
+      .replace(/°[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ-]*°?\s*(?:om\.?\s*)?(?<!\p{L})(?:MS|MSS|R|A|B|C|K|N|T)(?!\p{L})/gu, ' ')
+      .replace(/[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]+°\s+om\.?\s+[A-Z](?!\p{L})/gu, ' ')
       .replace(/\s+\b(?:MS|MSS|R)\b(?=\s*(?:\||$|[.,;]))/g, ' ')
-      .replace(/\b[A-Z]\s*:\s*[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ°\s]{1,30}(?=[|.]|$)/g, ' ')
-      .replace(/\bta\s+d\s+v\s*ān\b/g, 'tadvān');
+      .replace(/(?<!\p{L})[A-Z]\s*:\s*[a-zA-Zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ°\s]{1,30}(?=[|.]|$)/gu, ' ')
+      .replace(/(?<!\p{L})ta\s+d\s+v\s*ān(?!\p{L})/gu, 'tadvān');
   }
   return cleanSanskritTextLine(s);
 }
@@ -974,8 +974,8 @@ function sanitizeDb12(db12: Record<string, unknown>): number {
   const cleanMuktaStr = (s: string): string =>
     cleanSanskritTextLine(
       s
-        .replace(/\b(?:naṃ0|karttā|patrasaṃ0|granthanāma|viṣayaḥ)[^|]*/gi, ' ')
-        .replace(/\bpṛ0\s*\d+[a-z]*\)?\s*\|*/gi, ' ')
+        .replace(/(?<!\p{L})(?:naṃ0|karttā|patrasaṃ0|granthanāma|viṣayaḥ)[^|]*/giu, ' ')
+        .replace(/(?<!\p{L})pṛ0\s*\d+[a-z]*\)?\s*\|*/giu, ' ')
         .replace(/\/\/\s*pek_\d+/gi, ' ')
     );
 
@@ -1029,7 +1029,7 @@ function sanitizeDb12(db12: Record<string, unknown>): number {
  * 11. GRETIL Canonical & Expanded TypeScript Modules
  * ========================================================================== */
 const NON_SANSKRIT_GRETIL_LINE_RE =
-  /\b(?:ist\s+auch\s+als|zitiert\s+in|bźin\s+du\s+spyod|spyod\s+pa\s+daṅ|dutt\s+supplies|better\s+understand)\b|[źäöü]/i;
+  /(?<!\p{L})(?:ist\s+auch\s+als|zitiert\s+in|bźin\s+du\s+spyod|spyod\s+pa\s+daṅ|dutt\s+supplies|better\s+understand)(?!\p{L})|[źäöü]/iu;
 
 async function sanitizeGretilTsFiles(): Promise<{ authFixed: number; allFixed: number }> {
   let authFixed = 0;

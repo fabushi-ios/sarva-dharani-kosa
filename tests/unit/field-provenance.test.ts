@@ -514,7 +514,7 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
   });
 
   it('enforces corpus-wide philological & provenance Golden Invariants across all 3,087 entries', () => {
-    expect(BUILTIN_DHARANI_CORPUS.length).toBe(3625);
+    expect(BUILTIN_DHARANI_CORPUS.length).toBe(3618);
 
     let db1MixedTtTotal = 0;
     let db1MixedTtMatched = 0;

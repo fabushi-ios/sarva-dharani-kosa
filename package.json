@@ -20,6 +20,7 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "lucide-react": "^0.468.0",
+    "pinyin-pro": "^3.29.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

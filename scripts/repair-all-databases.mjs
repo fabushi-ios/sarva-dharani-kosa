@@ -727,13 +727,13 @@ async function generateTier1TsModule(db1, db2, db3, db4, db5, db6) {
     ...db3,
     dharaniSamgrahaSections: (db3.dharaniSamgrahaSections || []).map((s) => ({
       ...s,
-      paragraphsIast: (s.paragraphsIast || []).slice(0, 8).map((p) => safeSlice(p, 600)),
-      extractedMantras: (s.extractedMantras || []).slice(0, 6).map((m) => safeSlice(m, 600)),
+      paragraphsIast: (s.paragraphsIast || []),
+      extractedMantras: (s.extractedMantras || []),
     })),
     gretilExpandedRecords: (db3.gretilExpandedRecords || []).map((g) => ({
       ...g,
       textExcerptIast: safeSlice(g.textExcerptIast, 700),
-      extractedMantras: (g.extractedMantras || []).slice(0, 6).map((m) => safeSlice(m, 600)),
+      extractedMantras: (g.extractedMantras || []),
     })),
   };
 

@@ -308,7 +308,7 @@ function tokenizeFangshanDharaniBlock(pInnerXml, charDeclMap, gaijiMap) {
     .replace(/[ \t\r\n]*<(?:lb|pb|anchor|milestone)\b[^>]*\/?>[ \t\r\n]*/gi, '')
     .replace(/<(?:caesura|space)\b[^>]*\/?>/gi, ' ');
   const tokenRegex =
-    /<cb:tt\b[^>]*>([\s\S]*?)<\/cb:tt>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<note\s+place="inline"[^>]*>([\s\S]*?)<\/note>|([^\s<>　]+)/g;
+    /<cb:tt(?<!\p{L})[^>]*>([\s\S]*?)<\/cb:tt>|<g\s+ref="#(CB[0-9A-Za-z]+)"[^>]*>[\s\S]*?<\/g>|<note\s+place="inline"[^>]*>([\s\S]*?)<\/note>|([^\s<>　]+)/gu;
   let m;
   let ttCount = 0;
   let sdGlyphCount = 0;
@@ -1079,7 +1079,7 @@ function parseGretilStotra108(html) {
       .filter((l) => l && !/^Input by|^Proofread|^THIS TEXT FILE/i.test(l));
 
     const titleSanskrit = tocMap.get(num) || lines[0] || `Bauddha Stotra Saṃgrahaḥ #${num}`;
-    const mantras = lines.filter((l) => /\b(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)\b/i.test(l)).slice(0, 4);
+    const mantras = lines.filter((l) => /(?<!\p{L})(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)(?!\p{L})/iu.test(l)).slice(0, 4);
 
     records.push({
       id: `bst-108u_${String(num).padStart(3, '0')}`,
@@ -1182,7 +1182,7 @@ async function buildDb3DsbcGretil() {
         : `Dhāraṇī Saṃgraha Section (${secNum})`;
 
     const extractedMantras = combinedParas
-      .filter((l) => /\b(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)\b/i.test(l))
+      .filter((l) => /(?<!\p{L})(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)(?!\p{L})/iu.test(l))
       .slice(0, 3);
 
     dharaniSamgrahaSections.push({
@@ -1206,7 +1206,7 @@ async function buildDb3DsbcGretil() {
       .split(/<\/?p[^>]*>|<br\s*\/?>/i)
       .map((l) => l.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim())
       .filter((l) => l && l.length > 3 && !/^Book Title|^Author|^Category|^Language|^Input Personnel/i.test(l));
-    const mantras = lines.filter((l) => /\b(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)\b/i.test(l)).slice(0, 4);
+    const mantras = lines.filter((l) => /(?<!\p{L})(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)(?!\p{L})/iu.test(l));
     return {
       bookId: spec.bookId,
       chapterIds: spec.chapterIds,
@@ -1232,7 +1232,7 @@ async function buildDb3DsbcGretil() {
       .split(/\r?\n/)
       .map((l) => l.replace(/\s+/g, ' ').trim())
       .filter((l) => l && !/^Transformation|^Input by|^THIS TEXT FILE|^GRETIL/i.test(l));
-    const mantras = lines.filter((l) => /\b(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)\b/i.test(l)).slice(0, 4);
+    const mantras = lines.filter((l) => /(?<!\p{L})(oṃ|om|namo|namaḥ|tadyathā|svāhā|hūṃ|phaṭ)(?!\p{L})/iu.test(l));
     return {
       id: spec.id,
       filename: spec.filename,
@@ -2111,7 +2111,7 @@ function buildCompactTsModule(db1, db2Compact, db3, db4, db5, db6) {
         s.sectionNumber <= 3
           ? s.paragraphsIast.slice(0, 4)
           : s.paragraphsIast.slice(0, 1).map((p) => safeSlice(p, 50)),
-      extractedMantras: s.extractedMantras.slice(0, 1).map((m) => safeSlice(m, 60)),
+      extractedMantras: s.extractedMantras,
     })),
     gretilExpandedRecords: db3.gretilExpandedRecords.map((g, idx) => ({
       ...g,
@@ -2119,7 +2119,7 @@ function buildCompactTsModule(db1, db2Compact, db3, db4, db5, db6) {
         idx < 5 || g.stotraNumber === 108 || !g.stotraNumber
           ? safeSlice(g.textExcerptIast, 140)
           : safeSlice(g.textExcerptIast, 50),
-      extractedMantras: g.extractedMantras.slice(0, 1).map((m) => safeSlice(m, 60)),
+      extractedMantras: g.extractedMantras,
     })),
   };
 

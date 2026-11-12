@@ -104,7 +104,7 @@ const CBETA_GAIJI_MAP = loadCbetaGaijiMap();
 /* ============================================================================
  * 2. GRETIL Clean Extraction & Critical-Edition Repetition Expansion
  * ========================================================================== */
-function decodeHtmlEntities(str) {
+export function decodeHtmlEntities(str) {
   if (!str) return '';
   return str
     .replace(/&nbsp;/gi, ' ')
@@ -117,7 +117,7 @@ function decodeHtmlEntities(str) {
     .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(parseInt(dec, 10)));
 }
 
-function extractGretilBodyAfterLastHr(html) {
+export function extractGretilBodyAfterLastHr(html) {
   if (!html) return { headerText: '', bodyText: '', totalLines: 0 };
   const totalLines = html.split(/\r?\n/).length;
   const hrMatches = [...html.matchAll(/<hr\b[^>]*>/gi)];
@@ -159,10 +159,10 @@ function extractGretilBodyAfterLastHr(html) {
   };
 }
 
-const HEADER_GARBAGE_RE =
+export const HEADER_GARBAGE_RE =
   /^(?:THIS GRETIL TEXT FILE|COPYRIGHT AND TERMS|Text converted to Unicode|This file is to be used with a UTF-8|set to UTF-8|description:\s*multibyte|multibyte sequence:|long [aAiIuU]|vocalic [rRlL]|retroflex|palatal|velar|anusvara|visarga|unaspirated|aspirated|Transformation:|Input by|Based on the ed|Printed by|S\.N\.\s*Book\s*Links|No Data available|GRETIL\s*-|http:\/\/|https:\/\/|www\.)/i;
 
-function cleanSanskritClause(raw) {
+export function cleanSanskritClause(raw) {
   if (!raw) return '';
   let s = raw
     .replace(/\u00AD/g, '')
@@ -173,7 +173,7 @@ function cleanSanskritClause(raw) {
     .replace(/_/g, ' ')
     // Expand critical-edition repetition numerals: "giri 2" -> "giri giri", "hūṃ 3" -> "hūṃ hūṃ hūṃ"
     .replace(
-      /\b([a-zA-ZāīūṛṝḷḹṅñṭḍṇśṣṃḥṁĀĪŪṚṜḶḸṄÑṬḌṆŚṢṂḤ'-]{2,})\s+([2345])(?=\s|$|[|,/])/g,
+      /(?<!\p{L})([a-zA-ZāīūṛṝḷḹṅñṭḍṇśṣṃḥṁĀĪŪṚṜḶḸṄÑṬḌṆŚṢṂḤ'-]{2,})\s+([2345])(?=\s|$|[|,/u])/g,
       (_, word, countStr) => Array(Number(countStr)).fill(word).join(' ')
     )
     .replace(/\s+/g, ' ')
@@ -225,7 +225,7 @@ async function parseMahapratisaraCriticalEdition() {
   // Section [35]: Extract the 4 Aparājitā-hṛdayas & Upahṛdaya-vidyā (skip narrative intro sentence)
   const sec35All = splitIntoCleanClauses(getSectionRaw(35));
   const sec35Clauses = sec35All.filter((c) =>
-    /\b(oṃ|svāhā|hūṃ|phaṭ|aparājitā|upahṛdaya|amṛta|bhara|vimale)\b/i.test(c)
+    /(?<!\p{L})(oṃ|svāhā|hūṃ|phaṭ|aparājitā|upahṛdaya|amṛta|bhara|vimale)(?!\p{L})/iu.test(c)
   );
 
   // Sections [45] + [46]: Complete 2nd Assembly Rakṣāvidhāna-Mahāvidyā (~165 clauses)
@@ -257,7 +257,7 @@ async function parseMahapratisaraCriticalEdition() {
 /**
  * Extract genuine mantra / dhāraṇī clauses from a clean GRETIL body text.
  */
-function extractMantraClausesFromGretilBody(bodyText, file = '', isPureDharaniText = false) {
+export function extractMantraClausesFromGretilBody(bodyText, file = '', isPureDharaniText = false) {
   const rawLines = bodyText
     .split(/\r?\n/)
     .map((l) => l.trim())
@@ -275,15 +275,30 @@ function extractMantraClausesFromGretilBody(bodyText, file = '', isPureDharaniTe
 
   // Otherwise extract lines/clauses containing sacred mantra markers
   const MANTRA_SIGNAL_RE =
-    /\b(oṃ|om|svāhā|svaha|hūṃ|hūṁ|hum|phaṭ|phat|hrīḥ|śrīṃ|klīṃ|aiṃ|bhrūṃ|tadyathā|namo|namaḥ|namaś|namas|vidyā|dhāraṇī|mantra|kavaca|gāyatrī|rudra|śiva|viṣṇu|nārāyaṇa|kṛṣṇa|rāma|gaṇapati|gaṇeśa|durgā|kālī|lakṣmī|sarasvatī|arham|ṇamo|śāntiḥ)\b/i;
+    /(?<!\p{L})(oṃ|om|svāhā|svaha|hūṃ|hūṁ|hum|phaṭ|phat|hrīḥ|śrīṃ|klīṃ|aiṃ|bhrūṃ|tadyathā|namo|namaḥ|namaś|namas|vidyā|dhāraṇī|mantra|kavaca|gāyatrī|rudra|śiva|viṣṇu|nārāyaṇa|kṛṣṇa|rāma|gaṇapati|gaṇeśa|durgā|kālī|lakṣmī|sarasvatī|arham|ṇamo|śāntiḥ)(?!\p{L})/iu;
 
   const extracted = [];
   const seen = new Set();
 
+  // 1. Whole dhāraṇīs: "tadyathā | syādyathedam … svāhā" spanning several lines → one clause each.
+  const joinedBody = rawLines.join(' ');
+  // NB: JS `(?!\p{L})` is ASCII-only and never matches after "ā"/u"ṃ" — use Unicode letter look-arounds.
+  const DHARANI_SPAN_RE =
+    /(?<!\p{L})(?:tadyathā|tadyathedaṃ|syādyathedaṃ|syādyathedam|syādyathīdaṃ)(?!\p{L})(?!\s*pi\s+nāma)[\s\S]{4,2400}?(?<!\p{L})svāhā(?!\p{L})(?:[\s\/|]*(?:[^\s\/|]+\s+){0,6}?svāhā(?!\p{L}))*/giu;
+  for (const m of joinedBody.matchAll(DHARANI_SPAN_RE)) {
+    const cl = cleanSanskritClause(m[0].replace(/(?:\/\/|\|\||\|)+/g, ' ').replace(/\s+/g, ' '));
+    if (cl.length < 8) continue;
+    const key = cl.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    extracted.push(cl);
+  }
+  const insideSpan = (line) => extracted.some((d) => d.toLowerCase().includes(cleanSanskritClause(line).toLowerCase()));
+
   for (const line of rawLines) {
     if (!MANTRA_SIGNAL_RE.test(line)) continue;
     // Reject obvious narrative simile "tadyathāpi nāma subhūte..."
-    if (/\btadyathāpi\s+nāma\b/i.test(line) && !/\b(oṃ|svāhā|hūṃ|phaṭ)\b/i.test(line)) continue;
+    if (/(?<!\p{L})tadyathāpi\s+nāma(?!\p{L})/iu.test(line) && !/(?<!\p{L})(oṃ|svāhā|hūṃ|phaṭ)(?!\p{L})/iu.test(line)) continue;
 
     const subClauses = line
       .split(/(?:\/\/|\|\||\|)+/)
@@ -292,7 +307,7 @@ function extractMantraClausesFromGretilBody(bodyText, file = '', isPureDharaniTe
 
     for (const cl of subClauses) {
       const key = cl.toLowerCase();
-      if (seen.has(key)) continue;
+      if (seen.has(key) || insideSpan(cl)) continue;
       seen.add(key);
       extracted.push(cl);
     }
@@ -592,7 +607,7 @@ export const AUTHORITATIVE_GRETIL_RECORDS: GretilSanskritRecord[] = ${JSON.strin
         (v) =>
           v.length >= 4 &&
           !HEADER_GARBAGE_RE.test(v) &&
-          !/\btadyathāpi\s+nāma\b/i.test(v) &&
+          !/(?<!\p{L})tadyathāpi\s+nāma(?!\p{L})/iu.test(v) &&
           !/omūtr/i.test(v)
       );
 
@@ -1878,7 +1893,7 @@ async function writeTier1TsModule(db1, db2, db3, db4, db5, db6) {
     ...db3,
     dharaniSamgrahaSections: (db3.dharaniSamgrahaSections || []).map((s) => ({
       ...s,
-      paragraphsIast: (s.paragraphsIast || []).slice(0, 16),
+      paragraphsIast: (s.paragraphsIast || []),
       extractedMantras: s.extractedMantras || [],
     })),
     dsbcBooks: db3.dsbcBooks || [],
@@ -2001,10 +2016,10 @@ export function isTier1DatabaseId(id: string): id is keyof typeof TIER1_DATABASE
  * 9. Clean DB9 (rKTs Tibetan Prose Stripping) & DB10 (Newar Witnesses Upgrade)
  * ========================================================================== */
 const TIBETAN_PROSE_CUT_RE =
-  /\s+(?:de nas|bcom ldan 'das|bya[ṅng] chub sems dpa'|dge slo[ṅng] dag|rigs kyi bu|yi ger 'drir|gzhan ya[ṅng]|de'i tshe|thams cad da[ṅng] ldan|rab 'byor|kun dga' bo|phyag na rdo rje|gsungs pa|bka' stsal pa|zhes bya ba'i gzungs|rdzogs so)\b[\s\S]*/i;
+  /\s+(?:de nas|bcom ldan 'das|bya[ṅng] chub sems dpa'|dge slo[ṅng] dag|rigs kyi bu|yi ger 'drir|gzhan ya[ṅng]|de'i tshe|thams cad da[ṅng] ldan|rab 'byor|kun dga' bo|phyag na rdo rje|gsungs pa|bka' stsal pa|zhes bya ba'i gzungs|rdzogs so)(?<!\p{L})[\s\S]*/iu;
 
 const TIBETAN_LEADING_PROSE_RE =
-  /^(?:[\s\S]*?\b(?:'di dag go|gsungs so|bka' stsal to|smras pa|'di skad ces)\s+)(?=(?:oṃ|om|namo|namaḥ|tadyathā)\b)/i;
+  /^(?:[\s\S]*?(?<!\p{L})(?:'di dag go|gsungs so|bka' stsal to|smras pa|'di skad ces)\s+)(?=(?:oṃ|om|namo|namaḥ|tadyathā)(?!\p{L}))/iu;
 
 const DB10_NEWAR_AUTHENTIC_REPLACEMENTS = {
   nibs_newar_mahapratisara: {
@@ -2186,7 +2201,9 @@ async function main() {
   console.log('\n=== [DONE] All Primary Sanskrit Mantra Databases & GRETIL Modules Rebuilt! ===');
 }
 
-main().catch((err) => {
-  console.error('Fatal error in rebuild-authentic-world-corpus.mjs:', err);
-  process.exit(1);
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error('Fatal error in rebuild-authentic-world-corpus.mjs:', err);
+    process.exit(1);
+  });
+}

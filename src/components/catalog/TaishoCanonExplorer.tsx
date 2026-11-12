@@ -105,7 +105,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       if (selectedVol !== 'ALL' && item.vol !== selectedVol) return false;
       if (!q) return true;
       const hay = normalizeSearchText(
-        `${item.id} ${item.titleZh} ${item.titleTrad} ${item.translator} ${item.sampleDharanis.join(' ')}`
+        `${item.id} ${item.titleZh} ${item.titleTrad} ${item.translator} ${(item.blockTitles || []).join(' ')} ${item.sampleDharanis.join(' ')}`
       );
       return hay.includes(q);
     });

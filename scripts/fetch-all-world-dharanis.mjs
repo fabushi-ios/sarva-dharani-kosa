@@ -204,7 +204,7 @@ async function extractAllGretilMantras() {
         }
         const lower = line.toLowerCase();
         const hasMantraToken =
-          /\b(oṃ|om|tadyathā|tadyatha|svāhā|svaha|hūṃ|hum|phaṭ|phat|namaḥ|namo|dhāraṇī|dharani|mantra|vidyā|hrīḥ|bhrūṃ|kīlaya|vajra)\b/i.test(
+          /(?<!\p{L})(oṃ|om|tadyathā|tadyatha|svāhā|svaha|hūṃ|hum|phaṭ|phat|namaḥ|namo|dhāraṇī|dharani|mantra|vidyā|hrīḥ|bhrūṃ|kīlaya|vajra)(?!\p{L})/iu.test(
             lower
           );
         if (hasMantraToken) {

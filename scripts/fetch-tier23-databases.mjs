@@ -303,7 +303,7 @@ export function normalizeNewarSanskrit(diplomatic) {
     s = s.replace(/sbāh([aā])/gi, 'svāh$1');
   }
   if (
-    /\bbajr|ombajr|\bsarb|\bbidy|\bdeba|\bbhagab|\bsatb|\bpūrb|\bbarṇ|\bnibār|\bkṛtb|\brāhub|\bketab|\bśītā[ṁṃ]śab/i.test(
+    /(?<!\p{L})bajr|ombajr|(?<!\p{L})sarb|(?<!\p{L})bidy|(?<!\p{L})deba|(?<!\p{L})bhagab|(?<!\p{L})satb|(?<!\p{L})pūrb|(?<!\p{L})barṇ|(?<!\p{L})nibār|(?<!\p{L})kṛtb|(?<!\p{L})rāhub|(?<!\p{L})ketab|(?<!\p{L})śītā[ṁṃ]śab/iu.test(
       s
     )
   ) {
@@ -345,7 +345,7 @@ export function normalizeNewarSanskrit(diplomatic) {
     notes.push('ṁ → ṃ (ISO 15919 anusvāra → standard IAST ṃ)');
     s = s.replace(/ṁ/g, 'ṃ');
   }
-  if (/\bvaja(?=[tpdsghkcnmrlvśṣb]|$)/i.test(s)) {
+  if (/(?<!\p{L})vaja(?=[tpdsghkcnmrlvśṣb]|$)/iu.test(s)) {
     notes.push('vaja → vajra (Newar r-cluster reduction restored)');
     s = s.replace(/\bvaja/gi, 'vajra');
   }
@@ -768,7 +768,7 @@ async function buildDb7CudlHidas() {
       editorCitation: spec.editorCitation,
       manuscriptWitnesses: spec.manuscriptWitnesses,
       tibetanParallelRef: spec.tibetanParallelRef,
-      segments: rawSegments.slice(0, 25),
+      segments: rawSegments,
       extractedMantraIast,
       sourceApiId: spec.id,
       crossRefs: spec.crossRefs,
@@ -1105,7 +1105,7 @@ async function buildDb8Polyglotta() {
           }
         }
       }
-      parsed.witnesses = parsed.witnesses.slice(0, 16);
+      // keep all witnesses (no cap)
       const hasMantraRow = parsed.alignedRows.some((r) =>
         r.cells.some((c) => c.text.includes('gate gate pāragate pārasaṃgate bodhi svāhā'))
       );
@@ -1322,11 +1322,11 @@ async function buildDb9Rkts() {
 
   // Enrich K846 and K521 with cross-witness XML notes
   if (stdMap.has('K846')) {
-    const k846Witnesses = (k846Xml.match(/<ref>[^<]+<\/ref>/g) || []).map((r) => stripHtmlClean(r)).slice(0, 12);
+    const k846Witnesses = (k846Xml.match(/<ref>[^<]+<\/ref>/g) || []).map((r) => stripHtmlClean(r));
     stdMap.get('K846').variantsNote = `Cross-witnesses in K846.xml: ${k846Witnesses.join(', ')} (also linked to Derge D846 Zungdu & tokushige-koyasan/tibetan-corpus 3452 texts)`;
   }
   if (stdMap.has('K521')) {
-    const k521Witnesses = (k521Xml.match(/<ref>[^<]+<\/ref>/g) || []).map((r) => stripHtmlClean(r)).slice(0, 12);
+    const k521Witnesses = (k521Xml.match(/<ref>[^<]+<\/ref>/g) || []).map((r) => stripHtmlClean(r));
     stdMap.get('K521').variantsNote = `Cross-witnesses in K521.xml: ${k521Witnesses.join(', ')} (D848 Āryajñānolkadhāraṇīsarvagatipariśodhanī / ye shes ta la la)`;
   }
 
@@ -1370,7 +1370,7 @@ async function buildDb9Rkts() {
 
   // Build curated standardConcordanceSample (all Zungdu rktsIds + K846, K521, K479, T2302, G1)
   const sampleIds = new Set(['K846', 'K521', 'K745', 'K847', 'K479', 'K442', 'K507', 'K597', 'K591', 'K504', 'K531', 'T2302', 'G1']);
-  for (const z of dergeZungduCatalog.slice(0, 80)) {
+  for (const z of dergeZungduCatalog) {
     sampleIds.add(z.rktsId);
   }
   const standardConcordanceSample = [];
@@ -1644,7 +1644,7 @@ async function buildDb10AllNibs() {
 
     const extractedMantras = [];
     if (fullText) {
-      const mRegex = /\b(?:oṃ|oṃ̐|namo|namaḥ|tadyathā)[^|@\n]{5,140}(?:svāhā|hūṃ|phaṭ|\|\|)/gi;
+      const mRegex = /(?<!\p{L})(?:oṃ|oṃ̐|namo|namaḥ|tadyathā)[^|@\n]{5,140}(?:svāhā|hūṃ|phaṭ|\|\|)/giu;
       let mm;
       while ((mm = mRegex.exec(fullText)) !== null && extractedMantras.length < 6) {
         extractedMantras.push(mm[0].replace(/\s+/g, ' ').trim());
@@ -2181,7 +2181,7 @@ async function buildDb11IdpDunhuang() {
     // Extract Stein/Pelliot/Beijing shelfmarks
     const witSet = new Set(spec.fallbackWitnesses);
     const witMatches = xml.match(/(?:S\.|P\.|斯|伯|北)\s*\d+/g) || [];
-    for (const wm of witMatches.slice(0, 8)) {
+    for (const wm of witMatches) {
       witSet.add(wm.replace(/\s+/g, ' ').trim());
     }
 
@@ -2712,8 +2712,8 @@ async function buildDb12MuktabodhaOchs() {
       .filter((l) => l.length > 5 && !l.startsWith('#'));
 
     const extractedSeedDefinitions = lines
-      .filter((l) => /\b(bīja|oṃ|hrīṃ|krīṃ|klīṃ|aiṃ|hūṃ|śrīṃ|praṇava|kūrca|vāgbhava|māyā)\b/i.test(l))
-      .slice(0, 8);
+      .filter((l) => /(?<!\p{L})(bīja|oṃ|hrīṃ|krīṃ|klīṃ|aiṃ|hūṃ|śrīṃ|praṇava|kūrca|vāgbhava|māyā)(?!\p{L})/iu.test(l))
+      ;
 
     muktabodhaTexts.push({
       catalogNo: spec.catalogNo,
@@ -2736,7 +2736,7 @@ async function buildDb12MuktabodhaOchs() {
 
   function extractDharmaMantras(txt) {
     const matches = [];
-    const regex = /\b(?:oṃ|oṁ|namo|namaḥ|samayas|vajrasattva|vajradhātu)[^|\n]{5,140}(?:hūṃ|hūṁ|phaṭ|svāhā|\|)/gi;
+    const regex = /(?<!\p{L})(?:oṃ|oṁ|namo|namaḥ|samayas|vajrasattva|vajradhātu)[^|\n]{5,140}(?:hūṃ|hūṁ|phaṭ|svāhā|\|)/giu;
     let m;
     while ((m = regex.exec(txt)) !== null && matches.length < 10) {
       matches.push(m[0].replace(/\s+/g, ' ').trim());
@@ -2753,7 +2753,7 @@ async function buildDb12MuktabodhaOchs() {
       extractedMantrasIast: [
         'oṃ vajrasattva samayam anupālaya vajrasattvatvenopatiṣṭha dṛḍho me bhava sutoṣyo me bhava supoṣyo me bhava anurakto me bhava sarvasiddhiṃ me prayaccha sarvakarmasu ca me cittaṃ śreyaḥ kuru hūṃ ha ha ha ha hoḥ bhagavan sarvatathāgatavajra mā me muñca vajrībhava mahāsamayasattva āḥ ||',
         ...extractDharmaMantras(sttsRaw),
-      ].slice(0, 10),
+      ],
       textExcerptIast: sttsRaw.slice(0, 900).trim(),
       rawTextUrl: sttsUrl,
       crossRefs: {
@@ -2835,7 +2835,7 @@ async function buildDb12MuktabodhaOchs() {
       titleSanskrit: spec.titleSanskrit,
       category: spec.category,
       totalVerses: verses.length,
-      verses: verses.slice(0, 75),
+      verses: verses,
       sourceUrl,
     });
   }

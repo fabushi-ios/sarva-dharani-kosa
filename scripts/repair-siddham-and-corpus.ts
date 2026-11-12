@@ -1492,7 +1492,7 @@ async function repairGretilGeneratedModules() {
   ];
 
   const headerCheckRe =
-    /\b(?:Based\s+on|Bsed\s+on|Input\s+by|THIS\s+GRETIL|COPYRIGHT|pagination\s+of|Sutra\s+section|www\.uwest\.edu|This\s+file\s+is\s+to\s+be\s+used)\b|^Mpvv\s*=|^##\s*=|^§\s*=|^@\s*\.\.\./i;
+    /(?<!\p{L})(?:Based\s+on|Bsed\s+on|Input\s+by|THIS\s+GRETIL|COPYRIGHT|pagination\s+of|Sutra\s+section|www\.uwest\.edu|This\s+file\s+is\s+to\s+be\s+used)(?!\p{L})|^Mpvv\s*=|^##\s*=|^(?!\p{L})\s*=|^@\s*\.\.\./iu;
 
   for (const rec of AUTHORITATIVE_GRETIL_RECORDS) {
     rec.extractedVerses = (rec.extractedVerses || []).filter((v) => !headerCheckRe.test(v));
@@ -1503,7 +1503,7 @@ async function repairGretilGeneratedModules() {
       if (existsSync(htmPath)) {
         const body = extractCleanSanskritLinesFromGretilHtm(htmPath);
         const mantraFocus = body.filter((l) =>
-          /\b(?:oṃ|om|namaḥ|namo|tadyathā|svāhā|hūṃ|phaṭ|rakṣa|gopaya|vidyā)\b/i.test(l)
+          /(?<!\p{L})(?:oṃ|om|namaḥ|namo|tadyathā|svāhā|hūṃ|phaṭ|rakṣa|gopaya|vidyā)(?!\p{L})/iu.test(l)
         );
         rec.extractedVerses = (mantraFocus.length >= 2 ? mantraFocus : body).slice(0, 10);
       }
