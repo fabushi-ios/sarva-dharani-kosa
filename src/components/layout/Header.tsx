@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   CornerDownLeft,
   Info,
+  Sparkles,
 } from 'lucide-react';
 import type { ActiveWorkspaceTab, DharaniEntry } from '../../types/kosaTypes';
 import { CORPUS_AUTHORITATIVE_STATS } from '../../data/corpusStats';
@@ -21,7 +22,12 @@ import {
   type SearchSuggestionItem,
 } from '../../core/search/searchEngine';
 import { PhoneticText } from '../common/PhoneticText';
-import { filterCatalog, loadCanonCatalog } from '../../services/canon/canonLibraryService';
+import {
+  filterCatalog,
+  loadCanonCatalog,
+  searchCanonFullText,
+  type CanonFullTextHit,
+} from '../../services/canon/canonLibraryService';
 import type { CanonCatalogItem } from '../../core/canon/canonLibraryTypes';
 
 interface HeaderProps {
@@ -33,8 +39,12 @@ interface HeaderProps {
   onTabChange: (tab: ActiveWorkspaceTab) => void;
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
-  /** Opens a text of the 藏经全文库 (null = library search for the current query). */
+  /** Opens 藏经全文库 tab (null = library search for current query). */
   onOpenCanonText?: (id: string | null) => void;
+  /** Opens any Canon scripture (with or without dhāraṇīs) directly inside the unified reader! */
+  onSelectCanonScripture?: (item: CanonCatalogItem) => void;
+  /** Sends a question directly into the fine-tuned Buddhist Sutra AI Q&A Studio! */
+  onAskAiWithQuery?: (query: string) => void;
 }
 
 const QUICK_SEARCH_CHIPS: Array<{
@@ -42,22 +52,22 @@ const QUICK_SEARCH_CHIPS: Array<{
   q: string;
   variant: 'hot' | 'mantra' | 'db';
 }> = [
+  { label: '金刚经(无咒经文)', q: '金刚般若波罗蜜经', variant: 'hot' },
+  { label: '阿弥陀经(无咒经文)', q: '佛说阿弥陀经', variant: 'hot' },
+  { label: '妙法莲华经', q: '妙法莲华经', variant: 'hot' },
   { label: '大悲咒', q: '大悲咒', variant: 'hot' },
   { label: '楞严咒', q: '楞严咒', variant: 'hot' },
   { label: '尊胜陀罗尼', q: '尊胜', variant: 'hot' },
-  { label: '大随求陀罗尼', q: '大随求', variant: 'hot' },
-  { label: '心经咒', q: '心经', variant: 'hot' },
+  { label: '心经', q: '心经', variant: 'hot' },
   { label: '六字大明咒', q: '嗡嘛呢呗美吽', variant: 'mantra' },
   { label: '绿度母', q: '绿度母', variant: 'mantra' },
-  { label: '药师咒', q: '药师', variant: 'mantra' },
+  { label: '药师经', q: '药师琉璃光如来', variant: 'mantra' },
   { label: '准提咒', q: '准提', variant: 'mantra' },
-  { label: '孔雀明王', q: '孔雀明王', variant: 'mantra' },
-  { label: '吠陀伽耶特黎', q: '伽耶特黎', variant: 'mantra' },
   { label: 'DB1 房山石经', q: '房山', variant: 'db' },
   { label: 'DB3 尼泊尔DSBC', q: 'DSBC', variant: 'db' },
   { label: 'DB4 84000藏密', q: 'TOH', variant: 'db' },
   { label: 'DB7 剑桥CUDL', q: 'CUDL', variant: 'db' },
-  { label: 'DB8 奥斯陆心经', q: '奥斯陆', variant: 'db' },
+  { label: 'DB8 奥斯陆对勘', q: '奥斯陆', variant: 'db' },
   { label: 'DB12 牛津OCHS', q: 'OCHS', variant: 'db' },
 ];
 
@@ -71,26 +81,45 @@ export const Header: React.FC<HeaderProps> = ({
   theme,
   onToggleTheme,
   onOpenCanonText,
+  onSelectCanonScripture,
+  onAskAiWithQuery,
 }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // Every CBETA text is searchable by title / number / translator (catalog loaded on first query).
-  const [canonHits, setCanonHits] = useState<{ q: string; total: number; items: CanonCatalogItem[] }>({ q: '', total: 0, items: [] });
+  const [canonHits, setCanonHits] = useState<{
+    q: string;
+    total: number;
+    items: CanonCatalogItem[];
+    bodyHits: CanonFullTextHit[];
+  }>({ q: '', total: 0, items: [], bodyHits: [] });
+
   useEffect(() => {
     const q = searchQuery.trim();
-    if (q.length < 2 || !onOpenCanonText) return;
+    if (q.length < 2) return;
     let alive = true;
     loadCanonCatalog()
-      .then((cat) => {
+      .then(async (cat) => {
         if (!alive) return;
         const hits = filterCatalog(cat, q);
-        setCanonHits({ q, total: hits.length, items: hits.slice(0, 6) });
+        const bodyHits = await searchCanonFullText(q, cat, 4);
+        if (!alive) return;
+        setCanonHits({
+          q,
+          total: hits.length,
+          items: hits.slice(0, 6),
+          bodyHits: bodyHits.filter((bh) => !hits.slice(0, 6).some((h) => h.id === bh.item.id)),
+        });
       })
       .catch(() => {});
     return () => {
       alive = false;
     };
-  }, [searchQuery, onOpenCanonText]);
-  const canonShown = canonHits.q === searchQuery.trim() ? canonHits : { q: '', total: 0, items: [] };
+  }, [searchQuery]);
+
+  const canonShown =
+    canonHits.q === searchQuery.trim()
+      ? canonHits
+      : { q: '', total: 0, items: [], bodyHits: [] };
+
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [showCorpusRibbon, setShowCorpusRibbon] = useState(false);
   const searchWrapRef = useRef<HTMLDivElement>(null);
@@ -106,7 +135,6 @@ export const Header: React.FC<HeaderProps> = ({
     setHighlightIndex(0);
   }, [searchQuery]);
 
-  // Keep active navigation tab smoothly centered inside horizontal scroll bar on mobile/tablet
   useEffect(() => {
     const navEl = navTabsRef.current;
     if (!navEl) return;
@@ -118,7 +146,6 @@ export const Header: React.FC<HeaderProps> = ({
     }
   }, [activeTab]);
 
-  // Close dropdown when clicking outside & support global Ctrl+K / Cmd+K / '/' shortcut
   useEffect(() => {
     const handleClickOutside = (ev: MouseEvent) => {
       if (
@@ -156,6 +183,16 @@ export const Header: React.FC<HeaderProps> = ({
     };
   }, []);
 
+  const handleOpenCanonItem = (c: CanonCatalogItem) => {
+    if (onSelectCanonScripture) {
+      onSelectCanonScripture(c);
+    } else {
+      onOpenCanonText?.(c.id);
+    }
+    setDropdownOpen(false);
+    searchInputRef.current?.blur();
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!dropdownOpen) {
       if (e.key === 'ArrowDown' || e.key === 'Enter') {
@@ -183,6 +220,8 @@ export const Header: React.FC<HeaderProps> = ({
         onSelectSuggestion(target);
         setDropdownOpen(false);
         searchInputRef.current?.blur();
+      } else if (canonShown.items[0]) {
+        handleOpenCanonItem(canonShown.items[0]);
       }
     } else if (e.key === 'Escape') {
       setDropdownOpen(false);
@@ -192,20 +231,19 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header className="app-header">
-        {/* Tier 1: Brand Identity | Global Search | Utility Controls */}
         <div className="header-top-row">
           <div className="brand-group">
             <div className="brand-seal siddham-glyph" title="Siddhaṃ Bīja Oṃ">
-              𑖌𑖼
+              {'\u{1158C}\u{115BC}'}
             </div>
             <div className="brand-titles">
               <div className="brand-title-zh">
                 <span>梵音宝典</span>
                 <span className="brand-title-en-inline">· Sarva-Dhāraṇī-Kośa</span>
-                <span className="brand-badge-auth">12大梵典库 · 48kHz VITS</span>
+                <span className="brand-badge-auth">全藏原文 · 12大梵典库 · MITRA佛经AI</span>
               </div>
               <div className="brand-subtitle">
-                Sarva-Dhāraṇī-Kośa · 12大国际梵典库 (DB1–DB12) · 悉昙/天城/IAST多体精校与神经梵音
+                全藏经典原文直看 · 12大国际梵典库 (DB1–DB12) · 微调佛经大模型 AI 对勘 · 48kHz 神经梵音
               </div>
             </div>
           </div>
@@ -218,7 +256,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="search"
               autoComplete="off"
               className="header-search-input"
-              placeholder="搜咒名/俗称(大悲/楞严/尊胜)、12大库(房山/CUDL/TOH)或梵文..."
+              placeholder="搜全部经典原文(金刚经/阿弥陀经/法华经)、陀罗尼、12大库或向佛经AI提问..."
               value={searchQuery}
               onFocus={() => setDropdownOpen(true)}
               onKeyDown={handleKeyDown}
@@ -246,27 +284,44 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             )}
 
-            {/* Instant Search Selectable Dropdown Results */}
             {dropdownOpen && (
               <div
                 id="global-search-dropdown-results"
                 className="header-search-dropdown"
                 role="listbox"
-                aria-label="搜索候选陀罗尼列表"
+                aria-label="全藏经典与陀罗尼搜索结果列表"
               >
                 <div className="search-dropdown-header">
                   <span>
                     {searchQuery.trim()
-                      ? `检索「${searchQuery}」：全库 ${allEntries.length} 部中匹配 ${suggestions.length} 条`
-                      : `全库直达：12大国际梵典库与世界梵咒总集 (${allEntries.length} 部)`}
+                      ? `检索「${searchQuery}」：匹配经典与陀罗尼 ${suggestions.length + canonShown.total} 条`
+                      : `全站直达：CBETA 全藏经典原文 + 12大国际梵典库 (${allEntries.length} 部)`}
                   </span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
                     <CornerDownLeft size={12} />
-                    <span>点选直达</span>
+                    <span>点选直看原文</span>
                   </span>
                 </div>
 
-                {/* Quick 12-DB & Popular Mantra Search Filter Chips */}
+                {searchQuery.trim() && onAskAiWithQuery && (
+                  <div style={{ padding: '0.45rem 0.85rem', borderBottom: '1px solid var(--border-subtle)' }}>
+                    <button
+                      type="button"
+                      className="btn-scholarly primary"
+                      style={{ width: '100%', justifyContent: 'center' }}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => {
+                        onAskAiWithQuery(searchQuery.trim());
+                        setDropdownOpen(false);
+                        searchInputRef.current?.blur();
+                      }}
+                    >
+                      <Sparkles size={14} />
+                      <span>向 MITRA 佛经大模型提问并检索本库原典：「{searchQuery.trim().slice(0, 28)}」</span>
+                    </button>
+                  </div>
+                )}
+
                 <div className="search-quick-chips-bar">
                   {QUICK_SEARCH_CHIPS.map((chip) => {
                     const isActive = searchQuery === chip.q;
@@ -274,8 +329,8 @@ export const Header: React.FC<HeaderProps> = ({
                       chip.variant === 'hot'
                         ? 'is-hot'
                         : chip.variant === 'db'
-                          ? 'is-db'
-                          : '';
+                        ? 'is-db'
+                        : '';
                     return (
                       <button
                         key={chip.q}
@@ -293,29 +348,51 @@ export const Header: React.FC<HeaderProps> = ({
                   })}
                 </div>
 
-                {onOpenCanonText && canonShown.total > 0 && (
+                {(canonShown.total > 0 || canonShown.bodyHits.length > 0) && (
                   <div className="search-canon-hits">
-                    <div className="search-canon-hits-label">藏经原文（{canonShown.total} 部）</div>
+                    <div className="search-canon-hits-label">
+                      全藏经典原文直看（匹配 {canonShown.total} 部 · 含无陀罗尼经文与含陀罗尼经典）
+                    </div>
                     {canonShown.items.map((c) => (
                       <button
                         key={c.id}
                         type="button"
                         className="search-suggestion-item"
                         onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          onOpenCanonText(c.id);
-                          setDropdownOpen(false);
-                          searchInputRef.current?.blur();
-                        }}
+                        onClick={() => handleOpenCanonItem(c)}
                       >
                         <div className="search-suggestion-top">
-                          <span className="search-suggestion-title">{c.title}</span>
-                          <span className="search-suggestion-match-tag">{c.id}{c.dharani > 0 ? ` · 陀罗尼 ${c.dharani}` : ''}</span>
+                          <span className="search-suggestion-title">《{c.title}》</span>
+                          <span className="search-suggestion-match-tag">
+                            {c.id}
+                            {c.dharani > 0
+                              ? ` · 原文 + 陀罗尼 ${c.dharani} 段`
+                              : ' · 纯经文原文（无陀罗尼）'}
+                          </span>
                         </div>
-                        <div className="search-suggestion-secondary">{c.byline}</div>
+                        <div className="search-suggestion-secondary">
+                          {c.byline || '藏经原典'} · 全文 {(c.chars || 0).toLocaleString()} 字
+                        </div>
                       </button>
                     ))}
-                    {canonShown.total > canonShown.items.length && (
+                    {canonShown.bodyHits.map((bh) => (
+                      <button
+                        key={`body-${bh.item.id}`}
+                        type="button"
+                        className="search-suggestion-item"
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => handleOpenCanonItem(bh.item)}
+                      >
+                        <div className="search-suggestion-top">
+                          <span className="search-suggestion-title">《{bh.item.title}》</span>
+                          <span className="search-suggestion-match-tag">
+                            {bh.item.id} · 经文内文命中
+                          </span>
+                        </div>
+                        <div className="search-suggestion-secondary">原文摘录：{bh.snippet}</div>
+                      </button>
+                    ))}
+                    {onOpenCanonText && canonShown.total > canonShown.items.length && (
                       <button
                         type="button"
                         className="search-canon-more"
@@ -325,13 +402,13 @@ export const Header: React.FC<HeaderProps> = ({
                           setDropdownOpen(false);
                         }}
                       >
-                        在藏经全文库中查看全部 {canonShown.total} 部 →
+                        在藏经全文库中浏览全部 {canonShown.total.toLocaleString()} 部匹配经典 →
                       </button>
                     )}
                   </div>
                 )}
 
-                {suggestions.length === 0 ? (
+                {suggestions.length === 0 && canonShown.total === 0 ? (
                   <div
                     style={{
                       padding: '1.25rem 1rem',
@@ -340,7 +417,7 @@ export const Header: React.FC<HeaderProps> = ({
                       fontSize: '0.84rem',
                     }}
                   >
-                    未找到包含「{searchQuery}」的经咒，可尝试「房山」「TOH」「CUDL」「OCHS」「尊胜」「大悲」「oṃ」。
+                    未找到包含「{searchQuery}」的经典或陀罗尼，可点击上方按钮直接向 MITRA 佛经大模型提问检索。
                   </div>
                 ) : (
                   suggestions.map((item, idx) => (
@@ -379,6 +456,17 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div className="header-utility-actions">
             <button
+              id="header-buddhist-ai-shortcut"
+              type="button"
+              className={`header-util-btn ${activeTab === 'buddhist-ai' ? 'active' : ''}`}
+              onClick={() => onTabChange('buddhist-ai')}
+              title="打开 MITRA-Qwen3.5 微调佛经大模型 AI 问答工作台"
+            >
+              <Sparkles size={14} color="var(--accent-vermilion)" />
+              <span className="header-util-label-desktop">佛经AI</span>
+            </button>
+
+            <button
               id="header-corpus-stats-toggle"
               type="button"
               className={`header-util-btn ${showCorpusRibbon ? 'active' : ''}`}
@@ -411,7 +499,6 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Tier 2: Single-Row Scrollable Workspace Navigation Bar */}
         <div className="header-nav-bar">
           <div className="header-nav-inner">
             <nav ref={navTabsRef} className="header-nav-tabs" aria-label="主工作区导航">
@@ -422,8 +509,28 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => onTabChange('canon-reader')}
               >
                 <BookOpen size={14} />
-                <span>陀罗尼总持典</span>
+                <span>原典与陀罗尼阅读</span>
                 <span className="nav-tab-count">{allEntries.length}</span>
+              </button>
+              <button
+                id="nav-tab-buddhist-ai"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'buddhist-ai' ? 'active' : ''}`}
+                onClick={() => onTabChange('buddhist-ai')}
+              >
+                <Sparkles size={14} />
+                <span>佛经AI问答</span>
+                <span className="nav-tab-count">MITRA</span>
+              </button>
+              <button
+                id="nav-tab-canon-library"
+                type="button"
+                className={`nav-tab-btn ${activeTab === 'canon-library' ? 'active' : ''}`}
+                onClick={() => onTabChange('canon-library')}
+              >
+                <Library size={14} />
+                <span>全部藏经全文库</span>
+                <span className="nav-tab-count">全藏检索</span>
               </button>
               <button
                 id="nav-tab-hub"
@@ -466,15 +573,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="nav-tab-count">69</span>
               </button>
               <button
-                id="nav-tab-phonetics-academy"
-                type="button"
-                className={`nav-tab-btn ${activeTab === 'phonetics-academy' ? 'active' : ''}`}
-                onClick={() => onTabChange('phonetics-academy')}
-              >
-                <GraduationCap size={14} />
-                <span>悉昙十八章与种子字</span>
-              </button>
-              <button
                 id="nav-tab-taisho-explorer"
                 type="button"
                 className={`nav-tab-btn ${activeTab === 'taisho-explorer' ? 'active' : ''}`}
@@ -485,14 +583,13 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="nav-tab-count">614经</span>
               </button>
               <button
-                id="nav-tab-canon-library"
+                id="nav-tab-phonetics-academy"
                 type="button"
-                className={`nav-tab-btn ${activeTab === 'canon-library' ? 'active' : ''}`}
-                onClick={() => onTabChange('canon-library')}
+                className={`nav-tab-btn ${activeTab === 'phonetics-academy' ? 'active' : ''}`}
+                onClick={() => onTabChange('phonetics-academy')}
               >
-                <Library size={14} />
-                <span>藏经全文库</span>
-                <span className="nav-tab-count">CBETA 全藏</span>
+                <GraduationCap size={14} />
+                <span>悉昙十八章与种子字</span>
               </button>
               <button
                 id="nav-tab-custom-compiler"
@@ -516,17 +613,14 @@ export const Header: React.FC<HeaderProps> = ({
               <span>权威馆藏规模：</span>
             </span>
             <span className="prov-stat-item">
-              多体精校与12库梵本专集 <strong>{allEntries.length}</strong> 部
+              全数据库支持 <strong>库藏原文全文直看</strong> · 多体精校与12库专集 <strong>{allEntries.length}</strong> 部
             </span>
             <span className="prov-stat-item">
-              全球12大权威数据库 (<strong>DB1 房山石经</strong> · <strong>DB3 DSBC</strong> · <strong>DB4 84000</strong> · <strong>DB7 剑桥CUDL</strong> · <strong>DB8 奥斯陆16本</strong> · <strong>DB12 牛津OCHS</strong>)
+              微调佛经大模型 <strong>MITRA-Qwen3.5-IT (9B)</strong> 全藏经 RAG 对勘
             </span>
             <span className="prov-stat-item">
               大正藏密教部 <strong>{CORPUS_AUTHORITATIVE_STATS.taishoMikkyoIndexedScripturesCount}</strong> 经 ·{' '}
               <strong>{CORPUS_AUTHORITATIVE_STATS.taishoMikkyoTotalDharaniBlocks.toLocaleString()}</strong> 段真言
-            </span>
-            <span className="prov-stat-item">
-              语音方案：<strong>48,000 Hz 神经VITS (sa.onnx 男/女声)</strong> + <strong>612音节Sprite</strong> + <strong>136.1Hz Om共振场</strong> · <strong>48kHz MP3 / WAV 同名导出</strong>
             </span>
           </div>
         </div>

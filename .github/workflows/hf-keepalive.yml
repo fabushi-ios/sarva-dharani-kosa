@@ -2,7 +2,8 @@ name: Hugging Face 48h Auto Keep-Alive
 
 on:
   schedule:
-    # Runs automatically every 30 minutes (48 times/day) to prevent HF Space hibernation and keep 48kHz VITS ONNX RAM sessions warm
+    # Runs automatically every 30 minutes (48 times/day) to prevent HF Space hibernation
+    # for BOTH the MITRA-Qwen3.5 Buddhist Sutra Q&A Space and 48kHz Neural VITS TTS Space
     - cron: '*/30 * * * *'
   workflow_dispatch:
   push:
@@ -14,7 +15,7 @@ on:
 
 jobs:
   keepalive:
-    name: Ping & Wake Hugging Face Neural TTS API + Static Space + ONNX CDN
+    name: Ping & Wake Hugging Face Buddhist Q&A Space + Neural TTS API + Static Space
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -26,11 +27,12 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Execute Hugging Face Neural TTS API & Space Keep-Alive
+      - name: Execute Hugging Face Buddhist Q&A + Neural TTS Space Keep-Alive
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           HF_SPACE_ID: bhrum108/sarva-dharani-kosa
           HF_TTS_SPACE_ID: bhrum108/sarva-dharani-kosa-tts-api
+          HF_QA_SPACE_ID: bhrum108/sarva-dharani-kosa-buddhist-qa
           HF_MODEL_ID: bhrum108/sarva-dharani-kosa-tts
           HF_SPACE_LIVE_URL: https://bhrum108-sarva-dharani-kosa.static.hf.space
           HF_TTS_API_URL: https://bhrum108-sarva-dharani-kosa-tts-api.hf.space

@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useRef } from 'react';
-import { Volume2, Sparkles } from 'lucide-react';
+import { Volume2, Sparkles, Share2 } from 'lucide-react';
 import type { DharaniVerse, ScriptVisibilityConfig } from '../../types/kosaTypes';
 import { iastToDevanagari, iastToSiddham } from '../../core/sanskrit/transliterator';
 import { analyzeSanskritProsody } from '../../core/sanskrit/prosody';
@@ -33,6 +33,7 @@ interface VerseBlockProps {
   autoScroll: boolean;
   onPlayVerse: () => void;
   onPlaySyllable: (iastSyl: string) => void;
+  onShareVerse?: () => void;
 }
 
 export const VerseBlock: React.FC<VerseBlockProps> = ({
@@ -45,6 +46,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
   autoScroll,
   onPlayVerse,
   onPlaySyllable,
+  onShareVerse,
 }) => {
   const effective = useMemo(
     () => resolveEffectiveVerseFields(verse, config.showPhoneticIastBracket),
@@ -92,7 +94,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
   );
 
   // Group syllables by orthographic subword for Brahmi scripts (Siddhaṃ & Devanāgarī) so OpenType GSUB
-  // conjunct ligatures (e.g. padmo -> 𑖢𑖟𑖿𑖦𑖺, maṇḍala -> 𑖦𑖜𑖿𑖚𑖩, buddha -> 𑖤𑖲𑖟𑖿𑖠) stay 100% intact during playback
+  // conjunct ligatures stay 100% intact during playback
   const enrichedSubwords = useMemo(() => {
     const groups: Array<{
       key: number;
@@ -269,24 +271,38 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
             </span>
           )}
         </div>
-        <button
-          id={`play-verse-btn-${verse.id}`}
-          type="button"
-          className={`btn-scholarly ${isVersePlaying ? 'primary' : ''}`}
-          onMouseEnter={() => sanskritAudioEngine.prewarmSingleVerse(verse)}
-          onFocus={() => sanskritAudioEngine.prewarmSingleVerse(verse)}
-          onClick={onPlayVerse}
-          title="连续合成梵音讽诵本句（硬件时钟60fps同步跟读）"
-        >
-          <Volume2 size={14} />
-          <span>
-            {isVersePlaying
-              ? isLoadingAudio
-                ? '正在合成 48kHz 神经梵音...'
-                : '正在同步讽诵本句...'
-              : '梵音讽诵本句'}
-          </span>
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+          {onShareVerse && (
+            <button
+              id={`share-verse-btn-${verse.id}`}
+              type="button"
+              className="btn-scholarly gold"
+              onClick={onShareVerse}
+              title="将本句生成为手机竖屏分享图（可自选悉昙字块、拼读与 IAST，附本句音频二维码）"
+            >
+              <Share2 size={13} />
+              <span>分享图片</span>
+            </button>
+          )}
+          <button
+            id={`play-verse-btn-${verse.id}`}
+            type="button"
+            className={`btn-scholarly ${isVersePlaying ? 'primary' : ''}`}
+            onMouseEnter={() => sanskritAudioEngine.prewarmSingleVerse(verse)}
+            onFocus={() => sanskritAudioEngine.prewarmSingleVerse(verse)}
+            onClick={onPlayVerse}
+            title="连续合成梵音讽诵本句（硬件时钟60fps同步跟读）"
+          >
+            <Volume2 size={14} />
+            <span>
+              {isVersePlaying
+                ? isLoadingAudio
+                  ? '正在合成 48kHz 神经梵音...'
+                  : '正在同步讽诵本句...'
+                : '梵音讽诵本句'}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Live Verse Progress Bar & Real-Time Syllable Spotlight Banner when chanting */}
@@ -424,7 +440,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                   <React.Fragment key={`${verse.id}-sid-sw-${sw.key}`}>
                     {sw.dandaBefore && (
                       <span style={{ opacity: 0.65, padding: '0 0.18rem' }}>
-                        {sw.dandaBefore === '||' ? '𑗃' : '𑗂'}
+                        {sw.dandaBefore === '||' ? '\u{115C3}' : '\u{115C2}'}
                       </span>
                     )}
                     <span
@@ -436,7 +452,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                     </span>
                     {sw.dandaAfter && !isLastSw && (
                       <span style={{ opacity: 0.65, padding: '0 0.18rem' }}>
-                        {sw.dandaAfter === '||' ? '𑗃' : '𑗂'}
+                        {sw.dandaAfter === '||' ? '\u{115C3}' : '\u{115C2}'}
                       </span>
                     )}
                   </React.Fragment>

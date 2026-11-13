@@ -41,3 +41,8 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           SKIP_CLOUDFLARE: '1'
         run: bash scripts/deploy-hf-and-cf.sh --hf-only
+
+      - name: Deploy MITRA-Qwen3.5 Buddhist Sutra Q&A Space to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: python3 hf-buddhist-qa-space/deploy_to_hf.py || echo "::warning::Buddhist Q&A Space deploy skipped or hit HF free hardware quota"

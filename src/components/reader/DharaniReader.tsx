@@ -12,6 +12,9 @@ import {
   ChevronDown,
   Loader2,
   BookOpen,
+  Share2,
+  Layers,
+  ScrollText,
 } from 'lucide-react';
 import type {
   ActiveWorkspaceTab,
@@ -32,6 +35,8 @@ import { VerseBlock } from './VerseBlock';
 import { CbetaSiddhamInterlinearView } from './CbetaSiddhamInterlinearView';
 import { AuthoritativeSourceModal } from './AuthoritativeSourceModal';
 import { OriginalFullTextModal } from './OriginalFullTextModal';
+import { InlineOriginalTextPanel } from './InlineOriginalTextPanel';
+import { DharaniShareModal } from '../share/DharaniShareModal';
 import { collectEntrySources } from '../../core/sources/entrySources';
 import {
   summarizeEntryFieldProvenance,
@@ -40,10 +45,12 @@ import {
 import { scrollToReaderElement } from '../../core/dom/scrollUtils';
 
 export interface ReaderNavigationRequest {
-  target: 'hero' | 'summary' | 'interlinear' | 'concordance' | 'verse';
+  target: 'hero' | 'original' | 'summary' | 'interlinear' | 'concordance' | 'verse';
   verseArrayIndex?: number;
   nonce: number;
 }
+
+export type ReaderContentLayout = 'both' | 'original-only' | 'dharani-only';
 
 interface DharaniReaderProps {
   entry: DharaniEntry;
@@ -58,6 +65,8 @@ interface DharaniReaderProps {
   onPlaySingleSyllable: (iastSyl: string) => void;
   onNavigateTab?: (tab: ActiveWorkspaceTab) => void;
   navigationRequest?: ReaderNavigationRequest | null;
+  onRequestShare?: (entry: DharaniEntry, initialVerseIndex?: number | null) => void;
+  onAskBuddhistAi?: (entry: DharaniEntry) => void;
 }
 
 const FAST_BIJA_DEFAULTS: Record<
@@ -74,7 +83,7 @@ const FAST_BIJA_DEFAULTS: Record<
 > = {
   'hrīḥ': {
     bijaIast: 'hrīḥ',
-    bijaSiddham: '𑖮𑖿𑖨𑖱𑖾',
+    bijaSiddham: '\u{115AE}\u{115BF}\u{115A8}\u{115B1}\u{115BE}',
     bijaDevanagari: 'ह्रीः',
     tangChinese: '纥哩 / 哩 (hrīḥ)',
     phonemicBreakdown: ['h (hetu 因)', 'r (rajas 离尘)', 'ī (īśvara 自在)', 'ḥ (nirvāṇa 寂静)'],
@@ -82,7 +91,7 @@ const FAST_BIJA_DEFAULTS: Record<
   },
   'bhrūṃ': {
     bijaIast: 'bhrūṃ',
-    bijaSiddham: '𑖥𑖿𑖨𑖳𑖼',
+    bijaSiddham: '\u{115A5}\u{115BF}\u{115A8}\u{115B3}\u{115BC}',
     bijaDevanagari: 'भ्रूं',
     tangChinese: '普隆 / 勃笼 (bhrūṃ)',
     phonemicBreakdown: ['bh (bhava 破有)', 'r (raja 清净)', 'ū (ūrdhva 无上)', 'ṃ (bindu 大空)'],
@@ -90,7 +99,7 @@ const FAST_BIJA_DEFAULTS: Record<
   },
   'dhīḥ': {
     bijaIast: 'dhīḥ',
-    bijaSiddham: '𑖠𑖱𑖾',
+    bijaSiddham: '\u{115A0}\u{115B1}\u{115BE}',
     bijaDevanagari: 'धीः',
     tangChinese: '地哩 (dhīḥ)',
     phonemicBreakdown: ['dh (dharmadhātu 法界)', 'ī (samādhi 三昧)', 'ḥ (nirvāṇa 般若寂灭)'],
@@ -98,23 +107,23 @@ const FAST_BIJA_DEFAULTS: Record<
   },
   'hūṃ': {
     bijaIast: 'hūṃ',
-    bijaSiddham: '𑖮𑖳𑖼',
+    bijaSiddham: '\u{115AE}\u{115B3}\u{115BC}',
     bijaDevanagari: 'हूं',
-    tangChinese: '吽 / 𤙖 (hūṃ)',
+    tangChinese: '吽 / \u{24656} (hūṃ)',
     phonemicBreakdown: ['h (hetu 菩提因)', 'ū (ūha 摧破障难)', 'ṃ (mahāśūnyatā 大空智)'],
     buddhistMeaning: '阿閦如来、金刚萨埵及诸大明王护法根本种子字（金刚部心），坚固不坏、摧破一切魔障。',
   },
   'śrīṃ': {
     bijaIast: 'śrīṃ',
-    bijaSiddham: '𑖫𑖿𑖨𑖱𑖼',
+    bijaSiddham: '\u{115AB}\u{115BF}\u{115A8}\u{115B1}\u{115BC}',
     bijaDevanagari: 'श्रीं',
-    tangChinese: '室哩 / 室𠼝 (śrīṃ)',
+    tangChinese: '室哩 / 室\u{20F1D} (śrīṃ)',
     phonemicBreakdown: ['ś (śānti 寂静吉祥)', 'r (ratna 福德宝)', 'īṃ (samṛddhi 圆满增益)'],
     buddhistMeaning: '大吉祥天女与持世菩萨根本种子字，表福慧庄严、世出世间资粮丰足。',
   },
   'oṃ': {
     bijaIast: 'oṃ',
-    bijaSiddham: '𑖌𑖼',
+    bijaSiddham: '\u{1158C}\u{115BC}',
     bijaDevanagari: 'ओं',
     tangChinese: '唵 / 嗡 (oṃ = a + u + ṃ)',
     phonemicBreakdown: ['a (dharmakāya 法身)', 'u (saṃbhogakāya 报身)', 'ṃ (nirmāṇakāya 化身)'],
@@ -193,15 +202,34 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   onPlaySingleSyllable,
   onNavigateTab,
   navigationRequest = null,
+  onRequestShare,
+  onAskBuddhistAi,
 }) => {
+  const hasDharani = entry.verses.length > 0;
+
   const [readerSubMode, setReaderSubMode] = useState<'verses' | 'cbeta-interlinear'>('verses');
+  const [contentLayout, setContentLayout] = useState<ReaderContentLayout>('both');
   const [showProvenanceModal, setShowProvenanceModal] = useState(false);
   const [showFullTextModal, setShowFullTextModal] = useState(false);
+  const [localShareTargetVerse, setLocalShareTargetVerse] = useState<{
+    open: boolean;
+    verseIdx: number | null;
+  }>({ open: false, verseIdx: null });
+
   const hasReadableSource = useMemo(() => collectEntrySources(entry).length > 0, [entry]);
   const [visibleVerseLimit, setVisibleVerseLimit] = useState<number>(80);
   const [metaExpanded, setMetaExpanded] = useState<boolean>(true);
   const interlinearTokens = entry.provenance.cbetaInterlinearTokens || [];
   const hasSiddhamInterlinear = interlinearTokens.length > 0;
+
+  const triggerShare = (verseIdx: number | null = null) => {
+    if (!hasDharani) return;
+    if (onRequestShare) {
+      onRequestShare(entry, verseIdx);
+    } else {
+      setLocalShareTargetVerse({ open: true, verseIdx });
+    }
+  };
 
   const {
     isExporting,
@@ -223,7 +251,6 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     mode: playbackState.mode,
   });
 
-  // On small mobile screens, collapse long scholarly notes by default so users reach verses immediately
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 768) {
       setMetaExpanded(false);
@@ -237,9 +264,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   );
 
   const targetBijaIast = useMemo(() => inferEntryBijaIast(entry), [entry]);
-
-  const bijaLexiconEntry =
-    FAST_BIJA_DEFAULTS[targetBijaIast] || FAST_BIJA_DEFAULTS['oṃ'];
+  const bijaLexiconEntry = FAST_BIJA_DEFAULTS[targetBijaIast] || FAST_BIJA_DEFAULTS['oṃ'];
   const matchedConcordanceCluster = useMemo(
     () => ({
       ...FAST_DEFAULT_CONCORDANCE,
@@ -254,13 +279,24 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
     setVisibleVerseLimit(80);
   }, [entry.id]);
 
-  // Execute section, title hero, or verse jump requested from search or sidebar outline
   useEffect(() => {
     if (!navigationRequest || typeof document === 'undefined' || typeof window === 'undefined') {
       return;
     }
 
+    if (navigationRequest.target === 'original') {
+      if (contentLayout === 'dharani-only') {
+        setContentLayout('both');
+      }
+      const timer = window.setTimeout(
+        () => scrollToReaderElement('reader-original-fulltext-section', { topGap: 12 }),
+        40
+      );
+      return () => window.clearTimeout(timer);
+    }
+
     if (navigationRequest.target === 'interlinear' && hasSiddhamInterlinear) {
+      if (contentLayout === 'original-only') setContentLayout('both');
       setReaderSubMode('cbeta-interlinear');
       const timer = window.setTimeout(
         () => scrollToReaderElement('reader-interlinear-section', { topGap: 12 }),
@@ -269,7 +305,8 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       return () => window.clearTimeout(timer);
     }
 
-    if (navigationRequest.target === 'summary') {
+    if (navigationRequest.target === 'summary' && hasDharani) {
+      if (contentLayout === 'original-only') setContentLayout('both');
       setReaderSubMode('verses');
       if (!scriptConfig.showFullCombinedSummary) {
         onScriptConfigChange({ ...scriptConfig, showFullCombinedSummary: true });
@@ -307,8 +344,10 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
     if (
       navigationRequest.target === 'verse' &&
-      typeof navigationRequest.verseArrayIndex === 'number'
+      typeof navigationRequest.verseArrayIndex === 'number' &&
+      hasDharani
     ) {
+      if (contentLayout === 'original-only') setContentLayout('both');
       const idx = navigationRequest.verseArrayIndex;
       const targetVerse = entry.verses[idx];
       if (!targetVerse) return;
@@ -326,7 +365,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       );
       return () => window.clearTimeout(timer);
     }
-  }, [navigationRequest]);
+  }, [navigationRequest, hasDharani, contentLayout]);
 
   const effectiveVerseLimit =
     playbackState.isPlaying &&
@@ -335,13 +374,22 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
       ? Math.min(entry.verses.length, playbackState.currentVerseIndex + 40)
       : visibleVerseLimit;
 
+  const showOriginalInline = !hasDharani || contentLayout === 'both' || contentLayout === 'original-only';
+  const showDharaniSections = hasDharani && (contentLayout === 'both' || contentLayout === 'dharani-only');
+
   return (
-    <main className="reader-main" aria-label="梵文陀罗尼多体对照阅读区">
+    <main className="reader-main" aria-label={hasDharani ? '经典原文与陀罗尼多体阅读区' : '经典原文全文阅读区'}>
       <section id="reader-hero-section" className="dharani-hero-card">
         <div className="hero-top-bar">
           <div className="hero-badges-row">
             <span className="taisho-pill">{entry.taishoNo}</span>
-            <span className="deity-pill">本尊：{entry.deityZh}</span>
+            {hasDharani ? (
+              <span className="deity-pill">本尊：{entry.deityZh}</span>
+            ) : (
+              <span className="deity-pill" style={{ fontWeight: 700 }}>
+                经典原文（无陀罗尼）
+              </span>
+            )}
             {entry.provenance.databaseBadgeZh && (
               <span
                 className="deity-pill"
@@ -368,90 +416,118 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           </div>
 
           <div className="hero-actions-group">
-            {playbackState.isPlaying ? (
-              <button
-                id="hero-stop-chant-btn"
-                type="button"
-                className="btn-scholarly primary"
-                onClick={onStopPlayback}
-              >
-                <Square size={14} />
-                <span>{playbackState.isLoadingAudio ? '准备梵音中 · 停止' : '停止讽诵'}</span>
-              </button>
-            ) : (
-              <button
-                id="hero-play-all-btn"
-                type="button"
-                className="btn-scholarly primary"
-                onMouseEnter={() => sanskritAudioEngine.prewarmVerses(entry.verses, 3)}
-                onFocus={() => sanskritAudioEngine.prewarmVerses(entry.verses, 3)}
-                onClick={onPlayAllVerses}
-              >
-                <Play size={14} />
-                <span>全咒同步跟诵 ({entry.verses.length}句)</span>
-              </button>
+            {hasDharani && (
+              <>
+                {playbackState.isPlaying ? (
+                  <button
+                    id="hero-stop-chant-btn"
+                    type="button"
+                    className="btn-scholarly primary"
+                    onClick={onStopPlayback}
+                  >
+                    <Square size={14} />
+                    <span>{playbackState.isLoadingAudio ? '准备梵音中 · 停止' : '停止讽诵'}</span>
+                  </button>
+                ) : (
+                  <button
+                    id="hero-play-all-btn"
+                    type="button"
+                    className="btn-scholarly primary"
+                    onMouseEnter={() => sanskritAudioEngine.prewarmVerses(entry.verses, 3)}
+                    onFocus={() => sanskritAudioEngine.prewarmVerses(entry.verses, 3)}
+                    onClick={onPlayAllVerses}
+                  >
+                    <Play size={14} />
+                    <span>全咒同步跟诵 ({entry.verses.length}句)</span>
+                  </button>
+                )}
+
+                <button
+                  id="hero-share-poster-btn"
+                  type="button"
+                  className="btn-scholarly gold"
+                  onClick={() => triggerShare(null)}
+                  title="将当前陀罗尼生成为手机竖屏分享图（可任选悉昙字块、梵音拼读与 IAST 组合，附扫码听音频二维码）"
+                >
+                  <Share2 size={14} />
+                  <span>分享图片</span>
+                </button>
+
+                <button
+                  id="hero-export-mp3-btn"
+                  type="button"
+                  className="btn-scholarly gold"
+                  disabled={isExporting}
+                  onClick={() => triggerDownload('mp3')}
+                  title={`将当前陀罗尼导出为 48,000 Hz 192kbps MP3 音频：${expectedMp3FileName}`}
+                >
+                  {isExporting && exportingFormat === 'mp3' ? (
+                    <>
+                      <Loader2 size={14} className="spin-icon" />
+                      <span>
+                        {exportProgress?.phase === 'encoding' ? '编码 MP3' : '合成语音'}{' '}
+                        {exportProgress?.percent ?? 5}%
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Download size={14} />
+                      <span>{exportedMp3 ? '下载 MP3 (已就绪)' : '下载 MP3 音频'}</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  id="hero-export-wav-btn"
+                  type="button"
+                  className="btn-scholarly"
+                  disabled={isExporting}
+                  onClick={() => triggerDownload('wav')}
+                  title={`将当前陀罗尼导出为无损 48,000 Hz 16-bit WAV 音频：${expectedWavFileName}`}
+                >
+                  {isExporting && exportingFormat === 'wav' ? (
+                    <>
+                      <Loader2 size={14} className="spin-icon" />
+                      <span>合成 WAV {exportProgress?.percent ?? 5}%</span>
+                    </>
+                  ) : (
+                    <>
+                      <FileAudio size={14} />
+                      <span>{exportedWav ? '下载 WAV (已就绪)' : '导出 WAV'}</span>
+                    </>
+                  )}
+                </button>
+
+                {hasSiddhamInterlinear && (
+                  <button
+                    id="hero-switch-interlinear-btn"
+                    type="button"
+                    className="btn-scholarly"
+                    onClick={() =>
+                      setReaderSubMode((m) => (m === 'verses' ? 'cbeta-interlinear' : 'verses'))
+                    }
+                  >
+                    <Sparkles size={14} />
+                    <span>
+                      {readerSubMode === 'verses'
+                        ? `悉昙对音 (${interlinearTokens.length}字)`
+                        : '返回全句解析'}
+                    </span>
+                  </button>
+                )}
+              </>
             )}
 
-            <button
-              id="hero-export-mp3-btn"
-              type="button"
-              className="btn-scholarly gold"
-              disabled={isExporting || entry.verses.length === 0}
-              onClick={() => triggerDownload('mp3')}
-              title={`将当前陀罗尼导出为 48,000 Hz 192kbps MP3 音频：${expectedMp3FileName}`}
-            >
-              {isExporting && exportingFormat === 'mp3' ? (
-                <>
-                  <Loader2 size={14} className="spin-icon" />
-                  <span>
-                    {exportProgress?.phase === 'encoding' ? '编码 MP3' : '合成语音'}{' '}
-                    {exportProgress?.percent ?? 5}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <Download size={14} />
-                  <span>{exportedMp3 ? '下载 MP3 (已就绪)' : '下载 MP3 音频'}</span>
-                </>
-              )}
-            </button>
-
-            <button
-              id="hero-export-wav-btn"
-              type="button"
-              className="btn-scholarly"
-              disabled={isExporting || entry.verses.length === 0}
-              onClick={() => triggerDownload('wav')}
-              title={`将当前陀罗尼导出为无损 48,000 Hz 16-bit WAV 音频：${expectedWavFileName}`}
-            >
-              {isExporting && exportingFormat === 'wav' ? (
-                <>
-                  <Loader2 size={14} className="spin-icon" />
-                  <span>合成 WAV {exportProgress?.percent ?? 5}%</span>
-                </>
-              ) : (
-                <>
-                  <FileAudio size={14} />
-                  <span>{exportedWav ? '下载 WAV (已就绪)' : '导出 WAV'}</span>
-                </>
-              )}
-            </button>
-
-            {hasSiddhamInterlinear && (
+            {onAskBuddhistAi && (
               <button
-                id="hero-switch-interlinear-btn"
+                id="hero-ask-buddhist-ai-btn"
                 type="button"
-                className="btn-scholarly"
-                onClick={() =>
-                  setReaderSubMode((m) => (m === 'verses' ? 'cbeta-interlinear' : 'verses'))
-                }
+                className="btn-scholarly gold"
+                onClick={() => onAskBuddhistAi(entry)}
+                title="结合当前阅读经典原文与本库多源文献，向 MITRA-Qwen3.5 佛经大模型提问"
               >
                 <Sparkles size={14} />
-                <span>
-                  {readerSubMode === 'verses'
-                    ? `悉昙对音 (${interlinearTokens.length}字)`
-                    : '返回全句解析'}
-                </span>
+                <span>问佛经AI</span>
               </button>
             )}
 
@@ -473,7 +549,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 onClick={() => setShowFullTextModal(true)}
               >
                 <BookOpen size={14} />
-                <span>原文全文</span>
+                <span>全屏原文</span>
               </button>
             )}
 
@@ -489,7 +565,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           </div>
         </div>
 
-        {/* Title & Bīja Seed Syllable Seal Row */}
+        {/* Title & (only when hasDharani) Bīja Seed Syllable Seal Row */}
         <div className="hero-identity-row">
           <div className="hero-title-block">
             <h1 id="reader-entry-title" className="hero-title-zh">
@@ -501,7 +577,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
             </div>
           </div>
 
-          {bijaLexiconEntry && (
+          {hasDharani && bijaLexiconEntry && (
             <button
               type="button"
               className="bija-seal-card"
@@ -516,12 +592,13 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                   {bijaLexiconEntry.bijaSiddham}
                 </span>
                 <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-gold)', whiteSpace: 'nowrap' }}>
-                  <span className="devanagari-glyph">{bijaLexiconEntry.bijaDevanagari}</span> · <span className="iast-text">{bijaLexiconEntry.bijaIast}</span>
+                  <span className="devanagari-glyph">{bijaLexiconEntry.bijaDevanagari}</span> ·{' '}
+                  <span className="iast-text">{bijaLexiconEntry.bijaIast}</span>
                 </span>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.16rem', fontSize: '0.74rem', minWidth: 0 }}>
                 <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
-                  本尊种子字：唐音「{bijaLexiconEntry.tangChinese}」🔊
+                  本尊种子字：唐音「{bijaLexiconEntry.tangChinese}」{'\u{1F50A}'}
                 </div>
                 <div style={{ color: 'var(--text-secondary)', lineHeight: 1.35 }}>
                   <strong>OCHS 构件：</strong>
@@ -535,111 +612,118 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           )}
         </div>
 
-        {/* Compact Segmented Audio Engine & Voice Strip */}
-        <div className="hero-audio-strip">
-          <div className="hero-audio-group">
-            <span
-              style={{
-                fontSize: '0.74rem',
-                fontWeight: 700,
-                color: 'var(--text-secondary)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.24rem',
-                flexShrink: 0,
-              }}
-            >
-              <Volume2 size={14} />
-              <span>发音方案：</span>
+        {/* Pure Sutra Banner when verses.length === 0 */}
+        {!hasDharani ? (
+          <div className="pure-sutra-mode-banner">
+            <span>
+              📖 <strong>纯经文原典阅读模式</strong>：本篇经典不含陀罗尼咒语，已自动隐去陀罗尼发音与多体转写栏目，下方直接为您展示完整原典全文（亦可点击右上角「问佛经AI」结合本经原文深度对话）。
             </span>
-
-            {(
-              [
-                {
-                  id: 'neural-vits-48k',
-                  label: '48kHz 神经VITS',
-                  tip: '原生 48,000 Hz 古典梵语神经网络纯净干声',
-                },
-                {
-                  id: 'neural-resonance-hall',
-                  label: '神经·殿堂共鸣',
-                  tip: '保留神经模型自然语调 + 136.1Hz 共鸣弦泛音激励 + 胸腔暖音 + 石窟殿堂混响',
-                },
-                {
-                  id: 'neural-vedic-chant',
-                  label: '神经·定调梵呗',
-                  tip: '清浊分离保共振峰 TD-PSOLA 锁定 136.1Hz 轻重律吟唱音阶 + 全套殿堂共鸣声场',
-                },
-                {
-                  id: 'studio-vocal-chant',
-                  label: '纯共振峰合成',
-                  tip: '136.1Hz 离线数学公式声道共振峰电子合成',
-                },
-                {
-                  id: 'mandarin-phonetic-guide',
-                  label: '普通话谐音领读',
-                  tip: '现代梵音汉字拼读慢速教学领诵',
-                },
-                {
-                  id: 'indic-devanagari-tts',
-                  label: '天城文TTS',
-                  tip: '浏览器系统天城文语音合成',
-                },
-              ] as Array<{ id: AudioEngineMode; label: string; tip: string }>
-            ).map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                className={`script-toggle-chip ${playbackState.mode === m.id ? 'active' : ''}`}
-                onClick={() => sanskritAudioEngine.setMode(m.id)}
-                title={m.tip}
+          </div>
+        ) : (
+          <div className="hero-audio-strip">
+            <div className="hero-audio-group">
+              <span
+                style={{
+                  fontSize: '0.74rem',
+                  fontWeight: 700,
+                  color: 'var(--text-secondary)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.24rem',
+                  flexShrink: 0,
+                }}
               >
-                {m.label}
+                <Volume2 size={14} />
+                <span>发音方案：</span>
+              </span>
+
+              {(
+                [
+                  {
+                    id: 'neural-vits-48k',
+                    label: '48kHz 神经VITS',
+                    tip: '原生 48,000 Hz 古典梵语神经网络纯净干声',
+                  },
+                  {
+                    id: 'neural-resonance-hall',
+                    label: '神经·殿堂共鸣',
+                    tip: '保留神经模型自然语调 + 136.1Hz 共鸣弦泛音激励 + 胸腔暖音 + 石窟殿堂混响',
+                  },
+                  {
+                    id: 'neural-vedic-chant',
+                    label: '神经·定调梵呗',
+                    tip: '清浊分离保共振峰 TD-PSOLA 锁定 136.1Hz 轻重律吟唱音阶 + 全套殿堂共鸣声场',
+                  },
+                  {
+                    id: 'studio-vocal-chant',
+                    label: '纯共振峰合成',
+                    tip: '136.1Hz 离线数学公式声道共振峰电子合成',
+                  },
+                  {
+                    id: 'mandarin-phonetic-guide',
+                    label: '普通话谐音领读',
+                    tip: '现代梵音汉字拼读慢速教学领诵',
+                  },
+                  {
+                    id: 'indic-devanagari-tts',
+                    label: '天城文TTS',
+                    tip: '浏览器系统天城文语音合成',
+                  },
+                ] as Array<{ id: AudioEngineMode; label: string; tip: string }>
+              ).map((m) => (
+                <button
+                  key={m.id}
+                  type="button"
+                  className={`script-toggle-chip ${playbackState.mode === m.id ? 'active' : ''}`}
+                  onClick={() => sanskritAudioEngine.setMode(m.id)}
+                  title={m.tip}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="hero-audio-group">
+              <button
+                id="hero-voice-male-btn"
+                type="button"
+                className={`script-toggle-chip ${playbackState.voice === 'male' ? 'active' : ''}`}
+                onClick={() => sanskritAudioEngine.setVoice('male')}
+                title="切换至 IIT Madras Rasa 古典梵语男声模型 (sa_studio_male / 136.1Hz)"
+              >
+                男声
               </button>
-            ))}
+              <button
+                id="hero-voice-female-btn"
+                type="button"
+                className={`script-toggle-chip ${playbackState.voice === 'female' ? 'active' : ''}`}
+                onClick={() => sanskritAudioEngine.setVoice('female')}
+                title="切换至 IIT Madras Rasa 古典梵语女声模型 (sa_studio_female / 224Hz)"
+              >
+                女声
+              </button>
+
+              <button
+                id="hero-om-drone-btn"
+                type="button"
+                className={`script-toggle-chip ${playbackState.omDroneActive ? 'active' : ''}`}
+                onClick={() => sanskritAudioEngine.toggleOmDrone()}
+                title="开启或关闭 136.1Hz Sadja (Om) + 204.15Hz Pa 持续共振背景音场"
+              >
+                {playbackState.omDroneActive ? '\u{1F514} Om共振中' : '\u{1F515} Om共振场'}
+              </button>
+
+              <span
+                className="engine-status-pill"
+                title={`当前激活语音模型：${playbackState.activeModel || 'gnumanth/ninada:onnx/sa.onnx'} (48,000 Hz)`}
+              >
+                ● 48kHz VITS就绪
+              </span>
+            </div>
           </div>
+        )}
 
-          <div className="hero-audio-group">
-            <button
-              id="hero-voice-male-btn"
-              type="button"
-              className={`script-toggle-chip ${playbackState.voice === 'male' ? 'active' : ''}`}
-              onClick={() => sanskritAudioEngine.setVoice('male')}
-              title="切换至 IIT Madras Rasa 古典梵语男声模型 (sa_studio_male / 136.1Hz)"
-            >
-              男声
-            </button>
-            <button
-              id="hero-voice-female-btn"
-              type="button"
-              className={`script-toggle-chip ${playbackState.voice === 'female' ? 'active' : ''}`}
-              onClick={() => sanskritAudioEngine.setVoice('female')}
-              title="切换至 IIT Madras Rasa 古典梵语女声模型 (sa_studio_female / 224Hz)"
-            >
-              女声
-            </button>
-
-            <button
-              id="hero-om-drone-btn"
-              type="button"
-              className={`script-toggle-chip ${playbackState.omDroneActive ? 'active' : ''}`}
-              onClick={() => sanskritAudioEngine.toggleOmDrone()}
-              title="开启或关闭 136.1Hz Sadja (Om) + 204.15Hz Pa 持续共振背景音场"
-            >
-              {playbackState.omDroneActive ? '🔔 Om共振中' : '🔕 Om共振场'}
-            </button>
-
-            <span
-              className="engine-status-pill"
-              title={`当前激活语音模型：${playbackState.activeModel || 'gnumanth/ninada:onnx/sa.onnx'} (48,000 Hz)`}
-            >
-              ● 48kHz VITS就绪
-            </span>
-          </div>
-        </div>
-
-        {/* Live Synthesis & Encoding Progress Banner */}
-        {isExporting && (
+        {hasDharani && isExporting && (
           <div
             role="status"
             style={{
@@ -696,8 +780,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           </div>
         )}
 
-        {/* Export Error Recovery Banner */}
-        {exportError && !isExporting && (
+        {hasDharani && exportError && !isExporting && (
           <div
             role="alert"
             style={{
@@ -727,8 +810,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           </div>
         )}
 
-        {/* Native MP3 / WAV Audio Player & Download Card when generated */}
-        {latestExported && !isExporting && (
+        {hasDharani && latestExported && !isExporting && (
           <div
             style={{
               background: 'var(--bg-elevated)',
@@ -753,11 +835,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', flexWrap: 'wrap', maxWidth: '100%' }}>
-              <audio
-                controls
-                src={latestExported.url}
-                style={{ height: '36px', maxWidth: '100%' }}
-              />
+              <audio controls src={latestExported.url} style={{ height: '36px', maxWidth: '100%' }} />
               <a
                 href={latestExported.url}
                 download={latestExported.fileName}
@@ -766,259 +844,291 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 <Download size={14} />
                 <span>保存 .{latestExported.format.toUpperCase()} 文件</span>
               </a>
-              {latestExported.format === 'mp3' && !exportedWav && (
-                <button
-                  type="button"
-                  className="btn-scholarly"
-                  onClick={() => triggerDownload('wav')}
-                >
-                  <FileAudio size={14} />
-                  <span>另存 WAV</span>
-                </button>
-              )}
-              {latestExported.format === 'wav' && !exportedMp3 && (
-                <button
-                  type="button"
-                  className="btn-scholarly"
-                  onClick={() => triggerDownload('mp3')}
-                >
-                  <Download size={14} />
-                  <span>另存 MP3</span>
-                </button>
-              )}
             </div>
           </div>
         )}
 
-        {/* Scholarly Source & Recitation Notes (Collapsible on Mobile) */}
         <details
           className="hero-meta-details"
           open={metaExpanded}
           onToggle={(e) => setMetaExpanded((e.currentTarget as HTMLDetailsElement).open)}
         >
           <summary className="hero-meta-summary">
-            <span>经典出处、功德摄要与声明学持诵要诀</span>
+            <span>{hasDharani ? '经典出处、功德摄要与声明学持诵要诀' : '经典出处与文献提要'}</span>
             <ChevronDown size={15} />
           </summary>
-          <div className="hero-meta-grid">
+          <div
+            className="hero-meta-grid"
+            style={!hasDharani ? { gridTemplateColumns: '1fr' } : undefined}
+          >
             <div className="meta-box">
-              <div className="meta-box-label">经典出处与功德摄要</div>
+              <div className="meta-box-label">{hasDharani ? '经典出处与功德摄要' : '经典文献提要'}</div>
               <div>{entry.meritsAndSummaryZh}</div>
             </div>
-            <div className="meta-box">
-              <div className="meta-box-label">梵音声明学持诵要诀（Śikṣā &amp; Phonetics）</div>
-              <div>{entry.recitationTipsZh}</div>
-            </div>
+            {hasDharani && entry.recitationTipsZh && (
+              <div className="meta-box">
+                <div className="meta-box-label">梵音声明学持诵要诀（Śikṣā &amp; Phonetics）</div>
+                <div>{entry.recitationTipsZh}</div>
+              </div>
+            )}
           </div>
         </details>
       </section>
 
-      <ScriptControlBar
-        config={scriptConfig}
-        onChange={onScriptConfigChange}
-        hasSiddhamInterlinear={hasSiddhamInterlinear}
-        interlinearCount={interlinearTokens.length}
-        readerSubMode={readerSubMode}
-        onReaderSubModeChange={setReaderSubMode}
-      />
-
-      {readerSubMode === 'verses' && (
-        <section
-          id="entry-provenance-legend-banner"
-          className="provenance-legend-banner"
-          aria-label="库藏原文与处理参考区分说明"
-        >
-          <div className="provenance-legend-top">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
-              <strong style={{ color: 'var(--text-primary)', fontSize: '0.78rem' }}>
-                文献溯源标识：
-              </strong>
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
-                全段原载标{' '}
-                <span className="prov-origin-badge is-original is-compact">● 库藏原文</span>；
-                部分原载标{' '}
-                <span className="prov-origin-badge is-mixed is-compact">
-                  <span className="prov-part-orig">● 原载</span>
-                  <span className="prov-part-sep">+</span>
-                  <span className="prov-part-ref">◇ 参考</span>
-                </span>
-                （正文内 <span className="prov-seg-orig">原载内容</span> 与{' '}
-                <span className="prov-seg-ref">参考内容</span> 同色对应）；全段补全标{' '}
-                <span className="prov-origin-badge is-reference is-compact">◇ 处理参考</span>。
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <button
-                id="banner-toggle-hide-reference-btn"
-                type="button"
-                className={`btn-scholarly ${scriptConfig.hideDerivedReference ? 'primary' : ''}`}
-                style={{ padding: '0.22rem 0.58rem', fontSize: '0.73rem' }}
-                onClick={() =>
-                  onScriptConfigChange({
-                    ...scriptConfig,
-                    hideDerivedReference: !scriptConfig.hideDerivedReference,
-                  })
-                }
-              >
-                <span>
-                  {scriptConfig.hideDerivedReference
-                    ? '恢复显示处理参考层'
-                    : '仅看库藏原文'}
-                </span>
-              </button>
-            </div>
+      {hasDharani && (
+        <div className="reader-view-mode-bar" role="region" aria-label="原文与陀罗尼显示模式">
+          <div className="reader-view-mode-tabs">
+            <button
+              type="button"
+              className={`reader-view-mode-btn ${contentLayout === 'both' ? 'active' : ''}`}
+              onClick={() => setContentLayout('both')}
+            >
+              <Layers size={14} />
+              <span>原文 + 陀罗尼同看</span>
+            </button>
+            <button
+              type="button"
+              className={`reader-view-mode-btn ${contentLayout === 'original-only' ? 'active' : ''}`}
+              onClick={() => setContentLayout('original-only')}
+            >
+              <BookOpen size={14} />
+              <span>仅看库藏原文</span>
+            </button>
+            <button
+              type="button"
+              className={`reader-view-mode-btn ${contentLayout === 'dharani-only' ? 'active' : ''}`}
+              onClick={() => setContentLayout('dharani-only')}
+            >
+              <ScrollText size={14} />
+              <span>专注陀罗尼精解 ({entry.verses.length}句)</span>
+            </button>
           </div>
-
-          <details className="provenance-fields-details">
-            <summary>
-              <span>
-                查看本条各字段来源明细（原文{' '}
-                {entryProvSummary.originalFields.length +
-                  entryProvSummary.mixedFields.length +
-                  (hasDiplomaticWitness ? 1 : 0)}{' '}
-                项 · 推导参考 {entryProvSummary.derivedFields.length} 项）
-              </span>
-              <ChevronDown size={13} />
-            </summary>
-            <div className="provenance-legend-groups">
-              <div>
-                <strong style={{ color: 'var(--accent-vermilion)', marginRight: '0.35rem' }}>
-                  ● 本条库藏原文：
-                </strong>
-                {hasDiplomaticWitness && (
-                  <span className="provenance-field-pill is-original">写本原貌</span>
-                )}
-                {entryProvSummary.originalFields.map((f) => (
-                  <span key={`orig-${f}`} className="provenance-field-pill is-original">
-                    {TRACKABLE_FIELD_LABELS_ZH[f]}
-                  </span>
-                ))}
-                {entryProvSummary.mixedFields.map((f) => (
-                  <span key={`mix-${f}`} className="provenance-field-pill is-mixed">
-                    <span>{TRACKABLE_FIELD_LABELS_ZH[f]}</span>
-                    <span style={{ fontSize: '0.68rem' }}>
-                      (<span className="prov-part-orig">●原载</span>
-                      <span className="prov-part-sep">+</span>
-                      <span className="prov-part-ref">◇参考</span>)
-                    </span>
-                  </span>
-                ))}
-                {!hasDiplomaticWitness &&
-                  entryProvSummary.originalFields.length === 0 &&
-                  entryProvSummary.mixedFields.length === 0 && (
-                    <span style={{ color: 'var(--text-muted)' }}>（本条为目录提要记录）</span>
-                  )}
-              </div>
-
-              {entryProvSummary.derivedFields.length > 0 && (
-                <div>
-                  <strong style={{ color: 'var(--accent-gold)', marginRight: '0.35rem' }}>
-                    ◇ 处理推导参考（仅供参考）：
-                  </strong>
-                  {entryProvSummary.derivedFields.map((f) => (
-                    <span key={`ref-${f}`} className="provenance-field-pill is-reference">
-                      {TRACKABLE_FIELD_LABELS_ZH[f]}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </details>
-        </section>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            本篇同时具备库藏原文全文与 {entry.verses.length} 句陀罗尼多体发音
+          </span>
+        </div>
       )}
 
-      {readerSubMode === 'cbeta-interlinear' && hasSiddhamInterlinear ? (
-        <div id="reader-interlinear-section">
-          <CbetaSiddhamInterlinearView
-            cbetaId={entry.provenance.cbetaId}
-            titleZh={entry.titleZh}
-            tokens={interlinearTokens}
-            onPlaySyllable={onPlaySingleSyllable}
-          />
-        </div>
-      ) : (
-        <div className="verses-stack">
-          <FullDharaniSummaryCard
-            entry={entry}
+      {showOriginalInline && (
+        <InlineOriginalTextPanel
+          entry={entry}
+          mode="inline"
+          onOpenModal={() => setShowFullTextModal(true)}
+          onJumpToDharaniSection={
+            hasDharani
+              ? () => {
+                  if (contentLayout === 'original-only') setContentLayout('both');
+                  window.setTimeout(() => {
+                    scrollToReaderElement('reader-dharani-section-anchor', { topGap: 12 });
+                  }, 30);
+                }
+              : undefined
+          }
+        />
+      )}
+
+      {showDharaniSections && (
+        <div id="reader-dharani-section-anchor">
+          <ScriptControlBar
             config={scriptConfig}
-            activeVerseIndex={playbackState.isPlaying ? playbackState.currentVerseIndex : null}
-            onPlayVerse={onPlaySingleVerse}
-            onToggleBracketIast={() =>
-              onScriptConfigChange({
-                ...scriptConfig,
-                showPhoneticIastBracket: !scriptConfig.showPhoneticIastBracket,
-              })
-            }
+            onChange={onScriptConfigChange}
+            hasSiddhamInterlinear={hasSiddhamInterlinear}
+            interlinearCount={interlinearTokens.length}
+            readerSubMode={readerSubMode}
+            onReaderSubModeChange={setReaderSubMode}
           />
 
-          {entry.verses.slice(0, effectiveVerseLimit).map((verse, idx) => (
-            <VerseBlock
-              key={verse.id}
-              verse={verse}
-              config={scriptConfig}
-              isVersePlaying={
-                playbackState.isPlaying && playbackState.currentVerseIndex === verse.index
-              }
-              isLoadingAudio={Boolean(playbackState.isLoadingAudio)}
-              activeSyllableIndex={playbackState.currentSyllableIndex}
-              verseProgress={
-                playbackState.isPlaying && playbackState.currentVerseIndex === verse.index
-                  ? playbackState.verseProgress
-                  : 0
-              }
-              autoScroll={playbackState.autoScroll}
-              onPlayVerse={() => onPlaySingleVerse(idx)}
-              onPlaySyllable={onPlaySingleSyllable}
-            />
-          ))}
-
-          {entry.verses.length > effectiveVerseLimit && (
-            <div
-              className="verse-card"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '0.75rem',
-                padding: '0.85rem 1.1rem',
-                border: '1px dashed var(--accent-gold-border)',
-                background: 'var(--bg-elevated)',
-              }}
+          {readerSubMode === 'verses' && (
+            <section
+              id="entry-provenance-legend-banner"
+              className="provenance-legend-banner"
+              aria-label="库藏原文与处理参考区分说明"
             >
-              <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
-                上方「全咒六体汇总总览」已完整呈现全部 <strong>{entry.verses.length}</strong> 句全文；下方逐音节精解卡片当前已展开第{' '}
-                <strong>1–{effectiveVerseLimit}</strong> 句（剩余{' '}
-                <strong>{entry.verses.length - effectiveVerseLimit}</strong> 句）。
-              </span>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                <button
-                  id="btn-expand-more-verses"
-                  type="button"
-                  className="btn-scholarly gold"
-                  onClick={() =>
-                    setVisibleVerseLimit((prev) => Math.min(entry.verses.length, prev + 120))
-                  }
-                >
-                  <span>继续展开后续 120 句</span>
-                </button>
-                <button
-                  id="btn-expand-all-verses"
-                  type="button"
-                  className="btn-scholarly primary"
-                  onClick={() => setVisibleVerseLimit(entry.verses.length)}
-                >
-                  <span>展开全部 {entry.verses.length} 句精解</span>
-                </button>
+              <div className="provenance-legend-top">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  <strong style={{ color: 'var(--text-primary)', fontSize: '0.78rem' }}>
+                    文献溯源标识：
+                  </strong>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
+                    全段原载标{' '}
+                    <span className="prov-origin-badge is-original is-compact">● 库藏原文</span>；
+                    部分原载标{' '}
+                    <span className="prov-origin-badge is-mixed is-compact">
+                      <span className="prov-part-orig">● 原载</span>
+                      <span className="prov-part-sep">+</span>
+                      <span className="prov-part-ref">◇ 参考</span>
+                    </span>
+                    ；全段补全标{' '}
+                    <span className="prov-origin-badge is-reference is-compact">◇ 处理参考</span>。
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  <button
+                    id="banner-toggle-hide-reference-btn"
+                    type="button"
+                    className={`btn-scholarly ${scriptConfig.hideDerivedReference ? 'primary' : ''}`}
+                    style={{ padding: '0.22rem 0.58rem', fontSize: '0.73rem' }}
+                    onClick={() =>
+                      onScriptConfigChange({
+                        ...scriptConfig,
+                        hideDerivedReference: !scriptConfig.hideDerivedReference,
+                      })
+                    }
+                  >
+                    <span>
+                      {scriptConfig.hideDerivedReference ? '恢复显示处理参考层' : '仅看库藏原文'}
+                    </span>
+                  </button>
+                </div>
               </div>
+
+              <details className="provenance-fields-details">
+                <summary>
+                  <span>
+                    查看本条各字段来源明细（原文{' '}
+                    {entryProvSummary.originalFields.length +
+                      entryProvSummary.mixedFields.length +
+                      (hasDiplomaticWitness ? 1 : 0)}{' '}
+                    项 · 推导参考 {entryProvSummary.derivedFields.length} 项）
+                  </span>
+                  <ChevronDown size={13} />
+                </summary>
+                <div className="provenance-legend-groups">
+                  <div>
+                    <strong style={{ color: 'var(--accent-vermilion)', marginRight: '0.35rem' }}>
+                      ● 本条库藏原文：
+                    </strong>
+                    {hasDiplomaticWitness && (
+                      <span className="provenance-field-pill is-original">写本原貌</span>
+                    )}
+                    {entryProvSummary.originalFields.map((f) => (
+                      <span key={`orig-${f}`} className="provenance-field-pill is-original">
+                        {TRACKABLE_FIELD_LABELS_ZH[f]}
+                      </span>
+                    ))}
+                    {entryProvSummary.mixedFields.map((f) => (
+                      <span key={`mix-${f}`} className="provenance-field-pill is-mixed">
+                        <span>{TRACKABLE_FIELD_LABELS_ZH[f]}</span>
+                        <span style={{ fontSize: '0.68rem' }}>
+                          (<span className="prov-part-orig">●原载</span>
+                          <span className="prov-part-sep">+</span>
+                          <span className="prov-part-ref">◇参考</span>)
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+
+                  {entryProvSummary.derivedFields.length > 0 && (
+                    <div>
+                      <strong style={{ color: 'var(--accent-gold)', marginRight: '0.35rem' }}>
+                        ◇ 处理推导参考（仅供参考）：
+                      </strong>
+                      {entryProvSummary.derivedFields.map((f) => (
+                        <span key={`ref-${f}`} className="provenance-field-pill is-reference">
+                          {TRACKABLE_FIELD_LABELS_ZH[f]}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </details>
+            </section>
+          )}
+
+          {readerSubMode === 'cbeta-interlinear' && hasSiddhamInterlinear ? (
+            <div id="reader-interlinear-section">
+              <CbetaSiddhamInterlinearView
+                cbetaId={entry.provenance.cbetaId}
+                titleZh={entry.titleZh}
+                tokens={interlinearTokens}
+                onPlaySyllable={onPlaySingleSyllable}
+              />
+            </div>
+          ) : (
+            <div className="verses-stack">
+              <FullDharaniSummaryCard
+                entry={entry}
+                config={scriptConfig}
+                activeVerseIndex={playbackState.isPlaying ? playbackState.currentVerseIndex : null}
+                onPlayVerse={onPlaySingleVerse}
+                onToggleBracketIast={() =>
+                  onScriptConfigChange({
+                    ...scriptConfig,
+                    showPhoneticIastBracket: !scriptConfig.showPhoneticIastBracket,
+                  })
+                }
+              />
+
+              {entry.verses.slice(0, effectiveVerseLimit).map((verse, idx) => (
+                <VerseBlock
+                  key={verse.id}
+                  verse={verse}
+                  config={scriptConfig}
+                  isVersePlaying={
+                    playbackState.isPlaying && playbackState.currentVerseIndex === verse.index
+                  }
+                  isLoadingAudio={Boolean(playbackState.isLoadingAudio)}
+                  activeSyllableIndex={playbackState.currentSyllableIndex}
+                  verseProgress={
+                    playbackState.isPlaying && playbackState.currentVerseIndex === verse.index
+                      ? playbackState.verseProgress
+                      : 0
+                  }
+                  autoScroll={playbackState.autoScroll}
+                  onPlayVerse={() => onPlaySingleVerse(idx)}
+                  onPlaySyllable={onPlaySingleSyllable}
+                  onShareVerse={() => triggerShare(idx)}
+                />
+              ))}
+
+              {entry.verses.length > effectiveVerseLimit && (
+                <div
+                  className="verse-card"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '0.75rem',
+                    padding: '0.85rem 1.1rem',
+                    border: '1px dashed var(--accent-gold-border)',
+                    background: 'var(--bg-elevated)',
+                  }}
+                >
+                  <span style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                    上方「全咒六体汇总总览」已完整呈现全部 <strong>{entry.verses.length}</strong>{' '}
+                    句全文；下方逐音节精解卡片当前已展开第 <strong>1–{effectiveVerseLimit}</strong>{' '}
+                    句（剩余 <strong>{entry.verses.length - effectiveVerseLimit}</strong> 句）。
+                  </span>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <button
+                      id="btn-expand-more-verses"
+                      type="button"
+                      className="btn-scholarly gold"
+                      onClick={() =>
+                        setVisibleVerseLimit((prev) => Math.min(entry.verses.length, prev + 120))
+                      }
+                    >
+                      <span>继续展开后续 120 句</span>
+                    </button>
+                    <button
+                      id="btn-expand-all-verses"
+                      type="button"
+                      className="btn-scholarly primary"
+                      onClick={() => setVisibleVerseLimit(entry.verses.length)}
+                    >
+                      <span>展开全部 {entry.verses.length} 句精解</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
       )}
 
-      {/* 跨 12 大权威数据库同源见证与平行对勘面板 */}
-      {matchedConcordanceCluster && (
+      {hasDharani && matchedConcordanceCluster && (
         <section
           id="reader-concordance-section"
           className="dharani-hero-card"
@@ -1043,11 +1153,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
             {onNavigateTab && (
               <div style={{ display: 'flex', gap: '0.42rem', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  className="btn-scholarly"
-                  onClick={() => onNavigateTab('hub')}
-                >
+                <button type="button" className="btn-scholarly" onClick={() => onNavigateTab('hub')}>
                   <span>12大数据库 (DB1–12)</span>
                 </button>
                 <button
@@ -1064,11 +1170,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
                 >
                   <span>房山石经对音 (741部)</span>
                 </button>
-                <button
-                  type="button"
-                  className="btn-scholarly"
-                  onClick={() => onNavigateTab('cudl')}
-                >
+                <button type="button" className="btn-scholarly" onClick={() => onNavigateTab('cudl')}>
                   <span>剑桥 CUDL 贝叶经馆</span>
                 </button>
               </div>
@@ -1145,6 +1247,22 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
       {showFullTextModal && (
         <OriginalFullTextModal entry={entry} onClose={() => setShowFullTextModal(false)} />
+      )}
+
+      {hasDharani && !onRequestShare && localShareTargetVerse.open && (
+        <DharaniShareModal
+          entry={entry}
+          scriptConfig={scriptConfig}
+          playbackState={playbackState}
+          initialVerseIndex={localShareTargetVerse.verseIdx}
+          theme={
+            typeof document !== 'undefined' &&
+            document.documentElement.getAttribute('data-theme') === 'dark'
+              ? 'dark'
+              : 'light'
+          }
+          onClose={() => setLocalShareTargetVerse({ open: false, verseIdx: null })}
+        />
       )}
     </main>
   );

@@ -1,9 +1,9 @@
 {
   "name": "sarva-dharani-kosa",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
-  "description": "梵音宝典 · Sarva-Dhāraṇī-Kośa — Pan-Buddhist Sanskrit Dhāraṇī, Siddhaṃ Phonetics & 12-Database Esoteric Literature Platform",
+  "description": "梵音宝典 · Sarva-Dhāraṇī-Kośa — Pan-Buddhist Sanskrit Dhāraṇī, Siddhaṃ Phonetics, 12-Database Esoteric Literature & MITRA-Qwen3.5 Buddhist Sutra AI Platform",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -15,6 +15,9 @@
     "build:corpus": "tsx scripts/build_cloud_corpus_shards.ts",
     "fetch:canon": "tsx scripts/fetch-canon-sources.ts",
     "build:citations": "tsx scripts/build-citation-check.ts",
+    "deploy:qa-hf": "python3 hf-buddhist-qa-space/deploy_to_hf.py",
+    "qa:local": "python3 hf-buddhist-qa-space/app.py",
+    "keepalive:hf": "node scripts/hf-keepalive.mjs",
     "deploy:staging": "bash scripts/deploy-hf-and-cf.sh --hf-only",
     "deploy:prod": "bash scripts/deploy-cf-prod.sh",
     "kosa-cli": "node scripts/kosa-cli.mjs"

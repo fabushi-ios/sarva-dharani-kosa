@@ -18,6 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import type { DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
+import type { CanonCatalogItem } from '../../core/canon/canonLibraryTypes';
 import type { PlaybackState } from '../../services/audio/sanskritAudioEngine';
 import { DHARANI_CATEGORIES } from '../../data/categories';
 
@@ -25,7 +26,7 @@ export type SourceFilterType = 'all' | 'global-12db' | 'cbeta-siddham' | 'gretil
 export type SidebarViewMode = 'catalog' | 'outline';
 
 const SHORT_CATEGORY_LABELS: Record<DharaniCategoryId | 'all', string> = {
-  all: '全部经咒',
+  all: '全部经典',
   'supreme-mantras': '四大长咒',
   'ten-small-mantras': '十小咒',
   'buddhas-bodhisattvas': '诸佛菩萨',
@@ -60,6 +61,10 @@ export interface SidebarFilterProps {
   selectedId: string;
   activeEntry?: DharaniEntry;
   onSelectEntry: (id: string) => void;
+  /** Matching CBETA Canon scriptures (both with & without dhāraṇīs) when searching */
+  canonScriptureHits?: CanonCatalogItem[];
+  onSelectCanonScripture?: (item: CanonCatalogItem) => void;
+  onOpenFullCanonLibrary?: () => void;
   searchQuery?: string;
   onSearchChange?: (q: string) => void;
   selectedCategory: DharaniCategoryId | 'all';
@@ -76,7 +81,9 @@ export interface SidebarFilterProps {
   onPlayAllVerses?: () => void;
   onStopPlayback?: () => void;
   onPlaySingleVerse?: (verseArrayIdx: number) => void;
-  onJumpToSection?: (target: 'hero' | 'summary' | 'interlinear' | 'concordance') => void;
+  onJumpToSection?: (
+    target: 'hero' | 'original' | 'summary' | 'interlinear' | 'concordance'
+  ) => void;
   onJumpToVerse?: (verseArrayIdx: number) => void;
   sidebarMode?: SidebarViewMode;
   onSidebarModeChange?: (mode: SidebarViewMode) => void;
@@ -101,6 +108,9 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   selectedId,
   activeEntry,
   onSelectEntry,
+  canonScriptureHits = [],
+  onSelectCanonScripture,
+  onOpenFullCanonLibrary,
   searchQuery = '',
   onSearchChange,
   selectedCategory,
@@ -157,7 +167,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     }
   };
 
-  // Reset verse search & outline pagination when switching scripture
   useEffect(() => {
     setVerseFilterQuery('');
     setOutlineVisibleCount(120);
@@ -168,7 +177,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     return entries.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
   }, [entries, selectedDbSubFilter]);
 
-  // Compute live matching count for every category under current search/bookmark/source filters
   const categoryCounts = useMemo(() => {
     const pool = preCategoryEntries ?? dbFilteredEntries;
     const counts: Record<string, number> = { all: pool.length };
@@ -220,7 +228,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     [selectedId]
   );
 
-  // Keep active scripture visible whenever selection changes or drawer opens
   useEffect(() => {
     if (sidebarMode !== 'catalog' || sidebarCollapsed) return;
     const timer = window.setTimeout(() => {
@@ -229,7 +236,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     return () => window.clearTimeout(timer);
   }, [selectedId, sidebarMode, sidebarCollapsed, mobileOpen, scrollActiveCatalogItemIntoView]);
 
-  // Keep currently chanted verse visible inside the outline tab
   useEffect(() => {
     if (
       sidebarMode !== 'outline' ||
@@ -342,18 +348,17 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
         aria-hidden="true"
       />
 
-      {/* Desktop Slim Collapsed Focus Rail (shown only when user collapses sidebar on >960px) */}
       {sidebarCollapsed && (
         <aside
           className="sidebar-collapsed-rail"
-          aria-label="已收起的经咒快捷导航栏"
+          aria-label="已收起的经典与陀罗尼快捷导航栏"
         >
           <button
             id="btn-expand-sidebar-rail"
             type="button"
             className="sidebar-rail-btn is-primary"
             onClick={onToggleSidebarCollapsed}
-            title="展开左侧经咒目录与本篇句目栏"
+            title="展开左侧经典与陀罗尼目录栏"
           >
             <PanelLeftOpen size={16} />
           </button>
@@ -367,7 +372,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               setSidebarMode('catalog');
               onToggleSidebarCollapsed?.();
             }}
-            title={`展开经咒选单（当前 ${dbFilteredEntries.length} 部）`}
+            title={`展开经典选单（当前 ${dbFilteredEntries.length} 部）`}
           >
             <BookOpen size={16} />
           </button>
@@ -379,7 +384,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               setSidebarMode('outline');
               onToggleSidebarCollapsed?.();
             }}
-            title={`展开本篇逐句导览（共 ${currentVerseCount} 句）`}
+            title="展开本篇导览"
           >
             <ListOrdered size={16} />
             {currentVerseCount > 1 && (
@@ -397,7 +402,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               setSidebarMode('catalog');
               onToggleSidebarCollapsed?.();
             }}
-            title={`查看已收藏经咒（${bookmarkedIds.size} 部）`}
+            title={`查看已收藏经典（${bookmarkedIds.size} 部）`}
           >
             <Bookmark size={15} />
             {bookmarkedIds.size > 0 && (
@@ -416,7 +421,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 onSelectEntry(dbFilteredEntries[selectedIdxInFiltered - 1].id);
               }
             }}
-            title="切换至上一部经咒"
+            title="切换至上一部"
           >
             <ChevronLeft size={16} />
           </button>
@@ -436,7 +441,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 onSelectEntry(dbFilteredEntries[selectedIdxInFiltered + 1].id);
               }
             }}
-            title="切换至下一部经咒"
+            title="切换至下一部"
           >
             <ChevronRight size={16} />
           </button>
@@ -446,9 +451,8 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
       <aside
         className={`sidebar-panel ${mobileOpen ? 'is-mobile-open' : ''}`}
         style={sidebarCollapsed && !mobileOpen ? { display: 'none' } : undefined}
-        aria-label="经咒选单与本篇逐句导览"
+        aria-label="经典选单与本篇导览"
       >
-        {/* Unified Top Segmented Mode Bar: [📚 经咒选单] | [📜 本篇句目] + Collapse / Mobile Close */}
         <div className="sidebar-mode-header">
           <div className="sidebar-mode-tabs" role="tablist" aria-label="左侧栏功能切换">
             <button
@@ -458,11 +462,12 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               aria-selected={sidebarMode === 'catalog'}
               className={`sidebar-mode-tab ${sidebarMode === 'catalog' ? 'active' : ''}`}
               onClick={() => setSidebarMode('catalog')}
-              title="按部类、关键词或收藏检索并切换经咒"
             >
               <BookOpen size={13} />
-              <span>经咒选单</span>
-              <span className="sidebar-mode-badge">{dbFilteredEntries.length}</span>
+              <span>经典选单</span>
+              <span className="sidebar-mode-badge">
+                {dbFilteredEntries.length + canonScriptureHits.length}
+              </span>
             </button>
 
             <button
@@ -472,15 +477,16 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               aria-selected={sidebarMode === 'outline'}
               className={`sidebar-mode-tab ${sidebarMode === 'outline' ? 'active' : ''}`}
               onClick={() => setSidebarMode('outline')}
-              title="查看当前正在研读经咒的段落与逐句目录，一键跳句或单句点播"
             >
               {playbackState?.isPlaying ? (
                 <span className="sidebar-live-dot" title="正在同步讽诵中" />
               ) : (
                 <ListOrdered size={13} />
               )}
-              <span>本篇句目</span>
-              <span className="sidebar-mode-badge">{currentVerseCount}句</span>
+              <span>本篇导览</span>
+              <span className="sidebar-mode-badge">
+                {currentVerseCount > 0 ? `${currentVerseCount}句` : '原文'}
+              </span>
             </button>
           </div>
 
@@ -510,13 +516,9 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
           )}
         </div>
 
-        {/* =================================================================
-            MODE 1: 经咒选单 (Scripture Search, Concise Category Pills & List)
-            ================================================================= */}
         {sidebarMode === 'catalog' ? (
           <>
             <div className="sidebar-top-controls">
-              {/* Row 1: Instant Catalog Search + Bookmarks + Provenance Filter Toggle */}
               <div className="sidebar-search-row">
                 <div className="sidebar-search-input-wrap">
                   <Search size={13} className="sidebar-search-icon" />
@@ -525,7 +527,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     type="search"
                     autoComplete="off"
                     className="sidebar-search-input"
-                    placeholder="筛选咒名 / 本尊 / 经号..."
+                    placeholder="搜全部经名(含无咒经)/咒名/经号..."
                     value={searchQuery}
                     onChange={(e) => {
                       setVisibleCount(90);
@@ -550,7 +552,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   type="button"
                   className={`sidebar-quick-toggle ${onlyBookmarked ? 'is-gold-active' : ''}`}
                   onClick={onToggleOnlyBookmarked}
-                  title="仅显示我收藏的经咒"
+                  title="仅显示我收藏的经典"
                 >
                   <Bookmark size={12} fill={onlyBookmarked ? 'currentColor' : 'none'} />
                   <span>{bookmarkedIds.size > 0 ? bookmarkedIds.size : '收藏'}</span>
@@ -575,7 +577,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 </button>
               </div>
 
-              {/* Row 2: Clean 3x3 Single-Line Category Pills with Live Match Counts */}
               <div className="sidebar-cat-grid" role="group" aria-label="经咒法门分类">
                 <button
                   id="cat-pill-all"
@@ -585,7 +586,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     setVisibleCount(90);
                     onSelectCategory('all');
                   }}
-                  title={`浏览全部法门经咒（当前共 ${categoryCounts.all ?? dbFilteredEntries.length} 部）`}
                 >
                   <span className="sidebar-cat-label">{SHORT_CATEGORY_LABELS.all}</span>
                   <span className="sidebar-cat-count">
@@ -629,7 +629,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                       setVisibleCount(90);
                       onSelectCategory(selectedCategory === 'custom' ? 'all' : 'custom');
                     }}
-                    title="由六体实时编译器自定义生成的专属经咒"
                   >
                     <span className="sidebar-cat-label">{SHORT_CATEGORY_LABELS.custom}</span>
                     <span className="sidebar-cat-count">{categoryCounts.custom ?? 0}</span>
@@ -637,7 +636,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 )}
               </div>
 
-              {/* Optional Collapsible Scholarly Source & 12-DB Selector (kept in DOM for instant SSR & accessibility) */}
               <div
                 className={`sidebar-source-drawer ${
                   isSourcePanelExpanded ? '' : 'is-collapsed'
@@ -714,11 +712,11 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 </div>
               </div>
 
-              {/* Explicit Active Filter Banner so users immediately know why subset is shown */}
               {hasAnyActiveFilter && (
                 <div className="sidebar-active-filter-bar">
                   <span className="sidebar-active-filter-text" title={activeFilterSummaryLabel}>
-                    筛选：{activeFilterSummaryLabel} · 共 <strong>{dbFilteredEntries.length}</strong> 部
+                    筛选：{activeFilterSummaryLabel} · 共{' '}
+                    <strong>{dbFilteredEntries.length + canonScriptureHits.length}</strong> 部
                   </span>
                   <button
                     id="sidebar-reset-filters-btn"
@@ -732,9 +730,75 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               )}
             </div>
 
-            {/* Primary Scrollable Scripture Catalog List (occupies ~75% of sidebar height) */}
             <div ref={catalogListRef} className="dharani-catalog-list">
-              {dbFilteredEntries.length === 0 ? (
+              {/* Full-Canon Scripture Matches (including pure non-Dharani scriptures!) */}
+              {canonScriptureHits.length > 0 && onSelectCanonScripture && (
+                <>
+                  <div className="sidebar-canon-section-header">
+                    <span>CBETA 全藏经典原文匹配（{canonScriptureHits.length} 部）</span>
+                    {onOpenFullCanonLibrary && (
+                      <button
+                        type="button"
+                        onClick={onOpenFullCanonLibrary}
+                        style={{
+                          background: 'transparent',
+                          border: 'none',
+                          color: 'var(--accent-lapis)',
+                          fontSize: '0.7rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        全藏库 →
+                      </button>
+                    )}
+                  </div>
+                  {canonScriptureHits.slice(0, 30).map((c) => {
+                    const synthId = `canon-scripture-${c.id}`;
+                    const isSelected = selectedId === synthId;
+                    return (
+                      <div
+                        key={synthId}
+                        data-entry-id={synthId}
+                        className={`catalog-entry-row ${isSelected ? 'selected' : ''}`}
+                      >
+                        <button
+                          type="button"
+                          className="catalog-entry-select-btn"
+                          onClick={() => {
+                            onSelectCanonScripture(c);
+                            onCloseMobile?.();
+                          }}
+                        >
+                          <div className="catalog-row-title-line">
+                            {isSelected && (
+                              <span className="catalog-reading-pill">
+                                <span>当前</span>
+                              </span>
+                            )}
+                            <span className="catalog-row-title-zh">《{c.title}》</span>
+                          </div>
+                          <div className="catalog-row-meta-line">
+                            {c.dharani > 0 ? (
+                              <span className="catalog-verse-count-pill">
+                                原文+咒{c.dharani}段
+                              </span>
+                            ) : (
+                              <span className="badge-pure-sutra">纯经文原文</span>
+                            )}
+                            <span className="catalog-taisho-tag">{c.id}</span>
+                            {c.byline && (
+                              <span className="catalog-deity-snippet">{c.byline}</span>
+                            )}
+                          </div>
+                        </button>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+
+              {dbFilteredEntries.length === 0 && canonScriptureHits.length === 0 ? (
                 <div
                   style={{
                     padding: '2rem 1rem',
@@ -747,7 +811,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     gap: '0.65rem',
                   }}
                 >
-                  <div>当前筛选条件下暂无匹配的陀罗尼经咒。</div>
+                  <div>当前筛选条件下暂无匹配的经典或陀罗尼。</div>
                   {hasAnyActiveFilter && (
                     <button
                       type="button"
@@ -756,12 +820,17 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                       onClick={handleResetAllFilters}
                     >
                       <RotateCcw size={13} />
-                      <span>清除筛选，查看全部 {totalCorpusCount} 部经咒</span>
+                      <span>清除筛选，查看全部 {totalCorpusCount} 部</span>
                     </button>
                   )}
                 </div>
               ) : (
                 <>
+                  {canonScriptureHits.length > 0 && dbFilteredEntries.length > 0 && (
+                    <div className="sidebar-canon-section-header">
+                      <span>多体精校与 12 大数据库条目（{dbFilteredEntries.length} 部）</span>
+                    </div>
+                  )}
                   {displayedEntries.map((entry) => {
                     const isSelected = entry.id === selectedId;
                     const isBookmarked = bookmarkedIds.has(entry.id);
@@ -804,9 +873,13 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                           </div>
 
                           <div className="catalog-row-meta-line">
-                            <span className="catalog-verse-count-pill">
-                              {entry.verses.length}句
-                            </span>
+                            {entry.verses.length > 0 ? (
+                              <span className="catalog-verse-count-pill">
+                                原文+{entry.verses.length}句
+                              </span>
+                            ) : (
+                              <span className="badge-pure-sutra">纯经文原文</span>
+                            )}
                             {entry.deityZh && (
                               <span className="catalog-deity-snippet">{entry.deityZh}</span>
                             )}
@@ -826,7 +899,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                                 e.stopPropagation();
                                 onToggleBookmark(entry.id);
                               }}
-                              title={isBookmarked ? '取消收藏此经咒' : '收藏此经咒'}
+                              title={isBookmarked ? '取消收藏' : '收藏'}
                               aria-label={isBookmarked ? '取消收藏' : '收藏'}
                             >
                               <Bookmark
@@ -844,7 +917,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                                 e.stopPropagation();
                                 setSidebarMode('outline');
                               }}
-                              title="打开本篇逐句导览，点击任意一句即可跳转或单独跟诵"
+                              title="打开本篇逐句导览"
                             >
                               <span>句目</span>
                               <ChevronRight size={11} />
@@ -891,7 +964,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               )}
             </div>
 
-            {/* Pinned Bottom Quick-Stepper & Active Scripture Locator */}
             <div className="sidebar-footer-bar">
               <button
                 id="sidebar-prev-entry-btn"
@@ -903,7 +975,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     onSelectEntry(dbFilteredEntries[selectedIdxInFiltered - 1].id);
                   }
                 }}
-                title="切换至当前列表中的上一部经咒"
               >
                 <ChevronLeft size={13} />
                 <span>上一部</span>
@@ -920,17 +991,12 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     handleResetAllFilters();
                   }
                 }}
-                title={
-                  selectedIdxInFiltered >= 0
-                    ? '在目录列表中滚动定位到当前正在阅读的经咒'
-                    : '当前阅读经咒不在筛选结果内，点击清除筛选并定位'
-                }
               >
                 <Crosshair size={12} />
                 <span>
                   {selectedIdxInFiltered >= 0
-                    ? `第 ${selectedIdxInFiltered + 1} / ${dbFilteredEntries.length} 部 · 定位`
-                    : '定位当前经咒'}
+                    ? `第 ${selectedIdxInFiltered + 1} / ${dbFilteredEntries.length} 部`
+                    : '定位当前经典'}
                 </span>
               </button>
 
@@ -950,7 +1016,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     onSelectEntry(dbFilteredEntries[selectedIdxInFiltered + 1].id);
                   }
                 }}
-                title="切换至当前列表中的下一部经咒"
               >
                 <span>下一部</span>
                 <ChevronRight size={13} />
@@ -958,15 +1023,16 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
             </div>
           </>
         ) : (
-          /* =================================================================
-             MODE 2: 本篇句目 (Current Scripture Outline, Anchors & Verse Jumper)
-             ================================================================= */
           <>
             {resolvedCurrentEntry ? (
               <>
                 <div className="sidebar-outline-header-card">
                   <div className="outline-scripture-kicker">
-                    <span>当前研读经咒 · 共 {resolvedCurrentEntry.verses.length} 句</span>
+                    <span>
+                      {currentVerseCount > 0
+                        ? `当前研读 · 原文 + ${currentVerseCount} 句陀罗尼`
+                        : '当前研读 · 纯经文原典'}
+                    </span>
                     <span className="catalog-taisho-tag">
                       {formatCompactCatalogTag(resolvedCurrentEntry)}
                     </span>
@@ -980,32 +1046,33 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   </div>
 
                   <div className="outline-quick-actions">
-                    {playbackState?.isPlaying ? (
-                      <button
-                        id="outline-stop-chant-btn"
-                        type="button"
-                        className="outline-play-all-btn"
-                        onClick={onStopPlayback}
-                      >
-                        <Square size={12} />
-                        <span>
-                          停止跟诵
-                          {playbackState.currentVerseIndex !== null
-                            ? ` (第 ${playbackState.currentVerseIndex} 句)`
-                            : ''}
-                        </span>
-                      </button>
-                    ) : (
-                      <button
-                        id="outline-play-all-btn"
-                        type="button"
-                        className="outline-play-all-btn"
-                        onClick={onPlayAllVerses}
-                      >
-                        <Play size={12} />
-                        <span>全咒同步连诵 ({resolvedCurrentEntry.verses.length}句)</span>
-                      </button>
-                    )}
+                    {currentVerseCount > 0 &&
+                      (playbackState?.isPlaying ? (
+                        <button
+                          id="outline-stop-chant-btn"
+                          type="button"
+                          className="outline-play-all-btn"
+                          onClick={onStopPlayback}
+                        >
+                          <Square size={12} />
+                          <span>
+                            停止跟诵
+                            {playbackState.currentVerseIndex !== null
+                              ? ` (第 ${playbackState.currentVerseIndex} 句)`
+                              : ''}
+                          </span>
+                        </button>
+                      ) : (
+                        <button
+                          id="outline-play-all-btn"
+                          type="button"
+                          className="outline-play-all-btn"
+                          onClick={onPlayAllVerses}
+                        >
+                          <Play size={12} />
+                          <span>全咒同步连诵 ({currentVerseCount}句)</span>
+                        </button>
+                      ))}
 
                     {onToggleBookmark && (
                       <button
@@ -1014,7 +1081,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                           bookmarkedIds.has(resolvedCurrentEntry.id) ? 'is-gold-active' : ''
                         }`}
                         onClick={() => onToggleBookmark(resolvedCurrentEntry.id)}
-                        title="收藏或取消收藏本篇经咒"
                       >
                         <Bookmark
                           size={12}
@@ -1031,7 +1097,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     )}
                   </div>
 
-                  {/* Page Section Quick-Jump Chips */}
                   <div className="outline-anchors-strip" role="group" aria-label="右侧正文区块快速跳转">
                     <button
                       type="button"
@@ -1047,12 +1112,24 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                       type="button"
                       className="outline-anchor-chip"
                       onClick={() => {
-                        onJumpToSection?.('summary');
+                        onJumpToSection?.('original');
                         onCloseMobile?.();
                       }}
                     >
-                      全咒汇总
+                      原文全文
                     </button>
+                    {currentVerseCount > 0 && (
+                      <button
+                        type="button"
+                        className="outline-anchor-chip"
+                        onClick={() => {
+                          onJumpToSection?.('summary');
+                          onCloseMobile?.();
+                        }}
+                      >
+                        全咒汇总
+                      </button>
+                    )}
                     {hasInterlinear && (
                       <button
                         type="button"
@@ -1065,20 +1142,21 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                         悉昙对音
                       </button>
                     )}
-                    <button
-                      type="button"
-                      className="outline-anchor-chip"
-                      onClick={() => {
-                        onJumpToSection?.('concordance');
-                        onCloseMobile?.();
-                      }}
-                    >
-                      同源见证
-                    </button>
+                    {currentVerseCount > 0 && (
+                      <button
+                        type="button"
+                        className="outline-anchor-chip"
+                        onClick={() => {
+                          onJumpToSection?.('concordance');
+                          onCloseMobile?.();
+                        }}
+                      >
+                        同源见证
+                      </button>
+                    )}
                   </div>
 
-                  {/* Verse Filter Input (shown when scripture has >= 4 verses) */}
-                  {resolvedCurrentEntry.verses.length >= 4 && (
+                  {currentVerseCount >= 4 && (
                     <div className="sidebar-search-input-wrap">
                       <Search size={13} className="sidebar-search-icon" />
                       <input
@@ -1098,7 +1176,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                           type="button"
                           className="sidebar-search-clear"
                           onClick={() => setVerseFilterQuery('')}
-                          title="清除本篇句目筛选"
                         >
                           <X size={12} />
                         </button>
@@ -1107,9 +1184,19 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   )}
                 </div>
 
-                {/* Scrollable Verse-by-Verse Navigator & Single-Verse Audio Trigger */}
                 <div ref={outlineListRef} className="outline-verse-list">
-                  {filteredOutlineVerses.length === 0 ? (
+                  {currentVerseCount === 0 ? (
+                    <div
+                      style={{
+                        padding: '1.5rem 1rem',
+                        color: 'var(--text-secondary)',
+                        fontSize: '0.8rem',
+                        lineHeight: 1.65,
+                      }}
+                    >
+                      本篇为不含陀罗尼之纯经文原典，右侧已为您完整展开整卷经文原文，可使用原文区的「品目导览」或「文内搜索」快速定位段落。
+                    </div>
+                  ) : filteredOutlineVerses.length === 0 ? (
                     <div
                       style={{
                         padding: '1.75rem 1rem',
@@ -1151,7 +1238,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                                   onJumpToVerse?.(arrayIdx);
                                   onCloseMobile?.();
                                 }}
-                                title={`点击跳转至第 ${String(verse.index).padStart(2, '0')} 句精解卡片`}
                               >
                                 <span className="outline-verse-num">
                                   {isPlayingThis ? (
@@ -1180,16 +1266,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                                       onPlaySingleVerse(arrayIdx);
                                     }
                                   }}
-                                  title={
-                                    isPlayingThis
-                                      ? `停止讽诵第 ${verse.index} 句`
-                                      : `单独讽诵第 ${verse.index} 句 (48kHz 梵音)`
-                                  }
-                                  aria-label={
-                                    isPlayingThis
-                                      ? `停止讽诵第 ${verse.index} 句`
-                                      : `讽诵第 ${verse.index} 句`
-                                  }
                                 >
                                   {isPlayingThis ? (
                                     <Square size={11} />
@@ -1212,17 +1288,14 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                           >
                             <ChevronDown size={13} />
                             <span>
-                              展开更多咒句 (剩{' '}
-                              {filteredOutlineVerses.length - outlineVisibleCount} 句)
+                              展开更多咒句 (剩 {filteredOutlineVerses.length - outlineVisibleCount} 句)
                             </span>
                           </button>
                           <button
                             type="button"
                             className="btn-secondary-gold"
                             style={{ fontSize: '0.74rem' }}
-                            onClick={() =>
-                              setOutlineVisibleCount(filteredOutlineVerses.length)
-                            }
+                            onClick={() => setOutlineVisibleCount(filteredOutlineVerses.length)}
                           >
                             全部 ({filteredOutlineVerses.length})
                           </button>
@@ -1232,29 +1305,17 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   )}
                 </div>
 
-                {/* Bottom Footer in Outline Mode: quick switch back to Catalog or step Prev/Next scripture */}
                 <div className="sidebar-footer-bar">
                   <button
                     type="button"
                     className="sidebar-step-btn"
                     onClick={() => setSidebarMode('catalog')}
-                    title="返回全部经咒目录列表"
                   >
                     <ChevronLeft size={13} />
-                    <span>换其他经咒</span>
+                    <span>换其他经典</span>
                   </button>
-
-                  <span
-                    style={{
-                      fontSize: '0.69rem',
-                      color: 'var(--text-muted)',
-                      fontFamily: 'var(--font-zh-sans)',
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    点选行跳句 · 点 ▶ 讽诵
+                  <span style={{ fontSize: '0.69rem', color: 'var(--text-muted)' }}>
+                    {currentVerseCount > 0 ? '点选行跳句 · 点 ▶ 讽诵' : '全卷原文直读模式'}
                   </span>
                 </div>
               </>

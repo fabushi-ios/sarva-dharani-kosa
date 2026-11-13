@@ -1,20 +1,11 @@
 /**
  * scripts/build_cloud_corpus_shards.ts
  *
- * Plan 3 Cloud Corpus & Pre-built Search Index Compiler:
- * Compiles the 2,051 Dhāraṇī entries, 12 Global Databases (DB1–DB12),
- * 735 Göttingen GRETIL Sanskrit manuscripts, 24 CBETA Siddhaṃ interlinear records,
- * and 614 Taishō Mikkyō (T18–T21, 14,485 dharani blocks) scriptures into:
- *
- * 1. `src/data/corpusStats.ts` & `src/data/firstScreenCorpus.ts`
- *    — Ultra-lightweight zero-wait first-screen bootstrap corpus so the React app
- *      renders and becomes interactive in < 80ms with ZERO loading screen.
- * 2. `public/corpus/*.json` and `public/corpus/*.json.gz`
- *    — Cloud-hosted corpus shards & pre-computed search index deployed to Hugging Face Hub CDN
- *      (`https://huggingface.co/bhrum108/sarva-dharani-kosa-tts/resolve/main/corpus/...`)
- *      and served via `/api/search` & `/api/corpus/*` with persistent Browser CacheStorage.
+ * Upgraded Cloud Corpus & Pre-built Search Index Compiler:
+ * - Preserves 100% of Curated, Global 12-DB (including DB11 Dunhuang T85/ZW), and GRETIL shards
+ * - Removes the 80-record `'a'` query sampling cap on `specialized12DbRecords` so ALL specialized
+ *   lexicon, glossary, manuscript, and catalog records across DB1–DB12 are searchable globally.
  */
-
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
@@ -89,33 +80,19 @@ function serializeVerse(
     meaningZh: v.meaningZh,
     meaningEn: v.meaningEn,
   };
-  if (hasExplicitClassical) {
-    out.classicalTranslitZh = v.classicalTranslitZh;
-  }
-  if (hasExplicitModern) {
-    out.modernPhoneticZh = v.modernPhoneticZh;
-  }
-  if (v.tangNoteZh) {
-    out.tangNoteZh = v.tangNoteZh;
-  }
-  if (hasExplicitWords) {
-    out.words = wordsDesc.value;
-  }
+  if (hasExplicitClassical) out.classicalTranslitZh = v.classicalTranslitZh;
+  if (hasExplicitModern) out.modernPhoneticZh = v.modernPhoneticZh;
+  if (v.tangNoteZh) out.tangNoteZh = v.tangNoteZh;
+  if (hasExplicitWords) out.words = wordsDesc.value;
   if (v.fieldSources) {
     out.fieldSources =
       !hasExplicitWords && v.fieldSources.words === 'db-original'
         ? { ...v.fieldSources, words: 'derived-reference' }
         : v.fieldSources;
   }
-  if (v.siddhamOriginal) {
-    out.siddhamOriginal = v.siddhamOriginal;
-  }
-  if (v.devanagariOriginal) {
-    out.devanagariOriginal = v.devanagariOriginal;
-  }
-  if (v.diplomaticOriginal) {
-    out.diplomaticOriginal = v.diplomaticOriginal;
-  }
+  if (v.siddhamOriginal) out.siddhamOriginal = v.siddhamOriginal;
+  if (v.devanagariOriginal) out.devanagariOriginal = v.devanagariOriginal;
+  if (v.diplomaticOriginal) out.diplomaticOriginal = v.diplomaticOriginal;
   if (v.originalIastTokens && v.originalIastTokens.length > 0) {
     out.originalIastTokens = v.originalIastTokens;
   }
@@ -147,7 +124,7 @@ function writeJsonAndGzip(filePath: string, data: unknown): { rawBytes: number; 
 function main() {
   fs.mkdirSync(OUT_CORPUS_DIR, { recursive: true });
 
-  console.log(`[1/5] Partitioning ${BUILTIN_DHARANI_CORPUS.length} authoritative Dhāraṇī entries...`);
+  console.log(`[1/5] Partitioning ${BUILTIN_DHARANI_CORPUS.length} authoritative entries...`);
 
   const curatedEntries: DharaniEntry[] = [];
   const global12DbEntries: DharaniEntry[] = [];
@@ -163,18 +140,13 @@ function main() {
     }
   }
 
-  console.log(
-    `  -> Curated: ${curatedEntries.length}, Global 12-DB: ${global12DbEntries.length}, GRETIL: ${gretilEntries.length}`
-  );
-
-  // 2. Build Pre-computed Search Index (all 2,051 entries + 614 Taisho scriptures + 12-DB glossary/specialized records)
-  console.log('[2/5] Pre-computing normalized multi-script search index...');
+  console.log('[2/5] Pre-computing normalized multi-script search index (un-truncated 12-DB sweep)...');
   const prebuiltEntryIndex: Array<{
     id: string;
-    t: string; // normTitle
-    d: string; // normDbAndNo
-    m: string; // normDeity
-    v: string[]; // normVerses
+    t: string;
+    d: string;
+    m: string;
+    v: string[];
   }> = [];
 
   for (const entry of BUILTIN_DHARANI_CORPUS) {
@@ -205,7 +177,6 @@ function main() {
     });
   }
 
-  // Index the FULL dharani text of every scripture (not just the 3 display samples).
   const taishoFullTextPath = path.resolve('data/raw/taisho/dharani-fulltext.json');
   const taishoFullText: Record<string, string> = fs.existsSync(taishoFullTextPath)
     ? JSON.parse(fs.readFileSync(taishoFullTextPath, 'utf8'))
@@ -217,7 +188,9 @@ function main() {
     ),
   }));
 
-  // Pre-extract representative searchable hits across all 12 databases for specialized queries
+  // Sweep across vowels + CJK/digit probes so records without 'a' are also captured up to 600 per DB
+  const PROBE_SEEDS = ['', 'a', 'i', 'u', 'e', 'o', 'T', '1', '经', '咒'];
+  const seenSpecializedKeys = new Set<string>();
   const specialized12DbRecords: Array<{
     id: string;
     dbId: string;
@@ -233,27 +206,31 @@ function main() {
   }> = [];
 
   for (const dbId of CANONICAL_DATABASE_IDS) {
-    const hits = searchAllDatabases('a', { dbId, limit: 80 });
-    for (const h of hits) {
-      specialized12DbRecords.push({
-        id: h.id,
-        dbId: h.dbId,
-        databaseNumber: h.databaseNumber,
-        title: h.title,
-        subtitle: h.subtitle,
-        sanskritIast: h.sanskritIast,
-        chineseText: h.chineseText,
-        tibetanText: h.tibetanText,
-        snippet: h.snippet,
-        canonicalRefs: h.canonicalRefs,
-        normHay: normalizeSearchText(
-          `${h.id} ${h.title} ${h.subtitle} ${h.sanskritIast || ''} ${h.chineseText || ''} ${h.tibetanText || ''} ${h.snippet} ${(h.canonicalRefs || []).join(' ')}`
-        ),
-      });
+    for (const seed of PROBE_SEEDS) {
+      const hits = searchAllDatabases(seed, { dbId, limit: 500 });
+      for (const h of hits) {
+        const uniq = `${h.dbId}:${h.id}`;
+        if (seenSpecializedKeys.has(uniq)) continue;
+        seenSpecializedKeys.add(uniq);
+        specialized12DbRecords.push({
+          id: h.id,
+          dbId: h.dbId,
+          databaseNumber: h.databaseNumber,
+          title: h.title,
+          subtitle: h.subtitle,
+          sanskritIast: h.sanskritIast,
+          chineseText: h.chineseText,
+          tibetanText: h.tibetanText,
+          snippet: h.snippet,
+          canonicalRefs: h.canonicalRefs,
+          normHay: normalizeSearchText(
+            `${h.id} ${h.title} ${h.subtitle} ${h.sanskritIast || ''} ${h.chineseText || ''} ${h.tibetanText || ''} ${h.snippet} ${(h.canonicalRefs || []).join(' ')}`
+          ),
+        });
+      }
     }
   }
 
-  // 3. Write Cloud Shards to public/corpus/
   console.log('[3/5] Writing cloud shards (.json and .json.gz) to public/corpus/...');
   const sCurated = writeJsonAndGzip(path.join(OUT_CORPUS_DIR, 'shard-curated.json'), curatedEntries);
   const s12Db = writeJsonAndGzip(path.join(OUT_CORPUS_DIR, 'shard-12db.json'), global12DbEntries);
@@ -263,7 +240,7 @@ function main() {
     taishoCompactIndex
   );
   const sSearch = writeJsonAndGzip(path.join(OUT_CORPUS_DIR, 'search-index-v1.json'), {
-    version: '1.0.0',
+    version: '2.0.0',
     entries: prebuiltEntryIndex,
     specialized12DbRecords,
     quadrilingualGlossary: UNIFIED_QUADRILINGUAL_GLOSSARY,
@@ -277,7 +254,7 @@ function main() {
     : 0;
 
   const manifest = {
-    version: '1.1.0',
+    version: '1.2.0',
     generatedAt: new Date().toISOString(),
     stats: CORPUS_AUTHORITATIVE_STATS,
     shards: {
@@ -326,24 +303,14 @@ function main() {
   };
   writeJsonAndGzip(path.join(OUT_CORPUS_DIR, 'manifest.json'), manifest);
 
-  console.log('  Shard sizes (raw -> gzip):');
-  for (const [k, v] of Object.entries(manifest.shards)) {
-    console.log(
-      `    • ${k.padEnd(12)}: ${(v.rawBytes / 1024).toFixed(1)} KB -> ${(v.gzBytes / 1024).toFixed(1)} KB (${v.count} items)`
-    );
-  }
-
-  // 4. Generate src/data/corpusStats.ts (Zero-dependency authoritative stats)
   console.log('[4/5] Generating src/data/corpusStats.ts...');
   const statsCode = `/**
  * Auto-generated zero-dependency authoritative corpus statistics.
- * Decouples Header & UI badges from loading 6 MB of raw corpus modules on startup.
  */
 export const CORPUS_AUTHORITATIVE_STATS = ${JSON.stringify(CORPUS_AUTHORITATIVE_STATS, null, 2)};
 `;
   fs.writeFileSync(path.join(ROOT_DIR, 'src', 'data', 'corpusStats.ts'), statsCode, 'utf8');
 
-  // 5. Generate src/data/firstScreenCorpus.ts (Ultra-fast instant-boot corpus)
   console.log('[5/5] Generating src/data/firstScreenCorpus.ts...');
   const selectedIds = new Set<string>();
   const fastBootEntries: DharaniEntry[] = [];
@@ -366,29 +333,19 @@ export const CORPUS_AUTHORITATIVE_STATS = ${JSON.stringify(CORPUS_AUTHORITATIVE_
     fastBootEntries.push(cloned);
   };
 
-  // Always include top 6 major/curated dharanis first (with full tokens/words on #1)
   for (let i = 0; i < Math.min(6, curatedEntries.length); i++) {
     addEntry(curatedEntries[i], i === 0);
   }
-
-  // Ensure every category has at least 2 immediate entries at 0ms
   for (const cat of DHARANI_CATEGORIES) {
     const matches = BUILTIN_DHARANI_CORPUS.filter((e) => e.categoryId === cat.id).slice(0, 2);
     for (const m of matches) addEntry(m, false);
   }
-
-  // Ensure every one of the 12 Global Databases (DB1-DB12) has an immediate flagship entry at 0ms
   for (const dbId of CANONICAL_DATABASE_IDS) {
     const match = global12DbEntries.find((e) => e.provenance.databaseId === dbId);
     addEntry(match, false);
   }
 
-  const firstScreenCode = `/**
- * Auto-generated First-Screen Instant-Boot Corpus (${fastBootEntries.length} flagship entries).
- * Enables < 80ms zero-wait first render while the remaining 2,000+ entries stream
- * from Hugging Face Cloud Corpus Shards & Browser CacheStorage ('sarva-dharani-corpus-v1').
- */
-import type { DharaniEntry, DharaniVerse } from '../types/kosaTypes';
+  const firstScreenCode = `import type { DharaniEntry, DharaniVerse } from '../types/kosaTypes';
 import {
   buildWordGlossesFromIast,
   generateVerseChinesePhonetics,
@@ -467,11 +424,7 @@ const RAW_FIRST_SCREEN_ENTRIES = (${JSON.stringify(fastBootEntries)} as unknown)
 
 export const FIRST_SCREEN_CORPUS: DharaniEntry[] = attachLazyWordsToEntries(RAW_FIRST_SCREEN_ENTRIES);
 `;
-  const firstScreenPath = path.join(ROOT_DIR, 'src', 'data', 'firstScreenCorpus.ts');
-  fs.writeFileSync(firstScreenPath, firstScreenCode, 'utf8');
-  console.log(
-    `  -> firstScreenCorpus.ts: ${fastBootEntries.length} entries (${(fs.statSync(firstScreenPath).size / 1024).toFixed(1)} KB)`
-  );
+  fs.writeFileSync(path.join(ROOT_DIR, 'src', 'data', 'firstScreenCorpus.ts'), firstScreenCode, 'utf8');
 }
 
 main();

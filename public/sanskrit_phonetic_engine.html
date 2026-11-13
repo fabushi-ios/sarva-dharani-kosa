@@ -3,7 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>梵音 100% 全覆盖音译与发声引擎 v3.0 (Plan 1 原生梵文神经网络 VITS + Plan 3 48kHz 悉昙神经采样库)</title>
+  <title>梵音 100% 全覆盖音译与发声引擎 v3.0 (Plan 1 原生梵文神经网络 VITS + 手机竖屏扫码听音分享)</title>
+  <style>
+    :root {
+      --background: #faf7f0;
+      --foreground: #1f1a16;
+      --card: #ffffff;
+      --border: #e4dccb;
+      --primary: #9e2a2b;
+      --primary-foreground: #ffffff;
+      --secondary: #f3ede0;
+      --secondary-foreground: #2b241d;
+      --muted-foreground: #6f6458;
+    }
+  </style>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @font-face {
@@ -46,6 +59,9 @@
     .deva-font {
       font-family: "Noto Sans Devanagari", "Kohinoor Devanagari", "Mangal", "Sarva Rare Han", sans-serif;
     }
+    .siddham-font {
+      font-family: "Noto Sans Siddham", "Noto Sans Devanagari", "Sarva Rare Han", serif;
+    }
     @keyframes pulse-bar {
       0%, 100% { transform: scaleY(0.35); }
       50% { transform: scaleY(1); }
@@ -62,11 +78,44 @@
       max-width: min(100%, 72vw);
       text-overflow: ellipsis;
     }
+    .share-chip-active {
+      background-color: rgba(158, 42, 43, 0.12);
+      border-color: #9e2a2b !important;
+      color: var(--foreground);
+      box-shadow: 0 0 0 1px rgba(158, 42, 43, 0.35);
+    }
+    .share-chip-inactive {
+      opacity: 0.48;
+      background-color: var(--secondary);
+    }
   </style>
 </head>
 <body class="bg-[var(--background)] text-[var(--foreground)] antialiased min-h-screen p-4 md:p-6 lg:p-8">
 
   <div class="max-w-6xl mx-auto space-y-5">
+
+    <!-- 扫码直达聆听横幅（仅在识别分享海报二维码进入时显示） -->
+    <div id="qrListenBanner" class="hidden rounded-2xl border-2 border-amber-600/40 bg-amber-500/10 p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div class="space-y-0.5">
+        <div class="text-sm font-bold text-[var(--foreground)] flex items-center gap-2">
+          <span>🕉️</span>
+          <span id="qrListenBannerTitle">扫码直达梵音陀罗尼</span>
+        </div>
+        <p class="text-xs text-[var(--muted-foreground)]">
+          已自动载入分享海报对应的梵文真言与声线配置，点击右侧按钮即可立即聆听 48kHz 原生古典梵文神经发声
+        </p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button type="button" onclick="triggerQrBannerPlay()"
+          class="text-xs md:text-sm font-semibold px-4 py-2 rounded-xl bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm hover:opacity-90 transition cursor-pointer flex items-center gap-1.5">
+          <span>🔊</span> 立即聆听梵音
+        </button>
+        <button type="button" onclick="dismissQrBanner()"
+          class="text-xs px-2.5 py-2 rounded-xl border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer">
+          关闭
+        </button>
+      </div>
+    </div>
 
     <!-- 顶部标题与工具栏 -->
     <header class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
@@ -81,11 +130,15 @@
           </span>
         </div>
         <p class="text-xs md:text-sm text-[var(--muted-foreground)]">
-          支持天城文 (Devanagari)、标准 IAST 转写、粗略英文拼写容错 · 统一采用 IIT Madras 原生古典梵文 VITS 神经网络 (方案 1 · 48kHz)
+          支持天城文 (Devanagari)、悉昙字 (Siddhaṃ)、标准 IAST 转写、粗略英文拼写容错 · 支持生成 9:16 手机竖屏扫码听音分享图
         </p>
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
+        <button id="btnOpenSharePoster" onclick="toggleShareModal(true)"
+          class="text-xs font-semibold px-3.5 py-2 rounded-xl bg-[var(--primary)] hover:opacity-90 text-[var(--primary-foreground)] shadow-sm flex items-center gap-1.5 transition cursor-pointer">
+          <span>📱</span> 生成手机分享海报
+        </button>
         <button id="btnOpenMatrix" onclick="toggleMatrixModal(true)"
           class="text-xs font-medium px-3 py-2 rounded-xl bg-[var(--secondary)] hover:opacity-90 text-[var(--secondary-foreground)] border border-[var(--border)] flex items-center gap-1.5 transition cursor-pointer">
           <span>📜</span> 34×14 悉昙音素全表 (48kHz 点读)
@@ -105,7 +158,7 @@
       </div>
       <div class="flex flex-wrap gap-2" id="sampleButtons">
         <button onclick="loadSample(0)" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-[var(--secondary)] hover:opacity-85 text-[var(--secondary-foreground)] border border-[var(--border)] transition cursor-pointer">1. 心经咒语 (IAST)</button>
-        <button onclick="loadSample(1)" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-[var(--secondary)] hover:opacity-85 text-[var(--secondary-foreground)] border border-[var(--border)] transition cursor-pointer">2. 六字大明咒 & 礼敬</button>
+        <button onclick="loadSample(1)" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-[var(--secondary)] hover:opacity-85 text-[var(--secondary-foreground)] border border-[var(--border)] transition cursor-pointer">2. 六字大明咒 &amp; 礼敬</button>
         <button onclick="loadSample(2)" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-[var(--secondary)] hover:opacity-85 text-[var(--secondary-foreground)] border border-[var(--border)] transition cursor-pointer">3. 天城文《伽耶特黎咒》</button>
         <button onclick="loadSample(3)" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-[var(--secondary)] hover:opacity-85 text-[var(--secondary-foreground)] border border-[var(--border)] transition cursor-pointer">4. 极限五重辅音测试</button>
         <button onclick="loadSample(4)" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-[var(--secondary)] hover:opacity-85 text-[var(--secondary-foreground)] border border-[var(--border)] transition cursor-pointer">5. 绿度母心咒</button>
@@ -177,6 +230,11 @@
             <span id="speakBtnText">朗读梵音</span>
           </button>
 
+          <button type="button" onclick="toggleShareModal(true)"
+            class="text-xs font-medium px-3 py-2 rounded-xl bg-[var(--secondary)] hover:opacity-90 text-[var(--foreground)] border border-[var(--border)] transition cursor-pointer flex items-center gap-1">
+            <span>📱</span> 分享图
+          </button>
+
           <button onclick="clearInput()" class="text-xs px-2.5 py-2 rounded-xl border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--secondary)] transition cursor-pointer">
             清空
           </button>
@@ -193,8 +251,15 @@
         class="w-full p-4 rounded-xl bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)] text-base md:text-lg font-medium transition deva-font"
         placeholder="在此输入梵文，例如：gate gate pāragate pārasaṃgate bodhi svāhā 、 ॐ मणि पद्मे हूँ 或 om mani padme hum"></textarea>
 
-      <!-- 三种标准转写实时互转展示栏 -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs bg-[var(--secondary)] p-3.5 rounded-xl border border-[var(--border)]">
+      <!-- 四种标准转写实时互转展示栏（含悉昙梵字 Siddhaṃ） -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs bg-[var(--secondary)] p-3.5 rounded-xl border border-[var(--border)]">
+        <div class="space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-[var(--muted-foreground)]">悉昙梵字 (Siddhaṃ)</span>
+            <button onclick="copyText('siddhamOut', '悉昙梵字')" class="text-xs underline text-[var(--muted-foreground)] hover:text-[var(--foreground)] cursor-pointer">复制</button>
+          </div>
+          <div id="siddhamOut" class="siddham-font text-lg leading-snug text-[var(--foreground)] break-words"></div>
+        </div>
         <div class="space-y-1">
           <div class="flex items-center justify-between">
             <span class="font-semibold text-[var(--muted-foreground)]">标准化 IAST (国际梵文转写)</span>
@@ -312,7 +377,7 @@
             音节拆解矩阵
           </button>
           <button id="viewWordBtn" onclick="setBreakdownView('words')" class="px-3 py-1 rounded-lg font-medium text-[var(--muted-foreground)] transition cursor-pointer">
-            整词四行对照谱
+            整词对照卡片
           </button>
         </div>
       </div>
@@ -321,6 +386,7 @@
       <div id="activeSyllableInspector" class="hidden bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div class="space-y-1">
           <div class="flex flex-wrap items-center gap-2">
+            <span id="inspSiddham" class="text-xl font-bold siddham-font text-[var(--primary)]"></span>
             <span id="inspDeva" class="text-lg font-bold deva-font text-[var(--foreground)]"></span>
             <span id="inspIast" class="text-sm font-mono font-semibold px-2 py-0.5 rounded bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)]"></span>
             <span id="inspMeter" class="text-xs font-mono px-2 py-0.5 rounded bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)]"></span>
@@ -359,13 +425,193 @@
     </div>
   </div>
 
+  <!-- 手机竖屏二维码分享海报定制弹窗 -->
+  <div id="sharePosterModal" class="fixed inset-0 z-50 hidden bg-black/65 backdrop-blur-xs flex items-center justify-center p-3 md:p-5">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl max-w-6xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- 弹窗顶栏 -->
+      <div class="p-4 border-b border-[var(--border)] flex items-center justify-between gap-3">
+        <div>
+          <h3 class="text-base md:text-lg font-bold text-[var(--foreground)] flex items-center gap-2">
+            <span>📱</span> 定制陀罗尼手机分享海报（扫码直达聆听 48kHz 原生梵音）
+          </h3>
+          <p class="text-xs text-[var(--muted-foreground)]">
+            支持逐块自由勾选悉昙字块，任意组合梵音拼读、IAST、天城文与传统古译，手机识别二维码即可直接播放本段音频
+          </p>
+        </div>
+        <button type="button" onclick="toggleShareModal(false)"
+          class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[var(--secondary)] text-[var(--foreground)] border border-[var(--border)] cursor-pointer shrink-0">
+          关闭 ✕
+        </button>
+      </div>
+
+      <!-- 主体双栏：左侧配置 + 右侧手机竖屏实时预览 -->
+      <div class="flex-1 overflow-y-auto p-4 md:p-5 grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- 左侧定制控制面板 -->
+        <div class="lg:col-span-7 space-y-4 text-xs">
+          <!-- 1. 比例、主题与排版 -->
+          <div class="bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5 space-y-3">
+            <div class="font-bold text-sm text-[var(--foreground)]">1. 手机画幅比例、主题与排版</div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <label class="space-y-1 block">
+                <span class="text-[var(--muted-foreground)] font-medium">手机图片比例</span>
+                <select id="shareAspectSelect" onchange="renderSharePoster()"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold cursor-pointer">
+                  <option value="9:16" selected>9:16 标准手机竖屏 (1080×1920)</option>
+                  <option value="3:4">3:4 社交竖版卡片 (1080×1440)</option>
+                  <option value="9:16-long">9:16 手机自适应长图 (全咒完整展示)</option>
+                </select>
+              </label>
+              <label class="space-y-1 block">
+                <span class="text-[var(--muted-foreground)] font-medium">海报视觉主题</span>
+                <select id="shareThemeSelect" onchange="renderSharePoster()"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold cursor-pointer">
+                  <option value="parchment" selected>宣纸朱印（古籍浅色风）</option>
+                  <option value="indigo">紫金写经（泥金深色风）</option>
+                </select>
+              </label>
+              <label class="space-y-1 block">
+                <span class="text-[var(--muted-foreground)] font-medium">字块排版样式</span>
+                <select id="shareLayoutSelect" onchange="renderSharePoster()"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold cursor-pointer">
+                  <option value="grid" selected>悉昙字块方格法帖（逐块对照）</option>
+                  <option value="flow">整段多体行流排版（分层对照）</option>
+                </select>
+              </label>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <label class="space-y-1 block">
+                <span class="text-[var(--muted-foreground)] font-medium">海报主标题</span>
+                <input id="shareTitleInput" type="text" oninput="shareTitleDirty=true; renderSharePoster()"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold"
+                  placeholder="例如：般若波罗蜜多心经咒" />
+              </label>
+              <label class="space-y-1 block">
+                <span class="text-[var(--muted-foreground)] font-medium">副标题 / 题记（选填）</span>
+                <input id="shareSubtitleInput" type="text" oninput="renderSharePoster()"
+                  value="梵音宝典 · 48kHz 原生古典梵文神经发声"
+                  class="w-full px-2.5 py-1.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)]" />
+              </label>
+            </div>
+          </div>
+
+          <!-- 2. 任意选择组合显示内容 -->
+          <div class="bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5 space-y-2.5">
+            <div class="font-bold text-sm text-[var(--foreground)]">2. 图片显示内容任意组合（可多选叠加）</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerSiddham" checked onchange="renderSharePoster()">
+                <span class="font-semibold">悉昙梵字</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerModern" checked onchange="renderSharePoster()">
+                <span class="font-semibold">梵音拼读</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerModernIast" onchange="renderSharePoster()">
+                <span>拼读附括号IAST</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerIast" checked onchange="renderSharePoster()">
+                <span class="font-semibold">梵文 IAST</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerDeva" onchange="renderSharePoster()">
+                <span>天城梵文</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerTrad" checked onchange="renderSharePoster()">
+                <span>传统悉昙古译</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerMeter" onchange="renderSharePoster()">
+                <span>轻重音律(⏑/—)</span>
+              </label>
+              <label class="inline-flex items-center gap-1.5 p-2 rounded-lg bg-[var(--card)] border border-[var(--border)] cursor-pointer select-none">
+                <input type="checkbox" id="layerSeal" checked onchange="renderSharePoster()">
+                <span>种子字朱砂印</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3. 每一块悉昙字精细点选 -->
+          <div class="bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5 space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-sm text-[var(--foreground)]">3. 逐块勾选悉昙字块</span>
+                <select id="shareGranularitySelect" onchange="rebuildShareBlocks(true); renderSharePoster()"
+                  class="px-2 py-0.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold cursor-pointer">
+                  <option value="word" selected>按词切分字块</option>
+                  <option value="syllable">按单音节摩多切分</option>
+                </select>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button type="button" onclick="selectShareBlocksPreset('all')" class="px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] hover:opacity-85 cursor-pointer">全选</button>
+                <button type="button" onclick="selectShareBlocksPreset('first')" class="px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] hover:opacity-85 cursor-pointer">仅首块/种子字</button>
+                <button type="button" onclick="selectShareBlocksPreset('top6')" class="px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] hover:opacity-85 cursor-pointer">前 6 块</button>
+                <button type="button" onclick="selectShareBlocksPreset('invert')" class="px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)] hover:opacity-85 cursor-pointer">反选</button>
+              </div>
+            </div>
+            <p class="text-[11px] text-[var(--muted-foreground)]">
+              点击任意字块即可单独开启或隐藏该块在分享图上的展示（二维码仍会携带所选内容的梵音聆听直达参数）：
+            </p>
+            <div id="shareBlockChips" class="flex flex-wrap gap-1.5 max-h-44 overflow-y-auto p-1"></div>
+          </div>
+
+          <!-- 4. 二维码扫码听音频链接设置 -->
+          <div class="bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-bold text-sm text-[var(--foreground)]">4. 二维码扫码聆听链接</span>
+              <button type="button" onclick="copyShareAudioUrl()"
+                class="px-2.5 py-1 rounded-lg bg-[var(--card)] border border-[var(--border)] font-medium hover:opacity-85 cursor-pointer">
+                🔗 复制扫码音频链接
+              </button>
+            </div>
+            <input id="shareBaseUrlInput" type="text" oninput="renderSharePoster()"
+              class="w-full px-2.5 py-1.5 rounded-lg bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-mono text-[11px]"
+              placeholder="站点地址（默认自动识别当前网址）" />
+            <div id="shareFullUrlPreview" class="text-[11px] font-mono text-[var(--muted-foreground)] break-all line-clamp-2"></div>
+          </div>
+        </div>
+
+        <!-- 右侧实时高清预览与导出按钮 -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-between gap-3 bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5">
+          <div class="w-full flex items-center justify-between text-xs text-[var(--muted-foreground)]">
+            <span class="font-semibold text-[var(--foreground)]">手机竖屏实时预览（长按图片亦可保存）</span>
+            <span id="shareResolutionBadge" class="font-mono">1080 × 1920</span>
+          </div>
+
+          <div class="w-full flex-1 flex items-center justify-center overflow-y-auto max-h-[56vh] py-1">
+            <canvas id="sharePosterCanvas" width="1080" height="1920" class="hidden"></canvas>
+            <img id="sharePosterPreviewImg" alt="陀罗尼手机分享海报预览"
+              class="max-h-[54vh] w-auto max-w-full rounded-xl shadow-lg border border-[var(--border)] object-contain" />
+          </div>
+
+          <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
+            <button type="button" onclick="sharePosterViaSystem()"
+              class="px-3 py-2.5 rounded-xl bg-[var(--primary)] text-[var(--primary-foreground)] font-semibold text-xs shadow-sm hover:opacity-90 transition cursor-pointer flex items-center justify-center gap-1">
+              <span>📲</span> 手机系统分享
+            </button>
+            <button type="button" onclick="downloadSharePosterPng()"
+              class="px-3 py-2.5 rounded-xl bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold text-xs hover:opacity-90 transition cursor-pointer flex items-center justify-center gap-1">
+              <span>💾</span> 下载高清 PNG
+            </button>
+            <button type="button" onclick="copySharePosterImage()"
+              class="px-3 py-2.5 rounded-xl bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] font-semibold text-xs hover:opacity-90 transition cursor-pointer flex items-center justify-center gap-1">
+              <span>📋</span> 复制海报图片
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 轻提示 Toast -->
   <div id="toastNotice" class="fixed bottom-5 right-5 z-50 hidden bg-[var(--foreground)] text-[var(--background)] text-xs font-medium px-4 py-2.5 rounded-xl shadow-lg"></div>
 
 <script>
 /**
  * ============================================================================
- * 模块一：天城文 (Devanagari)、IAST 与粗略英文拼写 -> SLP1 音素编码引擎
+ * 模块一：天城文 (Devanagari)、悉昙字 (Siddhaṃ)、IAST 与粗略英文拼写 -> SLP1 音素编码引擎
  * ============================================================================
  */
 const DEVA_TO_SLP1 = {
@@ -506,7 +752,7 @@ function inputToSlp1(text, mode = 'smart') {
   }).join('');
 }
 
-// SLP1 反向生成标准 IAST 与天城文
+// SLP1 反向生成标准 IAST、天城文与悉昙梵字 (Unicode Siddhaṃ U+11580..U+115FF)
 const SLP1_TO_IAST = {
   'a':'a','A':'ā','i':'i','I':'ī','u':'u','U':'ū','f':'ṛ','F':'ṝ','x':'ḷ','X':'ḹ','e':'e','E':'ai','o':'o','O':'au',
   'M':'ṃ','H':'ḥ','~':'ँ',"'":"'",
@@ -521,6 +767,24 @@ const SLP1_CONS_TO_DEVA = {
   'k':'क','K':'ख','g':'ग','G':'घ','N':'ङ','c':'च','C':'छ','j':'ज','J':'झ','Y':'ञ',
   'w':'ट','W':'ठ','q':'ड','Q':'ढ','R':'ण','t':'त','T':'थ','d':'द','D':'ध','n':'न',
   'p':'प','P':'फ','b':'ब','B':'भ','m':'म','y':'य','r':'र','l':'ल','v':'व','S':'श','z':'ष','s':'स','h':'ह','L':'ळ'
+};
+
+const SLP1_VOWEL_TO_SIDDHAM = {
+  'a':'\u{11580}','A':'\u{11581}','i':'\u{11582}','I':'\u{11583}','u':'\u{11584}','U':'\u{11585}',
+  'f':'\u{11586}','F':'\u{11587}','x':'\u{11588}','X':'\u{11589}','e':'\u{1158A}','E':'\u{1158B}','o':'\u{1158C}','O':'\u{1158D}'
+};
+const SLP1_MATRA_TO_SIDDHAM = {
+  'a':'','A':'\u{115AF}','i':'\u{115B0}','I':'\u{115B1}','u':'\u{115B2}','U':'\u{115B3}',
+  'f':'\u{115B4}','F':'\u{115B5}','x':'\u{115B4}','X':'\u{115B5}','e':'\u{115B8}','E':'\u{115B9}','o':'\u{115BA}','O':'\u{115BB}'
+};
+const SLP1_CONS_TO_SIDDHAM = {
+  'k':'\u{1158E}','K':'\u{1158F}','g':'\u{11590}','G':'\u{11591}','N':'\u{11592}',
+  'c':'\u{11593}','C':'\u{11594}','j':'\u{11595}','J':'\u{11596}','Y':'\u{11597}',
+  'w':'\u{11598}','W':'\u{11599}','q':'\u{1159A}','Q':'\u{1159B}','R':'\u{1159C}',
+  't':'\u{1159D}','T':'\u{1159E}','d':'\u{1159F}','D':'\u{115A0}','n':'\u{115A1}',
+  'p':'\u{115A2}','P':'\u{115A3}','b':'\u{115A4}','B':'\u{115A5}','m':'\u{115A6}',
+  'y':'\u{115A7}','r':'\u{115A8}','l':'\u{115A9}','v':'\u{115AA}',
+  'S':'\u{115AB}','z':'\u{115AC}','s':'\u{115AD}','h':'\u{115AE}','L':'\u{115A9}'
 };
 
 function slp1ToIast(slp) {
@@ -555,6 +819,38 @@ function slp1ToDevanagari(slp) {
     else if (ch === "'") out += 'ऽ';
     else if (ch === '|' && next === '|') { out += '॥'; i++; }
     else if (ch === '|') out += '।';
+    else out += ch;
+  }
+  return out;
+}
+
+function slp1ToSiddham(slp) {
+  const s = String(slp || '');
+  let out = '';
+  for (let i = 0; i < s.length; i++) {
+    if (s.slice(i, i + 2) === 'oM' && (i === 0 || !SLP1_CONS_TO_SIDDHAM[s[i - 1]]) && !SLP1_VOWEL_TO_SIDDHAM[s[i + 2]]) {
+      out += '\u{1158C}\u{115BC}';
+      i++;
+      continue;
+    }
+    const ch = s[i];
+    const next = s[i + 1];
+    if (SLP1_CONS_TO_SIDDHAM[ch]) {
+      out += SLP1_CONS_TO_SIDDHAM[ch];
+      if (SLP1_MATRA_TO_SIDDHAM[next] !== undefined) {
+        out += SLP1_MATRA_TO_SIDDHAM[next];
+        i++;
+      } else {
+        out += '\u{115BF}';
+      }
+    } else if (SLP1_VOWEL_TO_SIDDHAM[ch]) {
+      out += SLP1_VOWEL_TO_SIDDHAM[ch];
+    } else if (ch === 'M') out += '\u{115BD}';
+    else if (ch === 'H') out += '\u{115BE}';
+    else if (ch === '~') out += '\u{115BC}';
+    else if (ch === "'") out += '';
+    else if (ch === '|' && next === '|') { out += '\u{115C3}'; i++; }
+    else if (ch === '|') out += '\u{115C2}';
     else out += ch;
   }
   return out;
@@ -629,34 +925,34 @@ const INHERENT_LONG_VOWELS = new Set(['A','I','U','F','X']);
 
 // 特殊二合辅音与高频陀罗尼音节库 (28项)
 const SYLLABLE_OVERRIDES = {
-  'oM':   { m: '嗡',     t: '唵',     note: '神圣种子字 (oṃ)' },
-  'hUM':  { m: '轰',     t: '吽',     note: '圆满种子字 (hūṃ)' },
-  'huM':  { m: '轰',     t: '吽',     note: '种子字 (huṃ)' },
-  'hrIH': { m: '赫里希', t: '纥哩',   note: '莲花部种子字 (hrīḥ)' },
-  'hrIM': { m: '赫林',   t: '纥哩',   note: '种子字 (hrīṃ)' },
-  'SrIM': { m: '希林',   t: '室哩',   note: '吉祥种子字 (śrīṃ)' },
-  'klIM': { m: '克林',   t: '讫哩',   note: '钩召种子字 (klīṃ)' },
-  'DIH':  { m: '迪希',   t: '谛',     note: '文殊智慧种子字 (dhīḥ)' },
-  'BrUM': { m: '部隆',   t: '勃',     note: '佛顶尊胜种子字 (bhrūṃ)' },
-  'svA':  { m: '斯瓦',   t: '娑婆',   note: '吉祥圆满词根 (svā)' },
-  'sva':  { m: '斯瓦',   t: '娑嚩',   note: '自性/天界 (sva)' },
+  'oM':   { m: '嗡',   t: '唵',   note: '神圣种子字 (oṃ)' },
+  'hUM':  { m: '轰',   t: '吽',   note: '圆满种子字 (hūṃ)' },
+  'huM':  { m: '轰',   t: '吽',   note: '种子字 (huṃ)' },
+  'hrIH': { m: '赫里希', t: '纥哩', note: '莲花部种子字 (hrīḥ)' },
+  'hrIM': { m: '赫林', t: '纥哩', note: '种子字 (hrīṃ)' },
+  'SrIM': { m: '希林', t: '室哩', note: '吉祥种子字 (śrīṃ)' },
+  'klIM': { m: '克林', t: '讫哩', note: '钩召种子字 (klīṃ)' },
+  'DIH':  { m: '迪希', t: '谛',   note: '文殊智慧种子字 (dhīḥ)' },
+  'BrUM': { m: '部隆', t: '勃',   note: '佛顶尊胜种子字 (bhrūṃ)' },
+  'svA':  { m: '斯瓦', t: '娑婆', note: '吉祥圆满词根 (svā)' },
+  'sva':  { m: '斯瓦', t: '娑嚩', note: '自性/天界 (sva)' },
   'svaH': { m: '斯瓦赫', t: '娑嚩诃', note: '天界 (svaḥ)' },
   'svar': { m: '斯瓦尔', t: '娑嚩啰', note: '天界 (svar)' },
-  'BUr':  { m: '布尔',   t: '婆啰',   note: '地界 (bhūr)' },
-  'BUH':  { m: '布忽',   t: '婆诃',   note: '地界 (bhūḥ)' },
-  'hA':   { m: '哈',     t: '诃',     note: '成就尾音 (hā)' },
-  'SrI':  { m: '希里',   t: '室利',   note: '吉祥尊称 (śrī)' },
-  'pra':  { m: '普啦',   t: '般若',   note: '胜义前缀 (pra)' },
-  'jYA':  { m: '吉尼亚', t: '若',     note: '般若智慧词根 (jñā)' },
-  'jYa':  { m: '吉尼亚', t: '若',     note: '智 (jña)' },
-  'kza':  { m: '克沙',   t: '叉',     note: '二合复辅音 (kṣa)' },
-  'kzA':  { m: '克沙',   t: '叉',     note: '二合复辅音 (kṣā)' },
-  'kzi':  { m: '克师',   t: '絺',     note: '二合复辅音 (kṣi)' },
-  'kzI':  { m: '克师',   t: '絺',     note: '二合复辅音 (kṣī)' },
-  'kzu':  { m: '克舒',   t: '刍',     note: '二合复辅音 (kṣu)' },
-  'kze':  { m: '克奢',   t: '制',     note: '二合复辅音 (kṣe)' },
-  'Paw':  { m: '帕特',   t: '发吒',   note: '破障催伏音 (phaṭ)' },
-  'saM':  { m: '萨姆',   t: '僧',     note: '正等/和合前缀 (saṃ)' }
+  'BUr':  { m: '布尔', t: '婆啰', note: '地界 (bhūr)' },
+  'BUH':  { m: '布忽', t: '婆诃', note: '地界 (bhūḥ)' },
+  'hA':   { m: '哈',   t: '诃',   note: '成就尾音 (hā)' },
+  'SrI':  { m: '希里', t: '室利', note: '吉祥尊称 (śrī)' },
+  'pra':  { m: '普啦', t: '般若', note: '胜义前缀 (pra)' },
+  'jYA':  { m: '吉尼亚', t: '若', note: '般若智慧词根 (jñā)' },
+  'jYa':  { m: '吉尼亚', t: '若', note: '智 (jña)' },
+  'kza':  { m: '克沙', t: '叉',   note: '二合复辅音 (kṣa)' },
+  'kzA':  { m: '克沙', t: '叉',   note: '二合复辅音 (kṣā)' },
+  'kzi':  { m: '克师', t: '絺',   note: '二合复辅音 (kṣi)' },
+  'kzI':  { m: '克师', t: '絺',   note: '二合复辅音 (kṣī)' },
+  'kzu':  { m: '克舒', t: '刍',   note: '二合复辅音 (kṣu)' },
+  'kze':  { m: '克奢', t: '制',   note: '二合复辅音 (kṣe)' },
+  'Paw':  { m: '帕特', t: '发吒', note: '破障催伏音 (phaṭ)' },
+  'saM':  { m: '萨姆', t: '僧',   note: '正等/和合前缀 (saṃ)' }
 };
 
 // 经典佛经整词古译映射表
@@ -1176,7 +1472,6 @@ function updateAudioStatusBadge(text) {
 }
 
 async function checkBackendHealth() {
-  // Always begin caching local ONNX model in background + keep HF Neural API warm on first page entry
   if (isRealBrowserOnnxCapable()) {
     startHfKeepAlivePing();
     warmupStandaloneBrowserOnnx('male');
@@ -1363,7 +1658,7 @@ function shapeAndUpsample48k(raw24k, chars, durs, effRate, isBareVirama) {
     }
   }
 
-  const pad = 240; // 10ms clean zero pre-pad at 24kHz
+  const pad = 240;
   const nRaw = wav24.length;
   const clean24 = new Float32Array(pad + nRaw);
   let px = nRaw > 0 ? wav24[0] : 0, py = 0, sum = 0;
@@ -1589,12 +1884,6 @@ function playBufferSlice(buffer, offsetSec = 0, durationSec = null, rate = 1.0, 
   return effectiveDur;
 }
 
-/**
- * 统一使用方案 1 播放单个梵文音节 (48kHz VITS + 内存缓存)：
- * - 首次进入（本地 ONNX 尚未缓存完成）：立即调用 Hugging Face / FastAPI 神经 API，同时后台缓存 ONNX
- * - 本地 ONNX 就绪后：零延迟本地推理，云端神经 API 作为高可用互备
- * - 移除向 legacy-tts 的回退
- */
 async function playSingleSyllable(rawSlp, cardIndex = -1) {
   const reqId = ++_singleClickReqId;
   stopIdleSingleAudioNodes();
@@ -1717,13 +2006,6 @@ async function playSingleSyllable(rawSlp, cardIndex = -1) {
   }
 }
 
-/**
- * 朗读整段梵文，并按帧级时间戳同步高亮音节卡片
- * 支持：
- * - neural-tts：首次进入本地 ONNX 尚未缓存完成时直接调用 Hugging Face / FastAPI `POST /api/tts`，
- *   同时后台缓存 ONNX 模型；本地 ONNX 就绪后使用本地 48kHz 推理（严禁回退至 legacy-tts）
- * - legacy-tts：仅当用户在下拉菜单显式选择系统语音对比时使用
- */
 async function speakSanskrit(fromButton = false) {
   if (isSpeaking) {
     if (fromButton === true) {
@@ -1751,7 +2033,6 @@ async function speakSanskrit(fromButton = false) {
 
   setSpeakingUI(true);
 
-  // 方案 1：原生古典梵文神经网络整句合成（首次进入走 Hugging Face API + 后台缓存 ONNX，无回退）
   if (mode === 'neural-tts') {
     const onnxReady = isRealBrowserOnnxCapable() && _readyOnnxVoices.has(vKey);
     if (isRealBrowserOnnxCapable() && !onnxReady) {
@@ -1889,7 +2170,6 @@ async function speakSanskrit(fromButton = false) {
     }
   }
 
-  // 显式选择对比模式：浏览器原生 Web Speech API (legacy-tts)
   if ('speechSynthesis' in window && window.speechSynthesis) {
     const voices = window.speechSynthesis.getVoices() || [];
     const targetVoice = voices.find(v => v.lang && v.lang.startsWith('sa')) ||
@@ -1978,9 +2258,23 @@ const SAMPLES = [
   "om mani padme hum | om shanti shanti shantih"
 ];
 
+const SAMPLE_TITLES = [
+  "般若波罗蜜多心经咒",
+  "六字大明咒与礼敬真言",
+  "吠陀伽耶特黎咒 (Gāyatrī)",
+  "古典梵文复辅音示范",
+  "圣救度母心咒（绿度母）",
+  "文殊菩萨智慧心咒",
+  "药师琉璃光如来灌顶真言",
+  "六字大明咒与寂静真言"
+];
+
 const IAST_QUICK_CHARS = ['ā','ī','ū','ṛ','ṝ','ḷ','ṅ','ñ','ṭ','ḍ','ṇ','ś','ṣ','ṃ','ḥ','ॐ','।','ऽ'];
 
 let lastSyllableList = [];
+let lastParsedWordBlocks = [];
+let currentSampleTitle = SAMPLE_TITLES[0];
+let shareTitleDirty = false;
 
 function initQuickCharBar() {
   const bar = document.getElementById('charBar');
@@ -2047,6 +2341,11 @@ function loadSample(idx) {
   const input = document.getElementById('sanskritInput');
   if (input && SAMPLES[idx] !== undefined) {
     input.value = SAMPLES[idx];
+    currentSampleTitle = SAMPLE_TITLES[idx] || '梵音陀罗尼持诵谱';
+    if (!shareTitleDirty) {
+      const titleInput = document.getElementById('shareTitleInput');
+      if (titleInput) titleInput.value = currentSampleTitle;
+    }
   }
   processInput();
 }
@@ -2064,6 +2363,8 @@ function processInput() {
   const inputEl = document.getElementById('sanskritInput');
   const raw = (inputEl && inputEl.value) ? inputEl.value.trim() : '';
   if (!raw) {
+    const siddhamOutEl = document.getElementById('siddhamOut');
+    if (siddhamOutEl) siddhamOutEl.textContent = '—';
     document.getElementById('iastOut').textContent = '—';
     document.getElementById('devaOut').textContent = '—';
     document.getElementById('slp1Out').textContent = '—';
@@ -2074,6 +2375,7 @@ function processInput() {
     const statsEl = document.getElementById('statsSummary');
     if (statsEl) statsEl.textContent = '0 词 · 0 音节';
     lastSyllableList = [];
+    lastParsedWordBlocks = [];
     return;
   }
 
@@ -2090,7 +2392,10 @@ function processInput() {
   const slp1Full = inputToSlp1(raw, currentInputMode);
   const iastFull = slp1ToIast(slp1Full);
   const devaFull = slp1ToDevanagari(slp1Full);
+  const siddhamFull = slp1ToSiddham(slp1Full);
 
+  const siddhamOutEl = document.getElementById('siddhamOut');
+  if (siddhamOutEl) siddhamOutEl.textContent = siddhamFull;
   document.getElementById('iastOut').textContent = iastFull;
   document.getElementById('devaOut').textContent = devaFull;
   document.getElementById('slp1Out').textContent = slp1Full;
@@ -2101,6 +2406,7 @@ function processInput() {
   const allCardsHtml = [];
   const wordSheetHtml = [];
   lastSyllableList = [];
+  lastParsedWordBlocks = [];
 
   let totalPhoneticSyllables = 0;
   let guruCount = 0;
@@ -2119,17 +2425,33 @@ function processInput() {
     const wordModern = parsed.modernWord;
     const wordTrad = parsed.tradWord;
     const wordMeter = parsed.meterWord;
+    const wordIast = slp1ToIast(w);
+    const wordDeva = slp1ToDevanagari(w);
+    const wordSiddham = slp1ToSiddham(w);
 
     modernWords.push(wordModern);
     tradWords.push(wordTrad);
 
+    lastParsedWordBlocks.push({
+      slp1: w,
+      siddham: wordSiddham,
+      iast: wordIast,
+      deva: wordDeva,
+      modern: wordModern,
+      trad: wordTrad,
+      meter: wordMeter
+    });
+
     wordSheetHtml.push(`
       <div class="bg-[var(--secondary)] border border-[var(--border)] rounded-xl p-3.5 space-y-1.5">
         <div class="flex items-center justify-between gap-2">
-          <span class="deva-font text-base font-bold text-[var(--foreground)]">${slp1ToDevanagari(w)}</span>
+          <div class="flex items-center gap-2">
+            <span class="siddham-font text-lg font-bold text-[var(--primary)]">${wordSiddham}</span>
+            <span class="deva-font text-base font-bold text-[var(--foreground)]">${wordDeva}</span>
+          </div>
           ${showMeter && wordMeter ? `<span class="font-mono text-xs px-2 py-0.5 rounded bg-[var(--card)] text-[var(--muted-foreground)] border border-[var(--border)]">${wordMeter}</span>` : ''}
         </div>
-        <div class="font-mono text-xs text-[var(--muted-foreground)]">${slp1ToIast(w)}</div>
+        <div class="font-mono text-xs text-[var(--muted-foreground)]">${wordIast}</div>
         <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400">${wordModern}</div>
         <div class="text-xs font-medium text-amber-700 dark:text-amber-400">古译：${wordTrad}</div>
       </div>
@@ -2143,8 +2465,9 @@ function processInput() {
 
       const iastSyl = slp1ToIast(s.raw);
       const devaSyl = slp1ToDevanagari(s.raw);
+      const siddhamSyl = slp1ToSiddham(s.raw);
       const cardIdx = lastSyllableList.length;
-      lastSyllableList.push({ ...s, iastSyl, devaSyl });
+      lastSyllableList.push({ ...s, iastSyl, devaSyl, siddhamSyl });
 
       allCardsHtml.push(`
         <button type="button"
@@ -2157,7 +2480,10 @@ function processInput() {
             <span>${iastSyl}</span>
             ${showMeter && s.meter ? `<span class="px-1 rounded bg-[var(--card)] text-[var(--foreground)] font-bold" title="${s.meter === '—' ? 'Guru 重音节 (2拍)' : 'Laghu 轻音节 (1拍)'}">${s.meter}</span>` : ''}
           </div>
-          <div class="deva-font text-sm font-semibold text-[var(--foreground)] mt-0.5">${devaSyl}</div>
+          <div class="flex items-center justify-center gap-1.5 mt-0.5">
+            <span class="siddham-font text-base font-bold text-[var(--primary)]">${siddhamSyl}</span>
+            <span class="deva-font text-sm font-semibold text-[var(--foreground)]">${devaSyl}</span>
+          </div>
           <div class="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">${s.m}</div>
           <div class="text-xs font-medium text-amber-700 dark:text-amber-400 bg-[var(--card)] border border-[var(--border)] rounded px-1.5 py-0.5 mt-1 w-full truncate">
             古：${s.t || '—'}
@@ -2170,7 +2496,7 @@ function processInput() {
     }
   }
 
-  document.getElementById('modernOut').textContent = modernWords.join('  ');
+  document.getElementById('modernOut').textContent = modernWords.join(' ');
   document.getElementById('tradOut').textContent = tradWords.join(' ');
   document.getElementById('breakdownContainer').innerHTML = allCardsHtml.join('');
   document.getElementById('wordSheetContainer').innerHTML = wordSheetHtml.join('');
@@ -2178,6 +2504,12 @@ function processInput() {
   if (statsEl) {
     statsEl.textContent =
       `${modernWords.length} 词 · ${totalPhoneticSyllables} 音节 (重音 — ${guruCount} / 轻音 ⏑ ${laghuCount})`;
+  }
+
+  const shareModal = document.getElementById('sharePosterModal');
+  if (shareModal && !shareModal.classList.contains('hidden')) {
+    rebuildShareBlocks(true);
+    renderSharePoster();
   }
 }
 
@@ -2191,6 +2523,7 @@ function highlightSyllableCard(cardIdx, showInspector = true) {
     const item = lastSyllableList[cardIdx];
     const panel = document.getElementById('activeSyllableInspector');
     if (panel && panel.classList) panel.classList.remove('hidden');
+    const sidEl = document.getElementById('inspSiddham');
     const devaEl = document.getElementById('inspDeva');
     const iastEl = document.getElementById('inspIast');
     const meterEl = document.getElementById('inspMeter');
@@ -2199,6 +2532,7 @@ function highlightSyllableCard(cardIdx, showInspector = true) {
     const detEl = document.getElementById('inspDetail');
     const btnEl = document.getElementById('inspSpeakBtn');
 
+    if (sidEl) sidEl.textContent = item.siddhamSyl || slp1ToSiddham(item.raw);
     if (devaEl) devaEl.textContent = item.devaSyl;
     if (iastEl) iastEl.textContent = `IAST: ${item.iastSyl} (SLP1: ${item.raw})`;
     if (meterEl) meterEl.textContent = item.meter === '—' ? '诗律：— 重音节 Guru (2拍)' : '诗律：⏑ 轻音节 Laghu (1拍)';
@@ -2216,22 +2550,16 @@ async function inspectAndPlaySyllable(cardIdx) {
   return await playSingleSyllable(item.raw, cardIdx);
 }
 
-/**
- * 构建完整 34×14 悉昙音素全表弹窗内容：
- * 1. 16 摩多独立元音 (14 元音 a..O + 随韵 aM + 止韵 aH)
- * 2. 28 神圣种子字与特殊二合音 (SYLLABLE_OVERRIDES)
- * 3. 34 辅音 × 14 元音全矩阵 (476 单元格) + 34 纯辅音去元音符 (Virāma) 列 = 510 单元格
- */
 function buildPhonemeMatrixModal() {
   const container = document.getElementById('matrixModalBody');
   if (!container) return;
   if (container.innerHTML.trim() !== '') return;
 
-  // 一、16 摩多独立元音 (Svara)
   const svaraKeys = ['a','A','i','I','u','U','f','F','x','X','e','E','o','O','aM','aH'];
   const vowelCards = svaraKeys.map(vk => {
     const iast = slp1ToIast(vk);
     const deva = slp1ToDevanagari(vk);
+    const sid = slp1ToSiddham(vk);
     let m = '', t = '';
     if (vk === 'aM') {
       m = '阿姆'; t = '唵/暗';
@@ -2245,33 +2573,33 @@ function buildPhonemeMatrixModal() {
     return `
       <button type="button" data-slp1="${vk}" onclick="playSingleSyllable('${vk}', -1)"
         class="p-2 rounded-xl bg-[var(--secondary)] hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)] border border-[var(--border)] text-center transition cursor-pointer">
-        <div class="deva-font text-base font-bold">${deva} <span class="font-mono text-xs opacity-80">${iast}</span></div>
+        <div class="text-base font-bold"><span class="siddham-font mr-1">${sid}</span><span class="deva-font">${deva}</span> <span class="font-mono text-xs opacity-80">${iast}</span></div>
         <div class="text-xs font-bold mt-0.5">${m}</div>
         <div class="text-xs opacity-75">古：${t}</div>
       </button>
     `;
   }).join('');
 
-  // 二、28 神圣种子字与特殊二合音 (Bīja & Special Conjuncts)
   const overrideCards = Object.entries(SYLLABLE_OVERRIDES).map(([ovKey, ov]) => {
     const iast = slp1ToIast(ovKey);
     const deva = slp1ToDevanagari(ovKey);
+    const sid = slp1ToSiddham(ovKey);
     return `
       <button type="button" data-slp1="${ovKey}" onclick="playSingleSyllable('${ovKey}', -1)"
         class="p-2 rounded-xl bg-[var(--secondary)] hover:bg-[var(--primary)] hover:text-[var(--primary-foreground)] border border-[var(--border)] text-center transition cursor-pointer">
-        <div class="deva-font text-sm font-bold">${deva} <span class="font-mono text-xs opacity-80">${iast}</span></div>
+        <div class="text-sm font-bold"><span class="siddham-font mr-1">${sid}</span><span class="deva-font">${deva}</span> <span class="font-mono text-xs opacity-80">${iast}</span></div>
         <div class="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">${ov.m}</div>
         <div class="text-xs text-amber-700 dark:text-amber-400">古：${ov.t}</div>
       </button>
     `;
   }).join('');
 
-  // 三、34 辅音 × 14 元音全矩阵 + 纯辅音 (Virāma) 列
   const matrixVowels = ['a','A','i','I','u','U','f','F','x','X','e','E','o','O'];
 
   const rowsHtml = Object.entries(CONS_MATRIX).map(([cKey, info]) => {
     const cIast = slp1ToIast(cKey);
     const cDeva = slp1ToDevanagari(cKey);
+    const cSid = slp1ToSiddham(cKey);
     const cells = matrixVowels.map((vk) => {
       const sylSlp = cKey + vk;
       const sylDeva = slp1ToDevanagari(sylSlp);
@@ -2296,7 +2624,7 @@ function buildPhonemeMatrixModal() {
         <td class="p-1.5 border border-[var(--border)] font-semibold bg-[var(--secondary)] min-w-[125px]">
           <button type="button" data-slp1="${cKey}" onclick="playSingleSyllable('${cKey}', -1)"
             class="w-full text-left p-1 rounded-lg hover:bg-[var(--card)] transition cursor-pointer">
-            <div class="deva-font text-sm">${cDeva} <span class="font-mono text-xs">(${cIast})</span></div>
+            <div class="text-sm"><span class="siddham-font mr-1">${cSid}</span><span class="deva-font">${cDeva}</span> <span class="font-mono text-xs">(${cIast})</span></div>
             <div class="text-xs text-emerald-600 dark:text-emerald-400">收音:${info.bare[0]} / 古:${info.bare[1]}</div>
             <div class="text-xs text-[var(--muted-foreground)] truncate">${info.varga.split(' ')[0]} · ${info.note}</div>
           </button>
@@ -2312,7 +2640,7 @@ function buildPhonemeMatrixModal() {
       <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2">${vowelCards}</div>
     </div>
     <div class="space-y-2">
-      <h4 class="font-bold text-sm text-[var(--foreground)]">二、28 神圣种子字与高频二合音 (Bīja & Conjuncts · 48kHz 点击试听)</h4>
+      <h4 class="font-bold text-sm text-[var(--foreground)]">二、28 神圣种子字与高频二合音 (Bīja &amp; Conjuncts · 48kHz 点击试听)</h4>
       <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">${overrideCards}</div>
     </div>
     <div class="space-y-2">
@@ -2381,6 +2709,998 @@ function copyFormattedSheet() {
   }
 }
 
+/**
+ * ============================================================================
+ * 模块六：零依赖 ISO/IEC 18004 二维码矩阵编码器 + 9:16 手机竖屏分享海报引擎 + 扫码直达聆听
+ * ============================================================================
+ */
+const QR_LEVEL_M_SPECS = [
+  null,
+  [10, 1, 16, 0, 0],   // V1
+  [16, 1, 28, 0, 0],   // V2
+  [26, 1, 44, 0, 0],   // V3
+  [18, 2, 32, 0, 0],   // V4
+  [24, 2, 43, 0, 0],   // V5
+  [16, 4, 27, 0, 0],   // V6
+  [18, 4, 31, 0, 0],   // V7
+  [22, 2, 38, 2, 39],  // V8
+  [22, 3, 36, 2, 37],  // V9
+  [26, 4, 43, 1, 44],  // V10
+  [30, 1, 50, 4, 51],  // V11
+  [22, 6, 36, 2, 37],  // V12
+  [22, 8, 37, 1, 38],  // V13
+  [24, 4, 40, 5, 41],  // V14
+  [24, 5, 41, 5, 42],  // V15
+  [28, 7, 45, 3, 46]   // V16
+];
+
+const QR_ALIGNMENT_CENTERS = [
+  [], [], [6,18], [6,22], [6,26], [6,30], [6,34],
+  [6,22,38], [6,24,42], [6,26,46], [6,28,50], [6,30,54],
+  [6,32,58], [6,34,62], [6,26,46,66], [6,26,48,70], [6,26,50,74]
+];
+
+const GF_EXP = new Uint8Array(512);
+const GF_LOG = new Uint8Array(256);
+(function initQrGaloisField() {
+  let x = 1;
+  for (let i = 0; i < 255; i++) {
+    GF_EXP[i] = x;
+    GF_LOG[x] = i;
+    x <<= 1;
+    if (x & 0x100) x ^= 0x11d;
+  }
+  for (let i = 255; i < 512; i++) GF_EXP[i] = GF_EXP[i - 255];
+})();
+
+function gfMul(a, b) {
+  if (a === 0 || b === 0) return 0;
+  return GF_EXP[GF_LOG[a] + GF_LOG[b]];
+}
+
+function qrReedSolomonGenerator(degree) {
+  let poly = [1];
+  for (let i = 0; i < degree; i++) {
+    const next = new Array(poly.length + 1).fill(0);
+    const root = GF_EXP[i];
+    for (let j = 0; j < poly.length; j++) {
+      next[j] ^= poly[j];
+      next[j + 1] ^= gfMul(poly[j], root);
+    }
+    poly = next;
+  }
+  return poly;
+}
+
+function qrReedSolomonRemainder(data, ecLen) {
+  const gen = qrReedSolomonGenerator(ecLen);
+  const rem = new Uint8Array(ecLen);
+  for (let i = 0; i < data.length; i++) {
+    const factor = data[i] ^ rem[0];
+    rem.copyWithin(0, 1);
+    rem[ecLen - 1] = 0;
+    if (factor !== 0) {
+      for (let j = 0; j < ecLen; j++) {
+        rem[j] ^= gfMul(gen[j + 1], factor);
+      }
+    }
+  }
+  return rem;
+}
+
+function encodeQrMatrix(text) {
+  const utf8 = new TextEncoder().encode(String(text || ''));
+  let ver = 1;
+  for (; ver <= 16; ver++) {
+    const spec = QR_LEVEL_M_SPECS[ver];
+    const dataCap = spec[1] * spec[2] + spec[3] * spec[4];
+    const lenBits = ver <= 9 ? 8 : 16;
+    const neededBytes = Math.ceil((4 + lenBits + utf8.length * 8) / 8);
+    if (neededBytes <= dataCap) break;
+  }
+  if (ver > 16) ver = 16;
+
+  const [ecPerBlock, g1Blocks, g1Data, g2Blocks, g2Data] = QR_LEVEL_M_SPECS[ver];
+  const totalDataBytes = g1Blocks * g1Data + g2Blocks * g2Data;
+  const maxPayload = Math.min(utf8.length, totalDataBytes - (ver <= 9 ? 2 : 3));
+  const payload = utf8.subarray(0, maxPayload);
+
+  const bits = [];
+  const pushBits = (val, len) => {
+    for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1);
+  };
+  pushBits(0b0100, 4); // Byte mode
+  pushBits(payload.length, ver <= 9 ? 8 : 16);
+  for (let i = 0; i < payload.length; i++) pushBits(payload[i], 8);
+
+  const maxDataBits = totalDataBytes * 8;
+  const term = Math.min(4, maxDataBits - bits.length);
+  for (let i = 0; i < term; i++) bits.push(0);
+  while (bits.length % 8 !== 0) bits.push(0);
+
+  const dataCodewords = new Uint8Array(totalDataBytes);
+  for (let i = 0; i < bits.length / 8; i++) {
+    let b = 0;
+    for (let k = 0; k < 8; k++) b = (b << 1) | bits[i * 8 + k];
+    dataCodewords[i] = b;
+  }
+  const padBytes = [0xec, 0x11];
+  for (let i = bits.length / 8, p = 0; i < totalDataBytes; i++, p ^= 1) {
+    dataCodewords[i] = padBytes[p];
+  }
+
+  const blocksData = [];
+  const blocksEc = [];
+  let offset = 0;
+  for (let b = 0; b < g1Blocks + g2Blocks; b++) {
+    const dLen = b < g1Blocks ? g1Data : g2Data;
+    const slice = dataCodewords.subarray(offset, offset + dLen);
+    offset += dLen;
+    blocksData.push(slice);
+    blocksEc.push(qrReedSolomonRemainder(slice, ecPerBlock));
+  }
+
+  const interleaved = [];
+  const maxBlockLen = Math.max(g1Data, g2Data);
+  for (let i = 0; i < maxBlockLen; i++) {
+    for (const blk of blocksData) {
+      if (i < blk.length) interleaved.push(blk[i]);
+    }
+  }
+  for (let i = 0; i < ecPerBlock; i++) {
+    for (const ec of blocksEc) interleaved.push(ec[i]);
+  }
+
+  const size = 17 + ver * 4;
+  const modules = Array.from({ length: size }, () => new Array(size).fill(false));
+  const isFunc = Array.from({ length: size }, () => new Array(size).fill(false));
+
+  const setFunctionModule = (r, c, dark) => {
+    if (r < 0 || r >= size || c < 0 || c >= size) return;
+    modules[r][c] = Boolean(dark);
+    isFunc[r][c] = true;
+  };
+
+  const drawFinder = (topR, leftC) => {
+    for (let dr = -1; dr <= 7; dr++) {
+      for (let dc = -1; dc <= 7; dc++) {
+        const r = topR + dr, c = leftC + dc;
+        if (r < 0 || r >= size || c < 0 || c >= size) continue;
+        const inOuter = dr >= 0 && dr <= 6 && dc >= 0 && dc <= 6;
+        const onBorder = dr === 0 || dr === 6 || dc === 0 || dc === 6;
+        const inInner = dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4;
+        setFunctionModule(r, c, inOuter && (onBorder || inInner));
+      }
+    }
+  };
+
+  drawFinder(0, 0);
+  drawFinder(0, size - 7);
+  drawFinder(size - 7, 0);
+
+  for (let i = 8; i < size - 8; i++) {
+    if (!isFunc[6][i]) setFunctionModule(6, i, i % 2 === 0);
+    if (!isFunc[i][6]) setFunctionModule(i, 6, i % 2 === 0);
+  }
+
+  const align = QR_ALIGNMENT_CENTERS[ver];
+  for (let i = 0; i < align.length; i++) {
+    for (let j = 0; j < align.length; j++) {
+      if ((i === 0 && j === 0) || (i === 0 && j === align.length - 1) || (i === align.length - 1 && j === 0)) continue;
+      const cr = align[i], cc = align[j];
+      for (let dr = -2; dr <= 2; dr++) {
+        for (let dc = -2; dc <= 2; dc++) {
+          const dist = Math.max(Math.abs(dr), Math.abs(dc));
+          setFunctionModule(cr + dr, cc + dc, dist !== 1);
+        }
+      }
+    }
+  }
+
+  // 预留格式信息区与暗模块
+  for (let i = 0; i <= 8; i++) {
+    if (!isFunc[8][i]) setFunctionModule(8, i, false);
+    if (!isFunc[i][8]) setFunctionModule(i, 8, false);
+  }
+  for (let i = 0; i < 8; i++) {
+    if (!isFunc[8][size - 1 - i]) setFunctionModule(8, size - 1 - i, false);
+    if (!isFunc[size - 1 - i][8]) setFunctionModule(size - 1 - i, 8, false);
+  }
+  setFunctionModule(size - 8, 8, true);
+
+  if (ver >= 7) {
+    let rem = ver;
+    for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1f25);
+    const vInfo = (ver << 12) | rem;
+    for (let i = 0; i < 18; i++) {
+      const bit = ((vInfo >>> i) & 1) === 1;
+      const a = Math.floor(i / 3);
+      const b = (i % 3) + size - 11;
+      setFunctionModule(b, a, bit);
+      setFunctionModule(a, b, bit);
+    }
+  }
+
+  // 写入交织数据比特流（蛇形双列向上/向下扫描）
+  let bitIdx = 0;
+  const totalBits = interleaved.length * 8;
+  for (let right = size - 1; right >= 1; right -= 2) {
+    if (right === 6) right = 5;
+    const upward = ((right + 1) & 2) === 0;
+    for (let v = 0; v < size; v++) {
+      const r = upward ? (size - 1 - v) : v;
+      for (let j = 0; j < 2; j++) {
+        const c = right - j;
+        if (!isFunc[r][c]) {
+          let dark = false;
+          if (bitIdx < totalBits) {
+            dark = ((interleaved[bitIdx >>> 3] >>> (7 - (bitIdx & 7))) & 1) === 1;
+            bitIdx++;
+          }
+          modules[r][c] = dark;
+        }
+      }
+    }
+  }
+
+  const drawFormatBits = (mat, mask) => {
+    const data = (0b00 << 3) | mask; // Level M = 00
+    let rem = data;
+    for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+    const bits15 = ((data << 10) | rem) ^ 0x5412;
+    const getBit = (idx) => ((bits15 >>> idx) & 1) === 1;
+
+    const tlCols = [0, 1, 2, 3, 4, 5, 7, 8];
+    for (let k = 0; k < 8; k++) mat[8][tlCols[k]] = getBit(14 - k);
+    const tlRows = [7, 5, 4, 3, 2, 1, 0];
+    for (let k = 0; k < 7; k++) mat[tlRows[k]][8] = getBit(6 - k);
+
+    for (let k = 0; k < 7; k++) mat[size - 1 - k][8] = getBit(14 - k);
+    mat[size - 8][8] = true;
+    for (let k = 0; k < 8; k++) mat[8][size - 8 + k] = getBit(7 - k);
+  };
+
+  const maskFns = [
+    (r, c) => (r + c) % 2 === 0,
+    (r) => r % 2 === 0,
+    (_, c) => c % 3 === 0,
+    (r, c) => (r + c) % 3 === 0,
+    (r, c) => (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0,
+    (r, c) => ((r * c) % 2) + ((r * c) % 3) === 0,
+    (r, c) => (((r * c) % 2) + ((r * c) % 3)) % 2 === 0,
+    (r, c) => (((r + c) % 2) + ((r * c) % 3)) % 2 === 0
+  ];
+
+  const scorePenalty = (mat) => {
+    let pen = 0;
+    for (let r = 0; r < size; r++) {
+      let run = 1;
+      for (let c = 1; c < size; c++) {
+        if (mat[r][c] === mat[r][c - 1]) {
+          run++;
+          if (run === 5) pen += 3;
+          else if (run > 5) pen += 1;
+        } else run = 1;
+      }
+    }
+    for (let c = 0; c < size; c++) {
+      let run = 1;
+      for (let r = 1; r < size; r++) {
+        if (mat[r][c] === mat[r - 1][c]) {
+          run++;
+          if (run === 5) pen += 3;
+          else if (run > 5) pen += 1;
+        } else run = 1;
+      }
+    }
+    for (let r = 0; r < size - 1; r++) {
+      for (let c = 0; c < size - 1; c++) {
+        const v = mat[r][c];
+        if (v === mat[r][c + 1] && v === mat[r + 1][c] && v === mat[r + 1][c + 1]) pen += 3;
+      }
+    }
+    return pen;
+  };
+
+  let bestMat = null;
+  let bestScore = Infinity;
+  for (let m = 0; m < 8; m++) {
+    const cand = modules.map((row, r) =>
+      row.map((val, c) => (isFunc[r][c] ? val : (maskFns[m](r, c) ? !val : val)))
+    );
+    drawFormatBits(cand, m);
+    const sc = scorePenalty(cand);
+    if (sc < bestScore) {
+      bestScore = sc;
+      bestMat = cand;
+    }
+  }
+  return bestMat;
+}
+
+// 分享海报状态
+let shareBlocks = [];
+let qrAutoListenRequested = false;
+
+function getDefaultShareBaseUrl() {
+  if (typeof window !== 'undefined' && window.location) {
+    if (/^https?:$/i.test(window.location.protocol)) {
+      return `${window.location.origin}${window.location.pathname}`;
+    }
+  }
+  return 'https://bhrum108-sarva-dharani-kosa.static.hf.space/sanskrit_phonetic_engine.html';
+}
+
+function rebuildShareBlocks(preserveExistingSelection = false) {
+  const gran = document.getElementById('shareGranularitySelect')?.value || 'word';
+  const prevMap = new Map(shareBlocks.map(b => [b.key, b.selected]));
+
+  if (gran === 'syllable') {
+    shareBlocks = lastSyllableList.map((s, idx) => {
+      const key = `syl-${idx}-${s.raw}`;
+      return {
+        key,
+        index: idx,
+        slp1: s.raw,
+        siddham: s.siddhamSyl || slp1ToSiddham(s.raw),
+        iast: s.iastSyl,
+        deva: s.devaSyl,
+        modern: s.m,
+        trad: s.t || '',
+        meter: s.meter || '',
+        selected: preserveExistingSelection && prevMap.has(key) ? prevMap.get(key) : true
+      };
+    });
+  } else {
+    shareBlocks = lastParsedWordBlocks.map((w, idx) => {
+      const key = `word-${idx}-${w.slp1}`;
+      return {
+        key,
+        index: idx,
+        slp1: w.slp1,
+        siddham: w.siddham,
+        iast: w.iast,
+        deva: w.deva,
+        modern: w.modern,
+        trad: w.trad,
+        meter: w.meter || '',
+        selected: preserveExistingSelection && prevMap.has(key) ? prevMap.get(key) : true
+      };
+    });
+  }
+  renderShareBlockChips();
+}
+
+function renderShareBlockChips() {
+  const container = document.getElementById('shareBlockChips');
+  if (!container) return;
+  if (shareBlocks.length === 0) {
+    container.innerHTML = `<span class="text-xs text-[var(--muted-foreground)]">请先在主界面输入梵文内容</span>`;
+    return;
+  }
+  container.innerHTML = shareBlocks.map((b, i) => `
+    <button type="button" onclick="toggleSingleShareBlock(${i})"
+      class="px-2.5 py-1.5 rounded-xl border border-[var(--border)] text-left transition cursor-pointer flex items-center gap-1.5 ${b.selected ? 'share-chip-active' : 'share-chip-inactive'}">
+      <span class="text-[11px] font-bold">${b.selected ? '✓' : '○'}</span>
+      <span class="siddham-font text-base leading-none">${b.siddham}</span>
+      <span class="font-bold text-xs">${b.modern}</span>
+      <span class="font-mono text-[11px] text-[var(--muted-foreground)]">${b.iast}</span>
+    </button>
+  `).join('');
+}
+
+function toggleSingleShareBlock(idx) {
+  if (!shareBlocks[idx]) return;
+  const activeCount = shareBlocks.filter(b => b.selected).length;
+  if (shareBlocks[idx].selected && activeCount <= 1) {
+    showToast('至少保留 1 个字块用于生成分享海报');
+    return;
+  }
+  shareBlocks[idx].selected = !shareBlocks[idx].selected;
+  renderShareBlockChips();
+  renderSharePoster();
+}
+
+function selectShareBlocksPreset(preset) {
+  if (!shareBlocks.length) return;
+  if (preset === 'all') {
+    shareBlocks.forEach(b => { b.selected = true; });
+  } else if (preset === 'first') {
+    shareBlocks.forEach((b, idx) => { b.selected = idx === 0; });
+  } else if (preset === 'top6') {
+    shareBlocks.forEach((b, idx) => { b.selected = idx < 6; });
+  } else if (preset === 'invert') {
+    const next = shareBlocks.map(b => !b.selected);
+    if (next.every(v => !v)) next[0] = true;
+    shareBlocks.forEach((b, idx) => { b.selected = next[idx]; });
+  }
+  renderShareBlockChips();
+  renderSharePoster();
+}
+
+function buildShareAudioUrl() {
+  const baseInput = (document.getElementById('shareBaseUrlInput')?.value || '').trim() || getDefaultShareBaseUrl();
+  const active = shareBlocks.filter(b => b.selected);
+  const queryText = active.length > 0 && active.length < shareBlocks.length
+    ? active.map(b => b.iast).join(' ')
+    : ((document.getElementById('sanskritInput')?.value || '').trim());
+  const title = (document.getElementById('shareTitleInput')?.value || currentSampleTitle || '梵音陀罗尼').trim();
+  const voice = document.getElementById('voiceSelect')?.value || 'male';
+  const rate = document.getElementById('speechRate')?.value || '1.0';
+
+  const params = new URLSearchParams();
+  params.set('q', queryText);
+  params.set('title', title);
+  params.set('voice', voice);
+  params.set('rate', rate);
+  params.set('listen', '1');
+
+  const sep = baseInput.includes('?') ? '&' : '?';
+  return `${baseInput}${sep}${params.toString()}`;
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  const rad = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rad, y);
+  ctx.arcTo(x + w, y, x + w, y + h, rad);
+  ctx.arcTo(x + w, y + h, x, y + h, rad);
+  ctx.arcTo(x, y + h, x, y, rad);
+  ctx.arcTo(x, y, x + w, y, rad);
+  ctx.closePath();
+}
+
+function wrapCanvasText(ctx, text, maxWidth) {
+  const tokens = String(text || '').split(/(\s+)/).filter(t => t.length > 0);
+  const lines = [];
+  let cur = '';
+  for (const tk of tokens) {
+    const test = cur + tk;
+    if (ctx.measureText(test).width <= maxWidth || !cur) {
+      if (ctx.measureText(test).width > maxWidth && !/\s/.test(tk)) {
+        for (const ch of Array.from(tk)) {
+          if (ctx.measureText(cur + ch).width > maxWidth && cur) {
+            lines.push(cur.trim());
+            cur = ch;
+          } else {
+            cur += ch;
+          }
+        }
+      } else {
+        cur = test;
+      }
+    } else {
+      lines.push(cur.trim());
+      cur = tk.trimStart();
+    }
+  }
+  if (cur.trim()) lines.push(cur.trim());
+  return lines.length ? lines : [''];
+}
+
+function drawSubscriptAwareText(ctx, text, centerX, baselineY, mainSize, mainColor, subColor, fontFamily) {
+  const segs = [];
+  const re = /₍([^₎]+)₎|\(([^)]+)\)/g;
+  let last = 0;
+  let m;
+  const s = String(text || '');
+  while ((m = re.exec(s)) !== null) {
+    if (m.index > last) segs.push({ text: s.slice(last, m.index), sub: false });
+    if (m[1] !== undefined) {
+      segs.push({ text: m[1], sub: true });
+    } else {
+      const inner = m[2];
+      const isLatinIast = /[a-zāīūṛṝḷḹṅñṭḍṇśṣṃṁḥ]/i.test(inner);
+      segs.push({ text: isLatinIast ? `(${inner})` : inner, sub: true, isIast: isLatinIast });
+    }
+    last = re.lastIndex;
+  }
+  if (last < s.length) segs.push({ text: s.slice(last), sub: false });
+
+  let totalW = 0;
+  const measured = segs.map(seg => {
+    const sz = seg.sub ? Math.round(mainSize * (seg.isIast ? 0.66 : 0.72)) : mainSize;
+    ctx.font = `${seg.sub ? '600' : '700'} ${sz}px ${fontFamily}`;
+    const w = ctx.measureText(seg.text).width;
+    totalW += w;
+    return { ...seg, sz, w };
+  });
+
+  let curX = centerX - totalW / 2;
+  ctx.textAlign = 'left';
+  for (const item of measured) {
+    ctx.font = `${item.sub ? '600' : '700'} ${item.sz}px ${fontFamily}`;
+    ctx.fillStyle = item.sub ? subColor : mainColor;
+    const yOff = item.sub ? Math.round(mainSize * (item.isIast ? 0.04 : 0.14)) : 0;
+    ctx.fillText(item.text, curX, baselineY + yOff);
+    curX += item.w;
+  }
+  ctx.textAlign = 'center';
+}
+
+async function renderSharePoster() {
+  const canvas = document.getElementById('sharePosterCanvas');
+  if (!canvas) return;
+  if (document.fonts && document.fonts.ready) {
+    try { await document.fonts.ready; } catch (e) {}
+  }
+
+  const activeBlocks = shareBlocks.filter(b => b.selected);
+  if (!activeBlocks.length && lastParsedWordBlocks.length) {
+    rebuildShareBlocks(false);
+  }
+  const blocks = shareBlocks.filter(b => b.selected);
+
+  const aspect = document.getElementById('shareAspectSelect')?.value || '9:16';
+  const themeKey = document.getElementById('shareThemeSelect')?.value || 'parchment';
+  const layoutMode = document.getElementById('shareLayoutSelect')?.value || 'grid';
+
+  const showSiddham = Boolean(document.getElementById('layerSiddham')?.checked);
+  const showModern = Boolean(document.getElementById('layerModern')?.checked);
+  const showModernIast = Boolean(document.getElementById('layerModernIast')?.checked);
+  const showIast = Boolean(document.getElementById('layerIast')?.checked);
+  const showDeva = Boolean(document.getElementById('layerDeva')?.checked);
+  const showTrad = Boolean(document.getElementById('layerTrad')?.checked);
+  const showMeter = Boolean(document.getElementById('layerMeter')?.checked);
+  const showSeal = Boolean(document.getElementById('layerSeal')?.checked);
+
+  const palette = themeKey === 'indigo'
+    ? {
+        bgTop: '#161b2e', bgBottom: '#0d101d', cardBg: 'rgba(255, 248, 225, 0.06)',
+        border: '#c8a45d', innerBorder: 'rgba(200, 164, 93, 0.35)',
+        title: '#f7e6be', sub: '#bfa980', siddham: '#f6d58e',
+        modern: '#7ee0b8', iast: '#e5dcc8', deva: '#f0dfbc', trad: '#d8b46c',
+        sealBg: '#a62626', sealText: '#fff8ec', qrCard: '#1b2138'
+      }
+    : {
+        bgTop: '#fbf6ec', bgBottom: '#f2e8d5', cardBg: 'rgba(255, 255, 255, 0.72)',
+        border: '#9e2a2b', innerBorder: 'rgba(158, 42, 43, 0.28)',
+        title: '#241914', sub: '#6f5e4f', siddham: '#8c1d18',
+        modern: '#146c4e', iast: '#3a2e25', deva: '#2d221b', trad: '#8a5a19',
+        sealBg: '#a62626', sealText: '#fff9f0', qrCard: '#ffffff'
+      };
+
+  const W = 1080;
+  const padX = 76;
+  const contentW = W - padX * 2;
+  const headerH = showSeal ? 290 : 215;
+  const footerH = 310;
+
+  // 计算所需内容高度与字号缩放
+  const count = Math.max(1, blocks.length);
+  const scale = count > 18 ? 0.76 : (count > 10 ? 0.88 : 1.0);
+  const cols = layoutMode === 'grid'
+    ? (count === 1 ? 1 : (count <= 4 ? 2 : (count <= 12 ? 3 : 4)))
+    : 1;
+
+  let estBodyH = 420;
+  if (layoutMode === 'grid') {
+    const rows = Math.ceil(count / cols);
+    let cellH = 44;
+    if (showSiddham) cellH += Math.round(78 * scale);
+    if (showModern) cellH += Math.round(44 * scale);
+    if (showIast) cellH += Math.round(34 * scale);
+    if (showDeva) cellH += Math.round(40 * scale);
+    if (showTrad) cellH += Math.round(34 * scale);
+    if (showMeter) cellH += 28;
+    estBodyH = rows * (cellH + 20) + 40;
+  } else {
+    estBodyH = Math.max(420, Math.ceil(count / 4) * 230 + 80);
+  }
+
+  let H = 1920;
+  if (aspect === '3:4') {
+    H = 1440;
+  } else if (aspect === '9:16-long') {
+    H = Math.max(1920, headerH + estBodyH + footerH + 120);
+  }
+
+  canvas.width = W;
+  canvas.height = H;
+  const resBadge = document.getElementById('shareResolutionBadge');
+  if (resBadge) resBadge.textContent = `${W} × ${H}`;
+
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, palette.bgTop);
+  grad.addColorStop(1, palette.bgBottom);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // 古籍双线外框
+  ctx.strokeStyle = palette.border;
+  ctx.lineWidth = 4;
+  drawRoundedRect(ctx, 34, 34, W - 68, H - 68, 24);
+  ctx.stroke();
+
+  ctx.strokeStyle = palette.innerBorder;
+  ctx.lineWidth = 1.8;
+  drawRoundedRect(ctx, 46, 46, W - 92, H - 92, 18);
+  ctx.stroke();
+
+  const fontSans = "'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Sarva Rare Han', sans-serif";
+  const fontSid = "'Noto Sans Siddham', 'Noto Sans Devanagari', 'Sarva Rare Han', serif";
+  const fontDeva = "'Noto Sans Devanagari', 'Sarva Rare Han', sans-serif";
+  const fontIast = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace";
+
+  let cursorY = 92;
+  ctx.textAlign = 'center';
+
+  // 顶部本尊/首字朱砂印
+  if (showSeal && blocks.length > 0) {
+    const firstSid = blocks[0].siddham || '\u{1158C}\u{115BC}';
+    const sealSize = 92;
+    const sealX = (W - sealSize) / 2;
+    ctx.fillStyle = palette.sealBg;
+    drawRoundedRect(ctx, sealX, cursorY, sealSize, sealSize, 18);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+    ctx.lineWidth = 2;
+    drawRoundedRect(ctx, sealX + 7, cursorY + 7, sealSize - 14, sealSize - 14, 12);
+    ctx.stroke();
+
+    ctx.fillStyle = palette.sealText;
+    ctx.font = `700 46px ${fontSid}`;
+    ctx.fillText(firstSid.slice(0, 4), W / 2, cursorY + 63);
+    cursorY += sealSize + 36;
+  } else {
+    cursorY += 18;
+  }
+
+  const titleText = (document.getElementById('shareTitleInput')?.value || currentSampleTitle || '梵音陀罗尼持诵谱').trim();
+  const subtitleText = (document.getElementById('shareSubtitleInput')?.value || '').trim();
+
+  ctx.fillStyle = palette.title;
+  ctx.font = `700 46px ${fontSans}`;
+  ctx.fillText(titleText, W / 2, cursorY + 34);
+  cursorY += 56;
+
+  if (subtitleText) {
+    ctx.fillStyle = palette.sub;
+    ctx.font = `500 24px ${fontSans}`;
+    ctx.fillText(subtitleText, W / 2, cursorY + 22);
+    cursorY += 44;
+  }
+
+  // 分隔纹饰线
+  ctx.strokeStyle = palette.innerBorder;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(padX + 40, cursorY + 8);
+  ctx.lineTo(W - padX - 40, cursorY + 8);
+  ctx.stroke();
+  cursorY += 36;
+
+  const maxContentBottom = H - footerH - 36;
+
+  if (layoutMode === 'grid') {
+    const gap = 18;
+    const cellW = Math.floor((contentW - gap * (cols - 1)) / cols);
+    const rows = Math.ceil(count / cols);
+    const availH = Math.max(260, maxContentBottom - cursorY);
+    const fitScale = aspect === '9:16-long'
+      ? scale
+      : Math.min(scale, Math.max(0.56, availH / Math.max(1, estBodyH)));
+
+    let cellH = 34;
+    const sidSz = Math.round(58 * fitScale);
+    const modSz = Math.round(30 * fitScale);
+    const iastSz = Math.round(22 * fitScale);
+    const devaSz = Math.round(28 * fitScale);
+    const tradSz = Math.round(22 * fitScale);
+
+    if (showSiddham) cellH += sidSz + 18;
+    if (showDeva) cellH += devaSz + 12;
+    if (showModern) cellH += modSz + 14;
+    if (showIast) cellH += iastSz + 10;
+    if (showTrad) cellH += tradSz + 10;
+    if (showMeter) cellH += 24;
+
+    for (let r = 0; r < rows; r++) {
+      const rowY = cursorY + r * (cellH + gap);
+      if (rowY + cellH > maxContentBottom + 12 && aspect !== '9:16-long') break;
+
+      const itemsInRow = Math.min(cols, count - r * cols);
+      const rowTotalW = itemsInRow * cellW + (itemsInRow - 1) * gap;
+      const startX = Math.round((W - rowTotalW) / 2);
+
+      for (let c = 0; c < itemsInRow; c++) {
+        const b = blocks[r * cols + c];
+        const x = startX + c * (cellW + gap);
+        const cx = x + cellW / 2;
+
+        ctx.fillStyle = palette.cardBg;
+        drawRoundedRect(ctx, x, rowY, cellW, cellH, 18);
+        ctx.fill();
+        ctx.strokeStyle = palette.innerBorder;
+        ctx.lineWidth = 1.5;
+        drawRoundedRect(ctx, x, rowY, cellW, cellH, 18);
+        ctx.stroke();
+
+        let iy = rowY + 22;
+        if (showSiddham) {
+          ctx.fillStyle = palette.siddham;
+          ctx.font = `700 ${sidSz}px ${fontSid}`;
+          ctx.fillText(b.siddham, cx, iy + sidSz * 0.84);
+          iy += sidSz + 16;
+        }
+        if (showDeva) {
+          ctx.fillStyle = palette.deva;
+          ctx.font = `600 ${devaSz}px ${fontDeva}`;
+          ctx.fillText(b.deva, cx, iy + devaSz * 0.84);
+          iy += devaSz + 12;
+        }
+        if (showModern) {
+          const modLabel = showModernIast ? `${b.modern} (${b.iast})` : b.modern;
+          drawSubscriptAwareText(ctx, modLabel, cx, iy + modSz * 0.84, modSz, palette.modern, palette.sub, fontSans);
+          iy += modSz + 13;
+        }
+        if (showIast) {
+          ctx.fillStyle = palette.iast;
+          ctx.font = `600 ${iastSz}px ${fontIast}`;
+          ctx.fillText(b.iast, cx, iy + iastSz * 0.84);
+          iy += iastSz + 10;
+        }
+        if (showTrad && b.trad) {
+          ctx.fillStyle = palette.trad;
+          ctx.font = `500 ${tradSz}px ${fontSans}`;
+          ctx.fillText(`古译：${b.trad}`, cx, iy + tradSz * 0.84);
+          iy += tradSz + 10;
+        }
+        if (showMeter && b.meter) {
+          ctx.fillStyle = palette.sub;
+          ctx.font = `600 18px ${fontIast}`;
+          ctx.fillText(b.meter, cx, iy + 16);
+        }
+      }
+    }
+  } else {
+    // 整段多体行流排版模式
+    ctx.fillStyle = palette.cardBg;
+    const boxH = Math.max(300, maxContentBottom - cursorY);
+    drawRoundedRect(ctx, padX, cursorY, contentW, boxH, 22);
+    ctx.fill();
+    ctx.strokeStyle = palette.innerBorder;
+    ctx.lineWidth = 1.6;
+    drawRoundedRect(ctx, padX, cursorY, contentW, boxH, 22);
+    ctx.stroke();
+
+    const innerW = contentW - 72;
+    let fy = cursorY + 48;
+    const drawLayerParagraph = (text, sz, lineH, color, family) => {
+      if (!text || fy > cursorY + boxH - 36) return;
+      ctx.font = `600 ${sz}px ${family}`;
+      ctx.fillStyle = color;
+      const lines = wrapCanvasText(ctx, text, innerW);
+      for (const ln of lines) {
+        if (fy + sz > cursorY + boxH - 24) break;
+        ctx.fillText(ln, W / 2, fy + sz * 0.85);
+        fy += lineH;
+      }
+      fy += 20;
+    };
+
+    if (showSiddham) {
+      drawLayerParagraph(blocks.map(b => b.siddham).join('  '), Math.round(56 * scale), Math.round(78 * scale), palette.siddham, fontSid);
+    }
+    if (showDeva) {
+      drawLayerParagraph(blocks.map(b => b.deva).join(' '), Math.round(36 * scale), Math.round(52 * scale), palette.deva, fontDeva);
+    }
+    if (showModern) {
+      const mStr = blocks.map(b => showModernIast ? `${b.modern}(${b.iast})` : b.modern).join('  ');
+      drawLayerParagraph(mStr, Math.round(34 * scale), Math.round(50 * scale), palette.modern, fontSans);
+    }
+    if (showIast) {
+      drawLayerParagraph(blocks.map(b => b.iast).join(' '), Math.round(28 * scale), Math.round(42 * scale), palette.iast, fontIast);
+    }
+    if (showTrad) {
+      drawLayerParagraph(blocks.map(b => b.trad).filter(Boolean).join(' '), Math.round(28 * scale), Math.round(42 * scale), palette.trad, fontSans);
+    }
+    if (showMeter) {
+      drawLayerParagraph(blocks.map(b => b.meter).filter(Boolean).join('   '), 22, 34, palette.sub, fontIast);
+    }
+  }
+
+  // 底部扫码聆听音频卡片区
+  const shareUrl = buildShareAudioUrl();
+  const urlPreview = document.getElementById('shareFullUrlPreview');
+  if (urlPreview) urlPreview.textContent = shareUrl;
+
+  const qrMat = encodeQrMatrix(shareUrl);
+  const footerY = H - footerH - 12;
+  ctx.fillStyle = palette.qrCard;
+  drawRoundedRect(ctx, padX, footerY, contentW, 250, 22);
+  ctx.fill();
+  ctx.strokeStyle = palette.border;
+  ctx.lineWidth = 2;
+  drawRoundedRect(ctx, padX, footerY, contentW, 250, 22);
+  ctx.stroke();
+
+  // 绘制高对比度白色静区二维码
+  const qrBoxSize = 204;
+  const qrBoxX = W - padX - qrBoxSize - 24;
+  const qrBoxY = footerY + 23;
+  ctx.fillStyle = '#ffffff';
+  drawRoundedRect(ctx, qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 14);
+  ctx.fill();
+
+  const quiet = 3;
+  const totalMods = qrMat.length + quiet * 2;
+  const modPx = qrBoxSize / totalMods;
+  ctx.fillStyle = '#14110f';
+  for (let r = 0; r < qrMat.length; r++) {
+    for (let c = 0; c < qrMat.length; c++) {
+      if (qrMat[r][c]) {
+        const rx = qrBoxX + (c + quiet) * modPx;
+        const ry = qrBoxY + (r + quiet) * modPx;
+        ctx.fillRect(Math.floor(rx), Math.floor(ry), Math.ceil(modPx), Math.ceil(modPx));
+      }
+    }
+  }
+
+  // 左侧聆听引导说明
+  const voiceVal = document.getElementById('voiceSelect')?.value || 'male';
+  const voiceLabel = voiceVal === 'female' ? '梵音女声' : (voiceVal === 'mobile' ? '轻量神经声学' : '梵音男声');
+  const rateVal = document.getElementById('speechRate')?.value || '1.0';
+
+  ctx.textAlign = 'left';
+  const textLeft = padX + 34;
+  ctx.fillStyle = themeKey === 'indigo' ? '#f7e6be' : '#241914';
+  ctx.font = `700 32px ${fontSans}`;
+  ctx.fillText('扫码聆听对应陀罗尼梵音', textLeft, footerY + 74);
+
+  ctx.fillStyle = themeKey === 'indigo' ? '#d4c39f' : '#5c4d40';
+  ctx.font = `500 23px ${fontSans}`;
+  ctx.fillText('长按或使用相机识别右侧二维码', textLeft, footerY + 122);
+  ctx.fillText('直达网页同步高亮跟读 48kHz 原生音频', textLeft, footerY + 158);
+
+  ctx.fillStyle = palette.border;
+  ctx.font = `600 20px ${fontSans}`;
+  ctx.fillText(`音源配置：IIT Madras 48kHz VITS · ${voiceLabel} · ${rateVal}x`, textLeft, footerY + 206);
+
+  const previewImg = document.getElementById('sharePosterPreviewImg');
+  if (previewImg) {
+    previewImg.src = canvas.toDataURL('image/png');
+  }
+}
+
+function toggleShareModal(show) {
+  const modal = document.getElementById('sharePosterModal');
+  if (!modal) return;
+  if (show) {
+    const baseInput = document.getElementById('shareBaseUrlInput');
+    if (baseInput && !baseInput.value.trim()) {
+      baseInput.value = getDefaultShareBaseUrl();
+    }
+    const titleInput = document.getElementById('shareTitleInput');
+    if (titleInput && !titleInput.value.trim()) {
+      titleInput.value = currentSampleTitle || '梵音陀罗尼持诵谱';
+    }
+    rebuildShareBlocks(false);
+    modal.classList.remove('hidden');
+    renderSharePoster();
+  } else {
+    modal.classList.add('hidden');
+  }
+}
+
+function canvasToPngBlob() {
+  return new Promise((resolve) => {
+    const canvas = document.getElementById('sharePosterCanvas');
+    if (!canvas) return resolve(null);
+    canvas.toBlob((blob) => resolve(blob), 'image/png', 1.0);
+  });
+}
+
+async function downloadSharePosterPng() {
+  await renderSharePoster();
+  const blob = await canvasToPngBlob();
+  if (!blob) return;
+  const title = (document.getElementById('shareTitleInput')?.value || '梵音陀罗尼').trim().replace(/[\\/:*?"<>|]+/g, '_');
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${title}_梵音分享海报.png`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+  showToast('已下载高清手机分享海报 PNG');
+}
+
+async function sharePosterViaSystem() {
+  await renderSharePoster();
+  const blob = await canvasToPngBlob();
+  if (!blob) return;
+  const title = (document.getElementById('shareTitleInput')?.value || '梵音陀罗尼').trim();
+  const file = new File([blob], `${title}_梵音分享海报.png`, { type: 'image/png' });
+  if (navigator.canShare && navigator.canShare({ files: [file] }) && typeof navigator.share === 'function') {
+    try {
+      await navigator.share({
+        title,
+        text: `${title} · 扫码聆听 48kHz 原生梵音`,
+        files: [file]
+      });
+      return;
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+  }
+  await downloadSharePosterPng();
+}
+
+async function copySharePosterImage() {
+  await renderSharePoster();
+  const blob = await canvasToPngBlob();
+  if (blob && navigator.clipboard && typeof window.ClipboardItem === 'function') {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      showToast('已复制高清分享海报图片到剪贴板');
+      return;
+    } catch (e) {}
+  }
+  await downloadSharePosterPng();
+}
+
+function copyShareAudioUrl() {
+  const url = buildShareAudioUrl();
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('已复制扫码听音频直达链接');
+    });
+  }
+}
+
+function applyQrDeepLinkIfPresent() {
+  if (typeof window === 'undefined' || !window.location) return false;
+  const params = new URLSearchParams(window.location.search || '');
+  const qText = (params.get('q') || params.get('text') || '').trim();
+  if (!qText) return false;
+
+  const title = (params.get('title') || '').trim();
+  const voice = (params.get('voice') || '').trim();
+  const rate = (params.get('rate') || '').trim();
+  const listen = params.get('listen');
+
+  if (voice && ['male', 'female', 'mobile'].includes(voice)) {
+    const vEl = document.getElementById('voiceSelect');
+    if (vEl) vEl.value = voice;
+  }
+  if (rate && !Number.isNaN(parseFloat(rate))) {
+    const rEl = document.getElementById('speechRate');
+    if (rEl) rEl.value = rate;
+  }
+  if (title) {
+    currentSampleTitle = title;
+    const tEl = document.getElementById('shareTitleInput');
+    if (tEl) tEl.value = title;
+  }
+
+  const inputEl = document.getElementById('sanskritInput');
+  if (inputEl) inputEl.value = qText;
+  processInput();
+
+  const banner = document.getElementById('qrListenBanner');
+  const bannerTitle = document.getElementById('qrListenBannerTitle');
+  if (bannerTitle) {
+    bannerTitle.textContent = title ? `扫码直达《${title}》` : '扫码直达梵音陀罗尼';
+  }
+  if (banner) banner.classList.remove('hidden');
+
+  qrAutoListenRequested = (listen === '1' || listen === 'true');
+  return true;
+}
+
+function triggerQrBannerPlay() {
+  getAudioContext();
+  speakSanskrit(false);
+}
+
+function dismissQrBanner() {
+  const banner = document.getElementById('qrListenBanner');
+  if (banner) banner.classList.add('hidden');
+}
+
 // 显式挂载全局 API 至 window，满足 PROJECT.md § Interface Contracts § 3 规范
 window.DEVA_TO_SLP1 = DEVA_TO_SLP1;
 window.IAST_TO_SLP1_RULES = IAST_TO_SLP1_RULES;
@@ -2396,6 +3716,7 @@ window.IAST_QUICK_CHARS = IAST_QUICK_CHARS;
 window.inputToSlp1 = inputToSlp1;
 window.slp1ToIast = slp1ToIast;
 window.slp1ToDevanagari = slp1ToDevanagari;
+window.slp1ToSiddham = slp1ToSiddham;
 window.syllabifySlp1Word = syllabifySlp1Word;
 window.resolveModifiers = resolveModifiers;
 window.parseAndTransliterateWord = parseAndTransliterateWord;
@@ -2410,14 +3731,25 @@ window.loadSample = loadSample;
 window.setInputMode = setInputMode;
 window.setBreakdownView = setBreakdownView;
 window.copyFormattedSheet = copyFormattedSheet;
+window.toggleShareModal = toggleShareModal;
+window.renderSharePoster = renderSharePoster;
+window.encodeQrMatrix = encodeQrMatrix;
 
 async function initEngineOnReady() {
   if ('speechSynthesis' in window && window.speechSynthesis && typeof window.speechSynthesis.getVoices === 'function') {
     try { window.speechSynthesis.getVoices(); } catch (e) {}
   }
   initQuickCharBar();
-  loadSample(0);
+  const handledQr = applyQrDeepLinkIfPresent();
+  if (!handledQr) {
+    loadSample(0);
+  }
   await checkBackendHealth();
+  if (handledQr && qrAutoListenRequested) {
+    setTimeout(() => {
+      speakSanskrit(false).catch(() => {});
+    }, 180);
+  }
 }
 
 if (typeof document !== 'undefined' && typeof document.addEventListener === 'function') {

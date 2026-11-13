@@ -3,25 +3,29 @@
  * scripts/hf-keepalive.mjs
  *
  * Automated Keep-Alive, Auto-Wake & Inference Warmup Script for Sarva-Dhāraṇī-Kośa on Hugging Face:
- * - Neural TTS API ZeroGPU Space: bhrum108/sarva-dharani-kosa-tts-api
- *   (https://bhrum108-sarva-dharani-kosa-tts-api.hf.space)
- * - Frontend Static Space: bhrum108/sarva-dharani-kosa
- *   (https://bhrum108-sarva-dharani-kosa.static.hf.space)
- * - TTS Model & Cloud Corpus CDN: bhrum108/sarva-dharani-kosa-tts
+ *   1. MITRA-Qwen3.5 Buddhist Sutra Q&A Space (`HF_QA_SPACE_ID`, default `bhrum108/sarva-dharani-kosa-buddhist-qa`)
+ *   2. Neural TTS API ZeroGPU Space (`bhrum108/sarva-dharani-kosa-tts-api`)
+ *   3. Frontend Static Space (`bhrum108/sarva-dharani-kosa`)
+ *   4. TTS Model & Cloud Corpus CDN (`bhrum108/sarva-dharani-kosa-tts`)
  *
  * Prevents Hugging Face 48-hour inactivity hibernation, automatically wakes any SLEEPING/PAUSED/STOPPED
- * Space via the Hub API, and keeps both male & female 48kHz VITS ONNX sessions warm in RAM for first-time visitors.
+ * Space via the Hub API, and pings `/api/qa/health` (0s ZeroGPU cost) every 30 minutes.
  */
 
 const SPACE_ID = process.env.HF_SPACE_ID || 'bhrum108/sarva-dharani-kosa';
 const TTS_SPACE_ID = process.env.HF_TTS_SPACE_ID || 'bhrum108/sarva-dharani-kosa-tts-api';
+const QA_SPACE_ID = process.env.HF_QA_SPACE_ID || 'bhrum108/sarva-dharani-kosa-buddhist-qa';
 const MODEL_ID = process.env.HF_MODEL_ID || 'bhrum108/sarva-dharani-kosa-tts';
+
 const SPACE_LIVE_URL =
   process.env.HF_SPACE_LIVE_URL || 'https://bhrum108-sarva-dharani-kosa.static.hf.space';
 const TTS_API_URL =
   process.env.HF_TTS_API_URL || 'https://bhrum108-sarva-dharani-kosa-tts-api.hf.space';
-const HF_TOKEN = process.env.HF_TOKEN || '';
+const QA_API_URL =
+  process.env.HF_QA_API_URL ||
+  `https://${QA_SPACE_ID.trim().replace(/\//g, '-').toLowerCase()}.hf.space`;
 
+const HF_TOKEN = process.env.HF_TOKEN || '';
 const authHeaders = HF_TOKEN ? { Authorization: `Bearer ${HF_TOKEN}` } : {};
 
 async function pingEndpoint(label, url, method = 'GET', extraHeaders = {}, body = undefined) {
@@ -30,7 +34,7 @@ async function pingEndpoint(label, url, method = 'GET', extraHeaders = {}, body 
     const res = await fetch(url, {
       method,
       headers: {
-        'User-Agent': 'Sarva-Dharani-Kosa-KeepAlive/2.0',
+        'User-Agent': 'Sarva-Dharani-Kosa-KeepAlive/2.1',
         ...extraHeaders,
       },
       body,
@@ -84,10 +88,12 @@ async function checkAndAutoWakeSpace(spaceId, label) {
           authHeaders
         );
       }
+      return true;
     } catch {
       // ignore JSON parse issues
     }
   }
+  return false;
 }
 
 async function checkAndWakeAll() {
@@ -95,11 +101,26 @@ async function checkAndWakeAll() {
     `=== Sarva-Dhāraṇī-Kośa Hugging Face Auto Keep-Alive (${new Date().toISOString()}) ===`
   );
 
-  // 1. Check & auto-wake both Hugging Face Spaces first (especially the ZeroGPU Neural TTS API Space)
+  // 1. Check & auto-wake MITRA-Qwen3.5 Buddhist Sutra Q&A Space + Neural TTS Space + Static Space
+  const qaExists = await checkAndAutoWakeSpace(
+    QA_SPACE_ID,
+    'MITRA-Qwen3.5 Buddhist Sutra Q&A Space'
+  );
   await checkAndAutoWakeSpace(TTS_SPACE_ID, 'Neural TTS API ZeroGPU Space');
   await checkAndAutoWakeSpace(SPACE_ID, 'Static Web App Space');
 
-  // 2. Ping & warm up the Live 48kHz Classical Sanskrit Neural VITS API ZeroGPU Space
+  // 2. Ping MITRA-Qwen3.5 Buddhist Q&A Space 0-GPU-cost health & RAG search warmup endpoints
+  if (qaExists) {
+    await pingEndpoint('Buddhist Q&A Root', `${QA_API_URL}/`, 'GET');
+    await pingEndpoint('Buddhist Q&A /api/qa/health', `${QA_API_URL}/api/qa/health`, 'GET');
+    await pingEndpoint(
+      'Buddhist Q&A Corpus RAG Index Warmup',
+      `${QA_API_URL}/api/qa/search?q=${encodeURIComponent('金刚经')}&top_k=2`,
+      'GET'
+    );
+  }
+
+  // 3. Ping & warm up the Live 48kHz Classical Sanskrit Neural VITS API ZeroGPU Space
   await pingEndpoint('Neural TTS API Root', `${TTS_API_URL}/`, 'GET');
   await pingEndpoint('Neural TTS API /api/health', `${TTS_API_URL}/api/health`, 'GET');
   await pingEndpoint(
@@ -126,7 +147,7 @@ async function checkAndWakeAll() {
     })
   );
 
-  // 3. Ping Live Static Web App & Standalone Phonetic Engine
+  // 4. Ping Live Static Web App & Standalone Phonetic Engine
   await pingEndpoint('Live Web App (index.html)', `${SPACE_LIVE_URL}/index.html`, 'GET');
   await pingEndpoint(
     'Standalone Phonetic Engine v3.0',
@@ -134,7 +155,7 @@ async function checkAndWakeAll() {
     'HEAD'
   );
 
-  // 4. Warm up 48kHz Sanskrit Neural VITS ONNX Model + Cloud Corpus Search Index CDN endpoints
+  // 5. Warm up 48kHz Sanskrit Neural VITS ONNX Model + Cloud Corpus Search Index CDN endpoints
   const modelBase = `https://huggingface.co/${MODEL_ID}/resolve/main`;
   await pingEndpoint('TTS Vocab JSON', `${modelBase}/vocabs.json`, 'GET');
   await pingEndpoint('Cloud Corpus Manifest', `${modelBase}/corpus/manifest.json`, 'GET');
@@ -156,7 +177,7 @@ async function checkAndWakeAll() {
     { Range: 'bytes=0-1023' }
   );
 
-  // 5. Ping Model Repo API to keep model activity fresh
+  // 6. Ping Model Repo API to keep model activity fresh
   await pingEndpoint(
     'HF Model API Status',
     `https://huggingface.co/api/models/${MODEL_ID}`,

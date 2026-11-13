@@ -31,10 +31,10 @@ describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
       })
     );
 
-    expect(html).toContain('经咒选单');
-    expect(html).toContain('本篇句目');
+    expect(html).toContain('经典选单');
+    expect(html).toContain('本篇导览');
     expect(html).toContain(`${activeEntry.verses.length}句`);
-    expect(html).toContain('全部经咒');
+    expect(html).toContain('全部经典');
     expect(html).toContain('四大长咒');
     expect(html).toContain('十小咒');
     expect(html).toContain('当前');
@@ -97,7 +97,7 @@ describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
       })
     );
 
-    expect(html).toContain('当前研读经咒');
+    expect(html).toContain('当前研读');
     expect(html).toContain(multiVerseEntry.titleZh);
     expect(html).toContain('经题提要');
     expect(html).toContain('全咒汇总');

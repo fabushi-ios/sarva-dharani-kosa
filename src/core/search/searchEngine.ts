@@ -1,7 +1,9 @@
 import type { ActiveWorkspaceTab, DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
 import type { TaishoMikkyoFileEntry } from '../../data/kosa-generated/taishoMikkyoIndex';
+import type { CanonCatalogItem } from '../canon/canonLibraryTypes';
 import { stripDiacritics } from '../sanskrit/transliterator';
 import { devanagariToSlp1, siddhamUnicodeToSlp1, slp1ToIast } from '../transliterator';
+import { foldCjkPhonetic } from './cjkFold';
 
 export interface SearchFilterOptions {
   query: string;
@@ -12,8 +14,9 @@ export interface SearchFilterOptions {
 }
 
 export interface SearchSuggestionItem {
-  kind: 'canon-entry' | 'taisho-scripture' | 'global-12db-hit';
+  kind: 'canon-entry' | 'canon-scripture' | 'taisho-scripture' | 'global-12db-hit';
   entry?: DharaniEntry;
+  canonItem?: CanonCatalogItem;
   taishoScriptureId?: string;
   targetTab?: ActiveWorkspaceTab;
   titleZh: string;
@@ -24,8 +27,6 @@ export interface SearchSuggestionItem {
   snippetPrimary: string;
   snippetSecondary: string;
 }
-
-import { foldCjkPhonetic } from './cjkFold';
 
 const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }> = {
   db1_fangshan: { labelZh: 'DB1 · 房山石经与释教最上乘陀罗尼集', tab: 'interlinear' },
@@ -38,22 +39,12 @@ const DB_BADGE_MAP: Record<string, { labelZh: string; tab: ActiveWorkspaceTab }>
   db8_polyglotta: { labelZh: 'DB8 · 奥斯陆16本心经与多语对勘库', tab: 'concordance' },
   db9_rkts: { labelZh: 'DB9 · 维也纳rKTs德格版陀罗尼集(Zungdu)', tab: 'hub' },
   db10_all_nibs: { labelZh: 'DB10 · ALL-NIBS尼瓦尔梵本写本库', tab: 'hub' },
+  db11_idp_dunhuang: { labelZh: 'DB11 · 大英图书馆IDP/CEToM与敦煌丝路梵本', tab: 'hub' },
   db11_idp_cetom: { labelZh: 'DB11 · 大英图书馆IDP/CEToM西域丝路梵本', tab: 'hub' },
+  db12_muktabodha_ochs: { labelZh: 'DB12 · 牛津OCHS种子字辞典与金刚顶经', tab: 'phonetics-academy' },
   db12_ochs_muktabodha: { labelZh: 'DB12 · 牛津OCHS种子字辞典与金刚顶经', tab: 'phonetics-academy' },
 };
 
-/**
- * Search normalisation — one generic pipeline applied identically to indexed text and queries.
- * There are NO per-dhāraṇī aliases or hand-written character lists here:
- *  1. Devanāgarī / Siddham are transliterated to IAST, then all diacritics are stripped;
- *  2. Latin romanisation schemes are folded (sh→s, w→v, ee→i, oo→u, doubled letters),
- *     so IAST, Harvard-Kyoto and popular spellings (shree / swaha / hreem) coincide;
- *  3. interlinear annotations — any bracketed run of ≤4 CJK characters, e.g. (一) [二合] （引）
- *     — are removed, so a mantra typed with or without clause numbers matches the canon;
- *  4. every CJK character is folded to the representative of its Mandarin syllable
- *     (Unihan-derived), so Traditional/Simplified, transliteration variants (儞/你, 陁/陀)
- *     and homophones compare equal.
- */
 export function normalizeSearchText(input: string): string {
   let raw = (input || '').replace(/[₍₎]/g, '');
   if (/[\u0900-\u097F]/.test(raw)) {
@@ -73,7 +64,6 @@ export function normalizeSearchText(input: string): string {
   const base = stripDiacritics(raw.normalize('NFKC'))
     .replace(/[(（[【〔〈<][\p{Script=Han}]{1,4}[)）\]】〕〉>]/gu, '')
     .replace(/\u3000/g, ' ')
-    // whitespace between Han characters is layout (line breaks in the source), not a word break
     .replace(/(?<=\p{Script=Han})\s+(?=\p{Script=Han})/gu, '');
   const latin = base
     .toLowerCase()
@@ -85,7 +75,6 @@ export function normalizeSearchText(input: string): string {
   return foldCjkPhonetic(latin);
 }
 
-/** CJK-only queries that find nothing are relaxed by dropping trailing characters (≥2 kept). */
 export function relaxedCjkQueries(normQuery: string): string[] {
   const chars = Array.from(normQuery);
   if (chars.length < 3 || !chars.every((c) => /\p{Script=Han}/u.test(c))) return [];
@@ -101,6 +90,13 @@ interface IndexedEntryDoc {
   normHeader: string;
   normVerses: string[];
   normFull: string;
+}
+
+interface IndexedCanonItem {
+  raw: CanonCatalogItem;
+  normTitle: string;
+  normId: string;
+  normHay: string;
 }
 
 const ENTRY_INDEX_CACHE = new WeakMap<DharaniEntry, IndexedEntryDoc>();
@@ -136,6 +132,7 @@ export interface CloudSearchIndexPayload {
 
 let loadedTaishoIndex: Array<TaishoMikkyoFileEntry & { normHay?: string }> = [];
 let loadedSpecialized12DbRecords: Specialized12DbSearchRecord[] = [];
+let loadedCanonCatalogIndex: IndexedCanonItem[] = [];
 
 export function hydrateCloudSearchIndex(payload: CloudSearchIndexPayload): void {
   if (Array.isArray(payload.entries)) {
@@ -165,6 +162,26 @@ export function hydrateTaishoSearchIndex(
   }
 }
 
+/**
+ * Hydrates the full CBETA Canon catalog (all 27 collections, BOTH pure sutras without dhāraṇīs
+ * and scriptures with dhāraṇīs) into the unified homophone/Simplified-Traditional search engine.
+ */
+export function hydrateCanonCatalogForSearch(items: CanonCatalogItem[]): void {
+  if (!Array.isArray(items) || items.length === 0) return;
+  loadedCanonCatalogIndex = items.map((raw) => {
+    const normTitle = normalizeSearchText(raw.title);
+    const normId = raw.id.toLowerCase();
+    const shortNum = raw.id.replace(/^[A-Z]+\d+n0*/i, '').toLowerCase();
+    const normByline = normalizeSearchText(raw.byline || '');
+    return {
+      raw,
+      normTitle,
+      normId,
+      normHay: `${normId} ${shortNum} ${normTitle} ${normByline}`,
+    };
+  });
+}
+
 function getIndexedEntryDoc(entry: DharaniEntry): IndexedEntryDoc {
   const cached = ENTRY_INDEX_CACHE.get(entry);
   if (cached) return cached;
@@ -187,14 +204,17 @@ function getIndexedEntryDoc(entry: DharaniEntry): IndexedEntryDoc {
   const normHeader = `${normTitle} ${normDbAndNo} ${normDeity}`;
   const normVerses = entry.verses.map((v) => {
     const wordsDesc = Object.getOwnPropertyDescriptor(v, 'words');
-    const eagerWords = wordsDesc && 'value' in wordsDesc && Array.isArray(wordsDesc.value) ? wordsDesc.value : [];
+    const eagerWords =
+      wordsDesc && 'value' in wordsDesc && Array.isArray(wordsDesc.value) ? wordsDesc.value : [];
     const wordsStr = eagerWords
       .map((w: { iast: string; transliterationZh: string; meaningZh: string }) => `${w.iast} ${w.transliterationZh} ${w.meaningZh}`)
       .join(' ');
     const classicalDesc = Object.getOwnPropertyDescriptor(v, 'classicalTranslitZh');
-    const classicalStr = classicalDesc && 'value' in classicalDesc ? String(classicalDesc.value || '') : '';
+    const classicalStr =
+      classicalDesc && 'value' in classicalDesc ? String(classicalDesc.value || '') : '';
     const modernDesc = Object.getOwnPropertyDescriptor(v, 'modernPhoneticZh');
-    const modernStr = modernDesc && 'value' in modernDesc ? String(modernDesc.value || '') : '';
+    const modernStr =
+      modernDesc && 'value' in modernDesc ? String(modernDesc.value || '') : '';
     return normalizeSearchText(
       `${v.iast} ${classicalStr} ${modernStr} ${v.meaningZh} ${v.meaningEn} ${wordsStr}`
     );
@@ -224,28 +244,28 @@ function matchesDoc(doc: IndexedEntryDoc, normQuery: string, tokens: string[]): 
 }
 
 function taishoHay(ts: TaishoMikkyoFileEntry & { normHay?: string }): string {
-  return (
-    ts.normHay ||
-    normalizeSearchText(
+  if (!ts.normHay) {
+    ts.normHay = normalizeSearchText(
       `${ts.id} ${ts.titleZh} ${ts.titleTrad} ${ts.translator} ${(ts.blockTitles || []).join(' ')} ${ts.sampleDharanis.join(' ')}`
-    )
-  );
+    );
+  }
+  return ts.normHay;
 }
 
 function matchesHay(hay: string, normQuery: string, tokens: string[]): boolean {
   return hay.includes(normQuery) || (tokens.length > 1 && tokens.every((tk) => hay.includes(tk)));
 }
 
-/**
- * The normalised query actually used: the full query, or — only when it finds nothing at all —
- * the longest CJK prefix that does (e.g. 「坚牢地天神咒」 → 「坚牢地天」). Purely structural.
- */
-function resolveQuery(entries: DharaniEntry[], rawQuery: string): { normQuery: string; tokens: string[] } {
+function resolveQuery(
+  entries: DharaniEntry[],
+  rawQuery: string
+): { normQuery: string; tokens: string[] } {
   const full = normalizeSearchText(rawQuery).replace(/\s+/g, ' ').trim();
   for (const q of [full, ...relaxedCjkQueries(full)]) {
     const tokens = tokensOf(q);
     if (
       entries.some((e) => matchesDoc(getIndexedEntryDoc(e), q, tokens)) ||
+      loadedCanonCatalogIndex.some((c) => matchesHay(c.normHay, q, tokens)) ||
       loadedTaishoIndex.some((ts) => matchesHay(taishoHay(ts), q, tokens))
     ) {
       return { normQuery: q, tokens };
@@ -283,7 +303,7 @@ export function filterDharanis(
         Boolean(entry.provenance.cbetaId);
       if (!hasSiddham) return false;
     } else if (options.sourceFilter === 'gretil-sanskrit') {
-      if (!entry.provenance.gretilFile) return false;
+      if (!entry.provenance.gretilFile && !entry.provenance.gretilRawUrl) return false;
     }
 
     if (!normQuery) {
@@ -309,44 +329,40 @@ function toCanonSuggestionItem(
   const badgePrefix = entry.provenance.databaseBadgeZh
     ? `🌐 ${entry.provenance.databaseBadgeZh} · `
     : '';
+  const isPureSutra = entry.verses.length === 0;
   return {
     kind: 'canon-entry',
     entry,
     titleZh: entry.titleZh,
     taishoNo: entry.taishoNo,
-    matchTypeLabel: `${badgePrefix}${matchTypeLabel}`,
+    matchTypeLabel: isPureSutra
+      ? `${badgePrefix}经文原文直看（无陀罗尼）`
+      : `${badgePrefix}${matchTypeLabel}`,
     matchedVerseId: matchedVerse?.id,
     matchedVerseIndex: matchedVerse?.index,
     snippetPrimary: previewVerse
       ? `梵音：${sliceCp(previewVerse.iast, 72)}`
-      : entry.titleSanskritIast,
+      : `原典全文：${sliceCp(entry.sutraSourceZh || entry.titleSanskritIast, 72)}`,
     snippetSecondary: previewVerse
       ? `古汉语：${sliceCp(previewVerse.classicalTranslitZh, 42)} · 梵音拼读：${sliceCp(previewVerse.modernPhoneticZh, 42)}`
-      : entry.deityZh,
+      : `${entry.translatorZh} · 点击直接查看经文原文全文`,
   };
 }
 
-/**
- * Generates instant selectable autocomplete results below the header search input,
- * searching across all 1,419+ authentic Sanskrit entries (including all 12 International Databases DB1–DB12,
- * Curated Multi-Script, World Mantras Encyclopedia, 200 GRETIL Sanskrit Manuscripts) +
- * Unified 12-Database Specialized Lexicons/Catalogs + 614 Taishō Esoteric Canon Scriptures.
- */
 export function getSearchSuggestions(
   entries: DharaniEntry[],
   rawQuery: string,
-  limit = 20
+  limit = 24
 ): SearchSuggestionItem[] {
   const { normQuery: q, tokens } = rawQuery.trim()
     ? resolveQuery(entries, rawQuery)
     : { normQuery: '', tokens: [] as string[] };
 
   if (!q) {
-    // Show 6 classic flagship Dhāraṇīs + 10 representative entries across DB1–DB12
     const classicPicks = entries
       .filter((e) => !e.provenance.databaseId)
       .slice(0, 6)
-      .map((entry) => toCanonSuggestionItem(entry, '核心经典陀罗尼'));
+      .map((entry) => toCanonSuggestionItem(entry, '原文+四体陀罗尼'));
 
     const dbSeen = new Set<string>();
     const dbPicks: SearchSuggestionItem[] = [];
@@ -359,10 +375,22 @@ export function getSearchSuggestions(
       }
     }
 
-    return [...classicPicks, ...dbPicks].slice(0, limit);
+    const pureSutraPicks: SearchSuggestionItem[] = loadedCanonCatalogIndex
+      .filter((c) => c.raw.collection === 'T' && c.raw.dharani === 0)
+      .slice(0, 4)
+      .map((c) => ({
+        kind: 'canon-scripture' as const,
+        canonItem: c.raw,
+        titleZh: `《${c.raw.title}》`,
+        taishoNo: c.raw.id,
+        matchTypeLabel: `${c.raw.id} · 纯经文原典（无陀罗尼）`,
+        snippetPrimary: `${c.raw.byline || '藏经原典'} · 全文 ${(c.raw.chars || 0).toLocaleString()} 字`,
+        snippetSecondary: '点击直接在主阅读器查看整卷经文原文（自动隐藏陀罗尼栏目）',
+      }));
+
+    return [...classicPicks, ...pureSutraPicks, ...dbPicks].slice(0, limit);
   }
 
-  // Score all matching entries across the entire 2,051-entry corpus so DB1–DB12 are never starved
   const scoredCanon: Array<{
     score: number;
     is12Db: boolean;
@@ -373,22 +401,18 @@ export function getSearchSuggestions(
 
   for (const entry of entries) {
     const doc = getIndexedEntryDoc(entry);
-    if (!matchesDoc(doc, q, tokens)) {
-      continue;
-    }
+    if (!matchesDoc(doc, q, tokens)) continue;
 
     const is12Db = Boolean(
       entry.provenance.databaseId || entry.provenance.sourceType === 'GLOBAL-12DB'
     );
-
     const titleMatch =
       doc.normTitle.includes(q) ||
       (tokens.length > 1 && tokens.every((tk) => doc.normTitle.includes(tk)));
     const dbOrNoMatch =
       doc.normDbAndNo.includes(q) ||
       (tokens.length > 1 && tokens.every((tk) => doc.normDbAndNo.includes(tk)));
-    const deityMatch =
-      doc.normDeity.includes(q);
+    const deityMatch = doc.normDeity.includes(q);
 
     let matchedVerse: DharaniEntry['verses'][number] | undefined;
     if (!titleMatch && !dbOrNoMatch && !deityMatch) {
@@ -410,9 +434,9 @@ export function getSearchSuggestions(
     if (matchedVerse) score += 35;
     if (is12Db && dbOrNoMatch) score += 30;
 
-    let matchTypeLabel = is12Db ? '全球12大梵典专集' : '四体梵音精校库';
+    let matchTypeLabel = is12Db ? '原文 + 12库梵音' : '原文 + 四体陀罗尼';
     if (entry.categoryId === 'gretil-canonical') {
-      matchTypeLabel = `GRETIL 梵文贝叶经 (${entry.provenance.gretilFile || ''})`;
+      matchTypeLabel = `GRETIL 梵本原文+咒 (${entry.provenance.gretilFile || ''})`;
     } else if (dbOrNoMatch && !titleMatch) {
       matchTypeLabel = `经号/数据库匹配 (${entry.taishoNo})`;
     } else if (deityMatch && !titleMatch) {
@@ -421,47 +445,78 @@ export function getSearchSuggestions(
       matchTypeLabel = `匹配第 ${matchedVerse.index} 句梵音/古汉语`;
     }
 
-    scoredCanon.push({
-      score,
-      is12Db,
-      entry,
-      matchTypeLabel,
-      matchedVerse,
-    });
+    scoredCanon.push({ score, is12Db, entry, matchTypeLabel, matchedVerse });
   }
 
   scoredCanon.sort((a, b) => b.score - a.score);
 
-  // Interleave top curated & top 12-DB canon entries so both appear prominently in dropdown
   const classicResults = scoredCanon.filter((x) => !x.is12Db);
   const db12CanonResults = scoredCanon.filter((x) => x.is12Db);
+
+  // Full CBETA Canon scripture hits (both pure non-dharani sutras & dharani sutras!)
+  const canonScriptureHits: Array<{ score: number; item: SearchSuggestionItem }> = [];
+  const rawLower = rawQuery.trim().toLowerCase();
+  for (const c of loadedCanonCatalogIndex) {
+    if (!matchesHay(c.normHay, q, tokens) && !c.normId.includes(rawLower)) continue;
+    let s = 30;
+    if (c.normId === rawLower) s += 160;
+    else if (c.normTitle === q) s += 145;
+    else if (c.normTitle.startsWith(q)) s += 115;
+    else if (c.normTitle.includes(q)) s += 85;
+    if (c.raw.collection === 'T') s += 20;
+
+    const hasDh = c.raw.dharani > 0;
+    canonScriptureHits.push({
+      score: s,
+      item: {
+        kind: 'canon-scripture',
+        canonItem: c.raw,
+        titleZh: `《${c.raw.title}》`,
+        taishoNo: c.raw.id,
+        matchTypeLabel: hasDh
+          ? `${c.raw.id} · 原文 + 陀罗尼 ${c.raw.dharani} 段`
+          : `${c.raw.id} · 经典全文（无陀罗尼）`,
+        snippetPrimary: `${c.raw.byline || '藏经原典'} · 全文 ${(c.raw.chars || 0).toLocaleString()} 字`,
+        snippetSecondary: hasDh
+          ? `含 ${c.raw.dharani} 段陀罗尼：点击同时查看整卷原文与陀罗尼多体发音`
+          : '无陀罗尼纯经文：点击直接查看整卷经文原文（不显示陀罗尼栏目）',
+      },
+    });
+  }
+  canonScriptureHits.sort((a, b) => b.score - a.score);
 
   const results: SearchSuggestionItem[] = [];
   let cIdx = 0;
   let dIdx = 0;
-  const maxCanonSlots = Math.max(10, limit - 6);
+  let sIdx = 0;
+  const maxMainSlots = Math.max(12, limit - 6);
 
+  // Interleave curated/12db entries AND full-canon scriptures so pure non-dharani sutras always surface!
   while (
-    results.length < maxCanonSlots &&
-    (cIdx < classicResults.length || dIdx < db12CanonResults.length)
+    results.length < maxMainSlots &&
+    (cIdx < classicResults.length ||
+      dIdx < db12CanonResults.length ||
+      sIdx < canonScriptureHits.length)
   ) {
     if (cIdx < classicResults.length) {
       const hit = classicResults[cIdx++];
       results.push(toCanonSuggestionItem(hit.entry, hit.matchTypeLabel, hit.matchedVerse));
     }
-    if (results.length < maxCanonSlots && dIdx < db12CanonResults.length) {
+    if (results.length < maxMainSlots && sIdx < canonScriptureHits.length) {
+      results.push(canonScriptureHits[sIdx++].item);
+    }
+    if (results.length < maxMainSlots && dIdx < db12CanonResults.length) {
       const hit = db12CanonResults[dIdx++];
       results.push(toCanonSuggestionItem(hit.entry, hit.matchTypeLabel, hit.matchedVerse));
     }
   }
 
-  // Also query the Cloud-Hydrated Unified 12-Database Records for specialized lexicon/glossary/manuscript hits
   try {
     const existingTitles = new Set(results.map((r) => normalizeSearchText(r.titleZh)));
     let added12Db = 0;
 
     for (const hit of loadedSpecialized12DbRecords) {
-      if (results.length >= limit || added12Db >= 6) break;
+      if (results.length >= limit || added12Db >= 5) break;
       if (hit.dbId === 'baseline') continue;
       const matchesHit =
         hit.normHay.includes(q) ||
@@ -499,15 +554,15 @@ export function getSearchSuggestions(
       added12Db++;
     }
   } catch {
-    // Ignore if unified search encounters edge case
+    // Ignore edge case
   }
 
-  // Taishō Esoteric Canon scriptures: ranked (title match first) and given reserved slots so
-  // the 3,600-entry canon can never starve primary CBETA scripture hits out of the list.
   const taishoHits: Array<{ titleHit: boolean; item: SearchSuggestionItem }> = [];
   for (const ts of loadedTaishoIndex) {
     if (!matchesHay(taishoHay(ts), q, tokens)) continue;
-    const titleHit = normalizeSearchText(`${ts.titleZh} ${ts.titleTrad || ''}`).includes(q);
+    const tsAny = ts as TaishoMikkyoFileEntry & { normTitlePair?: string };
+    if (!tsAny.normTitlePair) tsAny.normTitlePair = normalizeSearchText(`${ts.titleZh} ${ts.titleTrad || ''}`);
+    const titleHit = tsAny.normTitlePair.includes(q);
     taishoHits.push({
       titleHit,
       item: {
@@ -515,16 +570,19 @@ export function getSearchSuggestions(
         taishoScriptureId: ts.id,
         titleZh: `【大正藏原典】${ts.titleZh}`,
         taishoNo: `${ts.id} (${ts.vol})`,
-        matchTypeLabel: `大正藏密教部原典 · 含真言 ${ts.dharaniBlockCount} 段`,
-        snippetPrimary: `译者：${ts.translator} · 点击查看 CBETA TEI-P5 原典全部真言`,
+        matchTypeLabel:
+          ts.dharaniBlockCount > 0
+            ? `大正藏密教部 · 原文 + 真言 ${ts.dharaniBlockCount} 段`
+            : `大正藏密教部 · 纯汉文仪轨全文（无陀罗尼）`,
+        snippetPrimary: `译者：${ts.translator} · 点击查看整卷原文${ts.dharaniBlockCount > 0 ? '与全部真言' : ''}`,
         snippetSecondary: ts.sampleDharanis[0]
           ? `原典咒句：${sliceCp(ts.sampleDharanis[0], 72)}...`
-          : `CBETA 经号 ${ts.id}.xml`,
+          : `CBETA 经号 ${ts.id}.xml 原文全文`,
       },
     });
   }
   taishoHits.sort((a, b) => Number(b.titleHit) - Number(a.titleHit));
-  const reserved = Math.min(taishoHits.length, Math.max(3, Math.floor(limit / 4)));
+  const reserved = Math.min(taishoHits.length, Math.max(3, Math.floor(limit / 5)));
   const head = results.slice(0, limit - reserved);
   return [...head, ...taishoHits.slice(0, limit - head.length).map((h) => h.item)];
 }

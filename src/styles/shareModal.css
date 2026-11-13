@@ -1,0 +1,460 @@
+/* ==========================================================================
+   QR Scan Direct-to-Audio Landing Banner & Mobile Poster Share Studio Modal
+   ========================================================================== */
+
+.qr-listen-landing-banner {
+  margin-bottom: 1rem;
+  padding: 0.78rem 1.05rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    90deg,
+    var(--accent-vermilion-soft) 0%,
+    var(--bg-surface) 52%,
+    var(--accent-gold-soft) 100%
+  );
+  border: 1.5px solid var(--accent-vermilion-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+}
+
+.qr-listen-banner-main {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.75rem;
+  min-width: 0;
+}
+
+.qr-listen-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  background: var(--accent-vermilion);
+  color: #fff8ee;
+  font-family: var(--font-zh-sans);
+  font-size: 0.73rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.qr-listen-text {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+}
+
+.qr-listen-text strong {
+  color: var(--text-primary);
+  font-size: 0.94rem;
+}
+
+.qr-listen-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.qr-listen-close-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  transition: all 0.14s ease;
+}
+
+.qr-listen-close-btn:hover {
+  color: var(--accent-vermilion);
+  border-color: var(--accent-vermilion-border);
+}
+
+/* Share Modal Layout */
+.share-modal-card {
+  max-width: 1120px;
+  width: min(1120px, 96vw);
+  max-height: 92dvh;
+  border-top: 4px solid var(--accent-vermilion);
+}
+
+.share-mobile-tab-bar {
+  display: none;
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-canvas);
+  gap: 0.45rem;
+}
+
+.share-mobile-tab-btn {
+  flex: 1;
+  padding: 0.44rem 0.65rem;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-zh-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+}
+
+.share-mobile-tab-btn.active {
+  background: var(--accent-vermilion);
+  border-color: var(--accent-vermilion);
+  color: #fff8ee;
+}
+
+.share-modal-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.share-controls-pane {
+  padding: 1.05rem 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.share-section-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.82rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.62rem;
+}
+
+.share-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.share-section-title {
+  font-family: var(--font-zh-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.36rem;
+}
+
+.share-section-hint {
+  font-family: var(--font-zh-sans);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.share-option-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.share-layer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 0.42rem;
+}
+
+.share-layer-check {
+  display: flex;
+  align-items: center;
+  gap: 0.44rem;
+  padding: 0.42rem 0.62rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  font-family: var(--font-zh-sans);
+  font-size: 0.77rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.13s ease;
+}
+
+.share-layer-check:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+}
+
+.share-layer-check.checked {
+  background: var(--accent-vermilion-soft);
+  border-color: var(--accent-vermilion-border);
+  color: var(--accent-vermilion);
+}
+
+.share-check-box {
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--bg-surface);
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.share-layer-check.checked .share-check-box,
+.share-verse-row.checked .share-check-box,
+.share-siddham-chip.checked .share-check-box {
+  background: var(--accent-vermilion);
+  border-color: var(--accent-vermilion);
+  color: #fff8ee;
+}
+
+/* Verse Selection List */
+.share-verse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.34rem;
+  max-height: 185px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.share-verse-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.42rem 0.65rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.share-verse-row:hover {
+  border-color: var(--accent-gold);
+}
+
+.share-verse-row.checked {
+  border-color: var(--accent-vermilion-border);
+  background: var(--accent-vermilion-soft);
+}
+
+.share-verse-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-vermilion);
+  flex-shrink: 0;
+}
+
+.share-verse-preview {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-width: 0;
+  overflow: hidden;
+  flex: 1;
+}
+
+.share-verse-sid {
+  font-family: var(--font-siddham);
+  font-size: 1.02rem;
+  color: var(--accent-vermilion);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.share-verse-iast {
+  font-family: var(--font-iast);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Individual Siddham Block Picker Grid */
+.share-siddham-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 0.4rem;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+
+.share-siddham-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.14rem;
+  padding: 0.48rem 0.42rem 0.42rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.12s ease;
+}
+
+.share-siddham-chip:hover {
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.share-siddham-chip.checked {
+  border-color: var(--accent-vermilion);
+  background: var(--accent-vermilion-soft);
+  box-shadow: inset 0 0 0 1px var(--accent-vermilion-border);
+}
+
+.share-siddham-chip .share-check-box {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 13px;
+  height: 13px;
+}
+
+.share-chip-sid {
+  font-family: var(--font-siddham);
+  font-size: 1.38rem;
+  line-height: 1.25;
+  color: var(--accent-vermilion);
+}
+
+.share-chip-phon {
+  font-family: var(--font-zh-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--accent-jade);
+  line-height: 1.2;
+}
+
+.share-chip-iast {
+  font-family: var(--font-iast);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Right Preview Column */
+.share-preview-pane {
+  padding: 1rem 1.15rem;
+  background: var(--bg-canvas);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  overflow-y: auto;
+}
+
+.share-phone-frame {
+  width: 100%;
+  max-width: 288px;
+  border-radius: 18px;
+  padding: 7px;
+  background: #1f1a16;
+  box-shadow: 0 14px 34px rgba(18, 12, 6, 0.26), inset 0 0 0 1.5px rgba(223, 178, 91, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share-poster-scroll-viewport {
+  width: 100%;
+  max-height: 500px;
+  overflow-y: auto;
+  border-radius: 12px;
+  background: #f6f1e7;
+}
+
+.share-poster-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 11px;
+  user-select: auto;
+  -webkit-touch-callout: default;
+}
+
+.share-preview-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.46rem;
+}
+
+.share-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.44rem;
+}
+
+.share-url-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.42rem;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .share-mobile-tab-bar {
+    display: flex;
+  }
+
+  .share-modal-grid {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-y: auto;
+  }
+
+  .share-controls-pane {
+    border-right: none;
+    padding: 0.9rem 0.95rem;
+  }
+
+  .share-controls-pane.is-hidden-mobile,
+  .share-preview-pane.is-hidden-mobile {
+    display: none;
+  }
+
+  .share-preview-pane {
+    padding: 0.95rem;
+  }
+
+  .share-phone-frame {
+    max-width: 270px;
+  }
+}

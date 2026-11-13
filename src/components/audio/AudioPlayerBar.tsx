@@ -12,6 +12,7 @@ import {
   Download,
   FileAudio,
   Loader2,
+  Share2,
 } from 'lucide-react';
 import type { DharaniVerse } from '../../types/kosaTypes';
 import {
@@ -33,6 +34,7 @@ interface AudioPlayerBarProps {
   onToggleAutoScroll: () => void;
   onChangeRate: (rate: number) => void;
   onChangeMode: (mode: AudioEngineMode) => void;
+  onSharePoster?: () => void;
 }
 
 const EMPTY_VERSES: DharaniVerse[] = [];
@@ -48,6 +50,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   onToggleAutoScroll,
   onChangeRate,
   onChangeMode,
+  onSharePoster,
 }) => {
   const [mobileSettingsOpen, setMobileSettingsOpen] = useState(false);
   const syl = playbackState.currentSyllableInfo;
@@ -75,8 +78,8 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   const progressPct = playbackState.isPlaying
     ? Math.min(100, Math.max(4, Math.round(playbackState.verseProgress * 100)))
     : isExporting
-      ? Math.min(100, Math.max(4, exportProgress?.percent ?? 5))
-      : 0;
+    ? Math.min(100, Math.max(4, exportProgress?.percent ?? 5))
+    : 0;
 
   return (
     <footer className="audio-player-bar" aria-label="梵音摩多轻重律吟诵控制台">
@@ -109,6 +112,20 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               >
                 <Play size={14} />
                 <span>同步跟诵</span>
+              </button>
+            )}
+
+            {onSharePoster && (
+              <button
+                id="audio-bar-share-poster-btn"
+                type="button"
+                className="audio-download-btn"
+                disabled={verses.length === 0}
+                onClick={onSharePoster}
+                title="将当前陀罗尼生成为手机竖屏分享图（附二维码直达本音频）"
+              >
+                <Share2 size={14} />
+                <span>分享图</span>
               </button>
             )}
 
@@ -357,7 +374,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               }
               title="切换 48kHz 古典梵语男声 / 女声"
             >
-              <span>{playbackState.voice === 'female' ? '👩 女声' : '🧔 男声'}</span>
+              <span>{playbackState.voice === 'female' ? '\u{1F469} 女声' : '\u{1F9D4} 男声'}</span>
             </button>
 
             <button
@@ -367,7 +384,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
               onClick={() => sanskritAudioEngine.toggleOmDrone()}
               title="开启或关闭 136.1Hz Sadja (Om) 持续共振背景场"
             >
-              <span>{playbackState.omDroneActive ? '🔔 Om开' : '🔕 Om共振'}</span>
+              <span>{playbackState.omDroneActive ? '\u{1F514} Om开' : '\u{1F515} Om共振'}</span>
             </button>
           </div>
 

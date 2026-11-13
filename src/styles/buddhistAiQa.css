@@ -1,0 +1,309 @@
+/* src/styles/buddhistAiQa.css — Scholarly Xuan-Paper & Indigo-Gold Buddhist Sutra AI Q&A Studio */
+
+.buddhist-qa-shell {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 1.15rem;
+  align-items: start;
+  min-height: calc(100vh - 165px);
+}
+
+@media (max-width: 1024px) {
+  .buddhist-qa-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+.buddhist-qa-sidebar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.buddhist-qa-side-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.78rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.buddhist-qa-side-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.buddhist-qa-model-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.22rem 0.56rem;
+  border-radius: 999px;
+  border: 1px solid var(--accent-jade-border);
+  background: var(--accent-jade-soft);
+  color: var(--accent-jade);
+}
+
+.buddhist-qa-model-pill.is-offline {
+  border-color: var(--accent-gold-border);
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+}
+
+.buddhist-qa-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.buddhist-qa-main {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  min-height: 680px;
+  overflow: hidden;
+}
+
+.buddhist-qa-header {
+  padding: 0.95rem 1.2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.buddhist-qa-header-title {
+  font-family: var(--font-zh-serif);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.48rem;
+}
+
+.buddhist-qa-header-sub {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  margin-top: 0.18rem;
+}
+
+.buddhist-qa-messages {
+  flex: 1;
+  padding: 1.15rem 1.25rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 66vh;
+}
+
+.buddhist-qa-empty {
+  margin: auto 0;
+  padding: 1.2rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.buddhist-qa-prompt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 0.65rem;
+}
+
+.buddhist-qa-prompt-card {
+  text-align: left;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.16s ease, transform 0.14s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.buddhist-qa-prompt-card:hover {
+  border-color: var(--accent-vermilion-border);
+  transform: translateY(-1px);
+}
+
+.buddhist-qa-prompt-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent-vermilion);
+}
+
+.buddhist-qa-prompt-text {
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.buddhist-qa-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-width: 92%;
+}
+
+.buddhist-qa-msg.is-user {
+  align-self: flex-end;
+}
+
+.buddhist-qa-msg.is-assistant {
+  align-self: flex-start;
+  width: 100%;
+}
+
+.buddhist-qa-bubble {
+  padding: 0.85rem 1.05rem;
+  border-radius: var(--radius-md);
+  font-size: 0.89rem;
+  line-height: 1.72;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.buddhist-qa-msg.is-user .buddhist-qa-bubble {
+  background: var(--accent-vermilion);
+  color: var(--text-on-accent);
+  border-bottom-right-radius: 4px;
+}
+
+.buddhist-qa-msg.is-assistant .buddhist-qa-bubble {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-bottom-left-radius: 4px;
+  font-family: var(--font-zh-serif);
+}
+
+.buddhist-qa-citations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+}
+
+.buddhist-qa-citation-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--accent-gold-border);
+  border-radius: var(--radius-sm);
+  padding: 0.62rem 0.78rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.76rem;
+}
+
+.buddhist-qa-citation-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.buddhist-qa-citation-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.1rem 0.42rem;
+  border-radius: 4px;
+  background: var(--accent-vermilion-soft);
+  color: var(--accent-vermilion);
+}
+
+.buddhist-qa-citation-snippet {
+  color: var(--text-secondary);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.buddhist-qa-composer {
+  padding: 0.88rem 1.15rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.buddhist-qa-input-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-end;
+}
+
+.buddhist-qa-textarea {
+  flex: 1;
+  min-height: 52px;
+  max-height: 150px;
+  resize: vertical;
+  padding: 0.68rem 0.88rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-zh-sans);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.buddhist-qa-textarea:focus {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-color: var(--accent-vermilion);
+}
+
+.buddhist-qa-settings-box {
+  padding: 0.8rem 1.15rem;
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  font-size: 0.78rem;
+}
+
+.buddhist-qa-settings-input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.42rem 0.68rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+}

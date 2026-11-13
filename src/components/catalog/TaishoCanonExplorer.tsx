@@ -240,15 +240,15 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
         sutraSourceZh: `《大正新修大藏经》${selectedFile.vol} 册密教部《${selectedFile.titleZh}》`,
         deityZh: blk.blockTitleZh || '密教部三宝诸尊',
         bijaIast: 'oṃ',
-        meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}）。本经共含 ${totalBlocks} 则原典 <p cb:type="dharani"> 真言，严格遵循「一咒一篇」原则独立展示，当前为第 ${blk.index}/${totalBlocks} 则真言${blk.blockTitleZh ? `（${blk.blockTitleZh}）` : ''}，本篇共 ${verses.length} 句。`,
-        recitationTipsZh: `对照 CBETA 原典唐宋古汉语音译与梵音构拟拼读参考持诵。`,
+        meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}）。本经共含 ${totalBlocks} 则原典真言，页面已同时呈现整卷经典原文全文与当前第 ${blk.index}/${totalBlocks} 则真言多体发音解析。`,
+        recitationTipsZh: `对照上方整卷原文与下方唐宋古汉语音译、现代梵音拼读持诵。`,
         provenance: {
           sourceType: 'CBETA-XML-P5',
           cbetaId: selectedFile.id,
           cbetaRawXmlUrl: selectedFile.rawXmlUrl,
           cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${selectedFile.id}`,
           editionCitation: `Taishō Tripiṭaka Vol. ${selectedFile.vol}, No. ${selectedFile.id}, Dhāraṇī #${blk.index} (${selectedFile.translator})`,
-          manuscriptNotesZh: `实时解析自 CBETA 官方 GitHub XML-P5 仓库 (${selectedFile.id}.xml)，按一咒一篇独立拆分，绝不将多首陀罗尼混拼合一。`,
+          manuscriptNotesZh: `实时解析自 CBETA XML-P5 (${selectedFile.id}.xml)。`,
           rawSnippet: blk.text,
         },
         verses,
@@ -264,56 +264,31 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
         : perBlockEntries;
     }
 
-    const fallbackIast = 'oṃ vajradharma sarvārthasādhana svāhā';
+    // Pure Chinese ritual scripture without <p cb:type="dharani">: pass `verses: []` so DharaniReader
+    // hides all Dharani-specific controls and displays the full original ritual text cleanly!
     return [
       {
         id: `taisho-live-${selectedFile.id}`,
         categoryId: 'prajna-sutra-hrdaya',
-        titleZh: `${selectedFile.id} 《${selectedFile.titleZh}》（仪轨经文提要）`,
+        titleZh: `${selectedFile.id} 《${selectedFile.titleZh}》`,
         titleSanskritIast: `Taishō ${selectedFile.id} · ${selectedFile.titleTrad || selectedFile.titleZh}`,
         titleEnglish: `Taishō Tripiṭaka Esoteric Canon ${selectedFile.id} (${selectedFile.vol})`,
         taishoNo: `${selectedFile.id} (${selectedFile.vol})`,
         translatorZh: selectedFile.translator,
         sutraSourceZh: `《大正新修大藏经》${selectedFile.vol} 册密教部《${selectedFile.titleZh}》`,
-        deityZh: '密教部三宝诸尊',
-        bijaIast: 'oṃ',
-        meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}），本经为纯汉文坛法仪轨（未设独立 <p cb:type="dharani"> 段落），下方展示原典正文提要。`,
-        recitationTipsZh: `点击右上角「CBETA 阅藏」可通读全卷汉文仪轨。`,
+        deityZh: '密教部坛法仪轨原典',
+        meritsAndSummaryZh: `大正新修大藏经·密教部 ${selectedFile.vol} 册《${selectedFile.titleZh}》（${selectedFile.translator}）。本卷为不含独立陀罗尼段落之纯汉文坛法仪轨，已自动隐藏陀罗尼专属栏目并直接为您展开整卷原典全文。`,
+        recitationTipsZh: '',
         provenance: {
           sourceType: 'CBETA-XML-P5',
           cbetaId: selectedFile.id,
           cbetaRawXmlUrl: selectedFile.rawXmlUrl,
           cbetaOnlineUrl: `https://cbetaonline.dila.edu.tw/zh/${selectedFile.id}`,
           editionCitation: `Taishō Tripiṭaka Vol. ${selectedFile.vol}, No. ${selectedFile.id} (${selectedFile.translator})`,
-          manuscriptNotesZh: `实时解析自 CBETA 官方 GitHub XML-P5 仓库 (${selectedFile.id}.xml)。`,
+          manuscriptNotesZh: `实时解析自 CBETA XML-P5 (${selectedFile.id}.xml) 原典全文。`,
           rawSnippet: liveSutra?.rawXmlSnippet,
         },
-        verses: [
-          {
-            id: `${selectedFile.id}-v-1`,
-            index: 1,
-            iast: fallbackIast,
-            classicalTranslitZh:
-              liveSutra?.bodyPreviewText.slice(0, 360) || selectedFile.titleZh,
-            modernPhoneticZh: generateVerseChinesePhonetics(fallbackIast).modernPhoneticZh,
-            meaningZh: translateSanskritVerse(fallbackIast).meaningZh,
-            meaningEn: translateSanskritVerse(fallbackIast).meaningEn,
-            tangNoteZh: `《${selectedFile.titleZh}》经文正文摘要（${selectedFile.translator}）`,
-            words: buildWordGlossesFromIast(fallbackIast),
-            fieldSources: {
-              siddham: 'derived-reference',
-              devanagari: 'derived-reference',
-              iast: 'derived-reference',
-              modernPhoneticZh: 'derived-reference',
-              classicalTranslitZh: 'db-original',
-              ipa: 'derived-reference',
-              prosody: 'derived-reference',
-              meaningZh: 'derived-reference',
-              meaningEn: 'derived-reference',
-              words: 'derived-reference',
-            },
-          },
-        ],
+        verses: [],
       },
     ];
   }, [allEntries, selectedFile, liveSutra]);
@@ -339,7 +314,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
               </span>
             </h2>
             <p style={{ fontSize: '0.81rem', color: 'var(--text-secondary)', marginTop: '0.2rem' }}>
-              全量索引 <code>cbeta-org/xml-p5</code> 密教部全部 614 部经典，统一以多体对照与 48kHz VITS 阅读器呈现。
+              全量呈现 614 部密教部经典整卷原文；含真言经典同步展示陀罗尼多体对照，纯汉文仪轨直接展示纯净原文。
             </p>
           </div>
           {liveSutra && (
@@ -368,7 +343,6 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
       </div>
 
       <div className="canon-reader-grid">
-        {/* Mobile Catalog Trigger & Scripture Stepper for 614 Taisho Sutras */}
         <div className="mobile-catalog-bar">
           <button
             type="button"
@@ -390,7 +364,6 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                   setSelectedFile(filteredFiles[currentFileIdx - 1]);
                 }
               }}
-              title="切换至上一部经轨"
             >
               <ChevronLeft size={14} />
               <span className="mobile-step-label">上一经</span>
@@ -406,7 +379,6 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                   setSelectedFile(filteredFiles[currentFileIdx + 1]);
                 }
               }}
-              title="切换至下一部经轨"
             >
               <span className="mobile-step-label">下一经</span>
               <ChevronRight size={14} />
@@ -420,7 +392,6 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
           aria-hidden="true"
         />
 
-        {/* Left List of 614 Scriptures with Full Chinese Titles & Dharani Counts */}
         <aside className={`sidebar-panel ${mobileDrawerOpen ? 'is-mobile-open' : ''}`}>
           <div className="sidebar-mobile-drawer-header">
             <span className="sidebar-mobile-drawer-title">
@@ -489,10 +460,12 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 >
                   <div className="catalog-item-top">
                     <span className="catalog-taisho-tag">{item.id}</span>
-                    {item.dharaniBlockCount > 0 && (
+                    {item.dharaniBlockCount > 0 ? (
                       <span className="badge-siddham-tt">
-                        真言 {item.dharaniBlockCount} 段
+                        原文+真言 {item.dharaniBlockCount} 段
                       </span>
+                    ) : (
+                      <span className="badge-pure-sutra">纯仪轨原文</span>
                     )}
                   </div>
                   <div className="catalog-item-title-zh">{item.titleZh}</div>
@@ -513,7 +486,6 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
           </div>
         </aside>
 
-        {/* Right Unified DharaniReader Display */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', minWidth: 0 }}>
           {loading && (
             <div
@@ -528,16 +500,16 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 gap: '0.5rem',
               }}
             >
-              <Loader2 size={16} />
+              <Loader2 size={16} className="spin-icon" />
               <span>
-                正在同步 CBETA 官方库《{selectedFile.id} · {selectedFile.titleZh}》原典 XML...
+                正在加载《{selectedFile.id} · {selectedFile.titleZh}》原典全文...
               </span>
             </div>
           )}
 
           {error && (
             <div className="meta-box" style={{ borderLeftColor: 'var(--accent-vermilion)' }}>
-              <div className="meta-box-label">实时拉取提示</div>
+              <div className="meta-box-label">加载提示</div>
               <div>{error}</div>
             </div>
           )}
@@ -555,7 +527,7 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
                 }}
               >
                 <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-                  本经共含 {standaloneTaishoEntries.length} 则独立真言 · 已按「一咒一篇」严格分列（点击切换单咒）：
+                  本经共含 {standaloneTaishoEntries.length} 则独立真言 · 点击切换单咒精解：
                 </span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                   当前：{Math.min(selectedMantraIdx + 1, standaloneTaishoEntries.length)} /{' '}
