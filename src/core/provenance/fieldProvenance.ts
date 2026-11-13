@@ -1181,3 +1181,42 @@ export function getFieldProvenanceTooltip(
   }
 }
 
+
+
+/**
+ * Returns true when a verse ONLY preserves classical Chinese transliteration (`db-original`)
+ * and has NO authentic Sanskrit IAST, Siddhaṃ, Devanāgarī, or diplomatic witness in any database
+ * (meaning any Sanskrit on the verse would be reverse-reconstructed from Chinese).
+ */
+export function isClassicalChineseOnlyVerse(verse: DharaniVerse): boolean {
+  if (resolveVerseFieldOrigin(verse, 'classicalTranslitZh') !== 'db-original') {
+    return false;
+  }
+  if (verse.diplomaticOriginal && verse.diplomaticOriginal.trim().length > 0) {
+    return false;
+  }
+  // 1. Dynamic Canon / Taishō scriptures without authentic Sanskrit/Siddhaṃ witness (iast is empty)
+  if (!verse.iast || !verse.iast.trim()) {
+    return true;
+  }
+  // 2. DB1 (Fangshan) & DB2 (Taishō) Chinese-only records whose IAST was machine-reconstructed from Chinese
+  if (!/^db[12]-/.test(verse.id)) {
+    return false;
+  }
+  const iastOrigin = resolveVerseFieldOrigin(verse, 'iast');
+  const siddhamOrigin = resolveVerseFieldOrigin(verse, 'siddham');
+  const devanagariOrigin = resolveVerseFieldOrigin(verse, 'devanagari');
+  return (
+    iastOrigin === 'derived-reference' &&
+    siddhamOrigin === 'derived-reference' &&
+    devanagariOrigin === 'derived-reference'
+  );
+}
+
+/**
+ * Returns true when an entry has verses and EVERY verse is classical-Chinese-only
+ * without any authentic Sanskrit/Siddhaṃ/Devanāgarī/diplomatic source witness.
+ */
+export function isClassicalChineseOnlyEntry(entry: DharaniEntry): boolean {
+  return entry.verses.length > 0 && entry.verses.every(isClassicalChineseOnlyVerse);
+}

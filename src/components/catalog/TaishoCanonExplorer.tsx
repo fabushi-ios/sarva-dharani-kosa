@@ -23,7 +23,6 @@ import {
 } from '../../data/kosa-generated/taishoMikkyoIndex';
 import {
   fetchAndParseCbetaXmlLive,
-  reconstructIastFromChineseTranslit,
   type LiveParsedCbetaSutra,
   type LiveParsedDharaniBlock,
 } from '../../services/cbeta/cbetaLiveService';
@@ -181,32 +180,31 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
         : [];
 
       const verses: DharaniVerse[] = clauses.map((clauseZh, cIdx) => {
-        const matchedIast =
-          hasDbIast && rawIastClauses.length === clauses.length
-            ? rawIastClauses[cIdx]
-            : hasDbIast && clauses.length === 1
-            ? blk.iastText!.trim()
-            : reconstructIastFromChineseTranslit(clauseZh);
         const clauseHasDbIast =
           hasDbIast && (rawIastClauses.length === clauses.length || clauses.length === 1);
-        const phonetics = generateVerseChinesePhonetics(matchedIast);
-        const sem = translateSanskritVerse(matchedIast);
+        const clauseHasDbSiddham = hasDbSiddham && clauses.length === 1;
+        const matchedIast = clauseHasDbIast
+          ? rawIastClauses.length === clauses.length
+            ? rawIastClauses[cIdx]
+            : blk.iastText!.trim()
+          : '';
+        const phonetics = matchedIast ? generateVerseChinesePhonetics(matchedIast) : null;
+        const sem = matchedIast ? translateSanskritVerse(matchedIast) : null;
 
         return {
           id: `${selectedFile.id}-b${blk.index}-v${cIdx + 1}`,
           index: cIdx + 1,
           iast: matchedIast,
-          siddhamOriginal:
-            hasDbSiddham && clauses.length === 1 ? blk.siddhamText!.trim() : undefined,
-          classicalTranslitZh: clauseZh || phonetics.classicalTranslitZh,
-          modernPhoneticZh: phonetics.modernPhoneticZh,
-          meaningZh: sem.meaningZh,
-          meaningEn: sem.meaningEn,
+          siddhamOriginal: clauseHasDbSiddham ? blk.siddhamText!.trim() : undefined,
+          classicalTranslitZh: clauseZh || phonetics?.classicalTranslitZh || '',
+          modernPhoneticZh: phonetics?.modernPhoneticZh || '',
+          meaningZh: sem?.meaningZh || '',
+          meaningEn: sem?.meaningEn || '',
           tangNoteZh:
             cIdx === 0 && blk.tangNotes.length > 0
               ? blk.tangNotes.join('；')
               : `《${selectedFile.titleZh}》第 ${blk.index} 则真言 · 第 ${cIdx + 1}/${clauses.length} 句（${selectedFile.translator}）`,
-          words: buildWordGlossesFromIast(matchedIast),
+          words: matchedIast ? buildWordGlossesFromIast(matchedIast) : [],
           fieldSources: {
             siddham:
               hasDbSiddham && clauses.length === 1 ? 'db-original' : 'derived-reference',

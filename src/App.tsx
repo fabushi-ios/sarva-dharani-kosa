@@ -34,8 +34,13 @@ import {
 import {
   filterDharanis,
   hydrateCanonCatalogForSearch,
+  type SearchScope,
   type SearchSuggestionItem,
 } from './core/search/searchEngine';
+import {
+  isClassicalChineseOnlyEntry,
+  isClassicalChineseOnlyVerse,
+} from './core/provenance/fieldProvenance';
 import {
   sanskritAudioEngine,
   type AudioEngineMode,
@@ -127,6 +132,7 @@ export const App: React.FC = () => {
   const [readerNavRequest, setReaderNavRequest] = useState<ReaderNavigationRequest | null>(null);
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchScope, setSearchScope] = useState<SearchScope>('all');
   const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
   const [sourceFilter, setSourceFilter] = useState<
     'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit'
@@ -223,13 +229,45 @@ export const App: React.FC = () => {
     return combined;
   }, [cloudCorpusEntries, customSharedEntry, dynamicCanonEntries]);
 
+  const sidebarCanonHits = useMemo<CanonCatalogItem[]>(() => {
+    const q = searchQuery.trim();
+    if (canonCatalog.length === 0 || sourceFilter === 'global-12db') return [];
+    if (q.length < 1) {
+      return searchScope === 'sutra' ? canonCatalog.slice(0, 60) : [];
+    }
+    const hits = filterCatalog(canonCatalog, q, {
+      dharaniMode: searchScope === 'dharani' ? 'with-dharani' : 'all',
+    });
+    if (searchScope === 'sutra') {
+      return hits.slice(0, 50);
+    }
+    // In 'all' and 'dharani' modes, skip canon items already covered by curated/12db entries
+    const coveredIds = new Set<string>();
+    for (const e of cloudCorpusEntries) {
+      if (e.provenance.cbetaId) coveredIds.add(e.provenance.cbetaId);
+      const m = e.taishoNo.match(/^([A-Z]{1,2}\d{2,3}n[0-9A-Za-z]+)/);
+      if (m) coveredIds.add(m[1]);
+    }
+    return hits.filter((c) => !coveredIds.has(c.id)).slice(0, 40);
+  }, [canonCatalog, cloudCorpusEntries, searchQuery, searchScope, sourceFilter]);
+
+  const sidebarCanonIdSet = useMemo(
+    () => new Set(sidebarCanonHits.map((c) => `canon-scripture-${c.id}`)),
+    [sidebarCanonHits]
+  );
+
   const preCategoryFilteredEntries = useMemo(() => {
-    const base = filterDharanis(allEntries, {
+    if (searchScope === 'sutra') {
+      return [];
+    }
+    const pool = allEntries.filter((e) => !sidebarCanonIdSet.has(e.id));
+    const base = filterDharanis(pool, {
       query: searchQuery,
       categoryId: 'all',
       onlyBookmarked,
       bookmarkedIds,
       sourceFilter,
+      searchScope,
     });
     if (selectedDbSubFilter !== 'all') {
       return base.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
@@ -237,7 +275,9 @@ export const App: React.FC = () => {
     return base;
   }, [
     allEntries,
+    sidebarCanonIdSet,
     searchQuery,
+    searchScope,
     onlyBookmarked,
     bookmarkedIds,
     sourceFilter,
@@ -248,12 +288,6 @@ export const App: React.FC = () => {
     if (selectedCategory === 'all') return preCategoryFilteredEntries;
     return preCategoryFilteredEntries.filter((e) => e.categoryId === selectedCategory);
   }, [preCategoryFilteredEntries, selectedCategory]);
-
-  const sidebarCanonHits = useMemo<CanonCatalogItem[]>(() => {
-    const q = searchQuery.trim();
-    if (q.length < 2 || canonCatalog.length === 0 || sourceFilter === 'global-12db') return [];
-    return filterCatalog(canonCatalog, q).slice(0, 40);
-  }, [canonCatalog, searchQuery, sourceFilter]);
 
   const [selectedEntryId, setSelectedEntryId] = useState<string>(
     initialDeepLink?.entryId || FIRST_SCREEN_CORPUS[0]?.id || ''
@@ -319,8 +353,13 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (activeEntry?.verses && activeEntry.verses.length > 0) {
-      sanskritAudioEngine.prewarmVerses(activeEntry.verses, 3);
+    if (activeEntry?.verses && activeEntry.verses.length > 0 && !isClassicalChineseOnlyEntry(activeEntry)) {
+      const playable = activeEntry.verses.filter(
+        (v) => !isClassicalChineseOnlyVerse(v) && Boolean(v.iast && v.iast.trim())
+      );
+      if (playable.length > 0) {
+        sanskritAudioEngine.prewarmVerses(playable, 3);
+      }
     }
   }, [activeEntry]);
 
@@ -688,7 +727,9 @@ export const App: React.FC = () => {
   const showBottomAudioBar = Boolean(
     effectiveAudioEntry &&
       (playbackState.isPlaying ||
-        (activeTab !== 'buddhist-ai' && effectiveAudioEntry.verses.length > 0))
+        (activeTab !== 'buddhist-ai' &&
+          effectiveAudioEntry.verses.length > 0 &&
+          !isClassicalChineseOnlyEntry(effectiveAudioEntry)))
   );
 
   return (
@@ -696,6 +737,8 @@ export const App: React.FC = () => {
       <Header
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
+        searchScope={searchScope}
+        onSearchScopeChange={setSearchScope}
         allEntries={allEntries}
         onSelectSuggestion={handleSelectSuggestion}
         activeTab={activeTab}
@@ -933,6 +976,8 @@ export const App: React.FC = () => {
                 }}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
+                searchScope={searchScope}
+                onSearchScopeChange={setSearchScope}
                 selectedCategory={selectedCategory}
                 onSelectCategory={setSelectedCategory}
                 sourceFilter={sourceFilter}

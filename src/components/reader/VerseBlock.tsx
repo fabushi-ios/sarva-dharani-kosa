@@ -8,6 +8,7 @@ import {
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 import {
+  isClassicalChineseOnlyVerse,
   resolveEffectiveVerseFields,
   resolveEffectiveWordGlosses,
   resolveVerseMixedSegments,
@@ -48,12 +49,13 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
   onPlaySyllable,
   onShareVerse,
 }) => {
+  const isChineseOnly = useMemo(() => isClassicalChineseOnlyVerse(verse), [verse]);
   const effective = useMemo(
     () => resolveEffectiveVerseFields(verse, config.showPhoneticIastBracket),
     [verse, config.showPhoneticIastBracket]
   );
 
-  const syllables = useMemo(() => analyzeSanskritProsody(verse.iast), [verse.iast]);
+  const syllables = useMemo(() => (isChineseOnly ? [] : analyzeSanskritProsody(verse.iast)), [isChineseOnly, verse.iast]);
 
   // Check if verse's concrete modernPhoneticZh matches syllable engine output 1-to-1 (so syllable-by-syllable karaoke never alters hand-crafted text)
   const canUseInlineModernSyllables = useMemo(() => {
@@ -71,7 +73,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       : 'is-reference-row';
 
   const wordsResult = useMemo(() => {
-    if (!config.showWordGloss) {
+    if (!config.showWordGloss || isChineseOnly) {
       return { words: [], sectionState: 'derived-reference' as EntryFieldOriginState };
     }
     const res = resolveEffectiveWordGlosses(verse);
@@ -82,7 +84,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       };
     }
     return res;
-  }, [config.showWordGloss, config.hideDerivedReference, verse]);
+  }, [config.showWordGloss, config.hideDerivedReference, isChineseOnly, verse]);
 
   const shouldShowLayer = (enabled: boolean, origin: EntryFieldOriginState): boolean =>
     enabled && (!config.hideDerivedReference || origin !== 'derived-reference');
@@ -284,6 +286,14 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
               <span>分享图片</span>
             </button>
           )}
+          {isChineseOnly ? (
+            <span
+              className="tang-note-tag"
+              title="本句于原典中仅载古汉语音译，未附梵本，不作人工合成梵音"
+            >
+              原典古汉音译
+            </span>
+          ) : (
           <button
             id={`play-verse-btn-${verse.id}`}
             type="button"
@@ -302,6 +312,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
                 : '梵音讽诵本句'}
             </span>
           </button>
+          )}
         </div>
       </div>
 
@@ -400,7 +411,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       )}
 
       {/* Parallel Multi-Script & Chinese Phonetic / Classical Transliteration Alignment */}
-      {shouldShowLayer(config.showSiddham, effective.siddhamOrigin) && (
+      {!isChineseOnly && shouldShowLayer(config.showSiddham, effective.siddhamOrigin) && (
         <div className={`script-row ${rowClassForOrigin(effective.siddhamOrigin)}`}>
           <span className="script-label">
             <span>悉昙梵字</span>
@@ -469,7 +480,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         </div>
       )}
 
-      {shouldShowLayer(config.showDevanagari, effective.devanagariOrigin) && (
+      {!isChineseOnly && shouldShowLayer(config.showDevanagari, effective.devanagariOrigin) && (
         <div className={`script-row ${rowClassForOrigin(effective.devanagariOrigin)}`}>
           <span className="script-label">
             <span>天城梵文</span>
@@ -538,7 +549,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         </div>
       )}
 
-      {shouldShowLayer(config.showIast, effective.iastOrigin) && (
+      {!isChineseOnly && shouldShowLayer(config.showIast, effective.iastOrigin) && (
         <div className={`script-row ${rowClassForOrigin(effective.iastOrigin)}`}>
           <span className="script-label">
             <span>梵文 IAST</span>
@@ -591,7 +602,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       )}
 
       {/* 梵音拼读：现代汉语音近辅助拼读统一标为「处理参考」并完整保留既有拼读文本 */}
-      {shouldShowLayer(config.showModernPhoneticZh, effective.modernPhoneticOrigin) && (
+      {!isChineseOnly && shouldShowLayer(config.showModernPhoneticZh, effective.modernPhoneticOrigin) && (
         <div className={`script-row ${rowClassForOrigin(effective.modernPhoneticOrigin)}`}>
           <span className="script-label" style={{ color: 'var(--accent-jade)' }}>
             <span>
@@ -653,7 +664,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         </div>
       )}
 
-      {shouldShowLayer(config.showClassicalZh, effective.classicalTranslitOrigin) && (
+      {(isChineseOnly || shouldShowLayer(config.showClassicalZh, effective.classicalTranslitOrigin)) && (
         <div className={`script-row ${rowClassForOrigin(effective.classicalTranslitOrigin)}`}>
           <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
             <span>
@@ -693,7 +704,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
         </div>
       )}
 
-      {shouldShowLayer(config.showIpa, effective.ipaOrigin) && (
+      {!isChineseOnly && shouldShowLayer(config.showIpa, effective.ipaOrigin) && (
         <div className="script-row is-reference-row">
           <span className="script-label">
             <span>国际音标</span>
@@ -704,7 +715,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
       )}
 
       {/* 逐音节五层对齐卡：摩多轻重 + 梵文 IAST + 梵音拼读 + 古汉语 + IPA */}
-      {shouldShowLayer(config.showProsodyMeter, effective.prosodyOrigin) &&
+      {!isChineseOnly && shouldShowLayer(config.showProsodyMeter, effective.prosodyOrigin) &&
         enrichedSyllables.length > 0 && (
           <div>
             <div
@@ -777,10 +788,10 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
           </div>
         )}
 
-      {(shouldShowLayer(config.showMeaningZh, effective.meaningZhOrigin) ||
-        shouldShowLayer(config.showMeaningEn, effective.meaningEnOrigin)) && (
+      {((!isChineseOnly || effective.meaningZhOrigin === 'db-original') && shouldShowLayer(config.showMeaningZh, effective.meaningZhOrigin) ||
+        (!isChineseOnly || effective.meaningEnOrigin === 'db-original') && shouldShowLayer(config.showMeaningEn, effective.meaningEnOrigin)) && (
         <div className="translit-meaning-grid">
-          {shouldShowLayer(config.showMeaningZh, effective.meaningZhOrigin) && (
+          {(!isChineseOnly || effective.meaningZhOrigin === 'db-original') && shouldShowLayer(config.showMeaningZh, effective.meaningZhOrigin) && (
             <div
               className={`translit-box meaning-zh ${
                 effective.meaningZhOrigin === 'db-original'
@@ -824,7 +835,7 @@ export const VerseBlock: React.FC<VerseBlockProps> = ({
             </div>
           )}
 
-          {shouldShowLayer(config.showMeaningEn, effective.meaningEnOrigin) && (
+          {(!isChineseOnly || effective.meaningEnOrigin === 'db-original') && shouldShowLayer(config.showMeaningEn, effective.meaningEnOrigin) && (
             <div
               className={`translit-box meaning-en ${
                 effective.meaningEnOrigin === 'db-original'

@@ -315,3 +315,207 @@
     max-height: none;
   }
 }
+
+
+/* ==========================================================================
+   Chinese-Only Mantra Banner & Scoped Search (陀罗尼 vs 经文) Styles
+   ========================================================================== */
+
+.chinese-only-mode-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  padding: 0.58rem 0.92rem;
+  border-radius: var(--radius-sm, 8px);
+  background: var(--accent-vermilion-soft);
+  border: 1px solid var(--accent-vermilion-border);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.header-search-wrap.has-scope-selector {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  padding: 0.14rem;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.header-search-wrap.has-scope-selector:focus-within {
+  border-color: var(--accent-vermilion);
+  box-shadow: var(--focus-ring);
+}
+
+.header-search-scope-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12rem;
+  padding: 0.1rem;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.header-scope-pill {
+  padding: 0.28rem 0.58rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-zh-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.header-scope-pill:hover {
+  color: var(--text-primary);
+}
+
+.header-scope-pill.active {
+  background: var(--accent-vermilion);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(178, 45, 36, 0.22);
+}
+
+.header-search-input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.header-search-wrap.has-scope-selector .header-search-input {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent;
+  padding: 0.36rem 2.6rem 0.36rem 2.05rem;
+}
+
+.header-search-wrap.has-scope-selector .header-search-icon {
+  left: 0.62rem;
+}
+
+.search-scope-tabs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.42rem 0.78rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.search-scope-tabs-left {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.dropdown-scope-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.24rem 0.64rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.dropdown-scope-tab:hover {
+  border-color: var(--accent-vermilion-border);
+  color: var(--text-primary);
+}
+
+.dropdown-scope-tab.active {
+  background: var(--accent-vermilion);
+  border-color: var(--accent-vermilion);
+  color: #ffffff;
+}
+
+.dropdown-scope-count {
+  font-size: 0.68rem;
+  padding: 0.02rem 0.36rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-scope-tab.active .dropdown-scope-count {
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.search-dropdown-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-dropdown-ai-footer {
+  padding: 0.48rem 0.78rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  position: sticky;
+  bottom: 0;
+}
+
+.sidebar-scope-switch {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+  padding: 0.18rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+.sidebar-scope-btn {
+  padding: 0.28rem 0.4rem;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.sidebar-scope-btn:hover {
+  color: var(--text-primary);
+}
+
+.sidebar-scope-btn.active {
+  background: var(--accent-vermilion);
+  color: #ffffff;
+  box-shadow: 0 1px 4px rgba(178, 45, 36, 0.2);
+}
+
+@media (max-width: 640px) {
+  .header-scope-pill {
+    padding: 0.24rem 0.44rem;
+    font-size: 0.7rem;
+  }
+}

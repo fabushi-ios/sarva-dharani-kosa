@@ -34,6 +34,7 @@ import {
 } from '../../services/share/sharePosterRenderer';
 import { iastToSiddham } from '../../core/sanskrit/transliterator';
 import { PhoneticText } from '../common/PhoneticText';
+import { isClassicalChineseOnlyEntry } from '../../core/provenance/fieldProvenance';
 
 export interface DharaniShareModalProps {
   entry: DharaniEntry;
@@ -82,7 +83,23 @@ export const DharaniShareModal: React.FC<DharaniShareModalProps> = ({
   );
   const [layoutStyle, setLayoutStyle] = useState<PosterLayoutStyle>('verse-rows');
 
+  const isChineseOnly = useMemo(() => isClassicalChineseOnlyEntry(entry), [entry]);
   const [layers, setLayers] = useState<PosterLayerSelection>(() => {
+    if (isClassicalChineseOnlyEntry(entry)) {
+      return {
+        showSiddham: false,
+        showModernPhoneticZh: false,
+        showPhoneticIastBracket: false,
+        showIast: false,
+        showDevanagari: false,
+        showClassicalZh: true,
+        showMeaningZh: false,
+        showMeaningEn: false,
+        showIpa: false,
+        showBijaSeal: false,
+        showHeaderMeta: true,
+      };
+    }
     const anyMain =
       scriptConfig.showSiddham ||
       scriptConfig.showModernPhoneticZh ||

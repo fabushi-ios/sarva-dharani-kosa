@@ -2,6 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { Copy, Check, Layers, Sparkles } from 'lucide-react';
 import type { DharaniEntry, ScriptVisibilityConfig } from '../../types/kosaTypes';
 import {
+  isClassicalChineseOnlyEntry,
+  isClassicalChineseOnlyVerse,
   resolveEffectiveVerseFields,
   resolveVerseMixedSegments,
   summarizeEntryFieldProvenance,
@@ -41,6 +43,7 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const provSummary = useMemo(() => summarizeEntryFieldProvenance(entry), [entry]);
+  const isChineseOnly = useMemo(() => isClassicalChineseOnlyEntry(entry), [entry]);
 
   const combined = useMemo(() => {
     if (!config.showFullCombinedSummary) {
@@ -75,28 +78,29 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
 
     for (const v of entry.verses) {
       const eff = resolveEffectiveVerseFields(v, config.showPhoneticIastBracket);
-      if (config.showSiddham) {
+      const verseZhOnly = isClassicalChineseOnlyVerse(v);
+      if (!verseZhOnly && config.showSiddham) {
         siddhamList.push(eff.siddhamText);
       }
-      if (config.showModernPhoneticZh) {
+      if (!verseZhOnly && config.showModernPhoneticZh) {
         modernPhoneticList.push(eff.modernPhoneticZh);
       }
-      if (config.showDevanagari) {
+      if (!verseZhOnly && config.showDevanagari) {
         devanagariList.push(eff.devanagariText);
       }
-      if (config.showIast) {
+      if (!verseZhOnly && config.showIast) {
         iastList.push(eff.iastText);
       }
-      if (config.showClassicalZh) {
+      if (config.showClassicalZh || verseZhOnly) {
         classicalZhList.push(eff.classicalTranslitZh);
       }
-      if (config.showIpa) {
+      if (!verseZhOnly && config.showIpa) {
         ipaList.push(eff.ipaText);
       }
-      if (config.showMeaningZh) {
+      if (config.showMeaningZh && (!verseZhOnly || eff.meaningZhOrigin === 'db-original')) {
         meaningZhList.push(eff.meaningZh);
       }
-      if (config.showMeaningEn) {
+      if (config.showMeaningEn && (!verseZhOnly || eff.meaningEnOrigin === 'db-original')) {
         meaningEnList.push(eff.meaningEn);
       }
     }
@@ -173,6 +177,103 @@ export const FullDharaniSummaryCard: React.FC<FullDharaniSummaryCardProps> = ({
 
   if (!config.showFullCombinedSummary) {
     return null;
+  }
+
+  if (isChineseOnly) {
+    const hasOrigMeaningZh =
+      provSummary.byField.meaningZh === 'db-original' && Boolean(combined.meaningZhFull);
+    const copyZhOnly = () => {
+      const lines = [
+        `${entry.titleZh} (${entry.taishoNo}) 原典古汉语音译全文（共 ${entry.verses.length} 句）`,
+        `【古汉语音译 · 库藏原文】\n${combined.classicalZhFull}`,
+      ];
+      if (hasOrigMeaningZh) {
+        lines.push(`【汉文意译 · 库藏原文】\n${combined.meaningZhFull}`);
+      }
+      handleCopy('all-zh', lines.join('\n\n'));
+    };
+
+    return (
+      <section
+        id="full-dharani-combined-summary"
+        className="verse-card"
+        style={{
+          border: '1.5px solid var(--accent-gold-border)',
+          background:
+            'linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-elevated) 100%)',
+        }}
+        aria-label="原典古汉音译全文总览"
+      >
+        <div className="verse-card-header" style={{ flexWrap: 'wrap', gap: '0.5rem' }}>
+          <div className="verse-index-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem' }}>
+            <Layers size={15} color="var(--accent-vermilion)" />
+            <span style={{ fontSize: '0.92rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              原典古汉音译全文总览（共 {entry.verses.length} 句 · 原典未附梵本）
+            </span>
+          </div>
+
+          <button
+            id="copy-all-six-summary-btn"
+            type="button"
+            className="btn-scholarly"
+            onClick={copyZhOnly}
+            title="一键复制本篇原典古汉语音译全文"
+          >
+            {copiedKey === 'all-zh' ? <Check size={13} /> : <Copy size={13} />}
+            <span>{copiedKey === 'all-zh' ? '已复制古汉咒文' : '一键复制古汉咒文'}</span>
+          </button>
+        </div>
+
+        <div className="script-row is-original-row" style={{ alignItems: 'flex-start' }}>
+          <span className="script-label" style={{ color: 'var(--accent-vermilion)' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+              <span>汇总·古汉语音译</span>
+              <button
+                type="button"
+                onClick={() => handleCopy('classical', combined.classicalZhFull)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  fontSize: '0.66rem',
+                  color: 'var(--text-muted)',
+                  cursor: 'pointer',
+                }}
+                title="复制原典古汉语音译"
+              >
+                {copiedKey === 'classical' ? <Check size={11} /> : <Copy size={11} />}
+              </button>
+            </span>
+            <ProvenanceBadge state="db-original" field="classicalTranslitZh" compact />
+          </span>
+          <div className="script-content-classical-zh" style={{ lineHeight: 1.85, fontSize: '1.08rem' }}>
+            {combined.classicalZhFull}
+          </div>
+        </div>
+
+        {hasOrigMeaningZh && (
+          <div className="script-row is-original-row" style={{ alignItems: 'flex-start' }}>
+            <span className="script-label" style={{ color: 'var(--accent-gold)' }}>
+              <span>汇总·汉文义译</span>
+              <ProvenanceBadge state="db-original" field="meaningZh" compact customLabel="● 原典原载" />
+            </span>
+            <div className="box-text-zh" style={{ lineHeight: 1.78 }}>
+              {combined.meaningZhFull}
+            </div>
+          </div>
+        )}
+
+        <div
+          style={{
+            fontSize: '0.76rem',
+            color: 'var(--text-muted)',
+            paddingTop: '0.25rem',
+            borderTop: '1px dashed var(--border-subtle)',
+          }}
+        >
+          文献说明：本篇于原典中仅存古汉语音译，未附悉昙或梵文底本；为杜绝机器逆推造成声韵与字门失真，不显示反推梵文、转写及拟译。
+        </div>
+      </section>
+    );
   }
 
   const canShowSummaryRow = (toggleOn: boolean, state: EntryFieldOriginState): boolean => {

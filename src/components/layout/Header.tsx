@@ -19,6 +19,8 @@ import type { ActiveWorkspaceTab, DharaniEntry } from '../../types/kosaTypes';
 import { CORPUS_AUTHORITATIVE_STATS } from '../../data/corpusStats';
 import {
   getSearchSuggestions,
+  normalizeLiteralSearchText,
+  type SearchScope,
   type SearchSuggestionItem,
 } from '../../core/search/searchEngine';
 import { PhoneticText } from '../common/PhoneticText';
@@ -33,6 +35,8 @@ import type { CanonCatalogItem } from '../../core/canon/canonLibraryTypes';
 interface HeaderProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
+  searchScope?: SearchScope;
+  onSearchScopeChange?: (scope: SearchScope) => void;
   allEntries: DharaniEntry[];
   onSelectSuggestion: (item: SearchSuggestionItem) => void;
   activeTab: ActiveWorkspaceTab;
@@ -51,29 +55,60 @@ const QUICK_SEARCH_CHIPS: Array<{
   label: string;
   q: string;
   variant: 'hot' | 'mantra' | 'db';
+  kind: 'sutra' | 'dharani';
 }> = [
-  { label: '金刚经(无咒经文)', q: '金刚般若波罗蜜经', variant: 'hot' },
-  { label: '阿弥陀经(无咒经文)', q: '佛说阿弥陀经', variant: 'hot' },
-  { label: '妙法莲华经', q: '妙法莲华经', variant: 'hot' },
-  { label: '大悲咒', q: '大悲咒', variant: 'hot' },
-  { label: '楞严咒', q: '楞严咒', variant: 'hot' },
-  { label: '尊胜陀罗尼', q: '尊胜', variant: 'hot' },
-  { label: '心经', q: '心经', variant: 'hot' },
-  { label: '六字大明咒', q: '嗡嘛呢呗美吽', variant: 'mantra' },
-  { label: '绿度母', q: '绿度母', variant: 'mantra' },
-  { label: '药师经', q: '药师琉璃光如来', variant: 'mantra' },
-  { label: '准提咒', q: '准提', variant: 'mantra' },
-  { label: 'DB1 房山石经', q: '房山', variant: 'db' },
-  { label: 'DB3 尼泊尔DSBC', q: 'DSBC', variant: 'db' },
-  { label: 'DB4 84000藏密', q: 'TOH', variant: 'db' },
-  { label: 'DB7 剑桥CUDL', q: 'CUDL', variant: 'db' },
-  { label: 'DB8 奥斯陆对勘', q: '奥斯陆', variant: 'db' },
-  { label: 'DB12 牛津OCHS', q: 'OCHS', variant: 'db' },
+  { label: '大悲咒', q: '大悲咒', variant: 'hot', kind: 'dharani' },
+  { label: '楞严咒', q: '楞严咒', variant: 'hot', kind: 'dharani' },
+  { label: '尊胜陀罗尼', q: '尊胜', variant: 'hot', kind: 'dharani' },
+  { label: '心经', q: '心经', variant: 'hot', kind: 'sutra' },
+  { label: '金刚经', q: '金刚般若波罗蜜经', variant: 'hot', kind: 'sutra' },
+  { label: '阿弥陀经', q: '佛说阿弥陀经', variant: 'hot', kind: 'sutra' },
+  { label: '妙法莲华经', q: '妙法莲华经', variant: 'hot', kind: 'sutra' },
+  { label: '药师经', q: '药师琉璃光如来', variant: 'mantra', kind: 'sutra' },
+  { label: '六字大明咒', q: '嗡嘛呢呗美吽', variant: 'mantra', kind: 'dharani' },
+  { label: '绿度母', q: '绿度母', variant: 'mantra', kind: 'dharani' },
+  { label: '准提咒', q: '准提', variant: 'mantra', kind: 'dharani' },
+  { label: '坚牢地天', q: '坚牢地天', variant: 'mantra', kind: 'dharani' },
+  { label: 'DB1 房山石经', q: '房山', variant: 'db', kind: 'dharani' },
+  { label: 'DB3 尼泊尔DSBC', q: 'DSBC', variant: 'db', kind: 'dharani' },
+  { label: 'DB4 84000藏密', q: 'TOH', variant: 'db', kind: 'dharani' },
+  { label: 'DB7 剑桥CUDL', q: 'CUDL', variant: 'db', kind: 'dharani' },
 ];
+
+function dedupeSuggestions(items: SearchSuggestionItem[]): SearchSuggestionItem[] {
+  const seenKeys = new Set<string>();
+  const out: SearchSuggestionItem[] = [];
+  for (const it of items) {
+    const canonMatch = (it.taishoNo || '').match(/^([A-Z]{1,2}\d{2,3}n[0-9A-Za-z]+)/);
+    const titleKey = normalizeLiteralSearchText(
+      it.titleZh.replace(/^【大正藏原典】/, '')
+    ).replace(/\s+/g, '');
+    const key =
+      it.kind === 'taisho-scripture' && canonMatch
+        ? `canon:${canonMatch[1]}`
+        : it.kind === 'canon-scripture' && it.canonItem
+        ? `canon:${it.canonItem.id}`
+        : it.entry?.id.startsWith('canon-scripture-') && canonMatch
+        ? `canon:${canonMatch[1]}`
+        : `${it.entry?.id || canonMatch?.[1] || titleKey}`;
+
+    // If a dedicated reader entry or canon-scripture for the same Taisho ID already appeared, skip duplicate wrapper
+    if (canonMatch && seenKeys.has(`canon:${canonMatch[1]}`) && it.kind !== 'canon-entry') {
+      continue;
+    }
+    if (seenKeys.has(key)) continue;
+    seenKeys.add(key);
+    if (canonMatch) seenKeys.add(`canon:${canonMatch[1]}`);
+    out.push(it);
+  }
+  return out;
+}
 
 export const Header: React.FC<HeaderProps> = ({
   searchQuery,
   onSearchChange,
+  searchScope: controlledScope,
+  onSearchScopeChange,
   allEntries,
   onSelectSuggestion,
   activeTab,
@@ -84,41 +119,55 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectCanonScripture,
   onAskAiWithQuery,
 }) => {
+  const [internalScope, setInternalScope] = useState<SearchScope>('all');
+  const searchScope = controlledScope ?? internalScope;
+  const setSearchScope = (next: SearchScope) => {
+    if (onSearchScopeChange) {
+      onSearchScopeChange(next);
+    } else {
+      setInternalScope(next);
+    }
+  };
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [canonHits, setCanonHits] = useState<{
     q: string;
     total: number;
+    dharaniScriptureTotal: number;
     items: CanonCatalogItem[];
     bodyHits: CanonFullTextHit[];
-  }>({ q: '', total: 0, items: [], bodyHits: [] });
+  }>({ q: '', total: 0, dharaniScriptureTotal: 0, items: [], bodyHits: [] });
 
   useEffect(() => {
     const q = searchQuery.trim();
-    if (q.length < 2) return;
+    if (q.length < 1) return;
     let alive = true;
     loadCanonCatalog()
       .then(async (cat) => {
         if (!alive) return;
         const hits = filterCatalog(cat, q);
-        const bodyHits = await searchCanonFullText(q, cat, 4);
+        const needBody = Array.from(q).length >= 3 && (searchScope === 'sutra' || hits.length < 3);
+        const bodyHits = needBody ? await searchCanonFullText(q, cat, 5) : [];
         if (!alive) return;
+        const topSlice = hits.slice(0, 12);
         setCanonHits({
           q,
           total: hits.length,
-          items: hits.slice(0, 6),
-          bodyHits: bodyHits.filter((bh) => !hits.slice(0, 6).some((h) => h.id === bh.item.id)),
+          dharaniScriptureTotal: hits.filter((h) => h.dharani > 0).length,
+          items: topSlice,
+          bodyHits: bodyHits.filter((bh) => !topSlice.some((h) => h.id === bh.item.id)),
         });
       })
       .catch(() => {});
     return () => {
       alive = false;
     };
-  }, [searchQuery]);
+  }, [searchQuery, searchScope]);
 
   const canonShown =
     canonHits.q === searchQuery.trim()
       ? canonHits
-      : { q: '', total: 0, items: [], bodyHits: [] };
+      : { q: '', total: 0, dharaniScriptureTotal: 0, items: [], bodyHits: [] };
 
   const [highlightIndex, setHighlightIndex] = useState(0);
   const [showCorpusRibbon, setShowCorpusRibbon] = useState(false);
@@ -126,14 +175,39 @@ export const Header: React.FC<HeaderProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const navTabsRef = useRef<HTMLElement>(null);
 
-  const suggestions = useMemo(
-    () => getSearchSuggestions(allEntries, searchQuery, 20),
+  const dharaniSuggestions = useMemo(
+    () => dedupeSuggestions(getSearchSuggestions(allEntries, searchQuery, 18, 'dharani')),
     [allEntries, searchQuery]
   );
 
+  const activeSuggestions = useMemo(() => {
+    if (searchScope === 'dharani') return dharaniSuggestions;
+    if (searchScope === 'sutra') return [];
+    return dharaniSuggestions.slice(0, 10);
+  }, [dharaniSuggestions, searchScope]);
+
+  const displayedCanonItems = useMemo(() => {
+    if (searchScope === 'dharani') return [];
+    if (searchScope === 'sutra') return canonShown.items.slice(0, 12);
+    // In 'all' mode, avoid repeating scriptures already shown in dharaniSuggestions
+    const shownIds = new Set<string>();
+    for (const s of activeSuggestions) {
+      const m = (s.taishoNo || '').match(/^([A-Z]{1,2}\d{2,3}n[0-9A-Za-z]+)/);
+      if (m) shownIds.add(m[1]);
+      if (s.canonItem) shownIds.add(s.canonItem.id);
+    }
+    return canonShown.items.filter((c) => !shownIds.has(c.id)).slice(0, 6);
+  }, [searchScope, canonShown.items, activeSuggestions]);
+
+  const displayedBodyHits = useMemo(() => {
+    if (searchScope === 'dharani') return [];
+    if (searchScope === 'sutra') return canonShown.bodyHits.slice(0, 5);
+    return canonShown.total === 0 ? canonShown.bodyHits.slice(0, 3) : [];
+  }, [searchScope, canonShown.bodyHits, canonShown.total]);
+
   useEffect(() => {
     setHighlightIndex(0);
-  }, [searchQuery]);
+  }, [searchQuery, searchScope]);
 
   useEffect(() => {
     const navEl = navTabsRef.current;
@@ -204,29 +278,53 @@ export const Header: React.FC<HeaderProps> = ({
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setHighlightIndex((prev) =>
-        suggestions.length > 0 ? (prev + 1) % suggestions.length : 0
+        activeSuggestions.length > 0 ? (prev + 1) % activeSuggestions.length : 0
       );
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setHighlightIndex((prev) =>
-        suggestions.length > 0
-          ? (prev - 1 + suggestions.length) % suggestions.length
+        activeSuggestions.length > 0
+          ? (prev - 1 + activeSuggestions.length) % activeSuggestions.length
           : 0
       );
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      const target = suggestions[highlightIndex];
+      if (searchScope === 'sutra') {
+        const firstSutra = displayedCanonItems[0] || displayedBodyHits[0]?.item;
+        if (firstSutra) handleOpenCanonItem(firstSutra);
+        return;
+      }
+      const target = activeSuggestions[highlightIndex];
       if (target) {
         onSelectSuggestion(target);
         setDropdownOpen(false);
         searchInputRef.current?.blur();
-      } else if (canonShown.items[0]) {
-        handleOpenCanonItem(canonShown.items[0]);
+      } else if (displayedCanonItems[0]) {
+        handleOpenCanonItem(displayedCanonItems[0]);
       }
     } else if (e.key === 'Escape') {
       setDropdownOpen(false);
     }
   };
+
+  const placeholderText =
+    searchScope === 'dharani'
+      ? '搜陀罗尼：输入咒名、本尊、经号或咒句（如 地天、大悲咒、楞严咒）...'
+      : searchScope === 'sutra'
+      ? '搜经文：输入经名、经号、译者或经句（如 金刚经、地天仪轨、阿弥陀经）...'
+      : '搜陀罗尼或经文：输入名称、本尊、经号（左侧可切换「陀罗尼 / 经文」）...';
+
+  const trimmedQuery = searchQuery.trim();
+  const visibleQuickChips = useMemo(() => {
+    if (searchScope === 'dharani') return QUICK_SEARCH_CHIPS.filter((c) => c.kind === 'dharani');
+    if (searchScope === 'sutra') return QUICK_SEARCH_CHIPS.filter((c) => c.kind === 'sutra');
+    return QUICK_SEARCH_CHIPS;
+  }, [searchScope]);
+
+  const hasAnyResult =
+    activeSuggestions.length > 0 ||
+    displayedCanonItems.length > 0 ||
+    displayedBodyHits.length > 0;
 
   return (
     <>
@@ -248,41 +346,75 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
-          <div className="header-search-wrap" ref={searchWrapRef}>
-            <Search size={16} className="header-search-icon" />
-            <input
-              ref={searchInputRef}
-              id="global-dharani-search-input"
-              type="search"
-              autoComplete="off"
-              className="header-search-input"
-              placeholder="搜全部经典原文(金刚经/阿弥陀经/法华经)、陀罗尼、12大库或向佛经AI提问..."
-              value={searchQuery}
-              onFocus={() => setDropdownOpen(true)}
-              onKeyDown={handleKeyDown}
-              onChange={(e) => {
-                onSearchChange(e.target.value);
-                setDropdownOpen(true);
-              }}
-            />
-            {!searchQuery ? (
-              <span className="header-search-kbd" aria-hidden="true">
-                ⌘K
-              </span>
-            ) : (
-              <button
-                id="clear-global-search-btn"
-                type="button"
-                className="header-search-clear"
-                onClick={() => {
-                  onSearchChange('');
+          <div className="header-search-wrap has-scope-selector" ref={searchWrapRef}>
+            <div
+              className="header-search-scope-group"
+              role="tablist"
+              aria-label="选择检索范围：全部、搜陀罗尼或搜经文"
+            >
+              {(
+                [
+                  { id: 'all', label: '全部' },
+                  { id: 'dharani', label: '搜陀罗尼' },
+                  { id: 'sutra', label: '搜经文' },
+                ] as Array<{ id: SearchScope; label: string }>
+              ).map((tab) => (
+                <button
+                  key={tab.id}
+                  id={`header-scope-${tab.id}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={searchScope === tab.id}
+                  className={`header-scope-pill ${searchScope === tab.id ? 'active' : ''}`}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setSearchScope(tab.id);
+                    setDropdownOpen(true);
+                    searchInputRef.current?.focus();
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="header-search-input-box">
+              <Search size={15} className="header-search-icon" />
+              <input
+                ref={searchInputRef}
+                id="global-dharani-search-input"
+                type="search"
+                autoComplete="off"
+                className="header-search-input"
+                placeholder={placeholderText}
+                value={searchQuery}
+                onFocus={() => setDropdownOpen(true)}
+                onKeyDown={handleKeyDown}
+                onChange={(e) => {
+                  onSearchChange(e.target.value);
                   setDropdownOpen(true);
                 }}
-                title="清空搜索"
-              >
-                <X size={15} />
-              </button>
-            )}
+              />
+              {!searchQuery ? (
+                <span className="header-search-kbd" aria-hidden="true">
+                  ⌘K
+                </span>
+              ) : (
+                <button
+                  id="clear-global-search-btn"
+                  type="button"
+                  className="header-search-clear"
+                  onClick={() => {
+                    onSearchChange('');
+                    setDropdownOpen(true);
+                    searchInputRef.current?.focus();
+                  }}
+                  title="清空搜索"
+                >
+                  <X size={15} />
+                </button>
+              )}
+            </div>
 
             {dropdownOpen && (
               <div
@@ -291,164 +423,231 @@ export const Header: React.FC<HeaderProps> = ({
                 role="listbox"
                 aria-label="全藏经典与陀罗尼搜索结果列表"
               >
-                <div className="search-dropdown-header">
-                  <span>
-                    {searchQuery.trim()
-                      ? `检索「${searchQuery}」：匹配经典与陀罗尼 ${suggestions.length + canonShown.total} 条`
-                      : `全站直达：CBETA 全藏经典原文 + 12大国际梵典库 (${allEntries.length} 部)`}
-                  </span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
-                    <CornerDownLeft size={12} />
-                    <span>点选直看原文</span>
-                  </span>
-                </div>
-
-                {searchQuery.trim() && onAskAiWithQuery && (
-                  <div style={{ padding: '0.45rem 0.85rem', borderBottom: '1px solid var(--border-subtle)' }}>
+                <div className="search-scope-tabs-bar">
+                  <div className="search-scope-tabs-left">
                     <button
                       type="button"
-                      className="btn-scholarly primary"
-                      style={{ width: '100%', justifyContent: 'center' }}
+                      className={`dropdown-scope-tab ${searchScope === 'all' ? 'active' : ''}`}
                       onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => {
-                        onAskAiWithQuery(searchQuery.trim());
-                        setDropdownOpen(false);
-                        searchInputRef.current?.blur();
-                      }}
+                      onClick={() => setSearchScope('all')}
                     >
-                      <Sparkles size={14} />
-                      <span>向 MITRA 佛经大模型提问并检索本库原典：「{searchQuery.trim().slice(0, 28)}」</span>
+                      <span>全部</span>
+                      {trimmedQuery && (
+                        <span className="dropdown-scope-count">
+                          {dharaniSuggestions.length + displayedCanonItems.length}
+                        </span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className={`dropdown-scope-tab ${searchScope === 'dharani' ? 'active' : ''}`}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => setSearchScope('dharani')}
+                    >
+                      <span>搜陀罗尼</span>
+                      {trimmedQuery && (
+                        <span className="dropdown-scope-count">{dharaniSuggestions.length}</span>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      className={`dropdown-scope-tab ${searchScope === 'sutra' ? 'active' : ''}`}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => setSearchScope('sutra')}
+                    >
+                      <span>搜经文</span>
+                      {trimmedQuery && (
+                        <span className="dropdown-scope-count">
+                          {canonShown.total + canonShown.bodyHits.length}
+                        </span>
+                      )}
                     </button>
                   </div>
-                )}
-
-                <div className="search-quick-chips-bar">
-                  {QUICK_SEARCH_CHIPS.map((chip) => {
-                    const isActive = searchQuery === chip.q;
-                    const variantClass =
-                      chip.variant === 'hot'
-                        ? 'is-hot'
-                        : chip.variant === 'db'
-                        ? 'is-db'
-                        : '';
-                    return (
-                      <button
-                        key={chip.q}
-                        type="button"
-                        className={`search-quick-chip ${variantClass} ${isActive ? 'is-active' : ''}`}
-                        onMouseDown={(e) => {
-                          e.preventDefault();
-                          onSearchChange(chip.q);
-                          setDropdownOpen(true);
-                        }}
-                      >
-                        {chip.label}
-                      </button>
-                    );
-                  })}
+                  <span className="search-dropdown-hint">
+                    <CornerDownLeft size={12} />
+                    <span>点选直看</span>
+                  </span>
                 </div>
 
-                {(canonShown.total > 0 || canonShown.bodyHits.length > 0) && (
-                  <div className="search-canon-hits">
-                    <div className="search-canon-hits-label">
-                      全藏经典原文直看（匹配 {canonShown.total} 部 · 含无陀罗尼经文与含陀罗尼经典）
-                    </div>
-                    {canonShown.items.map((c) => (
-                      <button
-                        key={c.id}
-                        type="button"
-                        className="search-suggestion-item"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => handleOpenCanonItem(c)}
-                      >
-                        <div className="search-suggestion-top">
-                          <span className="search-suggestion-title">《{c.title}》</span>
-                          <span className="search-suggestion-match-tag">
-                            {c.id}
-                            {c.dharani > 0
-                              ? ` · 原文 + 陀罗尼 ${c.dharani} 段`
-                              : ' · 纯经文原文（无陀罗尼）'}
-                          </span>
-                        </div>
-                        <div className="search-suggestion-secondary">
-                          {c.byline || '藏经原典'} · 全文 {(c.chars || 0).toLocaleString()} 字
-                        </div>
-                      </button>
-                    ))}
-                    {canonShown.bodyHits.map((bh) => (
-                      <button
-                        key={`body-${bh.item.id}`}
-                        type="button"
-                        className="search-suggestion-item"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => handleOpenCanonItem(bh.item)}
-                      >
-                        <div className="search-suggestion-top">
-                          <span className="search-suggestion-title">《{bh.item.title}》</span>
-                          <span className="search-suggestion-match-tag">
-                            {bh.item.id} · 经文内文命中
-                          </span>
-                        </div>
-                        <div className="search-suggestion-secondary">原文摘录：{bh.snippet}</div>
-                      </button>
-                    ))}
-                    {onOpenCanonText && canonShown.total > canonShown.items.length && (
-                      <button
-                        type="button"
-                        className="search-canon-more"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          onOpenCanonText(null);
-                          setDropdownOpen(false);
-                        }}
-                      >
-                        在藏经全文库中浏览全部 {canonShown.total.toLocaleString()} 部匹配经典 →
-                      </button>
-                    )}
+                {/* Only display preset quick tags when search input is empty! */}
+                {!trimmedQuery && (
+                  <div className="search-quick-chips-bar">
+                    {visibleQuickChips.map((chip) => {
+                      const variantClass =
+                        chip.variant === 'hot'
+                          ? 'is-hot'
+                          : chip.variant === 'db'
+                          ? 'is-db'
+                          : '';
+                      return (
+                        <button
+                          key={chip.q}
+                          type="button"
+                          className={`search-quick-chip ${variantClass}`}
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            onSearchChange(chip.q);
+                            setDropdownOpen(true);
+                          }}
+                        >
+                          {chip.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
 
-                {suggestions.length === 0 && canonShown.total === 0 ? (
+                {!hasAnyResult ? (
                   <div
                     style={{
-                      padding: '1.25rem 1rem',
+                      padding: '1.2rem 1rem',
                       textAlign: 'center',
                       color: 'var(--text-muted)',
                       fontSize: '0.84rem',
                     }}
                   >
-                    未找到包含「{searchQuery}」的经典或陀罗尼，可点击上方按钮直接向 MITRA 佛经大模型提问检索。
+                    当前「
+                    {searchScope === 'dharani'
+                      ? '搜陀罗尼'
+                      : searchScope === 'sutra'
+                      ? '搜经文'
+                      : '全部'}
+                    」范围未找到包含「{searchQuery}」的条目
+                    {searchScope !== 'all' ? '，可点击上方切换至其他分类查看。' : '。'}
                   </div>
                 ) : (
-                  suggestions.map((item, idx) => (
+                  <>
+                    {/* Section A: Dhāraṇī Results (shown in 'dharani' and 'all') */}
+                    {activeSuggestions.length > 0 && (
+                      <div className="search-results-group">
+                        {trimmedQuery && searchScope === 'all' && (
+                          <div className="search-canon-hits-label">
+                            陀罗尼与真言匹配（{dharaniSuggestions.length} 条）
+                          </div>
+                        )}
+                        {activeSuggestions.map((item, idx) => (
+                          <button
+                            key={`${item.kind}-${item.taishoNo}-${idx}`}
+                            id={`search-suggestion-item-${idx}`}
+                            type="button"
+                            role="option"
+                            aria-selected={idx === highlightIndex}
+                            className={`search-suggestion-item ${
+                              idx === highlightIndex ? 'highlighted' : ''
+                            }`}
+                            onMouseEnter={() => setHighlightIndex(idx)}
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => {
+                              onSelectSuggestion(item);
+                              setDropdownOpen(false);
+                              searchInputRef.current?.blur();
+                            }}
+                          >
+                            <div className="search-suggestion-top">
+                              <span className="search-suggestion-title">{item.titleZh}</span>
+                              <span className="search-suggestion-match-tag">
+                                {item.matchTypeLabel}
+                              </span>
+                            </div>
+                            <div className="search-suggestion-primary">{item.snippetPrimary}</div>
+                            <div className="search-suggestion-secondary">
+                              <PhoneticText text={item.snippetSecondary} />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Section B: Canonical Scripture Results (shown in 'sutra' and 'all') */}
+                    {(displayedCanonItems.length > 0 || displayedBodyHits.length > 0) && (
+                      <div className="search-canon-hits">
+                        {trimmedQuery && (
+                          <div className="search-canon-hits-label">
+                            {searchScope === 'sutra'
+                              ? `藏经经文原文匹配（共 ${canonShown.total} 部经名命中${
+                                  displayedBodyHits.length > 0
+                                    ? ` · ${displayedBodyHits.length} 部内文精确命中`
+                                    : ''
+                                }）`
+                              : `藏经经文原文匹配（共 ${canonShown.total} 部）`}
+                          </div>
+                        )}
+                        {displayedCanonItems.map((c) => (
+                          <button
+                            key={c.id}
+                            type="button"
+                            className="search-suggestion-item"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => handleOpenCanonItem(c)}
+                          >
+                            <div className="search-suggestion-top">
+                              <span className="search-suggestion-title">《{c.title}》</span>
+                              <span className="search-suggestion-match-tag">
+                                {c.id}
+                                {c.dharani > 0
+                                  ? ` · 经文 + 古汉陀罗尼 ${c.dharani} 段`
+                                  : ' · 纯经文原文（无陀罗尼）'}
+                              </span>
+                            </div>
+                            <div className="search-suggestion-secondary">
+                              {c.byline || '藏经原典'} · 全文 {(c.chars || 0).toLocaleString()} 字
+                            </div>
+                          </button>
+                        ))}
+                        {displayedBodyHits.map((bh) => (
+                          <button
+                            key={`body-${bh.item.id}`}
+                            type="button"
+                            className="search-suggestion-item"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => handleOpenCanonItem(bh.item)}
+                          >
+                            <div className="search-suggestion-top">
+                              <span className="search-suggestion-title">《{bh.item.title}》</span>
+                              <span className="search-suggestion-match-tag">
+                                {bh.item.id} · 经文内文精确命中
+                              </span>
+                            </div>
+                            <div className="search-suggestion-secondary">
+                              经句摘录：{bh.snippet}
+                            </div>
+                          </button>
+                        ))}
+                        {onOpenCanonText && canonShown.total > displayedCanonItems.length && (
+                          <button
+                            type="button"
+                            className="search-canon-more"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => {
+                              onOpenCanonText(null);
+                              setDropdownOpen(false);
+                            }}
+                          >
+                            在藏经全文库中浏览全部 {canonShown.total.toLocaleString()} 部匹配经典 →
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {trimmedQuery && onAskAiWithQuery && (
+                  <div className="search-dropdown-ai-footer">
                     <button
-                      key={`${item.kind}-${item.taishoNo}-${idx}`}
-                      id={`search-suggestion-item-${idx}`}
                       type="button"
-                      role="option"
-                      aria-selected={idx === highlightIndex}
-                      className={`search-suggestion-item ${
-                        idx === highlightIndex ? 'highlighted' : ''
-                      }`}
-                      onMouseEnter={() => setHighlightIndex(idx)}
+                      className="btn-scholarly gold"
+                      style={{ width: '100%', justifyContent: 'center', fontSize: '0.78rem' }}
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => {
-                        onSelectSuggestion(item);
+                        onAskAiWithQuery(trimmedQuery);
                         setDropdownOpen(false);
                         searchInputRef.current?.blur();
                       }}
                     >
-                      <div className="search-suggestion-top">
-                        <span className="search-suggestion-title">{item.titleZh}</span>
-                        <span className="search-suggestion-match-tag">
-                          {item.matchTypeLabel}
-                        </span>
-                      </div>
-                      <div className="search-suggestion-primary">{item.snippetPrimary}</div>
-                      <div className="search-suggestion-secondary">
-                        <PhoneticText text={item.snippetSecondary} />
-                      </div>
+                      <Sparkles size={13} />
+                      <span>向 MITRA 佛经大模型提问：「{trimmedQuery.slice(0, 26)}」</span>
                     </button>
-                  ))
+                  </div>
                 )}
               </div>
             )}

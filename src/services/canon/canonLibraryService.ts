@@ -1,27 +1,30 @@
 /**
  * src/services/canon/canonLibraryService.ts
  *
- * Upgraded Full-Canon Library & Search Service:
+ * Full-Canon Library & Search Service:
  * 1. Edge acceleration fallback chain: CacheStorage -> /hf-cdn/canon -> /canon -> CANON_CDN_BASE -> live CBETA XML
- * 2. Full Simplified/Traditional & Mandarin homophone search (`normalizeSearchText`) across ALL 27 CBETA collections
+ * 2. Exact Traditional/Simplified/Variant lexical matching (`normalizeLiteralSearchText`) with relevance ranking
  * 3. Supports filtering all scriptures, scriptures WITH dhāraṇīs, or pure scriptures WITHOUT dhāraṇīs
- * 4. Supports full-text body search via hash-bucket shards (`search-buckets/bucket-{00..3f}.json.gz`) + cached texts
- * 5. Converts ANY Canon scripture into a first-class `DharaniEntry` (`verses: []` when `dharani === 0`;
- *    full playable `DharaniVerse[]` + full original text when `dharani > 0`) for unified reading.
+ * 4. Verified full-text body search with centered paragraph snippets and zero homophone false positives
+ * 5. Converts ANY Canon scripture into a first-class `DharaniEntry`:
+ *    - `verses: []` when `dharani === 0` (pure sutra mode)
+ *    - Classical-Chinese-only verses WITHOUT reverse-reconstructed Sanskrit when original lacks Sanskrit/Siddhaṃ
+ *    - Full playable multi-script `DharaniVerse[]` when original possesses authentic Sanskrit/Siddhaṃ witness
  */
 import type { CanonCatalogItem, CanonTextFile } from '../../core/canon/canonLibraryTypes';
 import type { DharaniEntry, DharaniVerse } from '../../types/kosaTypes';
 import { HF_CORPUS_CDN_BASE } from '../corpus/cloudCorpusService';
+import { fetchAndParseCbetaXmlLive } from '../cbeta/cbetaLiveService';
 import {
-  fetchAndParseCbetaXmlLive,
-  reconstructIastFromChineseTranslit,
-} from '../cbeta/cbetaLiveService';
-import { normalizeSearchText, relaxedCjkQueries } from '../../core/search/searchEngine';
+  normalizeLiteralSearchText,
+  normalizeSearchText,
+} from '../../core/search/searchEngine';
 import {
   buildWordGlossesFromIast,
   generateVerseChinesePhonetics,
 } from '../../core/sanskrit/phoneticMapper';
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
+import { isClassicalChineseOnlyVerse } from '../../core/provenance/fieldProvenance';
 import { isSoleScriptureEntry } from '../../core/taishoEntryMatch';
 
 export const CANON_CDN_BASE = HF_CORPUS_CDN_BASE.replace(/\/corpus$/, '/canon');
@@ -196,17 +199,44 @@ export const CBETA_COLLECTION_ZH: Record<string, string> = {
   YP: '演培法師全集',
 };
 
-const CATALOG_NORM_CACHE = new WeakMap<CanonCatalogItem, { normHay: string; rawCompact: string }>();
+interface CachedCatalogNorm {
+  litId: string;
+  litShortNum: string;
+  litTitle: string;
+  litByline: string;
+  litHay: string;
+  normTitle: string;
+}
 
-function getCatalogNorm(c: CanonCatalogItem): { normHay: string; rawCompact: string } {
+const CATALOG_NORM_CACHE = new WeakMap<CanonCatalogItem, CachedCatalogNorm>();
+
+function getCatalogNorm(c: CanonCatalogItem): CachedCatalogNorm {
   const hit = CATALOG_NORM_CACHE.get(c);
   if (hit) return hit;
-  const shortNum = c.id.replace(/^[A-Z]+\d+n0*/i, '');
-  const rawCompact = `${c.id}${shortNum}${c.title}${c.byline}`.replace(/\s+/g, '').toLowerCase();
-  const normHay = normalizeSearchText(`${c.id} ${shortNum} ${c.title} ${c.byline}`);
-  const val = { normHay, rawCompact };
+  const litId = c.id.toLowerCase();
+  const litShortNum = c.id.replace(/^[A-Z]+\d+n0*/i, '').toLowerCase();
+  const litTitle = normalizeLiteralSearchText(c.title).replace(/\s+/g, '');
+  const litByline = normalizeLiteralSearchText(c.byline || '').replace(/\s+/g, '');
+  const litHay = `${litId} ${litShortNum} ${litTitle} ${litByline}`;
+  const normTitle = normalizeSearchText(c.title).replace(/\s+/g, '');
+  const val: CachedCatalogNorm = {
+    litId,
+    litShortNum,
+    litTitle,
+    litByline,
+    litHay,
+    normTitle,
+  };
   CATALOG_NORM_CACHE.set(c, val);
   return val;
+}
+
+function collectionPriorityBonus(col: string): number {
+  if (col === 'T') return 28;
+  if (col === 'F') return 16;
+  if (col === 'X') return 10;
+  if (col === 'K' || col === 'N') return 6;
+  return 0;
 }
 
 export interface FilterCatalogOptions {
@@ -222,9 +252,6 @@ export function filterCatalog(
 ): CanonCatalogItem[] {
   const mode = opts.dharaniMode ?? (opts.dharaniOnly ? 'with-dharani' : 'all');
   const trimmed = query.trim();
-  const rawCompactQ = trimmed.replace(/\s+/g, '').toLowerCase();
-  const normQ = trimmed ? normalizeSearchText(trimmed).replace(/\s+/g, ' ').trim() : '';
-  const candidateNormQueries = normQ ? [normQ, ...relaxedCjkQueries(normQ)] : [];
 
   const basePool = items.filter((c) => {
     if (opts.collection && c.collection !== opts.collection) return false;
@@ -235,17 +262,73 @@ export function filterCatalog(
 
   if (!trimmed) return basePool;
 
-  for (const activeNormQ of candidateNormQueries) {
-    const tokens = activeNormQ.split(/\s+/).filter(Boolean);
-    const matched = basePool.filter((c) => {
-      const idx = getCatalogNorm(c);
-      if (idx.rawCompact.includes(rawCompactQ)) return true;
-      if (idx.normHay.includes(activeNormQ)) return true;
-      return tokens.length > 1 && tokens.every((tk) => idx.normHay.includes(tk));
-    });
-    if (matched.length > 0) {
-      return matched;
+  const litQ = normalizeLiteralSearchText(trimmed).replace(/[《》〈〉「」『』\s]+/g, '');
+  const litTokens = normalizeLiteralSearchText(trimmed)
+    .replace(/[《》〈〉「」『』]+/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean);
+
+  // Support common scripture abbreviations like 金刚经 -> 金刚...经, 法华经 -> 法华...经
+  const abbrevMatch =
+    Array.from(litQ).length >= 3
+      ? litQ.match(/^(.{2,8}?)(经|仪轨|陀罗尼|真言|神咒|论|疏|品)$/)
+      : null;
+
+  const scored: Array<{ item: CanonCatalogItem; score: number }> = [];
+
+  for (const c of basePool) {
+    const idx = getCatalogNorm(c);
+    let s = 0;
+
+    if (idx.litId === litQ || (litQ.length >= 3 && idx.litShortNum === litQ)) {
+      s = 520;
+    } else if (idx.litTitle === litQ) {
+      s = 460;
+    } else if (idx.litTitle.startsWith(litQ)) {
+      s = 360 - Math.min(40, idx.litTitle.length - litQ.length);
+    } else if (idx.litTitle.includes(litQ)) {
+      s = 280 - Math.min(40, idx.litTitle.length - litQ.length);
+    } else if (litQ.length >= 3 && idx.litId.includes(litQ)) {
+      s = 250;
+    } else if (
+      abbrevMatch &&
+      idx.litTitle.includes(abbrevMatch[1]) &&
+      idx.litTitle.includes(abbrevMatch[2])
+    ) {
+      s = 210 - Math.min(35, idx.litTitle.length);
+    } else if (idx.litByline && idx.litByline.includes(litQ)) {
+      s = 135;
+    } else if (litTokens.length > 1 && litTokens.every((tk) => idx.litHay.includes(tk))) {
+      s = 120;
     }
+
+    if (s > 0) {
+      s += collectionPriorityBonus(c.collection);
+      scored.push({ item: c, score: s });
+    }
+  }
+
+  if (scored.length > 0) {
+    scored.sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+    return scored.map((x) => x.item);
+  }
+
+  // Fallback to phonetic title match ONLY when literal Traditional/Simplified match found 0 items
+  // and query is at least 3 chars (prevents 2-char polyphonic collisions like 地天 -> 威德天).
+  const normQ = normalizeSearchText(trimmed).replace(/\s+/g, '');
+  if (Array.from(normQ).length >= 3) {
+    const phonScored: Array<{ item: CanonCatalogItem; score: number }> = [];
+    for (const c of basePool) {
+      const idx = getCatalogNorm(c);
+      if (idx.normTitle.includes(normQ)) {
+        phonScored.push({
+          item: c,
+          score: 100 + collectionPriorityBonus(c.collection),
+        });
+      }
+    }
+    phonScored.sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+    return phonScored.map((x) => x.item);
   }
 
   return [];
@@ -260,6 +343,23 @@ function hashGramToBucket(gram: string): number {
   return (h >>> 0) % 64;
 }
 
+function extractMatchSnippet(text: string, rawTrimmed: string, litQ: string): string | null {
+  const rawIdx = text.indexOf(rawTrimmed);
+  if (rawIdx >= 0) {
+    const start = Math.max(0, rawIdx - 24);
+    const slice = text.slice(start, start + 116).trim();
+    return (start > 0 ? '…' : '') + slice + (start + 116 < text.length ? '…' : '');
+  }
+  const litText = normalizeLiteralSearchText(text);
+  const litIdx = litText.indexOf(litQ);
+  if (litIdx >= 0) {
+    const approxStart = Math.max(0, Math.min(text.length - 40, litIdx - 20));
+    const slice = text.slice(approxStart, approxStart + 116).trim();
+    return (approxStart > 0 ? '…' : '') + slice + (approxStart + 116 < text.length ? '…' : '');
+  }
+  return null;
+}
+
 const bucketCache = new Map<string, Promise<CanonSearchBucketDoc[]>>();
 
 export async function searchCanonFullText(
@@ -267,10 +367,12 @@ export async function searchCanonFullText(
   catalog: CanonCatalogItem[],
   limit = 20
 ): Promise<CanonFullTextHit[]> {
-  const trimmed = query.trim();
-  if (trimmed.length < 2) return [];
+  const trimmed = query.trim().replace(/^[《「『]+|[》」』]+$/g, '');
+  if (Array.from(trimmed).length < 2) return [];
+
+  const litQ = normalizeLiteralSearchText(trimmed).replace(/\s+/g, '');
   const normQ = normalizeSearchText(trimmed).replace(/\s+/g, '');
-  if (!normQ) return [];
+  if (!litQ || !normQ) return [];
 
   const catalogById = new Map(catalog.map((c) => [c.id, c]));
   const hits: CanonFullTextHit[] = [];
@@ -280,13 +382,19 @@ export async function searchCanonFullText(
     const catItem = catalogById.get(id);
     if (!catItem) continue;
     for (const [, pText] of textFile.paragraphs) {
-      if (pText.includes(trimmed) || normalizeSearchText(pText).includes(normQ)) {
+      const snip = extractMatchSnippet(pText, trimmed, litQ);
+      if (snip) {
         seen.add(id);
-        hits.push({ item: catItem, snippet: pText.slice(0, 120) });
+        hits.push({ item: catItem, snippet: snip });
         break;
       }
     }
     if (hits.length >= limit) return hits;
+  }
+
+  // Only scan hash-bucket shards when query has >= 3 characters to prevent noisy 2-char collisions
+  if (Array.from(litQ).length < 3) {
+    return hits;
   }
 
   const chars = Array.from(normQ);
@@ -301,22 +409,59 @@ export async function searchCanonFullText(
         bucketCache.set(hex, bp);
       }
       const docs = await bp;
-      for (const d of docs) {
-        if (seen.has(d.id)) continue;
-        if (d.norm.includes(normQ)) {
-          const catItem =
-            catalogById.get(d.id) || {
-              id: d.id,
-              collection: d.col,
-              vol: (d.id.match(/^([A-Z]{1,2}\d{2,3})n/) || ['', ''])[1],
-              title: d.title,
-              byline: d.byline,
-              chars: d.sample.length,
-              dharani: d.dharani,
-            };
+      const candidates = docs
+        .filter((d) => !seen.has(d.id) && d.norm.includes(normQ))
+        .sort(
+          (a, b) =>
+            collectionPriorityBonus(b.col) - collectionPriorityBonus(a.col) ||
+            a.id.localeCompare(b.id)
+        );
+
+      const needDeepVerify: Array<{ doc: CanonSearchBucketDoc; catItem: CanonCatalogItem }> = [];
+
+      for (const d of candidates) {
+        if (hits.length >= limit) break;
+        const catItem =
+          catalogById.get(d.id) || {
+            id: d.id,
+            collection: d.col,
+            vol: (d.id.match(/^([A-Z]{1,2}\d{2,3})n/) || ['', ''])[1],
+            title: d.title,
+            byline: d.byline,
+            chars: d.sample.length,
+            dharani: d.dharani,
+          };
+
+        const sampleSnip = extractMatchSnippet(d.sample, trimmed, litQ);
+        if (sampleSnip) {
           seen.add(d.id);
-          hits.push({ item: catItem, snippet: d.sample });
-          if (hits.length >= limit) break;
+          hits.push({ item: catItem, snippet: sampleSnip });
+        } else if (needDeepVerify.length < Math.min(8, (limit - hits.length) * 2)) {
+          needDeepVerify.push({ doc: d, catItem });
+        }
+      }
+
+      if (hits.length < limit && needDeepVerify.length > 0) {
+        const verified = await Promise.all(
+          needDeepVerify.map(async ({ catItem }) => {
+            try {
+              const tf = await loadCanonText(catItem);
+              for (const [, pText] of tf.paragraphs) {
+                const snip = extractMatchSnippet(pText, trimmed, litQ);
+                if (snip) return { item: catItem, snippet: snip };
+              }
+            } catch {
+              // ignore fetch failure
+            }
+            return null;
+          })
+        );
+        for (const v of verified) {
+          if (v && !seen.has(v.item.id)) {
+            seen.add(v.item.id);
+            hits.push(v);
+            if (hits.length >= limit) break;
+          }
         }
       }
     } catch {
@@ -350,6 +495,7 @@ export function buildReaderEntryFromCanonItem(
 
   const matchedSoleEntries = existingEntries.filter(
     (e) =>
+      !e.id.startsWith('canon-scripture-') &&
       (e.provenance.cbetaId === item.id || e.taishoNo.startsWith(item.id)) &&
       isSoleScriptureEntry(e, item.id)
   );
@@ -377,36 +523,34 @@ export function buildReaderEntryFromCanonItem(
           : [];
 
         clauses.forEach((clauseZh, cIdx) => {
-          const matchedIast =
-            hasOrigIast && rawIastClauses.length === clauses.length
-              ? rawIastClauses[cIdx]
-              : hasOrigIast && clauses.length === 1
-              ? blk.iast!.trim()
-              : reconstructIastFromChineseTranslit(clauseZh);
           const clauseHasDbIast =
             hasOrigIast && (rawIastClauses.length === clauses.length || clauses.length === 1);
-          const phon = generateVerseChinesePhonetics(matchedIast);
-          const sem = translateSanskritVerse(matchedIast);
+          const clauseHasDbSiddham = hasOrigSiddham && clauses.length === 1;
+          // Strictly NO reverse-reconstruction from classical Chinese when original lacks Sanskrit/Siddhaṃ!
+          const matchedIast = clauseHasDbIast
+            ? rawIastClauses.length === clauses.length
+              ? rawIastClauses[cIdx]
+              : blk.iast!.trim()
+            : '';
+          const phon = matchedIast ? generateVerseChinesePhonetics(matchedIast) : null;
+          const sem = matchedIast ? translateSanskritVerse(matchedIast) : null;
           const vNo = globalIdx++;
 
           verses.push({
             id: `canon-${item.id}-b${bIdx + 1}-v${cIdx + 1}`,
             index: vNo,
             iast: matchedIast,
-            ...(hasOrigSiddham && clauses.length === 1
-              ? { siddhamOriginal: blk.siddham!.trim() }
-              : {}),
-            classicalTranslitZh: clauseZh || phon.classicalTranslitZh,
-            modernPhoneticZh: phon.modernPhoneticZh,
-            meaningZh: sem.meaningZh,
-            meaningEn: sem.meaningEn,
+            ...(clauseHasDbSiddham ? { siddhamOriginal: blk.siddham!.trim() } : {}),
+            classicalTranslitZh: clauseZh || phon?.classicalTranslitZh || '',
+            modernPhoneticZh: phon?.modernPhoneticZh || '',
+            meaningZh: sem?.meaningZh || '',
+            meaningEn: sem?.meaningEn || '',
             tangNoteZh: blk.title
               ? `${blk.title}（第 ${cIdx + 1}/${clauses.length} 句）`
               : `本经第 ${bIdx + 1} 段陀罗尼 · 第 ${cIdx + 1}/${clauses.length} 句`,
-            words: buildWordGlossesFromIast(matchedIast),
+            words: matchedIast ? buildWordGlossesFromIast(matchedIast) : [],
             fieldSources: {
-              siddham:
-                hasOrigSiddham && clauses.length === 1 ? 'db-original' : 'derived-reference',
+              siddham: clauseHasDbSiddham ? 'db-original' : 'derived-reference',
               devanagari: 'derived-reference',
               iast: clauseHasDbIast ? 'db-original' : 'derived-reference',
               modernPhoneticZh: 'derived-reference',
@@ -426,6 +570,9 @@ export function buildReaderEntryFromCanonItem(
   }
 
   const hasDharani = verses.length > 0 || item.dharani > 0;
+  const isZhOnly =
+    hasDharani &&
+    (verses.length === 0 || verses.every((v) => isClassicalChineseOnlyVerse(v)));
 
   return {
     id: `canon-scripture-${item.id}`,
@@ -437,13 +584,17 @@ export function buildReaderEntryFromCanonItem(
     translatorZh: item.byline || colNameZh,
     sutraSourceZh: `《${colNameZh}》${vol} 册《${item.title}》(${item.id})`,
     deityZh: hasDharani ? '诸佛菩萨三宝总持' : `${colNameZh}经论原典`,
-    bijaIast: hasDharani ? 'oṃ' : undefined,
-    meritsAndSummaryZh: hasDharani
-      ? `收录自《${colNameZh}》（经号 ${item.id}，${item.byline || '古译'}，全经共 ${item.chars.toLocaleString()} 字）。本经包含 ${canonText?.dharani.length || item.dharani} 段原典陀罗尼，页面已同时为您呈现整卷经典原文全文与全部陀罗尼多体对照发音解析。`
-      : `收录自《${colNameZh}》（经号 ${item.id}，${item.byline || '古译'}，全经共 ${item.chars.toLocaleString()} 字）。本经为不含陀罗尼咒语之纯经论原典，已自动隐去陀罗尼专属栏目并直接展示完整经文原文。`,
-    recitationTipsZh: hasDharani
-      ? '可在上方「阅读视图」中自由切换「原文 + 陀罗尼同看」、「仅看原文」或「专注陀罗尼持诵」。'
-      : '',
+    bijaIast: hasDharani && !isZhOnly ? 'oṃ' : undefined,
+    meritsAndSummaryZh: !hasDharani
+      ? `收录自《${colNameZh}》（经号 ${item.id}，${item.byline || '古译'}，全经共 ${item.chars.toLocaleString()} 字）。本经为不含陀罗尼咒语之纯经论原典，已自动隐去陀罗尼专属栏目并直接展示完整经文原文。`
+      : isZhOnly
+      ? `收录自《${colNameZh}》（经号 ${item.id}，${item.byline || '古译'}，全经共 ${item.chars.toLocaleString()} 字）。本经包含 ${canonText?.dharani.length || item.dharani} 段原典古汉音译陀罗尼（原藏未附梵文或悉昙底本，系统不作梵文反推，忠实呈现整卷经文原文与古汉音译）。`
+      : `收录自《${colNameZh}》（经号 ${item.id}，${item.byline || '古译'}，全经共 ${item.chars.toLocaleString()} 字）。本经包含 ${canonText?.dharani.length || item.dharani} 段原典陀罗尼，页面已同时为您呈现整卷经典原文全文与陀罗尼多体对照解析。`,
+    recitationTipsZh: !hasDharani
+      ? ''
+      : isZhOnly
+      ? '本经于藏经原典中仅载古汉语音译咒文，未附梵文原字；为杜绝逆推讹误，仅展示原典古汉音译与经文全文。'
+      : '可在上方「阅读视图」中自由切换「原文 + 陀罗尼同看」、「仅看库藏原文」或「专注陀罗尼精解」。',
     provenance: {
       sourceType: 'CBETA-XML-P5',
       databaseBadgeZh: `${colNameZh} · ${item.id}`,

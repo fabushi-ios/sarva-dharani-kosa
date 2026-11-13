@@ -18,6 +18,7 @@ import {
   X,
 } from 'lucide-react';
 import type { DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
+import type { SearchScope } from '../../core/search/searchEngine';
 import type { CanonCatalogItem } from '../../core/canon/canonLibraryTypes';
 import type { PlaybackState } from '../../services/audio/sanskritAudioEngine';
 import { DHARANI_CATEGORIES } from '../../data/categories';
@@ -67,6 +68,8 @@ export interface SidebarFilterProps {
   onOpenFullCanonLibrary?: () => void;
   searchQuery?: string;
   onSearchChange?: (q: string) => void;
+  searchScope?: SearchScope;
+  onSearchScopeChange?: (scope: SearchScope) => void;
   selectedCategory: DharaniCategoryId | 'all';
   onSelectCategory: (cat: DharaniCategoryId | 'all') => void;
   sourceFilter: SourceFilterType;
@@ -113,6 +116,8 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   onOpenFullCanonLibrary,
   searchQuery = '',
   onSearchChange,
+  searchScope = 'all',
+  onSearchScopeChange,
   selectedCategory,
   onSelectCategory,
   sourceFilter,
@@ -274,12 +279,14 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
 
   const hasAnyActiveFilter =
     Boolean(searchQuery.trim()) ||
+    searchScope !== 'all' ||
     selectedCategory !== 'all' ||
     onlyBookmarked ||
     hasSourceOrDbFilter;
 
   const handleResetAllFilters = () => {
     onSearchChange?.('');
+    onSearchScopeChange?.('all');
     onSelectCategory('all');
     onSourceFilterChange('all');
     setSelectedDbSubFilter('all');
@@ -319,6 +326,8 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
 
   const activeFilterSummaryLabel = useMemo(() => {
     const parts: string[] = [];
+    if (searchScope === 'dharani') parts.push('搜陀罗尼');
+    else if (searchScope === 'sutra') parts.push('搜经文');
     if (searchQuery.trim()) parts.push(`「${searchQuery.trim()}」`);
     if (selectedCategory !== 'all') parts.push(SHORT_CATEGORY_LABELS[selectedCategory]);
     if (onlyBookmarked) parts.push('仅看收藏');
@@ -332,7 +341,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
       parts.push('GRETIL梵本');
     }
     return parts.join(' · ');
-  }, [searchQuery, selectedCategory, onlyBookmarked, activeDbShortLabel, sourceFilter]);
+  }, [searchScope, searchQuery, selectedCategory, onlyBookmarked, activeDbShortLabel, sourceFilter]);
 
   const currentVerseCount = resolvedCurrentEntry?.verses.length ?? 0;
   const hasInterlinear = Boolean(
@@ -527,7 +536,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     type="search"
                     autoComplete="off"
                     className="sidebar-search-input"
-                    placeholder="搜全部经名(含无咒经)/咒名/经号..."
+                    placeholder={searchScope === 'dharani' ? '搜陀罗尼名称/本尊/经号...' : searchScope === 'sutra' ? '搜佛经经名/经号/译者...' : '搜陀罗尼或佛经经名/经号...'}
                     value={searchQuery}
                     onChange={(e) => {
                       setVisibleCount(90);
@@ -577,6 +586,34 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 </button>
               </div>
 
+              {onSearchScopeChange && (
+                <div className="sidebar-scope-switch" role="tablist" aria-label="侧栏检索范围切换">
+                  {(
+                    [
+                      { id: 'all', label: '全部' },
+                      { id: 'dharani', label: '搜陀罗尼' },
+                      { id: 'sutra', label: '搜经文' },
+                    ] as Array<{ id: SearchScope; label: string }>
+                  ).map((sc) => (
+                    <button
+                      key={sc.id}
+                      id={`sidebar-scope-${sc.id}`}
+                      type="button"
+                      role="tab"
+                      aria-selected={searchScope === sc.id}
+                      className={`sidebar-scope-btn ${searchScope === sc.id ? 'active' : ''}`}
+                      onClick={() => {
+                        setVisibleCount(90);
+                        onSearchScopeChange(sc.id);
+                      }}
+                    >
+                      {sc.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {searchScope !== 'sutra' && (
               <div className="sidebar-cat-grid" role="group" aria-label="经咒法门分类">
                 <button
                   id="cat-pill-all"
@@ -635,6 +672,8 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                   </button>
                 )}
               </div>
+
+              )}
 
               <div
                 className={`sidebar-source-drawer ${

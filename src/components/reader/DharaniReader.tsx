@@ -39,6 +39,7 @@ import { InlineOriginalTextPanel } from './InlineOriginalTextPanel';
 import { DharaniShareModal } from '../share/DharaniShareModal';
 import { collectEntrySources } from '../../core/sources/entrySources';
 import {
+  isClassicalChineseOnlyEntry,
   summarizeEntryFieldProvenance,
   TRACKABLE_FIELD_LABELS_ZH,
 } from '../../core/provenance/fieldProvenance';
@@ -206,6 +207,8 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
   onAskBuddhistAi,
 }) => {
   const hasDharani = entry.verses.length > 0;
+  const isChineseOnlyDharani = useMemo(() => isClassicalChineseOnlyEntry(entry), [entry]);
+  const hasPlayableSanskrit = hasDharani && !isChineseOnlyDharani;
 
   const [readerSubMode, setReaderSubMode] = useState<'verses' | 'cbeta-interlinear'>('verses');
   const [contentLayout, setContentLayout] = useState<ReaderContentLayout>('both');
@@ -416,7 +419,19 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           </div>
 
           <div className="hero-actions-group">
-            {hasDharani && (
+            {hasDharani && isChineseOnlyDharani && (
+              <button
+                id="hero-share-poster-btn"
+                type="button"
+                className="btn-scholarly gold"
+                onClick={() => triggerShare(null)}
+                title="将当前原典古汉咒文生成为手机竖屏分享图"
+              >
+                <Share2 size={14} />
+                <span>分享图片</span>
+              </button>
+            )}
+            {hasPlayableSanskrit && (
               <>
                 {playbackState.isPlaying ? (
                   <button
@@ -577,7 +592,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
             </div>
           </div>
 
-          {hasDharani && bijaLexiconEntry && (
+          {hasPlayableSanskrit && bijaLexiconEntry && (
             <button
               type="button"
               className="bija-seal-card"
@@ -617,6 +632,12 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
           <div className="pure-sutra-mode-banner">
             <span>
               📖 <strong>纯经文原典阅读模式</strong>：本篇经典不含陀罗尼咒语，已自动隐去陀罗尼发音与多体转写栏目，下方直接为您展示完整原典全文（亦可点击右上角「问佛经AI」结合本经原文深度对话）。
+            </span>
+          </div>
+        ) : isChineseOnlyDharani ? (
+          <div className="chinese-only-mode-banner">
+            <span>
+              📜 <strong>古汉音译原典模式</strong>：本篇原典仅存古汉语音译咒文，未载梵文或悉昙底本；已严格关闭机器反推梵文、多体转写、字门拟译与合成梵音，仅忠实呈现原典全文与古汉咒文原貌。
             </span>
           </div>
         ) : (
@@ -900,11 +921,11 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
               onClick={() => setContentLayout('dharani-only')}
             >
               <ScrollText size={14} />
-              <span>专注陀罗尼精解 ({entry.verses.length}句)</span>
+              <span>{isChineseOnlyDharani ? `专注古汉咒文 (${entry.verses.length}句)` : `专注陀罗尼精解 (${entry.verses.length}句)`}</span>
             </button>
           </div>
           <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            本篇同时具备库藏原文全文与 {entry.verses.length} 句陀罗尼多体发音
+            {isChineseOnlyDharani ? `本篇包含库藏原文全文与 ${entry.verses.length} 句原典古汉音译（未附梵本）` : `本篇同时具备库藏原文全文与 ${entry.verses.length} 句陀罗尼多体发音`}
           </span>
         </div>
       )}
@@ -929,16 +950,18 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
 
       {showDharaniSections && (
         <div id="reader-dharani-section-anchor">
-          <ScriptControlBar
-            config={scriptConfig}
-            onChange={onScriptConfigChange}
-            hasSiddhamInterlinear={hasSiddhamInterlinear}
-            interlinearCount={interlinearTokens.length}
-            readerSubMode={readerSubMode}
-            onReaderSubModeChange={setReaderSubMode}
-          />
+          {!isChineseOnlyDharani && (
+            <ScriptControlBar
+              config={scriptConfig}
+              onChange={onScriptConfigChange}
+              hasSiddhamInterlinear={hasSiddhamInterlinear}
+              interlinearCount={interlinearTokens.length}
+              readerSubMode={readerSubMode}
+              onReaderSubModeChange={setReaderSubMode}
+            />
+          )}
 
-          {readerSubMode === 'verses' && (
+          {readerSubMode === 'verses' && !isChineseOnlyDharani && (
             <section
               id="entry-provenance-legend-banner"
               className="provenance-legend-banner"
@@ -1128,7 +1151,7 @@ export const DharaniReader: React.FC<DharaniReaderProps> = ({
         </div>
       )}
 
-      {hasDharani && matchedConcordanceCluster && (
+      {hasPlayableSanskrit && matchedConcordanceCluster && (
         <section
           id="reader-concordance-section"
           className="dharani-hero-card"
