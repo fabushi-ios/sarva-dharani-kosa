@@ -1,17 +1,5 @@
-/**
- * src/components/reader/InlineOriginalTextPanel.tsx
- *
- * Directly renders the complete original text across ALL 12 International Databases (DB1–DB12),
- * CBETA Full Canon (both pure sutras without dhāraṇīs and sutras with dhāraṇīs), and GRETIL/DSBC:
- * - Supports both inline page display (`mode="inline"`) and full-screen modal display (`mode="modal"`)
- * - In-text keyword search (Simplified/Traditional/homophone-aware & exact highlighting)
- * - Heading / chapter quick-jump pills
- * - Automatic mantra span location & jump-to-verse bridge when `entry.verses.length > 0`
- * - Clean, distraction-free full-text sutra layout when `entry.verses.length === 0`
- */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  BookOpen,
   ExternalLink,
   Loader2,
   Crosshair,
@@ -21,21 +9,14 @@ import {
   Copy,
   Check,
   Maximize2,
-  ChevronDown,
 } from 'lucide-react';
 import type { DharaniEntry } from '../../types/kosaTypes';
 import type { CbetaFullParagraph } from '../../services/cbeta/cbetaLiveService';
 import {
   collectEntrySources,
-  citationCheckFor,
   type EntrySourceRef,
 } from '../../core/sources/entrySources';
 import {
-  CITATION_STATUS_LABEL_ZH,
-  SANSKRIT_STATUS_LABEL_ZH,
-} from '../../core/sources/citationCheck';
-import {
-  COVERAGE_VARIANT,
   HAN_GRAM,
   LATIN_GRAM,
   entryHanQuery,
@@ -46,6 +27,7 @@ import {
   stripShortHanAnnotations,
   type SpanMatch,
 } from '../../core/sources/textAlignment';
+import { normalizeLiteralSearchText } from '../../core/search/searchEngine';
 import {
   loadUniversalOriginalSource,
   type UniversalLoadedSource,
@@ -60,22 +42,124 @@ export interface InlineOriginalTextPanelProps {
 
 const INITIAL_PARA_LIMIT = 240;
 
-function locateInParagraphs(
+interface LocatedSectionInfo {
+  match: SpanMatch | null;
+  ranges: Map<number, [number, number]>;
+  firstPara: number;
+  sectionStart: number;
+  sectionEnd: number;
+  matchedTitle?: string;
+}
+
+function extractCoreEntryTitle(titleZh: string): string {
+  return titleZh
+    .replace(/^【[^】]+】\s*/g, '')
+    .replace(/^[A-Z]{1,2}\d{2,3}n[0-9A-Za-z]+\s*/g, '')
+    .replace(/^《[^》]+》\s*[·・]?\s*/g, '')
+    .replace(/[《》「」『』]/g, '')
+    .replace(/\s*[(（][^）)]*[)）]\s*$/g, '')
+    .trim();
+}
+
+function extractCompactHanMantraKey(entry: DharaniEntry): string {
+  const raw =
+    entry.provenance.rawSnippet ||
+    entry.verses.map((v) => v.classicalTranslitZh || '').join('');
+  return normalizeLiteralSearchText(stripShortHanAnnotations(raw)).replace(/[^a-z\p{Script=Han}]/gu, '');
+}
+
+function locateEntrySectionInParagraphs(
   entry: DharaniEntry,
   ref: EntrySourceRef,
   paragraphs: CbetaFullParagraph[]
-): { match: SpanMatch | null; ranges: Map<number, [number, number]>; firstPara: number } {
-  if (entry.verses.length === 0 || paragraphs.length === 0) {
-    return { match: null, ranges: new Map(), firstPara: -1 };
+): LocatedSectionInfo {
+  if (paragraphs.length === 0) {
+    return { match: null, ranges: new Map(), firstPara: -1, sectionStart: 0, sectionEnd: 0 };
   }
+
+  const isHanSource =
+    ref.kind === 'cbeta' || ref.kind === 'canon-gz' || ref.kind === 'bkkbooks-yaml';
+
+  if (entry.verses.length > 0 && isHanSource) {
+    const coreTitle = extractCoreEntryTitle(entry.titleZh);
+    const normCoreTitle = normalizeLiteralSearchText(coreTitle).replace(/\s+/g, '');
+    const mantraKey = extractCompactHanMantraKey(entry);
+    const mantraPrefix = Array.from(mantraKey).slice(0, 8).join('');
+
+    if (normCoreTitle.length >= 2) {
+      let bestHeadIdx = -1;
+      let bestDharaniIdx = -1;
+      let bestScore = -1;
+
+      for (let i = 0; i < paragraphs.length; i++) {
+        const p = paragraphs[i];
+        const normP = normalizeLiteralSearchText(p.text).replace(/\s+/g, '');
+        if (!normP) continue;
+        const isHeadOrShort = p.kind === 'head' || p.text.trim().length <= 42;
+        if (!isHeadOrShort || !normP.includes(normCoreTitle)) continue;
+
+        let score = p.kind === 'head' ? 50 : 20;
+        if (normP === normCoreTitle) score += 60;
+        else if (normP.endsWith(normCoreTitle)) score += 35;
+
+        let matchedDharaniPara = -1;
+        const lookaheadEnd = Math.min(paragraphs.length, i + 12);
+        for (let j = i; j < lookaheadEnd; j++) {
+          if (j > i && paragraphs[j].kind === 'head') break;
+          const candKey = normalizeLiteralSearchText(
+            stripShortHanAnnotations(paragraphs[j].text)
+          ).replace(/[^a-z\p{Script=Han}]/gu, '');
+          if (mantraPrefix.length >= 4 && candKey.includes(mantraPrefix)) {
+            score += 120;
+            matchedDharaniPara = j;
+            break;
+          }
+          if (paragraphs[j].kind === 'dharani' && matchedDharaniPara < 0) {
+            matchedDharaniPara = j;
+            score += 25;
+          }
+        }
+
+        if (score > bestScore) {
+          bestScore = score;
+          bestHeadIdx = i;
+          bestDharaniIdx = matchedDharaniPara >= 0 ? matchedDharaniPara : i;
+        }
+      }
+
+      if (bestHeadIdx >= 0 && bestScore >= 65) {
+        let secEnd = bestDharaniIdx + 1;
+        while (secEnd < paragraphs.length && secEnd < bestHeadIdx + 16) {
+          if (paragraphs[secEnd].kind === 'head') break;
+          secEnd++;
+        }
+        const ranges = new Map<number, [number, number]>();
+        const targetP = paragraphs[bestDharaniIdx];
+        if (targetP) ranges.set(bestDharaniIdx, [0, targetP.text.length]);
+        return {
+          match: { start: 0, end: targetP?.text.length || 1, coverage: 1 },
+          ranges,
+          firstPara: bestDharaniIdx,
+          sectionStart: Math.max(0, bestHeadIdx),
+          sectionEnd: Math.min(paragraphs.length, Math.max(secEnd, bestDharaniIdx + 2)),
+          matchedTitle: paragraphs[bestHeadIdx].text.trim(),
+        };
+      }
+    }
+  }
+
+  if (entry.verses.length === 0) {
+    return { match: null, ranges: new Map(), firstPara: -1, sectionStart: 0, sectionEnd: paragraphs.length };
+  }
+
   const joined = paragraphs.map((p) => p.text).join('\n');
-  const isHanSource = ref.kind === 'cbeta' || ref.kind === 'canon-gz' || ref.kind === 'bkkbooks-yaml';
   const match = isHanSource
     ? locateSpan(entryHanQuery(entry.verses), hanUnits(stripShortHanAnnotations(joined)), HAN_GRAM)
     : locateSpan(entryLatinQuery(entry.verses), latinUnits(joined), LATIN_GRAM);
 
   const ranges = new Map<number, [number, number]>();
   let firstPara = -1;
+  let lastPara = -1;
   if (match && match.end > match.start) {
     let offset = 0;
     paragraphs.forEach((p, i) => {
@@ -84,11 +168,38 @@ function locateInParagraphs(
       if (s < e) {
         ranges.set(i, [s - offset, e - offset]);
         if (firstPara < 0) firstPara = i;
+        lastPara = i;
       }
       offset += p.text.length + 1;
     });
   }
-  return { match, ranges, firstPara };
+
+  if (firstPara >= 0) {
+    let secStart = Math.max(0, firstPara - 3);
+    for (let k = firstPara; k >= Math.max(0, firstPara - 10); k--) {
+      if (paragraphs[k].kind === 'head') {
+        secStart = k;
+        break;
+      }
+    }
+    let secEnd = Math.min(paragraphs.length, Math.max(lastPara, firstPara) + 5);
+    for (let k = Math.max(lastPara, firstPara) + 1; k < Math.min(paragraphs.length, firstPara + 20); k++) {
+      if (paragraphs[k].kind === 'head') {
+        secEnd = k;
+        break;
+      }
+    }
+    return {
+      match,
+      ranges,
+      firstPara,
+      sectionStart: secStart,
+      sectionEnd: secEnd,
+      matchedTitle: paragraphs[secStart]?.kind === 'head' ? paragraphs[secStart].text.trim() : undefined,
+    };
+  }
+
+  return { match: null, ranges: new Map(), firstPara: -1, sectionStart: 0, sectionEnd: paragraphs.length };
 }
 
 function renderTextWithQueryHighlight(text: string, query: string): React.ReactNode {
@@ -112,10 +223,8 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
   entry,
   mode = 'inline',
   onOpenModal,
-  onJumpToDharaniSection,
 }) => {
   const sources = useMemo(() => collectEntrySources(entry), [entry]);
-  const check = useMemo(() => citationCheckFor(entry), [entry]);
   const firstReadable = useMemo(() => {
     const idx = sources.findIndex((s) => s.exists);
     return idx >= 0 ? idx : 0;
@@ -125,7 +234,7 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
   const [loaded, setLoaded] = useState<UniversalLoadedSource | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [onlyDharani, setOnlyDharani] = useState<boolean>(false);
+  const [scopeMode, setScopeMode] = useState<'section' | 'full'>('section');
   const [inTextQuery, setInTextQuery] = useState<string>('');
   const [fontScale, setFontScale] = useState<'sm' | 'md' | 'lg'>('md');
   const [paraLimit, setParaLimit] = useState<number>(
@@ -138,7 +247,7 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
 
   useEffect(() => {
     setSelected(firstReadable);
-    setOnlyDharani(false);
+    setScopeMode('section');
     setInTextQuery('');
     setParaLimit(entry.verses.length === 0 ? 360 : INITIAL_PARA_LIMIT);
   }, [entry.id, firstReadable, entry.verses.length]);
@@ -154,14 +263,10 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
     setLoading(true);
     loadUniversalOriginalSource(ref, entry)
       .then((res) => {
-        if (!cancelled) {
-          setLoaded(res);
-        }
+        if (!cancelled) setLoaded(res);
       })
       .catch((e: unknown) => {
-        if (!cancelled) {
-          setError(e instanceof Error ? e.message : String(e));
-        }
+        if (!cancelled) setError(e instanceof Error ? e.message : String(e));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -172,54 +277,33 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
   }, [ref, entry]);
 
   const located = useMemo(
-    () => (loaded && ref ? locateInParagraphs(entry, ref, loaded.paragraphs) : null),
+    () => (loaded && ref ? locateEntrySectionInParagraphs(entry, ref, loaded.paragraphs) : null),
     [loaded, ref, entry]
   );
 
-  // Ensure located paragraph is within visible paraLimit when present
+  const canUseSectionSlice = Boolean(
+    loaded &&
+      hasDharani &&
+      located &&
+      located.firstPara >= 0 &&
+      loaded.paragraphs.length > 30 &&
+      located.sectionEnd - located.sectionStart < loaded.paragraphs.length
+  );
+
+  const effectiveScope = canUseSectionSlice && !inTextQuery.trim() ? scopeMode : 'full';
+
   useEffect(() => {
-    if (located && located.firstPara >= paraLimit) {
+    if (effectiveScope === 'full' && located && located.firstPara >= paraLimit) {
       setParaLimit(located.firstPara + 80);
     }
-  }, [located, paraLimit]);
-
-  useEffect(() => {
-    if (mode === 'modal' && located && located.firstPara >= 0) {
-      requestAnimationFrame(() =>
-        markRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
-      );
-    }
-  }, [mode, located]);
+  }, [effectiveScope, located, paraLimit]);
 
   const scrollToMatch = () => {
-    if (located && located.firstPara >= paraLimit) {
+    if (effectiveScope === 'full' && located && located.firstPara >= paraLimit) {
       setParaLimit(located.firstPara + 80);
     }
     window.setTimeout(() => {
       markRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    }, 30);
-  };
-
-  const headings = useMemo(() => {
-    if (!loaded) return [];
-    const out: Array<{ paraIdx: number; label: string }> = [];
-    loaded.paragraphs.forEach((p, idx) => {
-      if (p.kind === 'head' && p.text.trim().length > 0) {
-        out.push({ paraIdx: idx, label: p.text.trim().slice(0, 28) });
-      }
-    });
-    return out;
-  }, [loaded]);
-
-  const jumpToParagraphIndex = (paraIdx: number) => {
-    if (paraIdx >= paraLimit) {
-      setParaLimit(paraIdx + 120);
-    }
-    window.setTimeout(() => {
-      const targetEl = bodyContainerRef.current?.querySelector<HTMLElement>(
-        `[data-orig-para="${paraIdx}"]`
-      );
-      targetEl?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 35);
   };
 
@@ -227,22 +311,23 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
     if (!loaded) return [];
     const q = inTextQuery.trim().toLowerCase();
     const out: Array<{ p: CbetaFullParagraph; idx: number }> = [];
-    loaded.paragraphs.forEach((p, idx) => {
-      const range = located?.ranges.get(idx);
-      if (onlyDharani && p.kind !== 'dharani' && !range) return;
-      if (q && !p.text.toLowerCase().includes(q)) return;
+
+    const startIdx = effectiveScope === 'section' && located ? located.sectionStart : 0;
+    const endIdx = effectiveScope === 'section' && located ? located.sectionEnd : loaded.paragraphs.length;
+
+    for (let idx = startIdx; idx < endIdx; idx++) {
+      const p = loaded.paragraphs[idx];
+      if (!p) continue;
+      if (q && !p.text.toLowerCase().includes(q)) continue;
       out.push({ p, idx });
-    });
+    }
     return out;
-  }, [loaded, located, onlyDharani, inTextQuery]);
+  }, [loaded, located, effectiveScope, inTextQuery]);
 
-  const hasDharaniMarkup = Boolean(loaded?.paragraphs.some((p) => p.kind === 'dharani'));
-  const coveragePct = located?.match ? Math.round(located.match.coverage * 100) : 0;
-
-  const handleCopyFullText = () => {
+  const handleCopyDisplayedText = () => {
     if (!loaded) return;
-    const allTxt = loaded.paragraphs.map((p) => p.text).join('\n\n');
-    navigator.clipboard?.writeText(allTxt);
+    const targetList = filteredIndexedParagraphs.map(({ p }) => p.text).join('\n\n');
+    navigator.clipboard?.writeText(targetList);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   };
@@ -250,60 +335,125 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
   return (
     <section
       id={mode === 'inline' ? 'reader-original-fulltext-section' : undefined}
-      className={mode === 'inline' ? 'inline-original-card' : ''}
-      aria-label="数据库库藏原文全文直读区"
+      className={mode === 'inline' ? 'inline-original-card is-clean-tab-panel' : ''}
+      aria-label="原典经文阅读区"
     >
-      {mode === 'inline' && (
-        <div className="inline-original-header">
-          <div className="inline-original-title-row">
-            <BookOpen size={18} color="var(--accent-vermilion)" />
-            <h2>
-              {hasDharani ? '库藏原文内容直看（整卷原典全文）' : '经典原文全文'}
-            </h2>
-            {(loaded?.sourceBadgeZh || ref?.sourceBadgeZh) && (
-              <span className="inline-original-db-pill">
-                {loaded?.sourceBadgeZh || ref?.sourceBadgeZh}
-              </span>
+      {sources.filter((s) => s.exists).length > 1 && (
+        <div className="fulltext-source-tabs" role="tablist" aria-label="多源原典切换">
+          {sources.map((s, i) =>
+            s.exists ? (
+              <button
+                key={`${s.kind}-${s.id}-${i}`}
+                type="button"
+                role="tab"
+                aria-selected={i === selected}
+                className={`btn-scholarly ${i === selected ? 'primary' : ''}`}
+                onClick={() => setSelected(i)}
+                title={s.label}
+              >
+                <span>{s.sourceBadgeZh || s.label}</span>
+              </button>
+            ) : null
+          )}
+        </div>
+      )}
+
+      {ref && !ref.exists && (
+        <div className="meta-box">
+          <AlertTriangle size={14} style={{ verticalAlign: '-2px', marginRight: '4px' }} />
+          所标经号 <strong>{ref.id}</strong> 未检出对应原典文件。
+        </div>
+      )}
+
+      {ref && ref.exists && (
+        <div className="inline-original-toolbar">
+          <div className="inline-original-toolbar-left">
+            {canUseSectionSlice && (
+              <div className="orig-scope-segmented" role="group" aria-label="原文范围切换">
+                <button
+                  type="button"
+                  className={`orig-scope-pill ${effectiveScope === 'section' ? 'active' : ''}`}
+                  onClick={() => setScopeMode('section')}
+                >
+                  本篇对应段落
+                </button>
+                <button
+                  type="button"
+                  className={`orig-scope-pill ${effectiveScope === 'full' ? 'active' : ''}`}
+                  onClick={() => {
+                    setScopeMode('full');
+                    scrollToMatch();
+                  }}
+                >
+                  整卷全文 ({loaded?.paragraphs.length.toLocaleString()}段)
+                </button>
+              </div>
             )}
-            {loaded && (
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                共 {loaded.paragraphs.length.toLocaleString()} 段
-              </span>
-            )}
+
+            <div className="inline-original-search-input-wrap">
+              <Search
+                size={13}
+                style={{
+                  position: 'absolute',
+                  left: '0.55rem',
+                  color: 'var(--text-muted)',
+                  pointerEvents: 'none',
+                }}
+              />
+              <input
+                type="search"
+                className="inline-original-search-input"
+                placeholder="检索本卷原文..."
+                value={inTextQuery}
+                onChange={(e) => setInTextQuery(e.target.value)}
+              />
+              {inTextQuery && (
+                <button
+                  type="button"
+                  onClick={() => setInTextQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '0.4rem',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: 'var(--text-muted)',
+                    display: 'inline-flex',
+                  }}
+                  title="清空检索"
+                >
+                  <X size={13} />
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="inline-original-controls">
-            <div
-              style={{
-                display: 'inline-flex',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '6px',
-                overflow: 'hidden',
-              }}
-              role="group"
-              aria-label="原文字号调节"
-            >
+            {effectiveScope === 'full' && hasDharani && located && located.firstPara >= 0 && (
+              <button
+                type="button"
+                className="btn-scholarly"
+                style={{ padding: '0.24rem 0.55rem', fontSize: '0.75rem' }}
+                onClick={scrollToMatch}
+              >
+                <Crosshair size={13} />
+                <span>定位本咒</span>
+              </button>
+            )}
+
+            <div className="orig-font-segmented" role="group" aria-label="字号">
               {(
                 [
-                  { id: 'sm', label: '小字' },
-                  { id: 'md', label: '标准' },
-                  { id: 'lg', label: '大字' },
+                  { id: 'sm', label: '小' },
+                  { id: 'md', label: '中' },
+                  { id: 'lg', label: '大' },
                 ] as const
               ).map((f) => (
                 <button
                   key={f.id}
                   type="button"
+                  className={fontScale === f.id ? 'active' : ''}
                   onClick={() => setFontScale(f.id)}
-                  style={{
-                    padding: '0.22rem 0.5rem',
-                    fontSize: '0.73rem',
-                    border: 'none',
-                    cursor: 'pointer',
-                    background:
-                      fontScale === f.id ? 'var(--accent-vermilion)' : 'var(--bg-elevated)',
-                    color: fontScale === f.id ? '#fff' : 'var(--text-secondary)',
-                    fontWeight: 600,
-                  }}
                 >
                   {f.label}
                 </button>
@@ -314,166 +464,24 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
               <button
                 type="button"
                 className="btn-scholarly"
-                style={{ padding: '0.24rem 0.58rem', fontSize: '0.75rem' }}
-                onClick={handleCopyFullText}
+                style={{ padding: '0.24rem 0.55rem', fontSize: '0.75rem' }}
+                onClick={handleCopyDisplayedText}
               >
                 {copied ? <Check size={13} /> : <Copy size={13} />}
-                <span>{copied ? '已复制全文' : '复制原文'}</span>
+                <span>{copied ? '已复制' : '复制'}</span>
               </button>
             )}
 
-            {onOpenModal && (
+            {mode === 'inline' && onOpenModal && (
               <button
                 type="button"
                 className="btn-scholarly"
-                style={{ padding: '0.24rem 0.58rem', fontSize: '0.75rem' }}
+                style={{ padding: '0.24rem 0.55rem', fontSize: '0.75rem' }}
                 onClick={onOpenModal}
-                title="在独立全屏弹窗中打开原文阅读"
+                title="全屏阅读"
               >
                 <Maximize2 size={13} />
-                <span>弹窗全屏阅读</span>
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {check && hasDharani && (
-        <div className={`fulltext-check fulltext-check-${check.status}`}>
-          <strong>代码核对：</strong>
-          {CITATION_STATUS_LABEL_ZH[check.status]}
-          {check.best && check.best.coverage >= COVERAGE_VARIANT && (
-            <span>
-              {' '}
-              · 最吻合原典 {check.best.title}（{check.best.id}，吻合度{' '}
-              {Math.round(check.best.coverage * 100)}%）
-            </span>
-          )}
-          {check.sanskrit && (
-            <div>
-              <strong>梵文核对：</strong>
-              {SANSKRIT_STATUS_LABEL_ZH[check.sanskrit.status]}
-              {check.sanskrit.best && check.sanskrit.best.coverage >= COVERAGE_VARIANT && (
-                <span>
-                  {' '}
-                  · {check.sanskrit.best.id}（吻合度{' '}
-                  {Math.round(check.sanskrit.best.coverage * 100)}%）
-                </span>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {sources.length > 1 && (
-        <div className="fulltext-source-tabs" role="tablist" aria-label="多源原典切换">
-          {sources.map((s, i) => (
-            <button
-              key={`${s.kind}-${s.id}-${i}`}
-              type="button"
-              role="tab"
-              aria-selected={i === selected}
-              className={`btn-scholarly ${i === selected ? 'primary' : ''}`}
-              onClick={() => setSelected(i)}
-              title={s.label}
-            >
-              {!s.exists && <AlertTriangle size={13} />}
-              <span>
-                {s.role === 'located' ? '代码定位 · ' : ''}
-                {s.sourceBadgeZh || s.label}
-                {typeof s.coverage === 'number' && s.coverage > 0
-                  ? ` · ${Math.round(s.coverage * 100)}%`
-                  : ''}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {ref && !ref.exists && (
-        <div className="meta-box">
-          所标经号 <strong>{ref.id}</strong> 在 CBETA 中不存在。
-          {check?.best && !check.best.cited ? '请切换至「代码定位」页签查看实际原典出处。' : ''}
-        </div>
-      )}
-
-      {ref && ref.exists && (
-        <div className="inline-original-search-bar">
-          <div className="inline-original-search-input-wrap">
-            <Search
-              size={14}
-              style={{
-                position: 'absolute',
-                left: '0.55rem',
-                color: 'var(--text-muted)',
-                pointerEvents: 'none',
-              }}
-            />
-            <input
-              type="search"
-              className="inline-original-search-input"
-              placeholder="在本篇原文全文中检索词句..."
-              value={inTextQuery}
-              onChange={(e) => setInTextQuery(e.target.value)}
-            />
-            {inTextQuery && (
-              <button
-                type="button"
-                onClick={() => setInTextQuery('')}
-                style={{
-                  position: 'absolute',
-                  right: '0.4rem',
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  color: 'var(--text-muted)',
-                  display: 'inline-flex',
-                }}
-                title="清空文内搜索"
-              >
-                <X size={13} />
-              </button>
-            )}
-          </div>
-
-          {inTextQuery.trim() && loaded && (
-            <span style={{ fontSize: '0.76rem', color: 'var(--accent-vermilion)', fontWeight: 700 }}>
-              命中 {filteredIndexedParagraphs.length} 段
-            </span>
-          )}
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.38rem', alignItems: 'center' }}>
-            {hasDharani && located && located.firstPara >= 0 && (
-              <button
-                type="button"
-                className="btn-scholarly gold"
-                style={{ padding: '0.24rem 0.58rem', fontSize: '0.75rem' }}
-                onClick={scrollToMatch}
-              >
-                <Crosshair size={13} />
-                <span>定位原文咒段（吻合 {coveragePct}%）</span>
-              </button>
-            )}
-
-            {hasDharani && hasDharaniMarkup && (
-              <button
-                type="button"
-                className="btn-scholarly"
-                style={{ padding: '0.24rem 0.58rem', fontSize: '0.75rem' }}
-                onClick={() => setOnlyDharani((v) => !v)}
-              >
-                <span>{onlyDharani ? '显示整卷全文' : '仅看原文咒段'}</span>
-              </button>
-            )}
-
-            {hasDharani && onJumpToDharaniSection && (
-              <button
-                type="button"
-                className="btn-scholarly"
-                style={{ padding: '0.24rem 0.58rem', fontSize: '0.75rem' }}
-                onClick={onJumpToDharaniSection}
-              >
-                <span>跳至下方陀罗尼发音解析 ↓</span>
+                <span>全屏</span>
               </button>
             )}
 
@@ -483,38 +491,20 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-scholarly"
-                style={{ padding: '0.24rem 0.58rem', fontSize: '0.75rem' }}
+                style={{ padding: '0.24rem 0.55rem', fontSize: '0.75rem' }}
               >
                 <ExternalLink size={13} />
-                <span>源库官网核验</span>
+                <span>源库页</span>
               </a>
             )}
           </div>
         </div>
       )}
 
-      {headings.length > 1 && !inTextQuery.trim() && (
-        <div className="inline-original-headings-strip" aria-label="本经品目快速定位">
-          <span style={{ fontSize: '0.73rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-            品目导览：
-          </span>
-          {headings.slice(0, 24).map((h) => (
-            <button
-              key={h.paraIdx}
-              type="button"
-              className="inline-heading-chip"
-              onClick={() => jumpToParagraphIndex(h.paraIdx)}
-            >
-              {h.label}
-            </button>
-          ))}
-        </div>
-      )}
-
       {loading && (
         <div className="meta-box" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Loader2 size={16} className="spin-icon" />
-          <span>正在加载数据库原文全文…</span>
+          <span>正在加载原典经文…</span>
         </div>
       )}
 
@@ -531,7 +521,7 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
               className="inline-folio-thumb"
             >
               <img src={f.imageUrl} alt={f.label} loading="lazy" />
-              <span>{f.label} · 点击查看 IIIF 高清叶面</span>
+              <span>{f.label} · 查看高清叶面</span>
             </a>
           ))}
         </div>
@@ -540,15 +530,27 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
       {loaded && (
         <div
           ref={bodyContainerRef}
-          className={`inline-original-body is-font-${fontScale} ${
-            mode === 'inline' && hasDharani ? 'is-scrollable-inline' : ''
-          }`}
+          className={`inline-original-body is-font-${fontScale}`}
           lang={loaded.lang === 'sa-Latn' ? 'sa-Latn' : 'zh-Hant'}
         >
-          {filteredIndexedParagraphs.length === 0 ? (
-            <div className="meta-box">
-              未在原文中找到匹配「{inTextQuery}」的段落。
+          {effectiveScope === 'section' && located && (
+            <div className="orig-section-context-note">
+              <span>
+                当前显示原典对应品段（第 {located.sectionStart + 1}–{located.sectionEnd} 段 / 全书共{' '}
+                {loaded.paragraphs.length.toLocaleString()} 段）
+              </span>
+              <button
+                type="button"
+                className="orig-link-btn"
+                onClick={() => setScopeMode('full')}
+              >
+                展开整卷全文 →
+              </button>
             </div>
+          )}
+
+          {filteredIndexedParagraphs.length === 0 ? (
+            <div className="meta-box">未在原文中找到匹配「{inTextQuery}」的段落。</div>
           ) : (
             filteredIndexedParagraphs.slice(0, paraLimit).map(({ p, idx }) => {
               const range = located?.ranges.get(idx);
@@ -598,40 +600,21 @@ export const InlineOriginalTextPanel: React.FC<InlineOriginalTextPanelProps> = (
           )}
 
           {filteredIndexedParagraphs.length > paraLimit && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '0.6rem',
-                padding: '0.75rem 0.95rem',
-                border: '1px dashed var(--accent-gold-border)',
-                borderRadius: '8px',
-                background: 'var(--bg-elevated)',
-              }}
-            >
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                已展示前 <strong>{paraLimit}</strong> 段原文（全卷共{' '}
-                <strong>{filteredIndexedParagraphs.length}</strong> 段）
-              </span>
-              <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
-                <button
-                  type="button"
-                  className="btn-scholarly gold"
-                  onClick={() => setParaLimit((prev) => prev + 300)}
-                >
-                  <ChevronDown size={14} />
-                  <span>继续展开 300 段</span>
-                </button>
-                <button
-                  type="button"
-                  className="btn-scholarly primary"
-                  onClick={() => setParaLimit(filteredIndexedParagraphs.length)}
-                >
-                  <span>展开整卷全部 {filteredIndexedParagraphs.length} 段原文</span>
-                </button>
-              </div>
+            <div style={{ display: 'flex', gap: '0.5rem', paddingTop: '0.5rem' }}>
+              <button
+                type="button"
+                className="btn-scholarly"
+                onClick={() => setParaLimit((n) => n + 240)}
+              >
+                继续展开 240 段（剩余 {filteredIndexedParagraphs.length - paraLimit} 段）
+              </button>
+              <button
+                type="button"
+                className="btn-scholarly"
+                onClick={() => setParaLimit(filteredIndexedParagraphs.length)}
+              >
+                展开全部 ({filteredIndexedParagraphs.length} 段)
+              </button>
             </div>
           )}
         </div>

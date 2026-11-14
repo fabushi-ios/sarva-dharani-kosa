@@ -1,174 +1,115 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { TWELVE_DATABASES_ADAPTED_DHARANIS } from '../../src/data/kosa-corpus/twelve-databases-adapter';
 import {
-  buildReaderEntryFromCanonItem,
-  filterCatalog,
-} from '../../src/services/canon/canonLibraryService';
-import {
+  hasEntryCompleteOriginalSanskrit,
   isClassicalChineseOnlyEntry,
-  isClassicalChineseOnlyVerse,
 } from '../../src/core/provenance/fieldProvenance';
 import {
-  filterDharanis,
-  getSearchSuggestions,
-  hydrateCanonCatalogForSearch,
+  classifyDharaniEntryKind,
   normalizeLiteralSearchText,
+  searchEntriesByTab,
 } from '../../src/core/search/searchEngine';
-import { FIRST_SCREEN_CORPUS } from '../../src/data/firstScreenCorpus';
-import { DharaniReader } from '../../src/components/reader/DharaniReader';
-import type { CanonCatalogItem, CanonTextFile } from '../../src/core/canon/canonLibraryTypes';
+import {
+  getRelatedQuerySuggestions,
+  resolveCanonIdBulei,
+} from '../../src/core/canon/cbetaBulei';
+import { FullDharaniSummaryCard } from '../../src/components/reader/FullDharaniSummaryCard';
+import { VerseBlock } from '../../src/components/reader/VerseBlock';
 import type { ScriptVisibilityConfig } from '../../src/types/kosaTypes';
 
-const DEFAULT_SCRIPT_CONFIG: ScriptVisibilityConfig = {
-  showSiddham: true,
+const ALL_ON_CONFIG: ScriptVisibilityConfig = {
+  showFullCombinedSummary: true,
   showDevanagari: true,
+  showSiddham: true,
   showIast: true,
-  showModernPhoneticZh: true,
-  showPhoneticIastBracket: false,
-  showClassicalZh: true,
   showIpa: true,
   showProsodyMeter: true,
+  showClassicalZh: true,
+  showModernPhoneticZh: true,
+  showPhoneticIastBracket: false,
   showMeaningZh: true,
   showMeaningEn: true,
   showWordGloss: true,
-  showFullCombinedSummary: true,
   hideDerivedReference: false,
 };
 
-describe('Classical-Chinese-Only No-Reconstruction & Scoped Search (陀罗尼 vs 经文)', () => {
-  it('never reverse-reconstructs Sanskrit IAST, Siddhaṃ, IPA, or akṣara-gate glosses on Chinese-only canon scriptures (e.g. T21n1286 堅牢地天儀軌)', () => {
-    const item: CanonCatalogItem = {
-      id: 'T21n1286',
-      collection: 'T',
-      vol: 'T21',
-      title: '堅牢地天儀軌',
-      byline: '唐 善無畏譯',
-      chars: 1206,
-      dharani: 1,
-    };
-    const canonText: CanonTextFile = {
-      id: 'T21n1286',
-      collection: 'T',
-      vol: 'T21',
-      title: '堅牢地天儀軌',
-      byline: '唐 善無畏譯',
-      url: 'https://raw.githubusercontent.com/cbeta-org/xml-p5/master/T/T21/T21n1286.xml',
-      paragraphs: [['t', '爾時堅牢地天白佛言。']],
-      dharani: [
-        {
-          text: '曩莫三曼多母馱南 唵 鉢羅 婆 囉怛 儞 設哩三曼多 阿馱阿馱 阿豆阿豆 比 里底毘比里底毘曳 莎訶',
-        },
-      ],
-    };
+describe('CBETA 部類、陀羅尼梵文/梵音嚴格區分與純古文零反推校驗', () => {
+  it('accurately separates complete-Sanskrit Fangshan entries from partial-note Chinese-only entries (e.g. 地天陁羅尼)', () => {
+    const prthiviEntry = TWELVE_DATABASES_ADAPTED_DHARANIS.find((e) =>
+      e.id.includes('pF28p0248b1801')
+    );
+    expect(prthiviEntry).toBeDefined();
+    expect(isClassicalChineseOnlyEntry(prthiviEntry!)).toBe(true);
+    expect(hasEntryCompleteOriginalSanskrit(prthiviEntry!)).toBe(false);
+    expect(classifyDharaniEntryKind(prthiviEntry!)).toBe('dharani-phonetic');
 
-    const entry = buildReaderEntryFromCanonItem(item, canonText, []);
-    expect(entry.verses).toHaveLength(1);
-    expect(entry.verses[0].iast).toBe('');
-    expect(entry.verses[0].modernPhoneticZh).toBe('');
-    expect(entry.verses[0].meaningZh).toBe('');
-    expect(isClassicalChineseOnlyVerse(entry.verses[0])).toBe(true);
-    expect(isClassicalChineseOnlyEntry(entry)).toBe(true);
+    const roll1Complete = TWELVE_DATABASES_ADAPTED_DHARANIS.find((e) =>
+      e.id.includes('pF28p0003a0201')
+    );
+    expect(roll1Complete).toBeDefined();
+    expect(hasEntryCompleteOriginalSanskrit(roll1Complete!)).toBe(true);
+    expect(isClassicalChineseOnlyEntry(roll1Complete!)).toBe(false);
+    expect(classifyDharaniEntryKind(roll1Complete!)).toBe('dharani-sanskrit');
 
-    const html = renderToStaticMarkup(
-      React.createElement(DharaniReader, {
-        entry,
-        scriptConfig: DEFAULT_SCRIPT_CONFIG,
-        onScriptConfigChange: () => {},
-        isBookmarked: false,
-        onToggleBookmark: () => {},
-        playbackState: {
-          isPlaying: false,
-          currentVerseIndex: null,
-          currentSyllableIndex: null,
-          currentSyllableInfo: null,
-          currentSyllableClassicalZh: '',
-          currentSyllableModernZh: '',
-          syllableProgress: 0,
-          verseProgress: 0,
-          rate: 1.0,
-          loopVerse: false,
-          autoScroll: true,
-          mode: 'neural-vits-48k',
-          voice: 'male',
-          omDroneActive: false,
-          backendOnline: true,
-          spriteCount: 612,
-        },
-        onPlayAllVerses: () => {},
-        onStopPlayback: () => {},
-        onPlaySingleVerse: () => {},
-        onPlaySingleSyllable: () => {},
+    const summaryHtml = renderToStaticMarkup(
+      React.createElement(FullDharaniSummaryCard, {
+        entry: prthiviEntry!,
+        config: ALL_ON_CONFIG,
+        onToggleBracketIast: () => {},
       })
     );
+    expect(summaryHtml).toContain('曩莫三滿多沒䭾南');
+    expect(summaryHtml).toContain('體');
+    expect(summaryHtml).not.toContain('pṛthavye');
+    expect(summaryHtml).not.toContain('昔日他维耶');
+    expect(summaryHtml).not.toContain('战斗佛藏');
+    expect(summaryHtml).not.toContain('Fight + O oblation');
 
-    expect(html).toContain('古汉音译原典模式');
-    expect(html).toContain('曩莫三曼多母馱南');
-    expect(html).not.toContain('◇ 重构参考');
-    expect(html).not.toContain('◇ 拟译参考');
-    expect(html).not.toContain('汇总·悉昙梵字');
-    expect(html).not.toContain('汇总·梵文 IAST');
-    expect(html).not.toContain('梵音讽诵本句');
-    expect(html).not.toContain('归命娑字门');
+    const verseHtml = renderToStaticMarkup(
+      React.createElement(VerseBlock, {
+        verse: prthiviEntry!.verses[2],
+        config: ALL_ON_CONFIG,
+        isVersePlaying: false,
+        activeSyllableIndex: null,
+        verseProgress: 0,
+        autoScroll: false,
+        onPlayVerse: () => {},
+        onPlaySyllable: () => {},
+      })
+    );
+    expect(verseHtml).toContain('畢㗚體吠曳');
+    expect(verseHtml).not.toContain('pṛthavye');
+    expect(verseHtml).not.toContain('昔日他维耶');
+    expect(verseHtml).not.toContain('战斗佛藏');
   });
 
-  it('prevents polyphonic homophone collisions (地天 != 威德天 != 的天) while keeping Traditional/Simplified equivalence', () => {
-    expect(normalizeLiteralSearchText('堅牢地天儀軌')).toBe(
-      normalizeLiteralSearchText('坚牢地天仪轨')
+  it('normalizes Traditional/Simplified variants without homophone false positives on 地天', () => {
+    expect(normalizeLiteralSearchText('堅牢地天儀軌')).toContain(
+      normalizeLiteralSearchText('坚牢地天')
     );
     expect(normalizeLiteralSearchText('供養十二大威德天報恩品')).not.toContain(
       normalizeLiteralSearchText('地天')
     );
 
-    const sampleCatalog: CanonCatalogItem[] = [
-      {
-        id: 'T21n1286',
-        collection: 'T',
-        vol: 'T21',
-        title: '堅牢地天儀軌',
-        byline: '唐 善無畏譯',
-        chars: 1206,
-        dharani: 1,
-      },
-      {
-        id: 'T21n1297',
-        collection: 'T',
-        vol: 'T21',
-        title: '供養十二大威德天報恩品',
-        byline: '唐 不空譯',
-        chars: 2843,
-        dharani: 0,
-      },
-      {
-        id: 'T08n0235',
-        collection: 'T',
-        vol: 'T08',
-        title: '金剛般若波羅蜜經',
-        byline: '姚秦 鳩摩羅什譯',
-        chars: 5180,
-        dharani: 0,
-      },
-    ];
+    const phoHits = searchEntriesByTab(
+      TWELVE_DATABASES_ADAPTED_DHARANIS,
+      '地天',
+      'dharani-phonetic'
+    );
+    expect(phoHits.some((h) => h.entry.titleZh.includes('地天'))).toBe(true);
+  });
 
-    expect(filterCatalog(sampleCatalog, '地天').map((c) => c.id)).toEqual(['T21n1286']);
-    expect(filterCatalog(sampleCatalog, '金刚经').map((c) => c.id)).toEqual(['T08n0235']);
+  it('maps CBETA canon IDs to official CBETA 部類 and provides synonym suggestions', () => {
+    expect(resolveCanonIdBulei('T01n0005', '佛般泥洹經')).toBe('agama');
+    expect(resolveCanonIdBulei('T08n0251', '般若波羅蜜多心經')).toBe('prajna');
+    expect(resolveCanonIdBulei('T21n1286', '堅牢地天儀軌')).toBe('mikkyo');
+    expect(resolveCanonIdBulei('F28n1071', '釋教最上乘秘密藏陁羅尼集')).toBe('mikkyo');
+    expect(resolveCanonIdBulei('J27nB194', '昭覺丈雪醉禪師語錄')).toBe('chan');
 
-    hydrateCanonCatalogForSearch(sampleCatalog);
-
-    const dharaniOnly = getSearchSuggestions(FIRST_SCREEN_CORPUS, '金刚经', 10, 'dharani');
-    expect(dharaniOnly.every((h) => h.canonItem?.dharani !== 0)).toBe(true);
-
-    const sutraOnly = getSearchSuggestions(FIRST_SCREEN_CORPUS, '地天', 10, 'sutra');
-    expect(sutraOnly.map((h) => h.taishoNo)).toEqual(['T21n1286']);
-
-    const filteredDharani = filterDharanis(FIRST_SCREEN_CORPUS, {
-      query: '',
-      categoryId: 'all',
-      onlyBookmarked: false,
-      bookmarkedIds: new Set(),
-      sourceFilter: 'all',
-      searchScope: 'dharani',
-    });
-    expect(filteredDharani.every((e) => e.verses.length > 0)).toBe(true);
+    const syns = getRelatedQuerySuggestions('地天');
+    expect(syns).toContain('堅牢地神');
+    expect(syns).toContain('堅牢地天');
   });
 });

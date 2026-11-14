@@ -19,6 +19,8 @@ import type {
   ScriptVisibilityConfig,
 } from './types/kosaTypes';
 import type { CanonCatalogItem } from './core/canon/canonLibraryTypes';
+import type { CbetaBuleiId } from './core/canon/cbetaBulei';
+import { hasEntryCompleteOriginalSanskrit } from './core/provenance/fieldProvenance';
 import { FIRST_SCREEN_CORPUS } from './data/firstScreenCorpus';
 import {
   getCloudCorpusSnapshot,
@@ -38,10 +40,6 @@ import {
   type SearchSuggestionItem,
 } from './core/search/searchEngine';
 import {
-  isClassicalChineseOnlyEntry,
-  isClassicalChineseOnlyVerse,
-} from './core/provenance/fieldProvenance';
-import {
   sanskritAudioEngine,
   type AudioEngineMode,
   type PlaybackState,
@@ -60,6 +58,7 @@ import {
 import { Header } from './components/layout/Header';
 import { SidebarFilter, type SidebarViewMode } from './components/layout/SidebarFilter';
 import { DharaniReader, type ReaderNavigationRequest } from './components/reader/DharaniReader';
+import { CbetaSearchResultsView } from './components/search/CbetaSearchResultsView';
 import { AudioPlayerBar } from './components/audio/AudioPlayerBar';
 import { DharaniShareModal } from './components/share/DharaniShareModal';
 import {
@@ -71,7 +70,6 @@ import {
   APP_SCROLL_CONTAINER_ID,
   getActiveScrollContainer,
   scrollReaderToTop,
-  scrollToReaderElement,
 } from './core/dom/scrollUtils';
 
 const BuddhistAiQaStudio = lazy(() => import('./components/ai/BuddhistAiQaStudio'));
@@ -133,6 +131,8 @@ export const App: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchScope, setSearchScope] = useState<SearchScope>('all');
+  const [searchResultsViewOpen, setSearchResultsViewOpen] = useState<boolean>(false);
+  const [selectedBulei, setSelectedBulei] = useState<CbetaBuleiId | 'all'>('all');
   const [selectedCategory, setSelectedCategory] = useState<DharaniCategoryId | 'all'>('all');
   const [sourceFilter, setSourceFilter] = useState<
     'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit'
@@ -229,45 +229,14 @@ export const App: React.FC = () => {
     return combined;
   }, [cloudCorpusEntries, customSharedEntry, dynamicCanonEntries]);
 
-  const sidebarCanonHits = useMemo<CanonCatalogItem[]>(() => {
-    const q = searchQuery.trim();
-    if (canonCatalog.length === 0 || sourceFilter === 'global-12db') return [];
-    if (q.length < 1) {
-      return searchScope === 'sutra' ? canonCatalog.slice(0, 60) : [];
-    }
-    const hits = filterCatalog(canonCatalog, q, {
-      dharaniMode: searchScope === 'dharani' ? 'with-dharani' : 'all',
-    });
-    if (searchScope === 'sutra') {
-      return hits.slice(0, 50);
-    }
-    // In 'all' and 'dharani' modes, skip canon items already covered by curated/12db entries
-    const coveredIds = new Set<string>();
-    for (const e of cloudCorpusEntries) {
-      if (e.provenance.cbetaId) coveredIds.add(e.provenance.cbetaId);
-      const m = e.taishoNo.match(/^([A-Z]{1,2}\d{2,3}n[0-9A-Za-z]+)/);
-      if (m) coveredIds.add(m[1]);
-    }
-    return hits.filter((c) => !coveredIds.has(c.id)).slice(0, 40);
-  }, [canonCatalog, cloudCorpusEntries, searchQuery, searchScope, sourceFilter]);
-
-  const sidebarCanonIdSet = useMemo(
-    () => new Set(sidebarCanonHits.map((c) => `canon-scripture-${c.id}`)),
-    [sidebarCanonHits]
-  );
-
   const preCategoryFilteredEntries = useMemo(() => {
-    if (searchScope === 'sutra') {
-      return [];
-    }
-    const pool = allEntries.filter((e) => !sidebarCanonIdSet.has(e.id));
-    const base = filterDharanis(pool, {
+    const base = filterDharanis(allEntries, {
       query: searchQuery,
       categoryId: 'all',
+      scope: searchScope,
       onlyBookmarked,
       bookmarkedIds,
       sourceFilter,
-      searchScope,
     });
     if (selectedDbSubFilter !== 'all') {
       return base.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
@@ -275,7 +244,6 @@ export const App: React.FC = () => {
     return base;
   }, [
     allEntries,
-    sidebarCanonIdSet,
     searchQuery,
     searchScope,
     onlyBookmarked,
@@ -285,9 +253,38 @@ export const App: React.FC = () => {
   ]);
 
   const filteredEntries = useMemo(() => {
-    if (selectedCategory === 'all') return preCategoryFilteredEntries;
-    return preCategoryFilteredEntries.filter((e) => e.categoryId === selectedCategory);
-  }, [preCategoryFilteredEntries, selectedCategory]);
+    let base = preCategoryFilteredEntries;
+    if (selectedCategory !== 'all') {
+      base = base.filter((e) => e.categoryId === selectedCategory);
+    }
+    if (selectedBulei !== 'all') {
+      base = filterDharanis(base, {
+        query: '',
+        categoryId: 'all',
+        buleiId: selectedBulei,
+        onlyBookmarked: false,
+        bookmarkedIds,
+        sourceFilter: 'all',
+      });
+    }
+    return base;
+  }, [preCategoryFilteredEntries, selectedCategory, selectedBulei, bookmarkedIds]);
+
+  const sidebarCanonHits = useMemo<CanonCatalogItem[]>(() => {
+    const q = searchQuery.trim();
+    if (
+      searchScope === 'dharani' ||
+      searchScope === 'dharani-sanskrit' ||
+      searchScope === 'dharani-phonetic'
+    ) {
+      return [];
+    }
+    if (canonCatalog.length === 0 || sourceFilter === 'global-12db') return [];
+    if (!q && searchScope !== 'sutra-text' && selectedBulei === 'all') return [];
+    return filterCatalog(canonCatalog, q, {
+      buleiId: selectedBulei,
+    }).slice(0, 40);
+  }, [canonCatalog, searchQuery, searchScope, sourceFilter, selectedBulei]);
 
   const [selectedEntryId, setSelectedEntryId] = useState<string>(
     initialDeepLink?.entryId || FIRST_SCREEN_CORPUS[0]?.id || ''
@@ -353,13 +350,12 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (activeEntry?.verses && activeEntry.verses.length > 0 && !isClassicalChineseOnlyEntry(activeEntry)) {
-      const playable = activeEntry.verses.filter(
-        (v) => !isClassicalChineseOnlyVerse(v) && Boolean(v.iast && v.iast.trim())
-      );
-      if (playable.length > 0) {
-        sanskritAudioEngine.prewarmVerses(playable, 3);
-      }
+    if (
+      activeEntry?.verses &&
+      activeEntry.verses.length > 0 &&
+      hasEntryCompleteOriginalSanskrit(activeEntry)
+    ) {
+      sanskritAudioEngine.prewarmVerses(activeEntry.verses, 3);
     }
   }, [activeEntry]);
 
@@ -374,6 +370,7 @@ export const App: React.FC = () => {
       sanskritAudioEngine.stop();
       setQrListenBanner(null);
       setMobileCatalogOpen(false);
+      setSearchResultsViewOpen(false);
 
       const initialSynthesized = buildReaderEntryFromCanonItem(canonItem, null, cloudCorpusEntries);
       setDynamicCanonEntries((prev) => {
@@ -382,12 +379,13 @@ export const App: React.FC = () => {
         return next;
       });
       setSelectedCategory('all');
+      setSelectedBulei('all');
       setSourceFilter('all');
       setSelectedDbSubFilter('all');
       setOnlyBookmarked(false);
       setSelectedEntryId(initialSynthesized.id);
       setActiveTab('canon-reader');
-      setReaderNavRequest({ target: 'hero', nonce: nextNavNonce() });
+      setReaderNavRequest({ target: 'original', nonce: nextNavNonce() });
 
       if (canonItem.dharani > 0 && initialSynthesized.verses.length === 0) {
         loadCanonText(canonItem)
@@ -433,7 +431,9 @@ export const App: React.FC = () => {
     }
 
     setActiveTab('canon-reader');
+    setSearchResultsViewOpen(false);
     setSelectedCategory('all');
+    setSelectedBulei('all');
     setSourceFilter('all');
     setSelectedDbSubFilter('all');
     setOnlyBookmarked(false);
@@ -463,7 +463,11 @@ export const App: React.FC = () => {
       setReaderNavRequest({ target: 'hero', nonce: nextNavNonce() });
     }
 
-    if (pendingDeepLink.listen && matched.verses.length > 0) {
+    if (
+      pendingDeepLink.listen &&
+      matched.verses.length > 0 &&
+      hasEntryCompleteOriginalSanskrit(matched)
+    ) {
       setQrListenBanner({
         entryId: matched.id,
         startVerseIndex: safeVerseIdx,
@@ -487,11 +491,7 @@ export const App: React.FC = () => {
   }, [pendingDeepLink, allEntries, customEntries, corpusHydrated, canonCatalog, handleOpenCanonScriptureInReader]);
 
   useEffect(() => {
-    if (
-      pendingDeepLink &&
-      activeEntry &&
-      activeEntry.id === pendingDeepLink.entryId
-    ) {
+    if (pendingDeepLink && activeEntry && activeEntry.id === pendingDeepLink.entryId) {
       setPendingDeepLink(null);
     }
   }, [pendingDeepLink, activeEntry]);
@@ -508,11 +508,8 @@ export const App: React.FC = () => {
   const handleToggleBookmark = (id: string) => {
     setBookmarkedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       saveBookmarks(next);
       return next;
     });
@@ -542,6 +539,7 @@ export const App: React.FC = () => {
   const handleSelectAdapterDbId = (dbId: string) => {
     sanskritAudioEngine.stop();
     setSelectedCategory('all');
+    setSelectedBulei('all');
     setOnlyBookmarked(false);
     setSourceFilter('global-12db');
     setSelectedDbSubFilter(dbId);
@@ -578,6 +576,7 @@ export const App: React.FC = () => {
   const handleTabChange = (tab: ActiveWorkspaceTab) => {
     sanskritAudioEngine.stop();
     setMobileCatalogOpen(false);
+    setSearchResultsViewOpen(false);
     setActiveTab(tab);
     scrollReaderToTop('auto');
 
@@ -601,11 +600,12 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleSelectEntry = (id: string, matchedVerseId?: string) => {
+  const handleSelectEntry = (id: string) => {
     sanskritAudioEngine.stop();
     setSelectedEntryId(id);
     setQrListenBanner(null);
     setMobileCatalogOpen(false);
+    setSearchResultsViewOpen(false);
     if (
       activeTab !== 'canon-reader' &&
       activeTab !== 'hub' &&
@@ -615,23 +615,14 @@ export const App: React.FC = () => {
     ) {
       setActiveTab('canon-reader');
     }
-
-    if (matchedVerseId) {
-      setTimeout(() => {
-        scrollToReaderElement(`verse-card-${matchedVerseId}`, {
-          behavior: 'smooth',
-          topGap: 14,
-          highlight: true,
-        });
-      }, 60);
-    } else {
-      setReaderNavRequest({ target: 'hero', nonce: nextNavNonce() });
-    }
+    setReaderNavRequest({ target: 'hero', nonce: nextNavNonce() });
   };
 
   const handleOpenEntryFromAi = useCallback((entry: DharaniEntry) => {
     sanskritAudioEngine.stop();
+    setSearchResultsViewOpen(false);
     setSelectedCategory('all');
+    setSelectedBulei('all');
     setSourceFilter('all');
     setSelectedDbSubFilter('all');
     setOnlyBookmarked(false);
@@ -642,10 +633,11 @@ export const App: React.FC = () => {
 
   const handleAskBuddhistAiFromReader = useCallback((entry: DharaniEntry) => {
     sanskritAudioEngine.stop();
+    setSearchResultsViewOpen(false);
     const prompt =
       entry.verses.length > 0
-        ? `请结合本库《${entry.titleZh}》（${entry.taishoNo}）的原典全文与陀罗尼咒句，解析本篇经典的缘起出处、核心法义与关键梵文词根语法。`
-        : `请检索并结合本库《${entry.titleZh}》（${entry.taishoNo}）的原典全文，为您梳理本经的核心宗趣、重要品段经句与历代译注特点。`;
+        ? `请结合本库《${entry.titleZh}》（${entry.taishoNo}）的原典全文与陀罗尼咒句，解析本篇经典的缘起出处与核心法义。`
+        : `请检索并结合本库《${entry.titleZh}》（${entry.taishoNo}）的原典全文，梳理本经的核心宗趣与重要品段经句。`;
     setSelectedEntryId(entry.id);
     setAiInitialPrompt(prompt);
     setActiveTab('buddhist-ai');
@@ -655,6 +647,7 @@ export const App: React.FC = () => {
   const handleSelectSuggestion = (item: SearchSuggestionItem) => {
     setMobileCatalogOpen(false);
     setQrListenBanner(null);
+    setSearchResultsViewOpen(false);
 
     if (item.kind === 'canon-scripture' && item.canonItem) {
       handleOpenCanonScriptureInReader(item.canonItem);
@@ -672,6 +665,7 @@ export const App: React.FC = () => {
     if (item.entry) {
       sanskritAudioEngine.stop();
       setSelectedCategory('all');
+      setSelectedBulei('all');
       setSourceFilter('all');
       setSelectedDbSubFilter('all');
       setOnlyBookmarked(false);
@@ -695,6 +689,17 @@ export const App: React.FC = () => {
     if (item.kind === 'global-12db-hit' && item.targetTab) {
       handleTabChange(item.targetTab);
     }
+  };
+
+  const handleSubmitFullSearch = (q: string, scope: SearchScope) => {
+    const trimmed = q.trim();
+    if (!trimmed) return;
+    sanskritAudioEngine.stop();
+    setSearchQuery(trimmed);
+    setSearchScope(scope);
+    setActiveTab('canon-reader');
+    setSearchResultsViewOpen(true);
+    scrollReaderToTop('auto');
   };
 
   const isUnifiedReaderTab =
@@ -724,21 +729,27 @@ export const App: React.FC = () => {
     setShareModalTarget({ entry, initialVerseIndex });
   };
 
+  const hasPlayableSanskrit = Boolean(
+    effectiveAudioEntry && hasEntryCompleteOriginalSanskrit(effectiveAudioEntry)
+  );
+
   const showBottomAudioBar = Boolean(
     effectiveAudioEntry &&
-      (playbackState.isPlaying ||
-        (activeTab !== 'buddhist-ai' &&
-          effectiveAudioEntry.verses.length > 0 &&
-          !isClassicalChineseOnlyEntry(effectiveAudioEntry)))
+      !searchResultsViewOpen &&
+      (playbackState.isPlaying || (activeTab !== 'buddhist-ai' && hasPlayableSanskrit))
   );
 
   return (
     <div className="app-shell">
       <Header
         searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
+        onSearchChange={(q) => {
+          setSearchQuery(q);
+          if (!q.trim()) setSearchResultsViewOpen(false);
+        }}
         searchScope={searchScope}
         onSearchScopeChange={setSearchScope}
+        onSubmitSearch={handleSubmitFullSearch}
         allEntries={allEntries}
         onSelectSuggestion={handleSelectSuggestion}
         activeTab={activeTab}
@@ -748,12 +759,14 @@ export const App: React.FC = () => {
         onSelectCanonScripture={handleOpenCanonScriptureInReader}
         onAskAiWithQuery={(q) => {
           sanskritAudioEngine.stop();
+          setSearchResultsViewOpen(false);
           setAiInitialPrompt(q);
           setActiveTab('buddhist-ai');
           scrollReaderToTop('smooth');
         }}
         onOpenCanonText={(id) => {
           sanskritAudioEngine.stop();
+          setSearchResultsViewOpen(false);
           setCanonTextId(id);
           setCanonQuery(id ? '' : searchQuery);
           setCanonNonce((n) => n + 1);
@@ -768,14 +781,14 @@ export const App: React.FC = () => {
             <div className="qr-listen-landing-banner" role="status">
               <div className="qr-listen-banner-main">
                 <Loader2 size={18} className="spin-icon" color="var(--accent-vermilion)" />
-                <span>正在为您定位扫码陀罗尼并加载 48,000 Hz 神经梵音数据...</span>
+                <span>正在加载经典与梵音数据...</span>
               </div>
             </div>
           )}
 
           {qrListenBanner &&
             activeEntry &&
-            activeEntry.verses.length > 0 &&
+            hasEntryCompleteOriginalSanskrit(activeEntry) &&
             qrListenBanner.entryId === activeEntry.id && (
               <div className="qr-listen-landing-banner" role="region" aria-label="二维码扫码音频直达">
                 <div className="qr-listen-banner-main">
@@ -785,13 +798,6 @@ export const App: React.FC = () => {
                   </span>
                   <div className="qr-listen-text">
                     <strong>《{activeEntry.titleZh}》</strong>
-                    <span>
-                      {qrListenBanner.singleVerse
-                        ? `第 ${String(qrListenBanner.startVerseIndex + 1).padStart(2, '0')} 句精读`
-                        : qrListenBanner.startVerseIndex > 0
-                        ? `自第 ${String(qrListenBanner.startVerseIndex + 1).padStart(2, '0')} 句起跟诵`
-                        : `全咒共 ${activeEntry.verses.length} 句 · 48kHz 梵音持诵`}
-                    </span>
                   </div>
                 </div>
 
@@ -803,9 +809,7 @@ export const App: React.FC = () => {
                       onClick={() => sanskritAudioEngine.stop()}
                     >
                       <Square size={14} />
-                      <span>
-                        {playbackState.isLoadingAudio ? '正在加载梵音 · 停止' : '正在播放 · 点击停止'}
-                      </span>
+                      <span>停止</span>
                     </button>
                   ) : (
                     <button
@@ -820,7 +824,7 @@ export const App: React.FC = () => {
                       }
                     >
                       <Play size={14} />
-                      <span>立即聆听梵音</span>
+                      <span>立即聆听</span>
                     </button>
                   )}
 
@@ -835,14 +839,14 @@ export const App: React.FC = () => {
                     }
                   >
                     <Share2 size={14} />
-                    <span>生成分享图</span>
+                    <span>分享卡片</span>
                   </button>
 
                   <button
                     type="button"
                     className="qr-listen-close-btn"
                     onClick={() => setQrListenBanner(null)}
-                    aria-label="关闭扫码提示条"
+                    aria-label="关闭"
                   >
                     <X size={15} />
                   </button>
@@ -851,7 +855,7 @@ export const App: React.FC = () => {
             )}
 
           {activeTab === 'buddhist-ai' && (
-            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载 MITRA-Qwen3.5 佛经微调大模型与全藏检索工作台...</div>}>
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载佛经 AI 问答工作台...</div>}>
               <BuddhistAiQaStudio
                 allEntries={allEntries}
                 canonCatalog={canonCatalog}
@@ -864,7 +868,7 @@ export const App: React.FC = () => {
             </Suspense>
           )}
 
-          {activeTab === 'hub' && (
+          {activeTab === 'hub' && !searchResultsViewOpen && (
             <Suspense fallback={<div style={{ padding: '1rem', textAlign: 'center' }}>正在加载全球 12 大梵典数据库导航...</div>}>
               <div style={{ marginBottom: '1rem' }}>
                 <DatabaseHubExplorer
@@ -875,177 +879,221 @@ export const App: React.FC = () => {
             </Suspense>
           )}
 
-          {isUnifiedReaderTab && activeEntry && (
-            <div
-              className={`canon-reader-grid ${
-                sidebarCollapsed ? 'is-sidebar-collapsed' : ''
-              }`}
-            >
-              <div className="mobile-catalog-bar">
-                <div className="mobile-catalog-trigger-group">
-                  <button
-                    id="mobile-catalog-trigger-btn"
-                    type="button"
-                    className="mobile-catalog-trigger-btn"
-                    onClick={() => {
-                      setSidebarMode('catalog');
-                      setMobileCatalogOpen(true);
-                    }}
-                  >
-                    <BookOpen size={14} />
-                    <span>选经典 · {filteredEntries.length + sidebarCanonHits.length}部</span>
-                  </button>
-
-                  <button
-                    id="mobile-outline-trigger-btn"
-                    type="button"
-                    className="mobile-outline-trigger-btn"
-                    onClick={() => {
-                      setSidebarMode('outline');
-                      setMobileCatalogOpen(true);
-                    }}
-                  >
-                    <ListOrdered size={14} />
-                    <span>
-                      {activeEntry.verses.length > 0
-                        ? `本篇导览 · ${activeEntry.verses.length}句`
-                        : '本篇原文导览'}
-                    </span>
-                  </button>
-                </div>
-
-                <div className="mobile-catalog-nav-group">
-                  <button
-                    type="button"
-                    className={`mobile-step-btn ${onlyBookmarked ? 'active' : ''}`}
-                    onClick={() => setOnlyBookmarked((b) => !b)}
-                  >
-                    <Bookmark size={13} />
-                    <span>{bookmarkedIds.size}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    className="mobile-step-btn"
-                    disabled={currentEntryIdx <= 0}
-                    onClick={() => {
-                      if (currentEntryIdx > 0) {
-                        handleSelectEntry(filteredEntries[currentEntryIdx - 1].id);
-                      }
-                    }}
-                  >
-                    <ChevronLeft size={14} />
-                    <span className="mobile-step-label">上一部</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    className="mobile-step-btn"
-                    disabled={
-                      currentEntryIdx < 0 || currentEntryIdx >= filteredEntries.length - 1
-                    }
-                    onClick={() => {
-                      if (
-                        currentEntryIdx >= 0 &&
-                        currentEntryIdx < filteredEntries.length - 1
-                      ) {
-                        handleSelectEntry(filteredEntries[currentEntryIdx + 1].id);
-                      }
-                    }}
-                  >
-                    <span className="mobile-step-label">下一部</span>
-                    <ChevronRight size={14} />
-                  </button>
-                </div>
-              </div>
-
-              <SidebarFilter
-                entries={filteredEntries}
-                preCategoryEntries={preCategoryFilteredEntries}
-                totalCorpusCount={allEntries.length}
-                selectedId={activeEntry.id}
-                activeEntry={activeEntry}
-                onSelectEntry={(id) => handleSelectEntry(id)}
-                canonScriptureHits={sidebarCanonHits}
-                onSelectCanonScripture={handleOpenCanonScriptureInReader}
-                onOpenFullCanonLibrary={() => {
-                  setCanonTextId(null);
-                  setCanonQuery(searchQuery);
-                  setCanonNonce((n) => n + 1);
-                  setActiveTab('canon-library');
-                }}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                searchScope={searchScope}
-                onSearchScopeChange={setSearchScope}
-                selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
-                sourceFilter={sourceFilter}
-                onSourceFilterChange={(sf) => {
-                  setSourceFilter(sf);
-                  if (sf !== 'global-12db') {
-                    setSelectedDbSubFilter('all');
-                  }
-                }}
-                selectedDbSubFilter={selectedDbSubFilter}
-                onSelectDbSubFilter={(dbId) => {
-                  setSelectedDbSubFilter(dbId);
-                  if (dbId !== 'all') {
-                    setSourceFilter('global-12db');
-                  }
-                }}
-                onlyBookmarked={onlyBookmarked}
-                onToggleOnlyBookmarked={() => setOnlyBookmarked((b) => !b)}
-                bookmarkedIds={bookmarkedIds}
-                onToggleBookmark={handleToggleBookmark}
-                playbackState={playbackState}
-                onPlayAllVerses={() => sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)}
-                onStopPlayback={() => sanskritAudioEngine.stop()}
-                onPlaySingleVerse={(verseIdx) =>
-                  sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
-                }
-                onJumpToSection={(target) =>
-                  setReaderNavRequest({ target, nonce: nextNavNonce() })
-                }
-                onJumpToVerse={(verseArrayIndex) =>
+          {/* Dedicated CBETA-Style Full Search Workspace */}
+          {isUnifiedReaderTab && searchResultsViewOpen && searchQuery.trim() ? (
+            <CbetaSearchResultsView
+              query={searchQuery}
+              initialScope={searchScope}
+              allEntries={allEntries}
+              canonCatalog={canonCatalog}
+              onQueryChange={(nextQ) => setSearchQuery(nextQ)}
+              onCloseSearchView={() => setSearchResultsViewOpen(false)}
+              onOpenEntry={(entry, opts) => {
+                sanskritAudioEngine.stop();
+                setSearchResultsViewOpen(false);
+                setSelectedCategory('all');
+                setSelectedBulei('all');
+                setSourceFilter('all');
+                setSelectedDbSubFilter('all');
+                setOnlyBookmarked(false);
+                setSelectedEntryId(entry.id);
+                if (opts?.openOriginalTab) {
+                  setReaderNavRequest({ target: 'original', nonce: nextNavNonce() });
+                } else if (typeof opts?.verseArrayIndex === 'number') {
                   setReaderNavRequest({
                     target: 'verse',
-                    verseArrayIndex,
+                    verseArrayIndex: opts.verseArrayIndex,
                     nonce: nextNavNonce(),
-                  })
+                  });
+                } else {
+                  setReaderNavRequest({ target: 'hero', nonce: nextNavNonce() });
                 }
-                sidebarMode={sidebarMode}
-                onSidebarModeChange={setSidebarMode}
-                sidebarCollapsed={sidebarCollapsed}
-                onToggleSidebarCollapsed={() => setSidebarCollapsed((c) => !c)}
-                mobileOpen={mobileCatalogOpen}
-                onCloseMobile={() => setMobileCatalogOpen(false)}
-              />
+              }}
+              onOpenCanonItem={(item) => handleOpenCanonScriptureInReader(item)}
+              onAskAi={(q) => {
+                sanskritAudioEngine.stop();
+                setSearchResultsViewOpen(false);
+                setAiInitialPrompt(q);
+                setActiveTab('buddhist-ai');
+                scrollReaderToTop('smooth');
+              }}
+            />
+          ) : (
+            isUnifiedReaderTab &&
+            activeEntry && (
+              <div
+                className={`canon-reader-grid ${
+                  sidebarCollapsed ? 'is-sidebar-collapsed' : ''
+                }`}
+              >
+                <div className="mobile-catalog-bar">
+                  <div className="mobile-catalog-trigger-group">
+                    <button
+                      id="mobile-catalog-trigger-btn"
+                      type="button"
+                      className="mobile-catalog-trigger-btn"
+                      onClick={() => {
+                        setSidebarMode('catalog');
+                        setMobileCatalogOpen(true);
+                      }}
+                    >
+                      <BookOpen size={14} />
+                      <span>部類目錄 · {filteredEntries.length + sidebarCanonHits.length}</span>
+                    </button>
 
-              <DharaniReader
-                entry={activeEntry}
-                scriptConfig={scriptConfig}
-                onScriptConfigChange={handleScriptConfigChange}
-                isBookmarked={bookmarkedIds.has(activeEntry.id)}
-                onToggleBookmark={() => handleToggleBookmark(activeEntry.id)}
-                playbackState={playbackState}
-                onPlayAllVerses={() => sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)}
-                onStopPlayback={() => sanskritAudioEngine.stop()}
-                onPlaySingleVerse={(verseIdx) =>
-                  sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
-                }
-                onPlaySingleSyllable={(iastSyl) => sanskritAudioEngine.playSingleSyllable(iastSyl)}
-                onNavigateTab={handleTabChange}
-                navigationRequest={readerNavRequest}
-                onRequestShare={(entryToShare, verseIdx) =>
-                  handleOpenShareModal(entryToShare, verseIdx ?? null)
-                }
-                onAskBuddhistAi={handleAskBuddhistAiFromReader}
-              />
-            </div>
+                    <button
+                      id="mobile-outline-trigger-btn"
+                      type="button"
+                      className="mobile-outline-trigger-btn"
+                      onClick={() => {
+                        setSidebarMode('outline');
+                        setMobileCatalogOpen(true);
+                      }}
+                    >
+                      <ListOrdered size={14} />
+                      <span>本篇導覽</span>
+                    </button>
+                  </div>
+
+                  <div className="mobile-catalog-nav-group">
+                    <button
+                      type="button"
+                      className={`mobile-step-btn ${onlyBookmarked ? 'active' : ''}`}
+                      onClick={() => setOnlyBookmarked((b) => !b)}
+                    >
+                      <Bookmark size={13} />
+                      <span>{bookmarkedIds.size}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className="mobile-step-btn"
+                      disabled={currentEntryIdx <= 0}
+                      onClick={() => {
+                        if (currentEntryIdx > 0) {
+                          handleSelectEntry(filteredEntries[currentEntryIdx - 1].id);
+                        }
+                      }}
+                    >
+                      <ChevronLeft size={14} />
+                    </button>
+
+                    <button
+                      type="button"
+                      className="mobile-step-btn"
+                      disabled={
+                        currentEntryIdx < 0 || currentEntryIdx >= filteredEntries.length - 1
+                      }
+                      onClick={() => {
+                        if (
+                          currentEntryIdx >= 0 &&
+                          currentEntryIdx < filteredEntries.length - 1
+                        ) {
+                          handleSelectEntry(filteredEntries[currentEntryIdx + 1].id);
+                        }
+                      }}
+                    >
+                      <ChevronRight size={14} />
+                    </button>
+                  </div>
+                </div>
+
+                <SidebarFilter
+                  entries={filteredEntries}
+                  preCategoryEntries={preCategoryFilteredEntries}
+                  totalCorpusCount={allEntries.length}
+                  selectedId={activeEntry.id}
+                  activeEntry={activeEntry}
+                  onSelectEntry={(id) => handleSelectEntry(id)}
+                  canonScriptureHits={sidebarCanonHits}
+                  onSelectCanonScripture={handleOpenCanonScriptureInReader}
+                  onOpenFullCanonLibrary={() => {
+                    setCanonTextId(null);
+                    setCanonQuery(searchQuery);
+                    setCanonNonce((n) => n + 1);
+                    setActiveTab('canon-library');
+                  }}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  searchScope={searchScope}
+                  onSearchScopeChange={setSearchScope}
+                  selectedBulei={selectedBulei}
+                  onSelectBulei={setSelectedBulei}
+                  selectedCategory={selectedCategory}
+                  onSelectCategory={setSelectedCategory}
+                  sourceFilter={sourceFilter}
+                  onSourceFilterChange={(sf) => {
+                    setSourceFilter(sf);
+                    if (sf !== 'global-12db') {
+                      setSelectedDbSubFilter('all');
+                    }
+                  }}
+                  selectedDbSubFilter={selectedDbSubFilter}
+                  onSelectDbSubFilter={(dbId) => {
+                    setSelectedDbSubFilter(dbId);
+                    if (dbId !== 'all') {
+                      setSourceFilter('global-12db');
+                    }
+                  }}
+                  onlyBookmarked={onlyBookmarked}
+                  onToggleOnlyBookmarked={() => setOnlyBookmarked((b) => !b)}
+                  bookmarkedIds={bookmarkedIds}
+                  onToggleBookmark={handleToggleBookmark}
+                  playbackState={playbackState}
+                  onPlayAllVerses={() =>
+                    sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)
+                  }
+                  onStopPlayback={() => sanskritAudioEngine.stop()}
+                  onPlaySingleVerse={(verseIdx) =>
+                    sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
+                  }
+                  onJumpToSection={(target) =>
+                    setReaderNavRequest({ target, nonce: nextNavNonce() })
+                  }
+                  onJumpToVerse={(verseArrayIndex) =>
+                    setReaderNavRequest({
+                      target: 'verse',
+                      verseArrayIndex,
+                      nonce: nextNavNonce(),
+                    })
+                  }
+                  sidebarMode={sidebarMode}
+                  onSidebarModeChange={setSidebarMode}
+                  sidebarCollapsed={sidebarCollapsed}
+                  onToggleSidebarCollapsed={() => setSidebarCollapsed((c) => !c)}
+                  mobileOpen={mobileCatalogOpen}
+                  onCloseMobile={() => setMobileCatalogOpen(false)}
+                />
+
+                <DharaniReader
+                  entry={activeEntry}
+                  scriptConfig={scriptConfig}
+                  onScriptConfigChange={handleScriptConfigChange}
+                  isBookmarked={bookmarkedIds.has(activeEntry.id)}
+                  onToggleBookmark={() => handleToggleBookmark(activeEntry.id)}
+                  playbackState={playbackState}
+                  onPlayAllVerses={() =>
+                    sanskritAudioEngine.playVerses(activeEntry.verses, 0, false)
+                  }
+                  onStopPlayback={() => sanskritAudioEngine.stop()}
+                  onPlaySingleVerse={(verseIdx) =>
+                    sanskritAudioEngine.playVerses(activeEntry.verses, verseIdx, true)
+                  }
+                  onPlaySingleSyllable={(iastSyl) =>
+                    sanskritAudioEngine.playSingleSyllable(iastSyl)
+                  }
+                  onNavigateTab={handleTabChange}
+                  navigationRequest={readerNavRequest}
+                  onRequestShare={(entryToShare, verseIdx) =>
+                    handleOpenShareModal(entryToShare, verseIdx ?? null)
+                  }
+                  onAskBuddhistAi={handleAskBuddhistAiFromReader}
+                />
+              </div>
+            )
           )}
 
-          {activeTab === 'interlinear' && (
+          {activeTab === 'interlinear' && !searchResultsViewOpen && (
             <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载房山石经与 T54 对音语料库...</div>}>
               <details style={{ marginTop: '1.25rem' }}>
                 <summary
@@ -1059,8 +1107,8 @@ export const App: React.FC = () => {
             </Suspense>
           )}
 
-          {activeTab === 'concordance' && (
-            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载奥斯陆 16 本心经与多本同源对勘台...</div>}>
+          {activeTab === 'concordance' && !searchResultsViewOpen && (
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载多本同源对勘台...</div>}>
               <details style={{ marginTop: '1.25rem' }}>
                 <summary
                   className="btn-scholarly"
@@ -1073,7 +1121,7 @@ export const App: React.FC = () => {
             </Suspense>
           )}
 
-          {activeTab === 'cudl' && (
+          {activeTab === 'cudl' && !searchResultsViewOpen && (
             <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载剑桥大学 CUDL 梵文贝叶经写本馆...</div>}>
               <details style={{ marginTop: '1.25rem' }}>
                 <summary
@@ -1088,7 +1136,7 @@ export const App: React.FC = () => {
           )}
 
           {activeTab === 'taisho-explorer' && (
-            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载大正藏密教部 614 经与 14,485 段真言总览...</div>}>
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载大正藏密教部...</div>}>
               <TaishoCanonExplorer
                 initialScriptureId={selectedTaishoScriptureId}
                 allEntries={allEntries}
@@ -1135,7 +1183,7 @@ export const App: React.FC = () => {
           )}
 
           {activeTab === 'custom-compiler' && (
-            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载梵音六体编译与全咒发声工作台...</div>}>
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}>正在加载梵音编译器...</div>}>
               <CustomDharaniCompiler
                 customEntries={customEntries}
                 onAddCustomEntry={handleAddCustomEntry}

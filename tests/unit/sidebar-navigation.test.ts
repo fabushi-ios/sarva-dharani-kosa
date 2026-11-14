@@ -4,11 +4,11 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { SidebarFilter } from '../../src/components/layout/SidebarFilter';
 import { FIRST_SCREEN_CORPUS } from '../../src/data/firstScreenCorpus';
 
-describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
+describe('CBETA 部類與文獻類型雙模式左側目錄欄 (SidebarFilter)', () => {
   const sampleEntries = FIRST_SCREEN_CORPUS.slice(0, 8);
   const activeEntry = sampleEntries[0];
 
-  it('renders clear dual-mode tabs (经咒选单 & 本篇句目), concise category pills with live counts, and active reading indicator in Catalog Mode', () => {
+  it('renders CBETA 部類目錄 & 本篇導覽 dual-mode tabs, 陀羅尼·梵文/梵音/經文 scope pills, CBETA 部類 list, and DB1–DB12 options in Catalog Mode', () => {
     const html = renderToStaticMarkup(
       React.createElement(SidebarFilter, {
         entries: sampleEntries,
@@ -31,19 +31,19 @@ describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
       })
     );
 
-    expect(html).toContain('经典选单');
-    expect(html).toContain('本篇导览');
-    expect(html).toContain(`${activeEntry.verses.length}句`);
-    expect(html).toContain('全部经典');
-    expect(html).toContain('四大长咒');
-    expect(html).toContain('十小咒');
-    expect(html).toContain('当前');
+    expect(html).toContain('部類目錄');
+    expect(html).toContain('本篇導覽');
+    expect(html).toContain('陀羅尼·梵文');
+    expect(html).toContain('陀羅尼·梵音');
+    expect(html).toContain('CBETA 部類');
+    expect(html).toContain('阿含部類');
+    expect(html).toContain('密教部類');
     expect(html).toContain(activeEntry.titleZh);
     expect(html).toContain('db1_fangshan');
     expect(html).toContain('db12_muktabodha_ochs');
   });
 
-  it('displays explicit active filter banner and reset button when searchQuery (e.g. 大威德) is active', () => {
+  it('displays reset action when searchQuery or CBETA 部類 filter is active', () => {
     const html = renderToStaticMarkup(
       React.createElement(SidebarFilter, {
         entries: sampleEntries.slice(0, 2),
@@ -52,9 +52,11 @@ describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
         selectedId: activeEntry.id,
         activeEntry,
         onSelectEntry: () => {},
-        searchQuery: '大威德',
+        searchQuery: '地天',
         onSearchChange: () => {},
-        selectedCategory: 'buddhas-bodhisattvas',
+        selectedBulei: 'mikkyo',
+        onSelectBulei: () => {},
+        selectedCategory: 'all',
         onSelectCategory: () => {},
         sourceFilter: 'all',
         onSourceFilterChange: () => {},
@@ -65,12 +67,11 @@ describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
       })
     );
 
-    expect(html).toContain('「大威德」');
-    expect(html).toContain('诸佛菩萨');
-    expect(html).toContain('重置全部');
+    expect(html).toContain('sidebar-reset-filters-btn');
+    expect(html).toContain('重置');
   });
 
-  it('renders Current Scripture Verse Outline, section quick-anchors, and per-verse jump/play controls in Outline Mode', () => {
+  it('renders Current Entry Outline, parallel tab jump buttons, and per-verse jump items in Outline Mode', () => {
     const multiVerseEntry =
       FIRST_SCREEN_CORPUS.find((e) => e.verses.length >= 4) || activeEntry;
 
@@ -97,13 +98,10 @@ describe('Redesigned Dual-Mode Left Sidebar Navigation (SidebarFilter)', () => {
       })
     );
 
-    expect(html).toContain('当前研读');
     expect(html).toContain(multiVerseEntry.titleZh);
-    expect(html).toContain('经题提要');
-    expect(html).toContain('全咒汇总');
-    expect(html).toContain('同源见证');
-    expect(html).toContain('outline-verse-jump-1');
-    expect(html).toContain('outline-verse-play-1');
+    expect(html).toContain('跳至頂部');
+    expect(html).toContain('切換原典經文');
+    expect(html).toContain('第 01 句');
   });
 
   it('renders slim quick-navigation focus rail when sidebarCollapsed is true', () => {

@@ -423,9 +423,10 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
       showWordGloss: false,
     };
 
+    // Genuine Sanskrit manuscript (psuv67) renders mixed db-original + derived-reference spans
     const verseHtml = renderToStaticMarkup(
       React.createElement(VerseBlock, {
-        verse: fangshan141.verses[0],
+        verse: psuv67.verses[0],
         config: defaultConfig,
         isVersePlaying: false,
         activeSyllableIndex: null,
@@ -436,13 +437,12 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
       })
     );
     expect(verseHtml).toContain('<span class="prov-seg-orig"');
-    expect(verseHtml).toContain('>𑖦</span>');
-    expect(verseHtml).toContain('>ma</span>');
+    expect(verseHtml).toContain('udakena');
     expect(verseHtml).toContain('prov-seg-ref');
 
     const summaryHtml = renderToStaticMarkup(
       React.createElement(FullDharaniSummaryCard, {
-        entry: fangshan141,
+        entry: psuv67,
         config: defaultConfig,
         onToggleBracketIast: () => {},
       })
@@ -451,6 +451,17 @@ describe('Database Original Preservation & Derived-Reference Provenance (fieldPr
     expect(summaryHtml).toContain('prov-part-ref');
     expect(summaryHtml).toContain('prov-seg-orig');
     expect(summaryHtml).toContain('prov-seg-ref');
+
+    // Partial-note Fangshan entry (fangshan141) renders strictly classical Chinese without reverse-reconstructed Sanskrit
+    const fangshanSummaryHtml = renderToStaticMarkup(
+      React.createElement(FullDharaniSummaryCard, {
+        entry: fangshan141,
+        config: defaultConfig,
+        onToggleBracketIast: () => {},
+      })
+    );
+    expect(fangshanSummaryHtml).toContain(fangshan141.verses[0].classicalTranslitZh);
+    expect(fangshanSummaryHtml).not.toContain('stryadhvikānāṃ');
   });
 
   it('preserves fieldSources and hand-crafted strings cleanly across compiled cloud shards and FIRST_SCREEN_CORPUS', () => {

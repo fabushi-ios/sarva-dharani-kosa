@@ -35,7 +35,7 @@ import {
   buildWordGlossesFromIast,
 } from '../../core/sanskrit/phoneticMapper';
 import { translateSanskritVerse } from '../../core/sanskrit/sanskritLexicon';
-import { normalizeSearchText } from '../../core/search/searchEngine';
+import { normalizeLiteralSearchText } from '../../core/search/searchEngine';
 import {
   DharaniReader,
   type ReaderNavigationRequest,
@@ -99,11 +99,11 @@ export const TaishoCanonExplorer: React.FC<TaishoCanonExplorerProps> = ({
   }, [selectedFile.id]);
 
   const filteredFiles = useMemo(() => {
-    const q = normalizeSearchText(query);
+    const q = normalizeLiteralSearchText(query);
     return TAISHO_MIKKYO_FILE_INDEX.filter((item) => {
       if (selectedVol !== 'ALL' && item.vol !== selectedVol) return false;
       if (!q) return true;
-      const hay = normalizeSearchText(
+      const hay = normalizeLiteralSearchText(
         `${item.id} ${item.titleZh} ${item.titleTrad} ${item.translator} ${(item.blockTitles || []).join(' ')} ${item.sampleDharanis.join(' ')}`
       );
       return hay.includes(q);

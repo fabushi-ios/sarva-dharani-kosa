@@ -12,47 +12,41 @@ import {
   Play,
   RotateCcw,
   Search,
-  SlidersHorizontal,
   Square,
-  Volume2,
   X,
 } from 'lucide-react';
 import type { DharaniCategoryId, DharaniEntry } from '../../types/kosaTypes';
-import type { SearchScope } from '../../core/search/searchEngine';
 import type { CanonCatalogItem } from '../../core/canon/canonLibraryTypes';
+import {
+  CBETA_BULEI_LIST,
+  CBETA_BULEI_MAP,
+  resolveCanonItemBulei,
+  resolveEntryBulei,
+  type CbetaBuleiId,
+} from '../../core/canon/cbetaBulei';
+import {
+  classifyDharaniEntryKind,
+  type SearchScope,
+} from '../../core/search/searchEngine';
 import type { PlaybackState } from '../../services/audio/sanskritAudioEngine';
-import { DHARANI_CATEGORIES } from '../../data/categories';
 
 export type SourceFilterType = 'all' | 'global-12db' | 'cbeta-siddham' | 'gretil-sanskrit';
 export type SidebarViewMode = 'catalog' | 'outline';
 
-const SHORT_CATEGORY_LABELS: Record<DharaniCategoryId | 'all', string> = {
-  all: '全部经典',
-  'supreme-mantras': '四大长咒',
-  'ten-small-mantras': '十小咒',
-  'buddhas-bodhisattvas': '诸佛菩萨',
-  'vidyarajas-protectors': '明王护法',
-  'prajna-sutra-hrdaya': '般若经典',
-  'vedic-tantra-siddhanta': '吠陀诸宗',
-  'global-12db-canon': '12大梵库',
-  'gretil-canonical': 'GRETIL库',
-  custom: '自建经咒',
-};
-
 const TWELVE_DB_OPTIONS: Array<{ id: string; label: string; shortLabel: string }> = [
-  { id: 'all', label: '全部 12 大国际梵典库 (DB1–DB12)', shortLabel: '全部12库' },
-  { id: 'db1_fangshan', label: 'DB1 · 房山石经《释教最上乘陀罗尼集》', shortLabel: 'DB1 房山石经' },
-  { id: 'db2_taisho_ext', label: 'DB2 · 大正藏悉昙字书与续藏真言', shortLabel: 'DB2 大正悉昙' },
-  { id: 'db3_dsbc_gretil', label: 'DB3 · 尼泊尔 DSBC 梵文陀罗尼集', shortLabel: 'DB3 尼泊尔DSBC' },
-  { id: 'db4_84000', label: 'DB4 · 84000 甘珠尔秘密部梵藏真言', shortLabel: 'DB4 84000藏密' },
-  { id: 'db5_buddhanexus', label: 'DB5 · BuddhaNexus 四语平行文献库', shortLabel: 'DB5 BuddhaNexus' },
-  { id: 'db6_sarit', label: 'DB6 · SARIT 梵文密续原典库', shortLabel: 'DB6 SARIT密续' },
-  { id: 'db7_cudl_hidas', label: 'DB7 · 剑桥 CUDL 梵文贝叶经写本', shortLabel: 'DB7 剑桥CUDL' },
-  { id: 'db8_polyglotta', label: 'DB8 · 奥斯陆 16 本多语平行对勘', shortLabel: 'DB8 奥斯陆对勘' },
-  { id: 'db9_rkts', label: 'DB9 · 维也纳 rKTs 德格版陀罗尼集', shortLabel: 'DB9 维也纳rKTs' },
-  { id: 'db10_all_nibs', label: 'DB10 · ALL-NIBS 尼瓦尔梵本写本库', shortLabel: 'DB10 ALL-NIBS' },
-  { id: 'db11_idp_dunhuang', label: 'DB11 · IDP/CEToM 敦煌西域丝路梵本', shortLabel: 'DB11 西域丝路' },
-  { id: 'db12_muktabodha_ochs', label: 'DB12 · 牛津 OCHS 种子字辞典与密续', shortLabel: 'DB12 牛津OCHS' },
+  { id: 'all', label: '全部館藏數據庫 (CBETA + DB1–DB12)', shortLabel: '全部館藏' },
+  { id: 'db1_fangshan', label: 'DB1 · 房山石經《釋教最上乘陀羅尼集》', shortLabel: 'DB1 房山石經' },
+  { id: 'db2_taisho_ext', label: 'DB2 · 大正藏悉曇字書與續藏真言', shortLabel: 'DB2 大正悉曇' },
+  { id: 'db3_dsbc_gretil', label: 'DB3 · 尼泊爾 DSBC 梵文陀羅尼集', shortLabel: 'DB3 尼泊爾DSBC' },
+  { id: 'db4_84000', label: 'DB4 · 84000 甘珠爾秘密部梵藏真言', shortLabel: 'DB4 84000藏密' },
+  { id: 'db5_buddhanexus', label: 'DB5 · BuddhaNexus 四語平行文獻庫', shortLabel: 'DB5 BuddhaNexus' },
+  { id: 'db6_sarit', label: 'DB6 · SARIT 梵文密續原典庫', shortLabel: 'DB6 SARIT密續' },
+  { id: 'db7_cudl_hidas', label: 'DB7 · 劍橋 CUDL 梵文貝葉經寫本', shortLabel: 'DB7 劍橋CUDL' },
+  { id: 'db8_polyglotta', label: 'DB8 · 奧斯陸 16 本多語平行對勘', shortLabel: 'DB8 奧斯陸對勘' },
+  { id: 'db9_rkts', label: 'DB9 · 維也納 rKTs 德格版陀羅尼集', shortLabel: 'DB9 維也納rKTs' },
+  { id: 'db10_all_nibs', label: 'DB10 · ALL-NIBS 尼瓦爾梵本寫本庫', shortLabel: 'DB10 ALL-NIBS' },
+  { id: 'db11_idp_dunhuang', label: 'DB11 · IDP/CEToM 敦煌西域絲路梵本', shortLabel: 'DB11 西域絲路' },
+  { id: 'db12_muktabodha_ochs', label: 'DB12 · 牛津 OCHS 種子字辭典與密續', shortLabel: 'DB12 牛津OCHS' },
 ];
 
 export interface SidebarFilterProps {
@@ -62,7 +56,6 @@ export interface SidebarFilterProps {
   selectedId: string;
   activeEntry?: DharaniEntry;
   onSelectEntry: (id: string) => void;
-  /** Matching CBETA Canon scriptures (both with & without dhāraṇīs) when searching */
   canonScriptureHits?: CanonCatalogItem[];
   onSelectCanonScripture?: (item: CanonCatalogItem) => void;
   onOpenFullCanonLibrary?: () => void;
@@ -70,6 +63,8 @@ export interface SidebarFilterProps {
   onSearchChange?: (q: string) => void;
   searchScope?: SearchScope;
   onSearchScopeChange?: (scope: SearchScope) => void;
+  selectedBulei?: CbetaBuleiId | 'all';
+  onSelectBulei?: (bulei: CbetaBuleiId | 'all') => void;
   selectedCategory: DharaniCategoryId | 'all';
   onSelectCategory: (cat: DharaniCategoryId | 'all') => void;
   sourceFilter: SourceFilterType;
@@ -97,11 +92,8 @@ export interface SidebarFilterProps {
 }
 
 function formatCompactCatalogTag(entry: DharaniEntry): string {
-  if (entry.provenance.databaseBadgeZh) {
-    return entry.provenance.databaseBadgeZh.replace(/\s*·\s*/g, ' ').slice(0, 12);
-  }
   const primaryNo = (entry.taishoNo || '').split('/')[0]?.trim();
-  return primaryNo || entry.provenance.sourceType;
+  return primaryNo || entry.provenance.databaseBadgeZh || entry.provenance.sourceType;
 }
 
 export const SidebarFilter: React.FC<SidebarFilterProps> = ({
@@ -113,12 +105,12 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   onSelectEntry,
   canonScriptureHits = [],
   onSelectCanonScripture,
-  onOpenFullCanonLibrary,
   searchQuery = '',
   onSearchChange,
   searchScope = 'all',
   onSearchScopeChange,
-  selectedCategory,
+  selectedBulei: controlledBulei,
+  onSelectBulei,
   onSelectCategory,
   sourceFilter,
   onSourceFilterChange,
@@ -131,7 +123,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   playbackState,
   onPlayAllVerses,
   onStopPlayback,
-  onPlaySingleVerse,
   onJumpToSection,
   onJumpToVerse,
   sidebarMode: controlledMode,
@@ -141,58 +132,80 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
   mobileOpen = false,
   onCloseMobile,
 }) => {
-  const [visibleCount, setVisibleCount] = useState<number>(90);
-  const [outlineVisibleCount, setOutlineVisibleCount] = useState<number>(120);
+  const [visibleCount, setVisibleCount] = useState<number>(80);
   const [verseFilterQuery, setVerseFilterQuery] = useState<string>('');
+  const [internalBulei, setInternalBulei] = useState<CbetaBuleiId | 'all'>('all');
   const [internalDbSubFilter, setInternalDbSubFilter] = useState<string>('all');
   const [internalMode, setInternalMode] = useState<SidebarViewMode>('catalog');
-  const [sourceDrawerOpen, setSourceDrawerOpen] = useState<boolean>(false);
+  const [buleiExpanded, setBuleiExpanded] = useState<boolean>(false);
 
   const catalogListRef = useRef<HTMLDivElement>(null);
-  const outlineListRef = useRef<HTMLDivElement>(null);
 
   const sidebarMode = controlledMode ?? internalMode;
   const setSidebarMode = useCallback(
     (next: SidebarViewMode) => {
-      if (onSidebarModeChange) {
-        onSidebarModeChange(next);
-      } else {
-        setInternalMode(next);
-      }
+      if (onSidebarModeChange) onSidebarModeChange(next);
+      else setInternalMode(next);
     },
     [onSidebarModeChange]
   );
 
+  const selectedBulei = controlledBulei ?? internalBulei;
+  const setSelectedBulei = (next: CbetaBuleiId | 'all') => {
+    if (onSelectBulei) onSelectBulei(next);
+    else setInternalBulei(next);
+  };
+
   const selectedDbSubFilter = controlledDbSubFilter ?? internalDbSubFilter;
   const setSelectedDbSubFilter = (dbId: string) => {
-    if (onSelectDbSubFilter) {
-      onSelectDbSubFilter(dbId);
-    } else {
-      setInternalDbSubFilter(dbId);
-    }
+    if (onSelectDbSubFilter) onSelectDbSubFilter(dbId);
+    else setInternalDbSubFilter(dbId);
   };
 
   useEffect(() => {
     setVerseFilterQuery('');
-    setOutlineVisibleCount(120);
   }, [selectedId]);
 
   const dbFilteredEntries = useMemo(() => {
-    if (selectedDbSubFilter === 'all') return entries;
-    return entries.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
-  }, [entries, selectedDbSubFilter]);
+    let base = entries;
+    if (selectedDbSubFilter !== 'all') {
+      base = base.filter((e) => e.provenance.databaseId === selectedDbSubFilter);
+    }
+    if (selectedBulei !== 'all') {
+      base = base.filter((e) => resolveEntryBulei(e) === selectedBulei);
+    }
+    return base;
+  }, [entries, selectedDbSubFilter, selectedBulei]);
 
-  const categoryCounts = useMemo(() => {
-    const pool = preCategoryEntries ?? dbFilteredEntries;
-    const counts: Record<string, number> = { all: pool.length };
-    for (const cat of DHARANI_CATEGORIES) {
-      counts[cat.id] = 0;
+  const buleiFilteredCanonHits = useMemo(() => {
+    if (selectedBulei === 'all') return canonScriptureHits;
+    return canonScriptureHits.filter((c) => resolveCanonItemBulei(c) === selectedBulei);
+  }, [canonScriptureHits, selectedBulei]);
+
+  // Compute live CBETA 部類 counts from preCategoryEntries + canonScriptureHits
+  const buleiCounts = useMemo(() => {
+    const pool = preCategoryEntries ?? entries;
+    const map = new Map<CbetaBuleiId, number>();
+    for (const b of CBETA_BULEI_LIST) map.set(b.id, 0);
+    for (const e of pool) {
+      const bid = resolveEntryBulei(e);
+      map.set(bid, (map.get(bid) || 0) + 1);
     }
-    for (const item of pool) {
-      counts[item.categoryId] = (counts[item.categoryId] || 0) + 1;
+    for (const c of canonScriptureHits) {
+      const bid = resolveCanonItemBulei(c);
+      map.set(bid, (map.get(bid) || 0) + 1);
     }
-    return counts;
-  }, [preCategoryEntries, dbFilteredEntries]);
+    return map;
+  }, [preCategoryEntries, entries, canonScriptureHits]);
+
+  const visibleBuleiItems = useMemo(() => {
+    const withCounts = CBETA_BULEI_LIST.map((b) => ({
+      meta: b,
+      count: buleiCounts.get(b.id) || 0,
+    }));
+    if (buleiExpanded) return withCounts;
+    return withCounts.slice(0, 8);
+  }, [buleiCounts, buleiExpanded]);
 
   const selectedIdxInFiltered = useMemo(
     () => dbFilteredEntries.findIndex((e) => e.id === selectedId),
@@ -211,89 +224,22 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     [dbFilteredEntries, effectiveVisibleCount]
   );
 
-  const scrollActiveCatalogItemIntoView = useCallback(
-    (behavior: ScrollBehavior = 'smooth') => {
-      const container = catalogListRef.current;
-      if (!container || !selectedId) return;
-      const row = Array.from(
-        container.querySelectorAll<HTMLElement>('[data-entry-id]')
-      ).find((el) => el.getAttribute('data-entry-id') === selectedId);
-      if (!row) return;
-      const containerRect = container.getBoundingClientRect();
-      const rowRect = row.getBoundingClientRect();
-      const isFullyVisible =
-        rowRect.top >= containerRect.top + 4 && rowRect.bottom <= containerRect.bottom - 4;
-      if (!isFullyVisible) {
-        const rowTopInContainer = rowRect.top - containerRect.top + container.scrollTop;
-        const offsetTop =
-          rowTopInContainer - container.clientHeight / 2 + rowRect.height / 2;
-        container.scrollTo({ top: Math.max(0, offsetTop), behavior });
-      }
-    },
-    [selectedId]
-  );
-
-  useEffect(() => {
-    if (sidebarMode !== 'catalog' || sidebarCollapsed) return;
-    const timer = window.setTimeout(() => {
-      scrollActiveCatalogItemIntoView('smooth');
-    }, 45);
-    return () => window.clearTimeout(timer);
-  }, [selectedId, sidebarMode, sidebarCollapsed, mobileOpen, scrollActiveCatalogItemIntoView]);
-
-  useEffect(() => {
-    if (
-      sidebarMode !== 'outline' ||
-      sidebarCollapsed ||
-      !playbackState?.isPlaying ||
-      playbackState.currentVerseIndex === null
-    ) {
-      return;
-    }
-    if (playbackState.currentVerseIndex > outlineVisibleCount - 4) {
-      setOutlineVisibleCount((prev) => prev + 60);
-    }
-    const container = outlineListRef.current;
-    if (!container) return;
-    const row = container.querySelector<HTMLElement>(
-      `[data-verse-num="${playbackState.currentVerseIndex}"]`
-    );
-    if (!row) return;
-    const cRect = container.getBoundingClientRect();
-    const rRect = row.getBoundingClientRect();
-    if (rRect.top < cRect.top + 16 || rRect.bottom > cRect.bottom - 16) {
-      const rowTopInContainer = rRect.top - cRect.top + container.scrollTop;
-      const targetTop = rowTopInContainer - container.clientHeight / 2 + rRect.height / 2;
-      container.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
-    }
-  }, [
-    sidebarMode,
-    sidebarCollapsed,
-    playbackState?.isPlaying,
-    playbackState?.currentVerseIndex,
-    outlineVisibleCount,
-  ]);
-
-  const hasSourceOrDbFilter = sourceFilter !== 'all' || selectedDbSubFilter !== 'all';
-  const isSourcePanelExpanded = sourceDrawerOpen || hasSourceOrDbFilter;
-
   const hasAnyActiveFilter =
     Boolean(searchQuery.trim()) ||
+    selectedBulei !== 'all' ||
     searchScope !== 'all' ||
-    selectedCategory !== 'all' ||
     onlyBookmarked ||
-    hasSourceOrDbFilter;
+    sourceFilter !== 'all' ||
+    selectedDbSubFilter !== 'all';
 
   const handleResetAllFilters = () => {
     onSearchChange?.('');
     onSearchScopeChange?.('all');
+    setSelectedBulei('all');
     onSelectCategory('all');
     onSourceFilterChange('all');
     setSelectedDbSubFilter('all');
-    if (onlyBookmarked) {
-      onToggleOnlyBookmarked();
-    }
-    setSourceDrawerOpen(false);
+    if (onlyBookmarked) onToggleOnlyBookmarked();
   };
 
   const resolvedCurrentEntry = useMemo(
@@ -301,53 +247,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
     [activeEntry, dbFilteredEntries, selectedId]
   );
 
-  const filteredOutlineVerses = useMemo(() => {
-    if (!resolvedCurrentEntry) return [];
-    const q = verseFilterQuery.trim().toLowerCase();
-    const allIndexed = resolvedCurrentEntry.verses.map((verse, arrayIdx) => ({
-      verse,
-      arrayIdx,
-    }));
-    if (!q) return allIndexed;
-    const numericMatch = q.replace(/^[第#v\s]+|[句\s]+$/g, '');
-    return allIndexed.filter(({ verse }) => {
-      if (numericMatch && /^\d+$/.test(numericMatch) && verse.index === Number(numericMatch)) {
-        return true;
-      }
-      const hay = `${verse.index} ${verse.classicalTranslitZh || ''} ${verse.modernPhoneticZh || ''} ${verse.iast} ${verse.meaningZh || ''} ${verse.tangNoteZh || ''}`.toLowerCase();
-      return hay.includes(q);
-    });
-  }, [resolvedCurrentEntry, verseFilterQuery]);
-
-  const activeDbShortLabel = useMemo(() => {
-    const found = TWELVE_DB_OPTIONS.find((d) => d.id === selectedDbSubFilter);
-    return found && found.id !== 'all' ? found.shortLabel : null;
-  }, [selectedDbSubFilter]);
-
-  const activeFilterSummaryLabel = useMemo(() => {
-    const parts: string[] = [];
-    if (searchScope === 'dharani') parts.push('搜陀罗尼');
-    else if (searchScope === 'sutra') parts.push('搜经文');
-    if (searchQuery.trim()) parts.push(`「${searchQuery.trim()}」`);
-    if (selectedCategory !== 'all') parts.push(SHORT_CATEGORY_LABELS[selectedCategory]);
-    if (onlyBookmarked) parts.push('仅看收藏');
-    if (activeDbShortLabel) {
-      parts.push(activeDbShortLabel);
-    } else if (sourceFilter === 'global-12db') {
-      parts.push('12大国际库');
-    } else if (sourceFilter === 'cbeta-siddham') {
-      parts.push('CBETA对音');
-    } else if (sourceFilter === 'gretil-sanskrit') {
-      parts.push('GRETIL梵本');
-    }
-    return parts.join(' · ');
-  }, [searchScope, searchQuery, selectedCategory, onlyBookmarked, activeDbShortLabel, sourceFilter]);
-
   const currentVerseCount = resolvedCurrentEntry?.verses.length ?? 0;
-  const hasInterlinear = Boolean(
-    resolvedCurrentEntry?.provenance.cbetaInterlinearTokens &&
-      resolvedCurrentEntry.provenance.cbetaInterlinearTokens.length > 0
-  );
 
   return (
     <>
@@ -358,112 +258,26 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
       />
 
       {sidebarCollapsed && (
-        <aside
-          className="sidebar-collapsed-rail"
-          aria-label="已收起的经典与陀罗尼快捷导航栏"
-        >
+        <aside className="sidebar-collapsed-rail" aria-label="已收起的目錄欄">
           <button
             id="btn-expand-sidebar-rail"
             type="button"
             className="sidebar-rail-btn is-primary"
             onClick={onToggleSidebarCollapsed}
-            title="展开左侧经典与陀罗尼目录栏"
+            title="展開目錄欄"
           >
             <PanelLeftOpen size={16} />
-          </button>
-
-          <div className="sidebar-rail-divider" />
-
-          <button
-            type="button"
-            className={`sidebar-rail-btn ${sidebarMode === 'catalog' ? 'is-active' : ''}`}
-            onClick={() => {
-              setSidebarMode('catalog');
-              onToggleSidebarCollapsed?.();
-            }}
-            title={`展开经典选单（当前 ${dbFilteredEntries.length} 部）`}
-          >
-            <BookOpen size={16} />
-          </button>
-
-          <button
-            type="button"
-            className={`sidebar-rail-btn ${sidebarMode === 'outline' ? 'is-active' : ''}`}
-            onClick={() => {
-              setSidebarMode('outline');
-              onToggleSidebarCollapsed?.();
-            }}
-            title="展开本篇导览"
-          >
-            <ListOrdered size={16} />
-            {currentVerseCount > 1 && (
-              <span className="sidebar-rail-badge">
-                {currentVerseCount > 99 ? '99+' : currentVerseCount}
-              </span>
-            )}
-          </button>
-
-          <button
-            type="button"
-            className={`sidebar-rail-btn ${onlyBookmarked ? 'is-active' : ''}`}
-            onClick={() => {
-              if (!onlyBookmarked) onToggleOnlyBookmarked();
-              setSidebarMode('catalog');
-              onToggleSidebarCollapsed?.();
-            }}
-            title={`查看已收藏经典（${bookmarkedIds.size} 部）`}
-          >
-            <Bookmark size={15} />
-            {bookmarkedIds.size > 0 && (
-              <span className="sidebar-rail-badge">{bookmarkedIds.size}</span>
-            )}
-          </button>
-
-          <div className="sidebar-rail-divider" />
-
-          <button
-            type="button"
-            className="sidebar-rail-btn"
-            disabled={selectedIdxInFiltered <= 0}
-            onClick={() => {
-              if (selectedIdxInFiltered > 0) {
-                onSelectEntry(dbFilteredEntries[selectedIdxInFiltered - 1].id);
-              }
-            }}
-            title="切换至上一部"
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          <button
-            type="button"
-            className="sidebar-rail-btn"
-            disabled={
-              selectedIdxInFiltered < 0 ||
-              selectedIdxInFiltered >= dbFilteredEntries.length - 1
-            }
-            onClick={() => {
-              if (
-                selectedIdxInFiltered >= 0 &&
-                selectedIdxInFiltered < dbFilteredEntries.length - 1
-              ) {
-                onSelectEntry(dbFilteredEntries[selectedIdxInFiltered + 1].id);
-              }
-            }}
-            title="切换至下一部"
-          >
-            <ChevronRight size={16} />
           </button>
         </aside>
       )}
 
       <aside
-        className={`sidebar-panel ${mobileOpen ? 'is-mobile-open' : ''}`}
+        className={`sidebar-panel is-cbeta-sidebar ${mobileOpen ? 'is-mobile-open' : ''}`}
         style={sidebarCollapsed && !mobileOpen ? { display: 'none' } : undefined}
-        aria-label="经典选单与本篇导览"
+        aria-label="CBETA 部類與經典目錄"
       >
         <div className="sidebar-mode-header">
-          <div className="sidebar-mode-tabs" role="tablist" aria-label="左侧栏功能切换">
+          <div className="sidebar-mode-tabs" role="tablist">
             <button
               id="sidebar-tab-catalog"
               type="button"
@@ -473,9 +287,9 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               onClick={() => setSidebarMode('catalog')}
             >
               <BookOpen size={13} />
-              <span>经典选单</span>
+              <span>部類目錄</span>
               <span className="sidebar-mode-badge">
-                {dbFilteredEntries.length + canonScriptureHits.length}
+                {dbFilteredEntries.length + buleiFilteredCanonHits.length}
               </span>
             </button>
 
@@ -487,15 +301,8 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               className={`sidebar-mode-tab ${sidebarMode === 'outline' ? 'active' : ''}`}
               onClick={() => setSidebarMode('outline')}
             >
-              {playbackState?.isPlaying ? (
-                <span className="sidebar-live-dot" title="正在同步讽诵中" />
-              ) : (
-                <ListOrdered size={13} />
-              )}
-              <span>本篇导览</span>
-              <span className="sidebar-mode-badge">
-                {currentVerseCount > 0 ? `${currentVerseCount}句` : '原文'}
-              </span>
+              <ListOrdered size={13} />
+              <span>本篇導覽</span>
             </button>
           </div>
 
@@ -505,7 +312,7 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               type="button"
               className="sidebar-icon-collapse-btn sidebar-desktop-collapse-only"
               onClick={onToggleSidebarCollapsed}
-              title="收起左侧栏，切换为宽屏沉浸阅藏模式"
+              title="收起左側欄"
             >
               <PanelLeftClose size={15} />
             </button>
@@ -518,7 +325,6 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
               className="sidebar-icon-collapse-btn sidebar-mobile-close-only"
               style={{ display: 'none' }}
               onClick={onCloseMobile}
-              title="关闭目录抽屉"
             >
               <X size={15} />
             </button>
@@ -528,216 +334,117 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
         {sidebarMode === 'catalog' ? (
           <>
             <div className="sidebar-top-controls">
-              <div className="sidebar-search-row">
-                <div className="sidebar-search-input-wrap">
-                  <Search size={13} className="sidebar-search-icon" />
-                  <input
-                    id="sidebar-catalog-search-input"
-                    type="search"
-                    autoComplete="off"
-                    className="sidebar-search-input"
-                    placeholder={searchScope === 'dharani' ? '搜陀罗尼名称/本尊/经号...' : searchScope === 'sutra' ? '搜佛经经名/经号/译者...' : '搜陀罗尼或佛经经名/经号...'}
-                    value={searchQuery}
-                    onChange={(e) => {
-                      setVisibleCount(90);
-                      onSearchChange?.(e.target.value);
+              {/* Compact Type Scope Filter: 全部 | 梵文咒 | 梵音咒 | 經文 */}
+              <div className="sidebar-scope-segmented" role="group" aria-label="文獻類型">
+                {(
+                  [
+                    { id: 'all', label: '全部' },
+                    { id: 'dharani-sanskrit', label: '陀羅尼·梵文' },
+                    { id: 'dharani-phonetic', label: '陀羅尼·梵音' },
+                    { id: 'sutra-text', label: '經文' },
+                  ] as Array<{ id: SearchScope; label: string }>
+                ).map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`sidebar-scope-btn ${searchScope === item.id ? 'active' : ''}`}
+                    onClick={() => {
+                      setVisibleCount(80);
+                      onSearchScopeChange?.(item.id);
                     }}
-                  />
-                  {searchQuery && (
-                    <button
-                      id="sidebar-clear-search-btn"
-                      type="button"
-                      className="sidebar-search-clear"
-                      onClick={() => onSearchChange?.('')}
-                      title="清除搜索词"
-                    >
-                      <X size={12} />
-                    </button>
-                  )}
-                </div>
-
-                <button
-                  id="filter-bookmarks-toggle"
-                  type="button"
-                  className={`sidebar-quick-toggle ${onlyBookmarked ? 'is-gold-active' : ''}`}
-                  onClick={onToggleOnlyBookmarked}
-                  title="仅显示我收藏的经典"
-                >
-                  <Bookmark size={12} fill={onlyBookmarked ? 'currentColor' : 'none'} />
-                  <span>{bookmarkedIds.size > 0 ? bookmarkedIds.size : '收藏'}</span>
-                </button>
-
-                <button
-                  id="sidebar-source-drawer-toggle"
-                  type="button"
-                  className={`sidebar-quick-toggle ${hasSourceOrDbFilter ? 'is-lapis-active' : ''}`}
-                  onClick={() => setSourceDrawerOpen((v) => !v)}
-                  title="按权威文献库或 12 大国际梵典库 (DB1–DB12) 细分筛选"
-                >
-                  <SlidersHorizontal size={12} />
-                  <span>文献源</span>
-                  <ChevronDown
-                    size={11}
-                    style={{
-                      transform: isSourcePanelExpanded ? 'rotate(180deg)' : 'none',
-                      transition: 'transform 0.16s ease',
-                    }}
-                  />
-                </button>
+                  >
+                    {item.label}
+                  </button>
+                ))}
               </div>
 
-              {onSearchScopeChange && (
-                <div className="sidebar-scope-switch" role="tablist" aria-label="侧栏检索范围切换">
-                  {(
-                    [
-                      { id: 'all', label: '全部' },
-                      { id: 'dharani', label: '搜陀罗尼' },
-                      { id: 'sutra', label: '搜经文' },
-                    ] as Array<{ id: SearchScope; label: string }>
-                  ).map((sc) => (
+              {/* Official CBETA 部類 List */}
+              <div className="sidebar-cbeta-bulei-box" role="group" aria-label="CBETA 部類分類">
+                <div className="sidebar-bulei-box-head">
+                  <span>CBETA 部類</span>
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem' }}>
                     <button
-                      key={sc.id}
-                      id={`sidebar-scope-${sc.id}`}
+                      id="filter-bookmarks-toggle"
                       type="button"
-                      role="tab"
-                      aria-selected={searchScope === sc.id}
-                      className={`sidebar-scope-btn ${searchScope === sc.id ? 'active' : ''}`}
-                      onClick={() => {
-                        setVisibleCount(90);
-                        onSearchScopeChange(sc.id);
-                      }}
+                      className={`orig-link-btn ${onlyBookmarked ? 'is-active' : ''}`}
+                      onClick={onToggleOnlyBookmarked}
                     >
-                      {sc.label}
+                      <Bookmark size={11} style={{ verticalAlign: '-1px', marginRight: '2px' }} />
+                      收藏{bookmarkedIds.size > 0 ? `(${bookmarkedIds.size})` : ''}
                     </button>
-                  ))}
+                    {hasAnyActiveFilter && (
+                      <button
+                        id="sidebar-reset-filters-btn"
+                        type="button"
+                        className="orig-link-btn"
+                        onClick={handleResetAllFilters}
+                      >
+                        重置
+                      </button>
+                    )}
+                  </div>
                 </div>
-              )}
 
-              {searchScope !== 'sutra' && (
-              <div className="sidebar-cat-grid" role="group" aria-label="经咒法门分类">
-                <button
-                  id="cat-pill-all"
-                  type="button"
-                  className={`sidebar-cat-pill ${selectedCategory === 'all' ? 'active' : ''}`}
-                  onClick={() => {
-                    setVisibleCount(90);
-                    onSelectCategory('all');
-                  }}
-                >
-                  <span className="sidebar-cat-label">{SHORT_CATEGORY_LABELS.all}</span>
-                  <span className="sidebar-cat-count">
-                    {hasAnyActiveFilter ? categoryCounts.all : totalCorpusCount}
-                  </span>
-                </button>
+                <div className="sidebar-bulei-list">
+                  <button
+                    id="bulei-item-all"
+                    type="button"
+                    className={`sidebar-bulei-item ${selectedBulei === 'all' ? 'active' : ''}`}
+                    onClick={() => {
+                      setVisibleCount(80);
+                      setSelectedBulei('all');
+                    }}
+                  >
+                    <span>全部部類</span>
+                    <span className="bulei-item-count">
+                      ({(preCategoryEntries ?? entries).length + canonScriptureHits.length})
+                    </span>
+                  </button>
 
-                {DHARANI_CATEGORIES.map((cat) => {
-                  const count = categoryCounts[cat.id] ?? 0;
-                  const isSelected = selectedCategory === cat.id;
-                  return (
+                  {visibleBuleiItems.map(({ meta, count }) => (
                     <button
-                      key={cat.id}
-                      id={`cat-pill-${cat.id}`}
+                      key={meta.id}
+                      id={`bulei-item-${meta.id}`}
                       type="button"
-                      className={`sidebar-cat-pill ${isSelected ? 'active' : ''} ${
+                      className={`sidebar-bulei-item ${selectedBulei === meta.id ? 'active' : ''} ${
                         count === 0 ? 'is-zero' : ''
                       }`}
                       onClick={() => {
-                        setVisibleCount(90);
-                        if (cat.id !== 'global-12db-canon' && selectedDbSubFilter !== 'all') {
-                          setSelectedDbSubFilter('all');
-                        }
-                        onSelectCategory(isSelected ? 'all' : cat.id);
+                        setVisibleCount(80);
+                        setSelectedBulei(selectedBulei === meta.id ? 'all' : meta.id);
                       }}
-                      title={`${cat.nameZh}：${cat.descriptionZh}`}
+                      title={meta.taishoRangeNote}
                     >
-                      <span className="sidebar-cat-label">{SHORT_CATEGORY_LABELS[cat.id]}</span>
-                      <span className="sidebar-cat-count">{count}</span>
+                      <span>{meta.labelTrad}</span>
+                      <span className="bulei-item-count">({count})</span>
                     </button>
-                  );
-                })}
-                {((categoryCounts.custom ?? 0) > 0 || selectedCategory === 'custom') && (
-                  <button
-                    id="cat-pill-custom"
-                    type="button"
-                    className={`sidebar-cat-pill ${
-                      selectedCategory === 'custom' ? 'active' : ''
-                    }`}
-                    onClick={() => {
-                      setVisibleCount(90);
-                      onSelectCategory(selectedCategory === 'custom' ? 'all' : 'custom');
-                    }}
-                  >
-                    <span className="sidebar-cat-label">{SHORT_CATEGORY_LABELS.custom}</span>
-                    <span className="sidebar-cat-count">{categoryCounts.custom ?? 0}</span>
-                  </button>
-                )}
-              </div>
-
-              )}
-
-              <div
-                className={`sidebar-source-drawer ${
-                  isSourcePanelExpanded ? '' : 'is-collapsed'
-                }`}
-                aria-label="文献来源与12大国际梵典库筛选"
-              >
-                <div className="source-filter-row" role="group" aria-label="权威数据源筛选">
-                  <button
-                    id="source-filter-all"
-                    type="button"
-                    className={`source-chip-btn ${sourceFilter === 'all' ? 'active' : ''}`}
-                    onClick={() => {
-                      setSelectedDbSubFilter('all');
-                      onSourceFilterChange('all');
-                    }}
-                  >
-                    全部原典
-                  </button>
-                  <button
-                    id="source-filter-12db"
-                    type="button"
-                    className={`source-chip-btn ${sourceFilter === 'global-12db' ? 'active' : ''}`}
-                    onClick={() => onSourceFilterChange('global-12db')}
-                  >
-                    12大国际库
-                  </button>
-                  <button
-                    id="source-filter-cbeta"
-                    type="button"
-                    className={`source-chip-btn ${sourceFilter === 'cbeta-siddham' ? 'active' : ''}`}
-                    onClick={() => {
-                      setSelectedDbSubFilter('all');
-                      onSourceFilterChange('cbeta-siddham');
-                    }}
-                  >
-                    CBETA对音
-                  </button>
-                  <button
-                    id="source-filter-gretil"
-                    type="button"
-                    className={`source-chip-btn ${sourceFilter === 'gretil-sanskrit' ? 'active' : ''}`}
-                    onClick={() => {
-                      setSelectedDbSubFilter('all');
-                      onSourceFilterChange('gretil-sanskrit');
-                    }}
-                  >
-                    GRETIL梵本
-                  </button>
+                  ))}
                 </div>
 
-                <div className="sidebar-db-select-row">
-                  <label htmlFor="sidebar-12db-select" className="sidebar-db-select-label">
-                    国际分库：
-                  </label>
+                <button
+                  type="button"
+                  className="sidebar-bulei-expand-btn"
+                  onClick={() => setBuleiExpanded((v) => !v)}
+                >
+                  <span>{buleiExpanded ? '收起部分部類 ▴' : `展開全部 ${CBETA_BULEI_LIST.length} 個部類 ▾`}</span>
+                </button>
+              </div>
+
+              {/* Clean Collapsed Database Subfilter (preserves SSR db1_fangshan..db12_muktabodha_ochs) */}
+              <details className="sidebar-db-details">
+                <summary>館藏數據庫細分篩選 (DB1–DB12)</summary>
+                <div style={{ paddingTop: '0.4rem' }}>
                   <select
                     id="sidebar-12db-select"
                     className="sidebar-db-select"
                     value={selectedDbSubFilter}
                     onChange={(e) => {
                       const nextDb = e.target.value;
-                      setVisibleCount(90);
+                      setVisibleCount(80);
                       if (nextDb !== 'all' && sourceFilter !== 'global-12db') {
                         onSourceFilterChange('global-12db');
+                      } else if (nextDb === 'all' && sourceFilter === 'global-12db') {
+                        onSourceFilterChange('all');
                       }
                       setSelectedDbSubFilter(nextDb);
                     }}
@@ -749,52 +456,20 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                     ))}
                   </select>
                 </div>
-              </div>
-
-              {hasAnyActiveFilter && (
-                <div className="sidebar-active-filter-bar">
-                  <span className="sidebar-active-filter-text" title={activeFilterSummaryLabel}>
-                    筛选：{activeFilterSummaryLabel} · 共{' '}
-                    <strong>{dbFilteredEntries.length + canonScriptureHits.length}</strong> 部
-                  </span>
-                  <button
-                    id="sidebar-reset-filters-btn"
-                    type="button"
-                    className="sidebar-filter-reset-btn"
-                    onClick={handleResetAllFilters}
-                  >
-                    重置全部
-                  </button>
-                </div>
-              )}
+              </details>
             </div>
 
             <div ref={catalogListRef} className="dharani-catalog-list">
-              {/* Full-Canon Scripture Matches (including pure non-Dharani scriptures!) */}
-              {canonScriptureHits.length > 0 && onSelectCanonScripture && (
+              {/* Canon Scripture Matches */}
+              {buleiFilteredCanonHits.length > 0 && onSelectCanonScripture && (
                 <>
                   <div className="sidebar-canon-section-header">
-                    <span>CBETA 全藏经典原文匹配（{canonScriptureHits.length} 部）</span>
-                    {onOpenFullCanonLibrary && (
-                      <button
-                        type="button"
-                        onClick={onOpenFullCanonLibrary}
-                        style={{
-                          background: 'transparent',
-                          border: 'none',
-                          color: 'var(--accent-lapis)',
-                          fontSize: '0.7rem',
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        全藏库 →
-                      </button>
-                    )}
+                    <span>藏經原典經文（{buleiFilteredCanonHits.length} 部）</span>
                   </div>
-                  {canonScriptureHits.slice(0, 30).map((c) => {
+                  {buleiFilteredCanonHits.slice(0, 25).map((c) => {
                     const synthId = `canon-scripture-${c.id}`;
                     const isSelected = selectedId === synthId;
+                    const buleiLabel = CBETA_BULEI_MAP[resolveCanonItemBulei(c)].shortZh;
                     return (
                       <div
                         key={synthId}
@@ -810,25 +485,14 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                           }}
                         >
                           <div className="catalog-row-title-line">
-                            {isSelected && (
-                              <span className="catalog-reading-pill">
-                                <span>当前</span>
-                              </span>
-                            )}
                             <span className="catalog-row-title-zh">《{c.title}》</span>
                           </div>
                           <div className="catalog-row-meta-line">
-                            {c.dharani > 0 ? (
-                              <span className="catalog-verse-count-pill">
-                                原文+咒{c.dharani}段
-                              </span>
-                            ) : (
-                              <span className="badge-pure-sutra">纯经文原文</span>
-                            )}
+                            <span className="badge-pure-sutra">
+                              {c.dharani > 0 ? `經文+咒${c.dharani}` : '經文'}
+                            </span>
                             <span className="catalog-taisho-tag">{c.id}</span>
-                            {c.byline && (
-                              <span className="catalog-deity-snippet">{c.byline}</span>
-                            )}
+                            <span className="catalog-deity-snippet">{buleiLabel}</span>
                           </div>
                         </button>
                       </div>
@@ -837,46 +501,27 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 </>
               )}
 
-              {dbFilteredEntries.length === 0 && canonScriptureHits.length === 0 ? (
-                <div
-                  style={{
-                    padding: '2rem 1rem',
-                    textAlign: 'center',
-                    color: 'var(--text-muted)',
-                    fontSize: '0.82rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '0.65rem',
-                  }}
-                >
-                  <div>当前筛选条件下暂无匹配的经典或陀罗尼。</div>
+              {dbFilteredEntries.length === 0 && buleiFilteredCanonHits.length === 0 ? (
+                <div className="sidebar-empty-hint">
+                  <div>當前部類或篩選下暫無條目。</div>
                   {hasAnyActiveFilter && (
                     <button
                       type="button"
-                      className="btn-scholarly primary"
-                      style={{ fontSize: '0.76rem', padding: '0.35rem 0.78rem' }}
+                      className="btn-scholarly"
                       onClick={handleResetAllFilters}
                     >
                       <RotateCcw size={13} />
-                      <span>清除筛选，查看全部 {totalCorpusCount} 部</span>
+                      <span>查看全部 ({totalCorpusCount})</span>
                     </button>
                   )}
                 </div>
               ) : (
                 <>
-                  {canonScriptureHits.length > 0 && dbFilteredEntries.length > 0 && (
-                    <div className="sidebar-canon-section-header">
-                      <span>多体精校与 12 大数据库条目（{dbFilteredEntries.length} 部）</span>
-                    </div>
-                  )}
                   {displayedEntries.map((entry) => {
                     const isSelected = entry.id === selectedId;
                     const isBookmarked = bookmarkedIds.has(entry.id);
-                    const hasSiddhamTokens =
-                      entry.provenance.cbetaInterlinearTokens &&
-                      entry.provenance.cbetaInterlinearTokens.length > 0;
-                    const isChantingThis = Boolean(isSelected && playbackState?.isPlaying);
+                    const kind = classifyDharaniEntryKind(entry);
+                    const buleiLabel = CBETA_BULEI_MAP[resolveEntryBulei(entry)].shortZh;
                     const compactTag = formatCompactCatalogTag(entry);
 
                     return (
@@ -893,44 +538,26 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                             onSelectEntry(entry.id);
                             onCloseMobile?.();
                           }}
-                          title={`${entry.titleZh}\n${entry.titleSanskritIast}\n出处：${entry.taishoNo}`}
                         >
                           <div className="catalog-row-title-line">
-                            {isSelected && (
-                              <span className="catalog-reading-pill">
-                                {isChantingThis ? (
-                                  <>
-                                    <Volume2 size={10} />
-                                    <span>讽诵中</span>
-                                  </>
-                                ) : (
-                                  <span>当前</span>
-                                )}
-                              </span>
-                            )}
                             <span className="catalog-row-title-zh">{entry.titleZh}</span>
                           </div>
 
                           <div className="catalog-row-meta-line">
-                            {entry.verses.length > 0 ? (
-                              <span className="catalog-verse-count-pill">
-                                原文+{entry.verses.length}句
-                              </span>
+                            {kind === 'dharani-sanskrit' ? (
+                              <span className="catalog-kind-tag is-skt">梵文</span>
+                            ) : kind === 'dharani-phonetic' ? (
+                              <span className="catalog-kind-tag is-pho">梵音</span>
                             ) : (
-                              <span className="badge-pure-sutra">纯经文原文</span>
+                              <span className="badge-pure-sutra">經文</span>
                             )}
-                            {entry.deityZh && (
-                              <span className="catalog-deity-snippet">{entry.deityZh}</span>
-                            )}
+                            <span className="catalog-deity-snippet">{buleiLabel}</span>
                             <span className="catalog-taisho-tag">{compactTag}</span>
-                            {hasSiddhamTokens && (
-                              <span className="badge-siddham-tt">悉昙对音</span>
-                            )}
                           </div>
                         </button>
 
-                        <div className="catalog-entry-actions">
-                          {onToggleBookmark && (
+                        {onToggleBookmark && (
+                          <div className="catalog-entry-actions">
                             <button
                               type="button"
                               className={`catalog-fav-btn ${isBookmarked ? 'is-bookmarked' : ''}`}
@@ -938,64 +565,27 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                                 e.stopPropagation();
                                 onToggleBookmark(entry.id);
                               }}
-                              title={isBookmarked ? '取消收藏' : '收藏'}
-                              aria-label={isBookmarked ? '取消收藏' : '收藏'}
+                              aria-label="收藏"
                             >
-                              <Bookmark
-                                size={13}
-                                fill={isBookmarked ? 'currentColor' : 'none'}
-                              />
+                              <Bookmark size={13} fill={isBookmarked ? 'currentColor' : 'none'} />
                             </button>
-                          )}
-
-                          {isSelected && entry.verses.length > 1 && (
-                            <button
-                              type="button"
-                              className="catalog-outline-shortcut-btn"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSidebarMode('outline');
-                              }}
-                              title="打开本篇逐句导览"
-                            >
-                              <span>句目</span>
-                              <ChevronRight size={11} />
-                            </button>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
 
                   {dbFilteredEntries.length > effectiveVisibleCount && (
-                    <div
-                      style={{
-                        padding: '0.68rem',
-                        display: 'flex',
-                        gap: '0.42rem',
-                        flexWrap: 'wrap',
-                      }}
-                    >
+                    <div style={{ padding: '0.6rem', display: 'flex', gap: '0.4rem' }}>
                       <button
                         id="btn-load-more-catalog"
                         type="button"
-                        className="btn-secondary-gold"
-                        style={{ flex: 1, justifyContent: 'center', fontSize: '0.74rem' }}
+                        className="btn-scholarly"
+                        style={{ flex: 1, justifyContent: 'center' }}
                         onClick={() => setVisibleCount((prev) => prev + 150)}
                       >
                         <ChevronDown size={13} />
-                        <span>
-                          继续加载 (+150 · 剩 {dbFilteredEntries.length - effectiveVisibleCount})
-                        </span>
-                      </button>
-                      <button
-                        id="btn-load-all-catalog"
-                        type="button"
-                        className="btn-secondary-gold"
-                        style={{ fontSize: '0.74rem' }}
-                        onClick={() => setVisibleCount(dbFilteredEntries.length)}
-                      >
-                        全部 ({dbFilteredEntries.length})
+                        <span>載入更多（剩 {dbFilteredEntries.length - effectiveVisibleCount}）</span>
                       </button>
                     </div>
                   )}
@@ -1019,25 +609,11 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
                 <span>上一部</span>
               </button>
 
-              <button
-                id="sidebar-locate-active-btn"
-                type="button"
-                className="sidebar-locate-btn"
-                onClick={() => {
-                  if (selectedIdxInFiltered >= 0) {
-                    scrollActiveCatalogItemIntoView('smooth');
-                  } else if (hasAnyActiveFilter) {
-                    handleResetAllFilters();
-                  }
-                }}
-              >
-                <Crosshair size={12} />
-                <span>
-                  {selectedIdxInFiltered >= 0
-                    ? `第 ${selectedIdxInFiltered + 1} / ${dbFilteredEntries.length} 部`
-                    : '定位当前经典'}
-                </span>
-              </button>
+              <span style={{ fontSize: '0.73rem', color: 'var(--text-muted)' }}>
+                {selectedIdxInFiltered >= 0
+                  ? `${selectedIdxInFiltered + 1} / ${dbFilteredEntries.length}`
+                  : `${dbFilteredEntries.length} 部`}
+              </span>
 
               <button
                 id="sidebar-next-entry-btn"
@@ -1062,304 +638,97 @@ export const SidebarFilter: React.FC<SidebarFilterProps> = ({
             </div>
           </>
         ) : (
-          <>
-            {resolvedCurrentEntry ? (
-              <>
-                <div className="sidebar-outline-header-card">
-                  <div className="outline-scripture-kicker">
-                    <span>
-                      {currentVerseCount > 0
-                        ? `当前研读 · 原文 + ${currentVerseCount} 句陀罗尼`
-                        : '当前研读 · 纯经文原典'}
-                    </span>
-                    <span className="catalog-taisho-tag">
-                      {formatCompactCatalogTag(resolvedCurrentEntry)}
-                    </span>
-                  </div>
-
-                  <div
-                    className="outline-scripture-title"
-                    title={resolvedCurrentEntry.titleZh}
-                  >
-                    {resolvedCurrentEntry.titleZh}
-                  </div>
-
-                  <div className="outline-quick-actions">
-                    {currentVerseCount > 0 &&
-                      (playbackState?.isPlaying ? (
-                        <button
-                          id="outline-stop-chant-btn"
-                          type="button"
-                          className="outline-play-all-btn"
-                          onClick={onStopPlayback}
-                        >
-                          <Square size={12} />
-                          <span>
-                            停止跟诵
-                            {playbackState.currentVerseIndex !== null
-                              ? ` (第 ${playbackState.currentVerseIndex} 句)`
-                              : ''}
-                          </span>
-                        </button>
-                      ) : (
-                        <button
-                          id="outline-play-all-btn"
-                          type="button"
-                          className="outline-play-all-btn"
-                          onClick={onPlayAllVerses}
-                        >
-                          <Play size={12} />
-                          <span>全咒同步连诵 ({currentVerseCount}句)</span>
-                        </button>
-                      ))}
-
-                    {onToggleBookmark && (
-                      <button
-                        type="button"
-                        className={`sidebar-quick-toggle ${
-                          bookmarkedIds.has(resolvedCurrentEntry.id) ? 'is-gold-active' : ''
-                        }`}
-                        onClick={() => onToggleBookmark(resolvedCurrentEntry.id)}
-                      >
-                        <Bookmark
-                          size={12}
-                          fill={
-                            bookmarkedIds.has(resolvedCurrentEntry.id)
-                              ? 'currentColor'
-                              : 'none'
-                          }
-                        />
-                        <span>
-                          {bookmarkedIds.has(resolvedCurrentEntry.id) ? '已藏' : '收藏'}
-                        </span>
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="outline-anchors-strip" role="group" aria-label="右侧正文区块快速跳转">
-                    <button
-                      type="button"
-                      className="outline-anchor-chip"
-                      onClick={() => {
-                        onJumpToSection?.('hero');
-                        onCloseMobile?.();
-                      }}
-                    >
-                      经题提要
-                    </button>
-                    <button
-                      type="button"
-                      className="outline-anchor-chip"
-                      onClick={() => {
-                        onJumpToSection?.('original');
-                        onCloseMobile?.();
-                      }}
-                    >
-                      原文全文
-                    </button>
-                    {currentVerseCount > 0 && (
-                      <button
-                        type="button"
-                        className="outline-anchor-chip"
-                        onClick={() => {
-                          onJumpToSection?.('summary');
-                          onCloseMobile?.();
-                        }}
-                      >
-                        全咒汇总
-                      </button>
-                    )}
-                    {hasInterlinear && (
-                      <button
-                        type="button"
-                        className="outline-anchor-chip"
-                        onClick={() => {
-                          onJumpToSection?.('interlinear');
-                          onCloseMobile?.();
-                        }}
-                      >
-                        悉昙对音
-                      </button>
-                    )}
-                    {currentVerseCount > 0 && (
-                      <button
-                        type="button"
-                        className="outline-anchor-chip"
-                        onClick={() => {
-                          onJumpToSection?.('concordance');
-                          onCloseMobile?.();
-                        }}
-                      >
-                        同源见证
-                      </button>
-                    )}
-                  </div>
-
-                  {currentVerseCount >= 4 && (
-                    <div className="sidebar-search-input-wrap">
-                      <Search size={13} className="sidebar-search-icon" />
-                      <input
-                        id="sidebar-verse-filter-input"
-                        type="search"
-                        autoComplete="off"
-                        className="sidebar-search-input"
-                        placeholder="搜本篇句号(如 8)、汉字音译或梵文..."
-                        value={verseFilterQuery}
-                        onChange={(e) => {
-                          setOutlineVisibleCount(120);
-                          setVerseFilterQuery(e.target.value);
-                        }}
-                      />
-                      {verseFilterQuery && (
-                        <button
-                          type="button"
-                          className="sidebar-search-clear"
-                          onClick={() => setVerseFilterQuery('')}
-                        >
-                          <X size={12} />
-                        </button>
-                      )}
-                    </div>
-                  )}
+          <div className="dharani-catalog-list" style={{ padding: '0.75rem' }}>
+            {resolvedCurrentEntry && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+                <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>
+                  {resolvedCurrentEntry.titleZh}
                 </div>
-
-                <div ref={outlineListRef} className="outline-verse-list">
-                  {currentVerseCount === 0 ? (
-                    <div
-                      style={{
-                        padding: '1.5rem 1rem',
-                        color: 'var(--text-secondary)',
-                        fontSize: '0.8rem',
-                        lineHeight: 1.65,
-                      }}
-                    >
-                      本篇为不含陀罗尼之纯经文原典，右侧已为您完整展开整卷经文原文，可使用原文区的「品目导览」或「文内搜索」快速定位段落。
-                    </div>
-                  ) : filteredOutlineVerses.length === 0 ? (
-                    <div
-                      style={{
-                        padding: '1.75rem 1rem',
-                        textAlign: 'center',
-                        color: 'var(--text-muted)',
-                        fontSize: '0.8rem',
-                      }}
-                    >
-                      本篇中未找到匹配「{verseFilterQuery}」的咒句。
-                    </div>
-                  ) : (
-                    <>
-                      {filteredOutlineVerses
-                        .slice(0, outlineVisibleCount)
-                        .map(({ verse, arrayIdx }) => {
-                          const isPlayingThis = Boolean(
-                            playbackState?.isPlaying &&
-                              playbackState.currentVerseIndex === verse.index
-                          );
-                          const zhPreview =
-                            verse.classicalTranslitZh ||
-                            verse.modernPhoneticZh ||
-                            verse.meaningZh ||
-                            `第 ${verse.index} 句`;
-
-                          return (
-                            <div
-                              key={verse.id}
-                              data-verse-num={verse.index}
-                              className={`outline-verse-row ${
-                                isPlayingThis ? 'is-playing' : ''
-                              }`}
-                            >
-                              <button
-                                id={`outline-verse-jump-${verse.index}`}
-                                type="button"
-                                className="outline-verse-jump-btn"
-                                onClick={() => {
-                                  onJumpToVerse?.(arrayIdx);
-                                  onCloseMobile?.();
-                                }}
-                              >
-                                <span className="outline-verse-num">
-                                  {isPlayingThis ? (
-                                    <Volume2 size={12} />
-                                  ) : (
-                                    String(verse.index).padStart(2, '0')
-                                  )}
-                                </span>
-                                <span className="outline-verse-snippets">
-                                  <span className="outline-verse-zh">{zhPreview}</span>
-                                  <span className="outline-verse-iast">{verse.iast}</span>
-                                </span>
-                              </button>
-
-                              {onPlaySingleVerse && (
-                                <button
-                                  id={`outline-verse-play-${verse.index}`}
-                                  type="button"
-                                  className="outline-verse-play-btn"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    if (isPlayingThis) {
-                                      onStopPlayback?.();
-                                    } else {
-                                      onJumpToVerse?.(arrayIdx);
-                                      onPlaySingleVerse(arrayIdx);
-                                    }
-                                  }}
-                                >
-                                  {isPlayingThis ? (
-                                    <Square size={11} />
-                                  ) : (
-                                    <Play size={11} style={{ marginLeft: '1px' }} />
-                                  )}
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-
-                      {filteredOutlineVerses.length > outlineVisibleCount && (
-                        <div style={{ padding: '0.68rem', display: 'flex', gap: '0.42rem' }}>
-                          <button
-                            type="button"
-                            className="btn-secondary-gold"
-                            style={{ flex: 1, justifyContent: 'center', fontSize: '0.74rem' }}
-                            onClick={() => setOutlineVisibleCount((prev) => prev + 120)}
-                          >
-                            <ChevronDown size={13} />
-                            <span>
-                              展开更多咒句 (剩 {filteredOutlineVerses.length - outlineVisibleCount} 句)
-                            </span>
-                          </button>
-                          <button
-                            type="button"
-                            className="btn-secondary-gold"
-                            style={{ fontSize: '0.74rem' }}
-                            onClick={() => setOutlineVisibleCount(filteredOutlineVerses.length)}
-                          >
-                            全部 ({filteredOutlineVerses.length})
-                          </button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                <div className="sidebar-footer-bar">
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
                   <button
                     type="button"
-                    className="sidebar-step-btn"
-                    onClick={() => setSidebarMode('catalog')}
+                    className="btn-scholarly"
+                    onClick={() => onJumpToSection?.('hero')}
                   >
-                    <ChevronLeft size={13} />
-                    <span>换其他经典</span>
+                    <Crosshair size={13} />
+                    <span>跳至頂部</span>
                   </button>
-                  <span style={{ fontSize: '0.69rem', color: 'var(--text-muted)' }}>
-                    {currentVerseCount > 0 ? '点选行跳句 · 点 ▶ 讽诵' : '全卷原文直读模式'}
-                  </span>
+                  <button
+                    type="button"
+                    className="btn-scholarly"
+                    onClick={() => onJumpToSection?.('original')}
+                  >
+                    <BookOpen size={13} />
+                    <span>切換原典經文</span>
+                  </button>
+                  {currentVerseCount > 0 && playbackState?.isPlaying && onStopPlayback && (
+                    <button type="button" className="btn-scholarly primary" onClick={onStopPlayback}>
+                      <Square size={13} />
+                      <span>停止</span>
+                    </button>
+                  )}
+                  {currentVerseCount > 0 &&
+                    !playbackState?.isPlaying &&
+                    classifyDharaniEntryKind(resolvedCurrentEntry) === 'dharani-sanskrit' &&
+                    onPlayAllVerses && (
+                      <button type="button" className="btn-scholarly primary" onClick={onPlayAllVerses}>
+                        <Play size={13} />
+                        <span>跟誦</span>
+                      </button>
+                    )}
                 </div>
-              </>
-            ) : null}
-          </>
+
+                {currentVerseCount > 1 && (
+                  <>
+                    <div className="sidebar-search-input-wrap" style={{ marginTop: '0.25rem' }}>
+                      <Search size={13} className="sidebar-search-icon" />
+                      <input
+                        type="search"
+                        className="sidebar-search-input"
+                        placeholder="篩選句號或咒文..."
+                        value={verseFilterQuery}
+                        onChange={(e) => setVerseFilterQuery(e.target.value)}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                      {resolvedCurrentEntry.verses
+                        .filter((v) => {
+                          const q = verseFilterQuery.trim().toLowerCase();
+                          if (!q) return true;
+                          return `${v.index} ${v.classicalTranslitZh} ${v.iast}`
+                            .toLowerCase()
+                            .includes(q);
+                        })
+                        .slice(0, 120)
+                        .map((v, arrIdx) => (
+                          <button
+                            key={v.id}
+                            type="button"
+                            className="catalog-entry-select-btn"
+                            style={{
+                              padding: '0.42rem 0.55rem',
+                              border: '1px solid var(--border-subtle)',
+                              borderRadius: '6px',
+                            }}
+                            onClick={() => {
+                              onJumpToVerse?.(arrIdx);
+                              onCloseMobile?.();
+                            }}
+                          >
+                            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-vermilion)' }}>
+                              第 {String(v.index).padStart(2, '0')} 句
+                            </div>
+                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              {v.classicalTranslitZh || v.iast}
+                            </div>
+                          </button>
+                        ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         )}
       </aside>
     </>
